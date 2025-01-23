@@ -2,7 +2,7 @@
 
 ## Overview
 
-BASS is a comprehensive, modular, open-source software package designed to streamline bioinformatics workflows. It provides a robust framework for storing, managing, analyzing, and sharing biological data and analysis products.
+BASS is a comprehensive, modular, open-source software ecosystem designed to streamline bioinformatics workflows. It consists of several independent but interoperable components that can be used individually or as a complete system.
 
 ## Key Features
 
@@ -14,29 +14,47 @@ BASS is a comprehensive, modular, open-source software package designed to strea
 
 ## Core Components
 
-### Data Storage
+### BASS-Hippo: Data Storage Engine
+- Independent data storage and management system
 - Efficient storage solutions for large-scale biological data
 - Support for common bioinformatics file formats
 - Version control and data provenance tracking
+- Standalone REST API for integration with other tools
+- Can be used independently of other BASS components
 
-### Analysis Framework
+### BASS-Cappella: Workflow Engine
+- Independent pipeline execution framework
 - Standardized pipeline creation and execution
 - Integration with popular bioinformatics tools
 - Reproducible analysis workflows
+- Plugin system for custom tool integration
+- Can use BASS-Hippo for storage or other storage backends
 
-### User Interface
+### BASS-Aperture: Interface Layer
+- Standalone interface toolkit
 - Command-line interface for power users
 - Web-based interface for accessibility
-- API access for programmatic control
+- REST API client libraries
+- Can connect to either/both Hippo and Cappella
+- Support for third-party storage and workflow systems
 
-### Sharing and Export
-- Export capabilities in standard formats
-- Collaboration features for team projects
-- Data sharing protocols compliant with FAIR principles
+### BASS-Bridge: Integration Layer
+- Optional integration middleware
+- Unified API for all BASS components
+- Authentication and authorization management
+- Cross-component data synchronization
+- Monitoring and logging infrastructure
+- Only required when using multiple BASS components together
 
 ## Getting Started
 
-Visit our [Installation Guide](../installation/index.md) to begin using BASS, or check out our [Quick Start Tutorial](../tutorials/quickstart.md) for a hands-on introduction to the system's core features.
+Each component can be installed and used independently:
+- [BASS-Hippo Installation](../installation/hippo.md)
+- [BASS-Cappella Installation](../installation/cappella.md)
+- [BASS-Aperture Installation](../installation/aperture.md)
+- [BASS-Bridge Installation](../installation/bridge.md)
+
+For a full system installation, see our [Complete Installation Guide](../installation/index.md).
 
 ## Community and Support
 
