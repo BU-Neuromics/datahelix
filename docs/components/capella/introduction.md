@@ -2,7 +2,7 @@
 
 ## Architecture Overview
 
-The BASS-Cappella component implements a flexible workflow system, designed to handle complex bioinformatics pipelines while maintaining reproducibility and scalability. The workflow system integrates seamlessly with both the data storage and user interface components while being capable of operating independently.
+The BASS-Cappella component implements a flexible workflow system, designed to handle complex bioinformatics pipelines while maintaining reproducibility and scalability. The workflow system integrates seamlessly with both the data storage and user interface components while being capable of operating independently...
 
 See the [BASS-Cappella Installation Guide](installation.md) for instructions on how to install and configure BASS-Cappella.
 
