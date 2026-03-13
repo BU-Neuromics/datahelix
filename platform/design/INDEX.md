@@ -252,6 +252,188 @@ With polymorphic schema inheritance (`base:` creates an is-a relationship):
 | Pure count check on a relationship | 2 — config validator with `[]` expand + `size()` |
 | Arbitrary queries, external calls, complex multi-step logic | 3 — Python plugin validator |
 
+### Cappella Trigger Model
+
+#### Core abstraction
+
+A **trigger** is a first-class Cappella concept: `source` (what fires it) + optional `when` condition + `action` (what Cappella does). All trigger sources share one config format in `cappella.yaml`.
+
+| Decision | Choice | Rationale |
+|---|---|---|
+| Unified trigger abstraction | Single config format for all trigger sources | Webhook, schedule, poll, manual, and internal events are all treated as event sources feeding the same trigger engine. Consistent mental model. |
+| Trigger sources (MVP) | `webhook`, `schedule`, `hippo_poll`, `manual`, `internal_event` | Covers all real integration patterns. Internal events enable action chaining without tight coupling. |
+| Reactive Hippo triggers (MVP) | Polling (`hippo_poll`) — query `updated_at > last_watermark` at configurable interval | Sufficient for MVP. Hippo event hooks deferred. Polling works because Cappella drives most Hippo writes in normal operation; admin changes are infrequent and the actor can trigger manually. |
+| Hippo event hooks | Deferred — not in MVP | Would add a notification plugin hook to Hippo's write path. Add when sub-minute reactive latency becomes a requirement. |
+| Action chaining | Internal events as first-class trigger sources | Actions `emit:` named events on completion; other triggers subscribe with `type: internal_event`. Decouples adapters from downstream workflows. Supports fan-out (multiple triggers subscribe to one event). |
+| Chained action context | Entity IDs only — chained actions query Hippo at invocation time | Prevents stale-data bugs from queue delays. Actions treat IDs as a prompt to fetch current state fresh. |
+| Conditional triggers | `when:` CEL expression on any trigger | Same CEL pattern as validators. Gates whether the action fires at all. |
+| Tooling requirement | `cappella trigger explain <name>` CLI command | Shows full downstream trigger chain (subscriptions, actions, conditions). Makes implicit event-driven flow explicit and testable. Required for system behaviour to be predictable. |
+
+#### Trigger config format
+
+```yaml
+# cappella.yaml
+triggers:
+  # Webhook: external system pushes to Cappella
+  - name: starlims_new_specimen
+    source:
+      type: webhook
+      path: /webhooks/starlims
+      secret: ${STARLIMS_WEBHOOK_SECRET}
+    action:
+      type: adapter_sync
+      adapter: starlims
+      emits: starlims.sync_complete
+      payload: "{{sync.created_ids.Sample}}"
+
+  # Schedule: time-based cron sync
+  - name: nightly_redcap_sync
+    source:
+      type: schedule
+      cron: "0 2 * * *"
+    action:
+      type: adapter_sync
+      adapter: redcap
+
+  # Internal event: subscribes to event emitted by another action
+  - name: post_sync_qc
+    source:
+      type: internal_event
+      event: starlims.sync_complete
+    when: 'size(event.payload) > 0'
+    action:
+      type: workflow
+      workflow: qc_pipeline
+      for_each: "{{event.payload}}"   # IDs only; workflow queries Hippo fresh
+
+  # Hippo poll: reacts to entities created/updated outside Cappella
+  - name: admin_sample_qc
+    source:
+      type: hippo_poll
+      entity_type: Sample
+      on: create
+      interval: 60s
+    action:
+      type: workflow
+      workflow: qc_pipeline
+      inputs:
+        sample_id: "{{entity.id}}"
+
+  # Manual: triggered via CLI or API call
+  - name: manual_starlims_sync
+    source:
+      type: manual
+      api_path: /sync/starlims
+    action:
+      type: adapter_sync
+      adapter: starlims
+```
+
+#### Idempotency and audit (MVP scope)
+
+| Decision | Choice | Rationale |
+|---|---|---|
+| Core idempotency mechanism | Upsert by ExternalID | Adapter looks up source record ID in Hippo's ExternalID system. Found → compare and update if changed. Not found → create. Re-running same sync is safe. |
+| Out-of-order delivery protection | **Deferred** | Not needed for MVP (manual batch updates). Add source record timestamp tiebreaker when live integrations require it. |
+| Webhook retry deduplication | **Deferred** | Short-window digest cache can be added as fast-path optimization in front of upsert when webhooks are live. Doesn't change core mechanism. |
+| Cappella operational audit (MVP) | Structured JSON log per trigger execution | Fields: `run_id`, `trigger`, `adapter`, `started_at`, `completed_at`, `status`, `entities_created`, `entities_updated`, `entities_unchanged`, `errors`. Schema designed to match eventual `SyncRun` Hippo entity. |
+| Cappella operational audit (future) | `SyncRun` entities in Hippo | Log format evolves into queryable Hippo entities. Schema compatible with MVP log — migration is trivial. |
+| Data change audit | Hippo provenance (already designed) | Every write versioned, actor-attributed, timestamped. No separate mechanism needed. |
+| Idempotency for live integrations | **Open question** | Full design deferred. Will cover webhook retry deduplication (digest cache TTL, timestamp stripping), out-of-order delivery (source sequence numbers), and SyncRun provenance in Hippo. |
+
+### Cappella Trigger Model
+
+#### Core abstraction
+
+A **trigger** is the fundamental unit of Cappella automation — a named pairing of a *source* (what fires it) and an *action* (what Cappella does). All trigger sources use the same config format.
+
+| Decision | Choice | Rationale |
+|---|---|---|
+| Trigger abstraction | Unified `source` + `action` config format across all trigger types | All sources (webhook, schedule, poll, manual, internal event) produce a trigger event that the trigger engine routes to the action. One mental model throughout. |
+| Trigger sources | `webhook`, `schedule`, `hippo_poll`, `manual`, `internal_event` | Covers all integration patterns from MVP batch syncs through to future live integrations. |
+| Reactive Hippo triggers (MVP) | Polling — Cappella queries Hippo for entities with `updated_at > last_poll_time` | Sufficient for MVP: Cappella drives most Hippo writes in normal operation; admin changes are infrequent and the actor can trigger downstream manually. No Hippo changes required. |
+| Reactive Hippo triggers (future) | Hippo event hook plugin system — deferred | When sub-minute reactivity is needed, a `hippo.event_hooks` entry point group (parallel to `hippo.write_validators`) can be added without restructuring the trigger model. |
+| Action chaining | Internal events as first-class trigger sources | Actions emit named internal events on completion; other triggers subscribe to them. Decouples adapters from downstream workflows. Supports fan-out naturally. |
+| Event payload | Entity IDs only — never state snapshots | Downstream actions query Hippo fresh at execution time. Prevents stale-data bugs when there is queue delay between trigger and execution. |
+| Query-fresh-at-invocation | All Cappella actions query Hippo for current entity state at execution time | Action receives IDs from the trigger event; state is always read fresh from Hippo. |
+| Conditional triggers | `when:` CEL condition on trigger source — consistent with validator `when:` semantics | Filters which trigger firings produce action executions. Same expression language throughout Cappella. |
+| Tooling requirement | `cappella trigger explain <name>` — shows full trigger chain, downstream subscriptions, and conditions | Required for predictability and testability. Implicit event subscriptions can make behaviour hard to trace without tooling. |
+
+**Trigger config format:**
+```yaml
+# cappella.yaml
+triggers:
+  # Webhook from external system
+  - name: starlims_new_specimen
+    source:
+      type: webhook
+      path: /webhooks/starlims
+    action:
+      type: adapter_sync
+      adapter: starlims
+      emits: starlims.sync_complete
+      payload: "{{sync.created_ids.Sample}}"
+
+  # Scheduled sync
+  - name: nightly_redcap_sync
+    source:
+      type: schedule
+      cron: "0 2 * * *"
+    action:
+      type: adapter_sync
+      adapter: redcap
+
+  # Reactive: internal event from completed sync
+  - name: post_sync_qc
+    source:
+      type: internal_event
+      event: starlims.sync_complete
+    when: "size(event.payload) > 0"
+    action:
+      type: workflow
+      workflow: qc_pipeline
+      for_each: "{{event.payload}}"   # entity IDs; action queries Hippo fresh
+
+  # Hippo poll (edge case: reacting to non-Cappella writes)
+  - name: admin_sample_qc
+    source:
+      type: hippo_poll
+      entity_type: Sample
+      on: create
+      interval: 60s
+    action:
+      type: workflow
+      workflow: qc_pipeline
+      inputs:
+        sample_id: "{{entity.id}}"
+
+  # Manual trigger
+  - name: manual_starlims_sync
+    source:
+      type: manual
+      api_path: /sync/starlims
+    action:
+      type: adapter_sync
+      adapter: starlims
+```
+
+#### Idempotency and audit (MVP scope)
+
+| Decision | Choice | Rationale |
+|---|---|---|
+| Core idempotency mechanism | Upsert by ExternalID — look up source record by ExternalID, update if changed, create if absent | Naturally idempotent for batch re-runs. Builds on existing Hippo ExternalID system. No separate deduplication mechanism needed for MVP. |
+| Webhook retry deduplication | **Deferred** — not in MVP scope | Short-window digest cache (TTL ~1h) is the natural extension when live integrations are added. Sits in front of existing upsert logic; core mechanism unchanged. |
+| Out-of-order delivery protection | **Deferred** — not in MVP scope | Requires source-side sequence numbers or timestamps. Will be an optional per-adapter config field when synchronous live integrations are designed. |
+| Cappella operational audit (MVP) | Structured JSON logs per trigger execution | Records: run_id, trigger name, adapter, started_at, completed_at, status, entities_created/updated/unchanged, errors. Simple, no additional infrastructure. |
+| Cappella operational audit (future) | `SyncRun` entities in Hippo | Structured log schema mirrors the eventual Hippo entity shape; migration from logs to Hippo entities is trivial when queryable run history is needed. |
+| Data change audit | Hippo provenance — already designed | Every Hippo write records actor, timestamp, and full change. No separate data audit mechanism needed. |
+
+#### Open idempotency questions
+
+| Question | Priority | Notes |
+|---|---|---|
+| Idempotency for live synchronous integrations | High — when live integrations are scoped | Full design needed: webhook digest deduplication, out-of-order delivery, source timestamp handling. Deferred from MVP deliberately — ExternalID upsert is the stable foundation. |
+
 ### Search and Fuzzy Lookup
 
 | Decision | Choice | Rationale |
@@ -272,7 +454,8 @@ With polymorphic schema inheritance (`base:` creates an is-a relationship):
 | Platform name | Low | BASS is unsatisfactory. drylims is acceptable but not ideal. Revisit when higher-priority design work is complete. |
 | Cappella config format | High | Adapter configs need to express more than field-to-field mappings — transformation pipelines with rules, vocabulary normalization, confidence thresholds. Format TBD. |
 | Reference data versioning | Low | Resolved at the loader level — each loader version pins a reference ontology release. `hippo reference update` diffs schema and data. Internal tracking of installed loader name + version in `hippo_meta` table (sec3b). Detail TBD in Hippo sec5 (Ingestion). |
-| Cappella trigger model | High | What initiates a Cappella sync? Options: event-driven (webhooks from source systems), scheduled (cron), manual, or pipeline-triggered. Likely all of the above — needs a unified model. |
+| Cappella trigger model | ✅ Resolved | See Cappella Trigger Model section above. |
+| Idempotency for live integrations | High | MVP uses ExternalID upsert. Full design for webhook deduplication, out-of-order delivery, and SyncRun provenance deferred until live integrations are in scope. |
 | Multi-institution deployment model | Medium | If Bridge is a federation layer, what does a federated query look like? Does each institution run a full BASS stack? What data leaves the institution boundary? |
 | Workflow executor integration | Medium | Does Cappella wrap an existing executor (Nextflow, Snakemake) or define its own? How are workflow definitions versioned and stored? |
 
@@ -283,7 +466,7 @@ With polymorphic schema inheritance (`base:` creates an is-a relationship):
 | Component | Owns | Does not own |
 |---|---|---|
 | **Hippo** | Canonical entity schema, storage backends, `ExternalSourceAdapter` ABC, `EntityStore` ABC, `ReferenceLoader` ABC, provenance log, fuzzy search interface (SDK), `ScoredMatch` type, flat-file ingestion CLI, reference loader plugin system | External system connector implementations, field mapping config, harmonization logic, workflow execution |
-| **Cappella** | External system adapter implementations, field mapping and transformation config, harmonization logic, vocabulary normalization, workflow orchestration and output ingestion | Storage, canonical schema definition, provenance, reference data loading |
+| **Cappella** | External system adapter implementations, field mapping and transformation config, harmonization logic, vocabulary normalization, workflow orchestration and output ingestion, trigger engine (webhook server, scheduler, poll loop, internal event bus), structured operational audit logs | Storage, canonical schema definition, provenance, reference data loading |
 | **Aperture** | User-facing query interface (CLI, web, API clients) | Business logic, storage, integration |
 | **Bridge** | TBD — candidate: inter-BASS-instance federation | TBD |
 
@@ -307,11 +490,14 @@ Decisions recorded here that require updates to existing or future component spe
 | `hippo/design/sec3_data_model.md` | Formalise `base:` schema inheritance as polymorphic (is-a); document subtype semantics for queries, validators, and migrations | Schema inheritance decision |
 | `hippo/design/sec3b_relational_storage.md` | Add storage strategy for polymorphic inheritance: type discriminator column vs. joined tables | Schema inheritance decision |
 | `hippo/design/INDEX.md` | Add decisions from today's session to Hippo key decisions log | All Hippo-touching decisions |
-| `cappella/design/` | *(not started)* All sections — Cappella design spec not yet written | Cappella architecture session |
+| `cappella/design/sec1_overview.md` | *(not started)* Cappella overview: conductor/integration engine role, stateless design, Hippo as sole storage backend | Cappella architecture session |
+| `cappella/design/sec2_architecture.md` | *(not started)* Trigger engine architecture: webhook server, cron scheduler, hippo_poll loop, internal event bus, action dispatcher | Trigger model decisions |
+| `cappella/design/sec3_adapters.md` | *(not started)* Adapter architecture: ExternalSourceAdapter implementations, field mapping config format, transformation pipeline, upsert-by-ExternalID idempotency | Adapter boundary + idempotency decisions |
+| `cappella/design/sec4_audit.md` | *(not started)* Operational audit: structured JSON run logs (MVP), future SyncRun entities in Hippo | Audit logging decisions |
 
 ---
 
 ## Design Session Notes
 
 **2026-03-13** — Initial platform architecture session (Adam + Stanley).  
-Topics covered: Cappella scope and conductor metaphor, adapter boundary between Hippo and Cappella, field mapping ownership, reference/config/operational data category distinction, data loading tiers, reference loader plugin system (MVP scope), fuzzy search abstraction, gene/anatomy canonical identifiers, Cappella-independence principle, unified validation architecture (3-layer: schema field validators / config-driven CEL validators with expand paths / Python plugin validators), CEL expression language (over DSL), expand path syntax with `[]` list traversal, entity graph expansion design (explicit paths over lazy evaluation), built-in validator presets as ergonomic shortcuts, polymorphic schema inheritance (`base:` = is-a), subtype-aware `entity_types` matching in validators.
+Topics covered: Cappella scope and conductor metaphor, adapter boundary between Hippo and Cappella, field mapping ownership, reference/config/operational data category distinction, data loading tiers, reference loader plugin system (MVP scope), fuzzy search abstraction, gene/anatomy canonical identifiers, Cappella-independence principle, unified validation architecture (3-layer: schema field validators / config-driven CEL validators with expand paths / Python plugin validators), CEL expression language (over DSL), expand path syntax with `[]` list traversal, entity graph expansion design (explicit paths over lazy evaluation), built-in validator presets as ergonomic shortcuts, polymorphic schema inheritance (`base:` = is-a), subtype-aware `entity_types` matching in validators, Cappella trigger model (unified source+action format, internal events for chaining, query-fresh-at-invocation, hippo_poll as edge case), idempotency MVP (ExternalID upsert, live integration deferred), Cappella operational audit (structured logs MVP, SyncRun entities future).
