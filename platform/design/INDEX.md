@@ -119,46 +119,138 @@ relationships:
 
 ### Validation Architecture
 
+#### Core principles
+
 | Decision | Choice | Rationale |
 |---|---|---|
 | Schema validation ownership | Hippo — built-in, always runs first | Structural constraints (required fields, type checking, enum values, ref integrity, cardinality) are schema-driven and enforced by Hippo regardless of write path. |
-| Business rule validation ownership | `WriteValidator` plugin hook in Hippo, implemented by Cappella (and third parties) | Business rules are semantic/value-based (e.g., "can't link a Sample to a withdrawn Subject") and require reading current system state. They're deployment-specific but must be enforced on all write paths. |
-| Enforcement point | Hippo write path — all writes (SDK, REST, batch ingest, Cappella) go through registered validators | Prevents bypass. Direct SDK or REST writes cannot circumvent business rules. Consistent with the principle that Hippo is the single source of truth. |
-| Validator registration | Python entry point group `hippo.write_validators` | Consistent with adapter and reference loader plugin patterns. Auto-discovered at startup. No config file changes required. |
-| Validator execution order | Schema validation (priority -1, always first) → registered validators (ordered by `priority` field) → commit + provenance | Structural rejection before semantic rejection. Atomic — any failure rolls back the entire transaction. |
-| Standalone Hippo behavior | No business validators registered if no validator packages installed | Hippo without Cappella works correctly with schema validation only. Business rule enforcement is opt-in via installed plugins. |
-| Validator scope | `entity_types` field on each validator — `None` means run for all; list means run only for named types | Validators only execute for relevant entity types. Keeps write performance predictable. |
-| Failure behavior | Typed `ValidationError` raised with validator name and error list; REST layer returns HTTP 422; no partial writes | Caller always knows which validator rejected and why. Nothing is written on failure — no provenance event recorded. |
-| Validator performance contract | Validators should be efficient; configurable per-validator timeout TBD | Validators run synchronously in the write transaction. Heavy cross-entity queries should be avoided or cached. |
+| Business rule validation ownership | `WriteValidator` plugin hook in Hippo, configured via `validators.yaml` or implemented in Python | Business rules are semantic/value-based and require reading current system state. Enforced on all write paths — no bypass via SDK or REST. |
+| Enforcement point | Hippo write path — all writes (SDK, REST, batch ingest, Cappella) go through registered validators | Prevents bypass. Consistent with Hippo as single source of truth. |
+| Validator registration | Python entry point group `hippo.write_validators` | Auto-discovered at startup. No manual registration required. |
+| Execution order | Schema validation (built-in, always first) → config-driven validators → plugin validators → commit + provenance | Structural rejection before semantic. Atomic — any failure rolls back the entire transaction, no provenance event written. |
+| Standalone Hippo behavior | No business validators if none installed or configured | Hippo without Cappella works with schema validation only. Business rule enforcement is opt-in. |
+| Failure behavior | Typed `ValidationError` with validator name and error list; REST returns HTTP 422; no partial writes | Caller always knows which validator rejected and why. |
 
-**`WriteValidator` ABC:**
-```python
-class WriteValidator(ABC):
-    name: str                          # used in error messages and logs
-    entity_types: list[str] | None     # None = run for all entity types
-    priority: int = 0                  # lower runs first; schema validation = -1
+#### Three validation layers
 
-    @abstractmethod
-    def validate(
-        self,
-        operation: WriteOperation,
-        client: HippoClient            # read-only — writes raise an error
-    ) -> ValidationResult: ...
+**Layer 1 — Field validators (schema config, already in sec3 §3.9)**
+Single-field structural constraints declared inline in `schema.yaml`. No CEL, no cross-field awareness. Built-ins: `required`, `unique`, `range`, `uri_scheme`, `regex`, `min_length`, `max_length`.
+
+**Layer 2 — Config-driven validators (`validators.yaml`)**
+Unified validator format covering both simple entity-scope rules and cross-entity rules with path expansion. No Python code required from deployers for common cases.
+
+Config fields:
+- `name` — identifier used in error messages
+- `entity_types` — list of entity types to apply to; `null` = all types; subtype-aware (see schema inheritance)
+- `on` — list of operation kinds: `create`, `update`, `availability_change`, `relationship` (default: all)
+- `when` — CEL pre-condition; if false, validator is skipped entirely
+- `expand` — list of field paths to pre-fetch before CEL evaluation (see expand path syntax)
+- `condition` — CEL expression evaluated against the populated context; must be true to pass
+- `requires` — list of field names that must be non-null (ergonomic shorthand)
+- `error` — error message template; `{entity.field}` and `{existing.field}` substitutions supported
+- `max_expand_list_size` — safety cap for list expansion (default: 200)
+
+CEL context always contains:
+- `entity` — proposed state being written, with expanded fields populated
+- `existing` — current state before write; `null` for creates
+
+```yaml
+# Simple entity-scope rule (no expand)
+- name: brain_region_required
+  entity_types: [Sample]
+  when: 'entity.tissue_type == "brain"'
+  requires: [brain_region, hemisphere]
+  error: "brain_region and hemisphere required for brain samples"
+
+# Cross-entity rule with path expansion
+- name: active_subject_project_check
+  entity_types: [Sample]
+  expand:
+    - subject_ref
+    - subject_ref.project
+    - subject_ref.project.datafiles[].dataset
+  condition: >
+    entity.subject_ref.is_available &&
+    entity.subject_ref.project.status != "archived" &&
+    entity.subject_ref.project.datafiles.all(df, df.dataset != null)
+  error: "Subject {entity.subject_ref.id} or project is not active"
+
+# Immutability rule using existing
+- name: species_immutable
+  entity_types: [Subject]
+  on: [update]
+  condition: 'entity.species == existing.species'
+  error: "species cannot be changed after creation"
+
+# Cross-cutting platform rule
+- name: no_update_superseded
+  entity_types: null
+  on: [update]
+  condition: 'existing.is_available == true'
+  error: "Cannot update a superseded entity"
 ```
 
-**`WriteOperation` type:**
+**Expand path syntax:**
+- `field_name` — expand a scalar `ref` field; replaces the ID with the full entity dict
+- `field_name.child` — chain; expands `child` on the fetched entity
+- `field_name[]` — expand a relationship collection; replaces list of IDs with list of entity dicts (batch-fetched)
+- `field_name[].child` — expand `child` on each element of a collection
+- Paths sharing a prefix are deduplicated — shared entities fetched once
+- Cycle detection via visited set prevents infinite loops on self-referential relationships
+- `max_expand_list_size` (default 200, hard cap 1000) prevents runaway expansion on large collections
+- **Why not lazy evaluation:** CEL short-circuit semantics make implicit I/O non-deterministic; explicit `expand` declarations are auditable
+
+**Built-in named validator presets (ergonomic shortcuts, not separate code paths):**
+Common patterns are available as named `type:` presets that expand to the unified format. They are convenience, not required — any rule expressible as a preset is also expressible in the unified format directly.
+
+| Preset type | Equivalent to |
+|---|---|
+| `ref_check` | expand + condition checking a referenced entity |
+| `count_constraint` | expand with `[]` + `size()` condition |
+| `immutable_field` | `on: [update]` + `condition: entity.field == existing.field` |
+| `field_required_if` | `when` + `requires` |
+| `no_self_ref` | condition checking entity does not reference itself |
+
+**Layer 3 — Plugin validators (Python)**
+For rules requiring arbitrary Hippo queries, multi-step logic, external API calls, or computation not expressible in CEL. Registered via `hippo.write_validators` entry points. Full read-only `HippoClient` access in `validate()`.
+
 ```python
+class WriteValidator(ABC):
+    name: str
+    entity_types: list[str] | None
+    priority: int = 0
+
+    @abstractmethod
+    def validate(self, operation: WriteOperation,
+                 client: HippoClient) -> ValidationResult: ...
+
 @dataclass
 class WriteOperation:
     kind: Literal["create", "update", "availability_change", "relationship"]
     entity_type: str
     entity_id: str
-    proposed: dict      # new state being written
-    existing: dict | None   # current state; None for creates
+    proposed: dict
+    existing: dict | None
     actor: str
 ```
 
-**Hippo spec impact:** This decision requires updates to the Hippo design spec — see Hippo spec update notes below.
+#### Validator entity_types and schema inheritance
+
+With polymorphic schema inheritance (`base:` creates an is-a relationship):
+- `entity_types: [Sample]` applies to `Sample` writes AND all subtypes (`BrainSample`, `CellLine`, etc.)
+- `entity_types: [BrainSample]` applies only to `BrainSample` — legitimate use case for rules referencing subtype-specific fields
+- Listing both a parent and child type is redundant; Hippo emits a startup warning and ignores the redundant entry
+- Matching uses `schema.is_subtype_of(entity_type, declared_type)` — a simple ancestor walk on the type hierarchy tree
+
+**Decision rule for which layer to use:**
+
+| Scenario | Layer |
+|---|---|
+| Single field constraint (type, range, format, uniqueness) | 1 — schema field validator |
+| Multi-field condition on entity being written only | 2 — config validator, no expand |
+| Cross-entity check via ref or relationship expansion | 2 — config validator with expand paths |
+| Pure count check on a relationship | 2 — config validator with `[]` expand + `size()` |
+| Arbitrary queries, external calls, complex multi-step logic | 3 — Python plugin validator |
 
 ### Search and Fuzzy Lookup
 
@@ -211,6 +303,9 @@ Decisions recorded here that require updates to existing or future component spe
 | `hippo/design/sec3_data_model.md` | Add `requires:` block to schema config format | Reference loader plugin system decision |
 | `hippo/design/sec4_api_layer.md` | *(not started)* Include fuzzy search endpoint (`?q=&match=`) and `ScoredMatch` response type | Fuzzy search decision |
 | `hippo/design/sec5_ingestion.md` | *(not started)* Include `hippo reference install/update/list` CLI commands; `ReferenceLoader` lifecycle; reference loader version tracking in `hippo_meta` | Reference loader plugin system decision |
+| `hippo/design/sec2_architecture.md` | Add unified config validator infrastructure: `validators.yaml` loading, expand path engine, CEL evaluation with `entity`/`existing` context, cycle detection, batch list fetching, built-in preset registry | Unified validation architecture |
+| `hippo/design/sec3_data_model.md` | Formalise `base:` schema inheritance as polymorphic (is-a); document subtype semantics for queries, validators, and migrations | Schema inheritance decision |
+| `hippo/design/sec3b_relational_storage.md` | Add storage strategy for polymorphic inheritance: type discriminator column vs. joined tables | Schema inheritance decision |
 | `hippo/design/INDEX.md` | Add decisions from today's session to Hippo key decisions log | All Hippo-touching decisions |
 | `cappella/design/` | *(not started)* All sections — Cappella design spec not yet written | Cappella architecture session |
 
@@ -219,4 +314,4 @@ Decisions recorded here that require updates to existing or future component spe
 ## Design Session Notes
 
 **2026-03-13** — Initial platform architecture session (Adam + Stanley).  
-Topics covered: Cappella scope and conductor metaphor, adapter boundary between Hippo and Cappella, field mapping ownership, reference/config/operational data category distinction, data loading tiers, reference loader plugin system (MVP scope), fuzzy search abstraction, gene/anatomy canonical identifiers, Cappella-independence principle, WriteValidator plugin hook for business rule enforcement.
+Topics covered: Cappella scope and conductor metaphor, adapter boundary between Hippo and Cappella, field mapping ownership, reference/config/operational data category distinction, data loading tiers, reference loader plugin system (MVP scope), fuzzy search abstraction, gene/anatomy canonical identifiers, Cappella-independence principle, unified validation architecture (3-layer: schema field validators / config-driven CEL validators with expand paths / Python plugin validators), CEL expression language (over DSL), expand path syntax with `[]` list traversal, entity graph expansion design (explicit paths over lazy evaluation), built-in validator presets as ergonomic shortcuts, polymorphic schema inheritance (`base:` = is-a), subtype-aware `entity_types` matching in validators.
