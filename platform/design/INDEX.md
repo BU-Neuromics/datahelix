@@ -47,7 +47,60 @@ This document records cross-cutting architectural decisions that apply to the BA
 | Canonical anatomy identifier | Foundational Model of Anatomy (FMA) | FMA is the authoritative reference for anatomy labels across the platform. |
 | Canonical gene identifier | Ensembl gene ID | All gene references resolve to Ensembl IDs. Other identifiers (Entrez ID, gene symbol, RefSeq) are stored as ExternalIDs against the canonical `Gene` entity. |
 | Gene identifier cross-referencing | Hippo `ExternalID` system (§3.4) | Entrez IDs, gene symbols, and other identifier systems map to a single canonical `Gene` entity UUID via Hippo's existing external ID machinery. No new mechanism required. |
-| Reference data loading | Cappella responsibility via a dedicated "reference data" adapter | A special Cappella adapter loads FMA OWL, Ensembl GTF, etc. at deployment time. Hippo deployment docs must call this out as a prerequisite step. |
+| Cappella independence (reference data) | Hippo must be functional without Cappella | Cappella is a force multiplier on top of a working Hippo — not a prerequisite. A researcher can deploy Hippo standalone, load data via flat-file ingestion, and install reference data without touching Cappella. |
+
+### Data Loading Tiers
+
+| Tier | Mechanism | Cappella required? | Description |
+|---|---|---|---|
+| 1 — Generic flat-file | `hippo ingest <file>` CLI (v0.1 scope) | No | CSV/JSON/JSONL mapped to any schema-defined entity type. Baseline ingestion for any deployment. |
+| 2 — Reference data | `hippo reference install <name>` + `hippo[references]` extra | No | Community-standard ontologies (FMA, Ensembl, GO, etc.) loaded via pluggable `ReferenceLoader` plugins. |
+| 3 — External systems | Cappella adapters | Yes | Institution-specific systems (STARLIMS, HALO, REDCap, partner portals). Transformation and harmonization required. |
+
+### Reference Loader Plugin System (MVP)
+
+| Decision | Choice | Rationale |
+|---|---|---|
+| Plugin discovery mechanism | Python entry point group `hippo.reference_loaders` | Consistent with `hippo.storage_adapters` and `hippo.external_adapters`. Community packages auto-discovered after `pip install`. |
+| Naming convention | `hippo-reference-<name>` (e.g. `hippo-reference-go`, `hippo-reference-ensembl`) | Matches `hippo-adapter-<name>` convention. Discoverable via PyPI search. |
+| Schema ownership | Each `ReferenceLoader` ships a `schema_fragment()` | Loaders declare the entity types and relationships they create. Users do not need to hand-author reference entity schemas. |
+| Install behavior | `hippo reference install <name>` merges the loader's schema fragment into the deployed schema and runs migrate automatically | Additive changes (new entity types, new fields, new enum values) are non-interactive. Structural changes prompt for confirmation. |
+| User schema dependency declaration | `requires:` block in `schema.yaml` listing loader packages and minimum versions | Explicit dependency declaration. `hippo validate` fails fast with a clear error if a required loader is not installed. |
+| Collision handling | `ConfigError` at startup if two installed loaders declare the same entity type name | Consistent with existing adapter conflict detection. |
+| Update flow | `hippo reference update <name>` diffs new schema fragment against deployed version, runs migrate, reloads data | Reuses existing migration machinery entirely. |
+| Extending loader-provided types | **Deferred — not in MVP** | Out of scope for initial implementation. Users cannot add fields to loader-provided entity types in v1. |
+
+**`ReferenceLoader` ABC (MVP):**
+```python
+class ReferenceLoader(ABC):
+    name: str           # e.g. "go", "fma", "ensembl"
+    description: str
+
+    @abstractmethod
+    def versions(self) -> list[str]: ...          # available versions to install
+
+    @abstractmethod
+    def entity_types(self) -> list[str]: ...      # entity type names this loader creates
+
+    @abstractmethod
+    def schema_fragment(self) -> dict: ...        # entity + relationship definitions
+
+    @abstractmethod
+    def load(self, client: HippoClient, version: str, **kwargs) -> LoadResult: ...
+```
+
+**Example user `schema.yaml` referencing loader-provided types:**
+```yaml
+requires:
+  - hippo-reference-ensembl>=GRCh38.109
+  - hippo-reference-go>=2024-01-01
+
+relationships:
+  - name: annotated_with
+    from: Gene       # provided by hippo-reference-ensembl
+    to: GOTerm       # provided by hippo-reference-go
+    cardinality: many-to-many
+```
 
 ### Search and Fuzzy Lookup
 
@@ -68,7 +121,7 @@ This document records cross-cutting architectural decisions that apply to the BA
 | Bridge: federation layer vs. other role? | Medium | Candidate: inter-BASS-instance data sharing for multi-institution deployments. Needs more design before a component spec can be started. |
 | Platform name | Low | BASS is unsatisfactory. drylims is acceptable but not ideal. Revisit when higher-priority design work is complete. |
 | Cappella config format | High | Adapter configs need to express more than field-to-field mappings — transformation pipelines with rules, vocabulary normalization, confidence thresholds. Format TBD. |
-| Reference data versioning | Medium | FMA and Ensembl release versions change. How does Hippo track which version of a reference ontology is loaded? Does updating a reference ontology trigger entity migrations? |
+| Reference data versioning | Low | Resolved at the loader level — each loader version pins a reference ontology release. `hippo reference update` diffs schema and data. Internal tracking of installed loader name + version in `hippo_meta` table (sec3b). Detail TBD in Hippo sec5 (Ingestion). |
 | Cappella trigger model | High | What initiates a Cappella sync? Options: event-driven (webhooks from source systems), scheduled (cron), manual, or pipeline-triggered. Likely all of the above — needs a unified model. |
 | Multi-institution deployment model | Medium | If Bridge is a federation layer, what does a federated query look like? Does each institution run a full BASS stack? What data leaves the institution boundary? |
 | Workflow executor integration | Medium | Does Cappella wrap an existing executor (Nextflow, Snakemake) or define its own? How are workflow definitions versioned and stored? |
@@ -79,8 +132,8 @@ This document records cross-cutting architectural decisions that apply to the BA
 
 | Component | Owns | Does not own |
 |---|---|---|
-| **Hippo** | Canonical entity schema, storage backends, `ExternalSourceAdapter` ABC, `EntityStore` ABC, provenance log, fuzzy search interface (SDK), `ScoredMatch` type | External system connector implementations, field mapping config, harmonization logic, workflow execution |
-| **Cappella** | External system adapter implementations, field mapping and transformation config, harmonization logic, vocabulary normalization, workflow orchestration and output ingestion, reference data loading | Storage, canonical schema definition, provenance |
+| **Hippo** | Canonical entity schema, storage backends, `ExternalSourceAdapter` ABC, `EntityStore` ABC, `ReferenceLoader` ABC, provenance log, fuzzy search interface (SDK), `ScoredMatch` type, flat-file ingestion CLI, reference loader plugin system | External system connector implementations, field mapping config, harmonization logic, workflow execution |
+| **Cappella** | External system adapter implementations, field mapping and transformation config, harmonization logic, vocabulary normalization, workflow orchestration and output ingestion | Storage, canonical schema definition, provenance, reference data loading |
 | **Aperture** | User-facing query interface (CLI, web, API clients) | Business logic, storage, integration |
 | **Bridge** | TBD — candidate: inter-BASS-instance federation | TBD |
 
@@ -89,4 +142,4 @@ This document records cross-cutting architectural decisions that apply to the BA
 ## Design Session Notes
 
 **2026-03-13** — Initial platform architecture session (Adam + Stanley).  
-Topics covered: Cappella scope and conductor metaphor, adapter boundary between Hippo and Cappella, field mapping ownership, reference data model, fuzzy search abstraction, gene/anatomy canonical identifiers. All decisions above recorded from this session.
+Topics covered: Cappella scope and conductor metaphor, adapter boundary between Hippo and Cappella, field mapping ownership, reference data model, fuzzy search abstraction, gene/anatomy canonical identifiers, data loading tiers, reference loader plugin system (MVP scope), Cappella-independence principle.
