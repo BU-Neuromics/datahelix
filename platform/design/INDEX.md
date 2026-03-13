@@ -117,6 +117,49 @@ relationships:
     cardinality: many-to-many
 ```
 
+### Validation Architecture
+
+| Decision | Choice | Rationale |
+|---|---|---|
+| Schema validation ownership | Hippo — built-in, always runs first | Structural constraints (required fields, type checking, enum values, ref integrity, cardinality) are schema-driven and enforced by Hippo regardless of write path. |
+| Business rule validation ownership | `WriteValidator` plugin hook in Hippo, implemented by Cappella (and third parties) | Business rules are semantic/value-based (e.g., "can't link a Sample to a withdrawn Subject") and require reading current system state. They're deployment-specific but must be enforced on all write paths. |
+| Enforcement point | Hippo write path — all writes (SDK, REST, batch ingest, Cappella) go through registered validators | Prevents bypass. Direct SDK or REST writes cannot circumvent business rules. Consistent with the principle that Hippo is the single source of truth. |
+| Validator registration | Python entry point group `hippo.write_validators` | Consistent with adapter and reference loader plugin patterns. Auto-discovered at startup. No config file changes required. |
+| Validator execution order | Schema validation (priority -1, always first) → registered validators (ordered by `priority` field) → commit + provenance | Structural rejection before semantic rejection. Atomic — any failure rolls back the entire transaction. |
+| Standalone Hippo behavior | No business validators registered if no validator packages installed | Hippo without Cappella works correctly with schema validation only. Business rule enforcement is opt-in via installed plugins. |
+| Validator scope | `entity_types` field on each validator — `None` means run for all; list means run only for named types | Validators only execute for relevant entity types. Keeps write performance predictable. |
+| Failure behavior | Typed `ValidationError` raised with validator name and error list; REST layer returns HTTP 422; no partial writes | Caller always knows which validator rejected and why. Nothing is written on failure — no provenance event recorded. |
+| Validator performance contract | Validators should be efficient; configurable per-validator timeout TBD | Validators run synchronously in the write transaction. Heavy cross-entity queries should be avoided or cached. |
+
+**`WriteValidator` ABC:**
+```python
+class WriteValidator(ABC):
+    name: str                          # used in error messages and logs
+    entity_types: list[str] | None     # None = run for all entity types
+    priority: int = 0                  # lower runs first; schema validation = -1
+
+    @abstractmethod
+    def validate(
+        self,
+        operation: WriteOperation,
+        client: HippoClient            # read-only — writes raise an error
+    ) -> ValidationResult: ...
+```
+
+**`WriteOperation` type:**
+```python
+@dataclass
+class WriteOperation:
+    kind: Literal["create", "update", "availability_change", "relationship"]
+    entity_type: str
+    entity_id: str
+    proposed: dict      # new state being written
+    existing: dict | None   # current state; None for creates
+    actor: str
+```
+
+**Hippo spec impact:** This decision requires updates to the Hippo design spec — see Hippo spec update notes below.
+
 ### Search and Fuzzy Lookup
 
 | Decision | Choice | Rationale |
@@ -154,7 +197,26 @@ relationships:
 
 ---
 
+## Pending Spec Updates
+
+Decisions recorded here that require updates to existing or future component specs.
+
+| Spec file | Change needed | Triggered by |
+|---|---|---|
+| `hippo/design/sec2_architecture.md` | Add `WriteValidator` ABC and `hippo.write_validators` entry point group to adapter pattern section; add `WriteOperation` and `ValidationResult` to package structure | Validation architecture decision |
+| `hippo/design/sec2_architecture.md` | Add `EntityStore.search()` method and `ScoredMatch` type to adapter interface; add adapter capability declaration mechanism | Fuzzy search decision |
+| `hippo/design/sec2_architecture.md` | Add `ReferenceLoader` ABC and `hippo.reference_loaders` entry point group to plugin system section | Reference loader plugin system decision |
+| `hippo/design/sec2_architecture.md` | Remove `ExternalSourceAdapter` concrete stubs (STARLIMS, HALO, Donor DB) from Hippo package structure — ABC stays, implementations move to Cappella | Adapter boundary decision |
+| `hippo/design/sec3_data_model.md` | Add `search` field declaration to schema config field type table | Fuzzy search decision |
+| `hippo/design/sec3_data_model.md` | Add `requires:` block to schema config format | Reference loader plugin system decision |
+| `hippo/design/sec4_api_layer.md` | *(not started)* Include fuzzy search endpoint (`?q=&match=`) and `ScoredMatch` response type | Fuzzy search decision |
+| `hippo/design/sec5_ingestion.md` | *(not started)* Include `hippo reference install/update/list` CLI commands; `ReferenceLoader` lifecycle; reference loader version tracking in `hippo_meta` | Reference loader plugin system decision |
+| `hippo/design/INDEX.md` | Add decisions from today's session to Hippo key decisions log | All Hippo-touching decisions |
+| `cappella/design/` | *(not started)* All sections — Cappella design spec not yet written | Cappella architecture session |
+
+---
+
 ## Design Session Notes
 
 **2026-03-13** — Initial platform architecture session (Adam + Stanley).  
-Topics covered: Cappella scope and conductor metaphor, adapter boundary between Hippo and Cappella, field mapping ownership, reference/config/operational data category distinction, data loading tiers, reference loader plugin system (MVP scope), fuzzy search abstraction, gene/anatomy canonical identifiers, Cappella-independence principle.
+Topics covered: Cappella scope and conductor metaphor, adapter boundary between Hippo and Cappella, field mapping ownership, reference/config/operational data category distinction, data loading tiers, reference loader plugin system (MVP scope), fuzzy search abstraction, gene/anatomy canonical identifiers, Cappella-independence principle, WriteValidator plugin hook for business rule enforcement.
