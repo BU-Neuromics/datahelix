@@ -49,13 +49,28 @@ This document records cross-cutting architectural decisions that apply to the BA
 | Gene identifier cross-referencing | Hippo `ExternalID` system (§3.4) | Entrez IDs, gene symbols, and other identifier systems map to a single canonical `Gene` entity UUID via Hippo's existing external ID machinery. No new mechanism required. |
 | Cappella independence (reference data) | Hippo must be functional without Cappella | Cappella is a force multiplier on top of a working Hippo — not a prerequisite. A researcher can deploy Hippo standalone, load data via flat-file ingestion, and install reference data without touching Cappella. |
 
+### Data Categories
+
+Three distinct categories of data exist in a Hippo deployment. This distinction governs how data enters the system and who is responsible for maintaining it.
+
+| Category | Owner | Mutability | How it enters Hippo | Examples |
+|---|---|---|---|---|
+| **Reference data** | External community authority | Read-only; updated by re-running a loader against a new release | `hippo reference install` via `ReferenceLoader` plugin | FMA anatomy terms, Ensembl genes, Gene Ontology terms, HPO, MONDO, NCBITaxon |
+| **Config data** | Your institution; relatively static | Infrequent, admin-driven | Flat-file ingestion (`hippo ingest`) or schema enum values | Brain region dissection protocol, cohort definitions, tissue processing methods, lab-specific controlled vocabularies |
+| **Operational data** | Your institution; actively growing | Continuous | Cappella adapters + workflow ingestion | Subjects, samples, datafiles, workflow runs, QC metrics |
+
+**Decision rule for new data types:** *"Does an external organization release versioned updates to this data that any similar lab would use identically?"*
+- **Yes** → reference loader (`hippo-reference-<name>` plugin)
+- **No, institution-created and relatively static** → config data (flat-file ingestion or schema enum)
+- **No, institution-created and operationally active** → operational data (Cappella adapter)
+
 ### Data Loading Tiers
 
-| Tier | Mechanism | Cappella required? | Description |
+| Tier | Mechanism | Cappella required? | Data category |
 |---|---|---|---|
-| 1 — Generic flat-file | `hippo ingest <file>` CLI (v0.1 scope) | No | CSV/JSON/JSONL mapped to any schema-defined entity type. Baseline ingestion for any deployment. |
-| 2 — Reference data | `hippo reference install <name>` + `hippo[references]` extra | No | Community-standard ontologies (FMA, Ensembl, GO, etc.) loaded via pluggable `ReferenceLoader` plugins. |
-| 3 — External systems | Cappella adapters | Yes | Institution-specific systems (STARLIMS, HALO, REDCap, partner portals). Transformation and harmonization required. |
+| 1 — Generic flat-file | `hippo ingest <file>` CLI (v0.1 scope) | No | Config data (and reference data if pre-converted to flat file) |
+| 2 — Reference data | `hippo reference install <name>` + `hippo[references]` extra | No | Reference data |
+| 3 — External systems | Cappella adapters | Yes | Operational data |
 
 ### Reference Loader Plugin System (MVP)
 
@@ -142,4 +157,4 @@ relationships:
 ## Design Session Notes
 
 **2026-03-13** — Initial platform architecture session (Adam + Stanley).  
-Topics covered: Cappella scope and conductor metaphor, adapter boundary between Hippo and Cappella, field mapping ownership, reference data model, fuzzy search abstraction, gene/anatomy canonical identifiers, data loading tiers, reference loader plugin system (MVP scope), Cappella-independence principle.
+Topics covered: Cappella scope and conductor metaphor, adapter boundary between Hippo and Cappella, field mapping ownership, reference/config/operational data category distinction, data loading tiers, reference loader plugin system (MVP scope), fuzzy search abstraction, gene/anatomy canonical identifiers, Cappella-independence principle.
