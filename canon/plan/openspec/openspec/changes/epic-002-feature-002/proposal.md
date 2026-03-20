@@ -1,0 +1,16 @@
+# RulesEngine — rule indexing and lookup
+
+## Goal
+RulesEngine — rule indexing and lookup: Implement RulesEngine that wraps a list of ProductionRule and provides find_rules(entity_type, metadata_spec) to return candidate rules whose produces section matches the requested entity_type. For v0.1, matching is by entity_type equality only; wildcard fields in produces.metadata are not filtered at this stage (binding resolution happens in the planner). Also implement rules() to list all rules and validate() to check for duplicate rule names.
+
+
+## Acceptance Criteria
+- Given a RulesEngine instance with multiple ProductionRule objects, when find_rules is called with entity_type "AlignmentFile" and empty metadata_spec, then it returns all ProductionRule objects where the rule's produces.entity_type equals "AlignmentFile"
+- Given a RulesEngine instance with no rules, when find_rules is called with entity_type "NonexistentType" and empty metadata_spec, then it returns an empty list
+- Given a RulesEngine instance with two or more ProductionRule objects that share the same name, when validate is called, then it raises a CanonValidationError
+- Given a RulesEngine instance with multiple ProductionRule objects, when rules is called, then it returns all loaded ProductionRule objects
+- Given a RulesEngine instance with multiple ProductionRule objects, when find_rules is called with "AlignmentFile" and metadata_spec containing fields that do not match produces.metadata, then it still returns all rules with matching entity_type since wildcard fields are not filtered at this stage
+
+## Constraints
+- Depends on: epic-002-feature-001
+- Complexity: low

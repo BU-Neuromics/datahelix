@@ -1,0 +1,15 @@
+# Rules file loader and validator
+
+## Goal
+Rules file loader and validator: Implement a RulesLoader that reads canon_rules.yaml, parses each rule as a ProductionRule, validates the structure, and raises CanonValidationError with per-rule details for any invalid rules. Rules file may contain multiple rules. Loader reports all validation errors at once (not fail-fast).
+
+## Acceptance Criteria
+- Given a valid canon_rules.yaml file containing 3 properly formatted rules, when RulesLoader processes the file, then it returns a list of exactly 3 ProductionRule objects
+- Given a canon_rules.yaml file with one rule missing the execute.workflow field, when RulesLoader processes the file, then it raises a CanonValidationError that includes the rule name and "missing execute.workflow" in the error message
+- Given a non-existent file path for canon_rules.yaml, when RulesLoader attempts to load the file, then it raises a CanonValidationError containing the file path in the error message
+- Given a canon_rules.yaml file with multiple invalid rules, when RulesLoader processes the file, then it collects and returns all validation errors for each rule within a single CanonValidationError instance
+- Given a valid canon_rules.yaml file, when RulesLoader.from_file(path) is called with the file path, then it returns a properly initialized RulesLoader object containing the parsed rules
+
+## Constraints
+- Depends on: epic-001-feature-002
+- Complexity: low

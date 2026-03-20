@@ -1,19 +1,26 @@
-id: epic-001-feature-003
-title: ValueResolver types
-description: >
-  Define the four ValueResolver types (URIResolver, FieldResolver, InlineResolver,
-  JSONResolver) as a discriminated union. Each resolver takes a binding name and
-  an entity dict, and returns the resolved string value. URIResolver returns the
-  entity's uri field; FieldResolver returns an arbitrary named field; InlineResolver
-  returns a static string constant; JSONResolver returns the full entity serialized as JSON.
 acceptance_criteria:
-  - URIResolver("fastq_r1").resolve(entity) returns entity["uri"]
-  - FieldResolver("fastq_r1", "sample_id").resolve(entity) returns entity["sample_id"]
-  - InlineResolver("hg38").resolve(entity) returns "hg38" regardless of entity content
-  - JSONResolver("star_index").resolve(entity) returns a valid JSON string of the entity dict
-  - "Resolver type is inferred from the placeholder syntax: {binding.uri}, {binding.field_name}, {binding.json}, or static string"
-  - A missing field in FieldResolver raises CanonValidationError with the field name
-dependencies:
-  - epic-001-feature-002
+- Given a URIResolver instance with binding name "fastq_r1" and an entity dict containing
+  a "uri" key, when the resolve method is called, then it returns the value of entity["uri"]
+- Given a FieldResolver instance with binding name "fastq_r1" and field name "sample_id"
+  and an entity dict containing a "sample_id" key, when the resolve method is called,
+  then it returns the value of entity["sample_id"]
+- Given an InlineResolver instance with binding name "hg38" and an entity dict, when
+  the resolve method is called, then it returns the string "hg38" regardless of the
+  entity content
+- Given a JSONResolver instance with binding name "star_index" and an entity dict,
+  when the resolve method is called, then it returns a valid JSON string representation
+  of the entity dict
+- Given a FieldResolver instance with binding name "fastq_r1" and field name "sample_id"
+  and an entity dict missing the "sample_id" key, when the resolve method is called,
+  then it raises a CanonValidationError with the field name "sample_id"
 complexity: low
+dependencies:
+- epic-001-feature-002
+description: Define the four ValueResolver types (URIResolver, FieldResolver, InlineResolver,
+  JSONResolver) as a discriminated union. Each resolver takes a binding name and an
+  entity dict, and returns the resolved string value. URIResolver returns the entity's
+  uri field; FieldResolver returns an arbitrary named field; InlineResolver returns
+  a static string constant; JSONResolver returns the full entity serialized as JSON.
+id: epic-001-feature-003
 spec_ready: true
+title: ValueResolver types

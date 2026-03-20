@@ -1,0 +1,17 @@
+# Unit test suite for core types and planner
+
+## Goal
+Unit test suite for core types and planner: Write unit tests for canon.types (CanonConfig, ProductionRule, WildcardBinding, ValueResolver), canon.rules (RulesLoader, RulesEngine), canon.planner (SemanticPlanner with mocked HippoClient), and canon.ingestion (OutputIngestionPipeline with mocked Hippo HTTP). Achieve at least 80% line coverage across these modules. Use pytest with fixtures for sample rules and entity dicts.
+
+
+## Acceptance Criteria
+- pytest passes with at least 80% line coverage on canon.types, canon.rules, canon.planner, canon.ingestion
+- CanonCycleError is triggered by a specifically crafted circular rule set in a test
+- REUSE vs BUILD decision is tested with a mocked HippoClient that returns/doesn't return entities
+- ValueResolver types are tested for all four resolver variants
+- WildcardBinding resolution is tested for missing required wildcard (raises CanonPlanningError)
+- All tests are in tests/ directory with conftest.py fixtures
+
+## Constraints
+- Depends on: epic-006-feature-002
+- Complexity: medium

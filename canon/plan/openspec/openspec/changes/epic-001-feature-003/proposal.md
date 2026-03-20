@@ -1,0 +1,15 @@
+# ValueResolver types
+
+## Goal
+ValueResolver types: Define the four ValueResolver types (URIResolver, FieldResolver, InlineResolver, JSONResolver) as a discriminated union. Each resolver takes a binding name and an entity dict, and returns the resolved string value. URIResolver returns the entity's uri field; FieldResolver returns an arbitrary named field; InlineResolver returns a static string constant; JSONResolver returns the full entity serialized as JSON.
+
+## Acceptance Criteria
+- Given a URIResolver instance with binding name "fastq_r1" and an entity dict containing a "uri" key, when the resolve method is called, then it returns the value of entity["uri"]
+- Given a FieldResolver instance with binding name "fastq_r1" and field name "sample_id" and an entity dict containing a "sample_id" key, when the resolve method is called, then it returns the value of entity["sample_id"]
+- Given an InlineResolver instance with binding name "hg38" and an entity dict, when the resolve method is called, then it returns the string "hg38" regardless of the entity content
+- Given a JSONResolver instance with binding name "star_index" and an entity dict, when the resolve method is called, then it returns a valid JSON string representation of the entity dict
+- Given a FieldResolver instance with binding name "fastq_r1" and field name "sample_id" and an entity dict missing the "sample_id" key, when the resolve method is called, then it raises a CanonValidationError with the field name "sample_id"
+
+## Constraints
+- Depends on: epic-001-feature-002
+- Complexity: low

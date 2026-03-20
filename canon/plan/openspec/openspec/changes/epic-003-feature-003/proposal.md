@@ -1,0 +1,16 @@
+# SemanticPlanner — REUSE/BUILD decision and recursive resolution
+
+## Goal
+SemanticPlanner — REUSE/BUILD decision and recursive resolution: Implement SemanticPlanner.plan(entity_type, metadata_spec) which first queries Hippo for an existing matching entity (REUSE), and if none found, selects a production rule from RulesEngine (BUILD) and recursively plans each required input. Returns an ExecutionPlan DAG. If no rule can produce the requested entity type, raises CanonPlanningError. If multiple rules match, the first match is used for v0.1.
+
+
+## Acceptance Criteria
+- Given an existing Hippo entity matching the spec, when SemanticPlanner.plan() is called, then it returns an ExecutionPlan with a single REUSE node referencing that entity
+- Given no existing entity but a matching rule, when SemanticPlanner.plan() is called, then it returns an ExecutionPlan with a BUILD node for the target and REUSE/BUILD nodes for its inputs
+- Given a 3-level dependency chain, when SemanticPlanner.plan() is called, then it returns a correctly ordered ExecutionPlan where dependencies are properly resolved in topological order
+- Given a request with no matching rule and no existing entity, when SemanticPlanner.plan() is called, then it raises a CanonPlanningError naming the entity type
+- Given SemanticPlanner construction, when HippoClient and RulesEngine are provided, then SemanticPlanner is successfully instantiated with these dependencies
+
+## Constraints
+- Depends on: epic-003-feature-001, epic-003-feature-002, epic-002-feature-002, epic-001-feature-004
+- Complexity: high

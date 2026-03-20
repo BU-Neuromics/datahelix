@@ -1,0 +1,16 @@
+# README and canon_rules.yaml format documentation
+
+## Goal
+README and canon_rules.yaml format documentation: Write a comprehensive README.md for Canon covering: project overview, quickstart (install, write canon.yaml, write canon_rules.yaml, run `canon plan`/`canon run`), canon_rules.yaml format reference with the STAR alignment example from the design notes, canon_outputs.json schema, WorkflowExecutorAdapter plugin guide for third-party adapters, and an annotated end-to-end example (FastqFile -> AlignmentFile).
+
+
+## Acceptance Criteria
+- README.md exists at the project root with all five sections: overview, quickstart, rules format, outputs format, plugin guide
+- canon_rules.yaml format reference includes the complete STAR alignment rule example from the design notes
+- canon_outputs.json schema documents all required fields: entity_type and metadata (object)
+- Plugin guide documents the canon.executor_adapters entry point group and the required method signatures
+- Quickstart can be followed from scratch on a machine with Python and a local Hippo instance
+
+## Constraints
+- Depends on: epic-007-feature-003
+- Complexity: low

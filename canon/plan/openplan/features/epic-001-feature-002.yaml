@@ -1,18 +1,39 @@
-id: epic-001-feature-002
-title: ProductionRule and WildcardBinding models
-description: >
-  Define the ProductionRule pydantic model with produces (entity_type + metadata dict
-  with wildcard placeholders), requires (list of InputBinding with bind/entity_type/metadata),
-  and execute (workflow identifier + inputs dict + outputs list) sections. WildcardBinding
-  maps wildcard names to resolved string values. Wildcards are denoted {name} in metadata values.
 acceptance_criteria:
-  - ProductionRule loads from a valid rule dict with all required fields
-  - Wildcard placeholders in metadata values are detected and extracted as a set of names
-  - A rule with missing produces.entity_type raises CanonValidationError
-  - InputBinding requires bind, entity_type, and metadata fields
-  - WildcardBinding is a typed dict-like container supporting get/set by name
-  - ProductionRule.wildcard_names property returns the union of all wildcard placeholder names across produces and requires
-dependencies:
-  - epic-001-feature-001
+- Given a valid rule dictionary with all required fields, when ProductionRule is instantiated,
+  then it successfully loads without validation errors
+- Given a rule dictionary containing wildcard placeholders in metadata values, when
+  ProductionRule processes the metadata, then it detects and extracts all wildcard
+  placeholder names as a set of unique names
+- Given a rule dictionary missing the produces.entity_type field, when ProductionRule
+  is instantiated, then it raises a CanonValidationError with appropriate error message
+- Given an InputBinding without required bind, entity_type, or metadata fields, when
+  ProductionRule validates the binding, then it raises a validation error for each
+  missing field
+- Given a WildcardBinding instance, when values are set and retrieved by name, then
+  it supports get/set operations similar to a typed dict-like container
+- Given a ProductionRule with wildcard placeholders in both produces and requires
+  sections, when wildcard_names property is accessed, then it returns the union of
+  all wildcard placeholder names across both sections as a single set
+- Given a rule dictionary with multiple identical wildcard names in metadata values,
+  when wildcard names are extracted, then it returns a set containing only unique
+  wildcard names
+- Given a rule dictionary with no wildcard placeholders in metadata values, when wildcard
+  names are extracted, then it returns an empty set
+- Given a complex nested metadata structure with wildcard placeholders, when wildcards
+  are detected, then it extracts all wildcard names from all levels of nesting
+- Given a rule dictionary with malformed wildcard syntax (e.g., {name without closing
+  brace), when ProductionRule processes the metadata, then it raises appropriate validation
+  error for invalid wildcard format
 complexity: medium
+dependencies:
+- epic-001-feature-001
+description: 'Define the ProductionRule pydantic model with produces (entity_type
+  + metadata dict with wildcard placeholders), requires (list of InputBinding with
+  bind/entity_type/metadata), and execute (workflow identifier + inputs dict + outputs
+  list) sections. WildcardBinding maps wildcard names to resolved string values. Wildcards
+  are denoted {name} in metadata values.
+
+  '
+id: epic-001-feature-002
 spec_ready: true
+title: ProductionRule and WildcardBinding models
