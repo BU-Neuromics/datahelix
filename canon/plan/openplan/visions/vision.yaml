@@ -1,0 +1,70 @@
+id: canon-vision
+
+problem_statement: >
+  Bioinformatics teams managing large biobank datasets repeatedly re-run the same
+  computational workflows because there is no systematic way to track which processed
+  outputs already exist in the metadata store, what parameters were used to produce them,
+  or what raw inputs they depend on. Researchers manually coordinate data dependencies
+  across workflow systems (Nextflow, Snakemake, Cromwell) using ad-hoc file paths and
+  spreadsheets, producing incomplete provenance records and wasted compute time.
+  There is no executor-agnostic layer that can declare "produce AlignmentFile for
+  sample S with genome build hg38" and automatically REUSE an existing result or
+  BUILD it from scratch using the correct production rule and workflow executor.
+
+target_users: >
+  Bioinformaticians at academic biobanks and research institutes who manage multi-step
+  omics data processing pipelines against large sample cohorts. Platform engineers
+  responsible for deploying and operating the BASS (Biobank Analysis Support System)
+  infrastructure, including the Hippo metadata database and associated workflow executors.
+  Research scientists who need traceable, reproducible data products with clear provenance
+  linking each output to its exact inputs, rule, and executor version.
+
+objectives:
+  - Enable semantic data dependency resolution against Hippo so bioinformaticians can
+    declare desired outputs by metadata specification rather than by file path
+  - Eliminate redundant recomputation by automatically detecting and reusing existing
+    Hippo entities that satisfy a request (REUSE decision)
+  - Provide executor-agnostic production rules in YAML so teams can swap workflow
+    executors (Nextflow, Snakemake, Cromwell, LocalProcess) without rewriting rules
+  - Record full provenance for every workflow output as a WorkflowRun entity in Hippo,
+    linking outputs to inputs, production rule, and executor used
+  - Deliver a working v0.1 CLI (canon plan, canon run, canon status, canon rules)
+    with LocalProcess and Container executors for single-org deployments
+
+success_metrics:
+  - name: Redundant compute elimination
+    target: "Zero duplicate entity creation — Canon raises a REUSE decision for 100% of requests where a matching Hippo entity already exists"
+    unit: percent of qualifying requests
+
+  - name: Rule portability
+    target: "The same canon_rules.yaml runs unmodified against LocalProcessAdapter and ContainerAdapter without rule edits"
+    unit: adapters supported with zero rule changes
+
+  - name: Provenance completeness
+    target: "Every BUILD execution produces a WorkflowRun entity in Hippo with input_entity_ids, output_entity_ids, rule_name, and executor fields populated"
+    unit: percent of completed runs
+
+  - name: Planning latency
+    target: "canon plan resolves a 5-step dependency chain in under 3 seconds against a local Hippo instance with 10k entities"
+    unit: seconds
+
+  - name: CLI coverage
+    target: "All 4 v0.1 CLI commands (plan, run, status, rules) are implemented and tested with at least 1 integration test each"
+    unit: commands implemented
+
+risks:
+  - description: Hippo query API may not support the metadata filter patterns needed for wildcard binding resolution
+    severity: high
+    mitigation: Design the Hippo query client with a filter DSL that maps Canon wildcard specs to Hippo's existing query interface; validate against the Hippo schema early in development
+
+  - description: Circular dependency detection may be incomplete for complex multi-rule graphs
+    severity: medium
+    mitigation: Implement cycle detection using DFS with a visited/in-stack set during plan construction; add property-based tests with generated dependency graphs
+
+  - description: canon_outputs.json format ownership is unclear — workflows must write this file but there is no enforced schema
+    severity: medium
+    mitigation: Define and document the canon_outputs.json schema as part of the WorkflowExecutorAdapter contract; validate on ingest and emit clear errors for malformed payloads
+
+  - description: ContainerAdapter behavior differences between Docker and Singularity may cause subtle failures
+    severity: low
+    mitigation: Abstract container runtime behind a ContainerRuntime enum with separate render paths; test both runtimes in CI

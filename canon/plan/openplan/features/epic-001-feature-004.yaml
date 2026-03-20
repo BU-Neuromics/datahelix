@@ -1,0 +1,20 @@
+id: epic-001-feature-004
+title: CanonTask, ExecutionPlan, RunHandle, RunStatus, ExecutorInputs
+description: >
+  Define the execution-side types: CanonTask (a single BUILD node with rule reference,
+  wildcard bindings, resolved input entities, and output spec), ExecutionPlan (DAG of
+  CanonTask BUILD nodes and REUSE EntityRef nodes), RunHandle (opaque executor reference
+  with run_id and executor_type), RunStatus enum (PENDING/RUNNING/SUCCEEDED/FAILED),
+  and ExecutorInputs (executor-native input payload dict + workflow path).
+acceptance_criteria:
+  - ExecutionPlan can be serialized to and deserialized from JSON
+  - ExecutionPlan.nodes returns a topologically sorted list of CanonTask and EntityRef nodes
+  - EntityRef has entity_id, entity_type, and decision=REUSE fields
+  - CanonTask has rule_name, wildcard_bindings, input_entities, output_spec, and decision=BUILD fields
+  - RunStatus enum has PENDING, RUNNING, SUCCEEDED, FAILED values
+  - RunHandle has run_id (UUID) and executor_type fields
+  - ExecutorInputs has workflow_path and inputs (dict[str, str]) fields
+dependencies:
+  - epic-001-feature-002
+complexity: medium
+spec_ready: true

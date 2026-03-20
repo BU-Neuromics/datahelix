@@ -1,0 +1,20 @@
+id: epic-007-feature-002
+title: canon-run CLI command
+description: >
+  Implement the canon run CLI command. Accepts the same target spec as canon plan.
+  Invokes plan(), then for each BUILD node in topological order: render() the task,
+  submit() to the executor, poll() until terminal status, then ingest outputs and
+  create WorkflowRun provenance. Prints progress for each step. On failure, prints
+  the executor error and exits 1. On success, prints ingested entity IDs and exits 0.
+acceptance_criteria:
+  - "canon run --entity-type AlignmentFile --metadata sample_id=S001 genome_build=hg38 executes the full plan"
+  - BUILD nodes are executed in topological dependency order (inputs before outputs)
+  - "REUSE nodes are skipped and printed as: Reusing entity <id>"
+  - On executor failure, the error is printed and canon exits 1 without running subsequent tasks
+  - "Ingested entity IDs are printed on success: Ingested: <entity_id> (<entity_type>)"
+  - Run state is recorded in ~/.canon/runs.db for later canon status queries
+dependencies:
+  - epic-006-feature-002
+  - epic-007-feature-001
+complexity: high
+spec_ready: true

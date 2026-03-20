@@ -1,0 +1,26 @@
+id: epic-008
+title: Test Suite and Documentation
+outcome: >
+  Unit and integration tests cover all core components. README and inline
+  docstrings document the canon_rules.yaml format, canon_outputs.json
+  convention, executor adapter contract, and CLI usage.
+success_metrics:
+  - name: Test coverage
+    target: "At least 80% line coverage across canon.types, canon.rules, canon.planner, canon.ingestion"
+    unit: percent coverage
+architectural_impact:
+  - component: tests/
+    change_type: new
+    description: >
+      pytest test suite with fixtures for test Hippo instances, sample rule files,
+      and mock executor adapters; integration tests for LocalProcessAdapter
+      using a real subprocess workflow
+  - component: docs/
+    change_type: new
+    description: >
+      README with quickstart, canon_rules.yaml format reference,
+      canon_outputs.json schema, WorkflowExecutorAdapter plugin guide,
+      and annotated examples from the omics use case
+depends_on:
+  - epic-007
+features: []

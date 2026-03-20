@@ -1,0 +1,21 @@
+id: epic-007
+title: Canon CLI
+outcome: >
+  Four CLI commands are implemented: `canon plan` shows REUSE/BUILD decisions
+  as a dry run, `canon run` executes the resolved plan, `canon status` shows
+  running/completed/failed runs, and `canon rules` lists and validates production rules.
+success_metrics:
+  - name: CLI completeness
+    target: "All 4 commands implemented with --help, at least 1 integration test each, and human-readable output for plan dry-run"
+    unit: commands implemented
+architectural_impact:
+  - component: canon.cli
+    change_type: new
+    description: >
+      Typer-based CLI with plan, run, status, and rules subcommands; plan renders
+      the ExecutionPlan as a tree showing REUSE/BUILD nodes; run orchestrates
+      planner + executor + ingestion; status reads ~/.canon/runs.db; rules
+      loads and validates canon_rules.yaml
+depends_on:
+  - epic-006
+features: []

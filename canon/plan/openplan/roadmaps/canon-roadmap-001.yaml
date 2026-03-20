@@ -1,0 +1,197 @@
+id: canon-roadmap-001
+title: Canon — Semantic Dependency Resolver and Workflow Orchestrator for BASS
+vision_id: canon-vision
+
+epics:
+  - id: epic-001
+    title: Core Types and Configuration
+    outcome: >
+      All foundational data types, configuration models, and exception hierarchy are
+      defined and validated, providing the type-safe foundation on which all other
+      Canon components are built.
+    success_metrics:
+      - name: Type coverage
+        target: "All 9 core types (CanonConfig, ProductionRule, WildcardBinding, ValueResolver, CanonTask, ExecutionPlan, RunHandle, RunStatus, ExecutorInputs) implemented with pydantic validation"
+        unit: types implemented
+    architectural_impact:
+      - component: canon.types
+        change_type: new
+        description: >
+          New Python module defining CanonConfig, ProductionRule, WildcardBinding,
+          ValueResolver (URI/Field/Inline/JSON variants), CanonTask, ExecutionPlan,
+          RunHandle, RunStatus, ExecutorInputs, and all Canon-specific exceptions
+    depends_on: []
+    features: []
+
+  - id: epic-002
+    title: Production Rule Engine
+    outcome: >
+      Canon can load, validate, and query canon_rules.yaml production rules.
+      Rules declare produces/requires/execute sections with wildcard placeholders.
+      The rules engine can find candidate rules for a given entity type and metadata spec.
+    success_metrics:
+      - name: Rules loader correctness
+        target: "All valid rule YAML files parse without errors; invalid rules raise descriptive validation errors"
+        unit: validation cases passing
+    architectural_impact:
+      - component: canon.rules
+        change_type: new
+        description: >
+          RulesEngine class that loads canon_rules.yaml, validates rule structure,
+          indexes rules by produces.entity_type, and provides find_rules(entity_type, metadata)
+          for the planner
+    depends_on:
+      - epic-001
+    features: []
+
+  - id: epic-003
+    title: Semantic Planner and Dependency Resolver
+    outcome: >
+      Given a metadata specification for a desired output, Canon can query Hippo
+      for existing matching entities (REUSE) or recursively resolve a BUILD plan
+      using production rules. Cycle detection prevents infinite recursion.
+    success_metrics:
+      - name: REUSE detection rate
+        target: "100% of requests where a matching Hippo entity exists result in a REUSE decision"
+        unit: percent
+      - name: Cycle detection
+        target: "Circular dependency graphs are detected and raise CanonCycleError before any execution"
+        unit: test cases passing
+    architectural_impact:
+      - component: canon.planner
+        change_type: new
+        description: >
+          SemanticPlanner class that integrates with HippoClient to query existing
+          entities, applies wildcard binding resolution, recursively resolves
+          dependencies via RulesEngine, and builds an ExecutionPlan DAG with
+          DFS-based cycle detection
+      - component: canon.hippo_client
+        change_type: new
+        description: >
+          HippoClient wrapping the Hippo REST API for entity queries by type and
+          metadata filter spec; used exclusively by the planner
+    depends_on:
+      - epic-001
+      - epic-002
+    features: []
+
+  - id: epic-004
+    title: WorkflowExecutorAdapter Interface
+    outcome: >
+      The WorkflowExecutorAdapter ABC is defined with render(), submit(), poll(),
+      and collect_outputs() methods. Supporting types (ExecutorInputs, RunHandle,
+      RunStatus) are complete. The adapter contract is documented and enforced
+      via abstract method declarations.
+    success_metrics:
+      - name: Interface completeness
+        target: "ABC defines all 4 required methods; attempting to instantiate a concrete subclass missing any method raises TypeError"
+        unit: methods enforced
+    architectural_impact:
+      - component: canon.executor
+        change_type: new
+        description: >
+          WorkflowExecutorAdapter ABC module with render(), submit(), poll(), and
+          collect_outputs() abstract methods; workflow identifier resolution
+          convention documented in docstrings
+    depends_on:
+      - epic-001
+    features: []
+
+  - id: epic-005
+    title: LocalProcess and Container Executors
+    outcome: >
+      Two built-in executor adapters are implemented and tested: LocalProcessAdapter
+      runs workflows as local subprocesses; ContainerAdapter runs workflows in
+      Docker or Singularity containers. Both resolve workflow identifiers to .sh
+      scripts and pass Canon input bindings as named parameters.
+    success_metrics:
+      - name: Executor coverage
+        target: "Both LocalProcessAdapter and ContainerAdapter pass integration tests against a trivial test workflow that writes canon_outputs.json"
+        unit: adapters passing integration tests
+    architectural_impact:
+      - component: canon.executors.local_process
+        change_type: new
+        description: >
+          LocalProcessAdapter implementing WorkflowExecutorAdapter; resolves
+          workflow ID to .sh script, passes inputs as env vars or named args,
+          polls subprocess returncode, returns path to canon_outputs.json
+      - component: canon.executors.container
+        change_type: new
+        description: >
+          ContainerAdapter implementing WorkflowExecutorAdapter; supports Docker
+          and Singularity runtimes via ContainerRuntime enum; mounts work dir and
+          passes inputs as named args
+    depends_on:
+      - epic-004
+    features: []
+
+  - id: epic-006
+    title: Output Ingestion Pipeline
+    outcome: >
+      After successful execution, Canon reads canon_outputs.json from the workflow
+      work directory and ingests each entity into Hippo. A WorkflowRun provenance
+      entity is created linking outputs to inputs, the production rule, and executor used.
+    success_metrics:
+      - name: Provenance completeness
+        target: "Every completed BUILD run produces a WorkflowRun entity in Hippo with input_entity_ids, output_entity_ids, rule_name, and executor fields populated"
+        unit: percent of completed runs
+    architectural_impact:
+      - component: canon.ingestion
+        change_type: new
+        description: >
+          OutputIngestionPipeline class that reads canon_outputs.json (standard Hippo
+          batch ingest format), validates entity payloads, POSTs to Hippo batch ingest
+          endpoint, and creates a WorkflowRun provenance entity with full linkage
+    depends_on:
+      - epic-003
+      - epic-005
+    features: []
+
+  - id: epic-007
+    title: Canon CLI
+    outcome: >
+      Four CLI commands are implemented: `canon plan` shows REUSE/BUILD decisions
+      as a dry run, `canon run` executes the resolved plan, `canon status` shows
+      running/completed/failed runs, and `canon rules` lists and validates production rules.
+    success_metrics:
+      - name: CLI completeness
+        target: "All 4 commands implemented with --help, at least 1 integration test each, and human-readable output for plan dry-run"
+        unit: commands implemented
+    architectural_impact:
+      - component: canon.cli
+        change_type: new
+        description: >
+          Typer-based CLI with plan, run, status, and rules subcommands; plan renders
+          the ExecutionPlan as a tree showing REUSE/BUILD nodes; run orchestrates
+          planner + executor + ingestion; status reads ~/.canon/runs.db; rules
+          loads and validates canon_rules.yaml
+    depends_on:
+      - epic-006
+    features: []
+
+  - id: epic-008
+    title: Test Suite and Documentation
+    outcome: >
+      Unit and integration tests cover all core components. README and inline
+      docstrings document the canon_rules.yaml format, canon_outputs.json
+      convention, executor adapter contract, and CLI usage.
+    success_metrics:
+      - name: Test coverage
+        target: "At least 80% line coverage across canon.types, canon.rules, canon.planner, canon.ingestion"
+        unit: percent coverage
+    architectural_impact:
+      - component: tests/
+        change_type: new
+        description: >
+          pytest test suite with fixtures for test Hippo instances, sample rule files,
+          and mock executor adapters; integration tests for LocalProcessAdapter
+          using a real subprocess workflow
+      - component: docs/
+        change_type: new
+        description: >
+          README with quickstart, canon_rules.yaml format reference,
+          canon_outputs.json schema, WorkflowExecutorAdapter plugin guide,
+          and annotated examples from the omics use case
+    depends_on:
+      - epic-007
+    features: []

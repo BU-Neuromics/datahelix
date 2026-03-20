@@ -1,0 +1,21 @@
+id: epic-004
+title: WorkflowExecutorAdapter Interface
+outcome: >
+  The WorkflowExecutorAdapter ABC is defined with render(), submit(), poll(),
+  and collect_outputs() methods. Supporting types (ExecutorInputs, RunHandle,
+  RunStatus) are complete. The adapter contract is documented and enforced
+  via abstract method declarations.
+success_metrics:
+  - name: Interface completeness
+    target: "ABC defines all 4 required methods; attempting to instantiate a concrete subclass missing any method raises TypeError"
+    unit: methods enforced
+architectural_impact:
+  - component: canon.executor
+    change_type: new
+    description: >
+      WorkflowExecutorAdapter ABC module with render(), submit(), poll(), and
+      collect_outputs() abstract methods; workflow identifier resolution
+      convention documented in docstrings
+depends_on:
+  - epic-001
+features: []

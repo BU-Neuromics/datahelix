@@ -1,0 +1,8 @@
+schema: spec-driven
+created: 2026-03-20T00:00:00Z
+version: "1.0.0"
+artifact:
+  type: feature
+  name: yaml-artifact-refinement
+  description: Fix YAML artifact formatting issues to properly handle mapping values
+  status: completed

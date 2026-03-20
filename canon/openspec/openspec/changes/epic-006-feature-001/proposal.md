@@ -1,0 +1,16 @@
+# canon_outputs.json ingestion into Hippo
+
+## Goal
+canon_outputs.json ingestion into Hippo: Implement OutputIngestionPipeline that reads canon_outputs.json from the workflow work directory after successful execution. Validates the JSON structure as a Hippo batch ingest payload (list of entity dicts with entity_type and metadata fields). POSTs to the Hippo batch ingest endpoint. Returns a list of ingested entity IDs. Raises CanonIngestionError with details for any ingestion failures.
+
+
+## Acceptance Criteria
+- OutputIngestionPipeline.ingest(work_dir) reads .canon_outputs.json from the work directory
+- Given a valid canon_outputs.json with 2 entities, ingest() posts to Hippo and returns 2 entity IDs
+- Given a malformed canon_outputs.json (not a list), CanonIngestionError is raised before any HTTP calls
+- Given a Hippo 4xx response during ingest, CanonIngestionError includes the HTTP status and response body
+- Each ingested entity must have entity_type and at least one metadata field; missing either raises CanonIngestionError
+
+## Constraints
+- Depends on: epic-003-feature-001, epic-005-feature-001
+- Complexity: medium

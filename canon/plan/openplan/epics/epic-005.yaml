@@ -1,0 +1,27 @@
+id: epic-005
+title: LocalProcess and Container Executors
+outcome: >
+  Two built-in executor adapters are implemented and tested: LocalProcessAdapter
+  runs workflows as local subprocesses; ContainerAdapter runs workflows in
+  Docker or Singularity containers. Both resolve workflow identifiers to .sh
+  scripts and pass Canon input bindings as named parameters.
+success_metrics:
+  - name: Executor coverage
+    target: "Both LocalProcessAdapter and ContainerAdapter pass integration tests against a trivial test workflow that writes canon_outputs.json"
+    unit: adapters passing integration tests
+architectural_impact:
+  - component: canon.executors.local_process
+    change_type: new
+    description: >
+      LocalProcessAdapter implementing WorkflowExecutorAdapter; resolves
+      workflow ID to .sh script, passes inputs as env vars or named args,
+      polls subprocess returncode, returns path to canon_outputs.json
+  - component: canon.executors.container
+    change_type: new
+    description: >
+      ContainerAdapter implementing WorkflowExecutorAdapter; supports Docker
+      and Singularity runtimes via ContainerRuntime enum; mounts work dir and
+      passes inputs as named args
+depends_on:
+  - epic-004
+features: []

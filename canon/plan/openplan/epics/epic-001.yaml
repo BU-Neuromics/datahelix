@@ -1,0 +1,19 @@
+id: epic-001
+title: Core Types and Configuration
+outcome: >
+  All foundational data types, configuration models, and exception hierarchy are
+  defined and validated, providing the type-safe foundation on which all other
+  Canon components are built.
+success_metrics:
+  - name: Type coverage
+    target: "All 9 core types (CanonConfig, ProductionRule, WildcardBinding, ValueResolver, CanonTask, ExecutionPlan, RunHandle, RunStatus, ExecutorInputs) implemented with pydantic validation"
+    unit: types implemented
+architectural_impact:
+  - component: canon.types
+    change_type: new
+    description: >
+      New Python module defining CanonConfig, ProductionRule, WildcardBinding,
+      ValueResolver (URI/Field/Inline/JSON variants), CanonTask, ExecutionPlan,
+      RunHandle, RunStatus, ExecutorInputs, and all Canon-specific exceptions
+depends_on: []
+features: []

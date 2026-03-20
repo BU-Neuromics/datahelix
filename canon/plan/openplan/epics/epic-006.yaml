@@ -1,0 +1,21 @@
+id: epic-006
+title: Output Ingestion Pipeline
+outcome: >
+  After successful execution, Canon reads canon_outputs.json from the workflow
+  work directory and ingests each entity into Hippo. A WorkflowRun provenance
+  entity is created linking outputs to inputs, the production rule, and executor used.
+success_metrics:
+  - name: Provenance completeness
+    target: "Every completed BUILD run produces a WorkflowRun entity in Hippo with input_entity_ids, output_entity_ids, rule_name, and executor fields populated"
+    unit: percent of completed runs
+architectural_impact:
+  - component: canon.ingestion
+    change_type: new
+    description: >
+      OutputIngestionPipeline class that reads canon_outputs.json (standard Hippo
+      batch ingest format), validates entity payloads, POSTs to Hippo batch ingest
+      endpoint, and creates a WorkflowRun provenance entity with full linkage
+depends_on:
+  - epic-003
+  - epic-005
+features: []

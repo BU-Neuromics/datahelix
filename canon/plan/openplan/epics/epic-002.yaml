@@ -1,0 +1,20 @@
+id: epic-002
+title: Production Rule Engine
+outcome: >
+  Canon can load, validate, and query canon_rules.yaml production rules.
+  Rules declare produces/requires/execute sections with wildcard placeholders.
+  The rules engine can find candidate rules for a given entity type and metadata spec.
+success_metrics:
+  - name: Rules loader correctness
+    target: "All valid rule YAML files parse without errors; invalid rules raise descriptive validation errors"
+    unit: validation cases passing
+architectural_impact:
+  - component: canon.rules
+    change_type: new
+    description: >
+      RulesEngine class that loads canon_rules.yaml, validates rule structure,
+      indexes rules by produces.entity_type, and provides find_rules(entity_type, metadata)
+      for the planner
+depends_on:
+  - epic-001
+features: []
