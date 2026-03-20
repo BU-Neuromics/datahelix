@@ -1,20 +1,35 @@
-id: epic-007-feature-001
-title: canon-plan CLI command
-description: >
-  Implement the canon plan CLI command. Accepts a target specification as
-  --entity-type and --metadata (key=value pairs). Invokes SemanticPlanner.plan()
-  and renders the resulting ExecutionPlan as a rich tree showing each node as
-  REUSE (green, with entity ID) or BUILD (yellow, with rule name and wildcard bindings).
-  Exits 0 on success, 1 on planning error. Supports --rules and --config flags.
 acceptance_criteria:
-  - "canon plan --entity-type AlignmentFile --metadata sample_id=S001 genome_build=hg38 prints a plan tree"
-  - REUSE nodes display the existing entity ID and entity type in green
-  - BUILD nodes display the rule name and bound wildcard values in yellow
-  - "canon plan exits with code 1 and an error message if planning fails"
-  - "--config <path> overrides the default canon.yaml config file path"
-  - "--rules <path> overrides the default rules file path"
-dependencies:
-  - epic-003-feature-003
-  - epic-003-feature-004
+- Given a valid entity type "AlignmentFile" and metadata "sample_id=S001 genome_build=hg38",
+  when executing "canon plan --entity-type AlignmentFile --metadata sample_id=S001
+  genome_build=hg38", then the command should output a formatted plan tree structure
+- Given an existing entity in the system, when executing "canon plan" with REUSE nodes,
+  then those nodes should display the entity ID and entity type in green color coding
+- Given a BUILD node with rule specifications, when executing "canon plan", then the
+  BUILD nodes should display the rule name and bound wildcard values in yellow color
+  coding
+- Given an invalid configuration or planning failure, when executing "canon plan"
+  with erroneous inputs, then the command should exit with code 1 and display an appropriate
+  error message
+- Given a custom rules file path, when executing "canon plan --rules <path>", then
+  the command should use the specified rules file instead of the default one
+- Given a custom config file path, when executing "canon plan --config <path>", then
+  the command should use the specified config file instead of the default one
+- Given no arguments provided, when executing "canon plan" without required parameters,
+  then the command should display usage information and exit with code 1
+- Given a valid plan execution, when executing "canon plan" with proper inputs, then
+  the command should exit with code 0
+- Given multiple metadata key-value pairs, when executing "canon plan --entity-type
+  AlignmentFile --metadata sample_id=S001 genome_build=hg38", then each key-value
+  pair should be correctly parsed and used for planning
 complexity: medium
+dependencies:
+- epic-003-feature-003
+- epic-003-feature-004
+description: Implement the canon plan CLI command. Accepts a target specification
+  as --entity-type and --metadata (key=value pairs). Invokes SemanticPlanner.plan()
+  and renders the resulting ExecutionPlan as a rich tree showing each node as REUSE
+  (green, with entity ID) or BUILD (yellow, with rule name and wildcard bindings).
+  Exits 0 on success, 1 on planning error. Supports --rules and --config flags.
+id: epic-007-feature-001
 spec_ready: true
+title: canon-plan CLI command

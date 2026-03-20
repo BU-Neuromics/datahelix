@@ -1,19 +1,26 @@
-id: epic-008-feature-002
-title: Integration tests for LocalProcessAdapter and CLI
-description: >
-  Write integration tests that run a real LocalProcessAdapter against a trivial
-  test workflow script (writes a valid .canon_outputs.json). Test the full
-  canon run CLI path end-to-end with a mock Hippo server (httpretty or
-  responses library). Test canon plan CLI with a mocked Hippo that returns
-  no entities (all BUILD) and with one that returns an existing entity (REUSE).
 acceptance_criteria:
-  - Integration test runs LocalProcessAdapter with a real subprocess script and verifies RunStatus.SUCCEEDED
-  - Integration test verifies .canon_outputs.json is read and entities would be posted to Hippo
-  - canon plan CLI integration test with mocked Hippo shows correct REUSE/BUILD tree output
-  - canon run CLI integration test with mocked Hippo plus LocalProcessAdapter completes without error
-  - "All integration tests are marked with pytest.mark.integration and can be skipped with -m not integration"
-dependencies:
-  - epic-008-feature-001
-  - epic-007-feature-002
+- Given a real subprocess script that writes a valid .canon_outputs.json file, when
+  LocalProcessAdapter executes the script and verifies the RunStatus, then it should
+  return RunStatus.SUCCEEDED
+- Given a mocked Hippo server that contains existing entities, when canon plan CLI
+  is executed with mocks, then it should output a correct REUSE/BUILD tree showing
+  entities to reuse
+- Given a mocked Hippo server that returns no entities, when canon plan CLI is executed
+  with mocks, then it should output a correct REUSE/BUILD tree that shows all BUILD
+  actions
+- Given a real LocalProcessAdapter and mocked Hippo server, when canon run CLI is
+  executed, then it should complete without error
+- Given integration tests are marked with pytest.mark.integration, when running pytest
+  with -m not integration, then the tests should be skipped
 complexity: medium
+dependencies:
+- epic-008-feature-001
+- epic-007-feature-002
+description: Write integration tests that run a real LocalProcessAdapter against a
+  trivial test workflow script (writes a valid .canon_outputs.json). Test the full
+  canon run CLI path end-to-end with a mock Hippo server (httpretty or responses library).
+  Test canon plan CLI with a mocked Hippo that returns no entities (all BUILD) and
+  with one that returns an existing entity (REUSE).
+id: epic-008-feature-002
 spec_ready: true
+title: Integration tests for LocalProcessAdapter and CLI

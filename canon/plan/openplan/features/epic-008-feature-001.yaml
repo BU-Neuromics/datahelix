@@ -1,19 +1,25 @@
-id: epic-008-feature-001
-title: Unit test suite for core types and planner
-description: >
-  Write unit tests for canon.types (CanonConfig, ProductionRule, WildcardBinding,
+acceptance_criteria:
+- Given a set of canonical types and rules, when pytest is executed with coverage
+  reporting, then it should achieve at least 80% line coverage on canon.types, canon.rules,
+  canon.planner, and canon.ingestion modules
+- Given a circular rule set, when the RulesEngine processes it, then it should raise
+  a CanonCycleError
+- Given a mocked HippoClient that returns entities, when the SemanticPlanner makes
+  a decision, then it should choose REUSE; given a mocked HippoClient that doesn't
+  return entities, when the SemanticPlanner makes a decision, then it should choose
+  BUILD
+- Given four resolver variants, when each ValueResolver is tested individually, then
+  all four resolver types should be properly validated with comprehensive test cases
+- Given a wildcard binding with missing required wildcards, when the WildcardBinding
+  resolution process starts, then it should raise a CanonPlanningError
+complexity: medium
+dependencies:
+- epic-006-feature-002
+description: Write unit tests for canon.types (CanonConfig, ProductionRule, WildcardBinding,
   ValueResolver), canon.rules (RulesLoader, RulesEngine), canon.planner (SemanticPlanner
   with mocked HippoClient), and canon.ingestion (OutputIngestionPipeline with mocked
   Hippo HTTP). Achieve at least 80% line coverage across these modules. Use pytest
   with fixtures for sample rules and entity dicts.
-acceptance_criteria:
-  - pytest passes with at least 80% line coverage on canon.types, canon.rules, canon.planner, canon.ingestion
-  - CanonCycleError is triggered by a specifically crafted circular rule set in a test
-  - REUSE vs BUILD decision is tested with a mocked HippoClient that returns/doesn't return entities
-  - ValueResolver types are tested for all four resolver variants
-  - WildcardBinding resolution is tested for missing required wildcard (raises CanonPlanningError)
-  - All tests are in tests/ directory with conftest.py fixtures
-dependencies:
-  - epic-006-feature-002
-complexity: medium
+id: epic-008-feature-001
 spec_ready: true
+title: Unit test suite for core types and planner

@@ -1,0 +1,9 @@
+---
+artifact: feature
+description: "Artifact with corrected YAML syntax to resolve parsing errors"
+created: 2026-03-20T00:00:00Z
+status: ready
+tags:
+  - yaml
+  - syntax
+  - correction
