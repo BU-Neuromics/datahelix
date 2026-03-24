@@ -12,16 +12,16 @@
 | File | Section | Status | Notes |
 |---|---|---|---|
 | `sec1_overview.md` | 1. Overview & Scope | ✅ Draft complete | |
-| `sec2_architecture.md` | 2. Architecture | ⬜ Not started | |
-| `sec3_rules_dsl.md` | 3. Canon Rules DSL | ⬜ Not started | |
+| `sec2_architecture.md` | 2. Architecture | ✅ Draft complete | |
+| `sec3_rules_dsl.md` | 3. Canon Rules DSL | ✅ Draft complete | |
 | `sec3b_cwl_integration.md` | 3b. CWL Integration | ✅ Draft complete | |
 | `sec4_resolution_algorithm.md` | 4. Resolution Algorithm | ✅ Draft complete | |
 | `sec5_executor_adapters.md` | 5. Executor Adapters | ✅ Draft complete | |
 | `sec6_hippo_integration.md` | 6. Hippo Integration | ✅ Draft complete | |
 | `sec7_nfr.md` | 7. Non-Functional Requirements | ✅ Draft complete | |
-| `reference_canon_yaml.md` | Reference: canon.yaml schema | ⬜ Not started | |
-| `reference_canon_rules_yaml.md` | Reference: canon_rules.yaml schema | ⬜ Not started | |
-| `appendix_a_rnaseq_example.md` | Appendix A: RNA-seq worked example | ⬜ Not started | |
+| `reference_canon_yaml.md` | Reference: canon.yaml schema | ✅ Draft complete | |
+| `reference_canon_rules_yaml.md` | Reference: canon_rules.yaml schema | ✅ Draft complete | |
+| `appendix_a_rnaseq_example.md` | Appendix A: RNA-seq worked example | ✅ Draft complete | |
 
 ---
 
