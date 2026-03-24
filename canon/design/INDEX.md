@@ -14,7 +14,7 @@
 | `sec1_overview.md` | 1. Overview & Scope | ✅ Draft complete | |
 | `sec2_architecture.md` | 2. Architecture | ⬜ Not started | |
 | `sec3_rules_dsl.md` | 3. Canon Rules DSL | ⬜ Not started | |
-| `sec3b_cwl_integration.md` | 3b. CWL Integration | ⬜ Not started | |
+| `sec3b_cwl_integration.md` | 3b. CWL Integration | ✅ Draft complete | |
 | `sec4_resolution_algorithm.md` | 4. Resolution Algorithm | ⬜ Not started | |
 | `sec5_executor_adapters.md` | 5. Executor Adapters | ⬜ Not started | |
 | `sec6_hippo_integration.md` | 6. Hippo Integration | ⬜ Not started | |
