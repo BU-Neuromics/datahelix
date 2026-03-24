@@ -1,1 +1,0 @@
-"""Canon executor adapters package."""
