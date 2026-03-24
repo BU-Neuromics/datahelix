@@ -34,7 +34,7 @@
 | Canon's role | Semantic artifact resolver — "give me this artifact, I'll find it or make it" | Narrow, composable, testable |
 | Scope boundary | One operation: `canon get <spec>` → URI. No cohort logic, no set management. | Complexity cap; Cappella owns the set-level logic |
 | Workflow language | CWL (Common Workflow Language v1.2) | Mature standard, schematic/execution separation, community tooling, visual builder ecosystem |
-| Execution delegation | CWL executor adapters (cwltool default; Toil, Nextflow CWL mode as plugins) | Canon never implements execution; delegates entirely to CWL runners |
+| Execution delegation | cwltool bundled as hard dependency in canon core; Toil, Nextflow CWL mode as installable plugin packages | cwltool is the universal baseline — Canon without an executor is useless; plugins extend for HPC/cloud |
 | Storage | Stateless — Hippo is the sole persistent store | Consistent with platform adapter pattern |
 | Hippo dependency | Required — Canon cannot function without a Hippo instance | Canon reads registry (does this exist?) and writes results (here's what I made) |
 

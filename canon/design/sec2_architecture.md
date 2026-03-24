@@ -179,7 +179,7 @@ class CWLExecutorAdapter(ABC):
 ```
 
 Built-in adapters:
-- **`CwltoolAdapter`** (v0.1): invokes `cwltool <workflow.cwl> <inputs.json>` as a subprocess,
+- **`CwltoolAdapter`** (v0.1, bundled): invokes `cwltool <workflow.cwl> <inputs.json>` as a subprocess,
   captures stdout/stderr, parses the JSON output object
 - **`ToilAdapter`** (v0.2): submits to Toil for HPC/cloud execution
 - Plugin adapters via entry point group `canon.executor_adapters`
@@ -370,7 +370,7 @@ cwltool_options:
   - "--no-container"     # for local runs without Docker
 ```
 
-`executor` selects the CWL runner adapter. `cwltool` is the default. Additional adapters
+`executor` selects the CWL runner adapter. `cwltool` is the default and is bundled with Canon — no additional install needed. Additional adapters
 are installed as Python packages and discovered via the `canon.executor_adapters` entry
 point group.
 
