@@ -333,8 +333,22 @@ User: canon get AlignmentFile \
 ### 2.8 Hippo Entity Types Used by Canon
 
 Canon relies on the following entity types being present in the Hippo deployment.
-These are defined in Canon's reference schema package (`hippo-reference-canon`) and
-installed via `hippo reference install canon`.
+These are defined in the **Canon Hippo reference schema**, which is bundled inside the
+`canon` package and registered as a `hippo.reference_loaders` entry point.
+
+**Installing Canon's schema into a Hippo deployment:**
+
+```bash
+pip install canon          # installs canon + bundles the reference schema loader
+hippo reference install canon   # writes Tool, ToolVersion, etc. into Hippo's schema + migrates
+```
+
+`hippo reference install canon` only needs to be run once per Hippo deployment (or after
+upgrading Canon to a new version). Canon raises `CanonConfigError` at startup if these
+types are not found in the Hippo instance it is configured to use.
+
+The Canon package and its Hippo reference schema are versioned and released together.
+Schema changes always require a new Canon release — there is no independent schema version.
 
 | Entity Type | Base Type | Purpose |
 |---|---|---|
@@ -345,11 +359,13 @@ installed via `hippo reference install canon`.
 | `WorkflowRun` | — | Canon execution provenance record |
 
 All domain entity types (`AlignmentFile`, `FastqFile`, `StarIndex`, `CountsMatrix`, etc.)
-are deployment-specific and defined in the user's Hippo schema configuration.
+are deployment-specific and defined in the user's Hippo schema configuration — not by Canon.
 
 Hippo's single-inheritance polymorphism means `client.query("Tool")` returns both `Tool`
-and `ToolVersion` entities. Canon queries `ToolVersion` directly when exact version matching
-is required (which it always is).
+and `ToolVersion` entities. Canon always queries `ToolVersion` directly — exact version
+matching is always required.
+
+See `sec6_hippo_integration.md` for the full field-level schema of each Canon entity type.
 
 ---
 

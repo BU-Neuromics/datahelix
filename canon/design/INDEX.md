@@ -117,3 +117,15 @@
 | OQ3: Work directory lifecycle | Low | Where does Canon put CWL work dirs? Cleanup policy? |
 | OQ4: Partial ref resolution ordering | Medium | When multiple Hippo entities match `ref:ToolVersion{tool.name=STAR}` and no version is given — confirm this is always an error in v0.1, never silent disambiguation |
 | OQ5: ToolVersion entity schema | Medium | Exact fields for `Tool` and `ToolVersion` Hippo entity types — part of a Canon reference schema package or user-defined? |
+
+### Canon Hippo Reference Schema
+
+| Decision | Choice | Rationale |
+|---|---|---|
+| Canon entity schema distribution | Bundled inside `canon` package, registered via `hippo.reference_loaders` entry point | Tightly coupled to Canon version; simplifies install; no separate package to manage |
+| Install UX | `pip install canon` + `hippo reference install canon` | Standard Hippo reference loader pattern; keeps Canon and its schema in sync |
+| Hippo dependency on Canon schema | Optional — Hippo users who don't use Canon don't install it | Canon schema adds no value to standalone Hippo deployments |
+| Canon dependency on its schema | Required — Canon needs `Tool`, `ToolVersion`, `GenomeBuild`, `GeneAnnotation`, `WorkflowRun` in Hippo | Canon raises `CanonConfigError` at startup if these types are not found in the Hippo schema |
+| Release coupling | Canon package version and its Hippo reference schema are versioned and released together | Schema changes require a new Canon release; no independent schema versioning |
+| Schema location in package | `canon/hippo_reference/` — `loader.py` (ReferenceLoader impl) + `schema.yaml` (entity type definitions) | Discoverable at `canon.hippo_reference.loader:CanonReferenceLoader` via entry point |
+

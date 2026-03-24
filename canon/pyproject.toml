@@ -33,3 +33,9 @@ asyncio_mode = "auto"
 markers = [
     "integration: marks tests as integration tests (run real subprocesses)",
 ]
+
+[project.entry-points."hippo.reference_loaders"]
+canon = "canon.hippo_reference.loader:CanonReferenceLoader"
+
+[project.entry-points."canon.executor_adapters"]
+cwltool = "canon.executors.cwltool:CwltoolAdapter"
