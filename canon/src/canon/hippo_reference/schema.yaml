@@ -1,0 +1,160 @@
+# Canon Hippo Reference Schema
+# Defines entity types used by Canon for tool tracking and workflow provenance.
+# Loaded into Hippo via CanonReferenceLoader (hippo.reference_loaders entry point).
+
+schema_version: "1.0"
+namespace: "canon"
+
+entity_types:
+
+  Tool:
+    description: >
+      A bioinformatics tool (e.g. STAR, HISAT2, featureCounts).
+      Tracks the canonical name used to group ToolVersion records.
+    identity_fields:
+      - name
+    fields:
+      name:
+        type: string
+        description: "Canonical tool name (e.g. STAR, HISAT2)"
+        required: true
+      description:
+        type: string
+        description: "Short description of what the tool does"
+
+  ToolVersion:
+    description: >
+      A specific version of a Tool, including the container image used.
+      Canon rules reference ToolVersion entities to pin exact software versions.
+    identity_fields:
+      - tool
+      - version
+    fields:
+      tool:
+        type: ref
+        entity_type: Tool
+        description: "Reference to the parent Tool entity"
+        required: true
+      version:
+        type: string
+        description: "Version string (e.g. 2.7.10a)"
+        required: true
+      container_image:
+        type: string
+        description: "Docker/Singularity image URI (e.g. quay.io/biocontainers/star:2.7.10a)"
+      container_type:
+        type: string
+        enum: [docker, singularity, conda]
+        description: "Container runtime type"
+      notes:
+        type: string
+        description: "Additional notes about this version"
+
+  GenomeBuild:
+    description: >
+      A reference genome assembly (e.g. GRCh38, GRCm39).
+      Used as a parameter for alignment and annotation rules.
+    identity_fields:
+      - name
+    fields:
+      name:
+        type: string
+        description: "Assembly name (e.g. GRCh38, GRCm39, hg19)"
+        required: true
+      species:
+        type: string
+        description: "Species name (e.g. Homo sapiens)"
+      source:
+        type: string
+        description: "Data source (e.g. Ensembl, UCSC, NCBI)"
+      release:
+        type: string
+        description: "Genome release identifier (e.g. GCA_000001405.15)"
+      fasta_uri:
+        type: string
+        description: "URI to the primary FASTA file"
+      notes:
+        type: string
+
+  GeneAnnotation:
+    description: >
+      A gene annotation file (GTF/GFF) paired with a GenomeBuild.
+      Used as a parameter for STAR index building and featureCounts rules.
+    identity_fields:
+      - genome_build
+      - source
+      - release
+    fields:
+      genome_build:
+        type: ref
+        entity_type: GenomeBuild
+        description: "Reference to the genome build this annotation is for"
+        required: true
+      source:
+        type: string
+        description: "Annotation source (e.g. Ensembl, GENCODE, RefSeq)"
+        required: true
+      release:
+        type: string
+        description: "Annotation release version (e.g. 109, 44)"
+        required: true
+      gtf_uri:
+        type: string
+        description: "URI to the GTF file"
+      gff_uri:
+        type: string
+        description: "URI to the GFF file"
+      notes:
+        type: string
+
+  WorkflowRun:
+    description: >
+      Records the provenance of a Canon-managed CWL workflow execution.
+      Created before execution (status=running) and updated on completion.
+    identity_fields:
+      - rule_name
+      - target_entity_type
+      - started_at
+    fields:
+      rule_name:
+        type: string
+        description: "Canon rule name that triggered this run"
+        required: true
+      cwl_workflow:
+        type: string
+        description: "Path to the CWL workflow file"
+        required: true
+      cwl_runner:
+        type: string
+        description: "CWL executor used (e.g. cwltool)"
+        default: "cwltool"
+      cwl_inputs:
+        type: string
+        description: "JSON-serialized CWL input parameters"
+      target_entity_type:
+        type: string
+        description: "Hippo entity type being produced"
+        required: true
+      target_params:
+        type: string
+        description: "JSON-serialized identity parameters for the target entity"
+      status:
+        type: string
+        enum: [running, completed, failed]
+        description: "Current run status"
+        required: true
+      started_at:
+        type: string
+        description: "ISO-8601 timestamp when the run started"
+      completed_at:
+        type: string
+        description: "ISO-8601 timestamp when the run finished (or null)"
+      exit_code:
+        type: integer
+        description: "CWL process exit code (null while running)"
+      output_entity_id:
+        type: string
+        description: "ID of the produced entity on success (null otherwise)"
+      error_message:
+        type: string
+        description: "Error description on failure (null otherwise)"
