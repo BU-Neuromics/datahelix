@@ -172,13 +172,14 @@ Adapters that handle remote URIs natively (e.g. `ToilAdapter` with S3 job store)
 
 ---
 
-### 5.5 ToilAdapter (v0.2)
+### 5.5 ToilAdapter (plugin, v0.2)
 
-Planned for v0.2. Submits CWL workflows to Toil for execution on HPC clusters or cloud.
+The Toil adapter is **not bundled with Canon**. It is a separate installable package.
+Submits CWL workflows to Toil for execution on HPC clusters or cloud.
 
 **Install:**
 ```bash
-pip install canon-executor-toil    # installs Toil + registers adapter
+pip install canon-executor-toil    # installs Toil + registers canon.executor_adapters entry point
 ```
 
 **Configuration:**

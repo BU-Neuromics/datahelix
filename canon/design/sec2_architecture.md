@@ -36,9 +36,9 @@ a clean interface to the layers around it.
 │  │  3. Executor Layer                                             │   │
 │  │                                                               │   │
 │  │  CWLExecutorAdapter (ABC)                                     │   │
-│  │    ├── CwltoolAdapter (v0.1 default)                          │   │
-│  │    ├── ToilAdapter (v0.2, HPC/cloud)                          │   │
-│  │    └── (plugin: entry point group canon.executor_adapters)   │   │
+│  │    ├── CwltoolAdapter (bundled — only built-in adapter)                          │   │
+│  │    ├── canon-executor-toil, canon-executor-nextflow (plugins)                          │   │
+│  │    └── (any canon.executor_adapters entry point)   │   │
 │  │                                                               │   │
 │  │  OutputIngestionPipeline                                      │   │
 │  │    ├── Parse CWL output + .canon.yaml sidecar                 │   │
@@ -179,10 +179,11 @@ class CWLExecutorAdapter(ABC):
 ```
 
 Built-in adapters:
-- **`CwltoolAdapter`** (v0.1, bundled): invokes `cwltool <workflow.cwl> <inputs.json>` as a subprocess,
+- **`CwltoolAdapter`** (bundled): invokes `cwltool <workflow.cwl> <inputs.json>` as a subprocess,
   captures stdout/stderr, parses the JSON output object
-- **`ToilAdapter`** (v0.2): submits to Toil for HPC/cloud execution
-- Plugin adapters via entry point group `canon.executor_adapters`
+- All other adapters (Toil, Nextflow, etc.) are installable plugin packages, not bundled
+  (`pip install canon-executor-toil`, `pip install canon-executor-nextflow`, etc.)
+- Plugins discovered via entry point group `canon.executor_adapters`
 
 **`OutputIngestionPipeline`** runs after a successful CWL execution:
 1. Reads the CWL JSON output (file locations, checksums, any scalar outputs)
@@ -237,8 +238,7 @@ canon/
 │
 ├── executors/
 │   ├── base.py                # CWLExecutorAdapter ABC, CWLRunResult
-│   ├── cwltool.py             # CwltoolAdapter (v0.1)
-│   └── toil.py                # ToilAdapter (v0.2, stub in v0.1)
+│   └── cwltool.py             # CwltoolAdapter (bundled, only built-in adapter)
 │
 ├── ingestion/
 │   ├── sidecar.py             # Parse .canon.yaml sidecar files
