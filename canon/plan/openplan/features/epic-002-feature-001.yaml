@@ -1,35 +1,41 @@
 acceptance_criteria:
-- Given a researcher has installed the canon package, when they run "hippo reference
-  install canon", then the command completes successfully with exit code 0 and registers
-  all 5 Canon entity types (Tool, ToolVersion, GenomeBuild, GeneAnnotation, WorkflowRun)
-  in the active Hippo instance
-- Given the canon package is installed, when they check the package contents, then
-  they find LinkML YAML schema definitions for all 5 Canon entity types (Tool, ToolVersion,
-  GenomeBuild, GeneAnnotation, WorkflowRun) in the expected directory structure
-- Given a fresh Hippo instance is running, when they execute "hippo reference install
-  canon", then all 5 entity types are properly registered with correct LinkML fields
-  and schema validation passes for each entity type
-- Given a researcher has installed the canon package, when they run "hippo reference
-  install canon" with verbose logging, then the command outputs detailed progress
-  messages for each entity type registration step
-- Given the canon package is installed, when they examine the Tool entity schema definition,
-  then it includes all required fields such as id, name, description, and version
-  with proper data types
-- Given the canon package is installed, when they examine the ToolVersion entity schema
-  definition, then it includes all required fields such as id, version, tool_id, and
-  created_at with proper data types
-- Given the canon package is installed, when they examine the GenomeBuild entity schema
-  definition, then it includes all required fields such as id, name, reference_genome,
-  and assembly with proper data types
-- Given the canon package is installed, when they examine the GeneAnnotation entity
-  schema definition, then it includes all required fields such as id, gene_id, chromosome,
-  strand, and start_position with proper data types
-- Given the canon package is installed, when they examine the WorkflowRun entity schema
-  definition, then it includes all required fields such as id, workflow_id, status,
-  started_at, and completed_at with proper data types
-- Given a researcher has installed the canon package, when they check the CLI entry
-  point, then the "hippo reference install canon" command is properly registered and
-  executable as a subcommand of the hippo CLI tool
+- Given a Python environment with the hippo-reference-canon package installed, when
+  a developer runs "python -c 'import hippo_reference_canon'", then the import succeeds
+  without error and the package exposes a __version__ attribute
+- "Given the hippo-reference-canon package is installed, when a developer lists the\
+  \ files under the package's schemas/ directory, then exactly 5 LinkML YAML schema\
+  \ files exist \u2014 tool.yaml, tool_version.yaml, genome_build.yaml, gene_annotation.yaml,\
+  \ and workflow_run.yaml \u2014 each parseable by linkml-validate without errors"
+- Given the hippo-reference-canon package is installed, when a developer loads tool.yaml
+  through the LinkML SchemaLoader, then the schema defines a Tool class with at minimum
+  the slots id (type string, identifier true), name (type string, required true),
+  description (type string), and version (type string, required true)
+- Given the hippo-reference-canon package is installed, when a developer loads tool_version.yaml
+  through the LinkML SchemaLoader, then the schema defines a ToolVersion class with
+  at minimum the slots id (type string, identifier true), version (type string, required
+  true), tool_id (type string, required true, range Tool), and created_at (type datetime,
+  required true)
+- Given the hippo-reference-canon package is installed, when a developer loads genome_build.yaml,
+  gene_annotation.yaml, and workflow_run.yaml through the LinkML SchemaLoader, then
+  each schema passes validation, genome_build includes slots id/name/species/assembly,
+  gene_annotation includes slots id/gene_id/chromosome/strand/start_position/end_position,
+  and workflow_run includes slots id/workflow_id/status/started_at/completed_at
+- Given the hippo CLI is installed alongside hippo-reference-canon, when a developer
+  runs "hippo reference install --help", then the output lists "canon" as an available
+  reference package and documents the install subcommand usage
+- Given a running Hippo instance with an empty schema registry, when a developer executes
+  "hippo reference install canon", then the command exits with code 0 and the Hippo
+  schema registry contains exactly 5 new entity types (Tool, ToolVersion, GenomeBuild,
+  GeneAnnotation, WorkflowRun) queryable via "hippo schema list"
+- Given a running Hippo instance, when a developer executes "hippo reference install
+  canon --verbose", then stdout includes per-entity progress lines matching the pattern
+  "Registering <EntityName>... done" for each of the 5 entity types, plus a final
+  summary line reporting 5 types registered successfully
+- Given the canon package has already been installed into a Hippo instance, when a
+  developer runs "hippo reference install canon" a second time, then the command exits
+  with code 0 and either reports "already registered" for each type (idempotent skip)
+  or re-registers without error, leaving the schema registry in a consistent state
+  with no duplicate entity types
 complexity: medium
 dependencies: []
 description: Create the hippo-reference-canon sub-package with LinkML YAML schema

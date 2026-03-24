@@ -4,16 +4,16 @@
 RecursivePlanner core resolve algorithm: Implements the basic recursive planning logic for resolving entities with dependency chains, including the foundational BUILD and REUSE decision-making capabilities.
 
 ## Acceptance Criteria
-- Given a dependency chain with exactly 2 entities where the first entity needs to be built and the second can be reused, when the planner resolves the chain, then the complete chain is returned with the first entity marked as BUILD and the second as REUSE
-- Given an entity with no dependencies, when the planner resolves the entity, then the entity is returned as-is in a plan with no additional dependency resolution steps
-- Given a complex dependency chain with 5 levels where each level has different decision types (BUILD/REUSE), when the planner resolves all levels, then all 5 levels are resolved correctly with appropriate BUILD/REUSE decisions for each entity
-- Given a dependency chain with 2 entities where both entities can be reused, when the planner resolves the chain, then the complete chain is returned with both entities marked as REUSE
-- Given a dependency chain with 3 entities where the first needs to be built, the second can be reused, and the third needs to be built, when the planner resolves the chain, then the complete chain is returned with appropriate BUILD/REUSE decisions for each entity
-- Given a single entity with no dependencies in a complex environment, when the planner resolves the entity, then the entity is returned as-is properly formatted in the plan output
-- Given a complex dependency chain with 5 levels where all entities must be built, when the planner resolves all levels, then all 5 levels are resolved correctly with all entities marked as BUILD
-- Given a dependency chain with 2 entities where the first entity can be reused and the second needs to be built, when the planner resolves the chain, then the complete chain is returned with the first entity marked as REUSE and the second as BUILD
-- Given an empty dependency chain, when the planner attempts to resolve it, then an appropriate error is raised or handled gracefully
-- Given a circular dependency in the chain, when the planner attempts to resolve it, then an exception is thrown indicating the circular dependency
+- Given an entity with no dependencies, when the planner resolves the entity, then the plan output contains exactly one entry for that entity with its original properties preserved and no additional dependency resolution steps
+- Given a dependency chain of 2 entities where the first entity has no existing valid instance (requires BUILD) and the second has an existing valid instance (eligible for REUSE), when the planner resolves the chain, then the returned plan contains both entities in dependency order with the first marked BUILD and the second marked REUSE
+- Given a dependency chain of 2 entities where both entities have existing valid instances, when the planner resolves the chain, then both entities are marked REUSE and no build steps are generated for either entity
+- Given a dependency chain of 2 entities where the first entity has an existing valid instance (REUSE) and the second requires creation (BUILD), when the planner resolves the chain, then the first entity is marked REUSE and the second is marked BUILD, and the plan reflects the correct dependency ordering
+- Given a dependency chain of 3 entities A→B→C where A requires BUILD, B is eligible for REUSE, and C requires BUILD, when the planner resolves the chain, then the plan contains all three entities with decisions BUILD, REUSE, and BUILD respectively, and each entity's position in the plan reflects its dependency depth
+- Given a dependency chain of 5 levels where each level alternates between BUILD and REUSE decisions, when the planner resolves all levels, then all 5 levels appear in the plan with correct BUILD/REUSE decisions matching each entity's reuse eligibility, and the resolution order proceeds from deepest dependency to root
+- Given a dependency chain of 5 levels where no entity has an existing valid instance, when the planner resolves all levels, then all 5 entities are marked BUILD and the plan orders them from deepest dependency first to root last
+- Given an empty dependency chain (no entities provided), when the planner attempts to resolve it, then the planner raises a ValueError (or equivalent validation error) with a message indicating that the input chain is empty
+- Given a dependency chain containing a circular reference (e.g., A depends on B, B depends on A), when the planner attempts to resolve it, then the planner raises a CircularDependencyError (or equivalent) identifying the entities involved in the cycle before any BUILD/REUSE decisions are made
+- Given a single entity whose reuse eligibility check fails with an unexpected error, when the planner resolves the entity, then the error propagates with context identifying which entity failed, and no partial plan is returned
 
 ## Constraints
 - Complexity: medium

@@ -1,35 +1,34 @@
 acceptance_criteria:
-- Given a researcher is creating a GeneAnnotation entity, when they attempt to save
-  an annotation without a required field "gene_id", then the schema validation rejects
-  the entity with a clear error message indicating the missing field
-- Given a researcher is creating a GeneAnnotation entity, when they provide an annotation
-  with an invalid data type for the "annotation_type" field, then the schema validation
-  rejects the entity with an error message specifying the expected data type
-- Given a researcher has defined a GeneAnnotation entity in the Hippo instance, when
-  they query the schema definition endpoint, then the LinkML schema returns a complete
-  definition with all required properties including gene_id, annotation_type, and
-  source_database
-- Given a researcher is defining a GeneAnnotation entity, when they include an optional
-  field "additional_notes" with a data type of string, then the schema accepts this
-  field and includes it in the LinkML definition as an optional property
-- Given a researcher has created multiple GeneAnnotation entities, when they query
-  the Hippo instance using a filter for annotation_type="functional", then the system
-  returns only annotations matching that type with correct LinkML schema validation
-- Given a researcher is validating existing GeneAnnotation entries, when the schema
-  contains missing required fields, then the validation tool reports each missing
-  field with specific line numbers in the schema file
-- Given a researcher has imported a GeneAnnotation schema, when they attempt to create
-  an entity without all required fields, then the system displays comprehensive error
-  messages identifying all missing required properties
-- Given a researcher is querying the Hippo instance for GeneAnnotation types, when
-  they request validation of the current schema definition, then the validation tool
-  confirms all required properties exist and returns a success status code
-- Given a researcher is editing an existing GeneAnnotation entity, when they modify
-  a field with incorrect data type, then the system prevents the update and returns
-  a detailed error message describing the type mismatch
-- Given multiple researchers are creating GeneAnnotation entities simultaneously,
-  when each creates valid annotations with required fields, then all entities are
-  successfully saved without schema validation conflicts
+- Given a GeneAnnotation LinkML schema definition exists, when the schema is loaded
+  by the validation tool, then it declares gene_id (string, required), annotation_type
+  (enum with values including "functional", "structural", "regulatory", required),
+  and source_database (string, required) as slot definitions with mincount=1
+- Given a valid GeneAnnotation schema is registered in the Hippo instance, when a
+  researcher submits a GeneAnnotation entity missing the gene_id field, then the schema
+  validator returns HTTP 422 with an error body containing the field name "gene_id"
+  and the phrase "required"
+- Given a valid GeneAnnotation schema is registered, when a researcher submits an
+  entity where annotation_type is an integer instead of the expected enum string,
+  then the schema validator returns HTTP 422 with an error body identifying "annotation_type"
+  and the allowed enum values
+- Given a valid GeneAnnotation schema is registered, when a researcher submits an
+  entity missing both gene_id and source_database, then the error response lists both
+  missing fields in a single response rather than failing on only the first
+- Given a GeneAnnotation schema definition includes the optional slot additional_notes
+  typed as string, when a researcher submits an entity without additional_notes, then
+  the entity is accepted and stored successfully with additional_notes absent from
+  the persisted record
+- Given a GeneAnnotation schema is registered, when a researcher queries the schema
+  definition endpoint (GET /schemas/GeneAnnotation), then the response includes the
+  full LinkML YAML with class name "GeneAnnotation", all three required slots, the
+  optional additional_notes slot, and each slot's range and required flag
+- Given multiple valid GeneAnnotation entities are stored, when a researcher queries
+  with filter annotation_type="functional", then only entities whose annotation_type
+  equals "functional" are returned and each returned entity passes LinkML schema validation
+- Given a researcher is updating an existing GeneAnnotation entity, when they submit
+  a PATCH replacing source_database with a non-string value (e.g., integer), then
+  the update is rejected with HTTP 422 identifying the type mismatch on source_database
+  without modifying the stored entity
 complexity: low
 dependencies:
 - feature-001

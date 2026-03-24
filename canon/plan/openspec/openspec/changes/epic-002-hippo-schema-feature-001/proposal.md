@@ -4,12 +4,12 @@
 Define Tool Entity Type: Implement the Tool entity type definition in schema.yaml with required fields including name, version, and description.
 
 ## Acceptance Criteria
-- Given a researcher accesses the schema.yaml file, when they look for the Tool entity type definition, then it is defined with name, version, and description fields of string type and required
-- Given the schema is validated, when it passes validation checks, then all Tool entity fields are properly typed as strings and marked as required
-- Given a Tool instance is created in memory, when it is validated before saving, then all required Tool fields must be present with valid string values
-- Given a Tool instance is saved to the database, when the save operation succeeds, then all Tool fields are persisted with correct string data types
-- Given an invalid Tool instance is attempted to be saved, when the validation fails due to missing required fields, then an appropriate error message is returned indicating the missing required fields
-- Given a researcher validates the schema.yaml file, when the Tool entity definition passes validation, then no validation errors are reported for the Tool entity fields
+- Given the schema.yaml file exists, when a developer inspects the Tool entity type definition, then it contains exactly three fields named "name", "version", and "description", each with type "string" and required set to true
+- Given a Tool entity is instantiated with all three required fields populated with non-empty string values, when schema validation runs against the instance, then validation passes with zero errors
+- Given a Tool entity is instantiated with the "name" field missing, when schema validation runs, then validation fails and the error message explicitly identifies "name" as a missing required field
+- Given a Tool entity is instantiated with the "version" field set to a non-string value (e.g., integer 2), when schema validation runs, then validation fails and the error message identifies a type mismatch on "version"
+- Given a Tool entity with all required fields populated with valid strings is saved to the database, when the record is retrieved by its identifier, then the returned record contains "name", "version", and "description" fields with values identical to those provided at save time
+- Given the schema.yaml file is loaded, when the file is validated against the meta-schema (LinkML or project schema rules), then no validation errors are reported for the Tool entity definition
 
 ## Constraints
 - Complexity: low

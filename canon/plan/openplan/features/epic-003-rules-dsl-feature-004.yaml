@@ -1,19 +1,37 @@
 acceptance_criteria:
-- Given a valid canon_rules.yaml file with properly formatted rules, when RulesLoader
-  attempts to load the file, then all rules are parsed correctly without raising any
-  exceptions or errors
-- Given a canon_rules.yaml file with invalid YAML syntax, when RulesLoader attempts
-  to load the file, then a YAML parsing exception is raised with an appropriate error
-  message indicating the location and nature of the syntax error
-- Given a canon_rules.yaml file containing multiple rule types (e.g., string, integer,
-  boolean), when RulesLoader processes the file, then each rule type is correctly
-  dispatched to its corresponding model based on the rule's parameter specifications
-- Given a canon_rules.yaml file with missing required fields in rules, when RulesLoader
-  attempts to parse the file, then a validation error is raised with a clear message
-  identifying the missing field and the rule that caused the issue
-- Given a canon_rules.yaml file with valid content but unsupported rule types, when
-  RulesLoader attempts to load the file, then an appropriate exception is raised indicating
-  that the rule type is not supported
+- Given a valid canon_rules.yaml file containing rules with string, integer, and boolean
+  parameter types, when RulesLoader.load() is called with the file path, then it returns
+  a list of parsed rule objects matching the count and content of rules defined in
+  the file, and no exceptions are raised
+- Given a canon_rules.yaml file containing invalid YAML syntax (e.g., unclosed bracket
+  on line 12), when RulesLoader.load() is called, then a YAMLParseError (or equivalent)
+  is raised whose message includes both the line number and a description of the syntax
+  problem
+- Given a canon_rules.yaml file containing a rule with parameter type "string", when
+  RulesLoader dispatches that rule, then the resulting rule object is an instance
+  of the StringRule model and its fields (name, default, pattern, etc.) are populated
+  from the YAML values
+- Given a canon_rules.yaml file containing a rule with parameter type "integer", when
+  RulesLoader dispatches that rule, then the resulting rule object is an instance
+  of the IntegerRule model with min/max/default fields correctly populated
+- Given a canon_rules.yaml file containing a rule with parameter type "boolean", when
+  RulesLoader dispatches that rule, then the resulting rule object is an instance
+  of the BooleanRule model with its default field correctly populated
+- Given a canon_rules.yaml file where a rule is missing the required "name" field,
+  when RulesLoader.load() is called, then a ValidationError is raised whose message
+  contains both the string "name" and an identifier for the offending rule (e.g.,
+  its index or adjacent field values)
+- Given a canon_rules.yaml file where a rule is missing the required "parameter_type"
+  field, when RulesLoader.load() is called, then a ValidationError is raised whose
+  message indicates that "parameter_type" is missing
+- Given a canon_rules.yaml file containing a rule with parameter_type set to "complex_object"
+  (an unsupported type), when RulesLoader.load() is called, then an UnsupportedRuleTypeError
+  (or equivalent) is raised whose message includes the unsupported type name "complex_object"
+- Given an empty canon_rules.yaml file (valid YAML, no rules defined), when RulesLoader.load()
+  is called, then it returns an empty list without raising any exceptions
+- Given a canon_rules.yaml file containing 50 rules of mixed types, when RulesLoader.load()
+  is called, then all 50 rules are parsed and returned in the same order they appear
+  in the file
 complexity: medium
 dependencies: []
 description: Implement the RulesLoader to parse canon_rules.yaml files with parameter

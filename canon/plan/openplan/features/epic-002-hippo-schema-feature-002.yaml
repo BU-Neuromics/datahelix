@@ -1,25 +1,28 @@
 acceptance_criteria:
-- Given a researcher accesses the schema.yaml file, when they look for ToolVersion
-  entity type, then it is defined with version_number and release_date fields of correct
-  types and required status
-- Given the schema.yaml file is parsed, when it contains ToolVersion entity type definition,
-  then version_number field is of type string and required
-- Given the schema.yaml file is parsed, when it contains ToolVersion entity type definition,
-  then release_date field is of type datetime and required
-- Given a ToolVersion instance is created with valid data, when it is validated, then
-  validation passes successfully
-- Given a ToolVersion instance is created with missing required fields, when it is
-  validated, then validation fails with appropriate error messages
-- Given a ToolVersion instance is created with invalid field types, when it is validated,
-  then validation fails with appropriate error messages
-- Given a ToolVersion entity is defined in schema.yaml, when the schema is loaded
-  by the system, then the entity is recognized and can be instantiated
-- Given the schema is validated, when it passes validation checks, then all ToolVersion
-  entity fields are properly typed and required
-- Given a new ToolVersion instance is created, when it is saved to the database, then
-  all ToolVersion entity fields are stored correctly
-- Given a ToolVersion entity type is properly defined, when database migration is
-  run, then ToolVersion table is created with correct schema
+- Given the schema.yaml file exists, when a developer inspects the ToolVersion entity
+  type definition, then it contains a field named version_number with type string
+  and required status set to true
+- Given the schema.yaml file exists, when a developer inspects the ToolVersion entity
+  type definition, then it contains a field named release_date with type datetime
+  and required status set to true
+- Given a ToolVersion instance is created with both version_number (string) and release_date
+  (datetime) provided, when the instance is validated against the schema, then validation
+  passes with no errors
+- Given a ToolVersion instance is created with version_number omitted, when the instance
+  is validated against the schema, then validation fails and the error message identifies
+  version_number as a missing required field
+- Given a ToolVersion instance is created with release_date omitted, when the instance
+  is validated against the schema, then validation fails and the error message identifies
+  release_date as a missing required field
+- Given a ToolVersion instance is created with version_number set to a non-string
+  value (e.g., integer 123), when the instance is validated against the schema, then
+  validation fails and the error message identifies a type mismatch on version_number
+- Given the schema.yaml containing the ToolVersion entity type is loaded by the Hippo
+  SDK, when a caller requests the ToolVersion entity definition, then the SDK returns
+  a valid entity descriptor with exactly the declared fields and their types
+- Given the ToolVersion entity type is defined in schema.yaml, when a database migration
+  is generated and applied, then a tool_version table exists with columns version_number
+  (text/varchar, NOT NULL) and release_date (timestamp, NOT NULL)
 complexity: low
 dependencies: []
 description: Implement the ToolVersion entity type definition in schema.yaml with

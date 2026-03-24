@@ -1,0 +1,18 @@
+# Unit Test Suite for Canon Core Modules
+
+## Goal
+Unit Test Suite for Canon Core Modules: Establish comprehensive unit tests for all core Canon modules (types, config, rules, resolver, planner, executor, ingestion, cli) with fixtures and mocks for Hippo and cwltool dependencies.
+
+## Acceptance Criteria
+- Given the Canon types module exists, when the unit test suite runs, then every public type (EntityRef, PlanNode, RuleSet, CanonConfig, etc.) has at least one test verifying construction with valid data and one test verifying rejection of invalid data
+- Given the Canon config module exists, when config unit tests execute, then loading a valid canon.yaml returns a fully populated CanonConfig object and loading a malformed canon.yaml raises a descriptive validation error
+- Given the rules module exists, when rules unit tests execute, then each rule DSL construct (match, filter, transform, compose) is tested with at least one positive and one negative case
+- Given the resolver module depends on Hippo, when resolver unit tests run with a mocked Hippo client, then entity reference resolution returns the expected resolved object for valid refs and raises EntityNotFoundError for unknown refs
+- Given the planner module depends on resolved entities, when planner unit tests run with fixture data, then the recursive planner produces a correct PlanNode tree for a known input and rejects cyclic dependency graphs with a descriptive error
+- Given the executor module depends on cwltool, when executor unit tests run with a mocked cwltool subprocess, then a CWL workflow execution is initiated with the correct arguments and a non-zero exit code from cwltool raises an ExecutionError
+- Given the ingestion module exists, when ingestion unit tests run with fixture output files, then parsed outputs are mapped to the expected Hippo entity structure and malformed output files raise an IngestionError with the file path in the message
+- Given the CLI module exists, when CLI unit tests invoke each subcommand with --help, then each subcommand exits with code 0 and prints usage text containing the subcommand name
+- Given all core modules have unit tests, when the full test suite runs via pytest, then all tests pass, total coverage across canon core modules is at least 80%, and no test depends on network access or filesystem side effects outside tmp directories
+
+## Constraints
+- Complexity: low

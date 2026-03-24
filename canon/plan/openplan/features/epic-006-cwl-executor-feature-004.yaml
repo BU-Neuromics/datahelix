@@ -1,18 +1,42 @@
 acceptance_criteria:
-- Given an inputs dict containing a CWL File object with an s3:// location, when
-  InputStagingLayer.stage is called with requires_staging=True, then the s3 object
-  is downloaded to work_dir/staging/ and the location is rewritten to the local file://
-  path in the returned dict
-- Given an inputs dict containing a scalar string value, when InputStagingLayer.stage
-  is called, then the scalar value is passed through unchanged without any download
-- Given the same s3:// URI appears in two input bindings within the same Canon run,
-  when InputStagingLayer stages both, then the file is downloaded only once and both
-  inputs point to the same local staged path
-- Given a drs:// URI in an input binding, when InputStagingLayer stages it, then it
-  resolves the DRS access URL before downloading the file to the staging directory
-- Given staging is requested but the remote URI is unreachable, when InputStagingLayer
-  attempts the download, then it raises CanonExecutorError with the URI and underlying
-  connection error in the message
+- Given an inputs dict containing a CWL File object with location set to an s3://
+  URI (e.g. "s3://bucket/reads.fastq.gz"), when InputStagingLayer.stage() is called
+  with requires_staging=True, then the S3 object is downloaded into work_dir/staging/<bucket>/<key>,
+  the returned dict's File object has location rewritten to "file://<work_dir>/staging/<bucket>/<key>",
+  and the original s3:// URI is preserved in a secondary field (e.g. original_location)
+- Given an inputs dict containing a scalar string value (e.g. "sample_001") with no
+  URI scheme, when InputStagingLayer.stage() is called, then the returned dict contains
+  the identical scalar value and no download or path rewrite is performed
+- Given an inputs dict containing a CWL File object whose location is already a file://
+  path, when InputStagingLayer.stage() is called, then the file is not re-downloaded,
+  the location is returned unchanged, and no entry is added to the staging directory
+- Given two distinct input bindings within the same Canon run reference the same s3://
+  URI (e.g. both "input_r1" and "qc_input" point to "s3://bucket/reads.fastq.gz"),
+  when InputStagingLayer.stage() processes both bindings, then the file is downloaded
+  exactly once (verified by download call count), both returned File objects point
+  to the same local file:// path, and the staged file has byte-identical content to
+  the remote object
+- Given an inputs dict containing a CWL File object with a drs:// URI (e.g. "drs://provider/abc123"),
+  when InputStagingLayer.stage() is called, then it resolves the DRS URI to an access
+  URL via the DRS resolution API, downloads the resolved URL to work_dir/staging/,
+  and rewrites location to the local file:// path
+- Given an inputs dict containing a CWL File object with secondaryFiles (e.g. a .bam
+  with a .bai index), when InputStagingLayer.stage() is called, then both the primary
+  file and all secondary files are staged to work_dir/staging/ with their locations
+  rewritten to local file:// paths
+- Given staging is requested but the remote s3:// URI is unreachable (e.g. bucket
+  does not exist or network timeout), when InputStagingLayer.stage() attempts the
+  download, then it raises CanonExecutorError whose message includes the failing URI
+  and the underlying connection error string, and no partial file is left in the staging
+  directory
+- Given staging is requested but the drs:// resolution endpoint returns a 404 or error
+  response, when InputStagingLayer.stage() attempts resolution, then it raises CanonExecutorError
+  whose message includes the DRS URI and the resolution failure reason
+- Given an inputs dict containing an array of CWL File objects with mixed locations
+  (some s3://, some file://, some scalars), when InputStagingLayer.stage() is called,
+  then only the s3:// files are downloaded and rewritten, file:// files and scalars
+  are passed through unchanged, and the array ordering is preserved in the returned
+  dict
 complexity: medium
 dependencies:
 - epic-006-cwl-executor-feature-003

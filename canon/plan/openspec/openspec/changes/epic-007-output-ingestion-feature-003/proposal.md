@@ -4,11 +4,14 @@
 WorkflowRun Provenance Entity Construction: Implement WorkflowRun entity construction and lifecycle management with status transitions from running to completed or failed and execution atomicity.
 
 ## Acceptance Criteria
-- Given a canon_get execution begins, when WorkflowRun entity is created in Hippo before CWL execution, then the entity has status=running and started_at timestamp set to the current time
-- Given a CWL workflow completes successfully and an output entity is ingested, when the WorkflowRun is updated, then its status changes to completed, completed_at is set, output_entity_id holds the ingested entity UUID, and exit_code is 0
-- Given a CWL workflow exits with a non-zero exit code, when the WorkflowRun is updated, then its status changes to failed, error_message contains the captured stderr (up to 64KB), and exit_code reflects the actual exit code
-- Given a WorkflowRun exists with status=running for a given rule and params, when a new canon_get is called for the same spec, then CanonExecutorError is raised before any CWL execution is started citing the in-progress run ID
-- Given a WorkflowRun entity is constructed, when its cwl_workflow_hash field is inspected, then it contains the SHA256 hash of the CWL file content at execution time
+- Given a canon_get execution begins for a rule and parameter set, when a WorkflowRun entity is created in Hippo before CWL execution starts, then the entity has status="running", started_at set to the current UTC timestamp (ISO 8601), and the rule_id and parameter hash fields populated to identify the triggering request
+- Given a WorkflowRun entity is constructed, when its cwl_workflow_hash field is read, then it contains the lowercase hex-encoded SHA-256 digest of the exact CWL file content that was submitted for execution, and re-hashing that same file content produces an identical digest
+- Given a CWL workflow completes with exit code 0 and an output entity is successfully ingested into Hippo, when the WorkflowRun is updated, then status changes to "completed", completed_at is set to the current UTC timestamp (ISO 8601), output_entity_id holds the UUID of the ingested output entity, and exit_code is 0
+- Given a CWL workflow exits with a non-zero exit code, when the WorkflowRun is updated, then status changes to "failed", exit_code equals the actual process exit code, error_message contains captured stderr truncated to at most 64 KB, and completed_at is set to the current UTC timestamp
+- Given a CWL workflow exits with a non-zero exit code and stderr exceeds 64 KB, when the WorkflowRun error_message field is inspected, then it contains exactly the last 64 KB of stderr output (tail-truncated) and no additional bytes
+- Given a WorkflowRun exists with status="running" for a specific rule_id and parameter hash, when a new canon_get call is made with the same rule and parameters, then a CanonExecutorError is raised before any CWL process is launched, the error message includes the UUID of the in-progress WorkflowRun, and no duplicate WorkflowRun entity is created
+- Given a WorkflowRun entity is created with status="running" and the CWL execution fails before producing any output, when the WorkflowRun is updated to status="failed", then output_entity_id is null and no orphan output entity exists in Hippo
+- Given a WorkflowRun transitions from "running" to "completed" or "failed", when any subsequent update attempts to set status back to "running", then the update is rejected and the WorkflowRun retains its terminal status
 
 ## Constraints
 - Complexity: high

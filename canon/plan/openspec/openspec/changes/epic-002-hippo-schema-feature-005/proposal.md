@@ -4,16 +4,13 @@
 Define WorkflowRun Entity Type: Implement the WorkflowRun entity type definition in schema.yaml with required fields including workflow name and execution timestamp.
 
 ## Acceptance Criteria
-- Given a researcher accesses the schema.yaml file, when they look for the WorkflowRun entity type, then it is defined with workflow name and execution timestamp fields
-- Given the schema is validated, when it passes validation checks, then all WorkflowRun entity fields are properly typed and required
-- Given a new WorkflowRun instance is created, when it is saved to the database, then all WorkflowRun entity fields are stored correctly
-- Given the schema.yaml file contains the WorkflowRun entity definition, when a validator tool runs against it, then no validation errors are returned
-- Given a researcher queries the schema documentation, when they search for WorkflowRun entity fields, then workflow name and execution timestamp fields are clearly documented
-- Given a new WorkflowRun instance is created with valid data, when it is saved to the database, then the workflow name field stores string values correctly
-- Given a new WorkflowRun instance is created with valid data, when it is saved to the database, then the execution timestamp field stores date-time values correctly
-- Given an invalid WorkflowRun instance is created, when it tries to save to the database, then a validation error is thrown
-- Given the WorkflowRun entity definition exists in schema.yaml, when a data model generator processes it, then the generated model includes workflow name and execution timestamp fields
-- Given a researcher examines the schema.yaml file directly, when they look for WorkflowRun entity definitions, then the entity is defined with proper YAML structure and field declarations
+- Given the Hippo schema.yaml file, when parsed as YAML, then a top-level entity key "WorkflowRun" exists under the entities (or classes) section
+- Given the WorkflowRun entity definition in schema.yaml, when its fields are inspected, then a "workflow_name" field is present with type "string" and required flag set to true
+- Given the WorkflowRun entity definition in schema.yaml, when its fields are inspected, then an "execution_timestamp" field is present with type "datetime" and required flag set to true
+- Given the schema.yaml file containing the WorkflowRun entity, when the LinkML or project-standard schema validator is run against it, then zero validation errors are reported for the WorkflowRun definition
+- Given a WorkflowRun instance with workflow_name set to a non-empty string and execution_timestamp set to an ISO-8601 datetime, when validated against the schema, then the instance passes validation without errors
+- Given a WorkflowRun instance with workflow_name omitted or set to null, when validated against the schema, then a required-field validation error is returned for workflow_name
+- Given a WorkflowRun instance with execution_timestamp set to a non-datetime value (e.g., "not-a-date"), when validated against the schema, then a type validation error is returned for execution_timestamp
 
 ## Constraints
 - Complexity: low

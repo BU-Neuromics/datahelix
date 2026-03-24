@@ -1,15 +1,18 @@
-# Rules file loader and validator
+# Canon Schema Package Creation
 
 ## Goal
-Rules file loader and validator: Implement a RulesLoader that reads canon_rules.yaml, parses each rule as a ProductionRule, validates the structure, and raises CanonValidationError with per-rule details for any invalid rules. Rules file may contain multiple rules. Loader reports all validation errors at once (not fail-fast).
+Canon Schema Package Creation: Create the hippo-reference-canon sub-package with LinkML YAML schema definitions for the 5 Canon entity types and a ReferenceLoader CLI entry point that calls hippo reference install.
 
 ## Acceptance Criteria
-- Given a valid canon_rules.yaml file containing 3 properly formatted rules, when RulesLoader processes the file, then it returns a list of exactly 3 ProductionRule objects
-- Given a canon_rules.yaml file with one rule missing the execute.workflow field, when RulesLoader processes the file, then it raises a CanonValidationError that includes the rule name and "missing execute.workflow" in the error message
-- Given a non-existent file path for canon_rules.yaml, when RulesLoader attempts to load the file, then it raises a CanonValidationError containing the file path in the error message
-- Given a canon_rules.yaml file with multiple invalid rules, when RulesLoader processes the file, then it collects and returns all validation errors for each rule within a single CanonValidationError instance
-- Given a valid canon_rules.yaml file, when RulesLoader.from_file(path) is called with the file path, then it returns a properly initialized RulesLoader object containing the parsed rules
+- Given a Python environment with the hippo-reference-canon package installed, when a developer runs "python -c 'import hippo_reference_canon'", then the import succeeds without error and the package exposes a __version__ attribute
+- Given the hippo-reference-canon package is installed, when a developer lists the files under the package's schemas/ directory, then exactly 5 LinkML YAML schema files exist — tool.yaml, tool_version.yaml, genome_build.yaml, gene_annotation.yaml, and workflow_run.yaml — each parseable by linkml-validate without errors
+- Given the hippo-reference-canon package is installed, when a developer loads tool.yaml through the LinkML SchemaLoader, then the schema defines a Tool class with at minimum the slots id (type string, identifier true), name (type string, required true), description (type string), and version (type string, required true)
+- Given the hippo-reference-canon package is installed, when a developer loads tool_version.yaml through the LinkML SchemaLoader, then the schema defines a ToolVersion class with at minimum the slots id (type string, identifier true), version (type string, required true), tool_id (type string, required true, range Tool), and created_at (type datetime, required true)
+- Given the hippo-reference-canon package is installed, when a developer loads genome_build.yaml, gene_annotation.yaml, and workflow_run.yaml through the LinkML SchemaLoader, then each schema passes validation, genome_build includes slots id/name/species/assembly, gene_annotation includes slots id/gene_id/chromosome/strand/start_position/end_position, and workflow_run includes slots id/workflow_id/status/started_at/completed_at
+- Given the hippo CLI is installed alongside hippo-reference-canon, when a developer runs "hippo reference install --help", then the output lists "canon" as an available reference package and documents the install subcommand usage
+- Given a running Hippo instance with an empty schema registry, when a developer executes "hippo reference install canon", then the command exits with code 0 and the Hippo schema registry contains exactly 5 new entity types (Tool, ToolVersion, GenomeBuild, GeneAnnotation, WorkflowRun) queryable via "hippo schema list"
+- Given a running Hippo instance, when a developer executes "hippo reference install canon --verbose", then stdout includes per-entity progress lines matching the pattern "Registering <EntityName>... done" for each of the 5 entity types, plus a final summary line reporting 5 types registered successfully
+- Given the canon package has already been installed into a Hippo instance, when a developer runs "hippo reference install canon" a second time, then the command exits with code 0 and either reports "already registered" for each type (idempotent skip) or re-registers without error, leaving the schema registry in a consistent state with no duplicate entity types
 
 ## Constraints
-- Depends on: epic-001-feature-002
-- Complexity: low
+- Complexity: medium

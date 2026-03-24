@@ -4,16 +4,16 @@
 ProductionRule Model Implementation: Implement the ProductionRule Pydantic model with proper validation and structure for rule definitions.
 
 ## Acceptance Criteria
-- Given a valid production rule definition with all required fields, when RulesLoader parses the definition, then the rule is correctly instantiated as a ProductionRule model with all fields populated
-- Given an invalid production rule definition missing required fields, when RulesLoader attempts to parse the definition, then a validation error is raised with specific error details indicating the missing fields
-- Given an invalid production rule definition with invalid field types, when RulesLoader attempts to parse the definition, then a validation error is raised with specific error details indicating the incorrect field types
-- Given a production rule definition with nested structures, when the rule is validated, then all nested fields are properly validated according to their expected types and constraints
-- Given a production rule definition with deeply nested structures, when the rule is validated, then all nested levels are properly validated according to their respective type definitions
-- Given a production rule definition with optional fields, when RulesLoader parses the definition, then the model correctly handles missing optional fields without raising validation errors
-- Given a production rule definition with default values for fields, when RulesLoader parses the definition, then the model correctly assigns default values when fields are not provided
-- Given a production rule definition with list fields containing multiple items, when the rule is validated, then all items in the list are validated according to the specified item type
-- Given a production rule definition with enum fields, when the rule is validated, then only valid enum values are accepted and invalid values raise validation errors
-- Given a production rule definition that exceeds maximum allowed field count, when RulesLoader attempts to parse the definition, then a validation error is raised indicating the maximum limit has been exceeded
+- Given a valid production rule definition containing all required fields (rule_id as str, name as str, condition as dict, action as dict, priority as int), when RulesLoader parses the definition, then a ProductionRule instance is returned with each field value matching the input exactly
+- Given a production rule definition missing the required field "condition", when RulesLoader parses the definition, then a ValidationError is raised whose error list contains an entry with loc including "condition" and type "missing"
+- Given a production rule definition where "priority" is set to the string "high" instead of an integer, when RulesLoader parses the definition, then a ValidationError is raised whose error list contains an entry with loc including "priority" and type indicating an int_parsing or type_error
+- Given a production rule definition with a nested "condition" object containing fields (field as str, operator as str, value as any), when the rule is validated, then the nested condition is parsed into the expected ConditionModel with all sub-fields populated and typed correctly
+- Given a production rule definition where optional fields (description, metadata, enabled) are omitted, when RulesLoader parses the definition, then the ProductionRule is created without error and omitted optional fields resolve to their declared defaults (description=None, metadata={}, enabled=True)
+- Given a production rule definition with an "actions" list containing three action dicts each with "type" and "target" keys, when the rule is validated, then the resulting ProductionRule.actions list has length 3 and each element is a valid ActionModel instance
+- Given a production rule definition with a "severity" enum field set to "critical", when the rule is validated, then severity is set to the SeverityEnum.CRITICAL member; given severity set to "unknown_level", then a ValidationError is raised listing the permitted enum values
+- Given a production rule definition containing 5 levels of nested condition groups (nested "all_of"/"any_of" combinators), when the rule is validated, then each nesting level is recursively validated and the resulting model tree depth matches the input structure
+- Given a production rule definition with more fields than the model's max_fields constraint (if configured via model_config), when RulesLoader parses the definition, then a ValidationError is raised with a message indicating the field count exceeds the allowed maximum
+- Given a production rule definition with default values declared on the model (e.g., priority defaults to 0, enabled defaults to True), when those fields are omitted from the input, then the parsed ProductionRule has priority=0 and enabled=True without any validation error
 
 ## Constraints
 - Complexity: low

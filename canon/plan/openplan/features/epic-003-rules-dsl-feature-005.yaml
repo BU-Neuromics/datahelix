@@ -1,17 +1,31 @@
 acceptance_criteria:
-- Given a registered rule with name "test_rule", when find_rule is called with rule
-  name "test_rule", then the correct rule object with name "test_rule" is returned
-- Given multiple rules registered for entity type "user", when rules_for_entity_type
-  is called with entity type "user", then all matching rules for entity type "user"
-  are returned in a list
-- Given no matching rule registered with name "nonexistent_rule", when find_rule is
-  called with rule name "nonexistent_rule", then None is returned
-- Given a registered rule with name "complex_rule", when find_rule is called with
-  rule name "complex_rule", then the correct rule object with name "complex_rule"
-  is returned and its properties match the expected configuration
-- Given multiple rules for entity type "order", when rules_for_entity_type is called
-  with entity type "order", then all matching rules for entity type "order" are returned
-  in a list and their order is preserved as registered
+- Given a RuleRegistry instance with a single rule registered under name "test_rule",
+  when find_rule("test_rule") is called, then the returned object is the exact rule
+  instance that was registered and its name attribute equals "test_rule"
+- Given a RuleRegistry instance with no rules registered, when find_rule("nonexistent_rule")
+  is called, then None is returned
+- Given a RuleRegistry instance with three rules registered for entity type "user"
+  and two rules registered for entity type "order", when rules_for_entity_type("user")
+  is called, then a list of exactly three rule objects is returned and each has entity_type
+  equal to "user"
+- Given a RuleRegistry instance where rules A, B, and C were registered in that order
+  for entity type "order", when rules_for_entity_type("order") is called, then the
+  returned list contains rules A, B, C in exactly that insertion order
+- Given a RuleRegistry instance with rules registered for entity types "user" and
+  "order", when rules_for_entity_type("sample") is called for an entity type with
+  no registered rules, then an empty list is returned
+- Given a RuleRegistry instance with a rule registered under name "complex_rule" having
+  properties condition, action, priority, and entity_type, when find_rule("complex_rule")
+  is called, then the returned rule object's condition, action, priority, and entity_type
+  attributes all match the values provided at registration time
+- Given a RuleRegistry instance, when two rules are registered with the same name,
+  then the registry either raises a DuplicateRuleError on the second registration
+  or the second registration overwrites the first such that find_rule returns only
+  the latest rule
+- Given a RuleRegistry instance with rules registered across multiple entity types,
+  when rules_for_entity_type is called for each entity type, then the union of all
+  returned rules equals the full set of registered rules with no duplicates or missing
+  entries
 complexity: medium
 dependencies: []
 description: Implement the RuleRegistry with find_rule and rules_for_entity_type methods

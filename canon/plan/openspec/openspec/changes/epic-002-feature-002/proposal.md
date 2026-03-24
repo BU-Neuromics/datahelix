@@ -1,16 +1,18 @@
-# RulesEngine — rule indexing and lookup
+# Tool Entity Schema Definition
 
 ## Goal
-RulesEngine — rule indexing and lookup: Implement RulesEngine that wraps a list of ProductionRule and provides find_rules(entity_type, metadata_spec) to return candidate rules whose produces section matches the requested entity_type. For v0.1, matching is by entity_type equality only; wildcard fields in produces.metadata are not filtered at this stage (binding resolution happens in the planner). Also implement rules() to list all rules and validate() to check for duplicate rule names.
-
+Tool Entity Schema Definition: Define the LinkML schema for the Tool entity type with required fields and validation rules.
 
 ## Acceptance Criteria
-- Given a RulesEngine instance with multiple ProductionRule objects, when find_rules is called with entity_type "AlignmentFile" and empty metadata_spec, then it returns all ProductionRule objects where the rule's produces.entity_type equals "AlignmentFile"
-- Given a RulesEngine instance with no rules, when find_rules is called with entity_type "NonexistentType" and empty metadata_spec, then it returns an empty list
-- Given a RulesEngine instance with two or more ProductionRule objects that share the same name, when validate is called, then it raises a CanonValidationError
-- Given a RulesEngine instance with multiple ProductionRule objects, when rules is called, then it returns all loaded ProductionRule objects
-- Given a RulesEngine instance with multiple ProductionRule objects, when find_rules is called with "AlignmentFile" and metadata_spec containing fields that do not match produces.metadata, then it still returns all rules with matching entity_type since wildcard fields are not filtered at this stage
+- Given a valid Tool definition YAML with `name` set to a non-empty string and `category` set to one of the allowed enum values (aligner, trimmer, counter, indexer, caller, quantifier, other), when the LinkML schema validates the definition, then validation passes with no errors and the entity is accepted
+- Given a Tool definition YAML where the `name` field is omitted, when the LinkML schema validates the definition, then validation fails with a structured error message that identifies `name` as a missing required field
+- Given a Tool definition YAML where the `category` field is omitted, when the LinkML schema validates the definition, then validation fails with a structured error message that identifies `category` as a missing required field
+- Given a Tool definition YAML where `category` is set to an invalid value (e.g. "sorter"), when the LinkML schema validates the definition, then validation fails with a structured error message listing the allowed enum values for `category`
+- Given a Tool definition YAML where `homepage_url` is set to a malformed URI (e.g. "not-a-url"), when the LinkML schema validates the definition, then validation fails with a structured error message indicating `homepage_url` must be a valid URI
+- Given a Tool definition YAML with all optional fields populated (`description` as string, `homepage_url` as valid URI, `biotools_id` as string, `bioconda_name` as string), when the LinkML schema validates the definition, then validation passes and all optional fields are present in the stored entity
+- Given the Tool schema has been loaded into a Hippo instance, when querying the LinkML schema for the Tool class definition, then the response includes exactly two required slots (`name` of type string, `category` of type enum) and four optional slots (`description`, `homepage_url`, `biotools_id`, `bioconda_name`) with their declared types
+- Given a Tool definition YAML with both `name` and `category` missing, when the LinkML schema validates the definition, then validation fails and the structured error output lists both `name` and `category` as missing required fields in a single report
 
 ## Constraints
-- Depends on: epic-002-feature-001
+- Depends on: feature-001
 - Complexity: low

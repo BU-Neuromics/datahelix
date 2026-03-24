@@ -4,16 +4,16 @@
 HippoQueryClient initialization and configuration: Implement the HippoQueryClient class to wrap Hippo REST API operations using httpx.
 
 ## Acceptance Criteria
-- Given a valid HTTP URL for a Hippo API endpoint, when the HippoQueryClient is instantiated, then it establishes a successful HTTP connection within 5 seconds and returns a client object ready for use
-- Given an invalid API endpoint (non-existent URL or malformed), when the HippoQueryClient is instantiated, then it raises a ConfigurationError with a descriptive message indicating the endpoint is invalid
-- Given proper authentication credentials configured, when the HippoQueryClient makes a request to any API endpoint, then it successfully authenticates and receives a valid HTTP response (status code 200-299)
-- Given missing or invalid authentication credentials, when the HippoQueryClient makes a request, then it raises an AuthenticationError with a descriptive message indicating authentication failure
-- Given a valid API endpoint URL but no internet connectivity, when the HippoQueryClient is instantiated, then it raises a NetworkError with appropriate timeout handling within 10 seconds
-- Given a valid API endpoint that returns HTTP 401 Unauthorized, when the client makes a request, then it handles the authentication failure appropriately and raises an AuthenticationError
-- Given a valid API endpoint that returns HTTP 403 Forbidden, when the client makes a request, then it handles the authorization failure appropriately and raises an AuthorizationError
-- Given a malformed API endpoint URL with invalid scheme (e.g., ftp://), when the HippoQueryClient is instantiated, then it raises a ConfigurationError indicating unsupported URL scheme
-- Given a valid API endpoint with SSL certificate issues, when the client makes a request, then it properly handles SSL verification and either fails with SSL error or allows insecure connection if configured
-- Given a valid API endpoint with network timeout of 30 seconds, when the client makes a request, then it times out and raises a TimeoutError with descriptive message
+- Given a valid HTTP or HTTPS URL for a Hippo API endpoint, when HippoQueryClient(endpoint=url) is called, then it returns a client instance with a `.base_url` attribute matching the provided URL and an internal httpx.AsyncClient configured with a connect timeout of 5 seconds
+- Given a syntactically invalid URL (e.g., "not-a-url", "://missing-scheme", or an empty string), when HippoQueryClient(endpoint=invalid_url) is called, then it raises ConfigurationError whose message contains the invalid URL string and the reason it was rejected
+- Given a URL with an unsupported scheme (e.g., "ftp://hippo.example.com" or "ws://hippo.example.com"), when HippoQueryClient(endpoint=url) is called, then it raises ConfigurationError with a message stating that only "http" and "https" schemes are supported
+- Given valid credentials (API key or token) passed via HippoQueryClient(endpoint=url, credentials=creds), when the client sends a GET request to any endpoint, then the request includes an Authorization header and the server responds with HTTP 2xx
+- Given no credentials provided (credentials=None and no environment variable fallback), when the client calls any request method (get, post, etc.), then it raises AuthenticationError with a message indicating that credentials are not configured, before any HTTP request is sent
+- Given valid credentials but the server returns HTTP 401 Unauthorized, when the client receives the response, then it raises AuthenticationError with a message containing "401" and the response body's error detail if present
+- Given valid credentials but the server returns HTTP 403 Forbidden, when the client receives the response, then it raises AuthorizationError with a message containing "403" and indicating insufficient permissions for the requested resource
+- Given a reachable endpoint but the server does not respond within the configured timeout (default 30 seconds, configurable via timeout_seconds parameter), when the client awaits the response, then it raises TimeoutError with a message stating the elapsed timeout duration and the target URL
+- Given a valid HTTPS endpoint whose TLS certificate fails verification (self-signed or expired), when the client sends a request with default settings (verify_ssl=True), then it raises ConnectionError with a message referencing the SSL/TLS failure; and when verify_ssl=False is configured, the request proceeds without certificate verification
+- Given a valid endpoint URL but no network connectivity (e.g., DNS resolution failure or connection refused), when HippoQueryClient attempts to connect, then it raises NetworkError within 10 seconds with a message indicating the connection could not be established and including the original socket/DNS error detail
 
 ## Constraints
 - Complexity: low

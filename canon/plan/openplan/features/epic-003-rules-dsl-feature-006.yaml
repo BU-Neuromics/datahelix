@@ -1,34 +1,48 @@
 acceptance_criteria:
 - Given multiple validation errors exist in rules during startup parsing, when the
   system attempts to load the rules, then all validation errors must be collected
-  and reported in a single error message or log entry
-- Given a rule contains an unpropagated wildcard pattern, when the rule is validated,
-  then a specific validation error must be raised indicating the problematic wildcard
-  usage
+  and reported in a single aggregated error structure rather than failing on the first
+  error encountered
+- Given a rule defines a scope pattern using a wildcard character in a position where
+  wildcard expansion is not supported by the RulesLoader, when the rule is validated,
+  then a ValidationError is raised with a message indicating that the wildcard pattern
+  is invalid for that scope position and suggesting the correct syntax
 - Given a tool version is required for rule execution but not present in the environment,
   when the system validates the rule configuration, then a descriptive validation
-  error must be generated indicating which tool version is missing
-- Given a rule contains invalid syntax in parameter definitions, when the validation
-  process runs, then an appropriate error message must specify the location and nature
-  of the syntax issue
-- Given a rule references a non-existent parameter type, when validated, then a validation
-  error must be raised with clear indication of the undefined parameter reference
-- Given a rule defines parameters with conflicting constraints, when parsed for validation,
-  then all constraint conflicts must be reported together in a single validation error
-  message
-- Given a rule contains deprecated parameter usages, when validated, then a deprecation
-  warning or error must be generated highlighting each deprecated usage
-- Given a rule has missing required parameters, when validated, then a comprehensive
-  error report must include all missing mandatory parameter names
-- Given a rule specifies invalid data types for parameters, when validated, then specific
-  type validation errors must be raised indicating both the expected and actual types
+  error must be generated indicating which tool version is missing and which rule
+  references it
+- Given a rule contains invalid syntax in parameter definitions (e.g., malformed type
+  annotations or constraint expressions), when the validation process runs, then the
+  error message must specify the parameter name, the nature of the syntax issue, and
+  the location within the rule definition
+- Given a rule references a parameter type not present in the type registry established
+  by the RulesLoader, when validated, then a ValidationError is raised listing the
+  undefined type name and the set of available types
+- Given a rule defines parameters with conflicting constraints (e.g., min greater than
+  max, or mutually exclusive flags both set), when parsed for validation, then all
+  constraint conflicts must be reported together in a single validation error message
+- Given a rule uses parameter syntax that has been superseded by a newer form within
+  the current DSL version, when validated, then a deprecation warning is emitted via
+  the standard logging framework listing each deprecated usage and the recommended
+  replacement
+- Given a rule has missing required parameters as defined by the ProductionRule model,
+  when validated, then the error report includes all missing mandatory parameter names
+  in a single ValidationError rather than raising on the first missing parameter
+- Given a rule specifies values whose types do not match the declared parameter types,
+  when validated, then the validation error for each mismatched parameter includes
+  both the expected type and the actual type received
 - Given multiple rules in a collection have validation issues, when the system validates
-  the entire rule set, then all validation errors from each rule must be aggregated
-  and presented together
+  the entire rule set, then all validation errors from each rule are aggregated into
+  a single report keyed by rule_id so that callers receive a complete picture before
+  any rule is executed
 complexity: high
-dependencies: []
+dependencies:
+- epic-003-rules-dsl-feature-001
+- epic-003-rules-dsl-feature-003
+- epic-003-rules-dsl-feature-004
+- epic-003-rules-dsl-feature-005
 description: Implement comprehensive validation checks for all rule parameters and
-  ensure errors are reported together before any request is accepted.
+  ensure errors are aggregated and reported together before any rule execution begins.
 id: epic-003-rules-dsl-feature-006
 spec_ready: true
 title: Validation and Error Reporting

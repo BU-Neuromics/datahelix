@@ -1,21 +1,18 @@
-# ProductionRule and WildcardBinding models
+# Exception Hierarchy Implementation
 
 ## Goal
-ProductionRule and WildcardBinding models: Define the ProductionRule pydantic model with produces (entity_type + metadata dict with wildcard placeholders), requires (list of InputBinding with bind/entity_type/metadata), and execute (workflow identifier + inputs dict + outputs list) sections. WildcardBinding maps wildcard names to resolved string values. Wildcards are denoted {name} in metadata values.
-
+Exception Hierarchy Implementation: Create a structured exception hierarchy extending Pydantic's validation errors for canon-specific error types.
 
 ## Acceptance Criteria
-- Given a valid rule dictionary with all required fields, when ProductionRule is instantiated, then it successfully loads without validation errors
-- Given a rule dictionary containing wildcard placeholders in metadata values, when ProductionRule processes the metadata, then it detects and extracts all wildcard placeholder names as a set of unique names
-- Given a rule dictionary missing the produces.entity_type field, when ProductionRule is instantiated, then it raises a CanonValidationError with appropriate error message
-- Given an InputBinding without required bind, entity_type, or metadata fields, when ProductionRule validates the binding, then it raises a validation error for each missing field
-- Given a WildcardBinding instance, when values are set and retrieved by name, then it supports get/set operations similar to a typed dict-like container
-- Given a ProductionRule with wildcard placeholders in both produces and requires sections, when wildcard_names property is accessed, then it returns the union of all wildcard placeholder names across both sections as a single set
-- Given a rule dictionary with multiple identical wildcard names in metadata values, when wildcard names are extracted, then it returns a set containing only unique wildcard names
-- Given a rule dictionary with no wildcard placeholders in metadata values, when wildcard names are extracted, then it returns an empty set
-- Given a complex nested metadata structure with wildcard placeholders, when wildcards are detected, then it extracts all wildcard names from all levels of nesting
-- Given a rule dictionary with malformed wildcard syntax (e.g., {name without closing brace), when ProductionRule processes the metadata, then it raises appropriate validation error for invalid wildcard format
+- Given a CanonRuleValidationError is instantiated with a field name and error type, when the error message is rendered via str() or repr(), then it contains both the field name and the error type as distinct, parseable substrings
+- Given a CanonRuleValidationError wraps a Pydantic ValidationError, when the exception's attributes are inspected, then it exposes the original Pydantic ValidationError via a dedicated attribute (e.g. __cause__ or a custom field) without modification
+- Given a CanonRuleValidationError is raised and caught, when the traceback is printed, then the full call stack from the raise site is preserved and visible in the traceback output
+- Given a CanonResolutionError is instantiated with a task_id and component_name, when the exception's attributes are accessed, then task_id and component_name are available as typed attributes matching the values passed at construction
+- Given a CanonResolutionError wraps an underlying system error, when the exception is inspected, then the original error is accessible via __cause__ (standard chaining) and the error_type and description are available as structured attributes
+- Given a CanonExecutionError is raised inside a nested call stack within a canon component, when the exception propagates to the caller, then the complete call stack from the original raise site is intact in the traceback
+- Given a CanonExecutionError is instantiated with component-specific context (e.g. component_name, operation, input_data), when the exception's structured data is accessed, then all context fields are retrievable as a dict or typed attributes without parsing the message string
+- Given any canon exception class (CanonRuleValidationError, CanonResolutionError, CanonExecutionError), when its class hierarchy is inspected, then it is a subclass of a common CanonError base class which itself extends Exception
+- Given any canon exception is serialized to a dict or JSON via a to_dict() method, when the output is examined, then it contains at minimum the keys error_type, message, and context with non-null values
 
 ## Constraints
-- Depends on: epic-001-feature-001
-- Complexity: medium
+- Complexity: low

@@ -1,16 +1,23 @@
 acceptance_criteria:
 - Given a class that subclasses CWLExecutorAdapter without implementing the run abstract
-  method, when instantiated, then Python raises TypeError indicating the abstract method
-  is not implemented
+  method, when instantiated, then Python raises TypeError indicating the abstract
+  method is not implemented
 - Given a class that fully implements CWLExecutorAdapter including run and version
-  methods, when instantiated and run is called with valid cwl_path and inputs, then
-  no TypeError is raised
+  methods, when instantiated and run is called with valid cwl_path (str) and inputs
+  (dict), then it returns a CWLRunResult instance
 - Given CWLExecutorAdapter is imported from canon.executors.base, when inspected with
   inspect.isabstract, then it returns True confirming it cannot be instantiated directly
 - Given CWLExecutorAdapter defines a requires_staging class attribute, when a subclass
   does not override it, then the default value of True is inherited
-- Given CWLRunResult is defined as a dataclass, when instantiated with all required
-  fields, then it can be constructed and its fields accessed without error
+- Given a concrete subclass of CWLExecutorAdapter, when the version method is called,
+  then it returns a str identifying the backend and its version
+- Given CWLRunResult is defined as a frozen dataclass, when instantiated with exit_code
+  (int), outputs (dict[str, Any]), and log (str), then all fields are accessible and
+  the instance is immutable
+- Given a CWLRunResult instance, when its success property is accessed, then it returns
+  True if exit_code == 0 and False otherwise
+- Given two CWLRunResult instances with identical field values, when compared with
+  ==, then they are equal
 complexity: low
 dependencies: []
 description: Define the abstract base class CWLExecutorAdapter and CWLRunResult dataclass

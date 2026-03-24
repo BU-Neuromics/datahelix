@@ -1,17 +1,29 @@
 acceptance_criteria:
-- Given the canon package is installed, when importlib.metadata.entry_points is called
-  for group canon.executor_adapters, then the cwltool entry point is present with
-  the CwltoolAdapter class as its value
-- Given the canon.executor_adapters entry point is registered, when the entry point
-  is loaded via ep.load(), then it returns the CwltoolAdapter class without import errors
-- Given two executor packages are installed (canon and a hypothetical canon-executor-toil),
-  when discover_adapters is called, then both adapters appear in the returned dict
-  keyed by their name attributes
-- Given CanonConfig.validate is called at startup, when the configured executor name
-  matches a discovered adapter, then validate_available is called on that adapter
-- Given the configured executor name in canon.yaml does not match any discovered adapter,
-  when CanonConfig.validate is called, then it raises CanonConfigError with the
-  missing adapter name and install instructions
+- Given the canon package is installed in a Python environment, when importlib.metadata.entry_points(group='canon.executor_adapters')
+  is called, then the returned set contains an entry point with name 'cwltool' whose
+  value string points to the CwltoolAdapter class (e.g. 'canon.executors.cwltool:CwltoolAdapter')
+- Given the canon package pyproject.toml or setup.cfg declares the canon.executor_adapters
+  entry point group, when the entry point with name 'cwltool' is loaded via ep.load(),
+  then it returns the CwltoolAdapter class object and no ImportError or AttributeError
+  is raised
+- Given a clean virtual environment with only the canon package installed, when discover_adapters()
+  is called, then it returns a dict with exactly one key 'cwltool' whose value is
+  the CwltoolAdapter class
+- Given two packages are installed that each register an entry point in the canon.executor_adapters
+  group (canon registering 'cwltool' and a hypothetical canon-executor-toil registering
+  'toil'), when discover_adapters() is called, then the returned dict contains both
+  keys 'cwltool' and 'toil' mapped to their respective adapter classes
+- Given discover_adapters() returns a dict containing an adapter whose name matches
+  the executor value in CanonConfig, when CanonConfig.validate() is called at startup,
+  then validate_available() is invoked on that adapter instance and no error is raised
+- Given the executor name in canon.yaml is set to 'nonexistent-executor' which does
+  not match any discovered adapter name, when CanonConfig.validate() is called, then
+  a CanonConfigError is raised whose message includes the string 'nonexistent-executor'
+  and a hint about installing the missing adapter package
+- Given an entry point in the canon.executor_adapters group that references a module
+  which cannot be imported (e.g. missing dependency), when discover_adapters() attempts
+  to load that entry point, then it logs a warning identifying the failing entry point
+  name and continues loading remaining adapters without raising an unhandled exception
 complexity: low
 dependencies:
 - epic-006-cwl-executor-feature-003

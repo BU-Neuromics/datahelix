@@ -1,13 +1,18 @@
 acceptance_criteria:
-- Given a researcher accesses the schema.yaml file, when they look for the GeneAnnotation
-  entity type, then it is defined with gene_name and annotation_source fields of type
-  string and required
-- Given the schema validation tool runs on schema.yaml, when it processes the GeneAnnotation
-  entity, then no type errors are reported and all fields are properly typed as string
-  and required
-- Given a database connection is established and a valid GeneAnnotation instance is
-  created, when it is saved to the database, then all GeneAnnotation entity fields
-  are stored correctly with proper string types
+- Given the schema.yaml file exists, when a developer inspects the entity definitions,
+  then a GeneAnnotation entity type is present as a top-level class
+- Given the GeneAnnotation entity is defined in schema.yaml, when its fields are inspected,
+  then a gene_name field of type string is present and marked as required
+- Given the GeneAnnotation entity is defined in schema.yaml, when its fields are inspected,
+  then an annotation_source field of type string is present and marked as required
+- Given schema.yaml contains the GeneAnnotation entity, when the LinkML schema validator
+  is run against the file, then validation passes with zero errors for the GeneAnnotation
+  class
+- Given a valid GeneAnnotation instance with gene_name and annotation_source values,
+  when the instance is persisted to the database via the SDK, then the record is stored
+  with correct string types and can be retrieved with matching field values
+- Given a GeneAnnotation instance is created with gene_name or annotation_source omitted,
+  when validation runs, then a required-field validation error is raised before persistence
 complexity: low
 dependencies: []
 description: Implement the GeneAnnotation entity type definition in schema.yaml with

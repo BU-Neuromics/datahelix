@@ -1,0 +1,18 @@
+# Integration Test Suite for CLI Commands
+
+## Goal
+Integration Test Suite for CLI Commands: Create integration tests for all four Canon CLI commands (get, plan, rules, status) using Docker Compose to spin up Hippo instances and reference STAR CWL workflows.
+
+## Acceptance Criteria
+- Given a Docker Compose file defining a Hippo instance and a STAR CWL workflow fixture, when the integration test suite is launched, then the Hippo container starts successfully and is reachable on its configured port within 30 seconds
+- Given a running Hippo instance with a registered STAR CWL workflow, when the test executes `canon get <entity-ref>`, then the command exits with code 0 and returns the expected entity payload as structured output matching the stored entity fields
+- Given a running Hippo instance with sample entities and a CWL workflow definition, when the test executes `canon plan <entity-ref>`, then the command exits with code 0 and produces a valid execution plan that references the correct CWL workflow steps and input bindings
+- Given a running Hippo instance with canon rules defined for the STAR workflow, when the test executes `canon rules <entity-ref>`, then the command exits with code 0 and outputs the applicable rules with their conditions and actions matching the fixture definitions
+- Given a running Hippo instance with entities in various lifecycle states, when the test executes `canon status`, then the command exits with code 0 and lists each entity with its current status, and the output matches the known fixture state
+- Given the Hippo instance is not running or unreachable, when any Canon CLI command is executed, then the command exits with a non-zero code and emits a human-readable error message indicating the connection failure within 10 seconds
+- Given the integration test suite has completed all test cases, when the teardown phase runs, then all Docker Compose services are stopped and removed, and no orphan containers or volumes remain
+- Given a fresh checkout of the repository with Docker and Docker Compose installed, when a developer runs the integration test entry point (e.g., `make integration-test`), then all dependencies are pulled, fixtures are loaded, tests execute, and results are reported without manual setup steps
+
+## Constraints
+- Depends on: feature-001
+- Complexity: medium

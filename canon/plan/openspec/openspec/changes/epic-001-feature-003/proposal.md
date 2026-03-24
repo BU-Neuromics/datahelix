@@ -1,15 +1,19 @@
-# ValueResolver types
+# Configuration Loader Implementation
 
 ## Goal
-ValueResolver types: Define the four ValueResolver types (URIResolver, FieldResolver, InlineResolver, JSONResolver) as a discriminated union. Each resolver takes a binding name and an entity dict, and returns the resolved string value. URIResolver returns the entity's uri field; FieldResolver returns an arbitrary named field; InlineResolver returns a static string constant; JSONResolver returns the full entity serialized as JSON.
+Configuration Loader Implementation: Build CanonConfig loader that reads rules from YAML and validates them against Pydantic schemas.
 
 ## Acceptance Criteria
-- Given a URIResolver instance with binding name "fastq_r1" and an entity dict containing a "uri" key, when the resolve method is called, then it returns the value of entity["uri"]
-- Given a FieldResolver instance with binding name "fastq_r1" and field name "sample_id" and an entity dict containing a "sample_id" key, when the resolve method is called, then it returns the value of entity["sample_id"]
-- Given an InlineResolver instance with binding name "hg38" and an entity dict, when the resolve method is called, then it returns the string "hg38" regardless of the entity content
-- Given a JSONResolver instance with binding name "star_index" and an entity dict, when the resolve method is called, then it returns a valid JSON string representation of the entity dict
-- Given a FieldResolver instance with binding name "fastq_r1" and field name "sample_id" and an entity dict missing the "sample_id" key, when the resolve method is called, then it raises a CanonValidationError with the field name "sample_id"
+- Given a canon_rules.yaml file exists at the default location (current working directory) with all required fields and valid data types, when CanonConfig.load() is called with no arguments, then it returns a CanonConfig instance whose attributes match the YAML content and all nested objects are instances of their respective Pydantic model classes
+- Given a canon_rules.yaml file is missing a required top-level field (e.g. "entity_types"), when CanonConfig.load() is called, then it raises CanonRuleValidationError whose message contains the name of the missing field
+- Given a canon_rules.yaml file contains a field with an incorrect data type (e.g. a string where a list is expected), when CanonConfig.load() is called, then it raises CanonRuleValidationError whose message includes both the field name and the expected type
+- Given a canon_rules.yaml file contains a key not defined in the Pydantic schema, when CanonConfig.load() is called, then it raises CanonRuleValidationError whose message includes the unrecognized field name
+- Given an explicit file path is passed to CanonConfig.load(path="/tmp/custom/rules.yaml"), when the file at that path contains valid content, then the loader reads from exactly that path and returns a fully populated CanonConfig instance without falling back to the default location
+- Given no canon_rules.yaml file exists at the resolved path, when CanonConfig.load() is called, then it raises FileNotFoundError whose message contains the absolute path that was searched
+- Given a canon_rules.yaml file contains syntactically invalid YAML (e.g. unmatched brackets), when CanonConfig.load() is called, then it raises a YAML parsing error (yaml.YAMLError or wrapped equivalent) with line number information
+- Given a canon_rules.yaml file with valid content and read-only filesystem permissions (chmod 444), when CanonConfig.load() is called, then it returns a valid CanonConfig instance without raising any permission-related exceptions
+- Given a canon_rules.yaml file contains deeply nested objects (e.g. entity_types with nested field_definitions containing nested constraints), when CanonConfig.load() is called, then every nested level is deserialized into its corresponding Pydantic model with full validation applied recursively
+- Given canon_rules.yaml files exist in both the current directory and a sibling directory, when CanonConfig.load(path="./sibling/canon_rules.yaml") is called, then only the file at the explicit path is loaded and the current-directory file is ignored
 
 ## Constraints
-- Depends on: epic-001-feature-002
-- Complexity: low
+- Complexity: medium

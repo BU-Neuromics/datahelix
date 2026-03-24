@@ -1,19 +1,31 @@
 acceptance_criteria:
-- Given a researcher is defining tool metadata, when they create a Tool entity with
-  all required fields populated with valid data types, then the schema successfully
-  validates the entity and accepts it
-- Given a researcher is defining tool metadata, when they attempt to create a Tool
-  entity without a required field, then the schema rejects the entity with a clear
-  validation error message indicating the missing required field
-- Given a researcher is defining tool metadata, when they create a Tool entity with
-  an invalid data type for a field, then the schema rejects the entity with a clear
-  validation error message indicating the incorrect data type
-- Given a Tool entity has been successfully defined, when they query the Hippo instance
-  for the Tool type definition, then the LinkML schema returns the complete definition
-  showing all mandatory properties with correct data types
-- Given the schema contains missing required fields, when they run schema validation
-  against an incomplete Tool definition, then the tool identifies all missing required
-  fields and reports them in a structured validation output
+- Given a valid Tool definition YAML with `name` set to a non-empty string and `category`
+  set to one of the allowed enum values (aligner, trimmer, counter, indexer, caller,
+  quantifier, other), when the LinkML schema validates the definition, then validation
+  passes with no errors and the entity is accepted
+- Given a Tool definition YAML where the `name` field is omitted, when the LinkML
+  schema validates the definition, then validation fails with a structured error message
+  that identifies `name` as a missing required field
+- Given a Tool definition YAML where the `category` field is omitted, when the LinkML
+  schema validates the definition, then validation fails with a structured error message
+  that identifies `category` as a missing required field
+- Given a Tool definition YAML where `category` is set to an invalid value (e.g. "sorter"),
+  when the LinkML schema validates the definition, then validation fails with a structured
+  error message listing the allowed enum values for `category`
+- Given a Tool definition YAML where `homepage_url` is set to a malformed URI (e.g.
+  "not-a-url"), when the LinkML schema validates the definition, then validation fails
+  with a structured error message indicating `homepage_url` must be a valid URI
+- Given a Tool definition YAML with all optional fields populated (`description` as
+  string, `homepage_url` as valid URI, `biotools_id` as string, `bioconda_name` as
+  string), when the LinkML schema validates the definition, then validation passes
+  and all optional fields are present in the stored entity
+- Given the Tool schema has been loaded into a Hippo instance, when querying the LinkML
+  schema for the Tool class definition, then the response includes exactly two required
+  slots (`name` of type string, `category` of type enum) and four optional slots (`description`,
+  `homepage_url`, `biotools_id`, `bioconda_name`) with their declared types
+- Given a Tool definition YAML with both `name` and `category` missing, when the LinkML
+  schema validates the definition, then validation fails and the structured error
+  output lists both `name` and `category` as missing required fields in a single report
 complexity: low
 dependencies:
 - feature-001

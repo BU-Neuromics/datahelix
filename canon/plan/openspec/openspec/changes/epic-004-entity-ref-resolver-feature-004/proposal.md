@@ -4,14 +4,15 @@
 Find entity operations in HippoQueryClient: Implement find_entity and find_entities methods for retrieving entities from Hippo.
 
 ## Acceptance Criteria
-- Given a valid entity UUID, when the client calls find_entity with that UUID, then it returns a JSON object containing the entity data with all expected fields
-- Given multiple valid entity IDs, when the client calls find_entities with those IDs, then it returns a list of entity data objects matching the provided IDs in the same order
-- Given an invalid entity ID format (non-UUID string), when the client calls find_entity, then it raises CanonResolutionError with error code "INVALID_UUID"
-- Given an entity UUID that does not exist in Hippo database, when the client calls find_entity, then it raises CanonResolutionError with error code "ENTITY_NOT_FOUND"
-- Given a list of entity IDs containing one or more invalid IDs, when the client calls find_entities, then it returns a list where valid entities are included and invalid IDs result in null values at corresponding positions
-- Given an empty list of entity IDs, when the client calls find_entities, then it returns an empty list
-- Given a valid UUID string with correct format but no corresponding entity, when the client calls find_entity, then it raises CanonResolutionError with error code "ENTITY_NOT_FOUND"
-- Given a valid entity UUID, when the client calls find_entity multiple times, then each call returns the same entity data object
+- Given a valid entity UUID that exists in the Hippo database, when the client calls find_entity(uuid), then it returns a JSON object containing at minimum the fields "id", "type", and "name", and the "id" field matches the requested UUID
+- Given a valid entity UUID that exists in the Hippo database, when the client calls find_entity(uuid) two consecutive times without intervening writes, then both calls return identical JSON objects with matching field values
+- Given a string that is not a valid UUID (e.g. "not-a-uuid", empty string, or integer), when the client calls find_entity(invalid_input), then it raises CanonResolutionError with error_code attribute equal to "INVALID_UUID" and the message includes the rejected input value
+- Given a correctly formatted UUID v4 string that does not correspond to any entity in the Hippo database, when the client calls find_entity(uuid), then it raises CanonResolutionError with error_code attribute equal to "ENTITY_NOT_FOUND" and the message includes the missing UUID
+- Given a list of three valid entity UUIDs that all exist in the Hippo database, when the client calls find_entities([uuid_a, uuid_b, uuid_c]), then it returns a list of exactly three JSON objects where result[0].id == uuid_a, result[1].id == uuid_b, and result[2].id == uuid_c (order preserved)
+- Given a list containing two valid existing UUIDs and one non-existent UUID at index 1, when the client calls find_entities([valid_a, missing_b, valid_c]), then it returns a list of length 3 where result[0] and result[2] are entity JSON objects and result[1] is null
+- Given an empty list, when the client calls find_entities([]), then it returns an empty list with no network calls to Hippo
+- Given a list containing one valid UUID and one malformed non-UUID string, when the client calls find_entities([valid_uuid, "bad-id"]), then it returns a list of length 2 where result[0] is the entity JSON object and result[1] is null (no exception raised)
+- Given a list of 100 valid entity UUIDs, when the client calls find_entities with that list, then it returns 100 results and completes within a reasonable time bound proportional to a single find_entity call (demonstrating batching or bounded overhead)
 
 ## Constraints
 - Depends on: feature-003

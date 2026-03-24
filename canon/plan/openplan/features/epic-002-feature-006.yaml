@@ -1,22 +1,35 @@
 acceptance_criteria:
-- Given a researcher is creating a WorkflowRun entity, when they attempt to instantiate
-  it without the rule_name field, then the schema validation should reject the creation
-  with an explicit error message indicating the missing required field
-- Given a researcher is creating a WorkflowRun entity, when they attempt to instantiate
-  it without the cwl_workflow_hash field, then the schema validation should reject
-  the creation with an explicit error message indicating the missing required field
-- Given a researcher is creating a WorkflowRun entity, when they successfully provide
-  all required fields including rule_name, cwl_workflow_hash, cwl_runner_version,
-  execution_environment, input_entities, output_entity_id, and status, then the schema
-  should accept the creation and store the entity correctly
-- Given a WorkflowRun entity has been created with all required fields, when they
-  query the Hippo instance to retrieve the WorkflowRun type definition, then the LinkML
-  schema should show all 7 required fields properly defined with correct data types
-  and constraints
-- Given a WorkflowRun entity schema is incomplete with missing required fields, when
-  they run validation against the schema, then the validation tool should identify
-  exactly which fields are missing from the required set and provide a detailed list
-  of the missing fields
+- "Given a LinkML schema defining the WorkflowRun class, when the schema is loaded\
+  \ and inspected, then it must declare exactly these seven slots as required \u2014\
+  \ rule_name, cwl_workflow_hash, cwl_runner_version, execution_environment, input_entities,\
+  \ output_entity_id, and status \u2014 each with an explicit range (data type) annotation"
+- Given a valid JSON/YAML instance containing all seven required fields with conforming
+  values, when validated against the WorkflowRun LinkML schema, then validation passes
+  with zero errors and the instance round-trips without data loss
+- Given a JSON/YAML instance missing the rule_name field, when validated against the
+  WorkflowRun schema, then validation fails and the error output contains the substring
+  "rule_name" and indicates it is a required field
+- Given a JSON/YAML instance missing the cwl_workflow_hash field, when validated against
+  the WorkflowRun schema, then validation fails and the error output contains the
+  substring "cwl_workflow_hash" and indicates it is a required field
+- Given a JSON/YAML instance missing three or more required fields (e.g., cwl_runner_version,
+  execution_environment, and status), when validated against the WorkflowRun schema,
+  then the validator reports each missing field individually in a single validation
+  pass rather than stopping at the first error
+- Given the WorkflowRun schema is compiled to a Python dataclass or Pydantic model
+  via LinkML gen-python, when a caller instantiates WorkflowRun omitting any single
+  required field, then a TypeError or ValidationError is raised at construction time
+  before any persistence call
+- Given a WorkflowRun instance with all required fields populated, when the input_entities
+  field value is not a list of entity references (e.g., a bare string or an integer),
+  then schema validation rejects the value with an error identifying the expected
+  type (multivalued entity reference)
+- Given the compiled LinkML schema artifact, when queried for the WorkflowRun class
+  definition via schema introspection or the generated JSON Schema, then the response
+  lists all seven fields under the "required" key with their declared types matching
+  the design spec (string for rule_name, string for cwl_workflow_hash, string for
+  cwl_runner_version, string for execution_environment, array of entity references
+  for input_entities, entity reference for output_entity_id, enum or string for status)
 complexity: medium
 dependencies:
 - feature-001

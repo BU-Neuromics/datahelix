@@ -1,23 +1,32 @@
 acceptance_criteria:
-- Given a rule validation fails during execution, when CanonRuleValidationError is
-  raised, then the error message includes validation details with field name and error
-  type
-- Given a rule validation fails during execution, when CanonRuleValidationError is
-  raised, then the error message includes stack trace information for debugging
-- Given a rule validation fails during execution, when CanonRuleValidationError is
-  raised, then the exception contains original validation error data from Pydantic
-- Given a resolution process encounters issues, when CanonResolutionError is raised,
-  then it captures the resolution context including task ID and component name
-- Given a resolution process encounters issues, when CanonResolutionError is raised,
-  then it includes detailed error information such as error type and description
-- Given a resolution process encounters issues, when CanonResolutionError is raised,
-  then the exception preserves original error information from underlying system
-- Given a task execution problem occurs in canon components, when CanonExecutionError
-  is raised, then proper error propagation maintains call stack information
-- Given a task execution problem occurs in canon components, when CanonExecutionError
-  is raised, then the exception includes component-specific context information
-- Given a task execution problem occurs in canon components, when CanonExecutionError
-  is raised, then it provides debugging capabilities through structured error data
+- Given a CanonRuleValidationError is instantiated with a field name and error type,
+  when the error message is rendered via str() or repr(), then it contains both the
+  field name and the error type as distinct, parseable substrings
+- Given a CanonRuleValidationError wraps a Pydantic ValidationError, when the exception's
+  attributes are inspected, then it exposes the original Pydantic ValidationError
+  via a dedicated attribute (e.g. __cause__ or a custom field) without modification
+- Given a CanonRuleValidationError is raised and caught, when the traceback is printed,
+  then the full call stack from the raise site is preserved and visible in the traceback
+  output
+- Given a CanonResolutionError is instantiated with a task_id and component_name,
+  when the exception's attributes are accessed, then task_id and component_name are
+  available as typed attributes matching the values passed at construction
+- Given a CanonResolutionError wraps an underlying system error, when the exception
+  is inspected, then the original error is accessible via __cause__ (standard chaining)
+  and the error_type and description are available as structured attributes
+- Given a CanonExecutionError is raised inside a nested call stack within a canon
+  component, when the exception propagates to the caller, then the complete call stack
+  from the original raise site is intact in the traceback
+- Given a CanonExecutionError is instantiated with component-specific context (e.g.
+  component_name, operation, input_data), when the exception's structured data is
+  accessed, then all context fields are retrievable as a dict or typed attributes
+  without parsing the message string
+- Given any canon exception class (CanonRuleValidationError, CanonResolutionError,
+  CanonExecutionError), when its class hierarchy is inspected, then it is a subclass
+  of a common CanonError base class which itself extends Exception
+- Given any canon exception is serialized to a dict or JSON via a to_dict() method,
+  when the output is examined, then it contains at minimum the keys error_type, message,
+  and context with non-null values
 complexity: low
 dependencies: []
 description: Create a structured exception hierarchy extending Pydantic's validation

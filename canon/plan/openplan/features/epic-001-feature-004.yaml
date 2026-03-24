@@ -1,32 +1,38 @@
 acceptance_criteria:
-- Given a valid YAML configuration file with all required fields populated, when the
-  CanonConfig class loads the YAML content, then all model properties are correctly
-  initialized with the expected values and no validation errors occur
-- Given an invalid YAML structure with missing required fields, when the CanonConfig
-  class attempts to load the configuration, then a Pydantic ValidationError is raised
-  with specific error messages indicating missing fields
-- Given an invalid YAML structure with incorrect data types, when the CanonConfig
-  class attempts to load the configuration, then a PydanticValidationError is raised
-  with clear error messages about type mismatches
-- Given a YAML configuration with extra unknown fields, when the CanonConfig class
-  attempts to load the configuration, then a PydanticValidationError is raised indicating
-  the presence of unexpected fields
-- Given all Pydantic model classes and exception classes implemented, when running
-  the test suite, then code coverage reaches 95% or higher for model methods and attributes
-  across all test files
-- Given a valid YAML configuration with nested object structures, when CanonConfig
-  loads the configuration, then all nested properties are correctly parsed and set
-  without validation errors
-- Given a YAML configuration with default values for optional fields, when CanonConfig
-  loads the configuration, then default property values are correctly applied when
-  fields are omitted
-- Given an empty or null YAML content, when CanonConfig attempts to load the configuration,
-  then a ValueError is raised with an appropriate error message
-- Given a malformed YAML syntax, when CanonConfig attempts to parse the content, then
-  a yaml.YAMLError is raised with specific error details about parsing failure
-- Given multiple Pydantic models with complex validation rules, when unit tests execute,
-  then all validation constraints are properly tested and coverage reaches 95% or
-  higher across all model validation logic
+- Given a valid YAML configuration file containing all required fields with correct
+  types, when CanonConfig.from_yaml() loads the content, then all model properties
+  are initialized with the expected values and model_validate() raises no ValidationError
+- Given a YAML configuration missing a required field (e.g., 'name' omitted from a
+  model that requires it), when CanonConfig.from_yaml() is called, then a Pydantic
+  ValidationError is raised whose errors() list contains an entry with type 'missing'
+  and the loc tuple identifying the missing field
+- Given a YAML configuration where a field has the wrong type (e.g., a string where
+  an int is expected), when CanonConfig.from_yaml() is called, then a Pydantic ValidationError
+  is raised whose errors() list contains an entry with a type indicating the type
+  mismatch and the loc tuple identifying the offending field
+- Given a YAML configuration containing an extra key not defined in the model schema,
+  when CanonConfig.from_yaml() is called with models configured as model_config =
+  ConfigDict(extra='forbid'), then a Pydantic ValidationError is raised with an 'extra_forbidden'
+  error type for the unexpected field
+- Given a YAML configuration with nested object structures (e.g., a parent model containing
+  child model fields), when CanonConfig.from_yaml() loads the content, then the nested
+  child models are correctly instantiated and their properties match the YAML values
+- Given a YAML configuration that omits optional fields which have default values
+  defined in the model, when CanonConfig.from_yaml() loads the content, then those
+  fields are populated with their declared default values
+- Given empty string input or None passed as YAML content, when CanonConfig.from_yaml()
+  is called, then a ValueError is raised with a message indicating that the input
+  content is empty or null
+- Given syntactically invalid YAML content (e.g., unmatched brackets, bad indentation),
+  when CanonConfig.from_yaml() attempts to parse it, then a yaml.YAMLError is raised
+  before any Pydantic validation occurs
+- Given the complete test suite for all Pydantic model classes and exception classes,
+  when pytest is run with --cov targeting the models module, then line coverage is
+  at least 95% and every public method and validator on each model class is exercised
+  by at least one test
+- Given each custom exception class defined in the codebase, when a test instantiates
+  the exception with representative arguments and raises it, then the exception message,
+  attributes, and inheritance chain match their documented contract
 complexity: high
 dependencies:
 - feature-001

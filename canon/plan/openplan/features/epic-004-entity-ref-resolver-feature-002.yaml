@@ -1,19 +1,38 @@
 acceptance_criteria:
-- Given a ToolVersion entity ref with tool.name=STAR dot-notation, when EntityRefResolver
-  resolves it against a mock Hippo instance, then it returns the UUID of the matching
-  ToolVersion entity without error
-- Given a GeneAnnotationFile ref with annotation.source=GENCODE dot-notation, when
-  resolved, then the resolver follows the annotation reference field to the GeneAnnotation
-  entity and matches on the source field
-- Given a dot-notation path that exceeds 3 levels deep, when the resolver attempts
-  traversal, then it raises CanonResolutionError with a message indicating maximum
-  traversal depth of 3 was exceeded
-- Given a field name in a dot-notation path that does not exist on the target entity,
-  when the resolver attempts traversal, then it raises CanonResolutionError with the
-  specific missing field name in the message
-- Given a valid 2-level dot-notation path where the intermediate entity exists but
-  has no matching value, when the resolver queries Hippo, then it raises CanonResolutionError
-  with a zero-match explanation
+- Given a ToolVersion entity ref with match field "tool.name" set to "STAR" and a
+  mock Hippo instance containing a ToolVersion whose "tool" reference field points
+  to a Tool entity with name="STAR", when EntityRefResolver.resolve() is called, then
+  it returns the UUID of the matching ToolVersion entity and no exception is raised
+- Given a GeneAnnotationFile entity ref with match field "annotation.source" set to
+  "GENCODE" and a mock Hippo instance containing a GeneAnnotationFile whose "annotation"
+  reference field points to a GeneAnnotation entity with source="GENCODE", when EntityRefResolver.resolve()
+  is called, then it returns the UUID of the matching GeneAnnotationFile entity by
+  following the reference and matching the terminal field
+- "Given an entity ref with a 2-level dot-notation path \"project.org.name\" equal\
+  \ to \"ACME\" and a mock Hippo instance containing the full reference chain (entity\
+  \ \u2192 project \u2192 org with name=\"ACME\"), when EntityRefResolver.resolve()\
+  \ is called, then it successfully traverses both intermediate references and returns\
+  \ the UUID of the matching root entity"
+- Given an entity ref with a dot-notation path "a.b.c.d" that is 4 levels deep (exceeding
+  the maximum depth of 3), when EntityRefResolver.resolve() is called, then it raises
+  CanonResolutionError with a message containing "maximum traversal depth" and the
+  number "3"
+- Given an entity ref with dot-notation path "tool.nonexistent_field" where "nonexistent_field"
+  does not exist on the referenced Tool entity schema, when EntityRefResolver.resolve()
+  is called, then it raises CanonResolutionError with a message containing the field
+  name "nonexistent_field" and indicating it does not exist on the target entity type
+- Given an entity ref with dot-notation path "tool.name" set to "NoSuchTool" and a
+  mock Hippo instance where the intermediate Tool entity exists but no Tool has name="NoSuchTool",
+  when EntityRefResolver.resolve() is called, then it raises CanonResolutionError
+  with a message indicating zero entities matched the resolved query
+- Given an entity ref with a 1-level path (no dot-notation, e.g. match field "name"
+  set to "STAR"), when EntityRefResolver.resolve() is called, then it resolves directly
+  against the target entity type without traversal, confirming backward compatibility
+  with non-dotted field paths
+- Given an entity ref with dot-notation path "tool.name" and a mock Hippo instance
+  where the "tool" reference field on the source entity is null or unset, when EntityRefResolver.resolve()
+  is called, then it raises CanonResolutionError with a message indicating the reference
+  field "tool" could not be followed
 complexity: medium
 dependencies:
 - epic-004-entity-ref-resolver-feature-001

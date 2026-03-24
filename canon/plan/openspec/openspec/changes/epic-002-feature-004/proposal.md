@@ -1,0 +1,17 @@
+# GenomeBuild Entity Schema Definition
+
+## Goal
+GenomeBuild Entity Schema Definition: Define the LinkML schema for the GenomeBuild entity type with required fields and validation rules.
+
+## Acceptance Criteria
+- Given a GenomeBuild LinkML schema class definition exists, when a researcher submits a GenomeBuild entity with all required fields (assembly_name, assembly_accession, organism_name, taxon_id, reference_source) populated with valid values, then the schema validation passes and the entity is created successfully
+- Given a GenomeBuild LinkML schema class definition exists, when a researcher submits a GenomeBuild entity missing one or more required fields, then schema validation rejects the request with error code E001 and the error message lists each missing required field by name
+- Given a GenomeBuild LinkML schema class definition exists, when a researcher submits assembly_accession with a value that does not match the pattern "^GC[AF]_[0-9]{9}\.[0-9]+$", then schema validation rejects the request with a format-constraint error identifying the invalid field and expected pattern
+- Given a GenomeBuild entity has been persisted in Hippo, when a researcher queries the GenomeBuild type definition via the Hippo API, then the response returns the complete LinkML class definition including all slots, their ranges (e.g., string, integer, uriorcurie), required/optional flags, and description annotations
+- Given a GenomeBuild entity exists with an immutable field (assembly_accession), when a researcher issues an update request changing that field's value, then the system rejects the update with an immutability-violation error specifying the field name
+- Given a GenomeBuild schema has been loaded into the Hippo instance, when a researcher queries a specific GenomeBuild entity by identifier, then the response returns all stored properties correctly typed and mapped, including assembly_name (string), taxon_id (integer), and reference_source (uriorcurie)
+- Given the GenomeBuild schema definition YAML file exists, when the LinkML validation tool (gen-linkml or linkml-validate) is run against it, then the tool reports zero errors and confirms the schema is valid LinkML
+
+## Constraints
+- Depends on: feature-001
+- Complexity: low

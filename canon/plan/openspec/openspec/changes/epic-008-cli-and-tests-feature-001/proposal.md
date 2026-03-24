@@ -4,11 +4,13 @@
 CLI Entry Point with Typer Framework: Implement the main Typer application entry point in canon/cli/main.py that registers all command groups and provides the top-level canon CLI.
 
 ## Acceptance Criteria
-- Given canon is installed, when the user runs canon with no arguments, then the Typer help output lists all four command groups (get, plan, rules, and status)
-- Given the user runs canon --help, when the output is inspected, then each command group name and its one-line description are displayed
-- Given the user runs canon invalid-command, when the command executes, then it exits with a non-zero code and prints a helpful error message listing valid commands
-- Given the user runs canon --version, when the output is inspected, then it displays the installed canon package version string
-- Given the Typer app is constructed in canon/cli/main.py, when the module is imported, then no CanonConfigError or other startup exceptions are raised unless canon.yaml is explicitly validated
+- Given canon is installed in the environment, when the user runs `canon` with no arguments, then the process exits with code 0 and stdout contains the Typer-generated help text listing exactly four command groups named "get", "plan", "rules", and "status"
+- Given canon is installed in the environment, when the user runs `canon --help`, then each of the four command groups (get, plan, rules, status) appears on its own line with a one-line description string that is non-empty
+- Given canon is installed in the environment, when the user runs `canon invalid-command` where "invalid-command" is not a registered command group, then the process exits with a non-zero exit code and stderr or stdout contains an error message that includes at least one of the valid command group names
+- Given canon is installed in the environment, when the user runs `canon --version`, then stdout contains a version string matching the pattern MAJOR.MINOR.PATCH (e.g., "0.1.0") that equals the version defined in the canon package metadata
+- Given the canon/cli/main.py module exists, when it is imported via `import canon.cli.main`, then no exception is raised and the module exposes an attribute named `app` that is an instance of typer.Typer
+- Given the Typer app is constructed in canon/cli/main.py, when `app.registered_groups` or the equivalent Typer internals are inspected, then exactly four sub-apps are registered with names "get", "plan", "rules", and "status"
+- Given no canon.yaml configuration file exists in the working directory or default config paths, when the user runs `canon --help`, then the help text is displayed without raising CanonConfigError or any other startup exception
 
 ## Constraints
 - Complexity: low

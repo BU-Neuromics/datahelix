@@ -1,34 +1,53 @@
 acceptance_criteria:
-- Given a researcher defines a production rule schema with required fields missing,
-  when they validate against the ProductionRule model, then validation should raise
-  a Pydantic ValidationError for each missing required field
-- Given a researcher defines a production rule schema with invalid data types, when
-  they validate against the ProductionRule model, then validation should reject invalid
-  data and raise a Pydantic ValidationError for each incorrect type
-- Given a wildcard binding configuration with invalid variable pattern syntax, when
-  they parse with WildcardBinding model, then the parser should raise a ValidationException
-  for malformed patterns
-- Given a wildcard binding configuration with valid variable patterns, when they parse
-  with WildcardBinding model, then all valid patterns should be correctly stored and
-  accessible in the parsed object
-- Given a value resolver configuration specifying URI type with invalid URI format,
-  when they parse with ValueResolver model, then validation should reject the invalid
-  URI and raise a ValidationError
-- Given a value resolver configuration specifying Field type with invalid field reference,
-  when they parse with ValueResolver model, then validation should reject the invalid
-  field reference and raise a ValidationError
-- Given a value resolver configuration specifying Inline type with invalid inline
-  data structure, when they parse with ValueResolver model, then validation should
-  reject the invalid structure and raise a ValidationError
-- Given a value resolver configuration specifying JSON type with invalid JSON content,
-  when they parse with ValueResolver model, then validation should reject the invalid
-  JSON and raise a ValidationError
-- Given a researcher defines a production rule schema with all required fields present
-  and valid data types, when they validate against the ProductionRule model, then
-  validation should pass successfully without any errors
-- Given a wildcard binding configuration with multiple valid variable patterns, when
-  they parse with WildcardBinding model, then all patterns should be correctly parsed
-  and stored in a list structure
+- Given a ProductionRule model instantiated with one or more required fields omitted
+  (e.g., missing `name`, `bindings`, or `resolvers`), when Pydantic v2 validation
+  runs, then a ValidationError is raised whose `errors()` list contains exactly one
+  entry per missing field, each with `type` equal to `"missing"`
+- Given a ProductionRule model instantiated with all required fields present but one
+  or more fields carrying wrong types (e.g., `name` set to an integer, `bindings`
+  set to a string instead of a list), when Pydantic v2 validation runs, then a ValidationError
+  is raised with one entry per type-incorrect field, each with a `type` value indicating
+  the specific type mismatch (e.g., `"string_type"`, `"list_type"`)
+- Given a WildcardBinding model instantiated with a `pattern` value that violates
+  the required variable syntax (e.g., unmatched braces `"{sample_id"`, empty braces
+  `"{}"`, or pattern containing disallowed characters such as spaces or special symbols),
+  when Pydantic v2 validation runs, then a ValidationError is raised whose error entry
+  references the `pattern` field and describes the specific syntax violation
+- Given a WildcardBinding model instantiated with a list of two or more syntactically
+  valid variable patterns (e.g., `["{sample_id}", "{lane}"]`), when the model is successfully
+  constructed, then `model.patterns` is a Python list with length equal to the input
+  count, each element is a string matching the original pattern exactly, and `model.model_dump()`
+  round-trips to a dict that re-validates without error when passed back to `WildcardBinding(**dumped)`
+- Given a ValueResolver model with `resolver_type` set to `"uri"` and `value` set
+  to a string that is not a valid URI (e.g., `"not a uri"`, `"://missing-scheme"`,
+  or an empty string), when Pydantic v2 validation runs, then a ValidationError is
+  raised whose error entry references the `value` field and indicates an invalid URI
+  format
+- Given a ValueResolver model with `resolver_type` set to `"field"` and `value` set
+  to a string that does not conform to dot-notation field reference format (e.g.,
+  `""`, `".leading_dot"`, `"trailing."`, `"has space.field"`, or `"double..dot"`),
+  when Pydantic v2 validation runs, then a ValidationError is raised identifying the
+  `value` field and the specific dot-notation constraint that was violated
+- Given a ValueResolver model with `resolver_type` set to `"inline"` and `value` set
+  to a data structure that violates inline structural constraints (e.g., a plain string
+  instead of a dict, or a dict missing the required `data` key), when Pydantic v2
+  validation runs, then a ValidationError is raised specifying which structural constraint
+  was violated and referencing the `value` field
+- Given a ValueResolver model with `resolver_type` set to `"json"` and `value` set
+  to a string containing malformed JSON (e.g., `"{bad json}"`, trailing commas, or
+  unquoted keys), when Pydantic v2 validation runs, then a ValidationError is raised
+  indicating the JSON content in `value` could not be parsed, with the error message
+  containing the parse failure reason
+- Given a ProductionRule model instantiated with all required fields present, all
+  data types correct, and nested bindings/resolvers each individually valid, when
+  Pydantic v2 validation runs, then no exception is raised, the resulting model instance
+  exposes all fields with their expected values and types, and `ProductionRule(**model.model_dump())`
+  re-validates without error
+- Given a WildcardBinding model instantiated with exactly one valid pattern and a
+  ProductionRule whose `bindings` list contains that WildcardBinding instance, when
+  both models are validated, then `rule.bindings[0]` is the WildcardBinding instance,
+  `rule.bindings[0].patterns[0]` returns the original pattern string, and `rule.model_dump()`
+  includes the nested binding structure with patterns intact
 complexity: medium
 dependencies: []
 description: Implement core Pydantic v2 models for production rules, bindings, resolvers,

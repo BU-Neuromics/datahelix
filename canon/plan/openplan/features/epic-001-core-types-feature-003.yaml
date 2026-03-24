@@ -1,25 +1,33 @@
 acceptance_criteria:
-- Given a scalar parameter definition with a valid numeric value is provided, when
-  ScalarParam is instantiated with that value, then it correctly stores the numeric
-  value and passes validation
-- Given a scalar parameter definition with a string value is provided, when ScalarParam
-  is instantiated with that value, then it correctly stores the string value and passes
-  validation
-- Given an entity reference parameter definition with a valid reference format is
-  provided, when EntityRefParam is constructed with that reference, then it properly
-  parses and stores the entity reference components (type, id)
-- Given an entity reference parameter definition with an invalid reference format
-  is provided, when EntityRefParam is constructed with that reference, then it raises
-  a validation error
-- Given a wildcard parameter configuration with a valid pattern is provided, when
-  WildcardParam is created with that pattern, then it correctly stores the pattern
-  and validates matching against wildcard expressions
-- Given a scalar parameter with an invalid value type is provided, when ScalarParam
-  is instantiated, then it raises a validation error
-- Given an entity reference parameter with a null or empty value is provided, when
-  EntityRefParam is constructed, then it raises a validation error
-- Given a wildcard parameter with no pattern is provided, when WildcardParam is created,
-  then it raises a validation error
+- Given a ScalarParam is instantiated with name="threshold" and value=42 (int), when
+  accessing its stored attributes, then name equals "threshold", value equals 42,
+  and the instance passes validation without error
+- Given a ScalarParam is instantiated with name="label" and value="high" (str), when
+  accessing its stored attributes, then name equals "label", value equals "high",
+  and the instance passes validation without error
+- Given a ScalarParam is instantiated with value=None or a non-permitted type (e.g.,
+  a list), when validation runs, then a ValidationError is raised whose message references
+  the invalid value type
+- Given an EntityRefParam is constructed with reference="sample:ABC-123", when accessing
+  its parsed components, then entity_type equals "sample" and entity_id equals "ABC-123"
+- Given an EntityRefParam is constructed with reference="missing-colon-format", when
+  validation runs, then a ValidationError is raised whose message indicates the reference
+  format is invalid
+- Given an EntityRefParam is constructed with reference="" (empty string) or reference=None,
+  when validation runs, then a ValidationError is raised whose message indicates a
+  null or empty reference
+- Given a WildcardParam is created with pattern="sample_*_v[0-9]", when calling its
+  match method with "sample_RNA_v3", then it returns True; when calling match with
+  "experiment_RNA_v3", then it returns False
+- Given a WildcardParam is created with pattern=None or pattern="" (empty string),
+  when validation runs, then a ValidationError is raised whose message indicates a
+  missing pattern
+- Given a ScalarParam is instantiated with value=3.14 (float), when accessing its
+  value attribute, then it equals 3.14 and the instance passes validation, confirming
+  numeric subtypes are supported
+- Given each parameter dataclass (ScalarParam, EntityRefParam, WildcardParam), when
+  inspected, then each exposes a param_type discriminator field that equals "scalar",
+  "entity_ref", or "wildcard" respectively
 complexity: medium
 dependencies: []
 description: Implement parameter types including ScalarParam, EntityRefParam, and

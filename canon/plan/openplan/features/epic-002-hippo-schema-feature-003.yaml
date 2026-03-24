@@ -1,11 +1,17 @@
 acceptance_criteria:
-- Given a researcher accesses the schema.yaml file, when they look for the GenomeBuild
-  entity type, then it is defined with genome assembly and build date fields of correct
-  types and required attributes
-- Given the schema.yaml file is parsed, when it contains GenomeBuild entity definition,
-  then the genome assembly field is of string type and required
-- Given the schema.yaml file is parsed, when it contains GenomeBuild entity definition,
-  then the build date field is of date type and required
+- Given the schema.yaml file exists, when it is parsed as valid YAML, then a top-level
+  entity type named GenomeBuild is present
+- Given the GenomeBuild entity type is defined in schema.yaml, when its fields are
+  inspected, then a field named genome_assembly exists with type string
+- Given the GenomeBuild entity type is defined in schema.yaml, when the genome_assembly
+  field attributes are inspected, then it is marked as required
+- Given the GenomeBuild entity type is defined in schema.yaml, when its fields are
+  inspected, then a field named build_date exists with type date
+- Given the GenomeBuild entity type is defined in schema.yaml, when the build_date
+  field attributes are inspected, then it is marked as required
+- Given the GenomeBuild entity type is defined in schema.yaml, when a YAML parser
+  loads the file, then the GenomeBuild definition contains no syntax errors and all
+  field type values resolve to valid Hippo DSL types
 complexity: low
 dependencies: []
 description: Implement the GenomeBuild entity type definition in schema.yaml with
