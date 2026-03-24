@@ -39,3 +39,7 @@ canon = "canon.hippo_reference.loader:CanonReferenceLoader"
 
 [project.entry-points."canon.executor_adapters"]
 cwltool = "canon.executors.cwltool:CwltoolAdapter"
+
+# Workflow package entry point (reserved for v0.2 — workflow package support)
+# [project.entry-points."canon.workflow_packages"]
+# example = "canon_workflows_example:ExampleWorkflowPackage"

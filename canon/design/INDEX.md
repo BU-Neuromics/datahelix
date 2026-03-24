@@ -129,3 +129,17 @@
 | Release coupling | Canon package version and its Hippo reference schema are versioned and released together | Schema changes require a new Canon release; no independent schema versioning |
 | Schema location in package | `canon/hippo_reference/` — `loader.py` (ReferenceLoader impl) + `schema.yaml` (entity type definitions) | Discoverable at `canon.hippo_reference.loader:CanonReferenceLoader` via entry point |
 
+
+### Canon Workflow Packages
+
+| Decision | Choice | Rationale |
+|---|---|---|
+| Workflow sharing mechanism | Python packages on PyPI + git (pip install from GitHub) | Ubiquitous, no new registry infrastructure, familiar to Python users |
+| Naming convention | `canon-workflows-<name>` (e.g. `canon-workflows-rnaseq`) | Discoverable via PyPI search; consistent namespace |
+| Entry point group | `canon.workflow_packages` | Enables automatic discovery by Canon at startup |
+| Hippo schema shipping | Workflow packages also register `hippo.reference_loaders` entry point | One package provides plugins for both Canon and Hippo; standard Python entry point pattern |
+| Domain entity types | Workflow package ships `schema.yaml` fragment; applied via `hippo reference install <name>` | Batteries-included install: one pip install + two CLI commands sets up everything |
+| Private/lab workflows | Install from git: `pip install git+https://github.com/org/repo.git` | No PyPI publishing required; entry points work identically from git installs |
+| WorkflowPackage ABC | Defined in `canon.workflows.base` — `name`, `version`, `rules()`, `workflows_dir()`, `schema()` | Same pattern as Hippo's `ReferenceLoader` ABC |
+| Deferred | v0.1 ships without workflow package support; `canon.workflow_packages` entry point reserved | Core resolver and executor must be stable before packaging layer is designed |
+
