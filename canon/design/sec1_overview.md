@@ -13,10 +13,18 @@ It provides a single, composable operation:
 > *Given a specification for a computational artifact, find it in the registry or produce it.*
 
 A "specification" is an entity type and a set of metadata parameters — not a file path. For
-example: "an RNA-seq alignment of sample AD001 against GRCh38 using STAR." Canon checks whether
-a Hippo entity matching that specification already exists. If it does, Canon returns its URI.
-If it does not, Canon finds a rule that can produce it, resolves that rule's inputs the same way
-(recursively), runs the appropriate CWL workflow, and ingests the result back into Hippo.
+example: "an RNA-seq alignment of sample AD001 against GRCh38 using STAR 2.7.11a." Canon checks
+whether a Hippo entity matching that specification already exists. If it does, Canon returns its
+URI. If it does not, Canon finds a rule that can produce it, resolves that rule's inputs the same
+way (recursively), runs the appropriate CWL workflow, and ingests the result back into Hippo.
+
+Parameters in a Canon spec may be scalar values (`min_length=20`) or **entity references**
+(`genome_build=ref:GenomeBuild{name=GRCh38}`). Entity references point to other Hippo entities,
+enabling graph traversal queries — "all alignments using this genome build" or "all analyses that
+used STAR 2.7.11a." Key parameters such as genome build, tool version, and sample are Hippo
+entities; incidental pipeline parameters (quality thresholds, flag values) remain scalars. All
+tool references must include an explicit version — Canon raises an error if a tool version is
+unspecified, because reproducibility requires precision.
 
 Canon is deliberately narrow. It does not manage cohorts, schedule batch jobs, or orchestrate
 multi-sample analyses. Those concerns belong to Cappella. Canon answers one question at a time
@@ -158,8 +166,11 @@ Canon explicitly does not:
 | **Lazy resolution** | Resolve dependencies on demand, not upfront. Walk the rule graph one step at a time. |
 | **Delegate execution** | Canon never runs commands. CWL runners handle all execution details. |
 | **Stateless** | Canon owns no persistent state. Hippo is the record of truth. Canon's ephemeral run state (in-flight jobs) is rebuildable from Hippo. |
-| **CWL-native** | Workflow descriptions are standard CWL. Canon adds only a thin metadata annotation layer for Hippo entity mapping. |
+| **CWL-native** | Workflow descriptions are standard CWL. Canon adds only a thin metadata annotation layer (sidecar YAML) for Hippo entity mapping. |
 | **Composable** | Canon can be used standalone (CLI), embedded in Python, or called by Cappella. The interface is the same in all cases. |
+| **Everything is an entity** | Key parameters (genome build, tool version, sample) are Hippo entities, not flat strings. This enables graph traversal queries and shared reference identity across projects and labs. |
+| **Exact specification required** | All entity reference parameters must be fully specified — including tool version. Ambiguous or partial specs are always an error. Reproducibility requires precision. |
+| **Reproducibility by provenance** | Every produced artifact's `WorkflowRun` entity records the complete execution recipe: CWL file + hash, runner + version, execution environment. No separate audit trail needed. |
 
 ---
 
@@ -168,12 +179,16 @@ Canon explicitly does not:
 | Term | Definition |
 |---|---|
 | **Artifact** | Any computational output tracked by Canon — a file, a metadata record, a derived result. Represented as a Hippo entity with a URI. |
-| **Spec** | A specification for an artifact: entity type + metadata parameter set. `AlignmentFile{genome_build=GRCh38, aligner=STAR, sample_id=AD001}`. |
+| **Spec** | A specification for an artifact: entity type + parameter set, where parameters may be scalars or entity references. `AlignmentFile{genome_build=ref:GenomeBuild{name=GRCh38}, aligner=ref:ToolVersion{tool.name=STAR, version=2.7.11a}, sample=ref:Sample{id=AD001}}`. |
+| **Entity reference** | A parameter whose value is a pointer to another Hippo entity rather than a scalar string. Written as `ref:EntityType{field=value}`. Resolved to a Hippo UUID before lookup. |
 | **Canon rule** | A rule declaring how to produce an artifact of a given type from required inputs, using a specified CWL workflow. |
 | **Resolution** | The process of finding or producing an artifact matching a spec. REUSE if found in Hippo; BUILD if not. |
 | **REUSE** | A resolution decision where a matching artifact already exists in Hippo. No computation performed. |
 | **BUILD** | A resolution decision where no matching artifact exists. Canon runs the CWL workflow to produce it. |
-| **CWL** | Common Workflow Language — a standard, executor-agnostic format for describing computational workflows as DAGs. |
+| **CWL** | Common Workflow Language v1.2 — a standard, executor-agnostic format for describing computational workflows as DAGs. |
 | **CWL runner** | A tool that executes CWL workflows: cwltool (local), Toil (HPC/cloud), Nextflow CWL mode, etc. |
-| **WorkflowRun** | A Hippo entity recording the execution of a Canon rule: inputs, parameters, executor, status, outputs. |
-| **Provenance metadata** | The full set of parameters used to produce an artifact, stored as fields on the Hippo entity. Enables future queries like "all GRCh38/STAR alignments of DLPFC samples." |
+| **Canon sidecar** | A `.canon.yaml` file alongside a CWL workflow that declares the Hippo entity type and identity parameters for each CWL output. Keeps CWL files standard and Canon metadata separate. |
+| **WorkflowRun** | A Hippo entity recording the execution of a Canon rule: CWL file + hash, runner + version, execution environment (Docker/Singularity/conda/module), inputs, outputs, status. |
+| **Tool** | A Hippo entity representing a software tool by name and category (aligner, trimmer, counter, etc.). |
+| **ToolVersion** | A Hippo entity extending `Tool` with a specific version string. Canon rules must reference a `ToolVersion`, never a bare `Tool`. |
+| **Provenance metadata** | The full set of parameters (including entity references) used to produce an artifact, stored as fields on the Hippo entity. Enables queries like "all GRCh38/STAR 2.7.11a alignments of DLPFC samples." |
