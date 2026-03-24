@@ -1,0 +1,21 @@
+acceptance_criteria:
+- Given a circular rule dependency where rule A requires the output of rule B and rule
+  B requires the output of rule A, when RecursivePlanner.resolve is called for either
+  rule, then CanonCycleError is raised before any CWL executor is invoked
+- Given a CanonCycleError is raised, when its cycle_path attribute is inspected, then
+  it contains the full ordered list of entity specs from the start of resolution to
+  the repeated spec, showing the complete cycle
+- Given a non-circular dependency chain of 3 rules, when the planner resolves the
+  top-level rule, then resolution completes successfully and no CanonCycleError is raised
+- Given a dependency graph with an indirect cycle (A -> B -> C -> A), when the planner
+  resolves A, then CanonCycleError is raised with cycle_path showing all three nodes
+- Given two independent resolution calls for different specs, when both are resolved
+  sequentially, then the grey-set from the first call does not affect the second call
+complexity: high
+dependencies: []
+description: Implement grey-set cycle detection in RecursivePlanner to detect circular
+  rule dependencies before any CWL execution begins, raising CanonCycleError with
+  the full cycle path.
+id: epic-005-recursive-planner-feature-002
+spec_ready: true
+title: Grey-set cycle detection

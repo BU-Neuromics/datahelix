@@ -1,0 +1,207 @@
+id: roadmap-canon-v01
+title: Canon v0.1 Semantic Artifact Resolver
+vision_id: canon-vision-v2
+epics:
+  - id: epic-001-core-types
+    title: Core types, config, and exceptions
+    outcome: >
+      CanonConfig, exception hierarchy, parameter types (scalar, entity reference,
+      wildcard), and CanonSpec dataclass are implemented and fully tested, providing
+      the type-safe foundation for all other Canon modules.
+    success_metrics:
+      - name: Type coverage
+        target: "All parameter types (ScalarParam, EntityRefParam, WildcardParam) have unit tests covering construction, equality, and serialization"
+        unit: test cases passing
+      - name: Exception hierarchy
+        target: "8 exception classes defined and documented with structured error fields"
+        unit: exception classes
+    architectural_impact:
+      - component: canon/config.py
+        change_type: new
+        description: CanonConfig dataclass loading from canon.yaml with validation
+      - component: canon/exceptions.py
+        change_type: new
+        description: Full exception hierarchy including CanonConfigError, CanonResolutionError, CanonNoRuleError, CanonCycleError
+      - component: canon/types.py
+        change_type: new
+        description: CanonSpec, EntityRefParam, ScalarParam, WildcardParam, ResolvedInput dataclasses
+    depends_on: []
+
+  - id: epic-002-hippo-schema
+    title: Canon Hippo reference schema
+    outcome: >
+      The canon/hippo_reference/ module is implemented with Tool, ToolVersion,
+      GenomeBuild, GeneAnnotation, and WorkflowRun entity type definitions and a
+      working CanonReferenceLoader that installs the schema via hippo reference install canon.
+    success_metrics:
+      - name: Schema entity types
+        target: "5 entity types defined in schema.yaml with all required fields per design spec"
+        unit: entity types
+      - name: Install command
+        target: "hippo reference install canon completes without errors against a local Hippo test instance"
+        unit: successful installs
+    architectural_impact:
+      - component: canon/hippo_reference/schema.yaml
+        change_type: new
+        description: Entity type definitions for Tool, ToolVersion, GenomeBuild, GeneAnnotation, WorkflowRun
+      - component: canon/hippo_reference/loader.py
+        change_type: new
+        description: CanonReferenceLoader implementing the hippo.reference_loaders entry point
+    depends_on:
+      - epic-001-core-types
+
+  - id: epic-003-rules-dsl
+    title: Rules DSL parser and validator
+    outcome: >
+      canon_rules.yaml and .canon.yaml sidecar files are parsed and validated at
+      Canon startup, with the RuleRegistry providing find_rule lookup and all
+      validation errors reported together before any request is accepted.
+    success_metrics:
+      - name: Validation checks
+        target: "All 9 validation checks implemented and tested including unpropagated wildcard and tool version required"
+        unit: validation checks
+      - name: Parse fidelity
+        target: "canon_rules.yaml with 3 rules (trim_reads, align_reads, count_genes) from the design spec parses and validates without errors"
+        unit: rules parsed correctly
+    architectural_impact:
+      - component: canon/rules/models.py
+        change_type: new
+        description: ProductionRule, InputBinding, ProducesSpec, ExecuteSpec Pydantic models
+      - component: canon/rules/loader.py
+        change_type: new
+        description: RulesLoader parsing canon_rules.yaml with parameter type dispatch
+      - component: canon/rules/registry.py
+        change_type: new
+        description: RuleRegistry with find_rule and rules_for_entity_type methods
+    depends_on:
+      - epic-001-core-types
+
+  - id: epic-004-entity-ref-resolver
+    title: Entity reference resolver and Hippo query client
+    outcome: >
+      EntityRefResolver resolves ref entity-type expressions to Hippo UUIDs
+      including dot-notation field traversal up to 3 levels, and HippoQueryClient
+      provides find_entity, find_entities, ingest_entity, and find_workflow_run
+      operations over the Hippo REST API using httpx.
+    success_metrics:
+      - name: Dot-notation traversal
+        target: "ToolVersion with tool.name dot-notation resolves correctly against a mock Hippo instance with pre-loaded Tool and ToolVersion entities"
+        unit: test cases passing
+      - name: Error specificity
+        target: "Zero-match and multi-match conditions both raise CanonResolutionError with entity type and constraint details"
+        unit: error conditions covered
+    architectural_impact:
+      - component: canon/resolver/entity_ref.py
+        change_type: new
+        description: EntityRefResolver parsing ref syntax, dot-notation traversal, UUID lookup
+      - component: canon/resolver/hippo_client.py
+        change_type: new
+        description: HippoQueryClient wrapping Hippo REST API with httpx
+    depends_on:
+      - epic-001-core-types
+      - epic-002-hippo-schema
+
+  - id: epic-005-recursive-planner
+    title: Recursive planner with cycle detection
+    outcome: >
+      RecursivePlanner implements the full resolve algorithm with grey-set cycle
+      detection, wildcard binding, REUSE and BUILD decisions, and canon plan dry-run
+      output showing the complete dependency tree with node-level decisions.
+    success_metrics:
+      - name: Cycle detection
+        target: "CanonCycleError raised with full cycle path for any circular rule dependency before any CWL execution begins"
+        unit: test cases passing
+      - name: Recursion depth
+        target: "A 3-level dependency chain resolving FastqFile through TrimmedFastqFile to AlignmentFile resolves correctly with mixed REUSE and BUILD decisions"
+        unit: dependency levels handled
+    architectural_impact:
+      - component: canon/resolver/planner.py
+        change_type: new
+        description: RecursivePlanner with resolve, bind_wildcards, cycle detection grey-set, REUSE and BUILD logic
+    depends_on:
+      - epic-003-rules-dsl
+      - epic-004-entity-ref-resolver
+
+  - id: epic-006-cwl-executor
+    title: CWL executor with CwltoolAdapter
+    outcome: >
+      CWLExecutorAdapter ABC and CWLRunResult dataclass are defined, CwltoolAdapter
+      invokes cwltool as a subprocess and parses JSON output, and InputStagingLayer
+      stages remote URIs to local paths for cwltool compatibility.
+    success_metrics:
+      - name: Subprocess execution
+        target: "CwltoolAdapter successfully executes a simple CWL workflow in a unit test and returns a CWLRunResult with outputs and exit_code=0"
+        unit: test cases passing
+      - name: Adapter discovery
+        target: "CwltoolAdapter is discoverable via the canon.executor_adapters entry point group"
+        unit: adapters discoverable
+    architectural_impact:
+      - component: canon/executors/base.py
+        change_type: new
+        description: CWLExecutorAdapter ABC and CWLRunResult dataclass
+      - component: canon/executors/cwltool.py
+        change_type: new
+        description: CwltoolAdapter invoking cwltool subprocess with environment detection
+      - component: canon/executors/staging.py
+        change_type: new
+        description: InputStagingLayer for staging remote URIs to local paths
+    depends_on:
+      - epic-001-core-types
+
+  - id: epic-007-output-ingestion
+    title: Output ingestion and WorkflowRun provenance
+    outcome: >
+      OutputIngestionPipeline evaluates sidecar hippo_fields expressions against
+      CWL output JSON, relocates output files to configured output_storage, POSTs
+      entities to Hippo, and records a WorkflowRun provenance entity with
+      running, completed, and failed status lifecycle management.
+    success_metrics:
+      - name: Ingestion correctness
+        target: "After a mock CWL execution, OutputIngestionPipeline creates an entity in mock Hippo with all identity_fields populated from sidecar expressions"
+        unit: test cases passing
+      - name: WorkflowRun lifecycle
+        target: "WorkflowRun transitions from status=running to status=completed or status=failed for both success and failure execution paths"
+        unit: lifecycle transitions tested
+    architectural_impact:
+      - component: canon/ingestion/sidecar.py
+        change_type: new
+        description: Sidecar loader and hippo_fields expression evaluator
+      - component: canon/ingestion/pipeline.py
+        change_type: new
+        description: OutputIngestionPipeline coordinating CWL output parsing, file relocation, Hippo POST
+      - component: canon/ingestion/provenance.py
+        change_type: new
+        description: WorkflowRun entity construction and Hippo POST with atomicity lifecycle
+    depends_on:
+      - epic-004-entity-ref-resolver
+      - epic-006-cwl-executor
+
+  - id: epic-008-cli-and-tests
+    title: Canon CLI and test suite
+    outcome: >
+      canon get, canon plan, canon rules list and validate, and canon status CLI commands
+      are implemented with Typer, and a full test suite with unit tests per module and
+      integration tests with a mock Hippo instance provides 80% line coverage across Canon.
+    success_metrics:
+      - name: CLI commands
+        target: "4 commands (canon get, canon plan, canon rules, canon status) all exit 0 for valid inputs and non-zero with helpful messages for invalid inputs"
+        unit: commands implemented
+      - name: Unit test coverage
+        target: "80% line coverage across canon/ excluding cli/ entry points"
+        unit: percent line coverage
+      - name: Integration test scenarios
+        target: "At least 3 integration test scenarios: full REUSE path, full BUILD path with dependency resolution, and cycle detection error"
+        unit: integration test scenarios
+    architectural_impact:
+      - component: canon/cli/main.py
+        change_type: new
+        description: Typer app entry point registering all command groups
+      - component: canon/cli/commands/
+        change_type: new
+        description: get.py, plan.py, rules.py, status.py command modules
+      - component: tests/
+        change_type: new
+        description: Unit tests per module and integration tests with mock Hippo server
+    depends_on:
+      - epic-005-recursive-planner
+      - epic-007-output-ingestion

@@ -1,0 +1,24 @@
+acceptance_criteria:
+- Given a valid star_align.canon.yaml sidecar file, when the sidecar loader parses
+  it, then it returns a SidecarOutput object with entity_type, identity_fields, and
+  hippo_fields attributes populated from the YAML
+- Given a sidecar hippo_fields expression referencing outputs.bam.location, when
+  evaluated against a CWL output JSON containing a bam File object, then the expression
+  evaluates to the file URI string
+- Given a sidecar hippo_fields expression referencing inputs.genome_build, when
+  evaluated against the CWL inputs dict, then it returns the value that was passed
+  as genome_build to the CWL workflow
+- Given a sidecar output with an identity_field that is not present in hippo_fields,
+  when the sidecar is validated at startup, then CanonRuleValidationError is raised
+  with the missing field name
+- Given a sidecar referencing a CWL output name that does not exist in the paired
+  workflow's outputs block, when validated at startup, then CanonRuleValidationError
+  is raised identifying the unknown output name
+complexity: medium
+dependencies: []
+description: Implement the sidecar loader that parses .canon.yaml sidecar files and
+  evaluates hippo_fields expressions against CWL output JSON to extract Hippo entity
+  field values.
+id: epic-007-output-ingestion-feature-001
+spec_ready: true
+title: Sidecar Loader and Hippo Fields Expression Evaluator

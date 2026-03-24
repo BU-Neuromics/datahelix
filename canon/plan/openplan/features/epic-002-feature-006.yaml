@@ -1,0 +1,29 @@
+acceptance_criteria:
+- Given a researcher is creating a WorkflowRun entity, when they attempt to instantiate
+  it without the rule_name field, then the schema validation should reject the creation
+  with an explicit error message indicating the missing required field
+- Given a researcher is creating a WorkflowRun entity, when they attempt to instantiate
+  it without the cwl_workflow_hash field, then the schema validation should reject
+  the creation with an explicit error message indicating the missing required field
+- Given a researcher is creating a WorkflowRun entity, when they successfully provide
+  all required fields including rule_name, cwl_workflow_hash, cwl_runner_version,
+  execution_environment, input_entities, output_entity_id, and status, then the schema
+  should accept the creation and store the entity correctly
+- Given a WorkflowRun entity has been created with all required fields, when they
+  query the Hippo instance to retrieve the WorkflowRun type definition, then the LinkML
+  schema should show all 7 required fields properly defined with correct data types
+  and constraints
+- Given a WorkflowRun entity schema is incomplete with missing required fields, when
+  they run validation against the schema, then the validation tool should identify
+  exactly which fields are missing from the required set and provide a detailed list
+  of the missing fields
+complexity: medium
+dependencies:
+- feature-001
+description: Define the LinkML schema for the WorkflowRun entity type with required
+  fields and validation rules, specifically capturing rule_name, cwl_workflow_hash,
+  cwl_runner_version, execution_environment, input_entities, output_entity_id, and
+  status fields.
+id: epic-002-feature-006
+spec_ready: true
+title: WorkflowRun Entity Schema Definition

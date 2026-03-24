@@ -1,0 +1,38 @@
+acceptance_criteria:
+- Given a researcher defines a production rule schema with required fields missing,
+  when they validate against the ProductionRule model, then validation should raise
+  a Pydantic ValidationError for each missing required field
+- Given a researcher defines a production rule schema with invalid data types, when
+  they validate against the ProductionRule model, then validation should reject invalid
+  data and raise a Pydantic ValidationError for each incorrect type
+- Given a wildcard binding configuration with invalid variable pattern syntax, when
+  they parse with WildcardBinding model, then the parser should raise a ValidationException
+  for malformed patterns
+- Given a wildcard binding configuration with valid variable patterns, when they parse
+  with WildcardBinding model, then all valid patterns should be correctly stored and
+  accessible in the parsed object
+- Given a value resolver configuration specifying URI type with invalid URI format,
+  when they parse with ValueResolver model, then validation should reject the invalid
+  URI and raise a ValidationError
+- Given a value resolver configuration specifying Field type with invalid field reference,
+  when they parse with ValueResolver model, then validation should reject the invalid
+  field reference and raise a ValidationError
+- Given a value resolver configuration specifying Inline type with invalid inline
+  data structure, when they parse with ValueResolver model, then validation should
+  reject the invalid structure and raise a ValidationError
+- Given a value resolver configuration specifying JSON type with invalid JSON content,
+  when they parse with ValueResolver model, then validation should reject the invalid
+  JSON and raise a ValidationError
+- Given a researcher defines a production rule schema with all required fields present
+  and valid data types, when they validate against the ProductionRule model, then
+  validation should pass successfully without any errors
+- Given a wildcard binding configuration with multiple valid variable patterns, when
+  they parse with WildcardBinding model, then all patterns should be correctly parsed
+  and stored in a list structure
+complexity: medium
+dependencies: []
+description: Implement core Pydantic v2 models for production rules, bindings, resolvers,
+  and execution plans.
+id: epic-001-feature-001
+spec_ready: true
+title: Pydantic Model Definitions

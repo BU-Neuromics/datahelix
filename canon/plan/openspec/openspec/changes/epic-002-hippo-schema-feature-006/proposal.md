@@ -1,0 +1,14 @@
+# Implement CanonReferenceLoader
+
+## Goal
+Implement CanonReferenceLoader: Create the CanonReferenceLoader class in loader.py that implements the hippo.reference_loaders entry point and installs the schema.
+
+## Acceptance Criteria
+- Given a researcher runs hippo reference install canon command, when it executes against a local Hippo test instance with a valid schema directory, then the schema is installed without errors and all entity types are registered
+- Given the CanonReferenceLoader is instantiated, when it is called with a valid schema path that contains schema files, then it properly loads and processes the schema files without throwing exceptions
+- Given multiple entity types exist in the schema directory, when the loader installs them, then all 5 entity types (Tool, ToolVersion, GenomeBuild, GeneAnnotation, WorkflowRun) are correctly registered in the Hippo instance with proper metadata
+- Given a researcher runs the hippo reference install canon command, when it executes against a local Hippo test instance with an invalid schema path, then it raises a clear error message indicating the path is invalid
+- Given the CanonReferenceLoader is instantiated, when it is called with a schema path that does not contain required schema files, then it raises a ConfigurationError with a descriptive message about missing schema files
+
+## Constraints
+- Complexity: medium

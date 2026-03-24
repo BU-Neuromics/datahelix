@@ -1,0 +1,16 @@
+acceptance_criteria:
+- Given a rule with unpropagated wildcards, when the RulesLoader validates it, then
+  it raises an UnpropagatedWildcardError with field-level diagnostics specifying the
+  wildcard location
+- Given multiple rules where wildcards should propagate but don't, when the RulesLoader
+  processes them, then it reports each inconsistent wildcard with its exact path in
+  the rule structure
+- Given a single rule with correct wildcard propagation, when the RulesLoader validates
+  it, then validation passes without any errors
+complexity: high
+dependencies: []
+description: Validate that wildcards are properly propagated through rules and sidecars
+  with precise error reporting when inconsistencies occur.
+id: epic-003-feature-003
+spec_ready: false
+title: Wildcard Propagation Validation

@@ -1,0 +1,24 @@
+acceptance_criteria:
+- Given a CWL output file at a local file:// path and output_storage configured as
+  type=local with base_path=/data/outputs, when OutputIngestionPipeline relocates the
+  file, then it is moved to /data/outputs/{entity_type}/{date}/{run_id}/ and the uri
+  field in the entity payload reflects the new path
+- Given output_storage configured as type=s3 with bucket and prefix, when the pipeline
+  relocates a CWL output file, then the file is uploaded to the configured S3 path
+  and the uri field is set to the s3:// URI
+- Given relocation of a CWL output file fails due to a missing directory, when the
+  pipeline attempts relocation, then CanonIngestionError is raised with the source
+  and destination paths in the message
+- Given multiple output files from the same CWL run, when the pipeline relocates them,
+  then all files are moved to the same run-specific directory maintaining their basenames
+- Given a successful relocation, when the pipeline returns the final URI, then it does
+  not include the cwltool work directory path but uses the configured output_storage
+  base path
+complexity: medium
+dependencies: []
+description: Implement the output file relocation step that moves CWL output files
+  from the cwltool work directory to the configured output_storage location before
+  Hippo ingestion.
+id: epic-007-output-ingestion-feature-002
+spec_ready: true
+title: Output File Relocation Service

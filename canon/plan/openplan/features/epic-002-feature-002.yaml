@@ -1,0 +1,24 @@
+acceptance_criteria:
+- Given a researcher is defining tool metadata, when they create a Tool entity with
+  all required fields populated with valid data types, then the schema successfully
+  validates the entity and accepts it
+- Given a researcher is defining tool metadata, when they attempt to create a Tool
+  entity without a required field, then the schema rejects the entity with a clear
+  validation error message indicating the missing required field
+- Given a researcher is defining tool metadata, when they create a Tool entity with
+  an invalid data type for a field, then the schema rejects the entity with a clear
+  validation error message indicating the incorrect data type
+- Given a Tool entity has been successfully defined, when they query the Hippo instance
+  for the Tool type definition, then the LinkML schema returns the complete definition
+  showing all mandatory properties with correct data types
+- Given the schema contains missing required fields, when they run schema validation
+  against an incomplete Tool definition, then the tool identifies all missing required
+  fields and reports them in a structured validation output
+complexity: low
+dependencies:
+- feature-001
+description: Define the LinkML schema for the Tool entity type with required fields
+  and validation rules.
+id: epic-002-feature-002
+spec_ready: true
+title: Tool Entity Schema Definition

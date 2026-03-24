@@ -1,0 +1,24 @@
+id: epic-001-core-types
+title: Core types, config, and exceptions
+outcome: >
+  CanonConfig, exception hierarchy, parameter types (scalar, entity reference,
+  wildcard), and CanonSpec dataclass are implemented and fully tested, providing
+  the type-safe foundation for all other Canon modules.
+success_metrics:
+  - name: Type coverage
+    target: "All parameter types (ScalarParam, EntityRefParam, WildcardParam) have unit tests covering construction, equality, and serialization"
+    unit: test cases passing
+  - name: Exception hierarchy
+    target: "8 exception classes defined and documented with structured error fields"
+    unit: exception classes
+architectural_impact:
+  - component: canon/config.py
+    change_type: new
+    description: CanonConfig dataclass loading from canon.yaml with validation
+  - component: canon/exceptions.py
+    change_type: new
+    description: Full exception hierarchy including CanonConfigError, CanonResolutionError, CanonNoRuleError, CanonCycleError
+  - component: canon/types.py
+    change_type: new
+    description: CanonSpec, EntityRefParam, ScalarParam, WildcardParam, ResolvedInput dataclasses
+depends_on: []

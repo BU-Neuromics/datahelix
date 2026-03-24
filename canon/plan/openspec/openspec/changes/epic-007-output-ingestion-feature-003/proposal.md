@@ -1,0 +1,14 @@
+# WorkflowRun Provenance Entity Construction
+
+## Goal
+WorkflowRun Provenance Entity Construction: Implement WorkflowRun entity construction and lifecycle management with status transitions from running to completed or failed and execution atomicity.
+
+## Acceptance Criteria
+- Given a canon_get execution begins, when WorkflowRun entity is created in Hippo before CWL execution, then the entity has status=running and started_at timestamp set to the current time
+- Given a CWL workflow completes successfully and an output entity is ingested, when the WorkflowRun is updated, then its status changes to completed, completed_at is set, output_entity_id holds the ingested entity UUID, and exit_code is 0
+- Given a CWL workflow exits with a non-zero exit code, when the WorkflowRun is updated, then its status changes to failed, error_message contains the captured stderr (up to 64KB), and exit_code reflects the actual exit code
+- Given a WorkflowRun exists with status=running for a given rule and params, when a new canon_get is called for the same spec, then CanonExecutorError is raised before any CWL execution is started citing the in-progress run ID
+- Given a WorkflowRun entity is constructed, when its cwl_workflow_hash field is inspected, then it contains the SHA256 hash of the CWL file content at execution time
+
+## Constraints
+- Complexity: high

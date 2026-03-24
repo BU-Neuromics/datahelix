@@ -1,0 +1,25 @@
+id: epic-008
+title: Canon CLI
+outcome: >
+  All four Canon CLI commands (canon get, canon plan, canon rules, canon status)
+  are implemented with Click, wired to the Canon engine, and each backed by at
+  least one integration test.
+success_metrics:
+  - name: CLI completeness
+    target: >
+      All 4 commands implemented: canon get <entity_type> <params> returns a URI,
+      canon plan prints the REUSE/BUILD tree, canon rules list/validate outputs
+      rule summaries and validation errors, canon status lists recent WorkflowRun
+      entities
+    unit: commands implemented with integration test
+architectural_impact:
+  - component: canon.cli
+    change_type: new
+    description: >
+      Click-based CLI entry point exposing canon get, canon plan, canon rules
+      (subcommands: list, validate), and canon status; each command wired to the
+      Canon engine with structured error output on CanonError subclasses.
+depends_on:
+  - epic-005
+  - epic-007
+features: []

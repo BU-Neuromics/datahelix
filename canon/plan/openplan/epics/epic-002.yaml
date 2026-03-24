@@ -1,0 +1,28 @@
+id: epic-002
+title: Hippo Reference Schema
+outcome: >
+  The hippo-reference-canon schema package is bundled inside canon, installs via
+  "hippo reference install canon", and registers Tool, ToolVersion, GenomeBuild,
+  GeneAnnotation, and WorkflowRun entity types in the active Hippo instance.
+success_metrics:
+  - name: Schema completeness
+    target: >
+      All 5 entity types (Tool, ToolVersion, GenomeBuild, GeneAnnotation, WorkflowRun)
+      defined with correct LinkML fields; "hippo reference install canon" completes
+      without errors on a fresh Hippo instance
+    unit: entity types registered
+  - name: WorkflowRun fields
+    target: >
+      WorkflowRun captures rule_name, cwl_workflow_hash, cwl_runner_version,
+      execution_environment, input_entities, output_entity_id, and status fields
+    unit: required fields present
+architectural_impact:
+  - component: canon.schema
+    change_type: new
+    description: >
+      hippo-reference-canon sub-package containing LinkML YAML schema definitions
+      for the 5 Canon entity types and a ReferenceLoader CLI entry point that
+      calls hippo reference install with the bundled schema.
+depends_on:
+  - epic-001
+features: []

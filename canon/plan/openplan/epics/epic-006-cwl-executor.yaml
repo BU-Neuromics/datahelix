@@ -1,0 +1,25 @@
+id: epic-006-cwl-executor
+title: CWL executor with CwltoolAdapter
+outcome: >
+  CWLExecutorAdapter ABC and CWLRunResult dataclass are defined, CwltoolAdapter
+  invokes cwltool as a subprocess and parses JSON output, and InputStagingLayer
+  stages remote URIs to local paths for cwltool compatibility.
+success_metrics:
+  - name: Subprocess execution
+    target: "CwltoolAdapter successfully executes a simple CWL workflow in a unit test and returns a CWLRunResult with outputs and exit_code=0"
+    unit: test cases passing
+  - name: Adapter discovery
+    target: "CwltoolAdapter is discoverable via the canon.executor_adapters entry point group"
+    unit: adapters discoverable
+architectural_impact:
+  - component: canon/executors/base.py
+    change_type: new
+    description: CWLExecutorAdapter ABC and CWLRunResult dataclass
+  - component: canon/executors/cwltool.py
+    change_type: new
+    description: CwltoolAdapter invoking cwltool subprocess with environment detection
+  - component: canon/executors/staging.py
+    change_type: new
+    description: InputStagingLayer for staging remote URIs to local paths
+depends_on:
+  - epic-001-core-types

@@ -1,0 +1,14 @@
+# Canon Status Command Implementation
+
+## Goal
+Canon Status Command Implementation: Implement the canon status CLI command that queries recent WorkflowRun entities from Hippo and displays their status, timing, and output information.
+
+## Acceptance Criteria
+- Given recent WorkflowRun entities exist in Hippo, when the user runs canon status, then it prints a table showing each run with its rule_name, status, started_at, and output_entity_id fields
+- Given no WorkflowRun entities exist in Hippo, when the user runs canon status, then it prints a message indicating no recent runs and exits with code 0
+- Given the user runs canon status --failed, when the output is inspected, then only WorkflowRun entities with status=failed are displayed including their error_message
+- Given a WorkflowRun entity with status=running, when canon status is run, then that run appears with its started_at timestamp and the elapsed time since it started
+- Given Hippo is unreachable, when canon status attempts to query WorkflowRun entities, then it exits with a non-zero code and prints a connectivity error message
+
+## Constraints
+- Complexity: medium

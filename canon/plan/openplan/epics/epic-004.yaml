@@ -1,0 +1,29 @@
+id: epic-004
+title: Entity Ref Resolver and HippoQueryClient
+outcome: >
+  Entity reference expressions of the form ref:EntityType{field=value,...} resolve
+  to Hippo UUIDs in under 200ms per reference; the HippoQueryClient maps
+  dot-notation paths to Hippo REST filters with client-side post-filtering fallback.
+success_metrics:
+  - name: Resolution latency
+    target: >
+      Single-hop entity ref (e.g. ref:ToolVersion{tool.name=STAR,version=2.7.11a})
+      resolves to a UUID in under 200ms against a local Hippo instance
+    unit: milliseconds per reference
+  - name: Exact-match strictness
+    target: >
+      Partial specs and multi-match results always raise CanonResolutionError;
+      zero silent ambiguous resolutions allowed
+    unit: error rate on ambiguous inputs
+architectural_impact:
+  - component: canon.resolver
+    change_type: new
+    description: >
+      EntityRefResolver parses ref: syntax into EntityType and field constraint
+      dicts; HippoQueryClient translates dot-notation paths to Hippo REST query
+      parameters and applies client-side post-filtering when server JOIN is
+      unsupported.
+depends_on:
+  - epic-001
+  - epic-002
+features: []

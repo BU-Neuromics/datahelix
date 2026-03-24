@@ -1,0 +1,22 @@
+id: epic-002-hippo-schema
+title: Canon Hippo reference schema
+outcome: >
+  The canon/hippo_reference/ module is implemented with Tool, ToolVersion,
+  GenomeBuild, GeneAnnotation, and WorkflowRun entity type definitions and a
+  working CanonReferenceLoader that installs the schema via hippo reference install canon.
+success_metrics:
+  - name: Schema entity types
+    target: "5 entity types defined in schema.yaml with all required fields per design spec"
+    unit: entity types
+  - name: Install command
+    target: "hippo reference install canon completes without errors against a local Hippo test instance"
+    unit: successful installs
+architectural_impact:
+  - component: canon/hippo_reference/schema.yaml
+    change_type: new
+    description: Entity type definitions for Tool, ToolVersion, GenomeBuild, GeneAnnotation, WorkflowRun
+  - component: canon/hippo_reference/loader.py
+    change_type: new
+    description: CanonReferenceLoader implementing the hippo.reference_loaders entry point
+depends_on:
+  - epic-001-core-types

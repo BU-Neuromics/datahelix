@@ -1,0 +1,37 @@
+acceptance_criteria:
+- Given a canon_rules.yaml file exists in the current directory with valid content,
+  when CanonConfig loads it, then the configuration is parsed into typed objects with
+  proper validation errors
+- Given a canon_rules.yaml file exists in the current directory with missing required
+  fields, when CanonConfig attempts to load it, then CanonRuleValidationError is triggered
+  with specific field names mentioned in the error message
+- Given an explicit path to rules file is provided as a parameter, when CanonConfig
+  loads from that path, then the configuration is loaded correctly from the specified
+  location without applying default values
+- Given a canon_rules.yaml file exists in the current directory with invalid YAML
+  syntax, when CanonConfig attempts to load it, then a YAML parsing exception is raised
+  with an appropriate error message
+- Given no canon_rules.yaml file exists in the current directory, when CanonConfig
+  attempts to load it, then a FileNotFoundError is raised with a clear message indicating
+  the missing file
+- Given a canon_rules.yaml file exists but has incorrect data types for fields, when
+  CanonConfig attempts to load it, then validation errors are properly caught and
+  re-raised as CanonRuleValidationError with field names and type information
+- Given a canon_rules.yaml file contains unrecognized fields, when CanonConfig attempts
+  to load it, then a validation error is raised mentioning the unknown fields
+- Given a canon_rules.yaml file has valid content but is read-only, when CanonConfig
+  tries to load and validate it, then the configuration loads successfully without
+  raising any exceptions
+- Given multiple canon_rules.yaml files exist in different directories, when CanonConfig
+  loads from a specific path, then only the file at that location is used regardless
+  of other files present in sibling directories
+- Given a canon_rules.yaml file contains nested objects with valid data structure,
+  when CanonConfig loads it, then all nested configuration values are correctly parsed
+  and validated against their respective Pydantic schemas
+complexity: medium
+dependencies: []
+description: Build CanonConfig loader that reads rules from YAML and validates them
+  against Pydantic schemas.
+id: epic-001-feature-003
+spec_ready: true
+title: Configuration Loader Implementation

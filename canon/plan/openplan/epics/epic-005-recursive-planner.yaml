@@ -1,0 +1,20 @@
+id: epic-005-recursive-planner
+title: Recursive planner with cycle detection
+outcome: >
+  RecursivePlanner implements the full resolve algorithm with grey-set cycle
+  detection, wildcard binding, REUSE and BUILD decisions, and canon plan dry-run
+  output showing the complete dependency tree with node-level decisions.
+success_metrics:
+  - name: Cycle detection
+    target: "CanonCycleError raised with full cycle path for any circular rule dependency before any CWL execution begins"
+    unit: test cases passing
+  - name: Recursion depth
+    target: "A 3-level dependency chain resolving FastqFile through TrimmedFastqFile to AlignmentFile resolves correctly with mixed REUSE and BUILD decisions"
+    unit: dependency levels handled
+architectural_impact:
+  - component: canon/resolver/planner.py
+    change_type: new
+    description: RecursivePlanner with resolve, bind_wildcards, cycle detection grey-set, REUSE and BUILD logic
+depends_on:
+  - epic-003-rules-dsl
+  - epic-004-entity-ref-resolver

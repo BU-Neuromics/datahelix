@@ -1,0 +1,28 @@
+id: epic-003
+title: Rules DSL Parser
+outcome: >
+  canon_rules.yaml and .canon.yaml sidecar files are parsed, validated, and surfaced
+  as typed Python objects at startup; all six validation error classes are raised
+  with precise field-level diagnostics on any rule or sidecar error.
+success_metrics:
+  - name: Validation coverage
+    target: >
+      Startup validation catches 100% of: unpropagated wildcards, missing tool
+      versions, duplicate produces specs, unknown CWL outputs in sidecars, invalid
+      identity_field references, and circular dependency edges
+    unit: validation categories covered
+  - name: Parse latency
+    target: >
+      canon_rules.yaml with 50 rules and 50 sidecars parses and validates in under
+      500ms on a standard laptop
+    unit: milliseconds
+architectural_impact:
+  - component: canon.rules
+    change_type: new
+    description: >
+      RulesLoader that reads canon_rules.yaml, resolves .canon.yaml sidecar files
+      relative to each CWL workflow path, validates wildcard propagation and sidecar
+      consistency, and returns a fully typed list of ProductionRule objects.
+depends_on:
+  - epic-001
+features: []

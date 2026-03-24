@@ -1,0 +1,27 @@
+id: epic-007-output-ingestion
+title: Output ingestion and WorkflowRun provenance
+outcome: >
+  OutputIngestionPipeline evaluates sidecar hippo_fields expressions against
+  CWL output JSON, relocates output files to configured output_storage, POSTs
+  entities to Hippo, and records a WorkflowRun provenance entity with
+  running, completed, and failed status lifecycle management.
+success_metrics:
+  - name: Ingestion correctness
+    target: "After a mock CWL execution, OutputIngestionPipeline creates an entity in mock Hippo with all identity_fields populated from sidecar expressions"
+    unit: test cases passing
+  - name: WorkflowRun lifecycle
+    target: "WorkflowRun transitions from status=running to status=completed or status=failed for both success and failure execution paths"
+    unit: lifecycle transitions tested
+architectural_impact:
+  - component: canon/ingestion/sidecar.py
+    change_type: new
+    description: Sidecar loader and hippo_fields expression evaluator
+  - component: canon/ingestion/pipeline.py
+    change_type: new
+    description: OutputIngestionPipeline coordinating CWL output parsing, file relocation, Hippo POST
+  - component: canon/ingestion/provenance.py
+    change_type: new
+    description: WorkflowRun entity construction and Hippo POST with atomicity lifecycle
+depends_on:
+  - epic-004-entity-ref-resolver
+  - epic-006-cwl-executor

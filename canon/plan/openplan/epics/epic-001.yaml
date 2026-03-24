@@ -1,0 +1,28 @@
+id: epic-001
+title: Core Types, Config, and Exceptions
+outcome: >
+  All foundational Pydantic models, configuration loading, and the Canon exception
+  hierarchy are implemented, giving every downstream component a shared, type-safe
+  contract with zero runtime surprises.
+success_metrics:
+  - name: Type coverage
+    target: >
+      CanonConfig, ProductionRule, WildcardBinding, ValueResolver (URI/Field/Inline/JSON),
+      CanonTask, ExecutionPlan, RunHandle, RunStatus, ExecutorInputs, and all
+      CanonError subclasses implemented and unit-tested
+    unit: types implemented
+architectural_impact:
+  - component: canon.types
+    change_type: new
+    description: >
+      New Python package module defining all Pydantic v2 models and a structured
+      exception hierarchy (CanonError, CanonRuleValidationError, CanonResolutionError,
+      CanonExecutionError, CanonIngestionError) used throughout Canon.
+  - component: canon.config
+    change_type: new
+    description: >
+      CanonConfig loader that reads canon_rules.yaml from the current working
+      directory or an explicit path, validates the YAML against the Pydantic
+      ProductionRule schema, and exposes a typed config object.
+depends_on: []
+features: []

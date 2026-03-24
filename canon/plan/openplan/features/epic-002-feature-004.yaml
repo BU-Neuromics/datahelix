@@ -1,0 +1,33 @@
+acceptance_criteria:
+- Given a researcher is defining genomic build metadata, when they create a GenomeBuild
+  entity with missing required reference genome fields, then the schema validation
+  rejects the entity creation with a clear error message indicating missing fields
+- Given a researcher has created a valid GenomeBuild entity, when they query the Hippo
+  instance for the GenomeBuild type definition, then the response returns a complete
+  LinkML schema definition with all required properties and their data types
+- Given a GenomeBuild schema is missing key genomic fields, when they run validation
+  tool on the schema, then the tool identifies and lists all missing essential genomic
+  build properties with specific error codes
+- Given a researcher is creating a GenomeBuild entity, when they provide invalid reference
+  genome field values that don't match expected formats, then the schema enforces
+  proper data type constraints and rejects invalid entries
+- Given a GenomeBuild entity has been defined in Hippo, when they query for the entity's
+  metadata, then the response includes all required properties with their descriptions
+  and validation rules
+- Given a researcher is updating an existing GenomeBuild entity, when they attempt
+  to modify immutable fields, then the schema enforces field immutability and rejects
+  the update with appropriate error message
+- Given a researcher is defining genomic build metadata, when they create a GenomeBuild
+  entity without providing required properties, then the schema validation throws
+  a specific exception with error code E001 indicating missing required fields
+- Given a GenomeBuild entity exists in the Hippo instance, when they query using LinkML
+  compliant syntax, then the response returns entity data with all properties correctly
+  mapped to their respective types
+complexity: low
+dependencies:
+- feature-001
+description: Define the LinkML schema for the GenomeBuild entity type with required
+  fields and validation rules.
+id: epic-002-feature-004
+spec_ready: true
+title: GenomeBuild Entity Schema Definition

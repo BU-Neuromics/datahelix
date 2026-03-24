@@ -1,0 +1,16 @@
+acceptance_criteria:
+- Given a researcher has defined a topic profile, when they run pubwatch fetch, then
+  new papers matching the profile are retrieved and stored locally
+- Given a paper has been fetched, when the researcher runs pubwatch list, then the
+  paper appears in the local database with title, authors, and abstract
+- Given the NCBI API returns a rate limit error, when pubwatch retries, then it uses
+  exponential backoff and succeeds within 3 attempts
+complexity: medium
+dependencies:
+- feature-001
+description: Create integration tests for all four Canon CLI commands (get, plan,
+  rules, status) using Docker Compose to spin up Hippo instances and reference STAR
+  CWL workflows.
+id: epic-009-feature-002
+spec_ready: false
+title: Integration Test Suite for CLI Commands

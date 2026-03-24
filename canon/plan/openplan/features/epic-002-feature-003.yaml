@@ -1,0 +1,25 @@
+acceptance_criteria:
+- Given a researcher is defining tool versioning, when they create a ToolVersion entity
+  with a valid semantic version format (e.g., "1.2.3"), then the schema accepts the
+  entity and enforces proper version constraint validation
+- Given a researcher is defining tool versioning, when they create a ToolVersion entity
+  with an invalid version format (e.g., "not-a-version"), then the schema rejects
+  the entity with a clear validation error message
+- Given a ToolVersion entity has been successfully defined in the schema, when they
+  query the Hippo instance for ToolVersion type definition, then the ToolVersion type
+  shows correct LinkML definition with required properties including version (string,
+  required), tool_id (string, required), and created_at (datetime, required)
+- Given a researcher has created a ToolVersion entity with proper fields, when they
+  run validation on the schema, then the tool identifies that all version field definitions
+  are correctly defined and present
+- Given a researcher is modifying a ToolVersion entity schema, when they attempt to
+  add a field without proper type definition, then the schema validation detects and
+  rejects the invalid field definition
+complexity: low
+dependencies:
+- feature-001
+description: Define the LinkML schema for the ToolVersion entity type with required
+  fields and validation rules.
+id: epic-002-feature-003
+spec_ready: true
+title: ToolVersion Entity Schema Definition

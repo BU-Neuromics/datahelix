@@ -1,0 +1,14 @@
+# Exception hierarchy implementation
+
+## Goal
+Exception hierarchy implementation: Implement the full exception hierarchy including CanonConfigError, CanonResolutionError, CanonNoRuleError, and CanonCycleError.
+
+## Acceptance Criteria
+- Given a configuration file with invalid YAML syntax, when CanonConfig attempts to parse the file, then it raises CanonConfigError with a structured error field indicating the exact line number where the syntax error occurs
+- Given a configuration with circular dependencies between rules (e.g., ruleA depends on ruleB and ruleB depends on ruleA), when the resolution process runs, then it raises CanonCycleError with a reference to the detected cycle including all nodes in the dependency chain
+- Given a configuration that references a non-existent rule during resolution (e.g., ruleA references ruleC which doesn't exist), when the resolution process runs, then it raises CanonNoRuleError with a field identifying the missing rule name exactly as referenced in the configuration
+- Given a valid configuration file with correct syntax and all referenced rules present, when CanonConfig validates the file, then it returns successfully without raising any exception
+- Given a configuration with valid YAML syntax but invalid values for rule parameters (e.g., ruleA specifies an invalid type), when CanonConfig attempts validation, then it raises CanonConfigError with structured error fields indicating all validation failures including field names and specific error messages
+
+## Constraints
+- Complexity: low

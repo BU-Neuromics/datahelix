@@ -1,0 +1,20 @@
+# Ingest entity operations in HippoQueryClient
+
+## Goal
+Ingest entity operations in HippoQueryClient: Implement ingest_entity method for creating and updating entities in Hippo.
+
+## Acceptance Criteria
+- Given valid entity data with all required fields, when the client calls ingest_entity, then it successfully creates a new entity in Hippo and returns a response containing the entity UUID
+- Given valid entity data that references an existing entity, when the client calls ingest_entity, then it successfully updates the existing entity in Hippo and returns a response containing the same entity UUID
+- Given malformed entity data missing required fields, when the client calls ingest_entity, then it raises a ValidationException with a clear error message indicating which fields are missing
+- Given malformed entity data with invalid field types, when the client calls ingest_entity, then it raises a ValidationException with a clear error message indicating which fields have incorrect types
+- Given entity data with valid UUID field, when the client calls ingest_entity, then it successfully creates or updates the entity and returns the same UUID in response
+- Given entity data without UUID field, when the client calls ingest_entity, then it generates a new UUID for the entity and returns it in the response
+- Given an entity that already exists in Hippo, when the client calls ingest_entity with updated fields, then the entity is correctly updated and all old data is replaced with new values
+- Given invalid authentication credentials, when the client calls ingest_entity, then it raises an AuthenticationException before any data processing occurs
+- Given valid entity data that exceeds field length limits, when the client calls ingest_entity, then it raises a ValidationException with specific error message about field size limits
+- Given valid entity data but no network connectivity, when the client calls ingest_entity, then it raises a NetworkException indicating connection failure
+
+## Constraints
+- Depends on: feature-003
+- Complexity: medium

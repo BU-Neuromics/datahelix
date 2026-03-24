@@ -1,0 +1,30 @@
+id: epic-006
+title: CwltoolAdapter
+outcome: >
+  CwltoolAdapter executes CWL v1.2 workflows via cwltool subprocess, materialises
+  inputs.json from ExecutorInputs, parses outputs, and populates the
+  execution_environment field on WorkflowRun; the CWLExecutorAdapter ABC and
+  canon.executor_adapters entry-point group are in place for plugin adapters.
+success_metrics:
+  - name: Execution success rate
+    target: >
+      CwltoolAdapter runs a reference STAR alignment CWL workflow end-to-end
+      without errors on a Docker-enabled machine; cwltool exit code 0 maps to
+      RunStatus.completed
+    unit: end-to-end execution without error
+  - name: Environment detection coverage
+    target: >
+      execution_environment.type populated for Docker (required) and best-effort
+      for Singularity and bare-metal; unknown type logged as warning, never silent
+    unit: runtime types covered
+architectural_impact:
+  - component: canon.executor
+    change_type: new
+    description: >
+      CWLExecutorAdapter abstract base class, CwltoolAdapter implementation (subprocess,
+      inputs.json materialisation, stdout/stderr capture, output JSON parsing,
+      Docker/Singularity environment detection), and the canon.executor_adapters
+      pkg_resources entry-point group for third-party adapters.
+depends_on:
+  - epic-001
+features: []

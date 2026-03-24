@@ -1,0 +1,40 @@
+acceptance_criteria:
+- Given a researcher is creating a GeneAnnotation entity, when they attempt to save
+  an annotation without a required field "gene_id", then the schema validation rejects
+  the entity with a clear error message indicating the missing field
+- Given a researcher is creating a GeneAnnotation entity, when they provide an annotation
+  with an invalid data type for the "annotation_type" field, then the schema validation
+  rejects the entity with an error message specifying the expected data type
+- Given a researcher has defined a GeneAnnotation entity in the Hippo instance, when
+  they query the schema definition endpoint, then the LinkML schema returns a complete
+  definition with all required properties including gene_id, annotation_type, and
+  source_database
+- Given a researcher is defining a GeneAnnotation entity, when they include an optional
+  field "additional_notes" with a data type of string, then the schema accepts this
+  field and includes it in the LinkML definition as an optional property
+- Given a researcher has created multiple GeneAnnotation entities, when they query
+  the Hippo instance using a filter for annotation_type="functional", then the system
+  returns only annotations matching that type with correct LinkML schema validation
+- Given a researcher is validating existing GeneAnnotation entries, when the schema
+  contains missing required fields, then the validation tool reports each missing
+  field with specific line numbers in the schema file
+- Given a researcher has imported a GeneAnnotation schema, when they attempt to create
+  an entity without all required fields, then the system displays comprehensive error
+  messages identifying all missing required properties
+- Given a researcher is querying the Hippo instance for GeneAnnotation types, when
+  they request validation of the current schema definition, then the validation tool
+  confirms all required properties exist and returns a success status code
+- Given a researcher is editing an existing GeneAnnotation entity, when they modify
+  a field with incorrect data type, then the system prevents the update and returns
+  a detailed error message describing the type mismatch
+- Given multiple researchers are creating GeneAnnotation entities simultaneously,
+  when each creates valid annotations with required fields, then all entities are
+  successfully saved without schema validation conflicts
+complexity: low
+dependencies:
+- feature-001
+description: Define the LinkML schema for the GeneAnnotation entity type with required
+  fields and validation rules.
+id: epic-002-feature-005
+spec_ready: true
+title: GeneAnnotation Entity Schema Definition

@@ -1,0 +1,16 @@
+acceptance_criteria:
+- Given a rule with mismatched tool versions in sidecar, when the RulesLoader validates
+  it, then it raises a ToolVersionError indicating version inconsistency details
+- Given an identity_field reference in rule that doesn't exist in sidecar, when the
+  RulesLoader processes it, then it throws an InvalidIdentityFieldError with specific
+  field name information
+- Given duplicate produces specs across rules and sidecars, when the RulesLoader checks
+  consistency, then it raises a DuplicateProducesSpecError identifying the conflicting
+  specifications
+complexity: high
+dependencies: []
+description: Validate consistency between rule specifications and their corresponding
+  .canon.yaml sidecars including tool version matching and identity field references.
+id: epic-003-feature-004
+spec_ready: false
+title: Sidecar Consistency Validation

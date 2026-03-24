@@ -1,0 +1,14 @@
+# Comprehensive Test Suite Implementation
+
+## Goal
+Comprehensive Test Suite Implementation: Implement comprehensive test suite with unit tests per module and integration tests covering REUSE path, BUILD path with dependency resolution, and cycle detection.
+
+## Acceptance Criteria
+- Given the test suite is run with pytest --cov=canon --cov-report=term-missing, when coverage is measured, then the canon/ package excluding cli/ entry points achieves at least 80% line coverage
+- Given a mock Hippo server is configured with a pre-existing AlignmentFile entity, when the full REUSE integration test runs canon get for that spec, then it returns the entity URI without calling any CWL executor
+- Given a mock Hippo server with no matching entity and a canon_rules.yaml with a trim_reads rule, when the full BUILD integration test runs, then the mock CwltoolAdapter is called with the correct inputs.json and the output entity is ingested into mock Hippo
+- Given a canon_rules.yaml with a circular dependency between two rules, when the cycle detection integration test calls RecursivePlanner.resolve, then CanonCycleError is raised with the expected cycle path before any executor is invoked
+- Given all unit test modules exist under tests/unit/ with one test file per canon module, when pytest tests/unit/ is run, then all tests pass and each module has at least 3 test functions covering normal path, error path, and edge cases
+
+## Constraints
+- Complexity: high

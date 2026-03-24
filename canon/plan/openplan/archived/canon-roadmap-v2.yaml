@@ -1,0 +1,22 @@
+id: canon-roadmap-v2
+title: Canon v0.1 — Semantic Artifact Resolver for BASS
+vision_id: canon-vision-v2
+epics:
+  - id: epic-001
+    title: Core Types, Config, and Exceptions
+  - id: epic-002
+    title: Hippo Reference Schema
+  - id: epic-003
+    title: Rules DSL Parser
+  - id: epic-004
+    title: Entity Ref Resolver and HippoQueryClient
+  - id: epic-005
+    title: Recursive Planner and Cycle Detection
+  - id: epic-006
+    title: CwltoolAdapter
+  - id: epic-007
+    title: Output Ingestion Pipeline and WorkflowRun Provenance
+  - id: epic-008
+    title: Canon CLI
+  - id: epic-009
+    title: Test Suite

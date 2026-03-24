@@ -1,70 +1,141 @@
-id: canon-vision
+id: canon-vision-v2
 
 problem_statement: >
   Bioinformatics teams managing large biobank datasets repeatedly re-run the same
   computational workflows because there is no systematic way to track which processed
   outputs already exist in the metadata store, what parameters were used to produce them,
-  or what raw inputs they depend on. Researchers manually coordinate data dependencies
-  across workflow systems (Nextflow, Snakemake, Cromwell) using ad-hoc file paths and
-  spreadsheets, producing incomplete provenance records and wasted compute time.
-  There is no executor-agnostic layer that can declare "produce AlignmentFile for
-  sample S with genome build hg38" and automatically REUSE an existing result or
-  BUILD it from scratch using the correct production rule and workflow executor.
+  or what raw inputs they depend on. Researchers coordinate data dependencies across
+  workflow systems using ad-hoc file paths and spreadsheets, producing incomplete
+  provenance records and wasted compute time. There is no semantic layer that can take
+  a fully-specified artifact description such as "AlignmentFile for sample AD001, genome
+  GRCh38, STAR 2.7.11a, quality_cutoff=20" and automatically REUSE an existing Hippo
+  entity or BUILD it by recursively resolving dependencies and executing a CWL workflow.
+  Key parameters like ToolVersion and GenomeBuild are not treated as first-class graph
+  entities, preventing cross-project provenance queries such as "all alignments using
+  STAR 2.7.11a against GRCh38."
 
 target_users: >
   Bioinformaticians at academic biobanks and research institutes who manage multi-step
-  omics data processing pipelines against large sample cohorts. Platform engineers
-  responsible for deploying and operating the BASS (Biobank Analysis Support System)
-  infrastructure, including the Hippo metadata database and associated workflow executors.
-  Research scientists who need traceable, reproducible data products with clear provenance
-  linking each output to its exact inputs, rule, and executor version.
+  omics data processing pipelines (RNA-seq, ATAC-seq, WGS) against large sample cohorts.
+  Platform engineers deploying and operating the BASS platform including the Hippo
+  metadata store, Canon resolver, and Cappella orchestrator. Research scientists who
+  need traceable, reproducible data products where every artifact is linked to its exact
+  inputs, CWL workflow, tool version, and execution environment, enabling re-production
+  from the WorkflowRun record alone years later.
 
 objectives:
-  - Enable semantic data dependency resolution against Hippo so bioinformaticians can
-    declare desired outputs by metadata specification rather than by file path
-  - Eliminate redundant recomputation by automatically detecting and reusing existing
-    Hippo entities that satisfy a request (REUSE decision)
-  - Provide executor-agnostic production rules in YAML so teams can swap workflow
-    executors (Nextflow, Snakemake, Cromwell, LocalProcess) without rewriting rules
-  - Record full provenance for every workflow output as a WorkflowRun entity in Hippo,
-    linking outputs to inputs, production rule, and executor used
-  - Deliver a working v0.1 CLI (canon plan, canon run, canon status, canon rules)
-    with LocalProcess and Container executors for single-org deployments
+  - >
+    Deliver a single composable operation, canon get with a spec argument, that returns
+    a URI by checking Hippo first and running a CWL workflow only when no matching
+    artifact exists (REUSE vs BUILD decision).
+  - >
+    Implement entity references as first-class parameters so artifact identity is
+    semantic rather than path-based. The syntax ref:EntityType followed by field
+    constraints resolves to a Hippo UUID, enabling graph traversal queries across
+    projects and labs.
+  - >
+    Bundle the Canon Hippo reference schema (Tool, ToolVersion, GenomeBuild,
+    GeneAnnotation, WorkflowRun entity types) inside the canon package, installed via
+    "hippo reference install canon".
+  - >
+    Implement a lazy recursive resolution algorithm: resolve entity refs to UUIDs,
+    query Hippo for REUSE, find matching production rule, resolve required inputs
+    recursively, execute CWL workflow, ingest outputs, and record WorkflowRun provenance.
+  - >
+    Bundle CwltoolAdapter as the sole built-in CWL executor and expose a
+    CWLExecutorAdapter abstract base class with a canon.executor_adapters entry-point
+    group for plugin adapters such as Toil and Nextflow.
+  - >
+    Implement the Rules DSL (canon_rules.yaml plus dot-canon-yaml sidecars) with full
+    startup validation covering wildcard propagation, tool version required, duplicate
+    produces specs, unknown CWL outputs, and circular dependency detection.
+  - >
+    Deliver CLI commands: canon get for artifact resolution, canon plan for dry-run
+    REUSE/BUILD tree display, canon rules list and validate for rule inspection, and
+    canon status for recent WorkflowRun entities.
+  - >
+    Enforce exact-match-only resolution in v0.1. Partial specs and constraint queries
+    are always errors, never silently resolved. Tool version is always required in rules.
 
 success_metrics:
-  - name: Redundant compute elimination
-    target: "Zero duplicate entity creation — Canon raises a REUSE decision for 100% of requests where a matching Hippo entity already exists"
+  - name: REUSE correctness
+    target: "Zero duplicate entity creation: 100% of requests where a matching Hippo entity exists return REUSE without executing any CWL workflow"
     unit: percent of qualifying requests
 
-  - name: Rule portability
-    target: "The same canon_rules.yaml runs unmodified against LocalProcessAdapter and ContainerAdapter without rule edits"
-    unit: adapters supported with zero rule changes
+  - name: Entity reference resolution latency
+    target: "Entity ref expressions resolve to Hippo UUIDs in under 200ms per reference against a local Hippo instance"
+    unit: milliseconds per reference
 
   - name: Provenance completeness
-    target: "Every BUILD execution produces a WorkflowRun entity in Hippo with input_entity_ids, output_entity_ids, rule_name, and executor fields populated"
-    unit: percent of completed runs
+    target: "Every BUILD execution creates a WorkflowRun entity in Hippo with rule_name, cwl_workflow_hash, cwl_runner_version, execution_environment, input_entities, output_entity_id, and status fields all populated"
+    unit: percent of completed BUILD executions
 
-  - name: Planning latency
-    target: "canon plan resolves a 5-step dependency chain in under 3 seconds against a local Hippo instance with 10k entities"
+  - name: Rule validation coverage
+    target: "canon rules validate catches 100% of unpropagated wildcards, missing tool versions, duplicate produces specs, unknown CWL outputs, and circular dependencies at startup"
+    unit: validation rule categories covered
+
+  - name: Plan latency
+    target: "canon plan resolves a 3-step dependency chain (trim to align to count) in under 2 seconds against a local Hippo instance with 10k entities"
     unit: seconds
 
-  - name: CLI coverage
-    target: "All 4 v0.1 CLI commands (plan, run, status, rules) are implemented and tested with at least 1 integration test each"
-    unit: commands implemented
+  - name: CLI completeness
+    target: "All 4 CLI commands (canon get, canon plan, canon rules, canon status) implemented with at least one integration test each"
+    unit: commands with integration test coverage
 
 risks:
-  - description: Hippo query API may not support the metadata filter patterns needed for wildcard binding resolution
+  - description: >
+      Hippo REST API filter semantics may not support dot-notation traversal for entity
+      reference fields. For example, resolving tool.name=STAR on a ToolVersion entity
+      requires a JOIN query against the Tool entity, not a flat field filter. The
+      HippoQueryClient must map dot-notation paths to whatever Hippo's query interface
+      supports.
     severity: high
-    mitigation: Design the Hippo query client with a filter DSL that maps Canon wildcard specs to Hippo's existing query interface; validate against the Hippo schema early in development
+    mitigation: >
+      Design EntityRefResolver with an explicit dot-notation to Hippo query translation
+      layer. Validate against the actual Hippo query API early in development. If server-
+      side JOINs are unsupported, implement client-side post-filtering with a small
+      bounded result window.
 
-  - description: Circular dependency detection may be incomplete for complex multi-rule graphs
+  - description: >
+      WorkflowRun atomicity: if Canon crashes between CWL completion and Hippo ingestion,
+      a WorkflowRun with status=running is left in Hippo blocking retry. Without a
+      distributed lock, concurrent Canon instances may launch duplicate executions for
+      the same spec.
+    severity: high
+    mitigation: >
+      Implement execution atomicity as specified: write WorkflowRun with status=running
+      before execution, update to completed or failed after. On the next canon get for
+      the same spec, check for an in-progress WorkflowRun before launching. Document
+      that distributed locking for multi-instance deployments is deferred to v0.2.
+
+  - description: >
+      Canon sidecar schema mismatches between hippo_fields expressions and CWL output
+      names may produce silent data quality issues at ingestion time if not caught at
+      startup.
     severity: medium
-    mitigation: Implement cycle detection using DFS with a visited/in-stack set during plan construction; add property-based tests with generated dependency graphs
+    mitigation: >
+      Validate all sidecars at startup as part of canon rules validate: every
+      identity_field must be present in hippo_fields, every CWL output named in the
+      sidecar must exist in the workflow outputs block. Raise CanonRuleValidationError
+      with precise field-level diagnostics.
 
-  - description: canon_outputs.json format ownership is unclear — workflows must write this file but there is no enforced schema
-    severity: medium
-    mitigation: Define and document the canon_outputs.json schema as part of the WorkflowExecutorAdapter contract; validate on ingest and emit clear errors for malformed payloads
-
-  - description: ContainerAdapter behavior differences between Docker and Singularity may cause subtle failures
+  - description: >
+      CwltoolAdapter environment detection using docker inspect or singularity inspect
+      may fail on HPC environments where container runtimes are not accessible from the
+      Canon process, leaving the execution_environment field on WorkflowRun incomplete.
     severity: low
-    mitigation: Abstract container runtime behind a ContainerRuntime enum with separate render paths; test both runtimes in CI
+    mitigation: >
+      Make environment detection best-effort: log a warning if detection fails, record
+      type=unknown with whatever metadata is available. Full environment detection is
+      required for Docker and is optional for other runtimes.
+
+  - description: >
+      Wildcard propagation validation is complex and may surprise rule authors. A wildcard
+      used in requires.match but absent from produces.match triggers an unpropagated
+      wildcard error at startup that may be difficult to diagnose.
+    severity: low
+    mitigation: >
+      Implement CanonRuleValidationError with a specific message identifying the wildcard
+      name, the rule name, and the requires entry where it appears. Provide worked
+      examples in documentation showing correct wildcard threading across trim to align
+      to count rules.

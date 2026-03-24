@@ -1,0 +1,29 @@
+id: epic-009
+title: Test Suite
+outcome: >
+  The Canon test suite covers all nine epics with unit and integration tests;
+  every public API function has at least one unit test, every CLI command has
+  at least one integration test, and the suite passes in a clean CI environment.
+success_metrics:
+  - name: Unit test coverage
+    target: >
+      All public functions in canon.types, canon.config, canon.rules, canon.resolver,
+      canon.planner, canon.executor, canon.ingestion, and canon.cli covered by
+      at least one unit test; pytest exits 0 in CI
+    unit: modules with unit test coverage
+  - name: Integration test coverage
+    target: >
+      All 4 CLI commands (canon get, canon plan, canon rules, canon status) backed
+      by at least one integration test using a local Hippo instance and a reference
+      CWL workflow
+    unit: CLI commands with integration test
+architectural_impact:
+  - component: tests
+    change_type: new
+    description: >
+      pytest test suite under tests/ with unit tests (fixtures, mocks for Hippo
+      and cwltool) and integration tests (Docker Compose Hippo, reference STAR
+      CWL workflow) covering all Canon components end-to-end.
+depends_on:
+  - epic-008
+features: []

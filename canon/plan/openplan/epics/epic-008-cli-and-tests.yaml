@@ -1,0 +1,29 @@
+id: epic-008-cli-and-tests
+title: Canon CLI and test suite
+outcome: >
+  canon get, canon plan, canon rules list and validate, and canon status CLI commands
+  are implemented with Typer, and a full test suite with unit tests per module and
+  integration tests with a mock Hippo instance provides 80% line coverage across Canon.
+success_metrics:
+  - name: CLI commands
+    target: "4 commands (canon get, canon plan, canon rules, canon status) all exit 0 for valid inputs and non-zero with helpful messages for invalid inputs"
+    unit: commands implemented
+  - name: Unit test coverage
+    target: "80% line coverage across canon/ excluding cli/ entry points"
+    unit: percent line coverage
+  - name: Integration test scenarios
+    target: "At least 3 integration test scenarios: full REUSE path, full BUILD path with dependency resolution, and cycle detection error"
+    unit: integration test scenarios
+architectural_impact:
+  - component: canon/cli/main.py
+    change_type: new
+    description: Typer app entry point registering all command groups
+  - component: canon/cli/commands/
+    change_type: new
+    description: get.py, plan.py, rules.py, status.py command modules
+  - component: tests/
+    change_type: new
+    description: Unit tests per module and integration tests with mock Hippo server
+depends_on:
+  - epic-005-recursive-planner
+  - epic-007-output-ingestion

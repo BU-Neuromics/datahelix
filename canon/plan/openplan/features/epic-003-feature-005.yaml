@@ -1,0 +1,16 @@
+acceptance_criteria:
+- Given valid parsed and validated rules data, when the RulesLoader constructs ProductionRule
+  objects, then each object has correct type annotations and properties
+- Given a validation error occurs during object construction, when the RulesLoader
+  attempts to create objects, then it raises an appropriate ValidationException with
+  field-level details
+- Given multiple rules are processed, when the RulesLoader returns ProductionRule
+  objects, then all validated rules are converted into typed objects without data
+  loss
+complexity: medium
+dependencies: []
+description: Convert validated rule data into fully typed ProductionRule objects ready
+  for use in the application.
+id: epic-003-feature-005
+spec_ready: false
+title: Production Rule Object Construction

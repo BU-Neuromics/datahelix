@@ -1,0 +1,25 @@
+id: epic-003-rules-dsl
+title: Rules DSL parser and validator
+outcome: >
+  canon_rules.yaml and .canon.yaml sidecar files are parsed and validated at
+  Canon startup, with the RuleRegistry providing find_rule lookup and all
+  validation errors reported together before any request is accepted.
+success_metrics:
+  - name: Validation checks
+    target: "All 9 validation checks implemented and tested including unpropagated wildcard and tool version required"
+    unit: validation checks
+  - name: Parse fidelity
+    target: "canon_rules.yaml with 3 rules (trim_reads, align_reads, count_genes) from the design spec parses and validates without errors"
+    unit: rules parsed correctly
+architectural_impact:
+  - component: canon/rules/models.py
+    change_type: new
+    description: ProductionRule, InputBinding, ProducesSpec, ExecuteSpec Pydantic models
+  - component: canon/rules/loader.py
+    change_type: new
+    description: RulesLoader parsing canon_rules.yaml with parameter type dispatch
+  - component: canon/rules/registry.py
+    change_type: new
+    description: RuleRegistry with find_rule and rules_for_entity_type methods
+depends_on:
+  - epic-001-core-types

@@ -1,0 +1,33 @@
+id: epic-005
+title: Recursive Planner and Cycle Detection
+outcome: >
+  The Canon planner resolves a complete REUSE/BUILD execution tree for any artifact
+  spec, detects circular dependency chains at planning time before any CWL execution
+  begins, and surfaces a structured ExecutionPlan within 2 seconds for a 3-step chain.
+success_metrics:
+  - name: Plan latency
+    target: >
+      canon plan resolves a trim→align→count 3-step dependency chain in under 2
+      seconds against a local Hippo instance with 10k entities
+    unit: seconds
+  - name: REUSE correctness
+    target: >
+      100% of requests where a matching Hippo entity exists return REUSE decision
+      without launching any CWL workflow
+    unit: percent of qualifying requests
+  - name: Cycle detection
+    target: >
+      All circular dependency chains in artifact specs raise CanonResolutionError
+      at planning time before any workflow execution
+    unit: cycles detected before execution
+architectural_impact:
+  - component: canon.planner
+    change_type: new
+    description: >
+      RecursivePlanner that walks artifact specs depth-first, calls EntityRefResolver
+      for ref: params, queries Hippo for REUSE, matches ProductionRules for BUILD,
+      and constructs a typed ExecutionPlan DAG with cycle detection via DFS colouring.
+depends_on:
+  - epic-003
+  - epic-004
+features: []

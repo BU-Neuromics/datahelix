@@ -1,0 +1,32 @@
+id: epic-007
+title: Output Ingestion Pipeline and WorkflowRun Provenance
+outcome: >
+  Every completed CWL execution writes a WorkflowRun entity to Hippo with all
+  required provenance fields populated, maps CWL outputs to Hippo entity fields
+  via the .canon.yaml sidecar, and handles crash-recovery via status=running
+  sentinel written before execution begins.
+success_metrics:
+  - name: Provenance completeness
+    target: >
+      100% of completed BUILD executions produce a WorkflowRun entity with
+      rule_name, cwl_workflow_hash, cwl_runner_version, execution_environment,
+      input_entities, output_entity_id, and status all populated
+    unit: percent of completed BUILD executions
+  - name: Crash recovery
+    target: >
+      An in-progress WorkflowRun (status=running) blocks a duplicate canon get
+      for the same spec; the user receives a clear CanonExecutionError explaining
+      the running job
+    unit: duplicate executions blocked
+architectural_impact:
+  - component: canon.ingestion
+    change_type: new
+    description: >
+      OutputIngester that reads .canon.yaml sidecar hippo_fields mapping, converts
+      CWL output values to Hippo entity field values, calls Hippo SDK to create
+      the output entity and WorkflowRun, and writes the status=running sentinel
+      before CWL execution begins.
+depends_on:
+  - epic-002
+  - epic-006
+features: []

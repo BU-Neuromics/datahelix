@@ -1,0 +1,15 @@
+# Dot-notation field traversal
+
+## Goal
+Dot-notation field traversal: Implement dot-notation traversal capabilities for EntityRefResolver up to 3 levels deep, allowing field paths like tool.name to traverse reference fields on Hippo entities before matching.
+
+## Acceptance Criteria
+- Given a ToolVersion entity ref with tool.name=STAR dot-notation, when EntityRefResolver resolves it against a mock Hippo instance, then it returns the UUID of the matching ToolVersion entity without error
+- Given a GeneAnnotationFile ref with annotation.source=GENCODE dot-notation, when resolved, then the resolver follows the annotation reference field to the GeneAnnotation entity and matches on the source field
+- Given a dot-notation path that exceeds 3 levels deep, when the resolver attempts traversal, then it raises CanonResolutionError with a message indicating maximum traversal depth of 3 was exceeded
+- Given a field name in a dot-notation path that does not exist on the target entity, when the resolver attempts traversal, then it raises CanonResolutionError with the specific missing field name in the message
+- Given a valid 2-level dot-notation path where the intermediate entity exists but has no matching value, when the resolver queries Hippo, then it raises CanonResolutionError with a zero-match explanation
+
+## Constraints
+- Depends on: epic-004-entity-ref-resolver-feature-001
+- Complexity: medium

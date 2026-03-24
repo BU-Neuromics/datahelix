@@ -1,0 +1,15 @@
+acceptance_criteria:
+- Given a researcher has defined a topic profile, when they run pubwatch fetch, then
+  new papers matching the profile are retrieved and stored locally
+- Given a paper has been fetched, when the researcher runs pubwatch list, then the
+  paper appears in the local database with title, authors, and abstract
+- Given the NCBI API returns a rate limit error, when pubwatch retries, then it uses
+  exponential backoff and succeeds within 3 attempts
+complexity: low
+dependencies: []
+description: Establish comprehensive unit tests for all core Canon modules (types,
+  config, rules, resolver, planner, executor, ingestion, cli) with fixtures and mocks
+  for Hippo and cwltool dependencies.
+id: epic-009-feature-001
+spec_ready: false
+title: Unit Test Suite for Canon Core Modules

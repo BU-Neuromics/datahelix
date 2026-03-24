@@ -1,0 +1,15 @@
+# Define Tool Entity Type
+
+## Goal
+Define Tool Entity Type: Implement the Tool entity type definition in schema.yaml with required fields including name, version, and description.
+
+## Acceptance Criteria
+- Given a researcher accesses the schema.yaml file, when they look for the Tool entity type definition, then it is defined with name, version, and description fields of string type and required
+- Given the schema is validated, when it passes validation checks, then all Tool entity fields are properly typed as strings and marked as required
+- Given a Tool instance is created in memory, when it is validated before saving, then all required Tool fields must be present with valid string values
+- Given a Tool instance is saved to the database, when the save operation succeeds, then all Tool fields are persisted with correct string data types
+- Given an invalid Tool instance is attempted to be saved, when the validation fails due to missing required fields, then an appropriate error message is returned indicating the missing required fields
+- Given a researcher validates the schema.yaml file, when the Tool entity definition passes validation, then no validation errors are reported for the Tool entity fields
+
+## Constraints
+- Complexity: low

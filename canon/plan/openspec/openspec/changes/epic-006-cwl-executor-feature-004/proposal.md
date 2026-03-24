@@ -1,0 +1,15 @@
+# InputStagingLayer Implementation
+
+## Goal
+InputStagingLayer Implementation: Implement InputStagingLayer for staging remote URIs (s3://, drs://) to local paths before passing inputs to cwltool which requires local file:// paths.
+
+## Acceptance Criteria
+- Given an inputs dict containing a CWL File object with an s3:// location, when InputStagingLayer.stage is called with requires_staging=True, then the s3 object is downloaded to work_dir/staging/ and the location is rewritten to the local file:// path in the returned dict
+- Given an inputs dict containing a scalar string value, when InputStagingLayer.stage is called, then the scalar value is passed through unchanged without any download
+- Given the same s3:// URI appears in two input bindings within the same Canon run, when InputStagingLayer stages both, then the file is downloaded only once and both inputs point to the same local staged path
+- Given a drs:// URI in an input binding, when InputStagingLayer stages it, then it resolves the DRS access URL before downloading the file to the staging directory
+- Given staging is requested but the remote URI is unreachable, when InputStagingLayer attempts the download, then it raises CanonExecutorError with the URI and underlying connection error in the message
+
+## Constraints
+- Depends on: epic-006-cwl-executor-feature-003
+- Complexity: medium

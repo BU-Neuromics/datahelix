@@ -1,0 +1,24 @@
+id: epic-004-entity-ref-resolver
+title: Entity reference resolver and Hippo query client
+outcome: >
+  EntityRefResolver resolves entity reference expressions to Hippo UUIDs
+  including dot-notation field traversal up to 3 levels, and HippoQueryClient
+  provides find_entity, find_entities, ingest_entity, and find_workflow_run
+  operations over the Hippo REST API using httpx.
+success_metrics:
+  - name: Dot-notation traversal
+    target: "ToolVersion with tool.name dot-notation resolves correctly against a mock Hippo instance with pre-loaded Tool and ToolVersion entities"
+    unit: test cases passing
+  - name: Error specificity
+    target: "Zero-match and multi-match conditions both raise CanonResolutionError with entity type and constraint details"
+    unit: error conditions covered
+architectural_impact:
+  - component: canon/resolver/entity_ref.py
+    change_type: new
+    description: EntityRefResolver parsing ref syntax, dot-notation traversal, UUID lookup
+  - component: canon/resolver/hippo_client.py
+    change_type: new
+    description: HippoQueryClient wrapping Hippo REST API with httpx
+depends_on:
+  - epic-001-core-types
+  - epic-002-hippo-schema

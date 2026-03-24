@@ -1,0 +1,15 @@
+acceptance_criteria:
+- Given a canon_rules.yaml with 50 rules and 50 sidecars, when the RulesLoader performs
+  full validation, then it completes in under 500ms on standard laptop hardware
+- Given a rule set with unpropagated wildcards, when the RulesLoader runs validation,
+  then it catches and reports this error category correctly
+- Given a rule set with invalid identity_field references, when the RulesLoader validates
+  startup conditions, then it catches this error type within the total validation
+  process
+complexity: high
+dependencies: []
+description: Ensure startup validation catches all defined error categories and completes
+  within target time limit (500ms for 50 rules/50 sidecars).
+id: epic-003-feature-006
+spec_ready: false
+title: Startup Validation Performance
