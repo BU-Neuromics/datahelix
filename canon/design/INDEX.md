@@ -16,8 +16,8 @@
 | `sec3_rules_dsl.md` | 3. Canon Rules DSL | ⬜ Not started | |
 | `sec3b_cwl_integration.md` | 3b. CWL Integration | ✅ Draft complete | |
 | `sec4_resolution_algorithm.md` | 4. Resolution Algorithm | ✅ Draft complete | |
-| `sec5_executor_adapters.md` | 5. Executor Adapters | ⬜ Not started | |
-| `sec6_hippo_integration.md` | 6. Hippo Integration | ⬜ Not started | |
+| `sec5_executor_adapters.md` | 5. Executor Adapters | ✅ Draft complete | |
+| `sec6_hippo_integration.md` | 6. Hippo Integration | ✅ Draft complete | |
 | `sec7_nfr.md` | 7. Non-Functional Requirements | ⬜ Not started | |
 | `reference_canon_yaml.md` | Reference: canon.yaml schema | ⬜ Not started | |
 | `reference_canon_rules_yaml.md` | Reference: canon_rules.yaml schema | ⬜ Not started | |
