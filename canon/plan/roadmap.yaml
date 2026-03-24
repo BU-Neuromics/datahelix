@@ -1,53 +1,51 @@
-# BASS Platform Roadmap
 version: 1.0
-title: BASS Platform Development Roadmap
-description: Roadmap for the Bioinformatics Analysis Software System platform
+title: BASS Platform Roadmap
+description: Roadmap for the BASS (Bioinformatics Analysis Software System) platform
 status: draft
 sections:
   - name: Platform Foundation
-    description: Core infrastructure and foundational components
     status: planned
+    description: Core platform infrastructure and architecture
     items:
-      - title: Data Model Definition
-        description: Define the core data model using LinkML and Hippo DSL
+      - name: SDK Development
         status: planned
-        priority: high
-        dependencies: []
-      - title: Configuration Management
-        description: Establish configuration management system for platform components
+        description: Development of the Python SDK
+      - name: API Gateway Setup
         status: planned
-        priority: high
-        dependencies: []
+        description: Implementation of REST/GraphQL API gateway
   - name: Component Development
-    description: Individual component implementation and integration
     status: planned
+    description: Individual component development and integration
     items:
-      - title: Hippo Metadata Tracking
-        description: Implement metadata tracking capabilities
+      - name: Hippo Metadata Tracking
         status: planned
-        priority: high
-        dependencies: [Data Model Definition]
-      - title: Cappella Workflow Engine
-        description: Develop workflow execution engine
+        description: Metadata tracking system for bioinformatics data
+      - name: Cappella Workflow Engine
         status: planned
-        priority: high
-        dependencies: [Data Model Definition]
-      - title: Aperture Interface Layer
-        description: Create interface layer for user interactions
+        description: Workflow engine for bioinformatics analysis
+      - name: Aperture Interface Layer
         status: planned
-        priority: high
-        dependencies: [Data Model Definition]
-  - name: Integration & Deployment
-    description: Platform integration and deployment orchestration
+        description: GUI and user interaction layer
+      - name: Bridge Integration Middleware
+        status: planned
+        description: Middleware for system integrations
+  - name: Deployment & Operations
     status: planned
+    description: Platform deployment and operational readiness
     items:
-      - title: Bridge Integration Middleware
-        description: Implement integration middleware for system communication
+      - name: CI/CD Pipeline Setup
         status: planned
-        priority: high
-        dependencies: [Hippo Metadata Tracking, Cappella Workflow Engine, Aperture Interface Layer]
-      - title: Platform Deployment
-        description: Deploy platform to target environments
+        description: Continuous integration and deployment pipeline
+      - name: Monitoring & Logging
         status: planned
-        priority: high
-        dependencies: [Bridge Integration Middleware]
+        description: System monitoring and logging infrastructure
+  - name: User Documentation
+    status: planned
+    description: Documentation and training resources
+    items:
+      - name: Developer Guides
+        status: planned
+        description: Technical documentation for developers
+      - name: User Manuals
+        status: planned
+        description: End user documentation and training materials
