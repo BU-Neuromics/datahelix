@@ -44,7 +44,11 @@ See `platform/design/INDEX.md` for full rationale and config format examples.
 | Operational audit (future) | `SyncRun` entities in Hippo — log schema mirrors Hippo entity shape for easy migration |
 | Conditional triggers | `when:` CEL condition on trigger source — same expression language as validators |
 | Tooling | `cappella trigger explain <name>` — shows full trigger chain, subscriptions, conditions |
-| Workflow execution | In scope — pipeline runs treated as a data source; outputs ingested back into Hippo with provenance |
+| Artifact resolution | Delegated entirely to Canon — Cappella calls `canon.resolve(entity_type, params)` for per-sample/per-artifact work; Canon handles REUSE/FETCH/BUILD/FAIL internally |
+| Workflow execution | In scope for aggregate analyses only (multi-sample inputs) — Cappella invokes Canon's `CWLExecutorAdapter` directly and ingests via Canon's `OutputIngestionPipeline`. Single-artifact CWL execution is always Canon's responsibility. |
+| Aggregate analysis (v0.1) | Cappella collects per-sample URIs from Canon, constructs multi-input CWL job, executes directly using Canon's executor adapter layer |
+| Aggregate analysis (v0.3+) | Will be replaced by Canon aggregate rules — Cappella degrades to a thin orchestrator calling `canon.resolve()` for cohort-level entities too |
+| Canon relationship | Canon is Cappella's artifact resolution engine, NOT an external data source adapter. It is structurally different from STARLIMS/REDCap adapters. |
 | Workflow executor strategy | **Open** — wrap Nextflow/Snakemake vs. define own; see open questions |
 
 ---
@@ -53,7 +57,7 @@ See `platform/design/INDEX.md` for full rationale and config format examples.
 
 | Question | Priority | Notes |
 |---|---|---|
-| Workflow executor strategy | High | Does Cappella wrap an existing executor (Nextflow, Snakemake) or define its own? How are workflow definitions versioned and stored in Hippo? |
+| Workflow executor strategy | ~~High~~ **Resolved** | Canon owns per-artifact CWL execution. Cappella delegates artifact resolution to `canon.resolve()`. For v0.1 aggregate/cohort-level analyses (multi-sample inputs), Cappella invokes Canon's `CWLExecutorAdapter` directly and ingests results via `OutputIngestionPipeline`. Cappella does NOT wrap Nextflow/Snakemake — it reuses Canon's executor adapter layer. Aggregate Canon rules (v0.3) will eventually replace direct Cappella CWL execution. |
 | Cappella adapter config format | High | Field mapping + transformation pipeline format not yet designed. Needs to express more than field-to-field mappings: vocabulary normalization, confidence thresholds, conditional transforms. |
 | Idempotency for live synchronous integrations | High (deferred) | Full design when live integrations are scoped: webhook digest deduplication, out-of-order delivery, source timestamp handling. ExternalID upsert is the stable foundation. |
 | Execution backend model | Medium | Local process vs. queue-backed worker vs. HPC submission. Must scale from laptop to cloud without code changes — consistent with Hippo's deployment tier model. |
