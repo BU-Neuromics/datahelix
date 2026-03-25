@@ -2,7 +2,7 @@
 
 **Codename:** Canon  
 **Component:** Semantic Artifact Resolver  
-**Version:** 0.1-draft  
+**Version:** 0.2-draft  
 **Last updated:** 2026-03-24
 
 ---
@@ -17,6 +17,7 @@
 | `sec3b_cwl_integration.md` | 3b. CWL Integration | ✅ Draft complete | |
 | `sec4_resolution_algorithm.md` | 4. Resolution Algorithm | ✅ Draft complete | |
 | `sec5_executor_adapters.md` | 5. Executor Adapters | ✅ Draft complete | |
+| `sec5b_storage_adapters.md` | 5b. Storage Adapters | ✅ Draft complete | v0.2 target; plugin architecture for local/S3/GCS/OSF/iRODS |
 | `sec6_hippo_integration.md` | 6. Hippo Integration | ✅ Draft complete | |
 | `sec7_nfr.md` | 7. Non-Functional Requirements | ✅ Draft complete | |
 | `reference_canon_yaml.md` | Reference: canon.yaml schema | ✅ Draft complete | |
@@ -102,6 +103,7 @@
 | Partial specification / constraint queries | High | v0.1 requires full exact spec; CEL-based constraint predicates deferred to v0.2 |
 | Aggregate/collect rules (sample sets, gather steps) | High | CountsMatrix use case; deferred to v0.2 — Cappella handles set logic in v0.1 |
 | Snakemake/Nextflow native adapter (non-CWL) | Medium | v0.1: CWL only; native adapters as entry-point plugins in v0.2 |
+| Storage adapter plugin system | High | Specified in sec5b; v0.1 has local stub + S3 warn; full plugin system in v0.2 |
 | Visual workflow builder | Low | Use existing CWL editors (Rabix Composer, cwl-viewer) for now |
 | DRS URI integration | Medium | Canon outputs get `self` URI from Hippo; DRS server in Hippo v0.2 |
 | Federation / cross-lab artifact sharing | Low | Hippo DRS + Canon DRS client; deferred to v0.3 |
