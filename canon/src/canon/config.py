@@ -42,21 +42,22 @@ def _substitute_in_obj(obj: Any) -> Any:
 
 
 class OutputStorageConfig(BaseModel):
-    """Configuration for output file storage."""
+    """Configuration for output file storage.
+
+    ``type`` must match a registered ``canon.storage_adapters`` entry point name.
+    Extra fields are passed through to the adapter constructor.
+    """
+
+    model_config = {"extra": "allow"}
 
     type: str
-    base_path: str | None = None  # local
-    bucket: str | None = None  # s3
-    prefix: str = "canon-outputs/"  # s3
-    region: str | None = None  # s3
+    base_path: str | None = None  # used by local adapter
 
     @field_validator("type")
     @classmethod
     def validate_type(cls, v: str) -> str:
-        if v not in ("local", "s3"):
-            raise ValueError(
-                f"canon.yaml: output_storage.type must be one of: local, s3"
-            )
+        if not v:
+            raise ValueError("canon.yaml: output_storage.type is required")
         return v
 
     @model_validator(mode="after")
@@ -64,10 +65,6 @@ class OutputStorageConfig(BaseModel):
         if self.type == "local" and not self.base_path:
             raise ValueError(
                 "canon.yaml: output_storage.base_path is required for type: local"
-            )
-        if self.type == "s3" and not self.bucket:
-            raise ValueError(
-                "canon.yaml: output_storage.bucket is required for type: s3"
             )
         return self
 

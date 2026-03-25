@@ -118,3 +118,23 @@ def test_version_parses_cwltool_format():
 
     assert "cwltool" in version
     assert "3.1" in version
+
+
+# ---------------------------------------------------------------------------
+# Executor storage flags
+# ---------------------------------------------------------------------------
+
+def test_cwltool_adapter_requires_local_staging():
+    adapter = _make_adapter()
+    assert adapter.requires_local_staging is True
+
+
+def test_cwltool_adapter_requires_output_relocation():
+    adapter = _make_adapter()
+    assert adapter.requires_output_relocation is True
+
+
+def test_cwltool_adapter_inherits_flags_from_abc():
+    from canon.executors.base import CWLExecutorAdapter
+    assert CWLExecutorAdapter.requires_local_staging is True
+    assert CWLExecutorAdapter.requires_output_relocation is True

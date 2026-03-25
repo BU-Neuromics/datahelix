@@ -62,3 +62,7 @@ class CanonExecutorError(CanonError):
 
 class CanonIngestionError(CanonError):
     """Raised when output ingestion to Hippo fails."""
+
+
+class CanonStorageError(CanonError):
+    """Raised when a storage adapter operation fails (put, get, exists)."""

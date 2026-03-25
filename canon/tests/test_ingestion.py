@@ -12,6 +12,8 @@ from canon.ingestion.pipeline import OutputIngestionPipeline
 from canon.ingestion.provenance import WorkflowRunBuilder
 from canon.types import Entity
 from canon.executors.base import CWLRunResult
+from canon.exceptions import CanonStorageError
+from canon.storage.local import LocalStorageAdapter
 
 
 # ---------------------------------------------------------------------------
@@ -36,13 +38,8 @@ def _make_sidecar(tmp_path, content=None):
     return p
 
 
-def _make_config(tmp_path):
-    from canon.config import CanonConfig
-    config = MagicMock(spec=CanonConfig)
-    config.output_storage = MagicMock()
-    config.output_storage.type = "local"
-    config.output_storage.base_path = str(tmp_path / "outputs")
-    return config
+def _make_storage_adapter(tmp_path):
+    return LocalStorageAdapter(base_path=str(tmp_path / "outputs"))
 
 
 # ---------------------------------------------------------------------------
@@ -118,7 +115,6 @@ def test_ingestion_pipeline_ingest_calls_hippo(tmp_path):
         uri="/data/out.bam",
     )
     hippo.ingest_entity.return_value = entity
-    config = _make_config(tmp_path)
 
     # Sidecar without URI field to avoid file relocation
     sidecar_content = (
@@ -137,7 +133,7 @@ def test_ingestion_pipeline_ingest_calls_hippo(tmp_path):
     work_dir = str(tmp_path / "run-abc")
     os.makedirs(work_dir, exist_ok=True)
 
-    pipeline = OutputIngestionPipeline(hippo, config)
+    pipeline = OutputIngestionPipeline(hippo, _make_storage_adapter(tmp_path))
     result = pipeline.ingest(
         cwl_result=cwl_result,
         sidecar_path=str(sidecar_file),
@@ -155,7 +151,6 @@ def test_ingestion_pipeline_returns_entity(tmp_path):
     hippo = MagicMock()
     entity = Entity(id="ent-2", entity_type="AlignedReads", data={}, uri=None)
     hippo.ingest_entity.return_value = entity
-    config = _make_config(tmp_path)
 
     sidecar_content = (
         "outputs:\n"
@@ -170,7 +165,7 @@ def test_ingestion_pipeline_returns_entity(tmp_path):
     work_dir = str(tmp_path / "run-xyz")
     os.makedirs(work_dir, exist_ok=True)
 
-    pipeline = OutputIngestionPipeline(hippo, config)
+    pipeline = OutputIngestionPipeline(hippo, _make_storage_adapter(tmp_path))
     result = pipeline.ingest(
         cwl_result=CWLRunResult(exit_code=0, stdout="{}", stderr="", outputs={}),
         sidecar_path=str(sidecar_file),
@@ -225,3 +220,84 @@ def test_workflow_run_builder_write_completed():
     assert call_data["output_entity_id"] == "out-entity-1"
     assert call_data["exit_code"] == 0
     assert result.id == "run-1"
+
+
+# ---------------------------------------------------------------------------
+# Pipeline StorageAdapter delegation
+# ---------------------------------------------------------------------------
+
+def test_pipeline_calls_storage_put_when_uri_field_present(tmp_path):
+    hippo = MagicMock()
+    entity = Entity(id="ent-3", entity_type="AlignedReads", data={}, uri=None)
+    hippo.ingest_entity.return_value = entity
+
+    mock_adapter = MagicMock(spec=LocalStorageAdapter)
+    mock_adapter.build_dest_uri.return_value = f"file://{tmp_path}/storage/alignedreads/run-put/out.bam"
+    mock_adapter.put.return_value = f"file://{tmp_path}/storage/alignedreads/run-put/out.bam"
+
+    # Create a real source file so put() would succeed if not mocked
+    src = tmp_path / "out.bam"
+    src.write_bytes(b"data")
+
+    sidecar_content = (
+        "outputs:\n"
+        "  out:\n"
+        "    entity_type: AlignedReads\n"
+        "    identity_fields: []\n"
+        "    hippo_fields:\n"
+        f"      uri: '{src}'\n"
+    )
+    sidecar_file = tmp_path / "test.canon.yaml"
+    sidecar_file.write_text(sidecar_content)
+
+    work_dir = str(tmp_path / "run-put")
+    os.makedirs(work_dir, exist_ok=True)
+
+    pipeline = OutputIngestionPipeline(hippo, mock_adapter)
+    pipeline.ingest(
+        cwl_result=CWLRunResult(exit_code=0, stdout="{}", stderr="", outputs={}),
+        sidecar_path=str(sidecar_file),
+        cwl_inputs={},
+        rule_name="test",
+        bindings={},
+        work_dir=work_dir,
+    )
+    mock_adapter.put.assert_called_once()
+
+
+def test_pipeline_propagates_canon_storage_error(tmp_path):
+    hippo = MagicMock()
+
+    mock_adapter = MagicMock(spec=LocalStorageAdapter)
+    mock_adapter.build_dest_uri.return_value = "file:///tmp/dest.bam"
+    mock_adapter.put.side_effect = CanonStorageError("disk full")
+
+    src = tmp_path / "out.bam"
+    src.write_bytes(b"data")
+
+    sidecar_content = (
+        "outputs:\n"
+        "  out:\n"
+        "    entity_type: AlignedReads\n"
+        "    identity_fields: []\n"
+        "    hippo_fields:\n"
+        f"      uri: '{src}'\n"
+    )
+    sidecar_file = tmp_path / "test2.canon.yaml"
+    sidecar_file.write_text(sidecar_content)
+
+    work_dir = str(tmp_path / "run-err")
+    os.makedirs(work_dir, exist_ok=True)
+
+    pipeline = OutputIngestionPipeline(hippo, mock_adapter)
+    # CanonStorageError is caught and logged as warning; ingestion proceeds
+    pipeline.ingest(
+        cwl_result=CWLRunResult(exit_code=0, stdout="{}", stderr="", outputs={}),
+        sidecar_path=str(sidecar_file),
+        cwl_inputs={},
+        rule_name="test",
+        bindings={},
+        work_dir=work_dir,
+    )
+    # Storage error was caught — hippo was still called with original URI
+    hippo.ingest_entity.assert_called_once()

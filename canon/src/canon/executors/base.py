@@ -20,6 +20,9 @@ class CWLRunResult:
 class CWLExecutorAdapter(ABC):
     """Abstract base class for CWL executor adapters."""
 
+    requires_local_staging: bool = True
+    requires_output_relocation: bool = True
+
     @abstractmethod
     def run(self, cwl_path: str, inputs: dict[str, Any], work_dir: str) -> CWLRunResult:
         """

@@ -3,17 +3,13 @@
 from __future__ import annotations
 
 import logging
-import shutil
-import uuid
-import warnings
-from datetime import date
 from pathlib import Path
 from typing import Any
 
-from canon.config import CanonConfig
-from canon.exceptions import CanonIngestionError
+from canon.exceptions import CanonIngestionError, CanonStorageError
 from canon.executors.base import CWLRunResult
 from canon.ingestion.sidecar import evaluate_hippo_fields, load_sidecar
+from canon.storage.base import StorageAdapter
 from canon.types import Entity
 
 logger = logging.getLogger(__name__)
@@ -25,13 +21,13 @@ class OutputIngestionPipeline:
 
     For each sidecar output definition:
       1. Evaluate hippo_fields expressions against CWL outputs + inputs
-      2. Optionally relocate output files to managed storage
+      2. Optionally relocate output files via the configured StorageAdapter
       3. POST entity to Hippo
     """
 
-    def __init__(self, hippo_client: Any, config: CanonConfig) -> None:
+    def __init__(self, hippo_client: Any, storage_adapter: StorageAdapter) -> None:
         self._hippo = hippo_client
-        self._config = config
+        self._storage = storage_adapter
 
     def relocate_output(
         self,
@@ -40,10 +36,7 @@ class OutputIngestionPipeline:
         run_id: str,
     ) -> str:
         """
-        Move a CWL output file to managed storage.
-
-        For type=local: copies to <base_path>/<entity_type>/<date>/<run_id>/<filename>
-        For type=s3: returns original URI with a warning (not implemented in v0.1).
+        Move a CWL output file to managed storage via the StorageAdapter.
 
         Args:
             cwl_output_path: Current file path (local URI or path).
@@ -51,35 +44,15 @@ class OutputIngestionPipeline:
             run_id: Run UUID (used in destination path).
 
         Returns:
-            New URI or path string.
+            New canonical URI string.
+
+        Raises:
+            CanonStorageError: if the storage adapter cannot relocate the file.
         """
-        storage = self._config.output_storage
-
-        if storage.type == "s3":
-            warnings.warn(
-                f"S3 output relocation is not implemented in v0.1. "
-                f"Returning original URI: {cwl_output_path}",
-                stacklevel=2,
-            )
-            return cwl_output_path
-
-        # Local storage
-        base = Path(storage.base_path)  # type: ignore[arg-type]
-        today = date.today().isoformat()
-        src = Path(cwl_output_path.removeprefix("file://"))
-        dest_dir = base / entity_type / today / run_id
-        dest_dir.mkdir(parents=True, exist_ok=True)
-        dest = dest_dir / src.name
-
-        try:
-            shutil.copy2(src, dest)
-            logger.info("Relocated %s → %s", src, dest)
-        except OSError as e:
-            raise CanonIngestionError(
-                f"Failed to relocate output {src} to {dest}: {e}"
-            ) from e
-
-        return str(dest)
+        src = cwl_output_path.removeprefix("file://")
+        filename = Path(src).name
+        dest_uri = self._storage.build_dest_uri(entity_type, run_id, filename)
+        return self._storage.put(src, dest_uri)
 
     def ingest(
         self,
@@ -136,7 +109,7 @@ class OutputIngestionPipeline:
                         hippo_fields["uri"] = new_uri
                     elif "location" in hippo_fields:
                         hippo_fields["location"] = new_uri
-                except CanonIngestionError:
+                except CanonStorageError:
                     logger.warning("Could not relocate %s, using original", uri_field)
 
             try:
