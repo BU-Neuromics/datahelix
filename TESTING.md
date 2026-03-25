@@ -105,6 +105,8 @@ PYTHONPATH=hippo/src:canon/src uv run pytest tests/platform/ -v
 3. Check if the relevant contract test fails — if so, follow the contract failure protocol
 4. If unit + contract pass but platform fails, it's an integration issue — add a targeted platform test for the specific interaction, then fix
 
+> **Policy: Contract/platform failures MUST be addressed via TDD.** See [TDD Policy](#tdd-policy) below.
+
 **Markers:**
 - `@pytest.mark.platform` — all platform tests
 - `@pytest.mark.xfail` — known API gaps, with documented reason and revisit note
@@ -133,18 +135,51 @@ These are the behaviors Canon depends on. Any change to these is a breaking chan
 | `query(entity_type, limit=N)` | Returns at most N items. |
 | `create(entity_type, data)` | Returns a dict with `id` (str UUID), `entity_type`, `data`, `version` (int, starts at 1), `created_at`, `updated_at`. |
 | `create()` with missing required field | Raises `ValidationFailure`. |
-| `get(entity_type, id)` | Returns same shape as `create()`. Raises `EntityNotFoundError` if not found. |
-| `supersede_entity(old_id, new_id)` | Marks old entity as superseded. Old entity remains retrievable (soft-delete). |
-| `delete(entity_type, id)` | Returns `True`. Entity excluded from `query()` results. Remains retrievable via `get()` (soft-delete). |
+| `get(entity_type, id)` | Returns same shape as `create()`. Raises `EntityNotFoundError` if not found **or if entity is deleted/superseded** (unless `include_unavailable=True`). |
+| `get(entity_type, id, include_unavailable=True)` | Returns entity regardless of deleted/superseded status. Use for audit/provenance queries only. |
+| `update(entity_type, id, data)` | Updates entity, returns new version. Raises `EntityNotFoundError` if id does not exist. |
+| `supersede_entity(old_id, new_id)` | Marks old entity as superseded. Old entity excluded from `query()` and raises on `get()` by default. |
+| `delete(entity_type, id)` | Returns `True`. Entity excluded from `query()` results and raises on `get()` by default. |
 
-**Known gaps (xfail):**
-- `get()` does not raise `EntityNotFoundError` for deleted entities — reads see soft-deleted records
-- `get()` does not raise `EntityNotFoundError` for superseded entities — reads see superseded records
-- These will change in a future Hippo release; see platform test xfail notes
+**Gaps being addressed via TDD (currently xfail):**
+- `get()` availability filtering — in progress, see `hippo/tests/core/test_client_availability.py`
+- `update()` existence check — in progress, same file
 
 ### HippoQueryClient — Canon's HTTP shim
 
 Canon's `HippoQueryClient` wraps the HTTP API. The `HippoClientShim` in `tests/platform/conftest.py` is the in-process equivalent. When the HTTP API changes, update both.
+
+---
+
+## TDD Policy
+
+**When a contract or platform test fails (or is marked `xfail`), the fix MUST follow this TDD sequence:**
+
+```
+1. RED   — Write unit tests in the affected component (hippo/tests/ or canon/tests/)
+            that assert the desired behavior. Run make test — new tests fail,
+            everything else passes.
+
+2. GREEN — Implement the minimum code change to make the unit tests pass.
+            Run make test — all unit tests pass.
+
+3. REFACTOR — Remove xfail markers from the contract/platform tests that
+               triggered this cycle. Run make test — those tests now pass as
+               hard assertions. 0 failures, 0 unexpected xfails.
+```
+
+**Why this matters:**
+- Contract/platform tests describe *what* we want but at too high a level to drive implementation safely
+- Writing unit tests first forces the API design (method signatures, error types, flag names) to be explicit before touching production code
+- The red→green signal is unambiguous — you know exactly when the implementation is correct
+- You end up with regression coverage at the right layer (component unit tests), not just at the integration level
+
+**When NOT to use TDD:**
+- Trivial one-liner fixes where the behavior is already pinned by existing unit tests
+- Documentation or comment updates
+- Test-only changes (adding more test cases to an existing passing test)
+
+**The test to add lives in the component whose code changes.** If Hippo's `client.py` changes, add tests to `hippo/tests/`. If Canon's `planner.py` changes, add tests to `canon/tests/`. Contract and platform tests are the early warning system; unit tests are where the fix is pinned.
 
 ---
 
