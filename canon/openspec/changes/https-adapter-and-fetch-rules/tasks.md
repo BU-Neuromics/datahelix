@@ -2,7 +2,7 @@
 
 ### Phase 1: HTTPStorageAdapter (TDD)
 
-- [ ] Write RED tests in `tests/test_storage.py` for `HTTPStorageAdapter`:
+- [x] Write RED tests in `tests/test_storage.py` for `HTTPStorageAdapter`:
   - `get()` downloads file (mock httpx.stream, verify file written to local_dir)
   - `get()` raises CanonStorageError on 404 response
   - `get()` raises CanonStorageError on connection error
@@ -12,14 +12,14 @@
   - `put()` raises CanonStorageError("HTTP adapter is read-only")
   - filename is derived from URI path component
   - Entry point discovery: `StorageAdapterRegistry.adapter_for_uri("https://...")` returns `HTTPStorageAdapter`
-- [ ] Run tests — confirm RED
-- [ ] Create `canon/storage/http.py` with `HTTPStorageAdapter`
-- [ ] Add `https` and `http` entry points to `pyproject.toml`
-- [ ] Run tests — confirm GREEN
+- [x] Run tests — confirm RED
+- [x] Create `canon/storage/http.py` with `HTTPStorageAdapter`
+- [x] Add `https` and `http` entry points to `pyproject.toml`
+- [x] Run tests — confirm GREEN
 
 ### Phase 2: FetchRule DSL (TDD)
 
-- [ ] Write RED tests in `tests/test_rules.py` for fetch rules:
+- [x] Write RED tests in `tests/test_rules.py` for fetch rules:
   - `RulesLoader` parses valid fetch rule into `FetchRule` instance
   - `FetchRule` is not an instance of `ProductionRule`
   - `RulesLoader` raises `CanonRulesError` on missing `source_uri`
@@ -27,15 +27,15 @@
   - Mixed production + fetch rules coexist
   - `RuleRegistry.find_fetch_rule()` returns matching rule
   - `RuleRegistry.find_fetch_rule()` returns None when no match
-- [ ] Run tests — confirm RED
-- [ ] Add `FetchRule` dataclass to `canon/rules/models.py`
-- [ ] Update `canon/rules/loader.py` to parse `type: fetch` rules
-- [ ] Update `canon/rules/registry.py` to store and retrieve fetch rules
-- [ ] Run tests — confirm GREEN
+- [x] Run tests — confirm RED
+- [x] Add `FetchRule` dataclass to `canon/rules/models.py`
+- [x] Update `canon/rules/loader.py` to parse `type: fetch` rules
+- [x] Update `canon/rules/registry.py` to store and retrieve fetch rules
+- [x] Run tests — confirm GREEN
 
 ### Phase 3: Planner FETCH Decision (TDD)
 
-- [ ] Write RED tests in `tests/test_planner.py` for FETCH outcome:
+- [x] Write RED tests in `tests/test_planner.py` for FETCH outcome:
   - REUSE wins when entity uri accessible (no FETCH even if rule exists)
   - FETCH triggered when entity uri absent + fetch rule matches
   - FETCH triggered when entity uri inaccessible + fetch rule matches
@@ -49,15 +49,15 @@
   - `FetchCompleted` event data on entity after download
   - `FetchSkipped` event data on entity when dest exists
   - `plan()` returns PlanNode with `decision="FETCH"` and `source_uri` in metadata
-- [ ] Run tests — confirm RED
-- [ ] Implement FETCH branch in `canon/resolver/planner.py`
+- [x] Run tests — confirm RED
+- [x] Implement FETCH branch in `canon/resolver/planner.py`
   - `_plan_internal()`: check REUSE → FETCH → BUILD → FAIL
   - `_execute_fetch()`: skip-if-cached, download, checksum verify, put, update_entity
-- [ ] Run tests — confirm GREEN
+- [x] Run tests — confirm GREEN
 
 ### Phase 4: Full Suite Validation
 
-- [ ] Run `cd canon && uv run pytest tests/ -v --tb=short` — all Canon tests pass
+- [x] Run `cd canon && uv run pytest tests/ -v --tb=short` — all Canon tests pass (133 passed)
 - [ ] Run `make test` at monorepo root — all 3 tiers pass, no regressions
 - [ ] Commit Canon-only changes: `feat(canon): HTTP adapter and fetch rules — REUSE/FETCH/BUILD/FAIL planner`
 

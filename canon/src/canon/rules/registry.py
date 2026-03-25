@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from typing import Any
 
-from canon.rules.models import ProductionRule, is_entity_ref, is_pure_wildcard
+from canon.rules.models import FetchRule, ProductionRule, is_entity_ref, is_pure_wildcard
 
 _ENTITY_REF_RE = re.compile(r"^ref:([A-Za-z][A-Za-z0-9_]*)\{(.*)\}$")
 
@@ -100,15 +100,38 @@ def _rule_matches(
     return True
 
 
-class RuleRegistry:
-    """Registry of all production rules. Provides rule lookup by entity type and params."""
+def _rule_matches_fetch(
+    rule: FetchRule,
+    entity_type: str,
+    resolved_params: dict,
+) -> bool:
+    """Return True if this fetch rule matches the requested entity type and params."""
+    if rule.produces.entity_type != entity_type:
+        return False
+    for param, rule_value in rule.produces.match.items():
+        request_val = resolved_params.get(param)
+        if request_val is None:
+            return False
+        if str(request_val) != str(rule_value):
+            return False
+    return True
 
-    def __init__(self, rules: list[ProductionRule]) -> None:
-        self._rules = rules
-        # Index by entity_type for fast lookup
+
+class RuleRegistry:
+    """Registry of all production and fetch rules."""
+
+    def __init__(self, rules: list[ProductionRule | FetchRule]) -> None:
+        self._all_rules = rules
+        self._rules: list[ProductionRule] = [r for r in rules if isinstance(r, ProductionRule)]
+        self._fetch_rules: list[FetchRule] = [r for r in rules if isinstance(r, FetchRule)]
+        # Index production rules by entity_type for fast lookup
         self._by_type: dict[str, list[ProductionRule]] = {}
-        for rule in rules:
+        for rule in self._rules:
             self._by_type.setdefault(rule.produces.entity_type, []).append(rule)
+        # Index fetch rules by entity_type
+        self._fetch_by_type: dict[str, list[FetchRule]] = {}
+        for rule in self._fetch_rules:
+            self._fetch_by_type.setdefault(rule.produces.entity_type, []).append(rule)
 
     @property
     def rules(self) -> list[ProductionRule]:
@@ -142,5 +165,16 @@ class RuleRegistry:
         """Return a rule by name."""
         for rule in self._rules:
             if rule.name == name:
+                return rule
+        return None
+
+    def find_fetch_rule(
+        self,
+        entity_type: str,
+        resolved_params: dict,
+    ) -> FetchRule | None:
+        """Find a fetch rule matching entity type and resolved parameters."""
+        for rule in self._fetch_by_type.get(entity_type, []):
+            if _rule_matches_fetch(rule, entity_type, resolved_params):
                 return rule
         return None

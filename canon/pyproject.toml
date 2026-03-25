@@ -42,6 +42,8 @@ cwltool = "canon.executors.cwltool:CwltoolAdapter"
 
 [project.entry-points."canon.storage_adapters"]
 local = "canon.storage.local:LocalStorageAdapter"
+https = "canon.storage.http:HTTPStorageAdapter"
+http = "canon.storage.http:HTTPStorageAdapter"
 
 # Workflow package entry point (reserved for v0.2 — workflow package support)
 # [project.entry-points."canon.workflow_packages"]

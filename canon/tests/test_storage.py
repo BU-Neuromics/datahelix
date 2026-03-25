@@ -256,3 +256,166 @@ def test_registry_load_from_entry_points_with_local_config(tmp_path):
     assert isinstance(registry.default_adapter, LocalStorageAdapter)
     assert isinstance(registry.adapter_for_uri("file:///tmp/out.bam"), LocalStorageAdapter)
     assert isinstance(registry.adapter_for_uri("/bare/path"), LocalStorageAdapter)
+
+
+# ---------------------------------------------------------------------------
+# HTTPStorageAdapter — unit tests
+# ---------------------------------------------------------------------------
+
+from canon.storage.http import HTTPStorageAdapter
+
+
+def test_http_adapter_name():
+    adapter = HTTPStorageAdapter()
+    assert adapter.name == "https"
+
+
+def test_http_adapter_uri_schemes():
+    adapter = HTTPStorageAdapter()
+    assert "https" in adapter.uri_schemes
+    assert "http" in adapter.uri_schemes
+
+
+def test_http_adapter_put_raises_read_only():
+    adapter = HTTPStorageAdapter()
+    with pytest.raises(CanonStorageError, match="read-only"):
+        adapter.put("/local/file.txt", "https://example.com/file.txt")
+
+
+def test_http_adapter_build_dest_uri_raises():
+    adapter = HTTPStorageAdapter()
+    with pytest.raises((CanonStorageError, NotImplementedError)):
+        adapter.build_dest_uri("GenomeBuild", "abc-123", "genome.fa.gz")
+
+
+def test_http_adapter_get_downloads_file(tmp_path):
+    """get() streams file and writes to local_dir/<filename>."""
+    import httpx
+    from unittest.mock import patch, MagicMock
+
+    adapter = HTTPStorageAdapter()
+    uri = "https://example.com/data/genome.fa.gz"
+
+    mock_response = MagicMock()
+    mock_response.status_code = 200
+    mock_response.iter_bytes.return_value = [b"FAKEDATA"]
+    mock_response.__enter__ = lambda s: s
+    mock_response.__exit__ = MagicMock(return_value=False)
+
+    with patch("httpx.stream", return_value=mock_response):
+        result = adapter.get(uri, str(tmp_path))
+
+    assert result == tmp_path / "genome.fa.gz"
+    assert (tmp_path / "genome.fa.gz").read_bytes() == b"FAKEDATA"
+
+
+def test_http_adapter_get_raises_on_404(tmp_path):
+    """get() raises CanonStorageError on non-2xx HTTP status."""
+    from unittest.mock import patch, MagicMock
+
+    adapter = HTTPStorageAdapter()
+
+    mock_response = MagicMock()
+    mock_response.status_code = 404
+    mock_response.__enter__ = lambda s: s
+    mock_response.__exit__ = MagicMock(return_value=False)
+
+    with patch("httpx.stream", return_value=mock_response):
+        with pytest.raises(CanonStorageError, match="404"):
+            adapter.get("https://example.com/missing.fa", str(tmp_path))
+
+
+def test_http_adapter_get_raises_on_connection_error(tmp_path):
+    """get() raises CanonStorageError on network failure."""
+    import httpx
+    from unittest.mock import patch
+
+    adapter = HTTPStorageAdapter()
+
+    with patch("httpx.stream", side_effect=httpx.ConnectError("DNS failure")):
+        with pytest.raises(CanonStorageError):
+            adapter.get("https://example.com/file.fa", str(tmp_path))
+
+
+def test_http_adapter_exists_true_on_200():
+    """exists() returns True when HEAD returns 2xx."""
+    from unittest.mock import patch, MagicMock
+
+    adapter = HTTPStorageAdapter()
+
+    mock_response = MagicMock()
+    mock_response.status_code = 200
+
+    with patch("httpx.head", return_value=mock_response):
+        assert adapter.exists("https://example.com/file.fa") is True
+
+
+def test_http_adapter_exists_false_on_404():
+    """exists() returns False when HEAD returns 404."""
+    from unittest.mock import patch, MagicMock
+
+    adapter = HTTPStorageAdapter()
+
+    mock_response = MagicMock()
+    mock_response.status_code = 404
+
+    with patch("httpx.head", return_value=mock_response):
+        assert adapter.exists("https://example.com/missing.fa") is False
+
+
+def test_http_adapter_exists_false_on_connection_error():
+    """exists() returns False (no raise) on network failure."""
+    import httpx
+    from unittest.mock import patch
+
+    adapter = HTTPStorageAdapter()
+
+    with patch("httpx.head", side_effect=httpx.ConnectError("unreachable")):
+        assert adapter.exists("https://example.com/file.fa") is False
+
+
+def test_http_adapter_get_filename_from_uri_path(tmp_path):
+    """Filename is derived from the last component of the URI path."""
+    from unittest.mock import patch, MagicMock
+
+    adapter = HTTPStorageAdapter()
+
+    mock_response = MagicMock()
+    mock_response.status_code = 200
+    mock_response.iter_bytes.return_value = [b"DATA"]
+    mock_response.__enter__ = lambda s: s
+    mock_response.__exit__ = MagicMock(return_value=False)
+
+    with patch("httpx.stream", return_value=mock_response):
+        result = adapter.get("https://example.com/data/genome.fa.gz", str(tmp_path))
+
+    assert result.name == "genome.fa.gz"
+
+
+# ---------------------------------------------------------------------------
+# Integration: entry point discovery for https/http
+# ---------------------------------------------------------------------------
+
+def test_entry_point_discovery_finds_https_adapter():
+    """entry_points('canon.storage_adapters') must include 'https' → HTTPStorageAdapter."""
+    import importlib.metadata
+    eps = importlib.metadata.entry_points(group="canon.storage_adapters")
+    names = [ep.name for ep in eps]
+    assert "https" in names
+    assert "http" in names
+
+    https_ep = next(ep for ep in eps if ep.name == "https")
+    loaded_cls = https_ep.load()
+    assert loaded_cls is HTTPStorageAdapter
+
+
+def test_registry_adapter_for_https_uri():
+    """StorageAdapterRegistry.adapter_for_uri returns HTTPStorageAdapter for https://."""
+    adapter = HTTPStorageAdapter()
+    registry = StorageAdapterRegistry.__new__(StorageAdapterRegistry)
+    registry._adapters = {"https": adapter}
+    registry._scheme_map = {"https": adapter, "http": adapter}
+    registry._default_type = "https"
+
+    result = registry.adapter_for_uri("https://example.com/file.fa")
+    assert isinstance(result, HTTPStorageAdapter)

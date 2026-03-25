@@ -202,3 +202,183 @@ def test_entity_ref_in_rules_is_detected():
     rule = _make_rule("r", "AlignedReads", {"tool_version": "ref:ToolVersion{version=2.7.11a}"})
     assert is_entity_ref(rule.produces.match["tool_version"]) is True
     assert is_entity_ref(rule.produces.match.get("other", "plain")) is False
+
+
+# ---------------------------------------------------------------------------
+# FetchRule dataclass
+# ---------------------------------------------------------------------------
+
+from canon.rules.models import FetchRule
+
+
+def test_fetch_rule_is_not_production_rule():
+    fetch_rule = FetchRule(
+        name="fetch_grch38",
+        produces=ProducesSpec(entity_type="GenomeBuild", match={"name": "GRCh38"}),
+        source_uri="https://example.com/genome.fa.gz",
+    )
+    assert isinstance(fetch_rule, FetchRule)
+    assert not isinstance(fetch_rule, ProductionRule)
+
+
+def test_fetch_rule_optional_checksum():
+    rule = FetchRule(
+        name="fetch_grch38",
+        produces=ProducesSpec(entity_type="GenomeBuild", match={"name": "GRCh38"}),
+        source_uri="https://example.com/genome.fa.gz",
+    )
+    assert rule.checksum_sha256 is None
+
+    rule_with_checksum = FetchRule(
+        name="fetch_grch38",
+        produces=ProducesSpec(entity_type="GenomeBuild", match={"name": "GRCh38"}),
+        source_uri="https://example.com/genome.fa.gz",
+        checksum_sha256="abc123",
+    )
+    assert rule_with_checksum.checksum_sha256 == "abc123"
+
+
+# ---------------------------------------------------------------------------
+# RulesLoader — fetch rules
+# ---------------------------------------------------------------------------
+
+_FETCH_RULE_YAML = {
+    "rules": [
+        {
+            "name": "fetch_grch38_ensembl110",
+            "type": "fetch",
+            "produces": {
+                "entity_type": "GenomeBuild",
+                "match": {"name": "GRCh38", "source": "ensembl", "release": "110"},
+            },
+            "fetch": {
+                "source_uri": "https://ftp.ensembl.org/pub/genome.fa.gz",
+                "checksum_sha256": "abc123",
+            },
+        }
+    ]
+}
+
+
+def test_rules_loader_parses_fetch_rule(tmp_path):
+    p = _write_rules(tmp_path, _FETCH_RULE_YAML)
+    loader = RulesLoader(p)
+    rules = loader.load()
+    assert len(rules) == 1
+    rule = rules[0]
+    assert isinstance(rule, FetchRule)
+    assert rule.name == "fetch_grch38_ensembl110"
+    assert rule.produces.entity_type == "GenomeBuild"
+    assert rule.source_uri == "https://ftp.ensembl.org/pub/genome.fa.gz"
+    assert rule.checksum_sha256 == "abc123"
+
+
+def test_rules_loader_raises_on_missing_source_uri(tmp_path):
+    data = {
+        "rules": [
+            {
+                "name": "bad_fetch",
+                "type": "fetch",
+                "produces": {"entity_type": "GenomeBuild", "match": {}},
+                "fetch": {},
+            }
+        ]
+    }
+    p = _write_rules(tmp_path, data)
+    with pytest.raises(CanonRuleValidationError, match="source_uri"):
+        RulesLoader(p).load()
+
+
+def test_rules_loader_raises_on_invalid_source_uri_scheme(tmp_path):
+    data = {
+        "rules": [
+            {
+                "name": "ftp_fetch",
+                "type": "fetch",
+                "produces": {"entity_type": "GenomeBuild", "match": {}},
+                "fetch": {"source_uri": "ftp://example.com/genome.fa"},
+            }
+        ]
+    }
+    p = _write_rules(tmp_path, data)
+    with pytest.raises(CanonRuleValidationError, match="ftp"):
+        RulesLoader(p).load()
+
+
+def test_rules_loader_mixed_production_and_fetch(tmp_path):
+    _make_cwl_and_sidecar(tmp_path, "workflows/star_align.cwl")
+    data = {
+        "rules": [
+            {
+                "name": "align-reads",
+                "description": "Align with STAR",
+                "produces": {
+                    "entity_type": "AlignedReads",
+                    "match": {"sample": "{sample}", "genome_build": "{genome_build}"},
+                },
+                "requires": [
+                    {"bind": "reads", "entity_type": "RawReads", "match": {"sample": "{sample}"}}
+                ],
+                "execute": {
+                    "workflow": "workflows/star_align.cwl",
+                    "inputs": {"reads_fastq": "{reads.uri}", "genome_build": "{genome_build}"},
+                },
+            },
+            {
+                "name": "fetch_grch38",
+                "type": "fetch",
+                "produces": {"entity_type": "GenomeBuild", "match": {"name": "GRCh38"}},
+                "fetch": {"source_uri": "https://example.com/genome.fa.gz"},
+            },
+        ]
+    }
+    p = _write_rules(tmp_path, data)
+    rules = RulesLoader(p).load()
+    assert len(rules) == 2
+    production = [r for r in rules if isinstance(r, ProductionRule)]
+    fetch = [r for r in rules if isinstance(r, FetchRule)]
+    assert len(production) == 1
+    assert len(fetch) == 1
+
+
+# ---------------------------------------------------------------------------
+# RuleRegistry — fetch rules
+# ---------------------------------------------------------------------------
+
+def test_registry_find_fetch_rule_returns_match():
+    fetch_rule = FetchRule(
+        name="fetch_grch38",
+        produces=ProducesSpec(
+            entity_type="GenomeBuild",
+            match={"name": "GRCh38", "source": "ensembl", "release": "110"},
+        ),
+        source_uri="https://example.com/genome.fa.gz",
+    )
+    registry = RuleRegistry([fetch_rule])
+    result = registry.find_fetch_rule("GenomeBuild", {"name": "GRCh38", "source": "ensembl", "release": "110"})
+    assert result is fetch_rule
+
+
+def test_registry_find_fetch_rule_returns_none_no_match():
+    fetch_rule = FetchRule(
+        name="fetch_grch38",
+        produces=ProducesSpec(
+            entity_type="GenomeBuild",
+            match={"name": "GRCh38"},
+        ),
+        source_uri="https://example.com/genome.fa.gz",
+    )
+    registry = RuleRegistry([fetch_rule])
+    result = registry.find_fetch_rule("GenomeBuild", {"name": "CHM13", "release": "2.0"})
+    assert result is None
+
+
+def test_registry_find_fetch_rule_wrong_entity_type():
+    fetch_rule = FetchRule(
+        name="fetch_grch38",
+        produces=ProducesSpec(entity_type="GenomeBuild", match={"name": "GRCh38"}),
+        source_uri="https://example.com/genome.fa.gz",
+    )
+    registry = RuleRegistry([fetch_rule])
+    result = registry.find_fetch_rule("AlignedReads", {"name": "GRCh38"})
+    assert result is None

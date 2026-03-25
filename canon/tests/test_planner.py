@@ -200,3 +200,373 @@ def test_plan_does_not_call_executor():
     planner = _make_planner(hippo=hippo, registry=registry, executor=executor)
     planner.plan("AlignedReads", {"sample": "S001"})
     executor.run.assert_not_called()
+
+
+# ---------------------------------------------------------------------------
+# FETCH path — helpers and tests
+# ---------------------------------------------------------------------------
+
+from canon.rules.models import FetchRule
+from canon.rules.models import ProducesSpec as FetchProducesSpec
+
+
+def _make_fetch_rule(name="fetch-genome", entity_type="GenomeBuild", match=None, checksum=None):
+    return FetchRule(
+        name=name,
+        produces=ProducesSpec(
+            entity_type=entity_type,
+            match=match or {"name": "GRCh38"},
+        ),
+        source_uri="https://example.com/genome.fa.gz",
+        checksum_sha256=checksum,
+    )
+
+
+def _make_planner_with_fetch(
+    hippo=None,
+    registry=None,
+    storage_adapter=None,
+    https_adapter=None,
+    executor=None,
+    work_dir="/tmp/canon-test-work",
+):
+    hippo = hippo or MagicMock()
+    registry = registry if registry is not None else RuleRegistry([])
+    ref_resolver = MagicMock()
+    ref_resolver.resolve.return_value = _make_entity()
+    storage_adapter = storage_adapter or MagicMock()
+    https_adapter = https_adapter or MagicMock()
+    return RecursivePlanner(
+        hippo_client=hippo,
+        rule_registry=registry,
+        entity_ref_resolver=ref_resolver,
+        executor=executor,
+        storage_adapter=storage_adapter,
+        https_adapter=https_adapter,
+        work_dir_base=work_dir,
+    )
+
+
+def test_reuse_wins_when_uri_accessible():
+    """REUSE when entity exists with uri AND storage_adapter.exists(uri) is True."""
+    hippo = MagicMock()
+    entity = _make_entity(uri="file:///data/genome.fa.gz")
+    hippo.find_entity.return_value = entity
+
+    fetch_rule = _make_fetch_rule()
+    registry = RuleRegistry([fetch_rule])
+
+    storage_adapter = MagicMock()
+    storage_adapter.exists.return_value = True
+
+    planner = _make_planner_with_fetch(hippo=hippo, registry=registry, storage_adapter=storage_adapter)
+    node = planner.plan("GenomeBuild", {"name": "GRCh38"})
+    assert node.decision == "REUSE"
+
+
+def test_fetch_triggered_when_entity_uri_absent():
+    """FETCH when entity exists but uri is None and fetch rule matches."""
+    hippo = MagicMock()
+    entity = Entity(id="ent-1", entity_type="GenomeBuild", data={}, uri=None)
+    hippo.find_entity.return_value = entity
+
+    fetch_rule = _make_fetch_rule()
+    registry = RuleRegistry([fetch_rule])
+
+    storage_adapter = MagicMock()
+    storage_adapter.exists.return_value = False  # dest not cached
+    storage_adapter.build_dest_uri.return_value = "file:///storage/genome.fa.gz"
+
+    https_adapter = MagicMock()
+    https_adapter.get.return_value = MagicMock()  # local path
+
+    planner = _make_planner_with_fetch(
+        hippo=hippo, registry=registry,
+        storage_adapter=storage_adapter,
+        https_adapter=https_adapter,
+    )
+    node = planner.plan("GenomeBuild", {"name": "GRCh38"})
+    assert node.decision == "FETCH"
+
+
+def test_fetch_triggered_when_entity_uri_inaccessible():
+    """FETCH when entity exists with uri but storage_adapter.exists(uri) returns False."""
+    hippo = MagicMock()
+    entity = _make_entity(entity_type="GenomeBuild", uri="file:///old/path/genome.fa.gz")
+    hippo.find_entity.return_value = entity
+
+    fetch_rule = _make_fetch_rule()
+    registry = RuleRegistry([fetch_rule])
+
+    storage_adapter = MagicMock()
+    # First call (checking entity uri): False; second call (checking dest_uri): False
+    storage_adapter.exists.return_value = False
+    storage_adapter.build_dest_uri.return_value = "file:///storage/genome.fa.gz"
+
+    planner = _make_planner_with_fetch(
+        hippo=hippo, registry=registry, storage_adapter=storage_adapter
+    )
+    node = planner.plan("GenomeBuild", {"name": "GRCh38"})
+    assert node.decision == "FETCH"
+
+
+def test_fetch_triggered_when_no_entity():
+    """FETCH when no entity in Hippo but fetch rule matches."""
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+
+    fetch_rule = _make_fetch_rule()
+    registry = RuleRegistry([fetch_rule])
+
+    storage_adapter = MagicMock()
+    storage_adapter.exists.return_value = False
+    storage_adapter.build_dest_uri.return_value = "file:///storage/genome.fa.gz"
+
+    planner = _make_planner_with_fetch(
+        hippo=hippo, registry=registry, storage_adapter=storage_adapter
+    )
+    node = planner.plan("GenomeBuild", {"name": "GRCh38"})
+    assert node.decision == "FETCH"
+
+
+def test_build_triggered_when_no_entity_no_fetch_rule():
+    """BUILD when no entity, no fetch rule, but production rule exists."""
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+
+    rule = _make_rule(entity_type="AlignedReads")
+    registry = RuleRegistry([rule])
+
+    storage_adapter = MagicMock()
+    planner = _make_planner_with_fetch(
+        hippo=hippo, registry=registry, storage_adapter=storage_adapter
+    )
+    node = planner.plan("AlignedReads", {"sample": "S001"})
+    assert node.decision == "BUILD"
+
+
+def test_fail_when_no_entity_no_rule():
+    """FAIL when no entity and no applicable rule."""
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+    registry = RuleRegistry([])
+
+    planner = _make_planner_with_fetch(hippo=hippo, registry=registry)
+    with pytest.raises(CanonNoRuleError):
+        planner.plan("GenomeBuild", {"name": "GRCh38"})
+
+
+def test_plan_returns_fetch_node_with_source_uri():
+    """plan() returns PlanNode with decision='FETCH' and source_uri in metadata."""
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+
+    fetch_rule = _make_fetch_rule()
+    registry = RuleRegistry([fetch_rule])
+
+    storage_adapter = MagicMock()
+    storage_adapter.exists.return_value = False
+    storage_adapter.build_dest_uri.return_value = "file:///storage/genome.fa.gz"
+
+    planner = _make_planner_with_fetch(
+        hippo=hippo, registry=registry, storage_adapter=storage_adapter
+    )
+    node = planner.plan("GenomeBuild", {"name": "GRCh38"})
+    assert node.decision == "FETCH"
+    assert node.metadata.get("source_uri") == "https://example.com/genome.fa.gz"
+
+
+def test_skip_download_when_dest_exists(tmp_path):
+    """When dest_uri already exists, get() is NOT called."""
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+    hippo.ingest_entity.return_value = _make_entity(entity_type="GenomeBuild")
+
+    fetch_rule = _make_fetch_rule()
+    registry = RuleRegistry([fetch_rule])
+
+    storage_adapter = MagicMock()
+    storage_adapter.exists.return_value = True
+    storage_adapter.build_dest_uri.return_value = "file:///storage/genome.fa.gz"
+    storage_adapter.put.return_value = "file:///storage/genome.fa.gz"
+
+    https_adapter = MagicMock()
+
+    planner = _make_planner_with_fetch(
+        hippo=hippo, registry=registry,
+        storage_adapter=storage_adapter,
+        https_adapter=https_adapter,
+        work_dir=str(tmp_path),
+    )
+    planner.resolve("GenomeBuild", {"name": "GRCh38"})
+    https_adapter.get.assert_not_called()
+
+
+def test_download_when_dest_absent(tmp_path):
+    """When dest_uri absent, get() and put() are called."""
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+    hippo.ingest_entity.return_value = _make_entity(entity_type="GenomeBuild")
+    hippo.update_entity.return_value = None
+
+    fetch_rule = _make_fetch_rule()
+    registry = RuleRegistry([fetch_rule])
+
+    local_file = tmp_path / "genome.fa.gz"
+    local_file.write_bytes(b"GENOME_DATA")
+
+    storage_adapter = MagicMock()
+    storage_adapter.exists.return_value = False
+    storage_adapter.build_dest_uri.return_value = "file:///storage/genome.fa.gz"
+    storage_adapter.put.return_value = "file:///storage/genome.fa.gz"
+
+    https_adapter = MagicMock()
+    https_adapter.get.return_value = local_file
+
+    planner = _make_planner_with_fetch(
+        hippo=hippo, registry=registry,
+        storage_adapter=storage_adapter,
+        https_adapter=https_adapter,
+        work_dir=str(tmp_path),
+    )
+    planner.resolve("GenomeBuild", {"name": "GRCh38"})
+    https_adapter.get.assert_called_once()
+    storage_adapter.put.assert_called_once()
+
+
+def test_checksum_match_proceeds(tmp_path):
+    """Checksum match → download and put proceed normally."""
+    import hashlib
+
+    data = b"GENOME_DATA"
+    checksum = hashlib.sha256(data).hexdigest()
+
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+    hippo.ingest_entity.return_value = _make_entity(entity_type="GenomeBuild")
+    hippo.update_entity.return_value = None
+
+    fetch_rule = _make_fetch_rule(checksum=checksum)
+    registry = RuleRegistry([fetch_rule])
+
+    local_file = tmp_path / "genome.fa.gz"
+    local_file.write_bytes(data)
+
+    storage_adapter = MagicMock()
+    storage_adapter.exists.return_value = False
+    storage_adapter.build_dest_uri.return_value = "file:///storage/genome.fa.gz"
+    storage_adapter.put.return_value = "file:///storage/genome.fa.gz"
+
+    https_adapter = MagicMock()
+    https_adapter.get.return_value = local_file
+
+    planner = _make_planner_with_fetch(
+        hippo=hippo, registry=registry,
+        storage_adapter=storage_adapter,
+        https_adapter=https_adapter,
+        work_dir=str(tmp_path),
+    )
+    planner.resolve("GenomeBuild", {"name": "GRCh38"})
+    storage_adapter.put.assert_called_once()
+
+
+def test_checksum_mismatch_raises(tmp_path):
+    """Checksum mismatch → CanonStorageError raised, entity not updated."""
+    from canon.exceptions import CanonStorageError
+
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+    hippo.ingest_entity.return_value = _make_entity(entity_type="GenomeBuild")
+
+    fetch_rule = _make_fetch_rule(checksum="wrong_checksum_expected")
+    registry = RuleRegistry([fetch_rule])
+
+    local_file = tmp_path / "genome.fa.gz"
+    local_file.write_bytes(b"ACTUAL_DATA")
+
+    storage_adapter = MagicMock()
+    storage_adapter.exists.return_value = False
+    storage_adapter.build_dest_uri.return_value = "file:///storage/genome.fa.gz"
+
+    https_adapter = MagicMock()
+    https_adapter.get.return_value = local_file
+
+    planner = _make_planner_with_fetch(
+        hippo=hippo, registry=registry,
+        storage_adapter=storage_adapter,
+        https_adapter=https_adapter,
+        work_dir=str(tmp_path),
+    )
+    with pytest.raises(CanonStorageError, match="checksum"):
+        planner.resolve("GenomeBuild", {"name": "GRCh38"})
+    hippo.update_entity.assert_not_called()
+    storage_adapter.put.assert_not_called()
+
+
+def test_fetch_completed_event_recorded(tmp_path):
+    """FetchCompleted event is recorded on entity after download."""
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+    hippo.ingest_entity.return_value = _make_entity(entity_type="GenomeBuild")
+    hippo.update_entity.return_value = None
+
+    fetch_rule = _make_fetch_rule()
+    registry = RuleRegistry([fetch_rule])
+
+    local_file = tmp_path / "genome.fa.gz"
+    local_file.write_bytes(b"GENOME_DATA")
+
+    storage_adapter = MagicMock()
+    storage_adapter.exists.return_value = False
+    storage_adapter.build_dest_uri.return_value = "file:///storage/genome.fa.gz"
+    storage_adapter.put.return_value = "file:///storage/genome.fa.gz"
+
+    https_adapter = MagicMock()
+    https_adapter.get.return_value = local_file
+
+    planner = _make_planner_with_fetch(
+        hippo=hippo, registry=registry,
+        storage_adapter=storage_adapter,
+        https_adapter=https_adapter,
+        work_dir=str(tmp_path),
+    )
+    planner.resolve("GenomeBuild", {"name": "GRCh38"})
+
+    hippo.update_entity.assert_called_once()
+    call_kwargs = hippo.update_entity.call_args
+    update_data = call_kwargs[0][1] if call_kwargs[0] else call_kwargs[1].get("data", {})
+    # Accept both positional and keyword call patterns
+    all_args = list(call_kwargs[0]) + list(call_kwargs[1].values())
+    update_dict = next((a for a in all_args if isinstance(a, dict)), {})
+    assert update_dict.get("fetch_status") == "FetchCompleted"
+
+
+def test_fetch_skipped_event_recorded(tmp_path):
+    """FetchSkipped event is recorded on entity when dest already exists."""
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+    hippo.ingest_entity.return_value = _make_entity(entity_type="GenomeBuild")
+    hippo.update_entity.return_value = None
+
+    fetch_rule = _make_fetch_rule()
+    registry = RuleRegistry([fetch_rule])
+
+    storage_adapter = MagicMock()
+    storage_adapter.exists.return_value = True
+    storage_adapter.build_dest_uri.return_value = "file:///storage/genome.fa.gz"
+
+    https_adapter = MagicMock()
+
+    planner = _make_planner_with_fetch(
+        hippo=hippo, registry=registry,
+        storage_adapter=storage_adapter,
+        https_adapter=https_adapter,
+        work_dir=str(tmp_path),
+    )
+    planner.resolve("GenomeBuild", {"name": "GRCh38"})
+
+    hippo.update_entity.assert_called_once()
+    call_kwargs = hippo.update_entity.call_args
+    all_args = list(call_kwargs[0]) + list(call_kwargs[1].values())
+    update_dict = next((a for a in all_args if isinstance(a, dict)), {})
+    assert update_dict.get("fetch_status") == "FetchSkipped"

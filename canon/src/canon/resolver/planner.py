@@ -11,8 +11,10 @@ from canon.exceptions import (
     CanonExecutorError,
     CanonNoRuleError,
     CanonPlanningError,
+    CanonStorageError,
 )
 from canon.rules.models import (
+    FetchRule,
     InputBinding,
     ProductionRule,
     extract_wildcard_name,
@@ -30,11 +32,12 @@ class PlanNode:
 
     entity_type: str
     params: dict[str, Any]
-    decision: str  # 'REUSE' | 'BUILD'
+    decision: str  # 'REUSE' | 'BUILD' | 'FETCH'
     rule_name: str | None = None
     children: list["PlanNode"] = field(default_factory=list)
     entity_id: str | None = None
     uri: str | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class RecursivePlanner:
@@ -55,6 +58,8 @@ class RecursivePlanner:
         executor: Any | None = None,
         ingestion_pipeline: Any | None = None,
         work_dir_base: str = ".canon/work",
+        storage_adapter: Any | None = None,
+        https_adapter: Any | None = None,
     ) -> None:
         self._hippo = hippo_client
         self._registry = rule_registry
@@ -62,6 +67,8 @@ class RecursivePlanner:
         self._executor = executor
         self._pipeline = ingestion_pipeline
         self._work_dir_base = work_dir_base
+        self._storage_adapter = storage_adapter
+        self._https_adapter = https_adapter
         self._in_progress: set[tuple] = set()  # spec keys (entity_type, frozenset(params))
 
     # ------------------------------------------------------------------
@@ -128,13 +135,26 @@ class RecursivePlanner:
         # Phase 1: resolve entity refs in params
         resolved_params = self._resolve_entity_refs_in_params(params, bindings)
 
-        # Phase 2: check Hippo for existing entity (REUSE)
+        # Phase 2: check Hippo for existing entity
         existing = self._hippo.find_entity(entity_type, resolved_params)
-        if existing is not None:
+
+        # REUSE: entity exists, has accessible uri
+        if existing is not None and self._is_uri_accessible(existing.uri):
             logger.info("REUSE %s %s → %s", entity_type, resolved_params, existing.id)
             return existing
 
-        # Phase 3: find matching rule
+        # FETCH: fetch rule matches (entity may or may not exist)
+        fetch_rule = self._registry.find_fetch_rule(entity_type, resolved_params)
+        if fetch_rule is not None:
+            logger.info("FETCH %s %s using rule %s", entity_type, resolved_params, fetch_rule.name)
+            return self._execute_fetch(fetch_rule, entity_type, resolved_params, existing)
+
+        # BUILD: production rule exists (no entity required)
+        if existing is not None:
+            # Entity exists but uri inaccessible and no fetch rule → REUSE anyway (legacy)
+            logger.info("REUSE (no fetch rule) %s %s → %s", entity_type, resolved_params, existing.id)
+            return existing
+
         rule = self._registry.find_rule(entity_type, resolved_params)
         if rule is None:
             available = self._registry.rules_for_entity_type(entity_type)
@@ -171,6 +191,37 @@ class RecursivePlanner:
         resolved_params = self._resolve_entity_refs_in_params(params, bindings)
 
         existing = self._hippo.find_entity(entity_type, resolved_params)
+
+        # REUSE: entity exists with accessible uri
+        if existing is not None and self._is_uri_accessible(existing.uri):
+            return PlanNode(
+                entity_type=entity_type,
+                params=resolved_params,
+                decision="REUSE",
+                entity_id=existing.id,
+                uri=existing.uri,
+            )
+
+        # FETCH: fetch rule matches
+        fetch_rule = self._registry.find_fetch_rule(entity_type, resolved_params)
+        if fetch_rule is not None:
+            dest_uri = None
+            if self._storage_adapter is not None:
+                dest_uri = self._storage_adapter.build_dest_uri(
+                    entity_type,
+                    existing.id if existing else entity_type.lower(),
+                    fetch_rule.source_uri.split("/")[-1],
+                )
+            return PlanNode(
+                entity_type=entity_type,
+                params=resolved_params,
+                decision="FETCH",
+                rule_name=fetch_rule.name,
+                entity_id=existing.id if existing else None,
+                metadata={"source_uri": fetch_rule.source_uri, "dest_uri": dest_uri},
+            )
+
+        # Legacy REUSE: entity exists but uri inaccessible and no fetch rule
         if existing is not None:
             return PlanNode(
                 entity_type=entity_type,
@@ -208,6 +259,93 @@ class RecursivePlanner:
     # ------------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------------
+
+    def _is_uri_accessible(self, uri: str | None) -> bool:
+        """Return True if uri is present and accessible via storage_adapter.
+
+        When storage_adapter is not set, falls back to True if uri is present
+        (backwards-compatible with tests that don't set storage_adapter).
+        """
+        if uri is None:
+            return False
+        if self._storage_adapter is None:
+            return True  # legacy: REUSE if entity has any uri
+        return self._storage_adapter.exists(uri)
+
+    def _execute_fetch(
+        self,
+        fetch_rule: FetchRule,
+        entity_type: str,
+        resolved_params: dict[str, Any],
+        existing_entity: Any | None,
+    ) -> Any:
+        """Execute a fetch rule: skip-if-cached, download, checksum, put, update entity."""
+        import hashlib
+        from datetime import datetime, timezone
+        from pathlib import Path
+
+        # Determine entity record (create if not in Hippo yet)
+        if existing_entity is not None:
+            entity = existing_entity
+        else:
+            entity = self._hippo.ingest_entity(entity_type, resolved_params)
+
+        # Build destination URI
+        filename = fetch_rule.source_uri.split("/")[-1]
+        dest_uri = self._storage_adapter.build_dest_uri(entity_type, entity.id, filename)
+
+        now = datetime.now(tz=timezone.utc).isoformat()
+
+        # Skip-if-cached
+        if self._storage_adapter.exists(dest_uri):
+            self._hippo.update_entity(entity.id, {
+                "uri": dest_uri,
+                "fetch_status": "FetchSkipped",
+                "source_uri": fetch_rule.source_uri,
+                "last_fetched_at": now,
+            })
+            from canon.types import Entity
+            return Entity(
+                id=entity.id,
+                entity_type=entity_type,
+                data={**entity.data, "uri": dest_uri},
+                uri=dest_uri,
+            )
+
+        # Download
+        work_dir = Path(self._work_dir_base) / entity.id
+        work_dir.mkdir(parents=True, exist_ok=True)
+        local_path = self._https_adapter.get(fetch_rule.source_uri, str(work_dir))
+
+        # Checksum verification
+        if fetch_rule.checksum_sha256 is not None:
+            actual = hashlib.sha256(Path(local_path).read_bytes()).hexdigest()
+            if actual != fetch_rule.checksum_sha256:
+                Path(local_path).unlink(missing_ok=True)
+                raise CanonStorageError(
+                    f"Checksum mismatch for {fetch_rule.source_uri}: "
+                    f"expected {fetch_rule.checksum_sha256}, got {actual}"
+                )
+
+        # Relocate to permanent storage
+        canonical_uri = self._storage_adapter.put(local_path, dest_uri)
+
+        # Update entity provenance
+        self._hippo.update_entity(entity.id, {
+            "uri": canonical_uri,
+            "fetch_status": "FetchCompleted",
+            "source_uri": fetch_rule.source_uri,
+            "checksum_sha256": fetch_rule.checksum_sha256,
+            "last_fetched_at": now,
+        })
+
+        from canon.types import Entity
+        return Entity(
+            id=entity.id,
+            entity_type=entity_type,
+            data={**entity.data, "uri": canonical_uri},
+            uri=canonical_uri,
+        )
 
     def _resolve_entity_refs_in_params(
         self,

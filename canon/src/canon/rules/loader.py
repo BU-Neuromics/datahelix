@@ -11,6 +11,7 @@ import yaml
 from canon.exceptions import CanonRuleValidationError
 from canon.rules.models import (
     ExecuteSpec,
+    FetchRule,
     InputBinding,
     ProductionRule,
     ProducesSpec,
@@ -121,7 +122,7 @@ class RulesLoader:
             )
 
         errors: list[str] = []
-        rules: list[ProductionRule] = []
+        rules: list[ProductionRule | FetchRule] = []
 
         for i, raw_rule in enumerate(raw_rules):
             try:
@@ -131,12 +132,15 @@ class RulesLoader:
                 name = raw_rule.get("name", f"<rule[{i}]>") if isinstance(raw_rule, dict) else f"<rule[{i}]>"
                 errors.append(f"Rule '{name}': {e}")
 
-        # Cross-rule validation
-        cross_errors = self._validate_cross_rule(rules)
+        # Separate production and fetch rules
+        production_rules = [r for r in rules if isinstance(r, ProductionRule)]
+
+        # Cross-rule validation (production rules only)
+        cross_errors = self._validate_cross_rule(production_rules)
         errors.extend(cross_errors)
 
-        # Per-rule semantic validation
-        for rule in rules:
+        # Per-rule semantic validation (production rules only)
+        for rule in production_rules:
             rule_errors = self._validate_rule_semantics(rule)
             errors.extend(rule_errors)
 
@@ -147,8 +151,8 @@ class RulesLoader:
 
         return rules
 
-    def _parse_rule(self, raw: dict, index: int) -> ProductionRule:
-        """Parse a single rule dict into a ProductionRule."""
+    def _parse_rule(self, raw: dict, index: int) -> ProductionRule | FetchRule:
+        """Parse a single rule dict into a ProductionRule or FetchRule."""
         if not isinstance(raw, dict):
             raise ValueError(f"Rule must be a mapping, got {type(raw).__name__}")
 
@@ -159,6 +163,11 @@ class RulesLoader:
         produces_raw = raw.get("produces")
         if not produces_raw:
             raise ValueError("Missing 'produces' block")
+
+        rule_type = raw.get("type", "production")
+
+        if rule_type == "fetch":
+            return self._parse_fetch_rule(raw, str(name), produces_raw)
 
         execute_raw = raw.get("execute")
         if not execute_raw:
@@ -173,6 +182,36 @@ class RulesLoader:
             ),
             requires=_parse_requires(raw.get("requires")),
             execute=_parse_execute(execute_raw),
+        )
+
+    def _parse_fetch_rule(self, raw: dict, name: str, produces_raw: dict) -> FetchRule:
+        """Parse a type: fetch rule into a FetchRule."""
+        fetch_raw = raw.get("fetch") or {}
+        source_uri = fetch_raw.get("source_uri")
+
+        if not source_uri:
+            raise ValueError("Missing 'fetch.source_uri'")
+
+        # Validate scheme
+        if "://" in source_uri:
+            scheme = source_uri.split("://")[0].lower()
+        else:
+            scheme = ""
+
+        if scheme not in ("https", "http"):
+            raise ValueError(
+                f"fetch.source_uri scheme '{scheme}' is not supported; "
+                f"allowed schemes: https, http (got: {source_uri!r})"
+            )
+
+        return FetchRule(
+            name=name,
+            produces=ProducesSpec(
+                entity_type=produces_raw["entity_type"],
+                match=_parse_match(produces_raw.get("match")),
+            ),
+            source_uri=source_uri,
+            checksum_sha256=fetch_raw.get("checksum_sha256"),
         )
 
     def _validate_cross_rule(self, rules: list[ProductionRule]) -> list[str]:

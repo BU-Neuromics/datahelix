@@ -64,3 +64,13 @@ class ProductionRule:
     produces: ProducesSpec
     requires: list[InputBinding]
     execute: ExecuteSpec
+
+
+@dataclass
+class FetchRule:
+    """A Canon fetch rule — materialize an entity by downloading from a URI."""
+
+    name: str
+    produces: ProducesSpec
+    source_uri: str
+    checksum_sha256: str | None = None
