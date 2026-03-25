@@ -101,7 +101,7 @@
 | Question | Priority | Notes |
 |---|---|---|
 | Partial specification / constraint queries | High | v0.1 requires full exact spec; CEL-based constraint predicates deferred to v0.2 |
-| Aggregate/collect rules (sample sets, gather steps) | High | CountsMatrix use case; deferred to v0.2 — Cappella handles set logic in v0.1 |
+| Aggregate/collect rules (sample sets, gather steps) | Medium | CountsMatrix use case; deferred to v0.3 — Cappella handles set logic through v0.2 |
 | Snakemake/Nextflow native adapter (non-CWL) | Medium | v0.1: CWL only; native adapters as entry-point plugins in v0.2 |
 | Storage adapter plugin system | High | Specified in sec5b; v0.1 has local stub + S3 warn; full plugin system in v0.2 |
 | Visual workflow builder | Low | Use existing CWL editors (Rabix Composer, cwl-viewer) for now |
