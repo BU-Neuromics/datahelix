@@ -142,14 +142,9 @@ class TestNotFoundInvariants:
         with pytest.raises(EntityNotFoundError):
             client.get("Sample", "00000000-0000-0000-0000-000000000000")
 
-    @pytest.mark.xfail(
-        reason="HippoClient.update() on a nonexistent id silently upserts (creates a new entity) "
-               "instead of raising EntityNotFoundError. This is a behavioral gap — update() "
-               "should assert the entity exists first. Revisit when Hippo adds existence check to update()."
-    )
     def test_update_nonexistent_raises(self, tmp_path):
         client = _make_client(tmp_path)
-        with pytest.raises((EntityNotFoundError, Exception)):
+        with pytest.raises(EntityNotFoundError):
             client.update("Sample", "00000000-0000-0000-0000-000000000000", {"name": "X"})
 
     def test_get_wrong_type_raises(self, tmp_path):

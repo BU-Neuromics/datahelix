@@ -194,12 +194,6 @@ class TestDeleteContract:
             "delete() must return truthy on success"
         )
 
-    @pytest.mark.xfail(
-        reason="HippoClient.get() currently returns deleted entities. "
-               "Canon would need this to raise EntityNotFoundError to avoid "
-               "treating a deleted entity as a REUSE candidate via get(). "
-               "Revisit when Hippo adds availability filtering to get_by_id."
-    )
     def test_deleted_entity_raises_on_get(self, client):
         result = client.create("Sample", {"name": "S001", "tissue": "HC"})
         client.delete("Sample", result["id"])
@@ -237,12 +231,6 @@ class TestSupersedeContract:
             "Replacement entity must remain accessible after supersede"
         )
 
-    @pytest.mark.xfail(
-        reason="HippoClient.get() currently returns superseded entities. "
-               "Canon would need this to raise EntityNotFoundError to prevent "
-               "treating a superseded entity as a valid REUSE candidate. "
-               "Revisit when Hippo adds availability filtering to get_by_id."
-    )
     def test_superseded_entity_raises_on_get(self, client):
         old = client.create("Sample", {"name": "S001", "tissue": "HC"})
         new = client.create("Sample", {"name": "S002", "tissue": "HC"})

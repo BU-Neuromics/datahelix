@@ -383,11 +383,6 @@ class TestProvenanceAndEventModel:
         assert v2["version"] == 2
         assert v3["version"] == 3
 
-    @pytest.mark.xfail(
-        reason="HippoClient.get() currently returns superseded entities; "
-               "soft-delete via supersede is not yet enforced on reads. "
-               "Revisit when Hippo adds availability filtering to get_by_id."
-    )
     def test_supersede_entity_marks_source_unavailable(self, tmp_hippo):
         client = _make_client(tmp_hippo)
         old = client.create("Sample", {"name": "S001", "tissue": "DLPFC"})
@@ -599,11 +594,6 @@ class TestDeleteBehavior:
         result = client.create("Sample", {"name": "S001", "tissue": "DLPFC"})
         assert client.delete("Sample", result["id"]) is True
 
-    @pytest.mark.xfail(
-        reason="HippoClient.get() currently returns deleted entities; "
-               "soft-delete is not yet enforced on reads (only excluded from query()). "
-               "Revisit when Hippo adds availability filtering to get_by_id."
-    )
     def test_deleted_entity_not_found_via_get(self, tmp_hippo):
         client = _make_client(tmp_hippo)
         result = client.create("Sample", {"name": "S001", "tissue": "DLPFC"})
