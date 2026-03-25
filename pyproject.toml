@@ -7,4 +7,5 @@ requires-python = ">=3.11"
 testpaths = ["tests"]
 markers = [
     "platform: marks tests as platform integration tests (real Hippo + Canon in-process)",
+    "contract: marks tests as contract/behavioral-spec tests (consumer-driven API assertions)",
 ]
