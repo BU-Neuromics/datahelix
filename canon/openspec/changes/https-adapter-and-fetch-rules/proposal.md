@@ -1,11 +1,11 @@
 ## Why
 
-Canon cannot currently stage files from public HTTPS URIs (reference genomes, public datasets, pre-signed URLs, DRS access URLs). More importantly, there is no mechanism for Canon to automatically download and cache reference data that has been semantically registered in Hippo via `hippo reference install` but not yet materialized locally. This means pipelines that depend on reference genomes fail at staging even when the canonical source is known. The two changes here are tightly coupled: the HTTPS adapter is the download mechanism, and fetch rules are how Canon knows *when* and *what* to download.
+Canon cannot currently stage files from public HTTPS URIs (reference genomes, public datasets, pre-signed URLs, DRS access URLs). More importantly, there is no mechanism for Canon to automatically download and cache reference data that has been semantically registered in Hippo via `hippo reference install` but not yet materialized locally. This means pipelines that depend on reference genomes fail at staging even when the canonical source is known. The two changes here are tightly coupled: the HTTP adapter is the download mechanism, and fetch rules are how Canon knows *when* and *what* to download.
 
 ## What Changes
 
-**HttpsStorageAdapter (new, bundled):**
-- **New** `canon/storage/https.py` — `HttpsStorageAdapter` implementing `StorageAdapter`
+**HTTPStorageAdapter (new, bundled):**
+- **New** `canon/storage/http.py` — `HTTPStorageAdapter` implementing `StorageAdapter`
 - Read-only adapter: `get()` (httpx streaming download) and `exists()` (HEAD request) are implemented; `put()` and `build_dest_uri()` raise `CanonStorageError` (HTTPS is a source, not a destination)
 - Registered as `https` and `http` in `canon.storage_adapters` entry points
 
@@ -30,7 +30,7 @@ Canon cannot currently stage files from public HTTPS URIs (reference genomes, pu
 ## Capabilities
 
 ### New Capabilities
-- `https-storage-adapter` — HttpsStorageAdapter for staging from HTTP/HTTPS sources
+- `https-storage-adapter` — HTTPStorageAdapter for staging from HTTP/HTTPS sources
 - `fetch-rules-dsl` — fetch rule type in canon_rules.yaml, parsed by RulesLoader
 - `planner-fetch-decision` — FETCH outcome in RecursivePlanner with skip-if-cached logic and provenance recording
 
@@ -39,8 +39,8 @@ Canon cannot currently stage files from public HTTPS URIs (reference genomes, pu
 
 ## Impact
 
-- **Code:** New `canon/storage/https.py`; modified `rules/models.py`, `rules/loader.py`, `rules/registry.py`, `resolver/planner.py`; new provenance event types
+- **Code:** New `canon/storage/http.py`; modified `rules/models.py`, `rules/loader.py`, `rules/registry.py`, `resolver/planner.py`; new provenance event types
 - **Dependencies:** `httpx` (already a Canon dependency via `HippoQueryClient`) — no new packages
-- **Config:** No changes — HTTPS adapter auto-discovered via entry points; fetch rules are part of `canon_rules.yaml`
+- **Config:** No changes — HTTP adapter auto-discovered via entry points; fetch rules are part of `canon_rules.yaml`
 - **Tests:** New unit tests in `test_storage.py`; new fetch-rule tests in `test_rules.py`; updated planner tests in `test_planner.py`
 - **Not in scope:** FTP adapter, multi-environment URI federation, cache TTL/invalidation, fetch rules for non-HTTP sources

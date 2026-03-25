@@ -4,7 +4,7 @@
 
 Two self-contained changes that compose cleanly:
 
-1. **HttpsStorageAdapter** — thin read-only adapter, ~50 lines. Uses `httpx` (already a Canon dep). Registered in entry points alongside `local`.
+1. **HTTPStorageAdapter** — thin read-only adapter, ~50 lines. Uses `httpx` (already a Canon dep). Registered in entry points alongside `local`.
 
 2. **Fetch rules** — new rule variant threaded through the existing rules → registry → planner pipeline. The planner already has a REUSE/BUILD binary; FETCH inserts between them.
 
@@ -42,8 +42,8 @@ Fetch operations are lighter-weight than CWL executions. They don't need a `Work
 
 ### Modified Components
 
-**`canon/storage/https.py`** (new):
-- `HttpsStorageAdapter` with `httpx.stream` for `get()`, `httpx.head` for `exists()`, CanonStorageError for `put()`
+**`canon/storage/http.py`** (new):
+- `HTTPStorageAdapter` with `httpx.stream` for `get()`, `httpx.head` for `exists()`, CanonStorageError for `put()`
 - Filename derived from `uri.split("/")[-1]`
 
 **`canon/rules/models.py`**:
@@ -64,14 +64,14 @@ Fetch operations are lighter-weight than CWL executions. They don't need a `Work
 - `PlanNode.decision` — add `"FETCH"` as valid value
 
 **`canon/pyproject.toml`**:
-- Add `https = "canon.storage.https:HttpsStorageAdapter"` and `http = "canon.storage.https:HttpsStorageAdapter"` to `canon.storage_adapters`
+- Add `https = "canon.storage.https:HTTPStorageAdapter"` and `http = "canon.storage.https:HTTPStorageAdapter"` to `canon.storage_adapters`
 
 ### Test Strategy
 
 **Unit tests — `test_storage.py`** (extend existing):
-- `HttpsStorageAdapter.get()` — mock httpx, verify streaming download
-- `HttpsStorageAdapter.exists()` — mock HEAD responses, True/False/network error
-- `HttpsStorageAdapter.put()` — raises CanonStorageError
+- `HTTPStorageAdapter.get()` — mock httpx, verify streaming download
+- `HTTPStorageAdapter.exists()` — mock HEAD responses, True/False/network error
+- `HTTPStorageAdapter.put()` — raises CanonStorageError
 - Entry point discovery includes `https` and `http`
 
 **Unit tests — `test_rules.py`** (extend existing):

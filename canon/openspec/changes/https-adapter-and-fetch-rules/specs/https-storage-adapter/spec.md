@@ -1,8 +1,8 @@
 ## ADDED Requirements
 
-### Requirement: HttpsStorageAdapter downloads files from HTTP/HTTPS URIs
+### Requirement: HTTPStorageAdapter downloads files from HTTP/HTTPS URIs
 
-The system SHALL provide a `HttpsStorageAdapter` in `canon/storage/https.py` implementing `StorageAdapter` with `name = "https"` and `uri_schemes = ["https", "http"]`. It SHALL be read-only: `get()` and `exists()` are implemented; `put()` and `build_dest_uri()` SHALL raise `CanonStorageError` with a message indicating HTTPS is a read-only source.
+The system SHALL provide a `HTTPStorageAdapter` in `canon/storage/http.py` implementing `StorageAdapter` with `name = "https"` and `uri_schemes = ["https", "http"]`. It SHALL be read-only: `get()` and `exists()` are implemented; `put()` and `build_dest_uri()` SHALL raise `CanonStorageError` with a message indicating HTTP is a read-only source.
 
 #### Scenario: get() streams file to local_dir
 - **WHEN** `get(uri, local_dir)` is called with a valid HTTPS URI
@@ -25,17 +25,17 @@ The system SHALL provide a `HttpsStorageAdapter` in `canon/storage/https.py` imp
 - **THEN** the method SHALL return `False` without raising
 
 #### Scenario: put() raises CanonStorageError
-- **WHEN** `put(local_path, dest_uri)` is called on HttpsStorageAdapter
-- **THEN** a `CanonStorageError` SHALL be raised with message "HTTPS adapter is read-only"
+- **WHEN** `put(local_path, dest_uri)` is called on HTTPStorageAdapter
+- **THEN** a `CanonStorageError` SHALL be raised with message "HTTP adapter is read-only"
 
 #### Scenario: filename derived from URI path
 - **WHEN** `get("https://example.com/data/genome.fa.gz", local_dir)` is called
 - **THEN** the downloaded file SHALL be written to `local_dir/genome.fa.gz`
 
-### Requirement: HttpsStorageAdapter registered via entry points
+### Requirement: HTTPStorageAdapter registered via entry points
 
-The `HttpsStorageAdapter` SHALL be registered in `pyproject.toml` under `canon.storage_adapters` with names `https` and `http`.
+The `HTTPStorageAdapter` SHALL be registered in `pyproject.toml` under `canon.storage_adapters` with names `https` and `http`.
 
-#### Scenario: Entry point discovery finds HttpsStorageAdapter for both schemes
+#### Scenario: Entry point discovery finds HTTPStorageAdapter for both schemes
 - **WHEN** `StorageAdapterRegistry.adapter_for_uri("https://example.com/file.fa")` is called
-- **THEN** the returned adapter SHALL be `HttpsStorageAdapter`
+- **THEN** the returned adapter SHALL be `HTTPStorageAdapter`

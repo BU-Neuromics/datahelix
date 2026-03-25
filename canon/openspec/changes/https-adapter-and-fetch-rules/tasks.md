@@ -1,19 +1,19 @@
 ## Tasks
 
-### Phase 1: HttpsStorageAdapter (TDD)
+### Phase 1: HTTPStorageAdapter (TDD)
 
-- [ ] Write RED tests in `tests/test_storage.py` for `HttpsStorageAdapter`:
+- [ ] Write RED tests in `tests/test_storage.py` for `HTTPStorageAdapter`:
   - `get()` downloads file (mock httpx.stream, verify file written to local_dir)
   - `get()` raises CanonStorageError on 404 response
   - `get()` raises CanonStorageError on connection error
   - `exists()` returns True on 200 HEAD response
   - `exists()` returns False on 404 HEAD response
   - `exists()` returns False on connection error (no raise)
-  - `put()` raises CanonStorageError("HTTPS adapter is read-only")
+  - `put()` raises CanonStorageError("HTTP adapter is read-only")
   - filename is derived from URI path component
-  - Entry point discovery: `StorageAdapterRegistry.adapter_for_uri("https://...")` returns `HttpsStorageAdapter`
+  - Entry point discovery: `StorageAdapterRegistry.adapter_for_uri("https://...")` returns `HTTPStorageAdapter`
 - [ ] Run tests — confirm RED
-- [ ] Create `canon/storage/https.py` with `HttpsStorageAdapter`
+- [ ] Create `canon/storage/http.py` with `HTTPStorageAdapter`
 - [ ] Add `https` and `http` entry points to `pyproject.toml`
 - [ ] Run tests — confirm GREEN
 
@@ -59,7 +59,7 @@
 
 - [ ] Run `cd canon && uv run pytest tests/ -v --tb=short` — all Canon tests pass
 - [ ] Run `make test` at monorepo root — all 3 tiers pass, no regressions
-- [ ] Commit Canon-only changes: `feat(canon): HTTPS adapter and fetch rules — REUSE/FETCH/BUILD/FAIL planner`
+- [ ] Commit Canon-only changes: `feat(canon): HTTP adapter and fetch rules — REUSE/FETCH/BUILD/FAIL planner`
 
 ### Post-Implementation TODOs (separate commits)
 
