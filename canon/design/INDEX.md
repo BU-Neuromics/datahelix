@@ -108,6 +108,9 @@
 | Dynamic rule registration API | High | Specified in sec8; v0.2: URL-based CWL + convention mapping; v0.3: inline CWL + array outputs |
 | Convention-based CWL→Hippo output mapping | High | Specified in sec8; CWL record output field names = Hippo entity field names; `from_output` for disambiguation; replaces sidecar requirement for well-typed entities |
 | Array-typed CWL outputs | Medium | Specified in sec8; `array_mode: one_per_item` creates one entity per array element; `resolve_all()` deferred to v0.3 |
+| `resolve_all()` / collection query | Medium | v0.3 — `canon.resolve_all(entity_type, partial_spec)` returns all matching entities; needed for array-output workflows (clustering → N entities). For v0.1/v0.2 Composer queries Hippo directly. |
+| `ProductionRuleDefinition` Hippo entity type | High | v0.2 — dynamic rules stored as Hippo entities with provenance; must be added to Canon reference schema (canon/hippo_reference/schema.yaml) alongside Tool, ToolVersion, WorkflowRun |
+| Sidecar format superseded by convention mapping | Medium | sec8 convention (CWL record output names = Hippo field names + `from_output`) replaces sidecar for well-typed single/multi-entity outputs; sidecar still valid for legacy rules but not required for dynamically registered rules |
 | Visual workflow builder | Low | Use existing CWL editors (Rabix Composer, cwl-viewer) for now |
 | DRS URI integration | Medium | Canon outputs get `self` URI from Hippo; DRS server in Hippo v0.2 |
 | Federation / cross-lab artifact sharing | Low | Hippo DRS + Canon DRS client; deferred to v0.3 |
