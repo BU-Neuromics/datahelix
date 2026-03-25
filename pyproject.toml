@@ -1,0 +1,10 @@
+[project]
+name = "drylims-platform-tests"
+version = "0.1.0"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "platform: marks tests as platform integration tests (real Hippo + Canon in-process)",
+]
