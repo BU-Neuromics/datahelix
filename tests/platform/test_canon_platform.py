@@ -43,6 +43,7 @@ from canon.exceptions import (
     CanonPlanningError,
     CanonResolutionError,
     CanonRuleValidationError,
+    CanonStorageError,
 )
 from canon.executors.base import CWLRunResult
 from canon.ingestion.sidecar import (
@@ -55,6 +56,7 @@ from canon.resolver.planner import PlanNode, RecursivePlanner
 from canon.rules.loader import RulesLoader
 from canon.rules.models import (
     ExecuteSpec,
+    FetchRule,
     InputBinding,
     ProductionRule,
     ProducesSpec,
@@ -63,6 +65,9 @@ from canon.rules.models import (
     is_pure_wildcard,
 )
 from canon.rules.registry import RuleRegistry
+from canon.storage.http import HTTPStorageAdapter
+from canon.storage.local import LocalStorageAdapter
+from canon.storage.registry import StorageAdapterRegistry
 from canon.types import Entity
 
 
@@ -773,3 +778,154 @@ class TestEvaluateHippoFields:
         assert result["uri"] == "file:///out.bam"
         assert result["sample_id"] == "S002"
         assert result["run_id"] == "run-99"
+
+
+# ---------------------------------------------------------------------------
+# Category 9: Fetch rules
+# ---------------------------------------------------------------------------
+
+
+class TestFetchRules:
+    """Fetch rule parsing, planner decisions, and storage adapter routing."""
+
+    def test_fetch_rule_parses_from_yaml(self, tmp_path):
+        """A type:fetch rule in YAML loads as a FetchRule with correct fields."""
+        data = {
+            "rules": [
+                {
+                    "name": "fetch-genome-grch38",
+                    "type": "fetch",
+                    "produces": {
+                        "entity_type": "GenomeBuild",
+                        "match": {"name": "GRCh38", "release": "110"},
+                    },
+                    "fetch": {
+                        "source_uri": "https://example.com/genome.fa",
+                        "checksum_sha256": "abc123",
+                    },
+                }
+            ]
+        }
+        rules = RulesLoader(_write_rules(tmp_path, data)).load()
+
+        assert len(rules) == 1
+        rule = rules[0]
+        assert isinstance(rule, FetchRule)
+        assert rule.name == "fetch-genome-grch38"
+        assert rule.produces.entity_type == "GenomeBuild"
+        assert rule.produces.match == {"name": "GRCh38", "release": "110"}
+        assert rule.source_uri == "https://example.com/genome.fa"
+        assert rule.checksum_sha256 == "abc123"
+
+    def test_fetch_rule_coexists_with_production_rule(self, tmp_path):
+        """YAML with both fetch and production rule types loads both correctly."""
+        _make_cwl_and_sidecar(tmp_path, "workflows/align.cwl")
+        data = {
+            "rules": [
+                {
+                    "name": "fetch-genome-grch38",
+                    "type": "fetch",
+                    "produces": {
+                        "entity_type": "GenomeBuild",
+                        "match": {"name": "GRCh38"},
+                    },
+                    "fetch": {"source_uri": "https://example.com/genome.fa"},
+                },
+                {
+                    "name": "align-reads",
+                    "description": "Align with STAR",
+                    "produces": {
+                        "entity_type": "AlignedReads",
+                        "match": {"sample": "{sample}"},
+                    },
+                    "requires": [],
+                    "execute": {
+                        "workflow": "workflows/align.cwl",
+                        "inputs": {},
+                    },
+                },
+            ]
+        }
+        rules = RulesLoader(_write_rules(tmp_path, data)).load()
+
+        assert len(rules) == 2
+        fetch_rules = [r for r in rules if isinstance(r, FetchRule)]
+        prod_rules = [r for r in rules if isinstance(r, ProductionRule)]
+        assert len(fetch_rules) == 1
+        assert len(prod_rules) == 1
+        assert fetch_rules[0].name == "fetch-genome-grch38"
+        assert prod_rules[0].name == "align-reads"
+
+    @pytest.mark.platform
+    def test_plan_returns_fetch_decision_for_entity_without_uri(self):
+        """plan() returns FETCH when entity exists with no accessible uri and fetch rule matches."""
+        hippo = MagicMock()
+        hippo.find_entity.return_value = Entity(
+            id="e1", entity_type="GenomeBuild", data={}, uri=None
+        )
+
+        fetch_rule = FetchRule(
+            name="fetch-grch38",
+            produces=ProducesSpec(
+                entity_type="GenomeBuild",
+                match={"name": "GRCh38", "release": "110"},
+            ),
+            source_uri="https://example.com/genome.fa",
+        )
+        registry = RuleRegistry([fetch_rule])
+
+        planner = _make_planner(hippo=hippo, registry=registry)
+        node = planner.plan("GenomeBuild", {"name": "GRCh38", "release": "110"})
+
+        assert node.decision == "FETCH"
+        assert node.rule_name == "fetch-grch38"
+
+    @pytest.mark.platform
+    def test_plan_returns_reuse_when_uri_accessible(self):
+        """plan() returns REUSE when entity has a uri that storage_adapter reports as accessible."""
+        hippo = MagicMock()
+        hippo.find_entity.return_value = Entity(
+            id="e1",
+            entity_type="GenomeBuild",
+            data={},
+            uri="file:///data/genome.fa",
+        )
+
+        mock_storage = MagicMock()
+        mock_storage.exists.return_value = True
+
+        ref_resolver = MagicMock()
+        ref_resolver.resolve.return_value = Entity(
+            id="ref-uuid", entity_type="Unknown", data={}, uri="hippo://ref/unknown"
+        )
+        planner = RecursivePlanner(
+            hippo_client=hippo,
+            rule_registry=RuleRegistry([]),
+            entity_ref_resolver=ref_resolver,
+            executor=None,
+            ingestion_pipeline=None,
+            storage_adapter=mock_storage,
+        )
+
+        node = planner.plan("GenomeBuild", {"name": "GRCh38", "release": "110"})
+
+        assert node.decision == "REUSE"
+        assert node.uri == "file:///data/genome.fa"
+        mock_storage.exists.assert_called_once_with("file:///data/genome.fa")
+
+    @pytest.mark.platform
+    def test_http_adapter_in_registry(self):
+        """StorageAdapterRegistry routes https:// and http:// URIs to HTTPStorageAdapter."""
+        reg = StorageAdapterRegistry()
+        adapter = HTTPStorageAdapter()
+        reg._adapters["https"] = adapter
+        for scheme in adapter.uri_schemes:  # ["https", "http"]
+            reg._scheme_map[scheme] = adapter
+        reg._default_type = "https"
+
+        result_https = reg.adapter_for_uri("https://example.com/genome.fa")
+        result_http = reg.adapter_for_uri("http://example.com/genome.fa")
+
+        assert isinstance(result_https, HTTPStorageAdapter)
+        assert isinstance(result_http, HTTPStorageAdapter)
+        assert result_https is result_http  # same instance registered for both schemes

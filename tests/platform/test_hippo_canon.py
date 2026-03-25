@@ -26,14 +26,17 @@ backed by SQLiteAdapter.  No HTTP server; no actual CWL execution.
 
 from __future__ import annotations
 
+from pathlib import Path
 from unittest.mock import MagicMock
 
 import pytest
 
-from canon.exceptions import CanonCycleError
+from canon.exceptions import CanonCycleError, CanonStorageError
 from canon.resolver.planner import RecursivePlanner
-from canon.rules.models import ExecuteSpec, InputBinding, ProductionRule, ProducesSpec
+from canon.rules.models import ExecuteSpec, FetchRule, InputBinding, ProductionRule, ProducesSpec
 from canon.rules.registry import RuleRegistry
+from canon.storage.http import HTTPStorageAdapter
+from canon.storage.local import LocalStorageAdapter
 from canon.types import Entity
 
 
@@ -60,6 +63,30 @@ def _make_planner(
         executor=executor,
         ingestion_pipeline=None,
         work_dir_base=str(tmp_path / "work"),
+    )
+
+
+def _make_planner_with_storage(
+    hippo_shim,
+    registry: RuleRegistry,
+    local_adapter: LocalStorageAdapter,
+    https_adapter,
+    tmp_path,
+) -> RecursivePlanner:
+    """Build a RecursivePlanner wired to real storage adapters."""
+    ref_resolver = MagicMock()
+    ref_resolver.resolve.return_value = Entity(
+        id="ref-uuid", entity_type="Unknown", data={}, uri="hippo://ref/unknown"
+    )
+    return RecursivePlanner(
+        hippo_client=hippo_shim,
+        rule_registry=registry,
+        entity_ref_resolver=ref_resolver,
+        executor=None,
+        ingestion_pipeline=None,
+        work_dir_base=str(tmp_path / "work"),
+        storage_adapter=local_adapter,
+        https_adapter=https_adapter,
     )
 
 
@@ -649,3 +676,206 @@ def test_full_bioinformatics_chain_sample_to_aligned(
         assert len(hits) == 1, f"{etype} missing from Hippo after chain"
 
     assert uri.startswith("hippo://alignedreads/")
+
+
+# ---------------------------------------------------------------------------
+# Category 12: Fetch rule — materializes entity and sets URI
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.platform
+def test_fetch_materializes_entity_and_sets_uri(hippo_client, hippo_shim, tmp_path):
+    """FETCH path: HTTP download materializes file, entity uri set in real Hippo."""
+    hippo_client.create(
+        "GenomeBuild",
+        {
+            "name": "GRCh38",
+            "release": "110",
+            "source_uri": "https://example.com/genome.fa",
+        },
+    )
+
+    fetch_rule = FetchRule(
+        name="fetch-grch38",
+        produces=ProducesSpec(
+            entity_type="GenomeBuild",
+            match={"name": "GRCh38", "release": "110"},
+        ),
+        source_uri="https://example.com/genome.fa",
+    )
+    registry = RuleRegistry([fetch_rule])
+
+    local_adapter = LocalStorageAdapter(str(tmp_path / "outputs"))
+
+    mock_https = MagicMock(spec=HTTPStorageAdapter)
+
+    def _fake_get(uri, local_dir):
+        path = Path(local_dir) / uri.split("/")[-1]
+        path.write_bytes(b"fake genome content")
+        return path
+
+    mock_https.get.side_effect = _fake_get
+
+    planner = _make_planner_with_storage(
+        hippo_shim, registry, local_adapter, mock_https, tmp_path
+    )
+
+    uri = planner.resolve("GenomeBuild", {"name": "GRCh38", "release": "110"})
+
+    assert mock_https.get.call_count == 1
+    assert uri.startswith("file://")
+    assert Path(uri[len("file://"):]).exists()
+
+    result = hippo_client.query("GenomeBuild")
+    hits = [i for i in result.items if i["data"].get("name") == "GRCh38"]
+    assert len(hits) == 1
+    assert hits[0]["data"].get("uri") == uri
+
+
+# ---------------------------------------------------------------------------
+# Category 13: Fetch rule — skip download when dest already cached
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.platform
+def test_fetch_skip_if_dest_cached(hippo_client, hippo_shim, tmp_path):
+    """FETCH skips HTTP download when destination file already exists in local storage."""
+    create_result = hippo_client.create(
+        "GenomeBuild",
+        {
+            "name": "GRCh38",
+            "release": "110",
+            "source_uri": "https://example.com/genome.fa",
+        },
+    )
+    entity_id = create_result["id"]
+
+    # Pre-create the file at the exact destination the adapter will resolve to
+    base_path = tmp_path / "outputs"
+    dest = base_path / "genomebuild" / entity_id / "genome.fa"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_bytes(b"cached content")
+
+    fetch_rule = FetchRule(
+        name="fetch-grch38",
+        produces=ProducesSpec(
+            entity_type="GenomeBuild",
+            match={"name": "GRCh38", "release": "110"},
+        ),
+        source_uri="https://example.com/genome.fa",
+    )
+    registry = RuleRegistry([fetch_rule])
+
+    local_adapter = LocalStorageAdapter(str(base_path))
+    mock_https = MagicMock(spec=HTTPStorageAdapter)
+
+    planner = _make_planner_with_storage(
+        hippo_shim, registry, local_adapter, mock_https, tmp_path
+    )
+
+    uri = planner.resolve("GenomeBuild", {"name": "GRCh38", "release": "110"})
+
+    assert mock_https.get.call_count == 0
+    assert uri == f"file://{dest}"
+
+
+# ---------------------------------------------------------------------------
+# Category 14: Fetch rule — REUSE on second resolve() call
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.platform
+def test_reuse_after_fetch(hippo_client, hippo_shim, tmp_path):
+    """Second resolve() after FETCH follows REUSE path; HTTP called exactly once."""
+    hippo_client.create(
+        "GenomeBuild",
+        {
+            "name": "GRCh38",
+            "release": "110",
+            "source_uri": "https://example.com/genome.fa",
+        },
+    )
+
+    fetch_rule = FetchRule(
+        name="fetch-grch38",
+        produces=ProducesSpec(
+            entity_type="GenomeBuild",
+            match={"name": "GRCh38", "release": "110"},
+        ),
+        source_uri="https://example.com/genome.fa",
+    )
+    registry = RuleRegistry([fetch_rule])
+
+    local_adapter = LocalStorageAdapter(str(tmp_path / "outputs"))
+
+    mock_https = MagicMock(spec=HTTPStorageAdapter)
+
+    def _fake_get(uri, local_dir):
+        path = Path(local_dir) / uri.split("/")[-1]
+        path.write_bytes(b"fake genome content")
+        return path
+
+    mock_https.get.side_effect = _fake_get
+
+    planner = _make_planner_with_storage(
+        hippo_shim, registry, local_adapter, mock_https, tmp_path
+    )
+
+    uri1 = planner.resolve("GenomeBuild", {"name": "GRCh38", "release": "110"})
+    uri2 = planner.resolve("GenomeBuild", {"name": "GRCh38", "release": "110"})
+
+    assert mock_https.get.call_count == 1
+    assert uri1 == uri2
+
+
+# ---------------------------------------------------------------------------
+# Category 15: Fetch rule — checksum mismatch raises, entity uri not set
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.platform
+def test_fetch_checksum_mismatch_raises(hippo_client, hippo_shim, tmp_path):
+    """Checksum mismatch on download raises CanonStorageError; entity uri stays unset."""
+    hippo_client.create(
+        "GenomeBuild",
+        {
+            "name": "GRCh38",
+            "release": "110",
+            "source_uri": "https://example.com/genome.fa",
+        },
+    )
+
+    fetch_rule = FetchRule(
+        name="fetch-grch38",
+        produces=ProducesSpec(
+            entity_type="GenomeBuild",
+            match={"name": "GRCh38", "release": "110"},
+        ),
+        source_uri="https://example.com/genome.fa",
+        checksum_sha256="0" * 64,  # will never match real file content
+    )
+    registry = RuleRegistry([fetch_rule])
+
+    local_adapter = LocalStorageAdapter(str(tmp_path / "outputs"))
+
+    mock_https = MagicMock(spec=HTTPStorageAdapter)
+
+    def _fake_get(uri, local_dir):
+        path = Path(local_dir) / uri.split("/")[-1]
+        path.write_bytes(b"fake genome content")
+        return path
+
+    mock_https.get.side_effect = _fake_get
+
+    planner = _make_planner_with_storage(
+        hippo_shim, registry, local_adapter, mock_https, tmp_path
+    )
+
+    with pytest.raises(CanonStorageError):
+        planner.resolve("GenomeBuild", {"name": "GRCh38", "release": "110"})
+
+    # Entity uri must not be set after the failed fetch
+    result = hippo_client.query("GenomeBuild")
+    hits = [i for i in result.items if i["data"].get("name") == "GRCh38"]
+    assert len(hits) == 1
+    assert hits[0]["data"].get("uri") is None

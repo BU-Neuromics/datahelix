@@ -35,7 +35,7 @@ from canon.types import Entity
 
 class HippoClientShim:
     """Adapter that wraps a real HippoClient to satisfy RecursivePlanner's
-    hippo_client interface (find_entity / ingest_entity).
+    hippo_client interface (find_entity / ingest_entity / update_entity).
 
     This removes the need for an HTTP server: Canon talks directly to the
     in-process HippoClient backed by SQLiteAdapter.
@@ -43,6 +43,8 @@ class HippoClientShim:
 
     def __init__(self, hippo_client: HippoClient) -> None:
         self._client = hippo_client
+        # Maps entity_id → entity_type for update_entity lookups
+        self._entity_type_cache: dict[str, str] = {}
 
     def find_entity(self, entity_type: str, filters: dict) -> Entity | None:
         """Query Hippo for a single entity matching all filter key-value pairs.
@@ -54,6 +56,7 @@ class HippoClientShim:
         for item in result.items:
             data = item.get("data", {})
             if all(str(data.get(k)) == str(v) for k, v in filters.items()):
+                self._entity_type_cache[item["id"]] = entity_type
                 return Entity(
                     id=item["id"],
                     entity_type=item["entity_type"],
@@ -71,12 +74,29 @@ class HippoClientShim:
         synthetic_uri = f"hippo://{entity_type.lower()}/{uuid.uuid4()}"
         data_with_uri = {**data, "uri": synthetic_uri}
         result = self._client.create(entity_type, data_with_uri)
+        self._entity_type_cache[result["id"]] = entity_type
         return Entity(
             id=result["id"],
             entity_type=entity_type,
             data=result["data"],
             uri=synthetic_uri,
         )
+
+    def update_entity(self, entity_id: str, data: dict) -> None:
+        """Merge data fields into an existing entity in Hippo.
+
+        Called by RecursivePlanner after a successful fetch to record the
+        canonical URI and fetch provenance on the entity record.
+        """
+        entity_type = self._entity_type_cache.get(entity_id)
+        if entity_type is None:
+            raise RuntimeError(
+                f"HippoClientShim.update_entity: unknown entity_id {entity_id!r}. "
+                "Call find_entity or ingest_entity first so the type is cached."
+            )
+        current = self._client.get(entity_type, entity_id)
+        merged = {**current["data"], **data}
+        self._client.update(entity_type, entity_id, merged)
 
 
 # ---------------------------------------------------------------------------
