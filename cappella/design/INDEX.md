@@ -12,7 +12,7 @@
 | File | Section | Status | Notes |
 |---|---|---|---|
 | `sec1_overview.md` | 1. Overview & Scope | ✅ Draft v0.1 | Harmonization engine, collection resolution, HarmonizedCollection format, v0.1 scope |
-| `sec2_architecture.md` | 2. Architecture | ⬜ Not started | Trigger engine, adapter registry, action dispatcher, internal event bus |
+| `sec2_architecture.md` | 2. Architecture | ✅ Draft v0.1 | Adapter registry, ingest pipeline, collection resolver, trigger engine, reconciliation, API surface |
 | `sec3_adapters.md` | 3. Adapter System | ⬜ Not started | ExternalSourceAdapter implementations, field mapping config, transformation pipeline |
 | `sec4_audit.md` | 4. Audit & Observability | ⬜ Not started | Structured run logs (MVP), future SyncRun entities in Hippo |
 | `sec5_workflows.md` | 5. Workflow Execution | ⬜ Not started | Workflow executor strategy, Nextflow/Snakemake integration, output ingestion |
