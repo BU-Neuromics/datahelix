@@ -1,0 +1,205 @@
+# Section 5: Collection Resolution Workflow
+
+**Status:** Draft v0.1  
+**Last updated:** 2026-03-25
+
+> Note: This section was originally titled "Workflow Execution" in the spec outline.
+> After design sessions, it became clear that Cappella does not own workflow execution —
+> that is Canon's domain. This section covers Cappella's **collection resolution workflow**:
+> the end-to-end process of translating a user request into a HarmonizedCollection.
+> See Canon design for CWL execution details.
+
+---
+
+## 5.1 Resolution Workflow Overview
+
+```
+User request (via Aperture, CLI, or Composer)
+    │
+    ▼
+POST /resolve
+{entity_type, criteria, parameters, selection}
+    │
+    ▼
+Step 1: Parse & validate request
+    │  Validate entity_type exists in Hippo schema
+    │  Validate criteria fields exist in referenced entity schemas
+    │
+    ▼
+Step 2: Cohort construction (Hippo queries)
+    │  Walk entity graph bottom-up using criteria
+    │  Donor → Sample → SequencingDataset (inferred from schema references)
+    │
+    ▼
+Step 3: Dataset selection
+    │  Apply SelectionStrategy per sample
+    │  Apply QC filters from request
+    │  Record which datasets were selected and why
+    │
+    ▼
+Step 4: Canon delegation (per selected dataset)
+    │  canon.resolve(entity_type, {**parameters, dataset_id: id})
+    │  Collect resolved URIs and Canon decisions
+    │  Collect unresolved items with structured reasons
+    │
+    ▼
+Step 5: Assemble HarmonizedCollection
+    │  resolved[], unresolved[], provenance{}
+    │
+    ▼
+Return to caller
+```
+
+---
+
+## 5.2 Schema-Driven Entity Traversal
+
+Cappella infers entity traversal paths from the Hippo schema's `references:` declarations rather than hardcoding paths. This means adding a new entity type to the schema automatically makes it traversable without Cappella code changes.
+
+**Example traversal for `GeneCounts` request with `criteria: {donor.diagnosis: CTE, sample.tissue: DLPFC}`:**
+
+```
+GeneCounts references SequencingDataset
+SequencingDataset references Sample
+Sample references Donor
+
+Traversal (bottom-up):
+1. query("Donor", {diagnosis: "CTE"}) → [D001, D002, D003]
+2. query("Sample", {tissue: "DLPFC", donor_id: in(D001,D002,D003)}) → [S001, S002, S004]
+3. query("SequencingDataset", {assay: "RNASeq", sample_id: in(S001,S002,S004)}) → [DS001, DS002, DS003, DS005]
+```
+
+**Opinion (mark for review):** The traversal infers direction from `references:` fields. A `Sample` entity that declares `references: {entity_type: Donor, field: donor_id}` tells Cappella: to traverse from Donor to Sample, filter Sample on `donor_id ∈ matching_donors`. This requires a `schema_references()` API on HippoClient (see Open Questions in sec2). For v0.1, if this API isn't available, Cappella falls back to explicit traversal path declarations in `cappella.yaml`.
+
+---
+
+## 5.3 Selection Strategies
+
+When a sample has multiple candidate datasets, a `SelectionStrategy` picks one.
+
+### Built-in Strategies
+
+#### `most_recent`
+Select the dataset with the highest `created_at` timestamp after applying QC filters.
+
+```yaml
+selection:
+  strategy: most_recent
+  filters:
+    dataset.qc.min_reads: 1000000
+    dataset.qc.pct_mapped_min: 0.70
+```
+
+#### `highest_quality`
+Select the dataset with the best value for a declared quality field.
+
+```yaml
+selection:
+  strategy: highest_quality
+  quality_field: qc.pct_mapped
+  filters:
+    dataset.qc.min_reads: 1000000
+```
+
+#### `explicit`
+Use an explicit list of entity IDs. All samples not covered by the list fall through to `most_recent`. Useful when a researcher wants to pin specific datasets for a reproducible analysis.
+
+```yaml
+selection:
+  strategy: explicit
+  overrides:
+    S001: DS001-uuid
+    S003: DS003-v2-uuid
+  fallback: most_recent
+```
+
+#### `single_only`
+Raise a `MultipleDatasetError` if any sample has more than one candidate after filters. Useful for strict reproducibility — fail loudly rather than silently picking one.
+
+### Custom Strategies
+
+Custom strategies are discoverable via `cappella.selection_strategies` entry points:
+
+```toml
+[project.entry-points."cappella.selection_strategies"]
+lab_standard = "my_lab_cappella:LabStandardStrategy"
+```
+
+---
+
+## 5.4 Partial Failure Handling
+
+Cappella never aborts a resolution run due to partial failures. Items that cannot be resolved are collected in the `unresolved` list with structured reasons:
+
+| Reason | Description |
+|--------|-------------|
+| `no_dataset` | No SequencingDataset found for this sample |
+| `multiple_datasets_no_selection` | Multiple datasets found and `single_only` strategy selected |
+| `qc_filter_failed` | Dataset exists but does not pass QC filters |
+| `canon_no_rule` | Canon has no rule to produce the requested entity type |
+| `canon_error` | Canon returned an unexpected error |
+| `canon_timeout` | Canon did not respond within the configured timeout |
+
+A resolution run with 3/4 samples resolved and 1 unresolved is a valid result, not a failure. The caller decides whether 75% resolution is acceptable for their use case.
+
+---
+
+## 5.5 Async Resolution
+
+For large cohorts (100+ samples), `POST /resolve` returns immediately with a `run_id` and processes the resolution asynchronously.
+
+```json
+POST /resolve
+→ 202 Accepted
+{
+  "run_id": "uuid-run-789",
+  "status": "running",
+  "poll_url": "/resolve/uuid-run-789"
+}
+```
+
+```json
+GET /resolve/uuid-run-789
+→ 200 OK (when complete)
+{
+  "run_id": "uuid-run-789",
+  "status": "complete",
+  "collection": { ... HarmonizedCollection ... }
+}
+```
+
+**Opinion (mark for review):** For v0.1, resolution runs >10 samples use async mode automatically. Small runs (≤10 samples) are synchronous. The threshold is configurable in `cappella.yaml`. In practice, most Composer-driven requests will use async with polling, so the synchronous path is primarily for CLI/interactive use.
+
+---
+
+## 5.6 Resolution Run Caching (v0.2)
+
+**Opinion (mark for review):** In v0.2, completed `HarmonizedCollection` results are stored as `ResolutionRun` Hippo entities. Identical requests (same entity_type + criteria + parameters + selection + schema version) return a cached result. Cache TTL is configurable. This enables Composer to reference past resolution runs by ID rather than re-resolving, which is important for reproducibility — the exact collection used for a published analysis is a permanent Hippo record.
+
+---
+
+## 5.7 CLI Interface
+
+Cappella provides a CLI for interactive use:
+
+```bash
+# Resolve a collection
+cappella resolve \
+  --entity-type GeneCounts \
+  --criteria "donor.diagnosis=CTE" "sample.tissue=DLPFC" \
+  --parameters genome=GRCh38 \
+  --selection most_recent \
+  --output json > my_collection.json
+
+# Run an immediate ingest
+cappella ingest starlims --incremental
+
+# Fire a trigger manually
+cappella trigger run nightly_starlims_sync
+
+# Check status
+cappella status
+
+# Show reconciliation findings
+cappella findings --entity-type Donor --check field_conflict
+```

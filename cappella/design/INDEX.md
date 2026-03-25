@@ -13,10 +13,10 @@
 |---|---|---|---|
 | `sec1_overview.md` | 1. Overview & Scope | ✅ Draft v0.1 | Harmonization engine, collection resolution, HarmonizedCollection format, v0.1 scope |
 | `sec2_architecture.md` | 2. Architecture | ✅ Draft v0.1 | Adapter registry, ingest pipeline, collection resolver, trigger engine, reconciliation, API surface |
-| `sec3_adapters.md` | 3. Adapter System | ⬜ Not started | ExternalSourceAdapter implementations, field mapping config, transformation pipeline |
-| `sec4_audit.md` | 4. Audit & Observability | ⬜ Not started | Structured run logs (MVP), future SyncRun entities in Hippo |
-| `sec5_workflows.md` | 5. Workflow Execution | ⬜ Not started | Workflow executor strategy, Nextflow/Snakemake integration, output ingestion |
-| `sec6_nfr.md` | 6. Non-Functional Requirements | ⬜ Not started | |
+| `sec3_adapters.md` | 3. Adapter System | ✅ Draft v0.1 | ExternalSourceAdapter ABC, field mapping config, vocabulary normalization, built-in stubs, error handling |
+| `sec4_audit.md` | 4. Audit & Observability | ✅ Draft v0.1 | Structured log events, HarmonizationConflict provenance, health endpoint |
+| `sec5_workflows.md` | 5. Collection Resolution Workflow | ✅ Draft v0.1 | Schema-driven traversal, selection strategies, partial failure, async resolution, CLI |
+| `sec6_nfr.md` | 6. Non-Functional Requirements | ✅ Draft v0.1 | Performance targets, reliability, scalability tiers, extensibility, deployment, full cappella.yaml |
 
 ---
 
@@ -45,10 +45,16 @@ See `platform/design/INDEX.md` for full rationale and config format examples.
 | Conditional triggers | `when:` CEL condition on trigger source — same expression language as validators |
 | Tooling | `cappella trigger explain <name>` — shows full trigger chain, subscriptions, conditions |
 | Artifact resolution | Delegated entirely to Canon — Cappella calls `canon.resolve(entity_type, params)` for per-sample/per-artifact work; Canon handles REUSE/FETCH/BUILD/FAIL internally |
-| Workflow execution | In scope for aggregate analyses only (multi-sample inputs) — Cappella invokes Canon's `CWLExecutorAdapter` directly and ingests via Canon's `OutputIngestionPipeline`. Single-artifact CWL execution is always Canon's responsibility. |
-| Aggregate analysis (v0.1) | Cappella collects per-sample URIs from Canon, constructs multi-input CWL job, executes directly using Canon's executor adapter layer |
-| Aggregate analysis (v0.3+) | Will be replaced by Canon aggregate rules — Cappella degrades to a thin orchestrator calling `canon.resolve()` for cohort-level entities too |
-| Canon relationship | Canon is Cappella's artifact resolution engine, NOT an external data source adapter. It is structurally different from STARLIMS/REDCap adapters. |
+| Workflow execution | NOT Cappella's concern — Canon handles all CWL execution; Cappella calls `canon.resolve()` for per-artifact work |
+| Aggregate analysis | NOT Cappella's concern — Composer receives `HarmonizedCollection` and runs aggregate steps (DESeq2, CountsMatrix merge, etc.) |
+| HarmonizedCollection | Cappella's primary output — resolved/unresolved entities with URIs, Canon decisions, and provenance in structured JSON |
+| Canon relationship | Canon is Cappella's artifact resolution engine, NOT an external data source adapter. Structurally different from STARLIMS/REDCap adapters. |
+| Partial failure | Never abort; collect unresolved items with structured reasons; caller decides acceptability |
+| Field mapping config | In cappella.yaml (not adapter code) — allows labs to reconfigure without releasing adapter packages |
+| Vocabulary normalization | Declared in adapter config; VocabularyNormalizer utility; unmapped values pass through with warning |
+| Schema-driven traversal | Entity graph traversal inferred from Hippo schema references declarations; fallback to explicit paths in cappella.yaml for v0.1 |
+| Canon transport (v0.1) | In-process (import canon directly); HTTP mode available for distributed deployment |
+| Async resolution | Auto-async for >10 samples (configurable); synchronous for small runs and CLI use |
 | Workflow executor strategy | **Open** — wrap Nextflow/Snakemake vs. define own; see open questions |
 
 ---
