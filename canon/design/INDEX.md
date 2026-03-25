@@ -20,6 +20,7 @@
 | `sec5b_storage_adapters.md` | 5b. Storage Adapters | ✅ Draft complete | v0.2 target; plugin architecture for local/S3/GCS/OSF/iRODS |
 | `sec6_hippo_integration.md` | 6. Hippo Integration | ✅ Draft complete | |
 | `sec7_nfr.md` | 7. Non-Functional Requirements | ✅ Draft complete | |
+| `sec8_dynamic_rules.md` | 8. Dynamic Rule Registration & Convention Output Mapping | ✅ Draft complete | v0.2/v0.3 target |
 | `reference_canon_yaml.md` | Reference: canon.yaml schema | ✅ Draft complete | |
 | `reference_canon_rules_yaml.md` | Reference: canon_rules.yaml schema | ✅ Draft complete | |
 | `appendix_a_rnaseq_example.md` | Appendix A: RNA-seq worked example | ✅ Draft complete | |
@@ -104,6 +105,9 @@
 | Aggregate/collect rules (sample sets, gather steps) | Medium | CountsMatrix use case; deferred to v0.3 — Cappella handles set logic through v0.2 |
 | Snakemake/Nextflow native adapter (non-CWL) | Medium | v0.1: CWL only; native adapters as entry-point plugins in v0.2 |
 | Storage adapter plugin system | High | Specified in sec5b; v0.1 has local stub + S3 warn; full plugin system in v0.2 |
+| Dynamic rule registration API | High | Specified in sec8; v0.2: URL-based CWL + convention mapping; v0.3: inline CWL + array outputs |
+| Convention-based CWL→Hippo output mapping | High | Specified in sec8; CWL record output field names = Hippo entity field names; `from_output` for disambiguation; replaces sidecar requirement for well-typed entities |
+| Array-typed CWL outputs | Medium | Specified in sec8; `array_mode: one_per_item` creates one entity per array element; `resolve_all()` deferred to v0.3 |
 | Visual workflow builder | Low | Use existing CWL editors (Rabix Composer, cwl-viewer) for now |
 | DRS URI integration | Medium | Canon outputs get `self` URI from Hippo; DRS server in Hippo v0.2 |
 | Federation / cross-lab artifact sharing | Low | Hippo DRS + Canon DRS client; deferred to v0.3 |
