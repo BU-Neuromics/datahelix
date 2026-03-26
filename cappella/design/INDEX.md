@@ -50,11 +50,14 @@ See `platform/design/INDEX.md` for full rationale and config format examples.
 | HarmonizedCollection | Cappella's primary output — resolved/unresolved entities with URIs, Canon decisions, and provenance in structured JSON |
 | Canon relationship | Canon is Cappella's artifact resolution engine, NOT an external data source adapter. Structurally different from STARLIMS/REDCap adapters. |
 | Partial failure | Never abort; collect unresolved items with structured reasons; caller decides acceptability |
-| Field mapping config | In cappella.yaml (not adapter code) — allows labs to reconfigure without releasing adapter packages |
-| Vocabulary normalization | Declared in adapter config; VocabularyNormalizer utility; unmapped values pass through with warning |
+| Generic adapters | CSVAdapter, JSONAdapter, XMLAdapter bundled in core — config-driven field/vocab mapping; covers most use cases without custom code |
+| Custom adapter plugins | cappella.adapters entry points; handle complex auth/pagination/protocols; field mapping in code |
+| Field mapping | In adapter config (for generic adapters) or adapter code (for custom plugins); not in cappella.yaml |
+| Vocabulary normalization | In adapter config (for generic adapters) or adapter code (for custom plugins); not in cappella.yaml |
 | Schema-driven traversal | Entity graph traversal inferred from Hippo schema references declarations; fallback to explicit paths in cappella.yaml for v0.1 |
 | Canon transport (v0.1) | In-process (import canon directly); HTTP mode available for distributed deployment |
-| Async resolution | Auto-async for >10 samples (configurable); synchronous for small runs and CLI use |
+| Async resolution | Always async API (POST /resolve → 202 + run_id); CLI blocks by polling for interactive use; --no-wait flag for scripted use |
+| CLI | In scope for v0.1 — cappella resolve/ingest/trigger/status/findings |
 | Workflow executor strategy | **Open** — wrap Nextflow/Snakemake vs. define own; see open questions |
 
 ---

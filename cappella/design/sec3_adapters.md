@@ -1,18 +1,20 @@
 # Section 3: Adapter System
 
-**Status:** Draft v0.1  
+**Status:** Draft v0.1 (revised)
 **Last updated:** 2026-03-25
 
 ---
 
 ## 3.1 Overview
 
-External adapters are the mechanism by which Cappella ingests structured attribute data from systems outside the BASS platform. Each adapter handles one external system and is responsible for:
+External adapters are the mechanism by which Cappella ingests structured attribute data from external systems. Each adapter handles one external data format and is responsible for:
 
-1. **Fetching** records from the external system (pull model, v0.1)
-2. **Transforming** records to canonical Hippo schema
-3. **Declaring** which entity types it produces
-4. **Optionally validating** cross-record consistency before upsert
+1. **Fetching** records from an external source
+2. **Parsing** records from the source format (CSV, JSON, XML, etc.)
+3. **Transforming** fields to canonical Hippo schema via config-driven field and vocabulary mapping
+4. **Declaring** which entity types it produces
+
+**Key design principle:** Format and transport are handled by the adapter. If the data format changes (CSV → JSON), a different adapter type and config are used — not a format flag on a shared adapter. Each adapter type has a purpose-built config schema.
 
 Adapters are Python packages, discovered at startup via the `cappella.adapters` entry point group, and configured in `cappella.yaml`.
 
@@ -20,211 +22,201 @@ Adapters are Python packages, discovered at startup via the `cappella.adapters` 
 
 ## 3.2 ExternalSourceAdapter ABC
 
-Defined in Hippo (`hippo.core.adapters`) so the contract is versioned with Hippo, not Cappella. Concrete implementations live in Cappella or separate community packages.
+Defined in Hippo (`hippo.core.adapters`) so the contract is versioned with Hippo. Concrete implementations live in separate adapter packages — not in Cappella core.
 
 ```python
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Iterator
 
 @dataclass
 class RawRecord:
-    """Unprocessed record as received from the external system."""
     source_system: str
-    external_id: str          # stable identifier in the source system
-    entity_hint: str | None   # suggested entity type, if source provides it
+    external_id: str
     data: dict[str, Any]
     fetched_at: datetime
 
 @dataclass
 class TransformedRecord:
-    """Record ready for upsert into Hippo."""
     entity_type: str
-    data: dict[str, Any]      # field names must match Hippo schema
+    data: dict[str, Any]
     external_id: str
     source_system: str
-    trust_level: int = 50     # 0-100; higher trust wins conflicts
+    trust_level: int = 50
 
 
 class ExternalSourceAdapter(ABC):
-    """Abstract base class for Cappella external source adapters."""
-
-    #: Entry point name, e.g. "starlims", "halo", "redcap"
-    name: str
-
-    #: Entity types this adapter can produce, e.g. ["Donor", "Sample"]
+    name: str              # entry point name, e.g. "csv", "json", "starlims_api"
     entity_types: list[str]
-
-    #: Trust level for conflict resolution (0-100). Higher wins.
-    #: Default 50. Set higher for authoritative sources (e.g., sequencing core = 80).
     trust_level: int = 50
-
-    #: Whether this adapter can pull only changed records since a timestamp.
     supports_incremental: bool = False
 
     @abstractmethod
-    def fetch(self, since: datetime | None = None) -> Iterator[RawRecord]:
-        """Pull records from the external system.
-
-        Args:
-            since: If provided and supports_incremental=True, only return records
-                   changed since this timestamp. If None, perform a full sync.
-
-        Yields:
-            RawRecord instances, one per external record.
-        """
-        ...
+    def fetch(self, since: datetime | None = None) -> Iterator[RawRecord]: ...
 
     @abstractmethod
-    def transform(self, record: RawRecord) -> TransformedRecord:
-        """Map external record to canonical Hippo schema.
+    def transform(self, record: RawRecord) -> TransformedRecord: ...
 
-        This is where field renaming, vocabulary normalization, type coercion,
-        and any source-specific logic lives. Must be deterministic and side-effect-free.
-
-        Args:
-            record: A raw record from fetch().
-
-        Returns:
-            TransformedRecord ready for upsert.
-
-        Raises:
-            AdapterTransformError: If the record cannot be meaningfully transformed.
-                The ingest pipeline will log this and continue with the next record.
-        """
-        ...
-
-    def validate(
-        self,
-        record: TransformedRecord,
-        hippo_client: Any,  # HippoClient
-    ) -> list[str]:
-        """Optional cross-record validation against existing Hippo state.
-
-        Called after transform(), before upsert. Returning a non-empty list
-        blocks the upsert for this record and records the errors as a
-        HarmonizationConflict event.
-
-        Default implementation: no validation (returns []).
-        """
+    def validate(self, record: TransformedRecord, hippo_client: Any) -> list[str]:
         return []
 
     def health_check(self) -> dict[str, Any]:
-        """Optional connectivity check for the external system.
-
-        Returns a dict with at minimum {"status": "ok" | "error", "detail": str}.
-        Used by GET /status to report adapter health.
-        """
         return {"status": "unknown", "detail": "health_check not implemented"}
 ```
 
 ---
 
-## 3.3 Adapter Configuration (`cappella.yaml`)
+## 3.3 Built-in Generic Adapters
 
-Each adapter is configured in `cappella.yaml` under `adapters:`. The config is passed to the adapter's `__init__` at startup.
+Cappella core ships three generic adapters that handle common data formats with config-driven field and vocabulary mapping. These cover the majority of real-world use cases without requiring custom code.
+
+### CSVAdapter
+
+For tabular data delivered as CSV files — uploaded manually, fetched via HTTP GET, or pulled from a local path.
 
 ```yaml
 adapters:
-  starlims:
-    enabled: true
-    trust_level: 80          # authoritative source for sample/donor identity
+  starlims_samples:
+    type: csv
+    trust_level: 80
     config:
-      base_url: "https://starlims.yourinstitution.edu/api/v2"
-      auth_token: "${STARLIMS_API_TOKEN}"
-      entity_types: [Donor, Sample]
+      source: http              # "http" | "file" | "manual_upload"
+      url: "https://starlims.yourinstitution.edu/export/samples.csv"
+      auth_header: "Authorization: Bearer ${STARLIMS_TOKEN}"
+      schedule: "0 2 * * *"    # cron; omit for manual_upload
+      entity_type: Sample
+      external_id_field: SUBJECT_ID
       field_map:
-        # External field name → Hippo field name
         SUBJECT_ID: external_id
         SEX: sex
         AGE_AT_DEATH: age_at_death
-        DIAGNOSIS: diagnosis
-        TISSUE_CODE: tissue
-
-  halo:
-    enabled: true
-    trust_level: 70
-    config:
-      base_url: "https://halo.yourinstitution.edu/export"
-      api_key: "${HALO_API_KEY}"
-      entity_types: [HistopathologyScore]
-      field_map:
-        SAMPLE_BARCODE: sample_external_id
-        ALGORITHM: algorithm_version
-        SCORE: score_value
-
-  manual:
-    enabled: true
-    trust_level: 60
-    config:
-      # Manual ingest adapter — accepts CSV/JSON payloads via POST /ingest/manual
-      entity_types: [Donor, Sample, SequencingDataset]
+        TISSUE_REGION: tissue
+        DIAGNOSIS_CODE: diagnosis
+      vocabulary_map:
+        diagnosis:
+          "CTE": "chronic traumatic encephalopathy"
+          "AD": "Alzheimer disease"
+          "PD": "Parkinson disease"
 ```
 
-### Field Mapping
+CSVAdapter reads the declared `field_map` to rename columns, applies `vocabulary_map` to normalize values, and constructs `TransformedRecord` objects ready for upsert. Extra columns not in `field_map` are ignored. Missing required fields raise `AdapterTransformError`.
 
-**Opinion (mark for review):** Field mapping is declared in `cappella.yaml` (adapter config), not in the adapter code. This allows labs to reconfigure mappings without releasing a new adapter package. The `field_map` config is passed to the adapter's `transform()` as a utility dict; the adapter applies it. Complex transformations (vocabulary normalization, type coercion) that can't be expressed as field renames live in adapter code.
+### JSONAdapter
 
----
-
-## 3.4 Vocabulary Normalization
-
-Different source systems often use different controlled vocabularies for the same concept. A `Diagnosis` field might be `"Alzheimer's Disease"` in STARLIMS, `"AD"` in REDCap, and `"Alzheimer disease"` in HALO.
-
-Cappella provides a `VocabularyNormalizer` utility:
-
-```python
-class VocabularyNormalizer:
-    def normalize(self, source_system: str, field: str, value: str) -> str:
-        """Return canonical Hippo value for a source-specific vocabulary term."""
-        ...
-```
-
-Vocabulary mappings are declared in the adapter config:
+For systems that expose a JSON API or deliver JSON files.
 
 ```yaml
 adapters:
-  starlims:
+  halo_scores:
+    type: json
+    trust_level: 70
     config:
-      vocabulary:
-        diagnosis:
-          "Alzheimer's Disease": "Alzheimer disease"
-          "ALS": "amyotrophic lateral sclerosis"
-          "CTE": "chronic traumatic encephalopathy"
+      source: http
+      url: "https://halo.yourinstitution.edu/api/v2/scores"
+      auth_header: "X-API-Key: ${HALO_KEY}"
+      records_path: "$.data.scores[*]"   # JSONPath to the array of records
+      schedule: "0 3 * * *"
+      entity_type: HistopathologyScore
+      external_id_field: score_id
+      field_map:
+        score_id: external_id
+        sample_barcode: sample_external_id
+        algorithm: algorithm_version
+        value: score_value
 ```
 
-The `VocabularyNormalizer` applies these mappings in `transform()`. Unmapped values pass through as-is and are flagged in the `TransformedRecord.warnings` field (not a hard error).
+`records_path` is a JSONPath expression that locates the array of records within the response. This handles the common case where the actual records are nested inside a response envelope.
 
-**Opinion (mark for review):** Vocabulary maps live in config, not code, to allow non-engineer correction without a release cycle. A future Hippo feature (ontology/vocabulary entity type) could replace static maps with dynamic lookups.
+### XMLAdapter
+
+For legacy systems and HL7/FHIR-style XML exports.
+
+```yaml
+adapters:
+  redcap_clinical:
+    type: xml
+    trust_level: 60
+    config:
+      source: manual_upload    # uploaded via POST /ingest/redcap_clinical
+      records_xpath: "//record"
+      entity_type: ClinicalAssessment
+      external_id_field: "@record_id"    # XPath attribute reference
+      field_map:
+        "@record_id": external_id
+        "diagnosis/value": diagnosis
+        "age_at_enrollment": age_at_enrollment
+      vocabulary_map:
+        diagnosis:
+          "Probable CTE": "chronic traumatic encephalopathy"
+```
 
 ---
 
-## 3.5 Built-in Adapters (v0.1)
+## 3.4 Manual Upload (`manual_upload` source)
 
-### ManualIngestAdapter
+Any adapter that declares `source: manual_upload` accepts data via `POST /ingest/{adapter_name}`. This is the primary path for spreadsheet-based onboarding of legacy datasets and for systems where push (not pull) is more natural.
 
-Accepts CSV or JSON payloads via `POST /ingest/manual`. Validates field names against the declared entity type schema. No external connectivity required. The foundation for spreadsheet-based onboarding of legacy datasets.
+```bash
+# Upload a CSV directly
+curl -X POST http://cappella:8002/ingest/starlims_samples \
+  -H "Content-Type: text/csv" \
+  --data-binary @samples_export.csv
 
+# Upload JSON
+curl -X POST http://cappella:8002/ingest/halo_scores \
+  -H "Content-Type: application/json" \
+  -d @halo_export.json
 ```
-POST /ingest/manual
-Content-Type: text/csv
-X-Entity-Type: Sample
 
-sample_id,donor_id,tissue,diagnosis
-S001,D001,DLPFC,CTE
-S002,D001,DLPFC,CTE
+The CLI equivalent:
+
+```bash
+cappella ingest starlims_samples --file samples_export.csv
+cappella ingest halo_scores --file halo_export.json
 ```
 
-### STARLIMSAdapter (stub)
+---
 
-Stub implementation in Cappella core. Returns empty fetch results with a log warning until a concrete implementation is developed or the `cappella-adapter-starlims` community package is installed.
+## 3.5 Custom Adapter Plugins
 
-### HALOAdapter (stub), REDCapAdapter (stub)
+When the generic adapters are insufficient — complex authentication flows, paginated APIs, SFTP sources, relational database queries, proprietary protocols — labs write custom adapter packages.
 
-Same pattern — stubs that log a warning and return empty results.
+A custom adapter implements `ExternalSourceAdapter` directly, handling both transport and transformation in code. Field and vocabulary maps may be externalized to the adapter's own config section if the author chooses, but this is the adapter author's decision, not enforced by Cappella core.
 
-**Opinion (mark for review):** Shipping stubs for the three priority external systems ensures the entry points and config schema are tested from day 1, even without real API connectivity. Real implementations can be developed and released as separate packages without touching Cappella core.
+```python
+# cappella_adapter_starlims/adapter.py
+class STARLIMSAdapter(ExternalSourceAdapter):
+    name = "starlims_api"
+    entity_types = ["Donor", "Sample"]
+    supports_incremental = True
+
+    def __init__(self, config: dict) -> None:
+        self._client = STARLIMSClient(
+            base_url=config["base_url"],
+            token=config["auth_token"],
+        )
+
+    def fetch(self, since=None) -> Iterator[RawRecord]:
+        for page in self._client.get_samples(modified_since=since):
+            for record in page["records"]:
+                yield RawRecord(
+                    source_system="starlims",
+                    external_id=record["SUBJECT_ID"],
+                    data=record,
+                    fetched_at=datetime.utcnow(),
+                )
+
+    def transform(self, record: RawRecord) -> TransformedRecord:
+        # All mapping logic lives here in code
+        ...
+```
+
+Registered via entry point:
+```toml
+[project.entry-points."cappella.adapters"]
+starlims_api = "cappella_adapter_starlims:STARLIMSAdapter"
+```
 
 ---
 
@@ -232,36 +224,34 @@ Same pattern — stubs that log a warning and return empty results.
 
 | Error type | Handling |
 |-----------|----------|
-| `AdapterFetchError` | Log error, abort this sync run, record in audit log, do not retry automatically (next scheduled run will retry) |
-| `AdapterTransformError` | Log error for this record, continue with remaining records, record failed record count in audit log |
-| `HippoClient error` | Log error, abort sync run, record in audit log |
-| `validate()` returns errors | Block upsert for this record, record as `HarmonizationConflict` event, continue with remaining records |
+| Fetch failure (network, auth) | Abort run, log `adapter_run_failed` event, do not retry automatically |
+| `AdapterTransformError` | Skip this record, log error, continue with remaining records |
+| `validate()` returns errors | Block upsert for this record, record `HarmonizationConflict` event, continue |
+| HippoClient write error | Abort run, log error with record context |
 
-**Partial success is always preferred over all-or-nothing.** A sync run that ingests 95 out of 100 records is better than one that aborts at the first error. Failed records are logged with full context for manual review.
+Partial success is always preferred. A run that transforms 95/100 records is reported as `partial_success`, not failure.
 
 ---
 
 ## 3.7 Adapter Run Audit
 
-Each adapter sync run produces a structured `AdapterRun` log entry:
+Each run produces a structured `adapter_run_completed` log event:
 
 ```json
 {
+  "event": "adapter_run_completed",
   "run_id": "uuid-run-123",
-  "adapter": "starlims",
-  "trigger": "nightly_starlims_sync",
-  "started_at": "2026-03-25T02:00:01Z",
-  "finished_at": "2026-03-25T02:00:47Z",
+  "adapter": "starlims_samples",
   "mode": "incremental",
-  "since": "2026-03-24T02:00:00Z",
   "fetched": 150,
   "transformed": 149,
   "upserted": 23,
   "skipped_identical": 126,
   "failed_transform": 1,
   "conflicts_detected": 2,
-  "status": "partial_success"
+  "status": "partial_success",
+  "duration_seconds": 46.2
 }
 ```
 
-In v0.1, this is written to structured logs. In v0.2, it becomes an `AdapterRun` Hippo entity for long-term audit queryability.
+In v0.2 this becomes an `AdapterRun` Hippo entity for long-term queryability.

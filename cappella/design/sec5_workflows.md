@@ -146,7 +146,7 @@ A resolution run with 3/4 samples resolved and 1 unresolved is a valid result, n
 
 ## 5.5 Async Resolution
 
-For large cohorts (100+ samples), `POST /resolve` returns immediately with a `run_id` and processes the resolution asynchronously.
+`POST /resolve` always returns immediately with a `run_id`. The caller polls for completion or uses a webhook callback (v0.2). This removes any arbitrary sync/async threshold and makes the API surface consistent regardless of cohort size.
 
 ```json
 POST /resolve
@@ -168,7 +168,18 @@ GET /resolve/uuid-run-789
 }
 ```
 
-**Opinion (mark for review):** For v0.1, resolution runs >10 samples use async mode automatically. Small runs (≤10 samples) are synchronous. The threshold is configurable in `cappella.yaml`. In practice, most Composer-driven requests will use async with polling, so the synchronous path is primarily for CLI/interactive use.
+The CLI blocks internally by polling until complete, giving synchronous behavior for interactive use:
+
+```bash
+cappella resolve \
+  --entity-type GeneCounts \
+  --criteria "donor.diagnosis=CTE" "sample.tissue=DLPFC" \
+  --parameters genome=GRCh38 \
+  --output my_collection.json
+# Blocks until complete, writes result to file
+```
+
+The `--no-wait` flag returns the `run_id` immediately for scripted use.
 
 ---
 
