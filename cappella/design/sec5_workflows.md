@@ -144,31 +144,29 @@ A resolution run with 3/4 samples resolved and 1 unresolved is a valid result, n
 
 ---
 
-## 5.5 Async Resolution
+## 5.5 Synchronous and Async Resolution
 
-`POST /resolve` always returns immediately with a `run_id`. The caller polls for completion or uses a webhook callback (v0.2). This removes any arbitrary sync/async threshold and makes the API surface consistent regardless of cohort size.
+`POST /resolve` is **synchronous by default**, blocking until the collection is complete and returning the `HarmonizedCollection` directly. This is the simplest and most practical behavior for v0.1 (laptop/lab server, CLI use, Composer calls).
 
 ```json
 POST /resolve
-→ 202 Accepted
-{
-  "run_id": "uuid-run-789",
-  "status": "running",
-  "poll_url": "/resolve/uuid-run-789"
-}
+→ 200 OK
+{ ... HarmonizedCollection ... }
 ```
+
+For long-running resolutions (large cohorts, many Canon BUILD operations), add `?async=true` to get the async pattern instead:
 
 ```json
+POST /resolve?async=true
+→ 202 Accepted
+{ "run_id": "uuid-run-789", "status": "running", "poll_url": "/resolve/uuid-run-789" }
+
 GET /resolve/uuid-run-789
 → 200 OK (when complete)
-{
-  "run_id": "uuid-run-789",
-  "status": "complete",
-  "collection": { ... HarmonizedCollection ... }
-}
+{ "run_id": "uuid-run-789", "status": "complete", "collection": { ... } }
 ```
 
-The CLI blocks internally by polling until complete, giving synchronous behavior for interactive use:
+The CLI uses synchronous mode by default:
 
 ```bash
 cappella resolve \
@@ -176,10 +174,12 @@ cappella resolve \
   --criteria "donor.diagnosis=CTE" "sample.tissue=DLPFC" \
   --parameters genome=GRCh38 \
   --output my_collection.json
-# Blocks until complete, writes result to file
+# Blocks until complete
+
+cappella resolve ... --async   # Returns run_id immediately for background jobs
 ```
 
-The `--no-wait` flag returns the `run_id` immediately for scripted use.
+A server-side timeout (default 300s, configurable in `cappella.yaml`) causes synchronous requests that exceed the limit to automatically switch to async, returning 202 with a `run_id` so the client is never left hanging.
 
 ---
 

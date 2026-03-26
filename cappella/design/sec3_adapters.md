@@ -151,6 +151,53 @@ adapters:
           "Probable CTE": "chronic traumatic encephalopathy"
 ```
 
+### SQLAdapter
+
+For pulling data directly from SQL databases — LIMS systems, REDCap, lab databases, or any system with a queryable SQL interface. The query is specified in config, making it easy to adjust without code changes.
+
+```yaml
+adapters:
+  lims_donors:
+    type: sql
+    trust_level: 80
+    config:
+      connection_string: "postgresql://${LIMS_USER}:${LIMS_PASSWORD}@lims.yourinstitution.edu:5432/lims"
+      # OR for SQLite:
+      # connection_string: "sqlite:////data/lims_export.db"
+      entity_type: Donor
+      external_id_field: subject_id
+      query: |
+        SELECT
+          subject_id,
+          sex,
+          age_at_death,
+          diagnosis,
+          tissue_region
+        FROM subjects
+        WHERE tissue_bank = 'BU'
+        AND status = 'available'
+      incremental_query: |
+        SELECT
+          subject_id,
+          sex,
+          age_at_death,
+          diagnosis,
+          tissue_region
+        FROM subjects
+        WHERE tissue_bank = 'BU'
+        AND updated_at > :since
+      field_map:
+        subject_id: external_id
+        tissue_region: tissue
+      vocabulary_map:
+        diagnosis:
+          "CTE": "chronic traumatic encephalopathy"
+```
+
+`query` is used for full syncs. `incremental_query` is used when `supports_incremental: true` — the `:since` parameter is bound to the last successful sync timestamp. Connections use SQLAlchemy (bundled), supporting PostgreSQL, MySQL, SQLite, and any SQLAlchemy-compatible backend.
+
+**Security note:** SQL queries in config run with the configured database user's permissions. Use a read-only database user for Cappella. Query validation at startup rejects queries containing INSERT, UPDATE, DELETE, DROP, or other write operations.
+
 ---
 
 ## 3.4 Manual Upload (`manual_upload` source)
