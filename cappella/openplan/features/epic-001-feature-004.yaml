@@ -1,0 +1,26 @@
+id: epic-001-feature-004
+title: AdapterRegistry - discovery, instantiation, and health aggregation
+description: >
+  Implement AdapterRegistry that discovers adapter classes via the cappella.adapters
+  entry point group, instantiates them with their config sections from CappellaConfig,
+  and provides get(name) and all() accessors. health_check_all() returns a dict of
+  adapter name to health status.
+acceptance_criteria:
+- Given an adapter class registered under entry point "cappella.adapters" with name
+  "csv", when AdapterRegistry.from_config(config) is called, then registry.get("csv")
+  returns the instantiated adapter
+- Given a config with an adapter section referencing adapter name "unknown_adapter",
+  when AdapterRegistry.from_config(config) is called, then a ConfigError is raised
+  indicating the adapter type is not registered
+- Given two adapters are registered in the registry, when registry.all() is called,
+  then a list of two adapter instances is returned
+- Given an adapter's health_check() returns status=ok, when registry.health_check_all()
+  is called, then the result dict contains the adapter name mapped to a status-ok dict
+- Given an adapter's health_check() raises an exception, when registry.health_check_all()
+  is called, then the result contains status=error and the exception message in detail
+  for that adapter without raising
+complexity: medium
+dependencies:
+- epic-001-feature-001
+- epic-001-feature-002
+spec_ready: true

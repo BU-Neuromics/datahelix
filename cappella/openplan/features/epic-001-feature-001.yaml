@@ -1,0 +1,22 @@
+id: epic-001-feature-001
+title: CappellaConfig Pydantic model and cappella.yaml loader
+description: >
+  Implement CappellaConfig as a Pydantic model that parses all sections of cappella.yaml
+  (hippo, canon, server, resolution, adapters, triggers, logging). Loader performs
+  environment variable substitution for ${ENV_VAR} references before parsing.
+acceptance_criteria:
+- Given a valid cappella.yaml with all sections populated, when load_config(path) is
+  called, then a CappellaConfig instance is returned with all fields correctly typed
+  and no validation errors
+- Given a cappella.yaml containing ${HIPPO_API_TOKEN} in the hippo.token field and
+  the environment variable is set, when load_config(path) is called, then the resolved
+  token value is present in config.hippo.token
+- Given a cappella.yaml with a missing required hippo.url field, when load_config(path)
+  is called, then a ConfigError is raised with a message identifying the missing field
+- Given a cappella.yaml with canon.enabled false, when load_config(path) is called,
+  then config.canon.enabled is False and no CanonClient initialization is attempted
+- Given a cappella.yaml with resolution.sync_threshold set to 10, when load_config(path)
+  is called, then config.resolution.sync_threshold equals 10
+complexity: low
+dependencies: []
+spec_ready: true

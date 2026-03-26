@@ -1,0 +1,27 @@
+id: epic-001-feature-002
+title: ExternalSourceAdapter ABC with RawRecord and TransformedRecord
+description: >
+  Implement the ExternalSourceAdapter abstract base class (as specified in sec3.2)
+  with RawRecord and TransformedRecord dataclasses. The ABC defines fetch(), transform(),
+  validate(), and health_check() with correct signatures and default implementations
+  for validate() and health_check().
+acceptance_criteria:
+- Given a class that inherits ExternalSourceAdapter without implementing fetch(),
+  when instantiation is attempted, then a TypeError is raised indicating the abstract
+  method must be implemented
+- Given a class that inherits ExternalSourceAdapter without implementing transform(),
+  when instantiation is attempted, then a TypeError is raised indicating the abstract
+  method must be implemented
+- Given a concrete adapter with validate() not overridden, when validate() is called
+  with a TransformedRecord and a HippoClient, then an empty list is returned
+- Given a RawRecord is created with source_system starlims, external_id S001,
+  a data dict, and fetched_at set to a datetime, when the dataclass fields
+  are accessed, then all values are present and correctly typed
+- Given a TransformedRecord is created with entity_type Sample, empty data dict,
+  external_id S001, source_system starlims, when trust_level is not specified,
+  then trust_level defaults to 50
+- Given a concrete adapter implements health_check() returning status ok,
+  when health_check() is called, then the dict is returned unchanged
+complexity: low
+dependencies: []
+spec_ready: true

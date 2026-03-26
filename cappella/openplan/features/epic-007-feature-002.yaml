@@ -1,0 +1,25 @@
+id: epic-007-feature-002
+title: Async resolution job management - run tracking and progress polling
+description: >
+  Implement AsyncJobStore that tracks resolution runs in memory. GET /resolve/{run_id}
+  returns current status (queued/running/complete/failed), live samples_resolved counter,
+  samples_total, and the final HarmonizedCollection when complete. The samples_resolved
+  counter increments as Canon calls complete, enabling live progress display.
+acceptance_criteria:
+- Given a resolution run is queued via POST /resolve, when GET /resolve/{run_id} is
+  called immediately, then a 200 response with status="queued" is returned
+- Given a resolution run is in progress with 12 of 47 samples resolved, when
+  GET /resolve/{run_id} is called, then the response contains status="running",
+  samples_total=47, and samples_resolved=12
+- Given a resolution run completes, when GET /resolve/{run_id} is called, then the
+  response contains status="complete", finished_at timestamp, and the full
+  HarmonizedCollection in the "collection" field
+- Given a resolution run fails (e.g. Canon unreachable for all samples), when
+  GET /resolve/{run_id} is called, then the response contains status="failed" and
+  an error message
+- Given an unknown run_id is provided, when GET /resolve/{run_id} is called,
+  then a 404 response is returned
+complexity: medium
+dependencies:
+- epic-007-feature-001
+spec_ready: true

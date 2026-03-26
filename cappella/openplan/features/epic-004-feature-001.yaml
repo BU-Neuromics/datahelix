@@ -1,0 +1,25 @@
+id: epic-004-feature-001
+title: HarmonizedCollection, ResolvedItem, and UnresolvedItem types
+description: >
+  Implement the HarmonizedCollection dataclass and its component types: ResolvedItem
+  (sample_id, entity, status, canon_decision) and UnresolvedItem (sample_id, reason,
+  detail). Implement the full HarmonizedCollection schema per sec1.5 including request,
+  selection, resolved[], unresolved[], and provenance fields. Supports JSON serialization.
+acceptance_criteria:
+- Given a HarmonizedCollection is constructed with 2 resolved items and 1 unresolved
+  item, when serialized to JSON via to_dict(), then the output matches the schema from
+  sec1.5 with "request", "selection", "resolved", "unresolved", and "provenance" keys
+- Given a ResolvedItem with sample_id="S001", canon_decision="REUSE", and a URI in
+  entity.uri, when to_dict() is called on the collection, then the resolved array
+  contains the item with all fields present
+- Given an UnresolvedItem with sample_id="S003", reason="no_dataset", and detail
+  string, when to_dict() is called, then the unresolved array contains the item with
+  all fields present
+- Given a HarmonizedCollection is constructed, when .resolved_count and
+  .unresolved_count properties are accessed, then they return the correct counts
+- Given a HarmonizedCollection with provenance containing cappella_version, hippo_version,
+  canon_version, and genome_build entity, when to_dict() is called, then the provenance
+  section contains all four fields
+complexity: low
+dependencies: []
+spec_ready: true

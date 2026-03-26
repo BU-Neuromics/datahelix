@@ -1,0 +1,1 @@
+"""Cappella canon client package."""

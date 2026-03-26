@@ -1,0 +1,29 @@
+id: epic-002-feature-001
+title: CSVAdapter with field_map and vocabulary_map
+description: >
+  Implement CSVAdapter supporting file, http, and manual_upload sources. Config-driven
+  field_map renames columns to canonical Hippo field names. vocabulary_map normalizes
+  field values (e.g. "AD" to "Alzheimer disease"). Extra columns not in field_map are
+  ignored. Missing required fields raise AdapterTransformError.
+acceptance_criteria:
+- Given a CSV file with columns SUBJECT_ID, SEX, DIAGNOSIS_CODE and a field_map
+  mapping SUBJECT_ID to external_id, SEX to sex, DIAGNOSIS_CODE to diagnosis, when
+  CSVAdapter.fetch() is called with source=file, then RawRecord objects are yielded
+  for each row with data matching the original column values
+- Given a RawRecord with SUBJECT_ID=S001 and DIAGNOSIS_CODE=AD and a vocabulary_map
+  setting diagnosis AD to Alzheimer disease, when transform() is called, then the
+  TransformedRecord data contains external_id=S001 and diagnosis=Alzheimer disease
+- Given a CSV row missing the field declared as external_id_field, when transform()
+  is called on that record, then AdapterTransformError is raised with the field name
+  in the error context
+- Given a CSV with extra columns not present in field_map, when transform() is called,
+  then the extra columns are silently ignored and not present in TransformedRecord.data
+- Given an adapter config with source=http and a URL returning a valid CSV, when
+  fetch() is called, then RawRecord objects are yielded from the HTTP response
+- Given a CSVAdapter with source=manual_upload and data bytes passed to fetch(),
+  when fetch() is called with in-memory bytes, then RawRecord objects are yielded
+  from the provided data
+complexity: medium
+dependencies:
+- epic-001-feature-002
+spec_ready: true

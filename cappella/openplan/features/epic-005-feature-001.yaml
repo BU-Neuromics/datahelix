@@ -1,0 +1,25 @@
+id: epic-005-feature-001
+title: CanonClient - in-process and HTTP transport modes
+description: >
+  Implement CanonClient with two transport modes: in_process (import canon directly)
+  and http (call Canon REST API). The client exposes a single resolve(entity_type, params)
+  method. Transport mode is selected from config. The client is injectable (accepts
+  a mock in tests). Configurable per-call timeout.
+acceptance_criteria:
+- Given a CanonClient configured with mode=in_process and a stub Canon module, when
+  resolve() is called with entity_type=GeneCounts and params containing dataset_id=DS001,
+  then the stub's resolve function is called with the same arguments
+- Given a CanonClient configured with mode=http and a running Canon HTTP stub, when
+  resolve() is called, then an HTTP POST is made to the Canon URL with entity_type
+  and params in the request body
+- Given a CanonClient with timeout_seconds=5 and Canon taking more than 5 seconds to respond,
+  when resolve() is called, then CanonTimeoutError is raised
+- Given Canon returns a decision=REUSE and a URI, when resolve() completes,
+  then the decision and URI are returned as a named tuple or dataclass
+- Given the CanonClient is constructed with a pre-built stub (injectable), when
+  resolve() is called on the stub, then the stub's return value is used without any
+  network or import calls
+complexity: medium
+dependencies:
+- epic-001-feature-003
+spec_ready: true

@@ -1,0 +1,21 @@
+id: epic-001-feature-003
+title: Error hierarchy
+description: >
+  Implement the full Cappella error hierarchy rooted at CappellaError. Includes
+  ConfigError, AdapterError, AdapterFetchError, AdapterTransformError, CanonError,
+  CanonNoRuleError, CanonResolveError, CanonTimeoutError, TriggerError, and
+  ReconciliationError. All errors carry a human-readable message and optional context dict.
+acceptance_criteria:
+- Given any Cappella error is raised, when it is caught as CappellaError, then the
+  exception is caught correctly (all errors are subclasses of CappellaError)
+- Given an AdapterFetchError is raised, when it is caught as AdapterError, then the
+  exception is caught correctly (AdapterFetchError is a subclass of AdapterError)
+- Given a CanonNoRuleError is raised, when it is caught as CanonError, then the
+  exception is caught correctly (CanonNoRuleError is a subclass of CanonError)
+- Given a ConfigError is raised with message "missing hippo.url", when str(error) is
+  called, then the message "missing hippo.url" is present in the output
+- Given an AdapterTransformError is raised with a context dict containing field=diagnosis
+  and value=X, when error.context is accessed, then the dict with those keys is returned
+complexity: low
+dependencies: []
+spec_ready: true

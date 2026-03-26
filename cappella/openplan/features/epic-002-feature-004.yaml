@@ -1,0 +1,30 @@
+id: epic-002-feature-004
+title: SQLAdapter with SQLAlchemy and write-operation rejection
+description: >
+  Implement SQLAdapter using SQLAlchemy Core. Full-sync uses query config; incremental
+  uses incremental_query with :since bound to last sync timestamp. At initialization,
+  the configured query is parsed and rejected if it contains INSERT, UPDATE, DELETE,
+  DROP, ALTER, TRUNCATE, or EXEC operations.
+acceptance_criteria:
+- Given a SQLite in-memory database with a subjects table and a SQLAdapter config
+  with a valid SELECT query, when fetch() is called, then one RawRecord is yielded
+  per row with data matching the row values
+- Given a SQLAdapter config with incremental_query containing :since and
+  supports_incremental=true, when fetch() is called with a since datetime, then
+  the :since parameter is bound to that datetime in the executed query
+- Given a SQLAdapter config with query containing DELETE FROM subjects, when
+  SQLAdapter is instantiated, then a ConfigError is raised indicating write
+  operations are not permitted in adapter queries
+- Given a SQLAdapter config with query containing INSERT INTO, when SQLAdapter
+  is instantiated, then a ConfigError is raised
+- Given a SQLAdapter config with a valid connection_string and a SELECT query,
+  when the database is unreachable, then AdapterFetchError is raised with the
+  connection error detail
+- Given field_map mapping subject_id to external_id and tissue_region to tissue,
+  and a row with subject_id=S001, tissue_region=DLPFC, sex=M, when transform() is
+  called, then TransformedRecord.data contains external_id=S001 and tissue=DLPFC
+  but not the unmapped sex field
+complexity: medium
+dependencies:
+- epic-001-feature-002
+spec_ready: true

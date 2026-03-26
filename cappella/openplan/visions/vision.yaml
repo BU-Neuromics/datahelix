@@ -1,0 +1,89 @@
+id: cappella-vision
+problem_statement: >
+  Bioinformatics research generates data from many heterogeneous external systems —
+  LIMS (STARLIMS), histopathology scorers (HALO), clinical assessment tools (REDCap),
+  and sequencing cores — each with its own schema, identifier conventions, and update
+  cadence. Researchers currently have no standard mechanism to pull this data into a
+  single, consistent, provenance-rich picture in Hippo, to resolve cohort collections
+  across these sources, or to detect and surface inconsistencies across systems.
+  Without this harmonization layer, bioinformaticians must write custom scripts per
+  integration, lose provenance on every transform, and cannot reliably answer
+  "Is everything we know about this cohort consistent, present, and correct?"
+
+target_users: >
+  Bioinformaticians managing multi-source research data at academic medical centers,
+  VA hospitals, and research institutes. Primary persona: a bioinformatician who
+  maintains sample metadata, sequencing data provenance, and upstream LIMS integrations
+  for a brain tissue bank or similar biorepository. They are Python-proficient but not
+  backend engineers, and need to orchestrate harmonization without writing per-integration
+  glue code. Secondary persona: Composer/Aperture consumers who issue collection
+  resolution requests and receive HarmonizedCollections for downstream analysis.
+
+objectives:
+  - Deliver a working Python SDK and CLI (CappellaClient, cappella CLI) that a
+    bioinformatician can pip install and use to ingest structured data from CSV, JSON,
+    XML, or SQL sources into Hippo with full provenance in under 30 minutes
+  - Implement collection resolution — translating a high-level cohort request into a
+    fully-resolved HarmonizedCollection with Canon-delegated artifact URIs and
+    structured provenance
+  - Provide a config-driven adapter system (cappella.yaml) covering CSV, JSON, XML,
+    and SQL sources without requiring custom Python code for the common case
+  - Implement a trigger engine supporting schedule and manual triggers with
+    internal event chaining, enabling automated nightly syncs and reactive workflows
+  - Surface data inconsistencies as structured ReconciliationFindings without
+    automatically resolving them, giving researchers an auditable quality view
+
+success_metrics:
+  - name: time_to_first_ingest
+    target: >
+      A bioinformatician can pip install cappella, configure a CSVAdapter in
+      cappella.yaml, and successfully ingest Sample entities into Hippo in under
+      30 minutes following the README
+    unit: minutes
+  - name: adapter_coverage
+    target: >
+      CSV, JSON, XML, and SQL sources are supported via config-driven adapters
+      with zero Python code required for field mapping and vocabulary normalization
+    unit: adapter types implemented
+  - name: resolution_correctness
+    target: >
+      Every resolved item in a HarmonizedCollection carries a Canon decision
+      (REUSE/FETCH/BUILD), structured provenance, and URI; every unresolved item
+      carries a structured reason from the catalog (no_dataset, qc_filter_failed,
+      canon_no_rule, canon_error, canon_timeout)
+    unit: percent of items with complete provenance
+  - name: conflict_visibility
+    target: >
+      Every field conflict during upsert produces a HarmonizationConflict provenance
+      event on the affected Hippo entity; no data is silently overwritten
+    unit: percent of conflicts with provenance event
+  - name: idempotency
+    target: >
+      Running the same adapter sync twice against an unchanged external source
+      produces identical Hippo state — no duplicate entities, no spurious updates
+    unit: confirmed by test suite
+
+risks:
+  - description: >
+      HippoClient.schema_references() is a Hippo v0.4 priority feature required for
+      schema-driven entity traversal. If it is not available, collection resolution
+      cannot proceed.
+    severity: high
+    mitigation: >
+      Cappella v0.1 declares a hard dependency on schema_references(). The implementation
+      is ~20 lines in Hippo core and is marked as a priority feature. If blocked,
+      Cappella integration tests are skipped with a clear error.
+  - description: >
+      SQLAdapter allows arbitrary SQL queries in config. A misconfigured read-only
+      user or missing query validation could allow destructive operations.
+    severity: medium
+    mitigation: >
+      Query validation at adapter initialization rejects INSERT, UPDATE, DELETE, DROP,
+      and other write operations. Documentation requires a read-only database user.
+  - description: >
+      Canon may be unavailable in test/local environments, making collection resolution
+      tests fragile.
+    severity: low
+    mitigation: >
+      CanonClient is injectable; tests use a stub CanonClient. Canon is optional —
+      Cappella runs in metadata-only mode without it.

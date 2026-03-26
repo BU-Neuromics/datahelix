@@ -1,0 +1,25 @@
+id: epic-003-feature-004
+title: Provenance context and adapter run audit log events
+description: >
+  Implement ProvenanceContextBuilder that produces a structured provenance context dict
+  for every Hippo write. Implement structured JSON log emission for adapter_run_started
+  and adapter_run_completed events per the sec4.3 schema. Log output is machine-parseable JSON.
+acceptance_criteria:
+- Given an IngestPipeline run with adapter="starlims", trigger="nightly_starlims_sync",
+  run_id="uuid-123", when ProvenanceContextBuilder.build() is called, then the returned
+  dict contains cappella_version, source_system, adapter, run_id, trigger, fetched_at,
+  and trust_level keys
+- Given an IngestPipeline run starts, when the run begins, then an adapter_run_started
+  structured log event is emitted to stdout with run_id, adapter, trigger, and timestamp
+- Given a completed run with fetched=150, transformed=149, upserted=23,
+  skipped_identical=126, failed_transform=1, conflicts_detected=2, when the run
+  completes, then an adapter_run_completed log event is emitted containing all
+  count fields, status="partial_success", and duration_seconds
+- Given log format is set to "json" in config, when any log event is emitted, then
+  the output is valid JSON parseable by json.loads()
+- Given log format is set to "text" in config, when any log event is emitted, then
+  the output is human-readable text (not JSON)
+complexity: low
+dependencies:
+- epic-003-feature-001
+spec_ready: true

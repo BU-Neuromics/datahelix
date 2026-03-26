@@ -1,0 +1,26 @@
+id: epic-006-feature-001
+title: Trigger configuration parsing and validation
+description: >
+  Implement TriggerConfig Pydantic models for schedule, manual, and internal_event
+  trigger types. Parse triggers section from cappella.yaml. Validate that schedule
+  triggers have a valid cron expression, internal_event triggers reference a valid
+  event name, and all action types are recognized. Detect and reject trigger cycles
+  at config-load time.
+acceptance_criteria:
+- Given a cappella.yaml triggers section with a schedule trigger containing cron
+  "0 2 * * *", when load_config() is called, then the trigger is parsed into a
+  ScheduleTriggerConfig with schedule="0 2 * * *" and action correctly typed
+- Given a trigger config with type=internal_event and event="starlims_sync_complete",
+  when load_config() is called, then an InternalEventTriggerConfig is created with
+  event="starlims_sync_complete"
+- Given two triggers where trigger A emits event_x and trigger B subscribes to event_x
+  and emits event_y and trigger A subscribes to event_y (a cycle), when load_config()
+  is called, then a ConfigError is raised identifying the cycle
+- Given a trigger with an unknown action type "unknown_action", when load_config()
+  is called, then a ConfigError is raised identifying the invalid action type
+- Given a trigger with action type=ingest and no adapter field, when load_config()
+  is called, then a ConfigError is raised indicating adapter is required for ingest actions
+complexity: medium
+dependencies:
+- epic-001-feature-001
+spec_ready: true

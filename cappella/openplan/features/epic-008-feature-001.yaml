@@ -1,0 +1,29 @@
+id: epic-008-feature-001
+title: Reconciliation check implementations - five check types
+description: >
+  Implement the five reconciliation checks from sec2.6: MissingEntityCheck (entity
+  in external system but not in Hippo), StaleEntityCheck (Hippo entity not updated
+  within expected window), FieldConflictCheck (same field with different values from
+  two trusted sources), BrokenReferenceCheck (references field pointing to nonexistent
+  entity), and MissingArtifactCheck (entity with no associated file artifact).
+acceptance_criteria:
+- Given a Donor exists in starlims adapter data but has no matching Hippo entity by
+  ExternalID, when MissingEntityCheck.run() is called, then a ReconciliationFinding
+  is returned with check="missing_entity", entity_type="Donor", and the external_id
+- Given a Hippo Donor entity with updated_at older than the configured stale_threshold,
+  when StaleEntityCheck.run() is called, then a ReconciliationFinding is returned
+  with check="stale_entity" and the entity_id
+- Given two Hippo provenance events on the same Donor entity showing diagnosis="CTE"
+  from starlims and diagnosis="Probable CTE" from redcap, when FieldConflictCheck.run()
+  is called, then a ReconciliationFinding is returned with check="field_conflict",
+  source_a and source_b populated, and suggested_action="manual_review"
+- Given a Sample entity with a donor_id reference pointing to a UUID that does not
+  exist in Hippo, when BrokenReferenceCheck.run() is called, then a ReconciliationFinding
+  is returned with check="broken_reference" and the missing UUID in detail
+- Given a SequencingDataset entity with no associated file artifact in Hippo, when
+  MissingArtifactCheck.run() is called, then a ReconciliationFinding is returned
+  with check="missing_artifact" and the entity_id
+complexity: high
+dependencies:
+- epic-001-feature-001
+spec_ready: true

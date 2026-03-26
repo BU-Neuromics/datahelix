@@ -1,0 +1,32 @@
+id: epic-004-feature-004
+title: CollectionResolver - full orchestration of resolution steps 1-5
+description: >
+  Implement CollectionResolver that orchestrates the five resolution steps from sec5.1:
+  request validation, cohort construction via EntityTraversal, dataset selection via
+  SelectionStrategy, Canon delegation per dataset, and HarmonizedCollection assembly.
+  Never aborts on partial failure — collects all resolved and unresolved items.
+acceptance_criteria:
+- Given a valid ResolutionRequest with entity_type="GeneCounts", criteria, and
+  parameters, when CollectionResolver.resolve() is called, then a HarmonizedCollection
+  is returned with non-null request, selection, resolved, unresolved, and provenance fields
+- Given Canon returns a URI for 3 of 4 selected datasets and CanonNoRuleError for 1,
+  when resolve() completes, then the collection has 3 resolved items and 1 unresolved
+  item with reason="canon_no_rule"
+- Given Canon raises CanonTimeoutError for one dataset, when resolve() completes,
+  then that dataset appears in unresolved with reason="canon_timeout" and the remaining
+  datasets are still resolved (run does not abort)
+- Given an entity_type not present in the Hippo schema, when resolve() is called,
+  then a ReconciliationError is raised with status 400 before any Hippo queries run
+- Given zero samples match the criteria, when resolve() is called, then a
+  ReconciliationError is raised with a message indicating zero samples matched
+  (maps to 422 Unprocessable at the API layer)
+- Given a selection strategy of "single_only" and a sample with 2 candidate datasets,
+  when resolve() runs, then that sample appears in unresolved with
+  reason="multiple_datasets_no_selection"
+complexity: high
+dependencies:
+- epic-004-feature-001
+- epic-004-feature-002
+- epic-004-feature-003
+- epic-005-feature-001
+spec_ready: true

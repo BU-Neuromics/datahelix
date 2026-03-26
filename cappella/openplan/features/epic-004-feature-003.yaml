@@ -1,0 +1,28 @@
+id: epic-004-feature-003
+title: SelectionStrategy implementations - most_recent, highest_quality, explicit, single_only
+description: >
+  Implement SelectionStrategy ABC and four built-in strategies. MostRecentStrategy
+  selects the dataset with the highest created_at after applying QC filters.
+  HighestQualityStrategy selects by a declared quality field. ExplicitStrategy uses
+  caller-provided dataset IDs with most_recent fallback. SingleOnlyStrategy raises
+  MultipleDatasetError when more than one candidate remains after filters.
+acceptance_criteria:
+- Given 3 candidate SequencingDatasets with created_at values 2026-01-01, 2026-02-01,
+  2026-03-01, when MostRecentStrategy.select() is called with no QC filters, then
+  the dataset with created_at 2026-03-01 is returned
+- Given 3 candidate datasets where one fails a min_reads QC filter, when
+  MostRecentStrategy.select() is called with a min_reads QC filter of 1000000,
+  then only datasets passing the filter are considered
+- Given 2 candidate datasets with qc.pct_mapped values 0.72 and 0.85, when
+  HighestQualityStrategy.select() is called with quality_field=qc.pct_mapped,
+  then the dataset with pct_mapped=0.85 is returned
+- Given ExplicitStrategy with an override mapping S001 to DS001-uuid and fallback=most_recent,
+  when select() is called for sample S001, then the dataset with id DS001-uuid is
+  returned regardless of created_at
+- Given SingleOnlyStrategy and 2 candidate datasets for a sample, when select() is
+  called, then MultipleDatasetError is raised with the sample_id and candidate count
+- Given any strategy and zero candidates after QC filtering, when select() is called,
+  then None is returned (not an error) and the caller records reason="qc_filter_failed"
+complexity: medium
+dependencies: []
+spec_ready: true

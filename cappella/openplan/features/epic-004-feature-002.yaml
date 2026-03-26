@@ -1,0 +1,28 @@
+id: epic-004-feature-002
+title: Schema-driven entity traversal via HippoClient.schema_references()
+description: >
+  Implement EntityTraversal that uses HippoClient.schema_references(entity_type) to
+  infer the bottom-up traversal path from target entity type to root entities matching
+  the request criteria. Traversal queries Hippo at each level with in-filter on parent
+  entity IDs. Returns a flat list of leaf-level datasets with their traversal context.
+acceptance_criteria:
+- Given a schema where GeneCounts references SequencingDataset, SequencingDataset
+  references Sample, and Sample references Donor, when EntityTraversal.traverse() is
+  called with entity_type=GeneCounts and criteria containing donor.diagnosis=CTE,
+  then traversal queries Donors with diagnosis=CTE, then Samples with donor_id
+  in matching Donors, then SequencingDatasets with sample_id in matching Samples
+- Given criteria with donor.diagnosis=CTE and sample.tissue=DLPFC, when traversal
+  runs, then Donors are filtered by diagnosis="CTE" AND Samples are filtered by
+  both tissue="DLPFC" and donor_id in matching Donors
+- Given HippoClient.schema_references("GeneCounts") returns [] (no references),
+  when EntityTraversal.traverse() is called, then a ReconciliationError is raised
+  indicating no traversal path exists
+- Given zero Donors match the criteria, when traversal runs, then an empty list of
+  datasets is returned without error (not a failure)
+- Given the traversal finds 3 Samples but 2 have no associated SequencingDatasets,
+  when traversal returns, then the 2 samples without datasets are captured with
+  reason="no_dataset" for the UnresolvedItem list
+complexity: high
+dependencies:
+- epic-004-feature-001
+spec_ready: true

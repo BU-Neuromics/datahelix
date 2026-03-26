@@ -1,0 +1,268 @@
+id: roadmap-cappella-v01
+title: Cappella - Harmonization Engine v0.1
+vision_id: cappella-vision
+epics:
+- id: epic-001
+  title: Foundation - Config, Core Types, and Error Hierarchy
+  outcome: >
+    A coding agent can parse a valid cappella.yaml into fully validated Pydantic models,
+    instantiate the ExternalSourceAdapter ABC contract, and work with RawRecord /
+    TransformedRecord / HarmonizationConflict types. All error conditions are
+    represented in a typed error hierarchy with no I/O dependencies.
+  success_metrics:
+  - name: config_parse_coverage
+    target: >
+      All valid cappella.yaml fields parse without error; all invalid inputs raise
+      ConfigError with a clear message; env var substitution works for credentials
+    unit: test cases passing
+  architectural_impact:
+  - component: cappella.config
+    change_type: new
+    description: CappellaConfig Pydantic model and cappella.yaml loader with env var substitution
+  - component: cappella.core.types
+    change_type: new
+    description: RawRecord, TransformedRecord, HarmonizedCollection, ResolvedItem, UnresolvedItem, ReconciliationFinding
+  - component: cappella.core.errors
+    change_type: new
+    description: >
+      Full error hierarchy: CappellaError, ConfigError, AdapterError, AdapterFetchError,
+      AdapterTransformError, CanonError, CanonNoRuleError, CanonResolveError,
+      CanonTimeoutError, TriggerError, ReconciliationError
+  - component: cappella.adapters.base
+    change_type: new
+    description: ExternalSourceAdapter ABC with fetch(), transform(), validate(), health_check()
+  - component: cappella.adapters.registry
+    change_type: new
+    description: AdapterRegistry — discovers adapters via cappella.adapters entry points, instantiates and health-checks at startup
+  features: []
+  depends_on: []
+
+- id: epic-002
+  title: Generic Adapters - CSV, JSON, XML, SQL
+  outcome: >
+    All four generic adapters are implemented and config-driven. A bioinformatician
+    can configure any of them in cappella.yaml with field_map and vocabulary_map
+    and ingest data into Hippo without writing Python code. SQLAdapter rejects
+    write SQL at initialization time.
+  success_metrics:
+  - name: adapter_config_coverage
+    target: >
+      Each adapter type correctly maps fields, normalizes vocabulary, and raises
+      AdapterTransformError for missing required fields; all four adapters have
+      integration tests against fixture data
+    unit: test cases passing
+  architectural_impact:
+  - component: cappella.adapters.csv_adapter
+    change_type: new
+    description: CSVAdapter with file/http/manual_upload sources, field_map, vocabulary_map
+  - component: cappella.adapters.json_adapter
+    change_type: new
+    description: JSONAdapter with JSONPath records_path, field_map, vocabulary_map
+  - component: cappella.adapters.xml_adapter
+    change_type: new
+    description: XMLAdapter with XPath records_xpath and attribute references
+  - component: cappella.adapters.sql_adapter
+    change_type: new
+    description: SQLAdapter with SQLAlchemy, full/incremental queries, write-operation rejection
+  features: []
+  depends_on:
+  - epic-001
+
+- id: epic-003
+  title: Ingest Pipeline
+  outcome: >
+    The fetch→transform→validate→upsert pipeline runs for any configured adapter.
+    Conflict detection applies trust-level resolution and records HarmonizationConflict
+    provenance events. Every run produces a structured adapter_run_completed log event.
+    Partial success is always preferred over abort.
+  success_metrics:
+  - name: upsert_idempotency
+    target: >
+      Running the same adapter sync twice against unchanged fixture data produces
+      identical Hippo state with zero spurious updates; all upserts recorded in
+      provenance events
+    unit: confirmed by test assertions
+  - name: conflict_visibility
+    target: >
+      Every field conflict produces a HarmonizationConflict event on the affected
+      entity; no data is silently overwritten without an audit trail
+    unit: percent of conflicts with event
+  architectural_impact:
+  - component: cappella.ingest.pipeline
+    change_type: new
+    description: IngestPipeline orchestrating fetch/transform/validate/upsert with run_id tracking
+  - component: cappella.ingest.upsert
+    change_type: new
+    description: UpsertHandler — UUID lookup, ExternalID lookup, create-or-update with change detection
+  - component: cappella.ingest.conflict
+    change_type: new
+    description: ConflictResolver — trust-level comparison, last-write-wins, manual-review flag
+  - component: cappella.ingest.provenance
+    change_type: new
+    description: ProvenanceContextBuilder — structured context dict attached to every Hippo write
+  features: []
+  depends_on:
+  - epic-001
+  - epic-002
+
+- id: epic-004
+  title: Collection Resolver
+  outcome: >
+    CollectionResolver translates a POST /resolve request into a HarmonizedCollection.
+    Entity traversal is schema-driven via HippoClient.schema_references(). All four
+    SelectionStrategy implementations work correctly. Partial failures are collected
+    without aborting the run.
+  success_metrics:
+  - name: traversal_correctness
+    target: >
+      Given a three-level entity graph (Donor→Sample→SequencingDataset), the resolver
+      correctly filters at each level and returns only entities satisfying all criteria;
+      confirmed by fixture-based integration test
+    unit: test cases passing
+  - name: partial_failure_completeness
+    target: >
+      Every unresolved item carries a reason from the catalog
+      (no_dataset, qc_filter_failed, multiple_datasets_no_selection,
+      canon_no_rule, canon_error, canon_timeout); no items silently dropped
+    unit: percent of unresolved items with structured reason
+  architectural_impact:
+  - component: cappella.resolver.traversal
+    change_type: new
+    description: EntityTraversal — schema-driven bottom-up graph walk using HippoClient.schema_references()
+  - component: cappella.resolver.selection
+    change_type: new
+    description: SelectionStrategy ABC + MostRecentStrategy, HighestQualityStrategy, ExplicitStrategy, SingleOnlyStrategy
+  - component: cappella.resolver.collection_resolver
+    change_type: new
+    description: CollectionResolver — orchestrates traversal, selection, Canon delegation, and HarmonizedCollection assembly
+  features: []
+  depends_on:
+  - epic-001
+  - epic-005
+
+- id: epic-005
+  title: Canon Client
+  outcome: >
+    CanonClient wraps Canon in-process and HTTP modes. canon.resolve() calls are
+    correctly delegated and errors (CanonNoRuleError, CanonResolveError, CanonTimeoutError)
+    are mapped to structured UnresolvedItem reasons. The client is injectable for testing.
+  success_metrics:
+  - name: error_mapping_completeness
+    target: >
+      CanonNoRuleError → reason "canon_no_rule"; CanonResolveError → reason "canon_error";
+      timeout → reason "canon_timeout"; all verified by unit tests with stub Canon
+    unit: test cases passing
+  architectural_impact:
+  - component: cappella.canon.client
+    change_type: new
+    description: CanonClient with in-process and HTTP transport modes, configurable timeout
+  - component: cappella.canon.errors
+    change_type: new
+    description: CanonNoRuleError, CanonResolveError, CanonTimeoutError mapped from Canon exceptions
+  features: []
+  depends_on:
+  - epic-001
+
+- id: epic-006
+  title: Trigger Engine
+  outcome: >
+    Trigger configurations in cappella.yaml are parsed and validated. Schedule and
+    manual triggers execute correctly. Internal event triggers chain actions with
+    cycle detection at config-load time. Every trigger execution produces a structured
+    trigger_fired or trigger_failed audit log event.
+  success_metrics:
+  - name: cycle_detection
+    target: >
+      A trigger config containing a cycle (A emits event_x, B subscribes to event_x
+      and emits event_y, A subscribes to event_y) is rejected at config validation
+      time with a clear TriggerError
+    unit: confirmed by test assertion
+  - name: schedule_execution
+    target: >
+      A schedule trigger with cron "* * * * *" fires within 5 seconds of the scheduled
+      minute boundary in integration test
+    unit: confirmed by integration test
+  architectural_impact:
+  - component: cappella.triggers.config
+    change_type: new
+    description: TriggerConfig Pydantic models for schedule, manual, internal_event trigger types
+  - component: cappella.triggers.executor
+    change_type: new
+    description: TriggerExecutor — dispatches ingest/resolve/reconcile/notify actions
+  - component: cappella.triggers.scheduler
+    change_type: new
+    description: SchedulerLoop — APScheduler-backed cron trigger execution with run isolation
+  - component: cappella.triggers.event_bus
+    change_type: new
+    description: InternalEventBus — emit/subscribe with cycle detection at registration time
+  features: []
+  depends_on:
+  - epic-003
+  - epic-004
+
+- id: epic-007
+  title: REST API and CLI
+  outcome: >
+    All REST endpoints from sec2.8 are implemented as FastAPI routes. POST /resolve
+    returns 202 immediately with a run_id; GET /resolve/{run_id} returns live progress
+    and final HarmonizedCollection. All cappella CLI commands work end-to-end.
+  success_metrics:
+  - name: endpoint_coverage
+    target: >
+      All endpoints in sec2.8 implemented: POST /resolve, GET /resolve/{run_id},
+      POST /ingest, GET /ingest/{run_id}, POST /triggers/{name}/run, GET /triggers,
+      POST /reconcile, GET /findings, GET /status; each tested with HTTP client
+    unit: endpoints implemented and tested
+  - name: async_job_correctness
+    target: >
+      POST /resolve returns 202 with run_id in ≤200ms; GET /resolve/{run_id}
+      increments samples_resolved as Canon returns; final response contains
+      complete HarmonizedCollection
+    unit: confirmed by integration test
+  architectural_impact:
+  - component: cappella.rest.app
+    change_type: new
+    description: FastAPI app factory with all routers, global error handlers, CORS config
+  - component: cappella.rest.routers
+    change_type: new
+    description: resolve, ingest, triggers, reconcile, findings, status routers
+  - component: cappella.rest.jobs
+    change_type: new
+    description: AsyncJobStore — in-memory run tracking with status, progress counter, result storage
+  - component: cappella.cli.main
+    change_type: new
+    description: Typer CLI with resolve, ingest, trigger, status, findings commands
+  features: []
+  depends_on:
+  - epic-003
+  - epic-004
+  - epic-006
+
+- id: epic-008
+  title: Reconciliation Engine
+  outcome: >
+    All five reconciliation checks (missing_entity, stale_entity, field_conflict,
+    broken_reference, missing_artifact) run against configured adapters and entity types.
+    Each finding is a structured ReconciliationFinding with entity ID, check type,
+    and suggested action. Findings are queryable via GET /findings.
+  success_metrics:
+  - name: finding_completeness
+    target: >
+      Every ReconciliationFinding contains entity_id, entity_type, check, severity,
+      and suggested_action; field_conflict findings include source_a and source_b
+      values with source system and updated_at; confirmed by fixture test
+    unit: test cases passing
+  architectural_impact:
+  - component: cappella.reconciliation.checks
+    change_type: new
+    description: Five check implementations — MissingEntityCheck, StaleEntityCheck, FieldConflictCheck, BrokenReferenceCheck, MissingArtifactCheck
+  - component: cappella.reconciliation.engine
+    change_type: new
+    description: ReconciliationEngine — runs selected checks, collects findings, emits reconciliation_finding log events
+  - component: cappella.reconciliation.findings_store
+    change_type: new
+    description: FindingsStore — in-memory queryable store for ReconciliationFinding objects
+  features: []
+  depends_on:
+  - epic-001
+  - epic-003

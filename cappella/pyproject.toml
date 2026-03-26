@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cappella"
+version = "0.1.0"
+description = "Harmonization engine for the BASS platform"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2",
+    "httpx",
+    "sqlalchemy",
+    "typer",
+    "fastapi",
+    "uvicorn",
+    "pyyaml",
+    "croniter",
+    "jsonpath-ng",
+    "lxml",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-anyio",
+    "httpx",
+]
+
+[project.scripts]
+cappella = "cappella.cli.main:app"
+
+[project.entry-points."cappella.adapters"]
+csv = "cappella.adapters.csv_adapter:CSVAdapter"
+json = "cappella.adapters.json_adapter:JSONAdapter"
+xml = "cappella.adapters.xml_adapter:XMLAdapter"
+sql = "cappella.adapters.sql_adapter:SQLAdapter"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cappella"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

@@ -1,0 +1,26 @@
+id: epic-003-feature-002
+title: Upsert identity resolution - UUID, ExternalID, create-or-update
+description: >
+  Implement UpsertHandler that resolves entity identity using the priority chain:
+  (1) explicit UUID in transformed data, (2) ExternalID lookup via HippoClient,
+  (3) create new. For existing entities, compares incoming data to stored data and
+  skips upsert if identical (no-op). Records change detection result in IngestRunResult.
+acceptance_criteria:
+- Given a TransformedRecord with external_id="S001" and source_system="starlims",
+  when the entity does not exist in Hippo, then HippoClient.create() is called and
+  IngestRunResult.created increments by 1
+- Given a TransformedRecord with external_id="S001" matching an existing Hippo entity
+  with different field values, when UpsertHandler.upsert() is called, then
+  HippoClient.update() is called and IngestRunResult.updated increments by 1
+- Given a TransformedRecord with data identical to the existing Hippo entity, when
+  UpsertHandler.upsert() is called, then neither create() nor update() is called and
+  IngestRunResult.skipped_identical increments by 1
+- Given a TransformedRecord containing an explicit hippo_entity_id UUID field, when
+  UpsertHandler.upsert() is called, then the UUID lookup is attempted first before
+  ExternalID lookup
+- Given HippoClient.update() raises an exception, when UpsertHandler.upsert() is
+  called, then the exception is propagated as an AdapterError with entity context
+complexity: medium
+dependencies:
+- epic-001-feature-002
+spec_ready: true

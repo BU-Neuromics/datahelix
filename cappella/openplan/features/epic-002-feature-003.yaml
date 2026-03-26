@@ -1,0 +1,24 @@
+id: epic-002-feature-003
+title: XMLAdapter with XPath records_xpath and attribute references
+description: >
+  Implement XMLAdapter supporting manual_upload and file sources. records_xpath locates
+  the set of record elements. Field map keys can be XPath expressions including
+  attribute references (e.g. "@record_id"). vocabulary_map applies to normalized fields.
+acceptance_criteria:
+- Given an XML document with elements matching xpath "//record" and a records_xpath
+  of "//record", when fetch() is called, then one RawRecord is yielded per matching element
+- Given a record element with attribute record_id=R001 and field_map entry
+  "@record_id" mapped to "external_id", when transform() is called on the RawRecord,
+  then TransformedRecord.data contains external_id R001
+- Given a record element with child element diagnosis/value containing Probable CTE,
+  and field_map entry "diagnosis/value" mapped to "diagnosis", when transform() is called,
+  then TransformedRecord.data contains diagnosis set to Probable CTE
+- Given a vocabulary_map setting diagnosis Probable CTE to chronic traumatic encephalopathy,
+  and a record with that diagnosis value, when transform() is called, then the
+  normalized value appears in TransformedRecord.data
+- Given a malformed XML document, when fetch() is called, then AdapterFetchError
+  is raised with the parse error detail
+complexity: medium
+dependencies:
+- epic-001-feature-002
+spec_ready: true

@@ -1,0 +1,25 @@
+id: epic-008-feature-002
+title: ReconciliationEngine orchestration and findings audit events
+description: >
+  Implement ReconciliationEngine that accepts a ReconciliationRequest (entity_types,
+  adapters, checks), runs selected checks, collects ReconciliationFinding objects,
+  stores them in FindingsStore, and emits structured reconciliation_finding log events.
+  Returns a list of findings. Never aborts on partial check failure.
+acceptance_criteria:
+- Given a ReconciliationRequest with entity_types=["Donor", "Sample"] and
+  checks=["field_conflict", "missing_entity"], when ReconciliationEngine.run() is called,
+  then only FieldConflictCheck and MissingEntityCheck are executed (not all 5)
+- Given FieldConflictCheck finds 2 conflicts and MissingEntityCheck finds 1 missing
+  entity, when run() completes, then 3 ReconciliationFinding objects are returned
+- Given a reconciliation check raises an exception for one entity type, when run()
+  handles the error, then findings for other entity types are still collected and
+  returned (partial failure preference)
+- Given run() completes with 3 findings, when the audit log is checked, then 3
+  reconciliation_finding log events were emitted each containing finding_id, check,
+  entity_type, entity_id, severity, and suggested_action
+- Given a ReconciliationRequest with no checks specified, when run() is called,
+  then all 5 checks are run (default to all checks)
+complexity: medium
+dependencies:
+- epic-008-feature-001
+spec_ready: true

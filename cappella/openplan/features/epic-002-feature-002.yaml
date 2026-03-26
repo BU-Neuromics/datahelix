@@ -1,0 +1,24 @@
+id: epic-002-feature-002
+title: JSONAdapter with JSONPath records_path
+description: >
+  Implement JSONAdapter supporting file, http, and manual_upload sources. The
+  records_path config field is a JSONPath expression locating the array of records
+  within the response envelope. Field mapping and vocabulary normalization follow
+  the same pattern as CSVAdapter.
+acceptance_criteria:
+- Given a JSON response with a nested data.scores array containing one record with
+  score_id=X1 and value=0.85, and records_path "$.data.scores[*]", when fetch() is
+  called, then one RawRecord is yielded with the score_id and value in its data
+- Given a JSON response that is a top-level array with two elements, and records_path
+  "$[*]", when fetch() is called, then two RawRecords are yielded
+- Given a records_path that matches no elements in the response, when fetch() is
+  called, then zero records are yielded and no error is raised
+- Given a field_map mapping score_id to external_id and value to score_value, and a
+  RawRecord with score_id=X1 and value=0.85, when transform() is called, then
+  TransformedRecord.data contains external_id=X1 and score_value=0.85
+- Given a JSON source returning malformed JSON, when fetch() is called, then
+  AdapterFetchError is raised with the parse error detail
+complexity: medium
+dependencies:
+- epic-001-feature-002
+spec_ready: true

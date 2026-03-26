@@ -1,0 +1,1 @@
+"""Cappella resolver package."""

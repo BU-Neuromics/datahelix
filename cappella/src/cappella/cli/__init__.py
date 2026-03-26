@@ -1,0 +1,1 @@
+"""Cappella CLI package."""

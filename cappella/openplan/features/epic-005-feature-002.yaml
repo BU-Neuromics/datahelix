@@ -1,0 +1,26 @@
+id: epic-005-feature-002
+title: Canon error mapping to structured UnresolvedItem reasons
+description: >
+  Implement error mapping from Canon exceptions to the structured UnresolvedItem
+  reason catalog. CanonNoRuleError maps to reason="canon_no_rule". CanonResolveError
+  maps to reason="canon_error". CanonTimeoutError maps to reason="canon_timeout".
+  All other Canon exceptions are caught and mapped to reason="canon_error" with detail.
+acceptance_criteria:
+- Given Canon raises CanonNoRuleError for a dataset, when the CollectionResolver
+  processes the Canon response, then an UnresolvedItem is created with reason="canon_no_rule"
+  and sample_id set correctly
+- Given Canon raises CanonResolveError with message containing build failure details,
+  when the CollectionResolver processes the response, then an UnresolvedItem is created
+  with reason=canon_error and the failure message in detail
+- Given Canon raises an unexpected RuntimeError, when the CollectionResolver processes
+  the response, then an UnresolvedItem is created with reason="canon_error" and the
+  exception message in detail (not a bare exception propagation)
+- Given Canon raises CanonTimeoutError, when the CollectionResolver processes the
+  response, then an UnresolvedItem is created with reason="canon_timeout"
+- Given Canon succeeds for 4 datasets and raises CanonNoRuleError for 1, when
+  CollectionResolver.resolve() completes, then resolved has 4 items and unresolved
+  has 1 item (no abort on partial failure)
+complexity: low
+dependencies:
+- epic-005-feature-001
+spec_ready: true

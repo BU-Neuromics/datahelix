@@ -1,0 +1,30 @@
+id: epic-003-feature-003
+title: Conflict detection, trust-level resolution, and HarmonizationConflict events
+description: >
+  Implement ConflictResolver that detects field conflicts when incoming data differs
+  from an existing entity written by a different source system. Applies trust-level
+  comparison (higher trust wins), last-write-wins for equal trust, and flags entities
+  for manual review when same-trust sources disagree. Records HarmonizationConflict
+  provenance event on the entity for every detected conflict.
+acceptance_criteria:
+- Given an existing Hippo entity written by starlims (trust=80) with diagnosis="CTE",
+  and an incoming TransformedRecord from redcap (trust=60) with diagnosis="Probable CTE",
+  when ConflictResolver.resolve() is called, then the existing value is kept,
+  a HarmonizationConflict event is recorded with resolution="existing_wins" and
+  resolution_reason contains "trust=80 > trust=60"
+- Given an existing entity from redcap (trust=60) and incoming data from starlims
+  (trust=80) with a different diagnosis, when resolve() is called, then the incoming
+  starlims value wins and a HarmonizationConflict event is recorded with
+  resolution="incoming_wins"
+- Given two sources with identical trust_level conflict on a field, when resolve()
+  is called, then the entity is flagged with a HarmonizationConflict event with
+  resolution="manual_review_required" and IngestRunResult.conflicts_detected increments
+- Given an incoming record with identical field values to the existing entity,
+  when resolve() is called, then no HarmonizationConflict event is recorded
+- Given a HarmonizationConflict event is recorded, when the event is inspected,
+  then it contains entity_id, conflict_type, field, existing_value, incoming_value,
+  incoming_source, resolution, and cappella_run_id
+complexity: medium
+dependencies:
+- epic-003-feature-002
+spec_ready: true

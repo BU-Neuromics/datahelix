@@ -1,0 +1,27 @@
+id: epic-008-feature-003
+title: Findings query API - POST /reconcile and GET /findings
+description: >
+  Implement POST /reconcile REST endpoint that triggers a reconciliation run and
+  returns findings. Implement GET /findings endpoint that queries the FindingsStore
+  with optional filters (entity_type, check, severity). Implement FindingsStore
+  in-memory storage with filter support.
+acceptance_criteria:
+- Given a POST /reconcile request with entity_types=Donor and checks=field_conflict
+  in the request body, when the request is received, then ReconciliationEngine.run()
+  is invoked and a list of ReconciliationFinding dicts is returned in the response
+- Given GET /findings is called with query param entity_type=Donor, when the response
+  is returned, then only findings with entity_type="Donor" are included
+- Given GET /findings is called with check=field_conflict, when the response is
+  returned, then only findings with check="field_conflict" are included
+- Given GET /findings is called with severity=warning, when the response is returned,
+  then only findings with severity="warning" are included
+- Given FindingsStore contains 10 findings, when GET /findings is called with no
+  filters, then all 10 findings are returned
+- Given a finding in the store contains entity_id, entity_type, check, severity,
+  suggested_action, and for field_conflict findings source_a and source_b, when
+  GET /findings returns it, then all fields are present in the response JSON
+complexity: medium
+dependencies:
+- epic-008-feature-002
+- epic-007-feature-001
+spec_ready: true

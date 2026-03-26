@@ -1,0 +1,25 @@
+id: epic-006-feature-002
+title: Schedule trigger executor and manual trigger execution
+description: >
+  Implement SchedulerLoop backed by APScheduler that schedules cron triggers at
+  startup. Implement manual trigger execution via TriggerExecutor.run(trigger_name).
+  Each execution is isolated with a unique run_id. On completion, trigger emits its
+  configured on_success event to the InternalEventBus.
+acceptance_criteria:
+- Given a schedule trigger with cron "* * * * *", when SchedulerLoop.start() is called,
+  then the trigger action is executed within 65 seconds (next minute boundary)
+- Given a trigger with action type=ingest and adapter="csv_samples", when
+  TriggerExecutor.run("csv_samples_sync") is called, then IngestPipeline.run() is
+  called with the csv_samples adapter
+- Given a trigger with on_success.emit="sync_complete", when the trigger action
+  completes successfully, then the InternalEventBus emits event "sync_complete"
+- Given a trigger execution completes, when the audit log is checked, then a
+  trigger_fired log event was emitted with trigger name, run_id, status, and duration
+- Given a trigger action raises an exception, when TriggerExecutor handles it, then
+  a trigger_failed log event is emitted with the error detail and the scheduler
+  continues running (does not crash)
+complexity: medium
+dependencies:
+- epic-006-feature-001
+- epic-003-feature-001
+spec_ready: true

@@ -1,0 +1,23 @@
+id: epic-006-feature-003
+title: Internal event bus with cycle detection
+description: >
+  Implement InternalEventBus that supports emit(event_name) and subscribe(event_name,
+  handler) operations. Cycle detection runs at subscription registration time (not
+  at emit time) and raises TriggerError if adding the subscription would create a cycle
+  in the event dependency graph.
+acceptance_criteria:
+- Given trigger A subscribes to event_x and trigger B emits event_x when it runs,
+  when InternalEventBus.emit("event_x") is called, then trigger A's handler is invoked
+- Given trigger A emits event_x on success and trigger B subscribes to event_x,
+  when A completes and emits event_x, then B's handler is invoked asynchronously
+- Given a subscription that would create a cycle (A→event_x→B→event_y→A), when
+  subscribe() is called to register the final edge, then TriggerError is raised
+  identifying the cycle
+- Given an event is emitted with no subscribers, when emit() is called, then no
+  error is raised and nothing happens
+- Given two handlers are subscribed to the same event, when emit() is called, then
+  both handlers are invoked
+complexity: medium
+dependencies:
+- epic-006-feature-001
+spec_ready: true

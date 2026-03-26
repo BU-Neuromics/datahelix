@@ -1,0 +1,29 @@
+id: epic-003-feature-001
+title: IngestPipeline - fetch, transform, validate, upsert orchestration
+description: >
+  Implement IngestPipeline that orchestrates the full fetch→transform→validate→upsert
+  cycle for any ExternalSourceAdapter. A unique run_id is assigned per run. Records
+  that fail transform are skipped (logged) and remaining records continue. The run
+  ends with a structured IngestRunResult containing counts and status.
+acceptance_criteria:
+- Given an adapter that yields 3 RawRecords, when IngestPipeline.run(adapter) is called,
+  then transform() is called exactly 3 times and upsert is attempted for each
+  successfully transformed record
+- Given an adapter where transform() raises AdapterTransformError for one of 3 records,
+  when IngestPipeline.run(adapter) is called, then the failing record is skipped,
+  the remaining 2 records are upserted, and IngestRunResult.failed_transform equals 1
+- Given an adapter where validate() returns ["error message"] for one record, when
+  IngestPipeline.run(adapter) is called, then that record is not upserted,
+  IngestRunResult.failed_validation equals 1, and the run continues with remaining records
+- Given fetch() raises AdapterFetchError, when IngestPipeline.run(adapter) is called,
+  then IngestRunResult.status equals "failed" and no upsert calls are made
+- Given a successful run with 10 records fetched, 9 transformed, 3 upserted (changed),
+  6 skipped (identical), when run completes, then IngestRunResult has fetched=10,
+  transformed=9, upserted=3, skipped_identical=6, status="success"
+- Given a run with some transform failures and some successes, when run completes,
+  then IngestRunResult.status equals "partial_success" (not "failed")
+complexity: medium
+dependencies:
+- epic-001-feature-002
+- epic-001-feature-003
+spec_ready: true

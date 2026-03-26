@@ -1,0 +1,30 @@
+id: epic-007-feature-003
+title: Health endpoint, triggers endpoint, and Typer CLI
+description: >
+  Implement GET /status health endpoint returning cappella_version, hippo and canon
+  connectivity status, adapter statuses, and trigger schedules. Implement
+  POST /triggers/{name}/run for manual trigger execution. Implement Typer CLI with
+  resolve, ingest, trigger, status, and findings commands.
+acceptance_criteria:
+- Given a running Cappella server with hippo and canon connected, when GET /status
+  is called, then a 200 response is returned containing cappella_version, hippo.status,
+  canon.status, adapters dict, and triggers dict
+- Given GET /status is called when Hippo is unreachable, when the response is returned,
+  then hippo.status="error" appears in the response (does not raise 500)
+- Given POST /triggers/{name}/run is called for a configured trigger, when the request
+  is received, then TriggerExecutor.run(name) is invoked and a 202 response with
+  run_id is returned
+- Given "cappella status" is run from the CLI, when the command completes, then
+  the health information from GET /status is printed to stdout in a readable format
+- Given "cappella resolve --entity-type GeneCounts --criteria donor.diagnosis=CTE
+  --parameters genome=GRCh38 --output result.json" is run, when the command completes,
+  then the HarmonizedCollection is written to result.json
+- Given "cappella ingest csv_samples --file samples.csv" is run from the CLI, when
+  the command completes, then IngestPipeline.run() is called with the csv_samples
+  adapter and the file data, and a summary is printed to stdout
+complexity: medium
+dependencies:
+- epic-007-feature-001
+- epic-007-feature-002
+- epic-006-feature-002
+spec_ready: true
