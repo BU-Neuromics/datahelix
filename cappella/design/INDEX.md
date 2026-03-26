@@ -56,7 +56,7 @@ See `platform/design/INDEX.md` for full rationale and config format examples.
 | Vocabulary normalization | In adapter config (for generic adapters) or adapter code (for custom plugins); not in cappella.yaml |
 | Schema-driven traversal | Entity graph traversal inferred from Hippo schema references declarations; fallback to explicit paths in cappella.yaml for v0.1 |
 | Canon transport (v0.1) | In-process (import canon directly); HTTP mode available for distributed deployment |
-| Resolution API | Synchronous by default (200 + HarmonizedCollection); ?async=true for background jobs; server timeout auto-switches to async if exceeded |
+| Resolution API | Always async — POST /resolve validates immediately (400/422/202); client polls GET /resolve/{run_id}; CLI blocks with progress display; live samples_resolved counter for Aperture/Composer |
 | CLI | In scope for v0.1 — cappella resolve/ingest/trigger/status/findings |
 | Workflow executor strategy | **Open** — wrap Nextflow/Snakemake vs. define own; see open questions |
 

@@ -144,29 +144,63 @@ A resolution run with 3/4 samples resolved and 1 unresolved is a valid result, n
 
 ---
 
-## 5.5 Synchronous and Async Resolution
+## 5.5 Resolution Job API
 
-`POST /resolve` is **synchronous by default**, blocking until the collection is complete and returning the `HarmonizedCollection` directly. This is the simplest and most practical behavior for v0.1 (laptop/lab server, CLI use, Composer calls).
+`POST /resolve` validates the request immediately and either rejects it or accepts it. It never blocks waiting for resolution to complete.
 
-```json
+```
 POST /resolve
-→ 200 OK
-{ ... HarmonizedCollection ... }
+  → 400 Bad Request    invalid entity_type, unknown criteria field, malformed parameters
+  → 422 Unprocessable  valid request but zero samples match the criteria
+  → 202 Accepted       request queued successfully
 ```
 
-For long-running resolutions (large cohorts, many Canon BUILD operations), add `?async=true` to get the async pattern instead:
+202 response:
+```json
+{
+  "run_id": "uuid-run-789",
+  "status": "queued",
+  "poll_url": "/resolve/uuid-run-789"
+}
+```
+
+The client polls `GET /resolve/{run_id}` for status:
 
 ```json
-POST /resolve?async=true
-→ 202 Accepted
-{ "run_id": "uuid-run-789", "status": "running", "poll_url": "/resolve/uuid-run-789" }
-
+// While running — live progress
 GET /resolve/uuid-run-789
-→ 200 OK (when complete)
-{ "run_id": "uuid-run-789", "status": "complete", "collection": { ... } }
+→ 200 OK
+{
+  "run_id": "uuid-run-789",
+  "status": "running",
+  "started_at": "2026-03-25T21:27:00Z",
+  "samples_total": 47,
+  "samples_resolved": 12,
+  "samples_failed": 0
+}
+
+// On completion
+→ 200 OK
+{
+  "run_id": "uuid-run-789",
+  "status": "complete",
+  "started_at": "2026-03-25T21:27:00Z",
+  "finished_at": "2026-03-25T21:31:22Z",
+  "collection": { ... HarmonizedCollection ... }
+}
+
+// On failure (e.g. Canon unreachable for all samples)
+→ 200 OK
+{
+  "run_id": "uuid-run-789",
+  "status": "failed",
+  "error": "Canon service unavailable after 3 retries"
+}
 ```
 
-The CLI uses synchronous mode by default:
+The `samples_resolved` counter increments as Canon returns results, enabling Aperture/Composer to display live progress without waiting for completion.
+
+The CLI polls internally and blocks until complete, displaying a progress indicator:
 
 ```bash
 cappella resolve \
@@ -174,12 +208,11 @@ cappella resolve \
   --criteria "donor.diagnosis=CTE" "sample.tissue=DLPFC" \
   --parameters genome=GRCh38 \
   --output my_collection.json
-# Blocks until complete
+# Resolving 47 samples... [12/47] ████░░░░░░ 26%
+# Complete. 45 resolved, 2 unresolved. Written to my_collection.json
 
-cappella resolve ... --async   # Returns run_id immediately for background jobs
+cappella resolve ... --run-id uuid-run-789  # Attach to existing run
 ```
-
-A server-side timeout (default 300s, configurable in `cappella.yaml`) causes synchronous requests that exceed the limit to automatically switch to async, returning 202 with a `run_id` so the client is never left hanging.
 
 ---
 
