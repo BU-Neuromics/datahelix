@@ -69,7 +69,7 @@ Traversal (bottom-up):
 3. query("SequencingDataset", {assay: "RNASeq", sample_id: in(S001,S002,S004)}) → [DS001, DS002, DS003, DS005]
 ```
 
-**Opinion (mark for review):** The traversal infers direction from `references:` fields. A `Sample` entity that declares `references: {entity_type: Donor, field: donor_id}` tells Cappella: to traverse from Donor to Sample, filter Sample on `donor_id ∈ matching_donors`. This requires a `schema_references()` API on HippoClient (see Open Questions in sec2). For v0.1, if this API isn't available, Cappella falls back to explicit traversal path declarations in `cappella.yaml`.
+Schema-driven traversal is the only supported mode in Cappella v0.1. It requires `HippoClient.schema_references(entity_type)` — a Hippo v0.4 priority feature that returns the reference graph for an entity type (see Hippo design INDEX). This method reads the already-loaded schema and returns reference edges; it is approximately 20 lines of implementation in Hippo core. Cappella v0.1 declares a hard dependency on this API.
 
 ---
 

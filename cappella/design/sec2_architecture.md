@@ -359,7 +359,7 @@ Cappella can be run as:
 
 | Question | Priority | Notes |
 |----------|----------|-------|
-| Schema-driven traversal | High | How does Cappella infer entity traversal paths from the Hippo schema? Needs `references:` introspection API on HippoClient. |
+| Schema-driven traversal | **Resolved — Hippo v0.4 priority** | `HippoClient.schema_references(entity_type)` returns reference edges from already-loaded schema. Cappella v0.1 depends on this API. No fallback config path. |
 | Selection strategy config syntax | High | How are per-entity-type quality fields declared? In cappella.yaml or in the Hippo schema? |
 | Canon client transport | Medium | In-process (import canon directly) or HTTP (call Canon REST API)? In-process is simpler for v0.1; HTTP required for distributed deployment. |
 | ResolutionRun entity storage | Medium | Should every `POST /resolve` create a `ResolutionRun` entity in Hippo? Useful for audit but adds write overhead. Deferred to v0.2. |
