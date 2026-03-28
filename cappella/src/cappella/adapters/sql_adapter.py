@@ -1,7 +1,8 @@
 from datetime import datetime
 from typing import Any, Iterator
 
-from cappella.adapters.base import ExternalSourceAdapter
+from hippo.core.loaders.sql import SQLLoader
+
 from cappella.exceptions import AdapterFetchError, AdapterTransformError, ConfigError
 from cappella.types import RawRecord, TransformedRecord
 
@@ -21,12 +22,21 @@ def _check_query_safety(query: str) -> None:
             )
 
 
-class SQLAdapter(ExternalSourceAdapter):
-    """Adapter for SQL database sources."""
+class SQLAdapter(SQLLoader):
+    """Adapter for SQL database sources.
+
+    Subclasses hippo.core.loaders.SQLLoader so that Cappella SQL adapters
+    participate in the unified ingestion framework. __init__ does not call
+    super().__init__() because SQLLoader raises ValueError on forbidden queries
+    while Cappella's contract requires ConfigError; all attributes are set
+    directly. fetch/transform use Cappella's typed RawRecord / TransformedRecord.
+    """
 
     supports_incremental: bool = True
 
     def __init__(self, config: dict[str, Any]):
+        # Do not call super().__init__(): SQLLoader validates queries with ValueError
+        # but Cappella's contract requires ConfigError (see _check_query_safety below).
         self.connection_string: str = config.get("connection_string", "")
         self.entity_type: str = config.get("entity_type", "unknown")
         self.external_id_field: str = config.get("external_id_field", "id")
@@ -38,13 +48,13 @@ class SQLAdapter(ExternalSourceAdapter):
         self.name: str = config.get("name", "sql")
         self.entity_types: list[str] = [self.entity_type]
 
-        # Validate query safety
+        # Validate query safety (raises ConfigError, not ValueError)
         if self.query:
             _check_query_safety(self.query)
         if self.incremental_query:
             _check_query_safety(self.incremental_query)
 
-    def fetch(self, since: datetime | None = None) -> Iterator[RawRecord]:
+    def fetch(self, since: datetime | None = None, **kwargs: Any) -> Iterator[RawRecord]:
         try:
             from sqlalchemy import create_engine, text
         except ImportError:
@@ -85,7 +95,7 @@ class SQLAdapter(ExternalSourceAdapter):
                 {"error": str(e)},
             )
 
-    def transform(self, record: RawRecord) -> TransformedRecord:
+    def transform(self, record: RawRecord) -> TransformedRecord:  # type: ignore[override]
         data = dict(record.data)
 
         if self.external_id_field not in data:
