@@ -541,6 +541,100 @@ def test_fetch_completed_event_recorded(tmp_path):
     assert update_dict.get("fetch_status") == "FetchCompleted"
 
 
+# ---------------------------------------------------------------------------
+# Glob wildcard "*" partial specification matching
+# ---------------------------------------------------------------------------
+
+def _make_rule_with_glob(
+    name="r-glob",
+    entity_type="AlignmentFile",
+    match=None,
+):
+    return ProductionRule(
+        name=name,
+        description="",
+        produces=ProducesSpec(
+            entity_type=entity_type,
+            match=match or {"sample_id": "{sample_id}", "genome": "{genome}", "tool_version": "*"},
+        ),
+        requires=[],
+        execute=ExecuteSpec(workflow="w.cwl", inputs={}),
+    )
+
+
+def test_plan_build_with_glob_wildcard_field_absent():
+    """plan() resolves BUILD when rule has '*' and caller omits that field."""
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+
+    rule = _make_rule_with_glob()
+    registry = RuleRegistry([rule])
+    planner = _make_planner(hippo=hippo, registry=registry)
+
+    # tool_version NOT supplied — glob wildcard allows it
+    node = planner.plan("AlignmentFile", {"sample_id": "S001", "genome": "GRCh38"})
+    assert node.decision == "BUILD"
+    assert node.rule_name == "r-glob"
+
+
+def test_plan_build_with_glob_wildcard_field_present():
+    """plan() resolves BUILD when rule has '*' and caller provides the field."""
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+
+    rule = _make_rule_with_glob()
+    registry = RuleRegistry([rule])
+    planner = _make_planner(hippo=hippo, registry=registry)
+
+    node = planner.plan(
+        "AlignmentFile",
+        {"sample_id": "S001", "genome": "GRCh38", "tool_version": "2.7.10a"},
+    )
+    assert node.decision == "BUILD"
+    assert node.rule_name == "r-glob"
+
+
+def test_resolve_build_with_glob_wildcard(tmp_path):
+    """resolve() executes successfully when rule uses '*' and field is absent from request."""
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+    hippo.ingest_entity.return_value = _make_entity(entity_type="AlignmentFile")
+
+    rule = _make_rule_with_glob()
+    registry = RuleRegistry([rule])
+
+    executor = MagicMock()
+    executor.run.return_value = CWLRunResult(exit_code=0, stdout="{}", stderr="", outputs={})
+
+    planner = _make_planner(
+        hippo=hippo, registry=registry, executor=executor, work_dir=str(tmp_path)
+    )
+    uri = planner.resolve("AlignmentFile", {"sample_id": "S001", "genome": "GRCh38"})
+    assert uri == "/data/test.bam"
+    executor.run.assert_called_once()
+
+
+def test_glob_wildcard_does_not_create_binding():
+    """'*' wildcards produce no named binding — named wildcards from the same rule still bind."""
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+
+    rule = _make_rule_with_glob()
+    registry = RuleRegistry([rule])
+    planner = _make_planner(hippo=hippo, registry=registry)
+
+    bindings = planner._bind_wildcards(
+        rule,
+        resolved_params={"sample_id": "S001", "genome": "GRCh38"},
+        parent_bindings={},
+    )
+    # Named wildcards are bound
+    assert bindings["sample_id"] == "S001"
+    assert bindings["genome"] == "GRCh38"
+    # No binding created for the glob field
+    assert "tool_version" not in bindings
+
+
 def test_fetch_skipped_event_recorded(tmp_path):
     """FetchSkipped event is recorded on entity when dest already exists."""
     hippo = MagicMock()

@@ -13,6 +13,7 @@ from canon.rules.models import (
     ProducesSpec,
     InputBinding,
     ExecuteSpec,
+    is_glob_wildcard,
     is_pure_wildcard,
     is_entity_ref,
 )
@@ -136,6 +137,27 @@ def test_missing_produces_raises(tmp_path):
 # is_pure_wildcard
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# is_glob_wildcard
+# ---------------------------------------------------------------------------
+
+def test_is_glob_wildcard_true():
+    assert is_glob_wildcard("*") is True
+
+
+def test_is_glob_wildcard_false():
+    assert is_glob_wildcard("{sample}") is False
+    assert is_glob_wildcard("**") is False
+    assert is_glob_wildcard("star") is False
+    assert is_glob_wildcard("") is False
+    assert is_glob_wildcard(42) is False
+    assert is_glob_wildcard(None) is False
+
+
+# ---------------------------------------------------------------------------
+# is_pure_wildcard
+# ---------------------------------------------------------------------------
+
 def test_is_pure_wildcard_true():
     assert is_pure_wildcard("{sample}") is True
     assert is_pure_wildcard("{genome_build}") is True
@@ -196,6 +218,59 @@ def test_registry_wrong_entity_type_never_matches():
     rule = _make_rule("r", "AlignedReads", {"sample": "{sample}"})
     registry = RuleRegistry([rule])
     assert registry.find_rule("GeneAnnotation", {"sample": "S001"}) is None
+
+
+def test_registry_glob_wildcard_matches_when_field_absent():
+    """'*' in a rule match means the field is optional — absent in request is fine."""
+    rule = _make_rule(
+        "r",
+        "AlignmentFile",
+        {"sample_id": "{sample_id}", "genome": "{genome}", "tool_version": "*"},
+    )
+    registry = RuleRegistry([rule])
+    # Caller omits tool_version entirely — still matches
+    assert registry.find_rule("AlignmentFile", {"sample_id": "S001", "genome": "GRCh38"}) is rule
+
+
+def test_registry_glob_wildcard_matches_when_field_present():
+    """'*' in a rule match also accepts any value when the field IS provided."""
+    rule = _make_rule(
+        "r",
+        "AlignmentFile",
+        {"sample_id": "{sample_id}", "genome": "{genome}", "tool_version": "*"},
+    )
+    registry = RuleRegistry([rule])
+    assert registry.find_rule(
+        "AlignmentFile",
+        {"sample_id": "S001", "genome": "GRCh38", "tool_version": "2.7.10a"},
+    ) is rule
+    assert registry.find_rule(
+        "AlignmentFile",
+        {"sample_id": "S001", "genome": "GRCh38", "tool_version": "any_version"},
+    ) is rule
+
+
+def test_registry_glob_wildcard_only_field_always_matches():
+    """A rule with only '*' fields matches any params (or none)."""
+    rule = _make_rule("r", "AlignmentFile", {"tool_version": "*"})
+    registry = RuleRegistry([rule])
+    assert registry.find_rule("AlignmentFile", {}) is rule
+    assert registry.find_rule("AlignmentFile", {"tool_version": "STAR_2.7"}) is rule
+    assert registry.find_rule("AlignmentFile", {"sample": "S001"}) is rule
+
+
+def test_registry_named_wildcard_still_requires_field():
+    """Named wildcard {sample_id} still requires the field to be present."""
+    rule = _make_rule(
+        "r",
+        "AlignmentFile",
+        {"sample_id": "{sample_id}", "tool_version": "*"},
+    )
+    registry = RuleRegistry([rule])
+    # sample_id missing → no match
+    assert registry.find_rule("AlignmentFile", {"tool_version": "2.7"}) is None
+    # sample_id present → match
+    assert registry.find_rule("AlignmentFile", {"sample_id": "S001"}) is rule
 
 
 def test_entity_ref_in_rules_is_detected():

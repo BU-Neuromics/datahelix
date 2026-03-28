@@ -19,6 +19,7 @@ from canon.rules.models import (
     ProductionRule,
     extract_wildcard_name,
     is_entity_ref,
+    is_glob_wildcard,
     is_pure_wildcard,
 )
 from canon.types import Entity, ResolvedInput, Spec
@@ -375,7 +376,11 @@ class RecursivePlanner:
         """
         bindings = dict(parent_bindings)
         for param_name, rule_val in rule.produces.match.items():
-            if is_pure_wildcard(rule_val):
+            if is_glob_wildcard(rule_val):
+                # Glob wildcard "*": no named binding — field is optional in the request.
+                # Hippo will be queried without this field; any value (or none) is accepted.
+                pass
+            elif is_pure_wildcard(rule_val):
                 wc_name = extract_wildcard_name(rule_val)
                 if param_name in resolved_params:
                     bindings[wc_name] = resolved_params[param_name]

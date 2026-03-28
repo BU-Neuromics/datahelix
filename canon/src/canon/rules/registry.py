@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from typing import TYPE_CHECKING, Any
 
-from canon.rules.models import FetchRule, ProductionRule, is_entity_ref, is_pure_wildcard
+from canon.rules.models import FetchRule, ProductionRule, is_entity_ref, is_glob_wildcard, is_pure_wildcard
 
 if TYPE_CHECKING:
     from canon.rules.dynamic_store import DynamicRule, DynamicRuleStore
@@ -34,6 +34,8 @@ def _rule_param_is_fixed(value: Any) -> bool:
     """Return True if a rule produces.match value is a fixed (non-wildcard) value."""
     if not isinstance(value, str):
         return True  # non-string scalars are always fixed
+    if is_glob_wildcard(value):
+        return False
     if is_pure_wildcard(value):
         return False
     if is_entity_ref(value):
@@ -66,8 +68,12 @@ def _rule_matches(
         return False
 
     for param, rule_value in rule.produces.match.items():
-        if is_pure_wildcard(rule_value):
-            # Wildcard: param must exist in resolved_params
+        if is_glob_wildcard(rule_value):
+            # Glob wildcard "*": accept any value, including absent fields.
+            # Callers may omit this field entirely (partial specification matching).
+            continue
+        elif is_pure_wildcard(rule_value):
+            # Named wildcard {name}: param must exist in resolved_params
             if param not in resolved_params:
                 return False
         elif is_entity_ref(rule_value):

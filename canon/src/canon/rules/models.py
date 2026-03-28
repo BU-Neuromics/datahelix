@@ -11,10 +11,30 @@ _PURE_WILDCARD_RE = re.compile(r"^\{([A-Za-z_][A-Za-z0-9_]*)\}$")
 # Regex to detect an entity reference string
 _ENTITY_REF_RE = re.compile(r"^ref:([A-Za-z][A-Za-z0-9_]*)(\{.*\})$")
 
+# v0.2 decision: use simple "*" glob wildcards for partial specification matching
+# instead of full CEL expressions. CEL predicates on match fields deferred to v0.3.
+
 
 def is_pure_wildcard(value: Any) -> bool:
     """Return True if value is a string matching exactly {name}."""
     return isinstance(value, str) and bool(_PURE_WILDCARD_RE.match(value))
+
+
+def is_glob_wildcard(value: Any) -> bool:
+    """Return True if value is the glob wildcard sentinel "*".
+
+    A glob wildcard in a rule's produces.match means "accept any value for this
+    field, including fields the caller did not specify". This enables partial
+    specification matching: callers need not provide every identity field.
+
+    Example rule YAML::
+
+        match:
+          sample_id: "{sample_id}"   # exact, from request params
+          genome: "{genome}"         # exact, from request params
+          tool_version: "*"          # any value accepted — caller may omit this
+    """
+    return value == "*"
 
 
 def extract_wildcard_name(value: str) -> str:
