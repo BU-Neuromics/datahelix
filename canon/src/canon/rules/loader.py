@@ -10,6 +10,8 @@ import yaml
 
 from canon.exceptions import CanonRuleValidationError
 from canon.rules.models import (
+    AggregateRule,
+    CollectSpec,
     ExecuteSpec,
     FetchRule,
     InputBinding,
@@ -88,12 +90,12 @@ class RulesLoader:
     def __init__(self, rules_file: Path) -> None:
         self._rules_file = rules_file
 
-    def load(self) -> list[ProductionRule]:
+    def load(self) -> list[ProductionRule | FetchRule | AggregateRule]:
         """
         Parse and validate the rules file.
 
         Returns:
-            List of validated ProductionRule objects.
+            List of validated rule objects (ProductionRule, FetchRule, or AggregateRule).
 
         Raises:
             CanonRuleValidationError: if any validation check fails (all errors reported).
@@ -122,7 +124,7 @@ class RulesLoader:
             )
 
         errors: list[str] = []
-        rules: list[ProductionRule | FetchRule] = []
+        rules: list[ProductionRule | FetchRule | AggregateRule] = []
 
         for i, raw_rule in enumerate(raw_rules):
             try:
@@ -151,8 +153,8 @@ class RulesLoader:
 
         return rules
 
-    def _parse_rule(self, raw: dict, index: int) -> ProductionRule | FetchRule:
-        """Parse a single rule dict into a ProductionRule or FetchRule."""
+    def _parse_rule(self, raw: dict, index: int) -> ProductionRule | FetchRule | AggregateRule:
+        """Parse a single rule dict into a ProductionRule, FetchRule, or AggregateRule."""
         if not isinstance(raw, dict):
             raise ValueError(f"Rule must be a mapping, got {type(raw).__name__}")
 
@@ -168,6 +170,9 @@ class RulesLoader:
 
         if rule_type == "fetch":
             return self._parse_fetch_rule(raw, str(name), produces_raw)
+
+        if rule_type == "aggregate":
+            return self._parse_aggregate_rule(raw, str(name), produces_raw)
 
         execute_raw = raw.get("execute")
         if not execute_raw:
@@ -212,6 +217,38 @@ class RulesLoader:
             ),
             source_uri=source_uri,
             checksum_sha256=fetch_raw.get("checksum_sha256"),
+        )
+
+    def _parse_aggregate_rule(self, raw: dict, name: str, produces_raw: dict) -> AggregateRule:
+        """Parse a type: aggregate rule into an AggregateRule."""
+        collect_raw = raw.get("collect")
+        if not collect_raw:
+            raise ValueError("Missing 'collect' block")
+
+        collect_entity_type = collect_raw.get("entity_type")
+        if not collect_entity_type:
+            raise ValueError("Missing 'collect.entity_type'")
+
+        group_by = collect_raw.get("group_by")
+        if not group_by:
+            raise ValueError("Missing 'collect.group_by'")
+
+        execute_raw = raw.get("execute")
+        if not execute_raw:
+            raise ValueError("Missing 'execute' block")
+
+        return AggregateRule(
+            name=name,
+            produces=ProducesSpec(
+                entity_type=produces_raw["entity_type"],
+                match=_parse_match(produces_raw.get("match")),
+            ),
+            collect=CollectSpec(
+                entity_type=str(collect_entity_type),
+                match=_parse_match(collect_raw.get("match")),
+                group_by=str(group_by),
+            ),
+            execute=_parse_execute(execute_raw),
         )
 
     def _validate_cross_rule(self, rules: list[ProductionRule]) -> list[str]:

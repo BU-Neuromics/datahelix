@@ -14,6 +14,7 @@ from canon.exceptions import (
     CanonStorageError,
 )
 from canon.rules.models import (
+    AggregateRule,
     FetchRule,
     InputBinding,
     ProductionRule,
@@ -101,6 +102,26 @@ class RecursivePlanner:
             )
         return entity.uri
 
+    def resolve_all(self, entity_type: str, params: dict[str, Any]) -> list[str]:
+        """
+        Return all URIs matching entity_type + partial params.
+
+        Unlike resolve() which returns a single URI, this queries Hippo for
+        all matching entities and returns all their URIs. Used by Composer/Cappella
+        to get all results of an array-output workflow (e.g., all ClusterResult
+        entities for a given counts_matrix_id).
+
+        Args:
+            entity_type: Hippo entity type to query.
+            params: Partial identity parameters to filter by.
+
+        Returns:
+            List of URI strings for all matching entities.
+        """
+        resolved_params = self._resolve_entity_refs_in_params(params, {})
+        entities = self._hippo.find_entities(entity_type, resolved_params)
+        return [e.uri for e in entities if e.uri is not None]
+
     def plan(self, entity_type: str, params: dict[str, Any]) -> PlanNode:
         """
         Dry-run: compute the resolution plan without executing anything.
@@ -158,6 +179,11 @@ class RecursivePlanner:
 
         rule = self._registry.find_rule(entity_type, resolved_params)
         if rule is None:
+            # AGGREGATE: no production rule, but an aggregate rule may apply
+            agg_rule = self._registry.find_aggregate_rule(entity_type, resolved_params)
+            if agg_rule is not None:
+                logger.info("AGGREGATE %s %s using rule %s", entity_type, resolved_params, agg_rule.name)
+                return self._execute_aggregate(agg_rule, resolved_params)
             available = self._registry.rules_for_entity_type(entity_type)
             raise CanonNoRuleError(entity_type, resolved_params, available=available)
 
@@ -234,6 +260,16 @@ class RecursivePlanner:
 
         rule = self._registry.find_rule(entity_type, resolved_params)
         if rule is None:
+            # AGGREGATE: no production rule, but an aggregate rule may apply
+            agg_rule = self._registry.find_aggregate_rule(entity_type, resolved_params)
+            if agg_rule is not None:
+                return PlanNode(
+                    entity_type=entity_type,
+                    params=resolved_params,
+                    decision="AGGREGATE",
+                    rule_name=agg_rule.name,
+                    metadata={"collect_entity_type": agg_rule.collect.entity_type},
+                )
             available = self._registry.rules_for_entity_type(entity_type)
             raise CanonNoRuleError(entity_type, resolved_params, available=available)
 
@@ -433,6 +469,89 @@ class RecursivePlanner:
                 )
             )
         return resolved
+
+    def _build_collect_filters(
+        self,
+        agg_rule: AggregateRule,
+        resolved_params: dict[str, Any],
+    ) -> dict[str, Any]:
+        """Build Hippo filter dict for the collect phase of an aggregate rule.
+
+        Resolves wildcards in collect.match against the current params, then
+        adds the group_by field so Hippo returns only the relevant subset.
+        """
+        # Bind wildcards from produces.match: {wc_name → resolved_value}
+        bindings: dict[str, Any] = {}
+        for param_name, rule_val in agg_rule.produces.match.items():
+            if is_pure_wildcard(rule_val):
+                wc_name = extract_wildcard_name(rule_val)
+                if param_name in resolved_params:
+                    bindings[wc_name] = resolved_params[param_name]
+
+        # Resolve collect.match against those bindings
+        filters: dict[str, Any] = {}
+        for param, rule_val in agg_rule.collect.match.items():
+            if is_pure_wildcard(rule_val):
+                wc_name = extract_wildcard_name(rule_val)
+                if wc_name in bindings:
+                    filters[param] = bindings[wc_name]
+            else:
+                filters[param] = rule_val
+
+        # Add the group_by filter (the cohort/group discriminator)
+        group_by = agg_rule.collect.group_by
+        if group_by in bindings:
+            filters[group_by] = bindings[group_by]
+        elif group_by in resolved_params:
+            filters[group_by] = resolved_params[group_by]
+
+        return filters
+
+    def _execute_aggregate(
+        self,
+        agg_rule: AggregateRule,
+        resolved_params: dict[str, Any],
+    ) -> Entity:
+        """Execute an aggregate rule: collect entities, run merge CWL, ingest output."""
+        if self._executor is None:
+            raise CanonExecutorError(
+                f"No executor configured — cannot aggregate {agg_rule.produces.entity_type} "
+                f"with rule {agg_rule.name}"
+            )
+
+        import uuid
+        from pathlib import Path
+
+        # Collect matching entities from Hippo
+        collect_filters = self._build_collect_filters(agg_rule, resolved_params)
+        collected_entities = self._hippo.find_entities(agg_rule.collect.entity_type, collect_filters)
+
+        # Resolve each entity's URI (build if not already accessible)
+        collected_uris: list[str] = []
+        for entity in collected_entities:
+            if self._is_uri_accessible(entity.uri):
+                collected_uris.append(entity.uri)  # type: ignore[arg-type]
+            else:
+                child = self._resolve_internal(agg_rule.collect.entity_type, entity.data, {})
+                if child.uri:
+                    collected_uris.append(child.uri)
+
+        # Execute the aggregate CWL with collected URIs as a File[] array input
+        run_id = str(uuid.uuid4())
+        work_dir = Path(self._work_dir_base) / run_id
+        work_dir.mkdir(parents=True, exist_ok=True)
+
+        cwl_inputs: dict[str, Any] = {"input_files": collected_uris, **resolved_params}
+        cwl_result = self._executor.run(agg_rule.execute.workflow, cwl_inputs, str(work_dir))
+
+        if cwl_result.exit_code != 0:
+            raise CanonExecutorError(
+                f"Rule {agg_rule.name} failed (exit {cwl_result.exit_code}): "
+                f"{cwl_result.stderr[:500]}"
+            )
+
+        # Ingest the output entity
+        return self._hippo.ingest_entity(agg_rule.produces.entity_type, resolved_params)
 
     def _execute_rule(
         self,

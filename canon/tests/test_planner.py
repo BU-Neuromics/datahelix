@@ -6,7 +6,7 @@ import pytest
 from unittest.mock import MagicMock
 
 from canon.resolver.planner import RecursivePlanner, PlanNode
-from canon.rules.models import ProductionRule, ProducesSpec, ExecuteSpec
+from canon.rules.models import AggregateRule, CollectSpec, ProductionRule, ProducesSpec, ExecuteSpec
 from canon.rules.registry import RuleRegistry
 from canon.types import Entity, Spec
 from canon.executors.base import CWLRunResult
@@ -664,3 +664,174 @@ def test_fetch_skipped_event_recorded(tmp_path):
     all_args = list(call_kwargs[0]) + list(call_kwargs[1].values())
     update_dict = next((a for a in all_args if isinstance(a, dict)), {})
     assert update_dict.get("fetch_status") == "FetchSkipped"
+
+
+# ---------------------------------------------------------------------------
+# AGGREGATE path
+# ---------------------------------------------------------------------------
+
+def _make_aggregate_rule(
+    name="merge_gene_counts",
+    produces_type="CountsMatrix",
+    produces_match=None,
+    collect_type="GeneCounts",
+    collect_match=None,
+    group_by="cohort_id",
+):
+    return AggregateRule(
+        name=name,
+        produces=ProducesSpec(
+            entity_type=produces_type,
+            match=produces_match or {"cohort_id": "{cohort_id}", "genome": "{genome}"},
+        ),
+        collect=CollectSpec(
+            entity_type=collect_type,
+            match=collect_match or {"genome": "{genome}"},
+            group_by=group_by,
+        ),
+        execute=ExecuteSpec(workflow="workflows/merge_counts.cwl", inputs={}),
+    )
+
+
+def test_plan_aggregate_decision():
+    """plan() returns AGGREGATE node when only an aggregate rule matches."""
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+
+    agg_rule = _make_aggregate_rule()
+    registry = RuleRegistry([agg_rule])
+    planner = _make_planner(hippo=hippo, registry=registry)
+
+    node = planner.plan("CountsMatrix", {"cohort_id": "C001", "genome": "GRCh38"})
+    assert node.decision == "AGGREGATE"
+    assert node.rule_name == "merge_gene_counts"
+    assert node.metadata["collect_entity_type"] == "GeneCounts"
+
+
+def test_aggregate_decision_after_build_in_priority():
+    """BUILD wins over AGGREGATE when a production rule exists."""
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+
+    prod_rule = _make_rule(name="prod", entity_type="CountsMatrix", match={"cohort_id": "{cohort_id}", "genome": "{genome}"})
+    agg_rule = _make_aggregate_rule()
+    registry = RuleRegistry([prod_rule, agg_rule])
+    planner = _make_planner(hippo=hippo, registry=registry)
+
+    node = planner.plan("CountsMatrix", {"cohort_id": "C001", "genome": "GRCh38"})
+    assert node.decision == "BUILD"
+    assert node.rule_name == "prod"
+
+
+def test_resolve_aggregate_collects_entities_and_executes(tmp_path):
+    """resolve() with aggregate rule: collects entities, runs CWL, ingests output."""
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None  # no existing CountsMatrix
+
+    # Two GeneCounts entities to collect
+    gc1 = Entity(id="gc-1", entity_type="GeneCounts", data={"uri": "/data/gc1.tsv"}, uri="/data/gc1.tsv")
+    gc2 = Entity(id="gc-2", entity_type="GeneCounts", data={"uri": "/data/gc2.tsv"}, uri="/data/gc2.tsv")
+    hippo.find_entities.return_value = [gc1, gc2]
+
+    output_entity = _make_entity(entity_type="CountsMatrix", uri="/data/matrix.h5ad")
+    hippo.ingest_entity.return_value = output_entity
+
+    agg_rule = _make_aggregate_rule()
+    registry = RuleRegistry([agg_rule])
+
+    executor = MagicMock()
+    executor.run.return_value = CWLRunResult(exit_code=0, stdout="{}", stderr="", outputs={})
+
+    planner = _make_planner(
+        hippo=hippo, registry=registry, executor=executor, work_dir=str(tmp_path)
+    )
+    uri = planner.resolve("CountsMatrix", {"cohort_id": "C001", "genome": "GRCh38"})
+
+    # CWL should have been called once
+    executor.run.assert_called_once()
+    call_args = executor.run.call_args
+    cwl_inputs = call_args[0][1]
+    # Collected URIs passed as input_files array
+    assert "/data/gc1.tsv" in cwl_inputs["input_files"]
+    assert "/data/gc2.tsv" in cwl_inputs["input_files"]
+
+    # Output entity ingested
+    hippo.ingest_entity.assert_called_once()
+    assert uri == "/data/matrix.h5ad"
+
+
+def test_resolve_aggregate_build_collect_filters():
+    """_build_collect_filters resolves wildcards and adds group_by from resolved params."""
+    hippo = MagicMock()
+    agg_rule = _make_aggregate_rule()
+    registry = RuleRegistry([agg_rule])
+    planner = _make_planner(hippo=hippo, registry=registry)
+
+    filters = planner._build_collect_filters(
+        agg_rule,
+        resolved_params={"cohort_id": "C001", "genome": "GRCh38"},
+    )
+    assert filters["genome"] == "GRCh38"
+    assert filters["cohort_id"] == "C001"
+
+
+def test_resolve_aggregate_no_executor_raises(tmp_path):
+    """resolve() with aggregate rule raises CanonExecutorError when no executor."""
+    from canon.exceptions import CanonExecutorError
+
+    hippo = MagicMock()
+    hippo.find_entity.return_value = None
+    gc = Entity(id="gc-1", entity_type="GeneCounts", data={"uri": "/data/gc.tsv"}, uri="/data/gc.tsv")
+    hippo.find_entities.return_value = [gc]
+
+    agg_rule = _make_aggregate_rule()
+    registry = RuleRegistry([agg_rule])
+    planner = _make_planner(hippo=hippo, registry=registry, executor=None)
+
+    with pytest.raises(CanonExecutorError):
+        planner.resolve("CountsMatrix", {"cohort_id": "C001", "genome": "GRCh38"})
+
+
+# ---------------------------------------------------------------------------
+# resolve_all()
+# ---------------------------------------------------------------------------
+
+def test_resolve_all_returns_uris():
+    """resolve_all() returns URIs for all matching entities."""
+    hippo = MagicMock()
+    hippo.find_entities.return_value = [
+        Entity(id="cr-1", entity_type="ClusterResult", data={}, uri="/data/cr1.h5ad"),
+        Entity(id="cr-2", entity_type="ClusterResult", data={}, uri="/data/cr2.h5ad"),
+    ]
+
+    planner = _make_planner(hippo=hippo)
+    uris = planner.resolve_all("ClusterResult", {"counts_matrix_id": "cm-abc"})
+
+    assert uris == ["/data/cr1.h5ad", "/data/cr2.h5ad"]
+    hippo.find_entities.assert_called_once()
+
+
+def test_resolve_all_filters_none_uris():
+    """resolve_all() skips entities with no URI."""
+    hippo = MagicMock()
+    hippo.find_entities.return_value = [
+        Entity(id="cr-1", entity_type="ClusterResult", data={}, uri="/data/cr1.h5ad"),
+        Entity(id="cr-2", entity_type="ClusterResult", data={}, uri=None),
+        Entity(id="cr-3", entity_type="ClusterResult", data={}, uri="/data/cr3.h5ad"),
+    ]
+
+    planner = _make_planner(hippo=hippo)
+    uris = planner.resolve_all("ClusterResult", {"counts_matrix_id": "cm-abc"})
+
+    assert uris == ["/data/cr1.h5ad", "/data/cr3.h5ad"]
+
+
+def test_resolve_all_returns_empty_list_when_no_entities():
+    """resolve_all() returns [] when Hippo finds no matching entities."""
+    hippo = MagicMock()
+    hippo.find_entities.return_value = []
+
+    planner = _make_planner(hippo=hippo)
+    uris = planner.resolve_all("ClusterResult", {"counts_matrix_id": "cm-xyz"})
+
+    assert uris == []

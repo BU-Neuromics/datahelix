@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from typing import TYPE_CHECKING, Any
 
-from canon.rules.models import FetchRule, ProductionRule, is_entity_ref, is_glob_wildcard, is_pure_wildcard
+from canon.rules.models import AggregateRule, FetchRule, ProductionRule, is_entity_ref, is_glob_wildcard, is_pure_wildcard
 
 if TYPE_CHECKING:
     from canon.rules.dynamic_store import DynamicRule, DynamicRuleStore
@@ -50,7 +50,7 @@ def _rule_param_is_fixed(value: Any) -> bool:
 
 
 def _rule_matches(
-    rule: ProductionRule,
+    rule: ProductionRule | AggregateRule,
     entity_type: str,
     resolved_params: dict[str, Any],
 ) -> bool:
@@ -127,16 +127,17 @@ def _rule_matches_fetch(
 
 
 class RuleRegistry:
-    """Registry of all production and fetch rules."""
+    """Registry of all production, fetch, and aggregate rules."""
 
     def __init__(
         self,
-        rules: list[ProductionRule | FetchRule],
+        rules: list[ProductionRule | FetchRule | AggregateRule],
         dynamic_store: "DynamicRuleStore | None" = None,
     ) -> None:
         self._all_rules = rules
         self._rules: list[ProductionRule] = [r for r in rules if isinstance(r, ProductionRule)]
         self._fetch_rules: list[FetchRule] = [r for r in rules if isinstance(r, FetchRule)]
+        self._aggregate_rules: list[AggregateRule] = [r for r in rules if isinstance(r, AggregateRule)]
         # Index production rules by entity_type for fast lookup
         self._by_type: dict[str, list[ProductionRule]] = {}
         for rule in self._rules:
@@ -145,6 +146,10 @@ class RuleRegistry:
         self._fetch_by_type: dict[str, list[FetchRule]] = {}
         for rule in self._fetch_rules:
             self._fetch_by_type.setdefault(rule.produces.entity_type, []).append(rule)
+        # Index aggregate rules by entity_type
+        self._aggregate_by_type: dict[str, list[AggregateRule]] = {}
+        for rule in self._aggregate_rules:
+            self._aggregate_by_type.setdefault(rule.produces.entity_type, []).append(rule)
         self._dynamic_store = dynamic_store
 
     @property
@@ -190,6 +195,17 @@ class RuleRegistry:
         """Find a fetch rule matching entity type and resolved parameters."""
         for rule in self._fetch_by_type.get(entity_type, []):
             if _rule_matches_fetch(rule, entity_type, resolved_params):
+                return rule
+        return None
+
+    def find_aggregate_rule(
+        self,
+        entity_type: str,
+        resolved_params: dict[str, Any],
+    ) -> AggregateRule | None:
+        """Find an aggregate rule matching entity type and resolved parameters."""
+        for rule in self._aggregate_by_type.get(entity_type, []):
+            if _rule_matches(rule, entity_type, resolved_params):
                 return rule
         return None
 

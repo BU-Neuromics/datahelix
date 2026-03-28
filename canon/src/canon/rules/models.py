@@ -94,3 +94,22 @@ class FetchRule:
     produces: ProducesSpec
     source_uri: str
     checksum_sha256: str | None = None
+
+
+@dataclass
+class CollectSpec:
+    """Describes what entities to collect as inputs to an aggregate rule."""
+
+    entity_type: str
+    match: dict[str, Any]
+    group_by: str  # field name used to group collected entities (maps to a wildcard in produces)
+
+
+@dataclass
+class AggregateRule:
+    """A Canon aggregate rule — collect multiple entities, run a merge workflow."""
+
+    name: str
+    produces: ProducesSpec
+    collect: CollectSpec
+    execute: ExecuteSpec

@@ -9,6 +9,8 @@ from pathlib import Path
 from canon.rules.loader import RulesLoader
 from canon.rules.registry import RuleRegistry
 from canon.rules.models import (
+    AggregateRule,
+    CollectSpec,
     ProductionRule,
     ProducesSpec,
     InputBinding,
@@ -457,3 +459,200 @@ def test_registry_find_fetch_rule_wrong_entity_type():
     registry = RuleRegistry([fetch_rule])
     result = registry.find_fetch_rule("AlignedReads", {"name": "GRCh38"})
     assert result is None
+
+
+# ---------------------------------------------------------------------------
+# AggregateRule dataclass
+# ---------------------------------------------------------------------------
+
+def _make_aggregate_rule(
+    name="merge_gene_counts",
+    entity_type="CountsMatrix",
+    match=None,
+    collect_entity_type="GeneCounts",
+    collect_match=None,
+    group_by="cohort_id",
+):
+    return AggregateRule(
+        name=name,
+        produces=ProducesSpec(
+            entity_type=entity_type,
+            match=match or {"cohort_id": "{cohort_id}", "genome": "{genome}"},
+        ),
+        collect=CollectSpec(
+            entity_type=collect_entity_type,
+            match=collect_match or {"genome": "{genome}"},
+            group_by=group_by,
+        ),
+        execute=ExecuteSpec(workflow="workflows/merge_counts.cwl", inputs={}),
+    )
+
+
+def test_aggregate_rule_is_not_production_rule():
+    rule = _make_aggregate_rule()
+    assert isinstance(rule, AggregateRule)
+    assert not isinstance(rule, ProductionRule)
+
+
+def test_aggregate_rule_collect_spec_fields():
+    rule = _make_aggregate_rule()
+    assert rule.collect.entity_type == "GeneCounts"
+    assert rule.collect.group_by == "cohort_id"
+    assert rule.collect.match["genome"] == "{genome}"
+
+
+# ---------------------------------------------------------------------------
+# RulesLoader — aggregate rules
+# ---------------------------------------------------------------------------
+
+_AGGREGATE_RULE_YAML = {
+    "rules": [
+        {
+            "name": "merge_gene_counts",
+            "type": "aggregate",
+            "produces": {
+                "entity_type": "CountsMatrix",
+                "match": {"cohort_id": "{cohort_id}", "genome": "{genome}"},
+            },
+            "collect": {
+                "entity_type": "GeneCounts",
+                "match": {"genome": "{genome}"},
+                "group_by": "cohort_id",
+            },
+            "execute": {
+                "workflow": "workflows/merge_counts.cwl",
+                "inputs": {"input_files": "{input_files}"},
+            },
+        }
+    ]
+}
+
+
+def test_rules_loader_parses_aggregate_rule(tmp_path):
+    p = _write_rules(tmp_path, _AGGREGATE_RULE_YAML)
+    rules = RulesLoader(p).load()
+    assert len(rules) == 1
+    rule = rules[0]
+    assert isinstance(rule, AggregateRule)
+    assert rule.name == "merge_gene_counts"
+    assert rule.produces.entity_type == "CountsMatrix"
+    assert rule.produces.match["cohort_id"] == "{cohort_id}"
+    assert rule.collect.entity_type == "GeneCounts"
+    assert rule.collect.group_by == "cohort_id"
+    assert rule.collect.match["genome"] == "{genome}"
+    assert rule.execute.workflow == "workflows/merge_counts.cwl"
+
+
+def test_rules_loader_aggregate_missing_collect_raises(tmp_path):
+    data = {
+        "rules": [
+            {
+                "name": "bad_agg",
+                "type": "aggregate",
+                "produces": {"entity_type": "CountsMatrix", "match": {}},
+                "execute": {"workflow": "w.cwl", "inputs": {}},
+            }
+        ]
+    }
+    p = _write_rules(tmp_path, data)
+    with pytest.raises(CanonRuleValidationError, match="collect"):
+        RulesLoader(p).load()
+
+
+def test_rules_loader_aggregate_missing_group_by_raises(tmp_path):
+    data = {
+        "rules": [
+            {
+                "name": "bad_agg",
+                "type": "aggregate",
+                "produces": {"entity_type": "CountsMatrix", "match": {}},
+                "collect": {"entity_type": "GeneCounts", "match": {}},
+                "execute": {"workflow": "w.cwl", "inputs": {}},
+            }
+        ]
+    }
+    p = _write_rules(tmp_path, data)
+    with pytest.raises(CanonRuleValidationError, match="group_by"):
+        RulesLoader(p).load()
+
+
+def test_rules_loader_mixed_all_three_types(tmp_path):
+    _make_cwl_and_sidecar(tmp_path, "workflows/star_align.cwl")
+    data = {
+        "rules": [
+            {
+                "name": "align-reads",
+                "produces": {
+                    "entity_type": "AlignedReads",
+                    "match": {"sample": "{sample}"},
+                },
+                "requires": [],
+                "execute": {"workflow": "workflows/star_align.cwl", "inputs": {}},
+            },
+            {
+                "name": "fetch_grch38",
+                "type": "fetch",
+                "produces": {"entity_type": "GenomeBuild", "match": {"name": "GRCh38"}},
+                "fetch": {"source_uri": "https://example.com/genome.fa.gz"},
+            },
+            {
+                "name": "merge_gene_counts",
+                "type": "aggregate",
+                "produces": {
+                    "entity_type": "CountsMatrix",
+                    "match": {"cohort_id": "{cohort_id}", "genome": "{genome}"},
+                },
+                "collect": {
+                    "entity_type": "GeneCounts",
+                    "match": {"genome": "{genome}"},
+                    "group_by": "cohort_id",
+                },
+                "execute": {"workflow": "workflows/merge_counts.cwl", "inputs": {}},
+            },
+        ]
+    }
+    p = _write_rules(tmp_path, data)
+    rules = RulesLoader(p).load()
+    assert len(rules) == 3
+    production = [r for r in rules if isinstance(r, ProductionRule)]
+    fetch = [r for r in rules if isinstance(r, FetchRule)]
+    aggregate = [r for r in rules if isinstance(r, AggregateRule)]
+    assert len(production) == 1
+    assert len(fetch) == 1
+    assert len(aggregate) == 1
+
+
+# ---------------------------------------------------------------------------
+# RuleRegistry — aggregate rules
+# ---------------------------------------------------------------------------
+
+def test_registry_find_aggregate_rule_returns_match():
+    rule = _make_aggregate_rule()
+    registry = RuleRegistry([rule])
+    result = registry.find_aggregate_rule(
+        "CountsMatrix", {"cohort_id": "C001", "genome": "GRCh38"}
+    )
+    assert result is rule
+
+
+def test_registry_find_aggregate_rule_wrong_entity_type():
+    rule = _make_aggregate_rule()
+    registry = RuleRegistry([rule])
+    result = registry.find_aggregate_rule("AlignedReads", {"cohort_id": "C001"})
+    assert result is None
+
+
+def test_registry_find_aggregate_rule_returns_none_when_missing_param():
+    rule = _make_aggregate_rule()
+    registry = RuleRegistry([rule])
+    # cohort_id is a named wildcard — must be present
+    result = registry.find_aggregate_rule("CountsMatrix", {"genome": "GRCh38"})
+    assert result is None
+
+
+def test_registry_aggregate_rules_stored_separately_from_production():
+    prod_rule = _make_rule("prod", "AlignedReads", {"sample": "{sample}"})
+    agg_rule = _make_aggregate_rule()
+    registry = RuleRegistry([prod_rule, agg_rule])
+    assert registry.find_rule("CountsMatrix", {"cohort_id": "C001", "genome": "GRCh38"}) is None
+    assert registry.find_aggregate_rule("CountsMatrix", {"cohort_id": "C001", "genome": "GRCh38"}) is agg_rule
