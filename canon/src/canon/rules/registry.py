@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import re
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from canon.rules.models import FetchRule, ProductionRule, is_entity_ref, is_pure_wildcard
+
+if TYPE_CHECKING:
+    from canon.rules.dynamic_store import DynamicRule, DynamicRuleStore
 
 _ENTITY_REF_RE = re.compile(r"^ref:([A-Za-z][A-Za-z0-9_]*)\{(.*)\}$")
 
@@ -120,7 +123,11 @@ def _rule_matches_fetch(
 class RuleRegistry:
     """Registry of all production and fetch rules."""
 
-    def __init__(self, rules: list[ProductionRule | FetchRule]) -> None:
+    def __init__(
+        self,
+        rules: list[ProductionRule | FetchRule],
+        dynamic_store: "DynamicRuleStore | None" = None,
+    ) -> None:
         self._all_rules = rules
         self._rules: list[ProductionRule] = [r for r in rules if isinstance(r, ProductionRule)]
         self._fetch_rules: list[FetchRule] = [r for r in rules if isinstance(r, FetchRule)]
@@ -132,6 +139,7 @@ class RuleRegistry:
         self._fetch_by_type: dict[str, list[FetchRule]] = {}
         for rule in self._fetch_rules:
             self._fetch_by_type.setdefault(rule.produces.entity_type, []).append(rule)
+        self._dynamic_store = dynamic_store
 
     @property
     def rules(self) -> list[ProductionRule]:
@@ -178,3 +186,16 @@ class RuleRegistry:
             if _rule_matches_fetch(rule, entity_type, resolved_params):
                 return rule
         return None
+
+    def set_dynamic_store(self, store: "DynamicRuleStore") -> None:
+        """Attach a DynamicRuleStore so dynamic rules are queryable."""
+        self._dynamic_store = store
+
+    def find_dynamic_rule(self, name: str) -> "DynamicRule | None":
+        """Look up a dynamically registered rule by name.
+
+        Returns None if no dynamic store is attached or the name is not found.
+        """
+        if self._dynamic_store is None:
+            return None
+        return self._dynamic_store.get(name)
