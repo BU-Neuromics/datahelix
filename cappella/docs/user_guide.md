@@ -215,7 +215,7 @@ Criteria use dot notation to traverse entity relationships:
 - `sample.tissue` — filter the `Sample` entity linked via `SequencingDataset.sample_id`
 - `dataset.assay` — filter the `SequencingDataset` directly
 
-The traversal path is inferred automatically from the Hippo schema's `references:` declarations (requires `HippoClient.schema_references()` — Hippo v0.4 feature).
+The traversal path is inferred automatically from the Hippo schema's `references:` declarations via `HippoClient.schema_references()` (implemented in Hippo v0.4). Schema fields must declare `references: {entity_type: <name>}` for traversal to work.
 
 ### Selection Strategies
 
