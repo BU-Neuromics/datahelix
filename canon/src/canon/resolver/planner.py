@@ -102,6 +102,22 @@ class RecursivePlanner:
             )
         return entity.uri
 
+    def resolve_with_decision(
+        self, entity_type: str, params: dict[str, Any]
+    ) -> dict[str, Any]:
+        """
+        Resolve an artifact and return both the decision and URI.
+
+        Uses plan() for the decision (dry-run, no execution) then resolve()
+        for the actual URI (executes BUILD/FETCH if needed).
+
+        Returns:
+            Dict with 'decision' (REUSE|BUILD|FETCH|AGGREGATE) and 'uri'.
+        """
+        node = self.plan(entity_type, params)
+        uri = self.resolve(entity_type, params)
+        return {"decision": node.decision, "uri": uri}
+
     def resolve_all(self, entity_type: str, params: dict[str, Any]) -> list[str]:
         """
         Return all URIs matching entity_type + partial params.

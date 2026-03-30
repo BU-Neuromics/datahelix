@@ -44,31 +44,27 @@ Cappella is structured as five cooperating layers, all stateless, all writing ex
 
 ### ExternalSourceAdapter ABC
 
-Defined in Hippo (`hippo.core.adapters`), implemented in Cappella. Each adapter handles one external system.
+The adapter base class extends Hippo's `EntityLoader` (`hippo.core.loaders`), versioning the contract with Hippo. Cappella's `ExternalSourceAdapter` lives in `cappella.adapters.base` and adds adapter-specific fields. Built-in generic adapters (CSV, JSON, XML, SQL) extend the corresponding Hippo loaders (`CSVLoader`, `JSONLoader`, `SQLLoader`) directly, inheriting `ConfigurableLoader`'s field mapping and vocabulary normalization.
 
 ```python
-class ExternalSourceAdapter(ABC):
+from hippo.core.loaders import EntityLoader
+
+class ExternalSourceAdapter(EntityLoader):
     name: str                          # "starlims", "halo", "redcap"
     entity_types: list[str]            # ["Donor", "Sample"] — what this adapter produces
+    trust_level: int = 50              # Trust level for conflict resolution
     supports_incremental: bool = False # True if adapter can pull only changed records
 
-    @abstractmethod
-    def fetch(self, since: datetime | None = None) -> Iterator[RawRecord]:
-        """Pull records from the external system. since=None means full sync."""
-        ...
-
-    @abstractmethod
-    def transform(self, record: RawRecord) -> TransformedRecord:
-        """Map external record to Hippo entity schema.
-        Returns: entity_type, data dict, external_id, source_system."""
-        ...
-
-    def validate(self, record: TransformedRecord, hippo_client: HippoClient) -> list[str]:
+    def validate(self, record: TransformedRecord, hippo_client: Any = None) -> list[str]:
         """Optional cross-record validation. Returns list of error messages."""
         return []
+
+    def health_check(self) -> dict[str, Any]:
+        """Return adapter health status."""
+        return {"status": "unknown", "detail": "health_check not implemented"}
 ```
 
-The `transform()` step is where field mapping, vocabulary normalization, and schema conformance happen. Each adapter ships its own `transform()` — no shared transformation pipeline is needed at the Cappella level.
+The `fetch()` and `transform()` methods are inherited from `EntityLoader`. Each built-in adapter overrides them with Cappella's typed `RawRecord`/`TransformedRecord`. The `transform()` step is where field mapping, vocabulary normalization, and schema conformance happen — for generic adapters this is config-driven via `field_map` and `vocabulary_map`; for custom adapters it's implemented in code.
 
 ### Adapter Discovery
 
@@ -361,7 +357,7 @@ Cappella can be run as:
 |----------|----------|-------|
 | Schema-driven traversal | **Resolved ✅** | `HippoClient.schema_references(entity_type)` implemented in Hippo v0.4. Reads `FieldDefinition.references` from schema. REST: `GET /schemas/{entity_type}/references`. Cappella's `EntityTraversal` calls it at runtime. Schema YAML must declare `references: {entity_type: <name>}` on foreign-key fields. |
 | Selection strategy config syntax | High | How are per-entity-type quality fields declared? In cappella.yaml or in the Hippo schema? |
-| Canon client transport | Medium | In-process (import canon directly) or HTTP (call Canon REST API)? In-process is simpler for v0.1; HTTP required for distributed deployment. |
+| Canon client transport | **Resolved ✅** | Both modes implemented. In-process mode imports `canon.resolve()` directly. HTTP mode calls `POST {canon_url}/resolve` with `{"entity_type": ..., "params": ...}`, returns `{"decision": ..., "uri": ...}`. Default for v0.1 is HTTP (`cappella.yaml: canon.mode: http`); in-process mode available via `canon.mode: in_process`. Canon API exposes `/resolve` alongside `/api/v1/rules`. |
 | ResolutionRun entity storage | Medium | Should every `POST /resolve` create a `ResolutionRun` entity in Hippo? Useful for audit but adds write overhead. Deferred to v0.2. |
 | Webhook triggers | Medium | Deferred to v0.2 — requires endpoint registration, signature verification, retry logic. |
 | Hippo poll triggers | Medium | Deferred to v0.2 — requires efficient change detection (polling `updated_at` index). |

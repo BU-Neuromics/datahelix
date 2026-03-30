@@ -1,7 +1,7 @@
 # Section 3: Adapter System
 
-**Status:** Draft v0.1 (revised)
-**Last updated:** 2026-03-25
+**Status:** Draft v0.1 (finalized)
+**Last updated:** 2026-03-30
 
 ---
 
@@ -22,13 +22,42 @@ Adapters are Python packages, discovered at startup via the `cappella.adapters` 
 
 ## 3.2 ExternalSourceAdapter ABC
 
-Defined in Hippo (`hippo.core.adapters`) so the contract is versioned with Hippo. Concrete implementations live in separate adapter packages — not in Cappella core.
+The adapter base class is defined in Hippo (`hippo.core.loaders.EntityLoader`) so the contract is versioned with Hippo. Cappella's `ExternalSourceAdapter` extends `EntityLoader`, adding adapter-specific fields. Concrete built-in adapters (CSV, JSON, XML, SQL) extend the corresponding Hippo loaders (`CSVLoader`, `JSONLoader`, `SQLLoader`) directly, inheriting config-driven field mapping and vocabulary normalization from `ConfigurableLoader`. Custom adapter packages extend `ExternalSourceAdapter`.
 
 ```python
-from abc import ABC, abstractmethod
-from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Iterator
+
+from hippo.core.loaders import EntityLoader
+
+from cappella.types import RawRecord, TransformedRecord
+
+
+class ExternalSourceAdapter(EntityLoader):
+    """Base class for all Cappella external source adapters.
+
+    Subclasses hippo.core.loaders.EntityLoader so that Cappella adapters
+    participate in the unified ingestion framework.
+    """
+
+    name: str              # entry point name, e.g. "csv", "json", "starlims_api"
+    entity_types: list[str]
+    trust_level: int = 50
+    supports_incremental: bool = False
+
+    def validate(self, record: TransformedRecord, hippo_client: Any = None) -> list[str]:
+        return []
+
+    def health_check(self) -> dict[str, Any]:
+        return {"status": "unknown", "detail": "health_check not implemented"}
+```
+
+Data types used by all adapters:
+
+```python
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Any
 
 @dataclass
 class RawRecord:
@@ -44,25 +73,6 @@ class TransformedRecord:
     external_id: str
     source_system: str
     trust_level: int = 50
-
-
-class ExternalSourceAdapter(ABC):
-    name: str              # entry point name, e.g. "csv", "json", "starlims_api"
-    entity_types: list[str]
-    trust_level: int = 50
-    supports_incremental: bool = False
-
-    @abstractmethod
-    def fetch(self, since: datetime | None = None) -> Iterator[RawRecord]: ...
-
-    @abstractmethod
-    def transform(self, record: RawRecord) -> TransformedRecord: ...
-
-    def validate(self, record: TransformedRecord, hippo_client: Any) -> list[str]:
-        return []
-
-    def health_check(self) -> dict[str, Any]:
-        return {"status": "unknown", "detail": "health_check not implemented"}
 ```
 
 ---
