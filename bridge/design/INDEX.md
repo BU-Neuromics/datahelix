@@ -14,7 +14,7 @@
 | `sec1_overview.md` | 1. Overview & Scope | ⬜ Not started | |
 | `sec2_architecture.md` | 2. Architecture | ⬜ Not started | |
 | `sec3_api_unification.md` | 3. Unified API Design | ⬜ Not started | |
-| `sec4_auth.md` | 4. Authentication & Authorization | ⬜ Not started | |
+| `sec4_auth.md` | 4. Authentication & Authorization | ✅ Draft v0.1 | OAuth 2.0 + JWT, flat RBAC, API keys, Hippo provenance integration |
 | `sec5_sync.md` | 5. Cross-Component Sync | ⬜ Not started | |
 | `sec6_nfr.md` | 6. Non-Functional Requirements | ⬜ Not started | |
 
@@ -25,9 +25,9 @@
 | Question | Priority |
 |---|---|
 | Is Bridge required when using only one BASS component? | High |
-| What auth standards does Bridge support (JWT, OAuth2, SAML)? | High |
+| What auth standards does Bridge support (JWT, OAuth2, SAML)? | High | **Answered in sec4:** OAuth 2.0 + JWT primary; SAML via IdP OIDC proxy |
 | Does Bridge expose its own API surface or just proxy component APIs? | Medium |
 
 ---
 
-> 🚧 This specification has not been started.
+> Section 4 (Authentication & Authorization) drafted. Remaining sections not started.
