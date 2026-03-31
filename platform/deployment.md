@@ -1,5 +1,291 @@
 # BASS Platform Deployment Guide
 
-Deployment options and configuration for BASS components across local, single-host, and cloud environments.
+Deployment options for the BASS platform across local, single-host, and multi-node
+environments. Choose the tier that matches your usage:
 
-> 🚧 This section is under development. See [Hippo deployment tiers](../hippo/design/sec2_architecture.md) for Hippo-specific deployment documentation.
+| Tier | Who it's for | Auth | Storage |
+|---|---|---|---|
+| **Local (no Docker)** | Single researcher, laptop/workstation | None | SQLite |
+| **Single-node (Docker Compose)** | Small team, shared lab server | API keys via Bridge | SQLite or PostgreSQL |
+| **Multi-node (Kubernetes/Helm)** | Institutional deployment | OIDC + Bridge | PostgreSQL |
+
+---
+
+## Tier 1: Local Installation (No Docker)
+
+Install each component you need with `pip`. Components are independent — install only what
+your workflow requires.
+
+```bash
+# Core metadata store (required for all other components)
+pip install hippo
+
+# Artifact resolver (if you use Canon rules + CWL pipelines)
+pip install canon cwltool
+
+# Workflow engine (if you use Cappella pipeline adapters)
+pip install cappella
+```
+
+Initialize Hippo in a local project directory:
+
+```bash
+hippo init --path ~/drylims
+cd ~/drylims
+hippo serve          # starts REST API on http://localhost:8001
+```
+
+No Bridge, no auth, no Docker required. This is the correct setup for single-user local
+research.
+
+---
+
+## Tier 2: Single-Node Deployment with Docker Compose
+
+Use this for a shared lab server where multiple team members need authenticated access.
+Provides Hippo + Canon + Cappella + Bridge in a single `docker-compose.yaml`.
+
+### Prerequisites
+
+- Docker 24+ and Docker Compose v2
+- A server with at least 4 GB RAM and 20 GB free disk
+- A domain name or internal hostname (e.g., `bass.lab.internal`)
+
+### Directory Layout
+
+```
+drylims/
+├── docker-compose.yaml
+├── config/
+│   ├── hippo.yaml
+│   ├── canon.yaml
+│   ├── cappella.yaml
+│   └── bridge.yaml
+├── schemas/
+│   └── schema.yaml          # your Hippo schema
+├── data/
+│   ├── hippo-db/            # Hippo SQLite (or mount PostgreSQL socket)
+│   └── canon-outputs/       # Canon workflow output files
+└── logs/
+```
+
+### `docker-compose.yaml`
+
+```yaml
+version: "3.9"
+
+services:
+
+  hippo:
+    image: ghcr.io/bass-platform/hippo:0.4
+    volumes:
+      - ./config/hippo.yaml:/app/hippo.yaml:ro
+      - ./schemas:/app/schemas:ro
+      - ./data/hippo-db:/data/hippo-db
+    environment:
+      HIPPO_DB: /data/hippo-db/hippo.db
+    ports:
+      - "8001:8001"          # internal only; Bridge proxies all external traffic
+    restart: unless-stopped
+
+  canon:
+    image: ghcr.io/bass-platform/canon:0.1
+    volumes:
+      - ./config/canon.yaml:/app/canon.yaml:ro
+      - ./data/canon-outputs:/data/outputs
+    environment:
+      HIPPO_TOKEN: ${CANON_SERVICE_TOKEN}
+    depends_on:
+      - hippo
+    restart: unless-stopped
+
+  cappella:
+    image: ghcr.io/bass-platform/cappella:0.3
+    volumes:
+      - ./config/cappella.yaml:/app/cappella.yaml:ro
+    environment:
+      HIPPO_TOKEN: ${CAPPELLA_SERVICE_TOKEN}
+    depends_on:
+      - hippo
+    restart: unless-stopped
+
+  bridge:
+    image: ghcr.io/bass-platform/bridge:0.1
+    volumes:
+      - ./config/bridge.yaml:/app/bridge.yaml:ro
+    environment:
+      BRIDGE_JWT_KEY: ${BRIDGE_JWT_KEY}
+      BRIDGE_LOCAL_ADMIN_PW: ${BRIDGE_LOCAL_ADMIN_PW}
+    ports:
+      - "8080:8080"          # public-facing HTTPS termination (add a reverse proxy)
+    depends_on:
+      - hippo
+      - canon
+      - cappella
+    restart: unless-stopped
+```
+
+### `config/bridge.yaml`
+
+```yaml
+components:
+  hippo:    http://hippo:8001
+  canon:    http://canon:8002
+  cappella: http://cappella:8003
+
+auth:
+  jwt:
+    algorithm: HS256                    # RS256 for production
+    signing_key: ${BRIDGE_JWT_KEY}
+    access_token_ttl: 900
+    refresh_token_ttl: 604800
+  idp:
+    provider: local                     # Replace with oidc for institutional SSO
+  local_provider:
+    enabled: true
+    users:
+      - username: admin
+        password: ${BRIDGE_LOCAL_ADMIN_PW}
+        roles: [admin]
+  token_store:
+    backend: sqlite
+    connection: /data/bridge/tokens.db
+  api_key_store:
+    backend: sqlite
+    connection: /data/bridge/apikeys.db
+```
+
+### `config/hippo.yaml`
+
+```yaml
+storage:
+  backend: sqlite
+  connection: ${HIPPO_DB}
+
+bridge:
+  enabled: true
+  trust_proxy:
+    - "172.16.0.0/12"      # Docker internal network
+
+schema:
+  path: /app/schemas/schema.yaml
+
+log_level: INFO
+```
+
+### Environment Variables (`.env`)
+
+Create a `.env` file in the `drylims/` directory. **Never commit this file to version control.**
+
+```bash
+# .env
+
+BRIDGE_JWT_KEY=<generate with: python -c "import secrets; print(secrets.token_hex(32))">
+BRIDGE_LOCAL_ADMIN_PW=<strong password>
+CANON_SERVICE_TOKEN=<generate with: bass-keygen>
+CAPPELLA_SERVICE_TOKEN=<generate with: bass-keygen>
+```
+
+### Start the Stack
+
+```bash
+cd drylims/
+docker compose up -d
+
+# Verify all services are healthy
+docker compose ps
+```
+
+### First-Time Setup
+
+After the stack is running:
+
+```bash
+# Install Canon's reference schema into Hippo (run once)
+docker compose exec hippo hippo reference install canon
+
+# Create the first API key for your team
+curl -X POST http://localhost:8080/bridge/auth/login \
+  -d '{"username": "admin", "password": "<your-admin-pw>"}' \
+  | jq '.access_token'
+
+# Use the token to create a long-lived API key for a team member
+curl -X POST http://localhost:8080/bridge/auth/api-keys \
+  -H "Authorization: Bearer <access-token>" \
+  -d '{"label": "alice-workstation", "role": "analyst"}'
+```
+
+Team members set `BASS_API_KEY=bass_live_...` in their environment and point their tools at
+`http://bass.lab.internal:8080`.
+
+---
+
+## Tier 3: Multi-Node (Kubernetes / Helm)
+
+A Helm chart for multi-node production deployment is planned for Phase 4. Until then, use
+the Docker Compose tier on a well-resourced server for team deployments.
+
+For PostgreSQL-backed Hippo (required for multi-user concurrent write loads):
+
+1. Provision a PostgreSQL instance (managed service or self-hosted).
+2. Set `storage.backend: postgresql` and `storage.connection: <postgres-dsn>` in
+   `hippo.yaml`.
+3. Run `hippo migrate` on first start to initialize the schema.
+
+PostgreSQL support is the primary enabling technology for the Tier 3 deployment path.
+Once the PostgreSQL storage adapter ships (Phase 4 milestone), the Helm chart will follow.
+
+---
+
+## Upgrading
+
+Component images are versioned independently. To upgrade a single component:
+
+```bash
+# Pull the new image
+docker compose pull hippo
+
+# Apply schema migrations (if any) before restarting
+docker compose run --rm hippo hippo migrate
+
+# Restart the service
+docker compose up -d hippo
+```
+
+Always run `hippo migrate` before restarting Hippo after an upgrade. The migration command
+is safe to run on an already-migrated database (it is idempotent).
+
+---
+
+## Backup
+
+**SQLite (single-node):**
+
+```bash
+# Daily cron backup
+sqlite3 data/hippo-db/hippo.db ".backup '/backups/hippo-$(date +%Y%m%d).db'"
+```
+
+The Hippo provenance log is immutable — a daily backup of the SQLite file is sufficient for
+disaster recovery.
+
+**PostgreSQL (multi-node):** Use your standard PostgreSQL backup tooling (`pg_dump`,
+continuous WAL archiving, or managed-service snapshots).
+
+---
+
+## Monitoring
+
+Each component exposes a health endpoint:
+
+| Component | Health endpoint |
+|---|---|
+| Hippo | `GET /health` |
+| Bridge | `GET /bridge/health` |
+| Cappella | `GET /health` |
+
+Bridge's health endpoint aggregates the health of all downstream components and returns a
+summary suitable for monitoring systems.
+
+For observability beyond health checks, see the NFR sections in each component's design spec
+(`hippo/design/sec7_nfr.md`, `bridge/design/sec6_nfr.md`).
