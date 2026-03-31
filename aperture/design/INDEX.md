@@ -13,10 +13,10 @@
 |---|---|---|---|
 | `sec1_overview.md` | 1. Overview & Scope | ✅ Draft v0.1 | CLI-first v0.1 scope; personas, design principles, component relationships |
 | `sec2_architecture.md` | 2. Architecture | ✅ Draft v0.1 | Typer CLI, backend integration layer (SDK/REST), config, output formatting |
-| `sec3_cli.md` | 3. CLI Design | ⬜ Not started | Detailed command UX, interactive flows, completion |
-| `sec4_web_ui.md` | 4. Web Interface | ⬜ Not started | Deferred to v0.2 |
-| `sec5_api_clients.md` | 5. API Client Libraries | ⬜ Not started | Deferred to v0.2 |
-| `sec6_nfr.md` | 6. Non-Functional Requirements | ⬜ Not started | |
+| `sec3_cli.md` | 3. CLI Design | ✅ Draft v0.1 | Command taxonomy, full flag specs, interactive flows, error messages, exit codes |
+| `sec4_web_ui.md` | 4. Web Interface | ✅ Draft v0.1 (stub) | Deferred to v0.2; decisions recorded, architectural constraints listed |
+| `sec5_api_clients.md` | 5. API Client Libraries | ✅ Draft v0.1 (stub) | Deferred to v0.2; HippoClient is v0.1 Python API; R/Python client design captured |
+| `sec6_nfr.md` | 6. Non-Functional Requirements | ✅ Draft v0.1 | Startup/command latency targets, reliability, security, testability, compatibility |
 
 ---
 
@@ -32,6 +32,12 @@
 | Output formatting | All commands support `--format table\|json\|csv`; table default for interactive | sec2 |
 | Package name | `bass-aperture`; CLI command is `bass` | sec1, sec2 |
 | Hippo dependency | Optional via `[local]` install extra; base install uses REST mode only | sec2 |
+| `--format json` stability | Stable API surface from v0.1; additive changes only; table/CSV format is NOT stable | sec6 |
+| Python v0.1 API | `HippoClient` (from `hippo` package) is the v0.1 Python programmatic API | sec5 |
+| Exit codes | `0` success, `1` user/data error, `2` system error, `3` auth (v0.2); stable from v0.1 | sec3 |
+| Interactive mode | Disabled (error) when stdin is not a TTY or `--quiet` set | sec3 |
+| Error output | All errors to stderr; normal output to stdout; safe for piping | sec3 |
+| Ingestion error rows | Written to sidecar `<input>_errors.csv` file, not mixed into stdout | sec3 |
 
 ---
 
@@ -41,9 +47,11 @@
 |---|---|---|
 | What is the minimum set of backend integrations Aperture must support at launch? | High | Decided — Hippo only for v0.1 (sec1 §1.5) |
 | Does Aperture have its own auth layer or inherit from Bridge? | High | Decided — inherit from Bridge (sec2 §2.8) |
-| Is the web interface server-rendered or SPA? | Medium | Deferred to v0.2 |
+| Is the web interface server-rendered or SPA? | Medium | Deferred to v0.2 (sec4 §4.5) |
 | Should `bass` namespace conflict with other tools? | Low | Open — may need `bass-cli` or `bassctl` as alternatives |
 | Plugin entry point for site-specific CLI commands? | Low | Planned for post-v0.1 (sec2 §2.11) |
+| Should `bass list` support cursor pagination in addition to offset? | Medium | Open — depends on Hippo REST API design (sec3 §3.14) |
+| Should `bass search` support cross-type search? | Low | Open (sec3 §3.14) |
 
 ---
 
