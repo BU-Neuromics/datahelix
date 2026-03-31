@@ -1,7 +1,7 @@
 # BASS Platform — Architecture Design Index
 
 **Status:** Living document  
-**Last updated:** 2026-03-13  
+**Last updated:** 2026-03-31
 
 This document records cross-cutting architectural decisions that apply to the BASS platform as a whole. Decisions that affect only a single component are recorded in that component's `design/INDEX.md`. This document takes precedence where conflicts exist.
 
@@ -12,9 +12,9 @@ This document records cross-cutting architectural decisions that apply to the BA
 | File | Topic | Status |
 |---|---|---|
 | `INDEX.md` (this file) | Platform-level decisions log and open questions | 🔄 Active |
-| *(future)* `sec1_overview.md` | Platform vision, scope, and component relationships | ⬜ Not started |
-| *(future)* `sec2_components.md` | Component responsibilities and boundaries | ⬜ Not started |
-| *(future)* `sec3_integration.md` | Inter-component interfaces and contracts | ⬜ Not started |
+| `sec1_overview.md` | Platform vision, scope, and component relationships | ✅ Draft v0.1 |
+| `sec2_components.md` | Component responsibilities and boundaries | ✅ Draft v0.1 |
+| `sec3_integration.md` | Inter-component interfaces and contracts | ✅ Draft v0.1 |
 
 ---
 
