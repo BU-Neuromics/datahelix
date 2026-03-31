@@ -239,12 +239,120 @@ Dynamic rules are stored as `ProductionRuleDefinition` entities in Hippo (prefer
 
 ---
 
-## Open Questions
+## `resolve_all()` Design (v0.3)
+
+Array-output workflows produce multiple Hippo entities per execution (e.g. N clustering results). `resolve_all()` is the query interface Composer and Cappella use to retrieve them.
+
+### API
+
+```python
+# Python SDK
+uris: list[ResolvedEntity] = canon.resolve_all(
+    entity_type="ClusterResult",
+    partial_spec={"counts_matrix_id": "uuid:cm-ad001", "algorithm": "leiden"},
+)
+```
+
+```
+# HTTP (Canon REST)
+POST /api/v1/resolve_all
+{
+  "entity_type": "ClusterResult",
+  "partial_spec": {
+    "counts_matrix_id": "uuid:cm-ad001",
+    "algorithm": "leiden"
+  }
+}
+```
+
+### Semantics
+
+- `resolve_all()` queries Hippo for **all existing entities** of the given type matching the partial spec. It does **not** trigger a BUILD — array output workflows must have been run (via `canon.resolve()` on the parent entity) before `resolve_all()` is called.
+- Returns `[]` (empty list) if no matching entities exist — not an error.
+- If the caller needs to trigger a BUILD, they call `canon.resolve()` on the workflow's **primary output** first (e.g., `CountsMatrix`), then call `resolve_all()` for the array-output entities. The trigger rule is responsible for creating all array items via `array_mode: one_per_item`.
+
+### Response
+
+```json
+{
+  "entity_type": "ClusterResult",
+  "partial_spec": {"counts_matrix_id": "uuid:cm-ad001", "algorithm": "leiden"},
+  "entities": [
+    {"id": "uuid:cr-001", "uri": "s3://bucket/clusters/leiden_0.json", "fields": {"cluster_id": "0", "n_members": 234}},
+    {"id": "uuid:cr-002", "uri": "s3://bucket/clusters/leiden_1.json", "fields": {"cluster_id": "1", "n_members": 178}},
+    ...
+  ],
+  "cursor": null,
+  "total": 12
+}
+```
+
+### Pagination
+
+Cursor-based pagination consistent with Hippo v0.5 cursor pagination (Phase 1 REST API gap):
+
+```
+POST /api/v1/resolve_all
+{
+  "entity_type": "ClusterResult",
+  "partial_spec": {"counts_matrix_id": "uuid:cm-ad001"},
+  "limit": 50,
+  "cursor": "opaque-cursor-token"
+}
+→ {"entities": [...], "cursor": "next-page-cursor", "total": 312}
+```
+
+When `cursor` is `null` in the response, all results have been returned. Cursors are stateless (encode offset + filter set) and do not expire.
+
+---
+
+## Open Questions — Resolved
+
+The following questions from the initial design are now resolved for v0.3.
+
+### Rule Versioning
+
+**Decision:** Auto-version-bump with immutable history.
+
+When a rule with an existing name is re-registered, Canon creates a **new version** of the `ProductionRuleDefinition` entity in Hippo:
+- The old version's `status` is updated to `superseded`
+- The new version's `previous_version_id` points to the superseded entity
+- The active rule registry uses the **latest non-deprecated version** by default
+- `POST /api/v1/rules` accepts an optional `"replace": true` flag that makes the new version immediately active (default behavior); `"replace": false` registers it but leaves the old version active — useful for staged rollouts
+
+Version identifiers follow the convention `<rule_name>@<integer_version>` (e.g., `deseq2_contrast@3`). The plain name resolves to the active version. Fully qualified version names (`deseq2_contrast@2`) are accepted in rule references for explicit version pinning in `WorkflowRun` provenance.
+
+### Rule Scoping
+
+**Decision:** Lab-global by default; user-private scope via Hippo auth in v0.3.
+
+- **v0.2:** All dynamically registered rules are lab-global — visible and usable by any authenticated Canon client. Access control is entirely through Hippo auth (who can call `POST /api/v1/rules`).
+- **v0.3:** `ProductionRuleDefinition` entities support a `scope` field: `"global"` (default) or `"user:<hippo-user-id>"`. User-scoped rules are only matched during resolution calls made by that user's Canon session. This enables researchers to test private rules without affecting lab-wide resolution.
+- Rule scope is enforced by filtering the `ProductionRuleDefinition` query in Phase 3 — no changes to the resolution algorithm itself.
+
+### Rule Deprecation
+
+**Decision:** Explicit `status` field on `ProductionRuleDefinition`.
+
+`ProductionRuleDefinition` carries a `status` field with values: `active`, `superseded`, `deprecated`.
+
+- `deprecated` rules are excluded from Phase 3 rule matching. A deprecation comment (free-text) is recorded on the entity.
+- `PATCH /api/v1/rules/{name}` with `{"status": "deprecated", "deprecation_note": "replaced by deseq2_pydeseq2 — uses updated normalization"}` deprecates the active version.
+- Deprecated rules remain in Hippo permanently for provenance — `WorkflowRun` entities that reference a deprecated rule are still interpretable.
+
+### CWL Input/Output Type Coercion
+
+**Decision:** Reject — types must match exactly. No silent coercion.
+
+If a CWL output field is `int` and the target Hippo field is `string`, the validation step (step 4 of the registration API) rejects the rule with `CanonRuleValidationError: type mismatch: CWL output 'n_reads' is int but Hippo field 'n_reads' on 'QCReport' expects string`. The rule author must fix the CWL or the Hippo schema.
+
+Rationale: silent coercion hides schema mismatches and makes provenance unreliable. Canon's value is that the mapping is explicit and validated at registration time, not at execution time.
+
+---
+
+## Open Questions — Remaining
 
 | Question | Priority | Notes |
 |----------|----------|-------|
-| Rule versioning | Medium | What happens when the same rule name is re-registered with updated CWL? Auto-version-bump? Replace? |
-| Rule scoping | Medium | Lab-global rules vs. user-private rules? Or purely by Hippo auth? |
-| Rule deprecation | Low | How are dynamic rules disabled or removed? Entity `supersede_entity`? |
-| CWL input/output type coercion | Low | CWL `int` → Hippo `string` field: reject or coerce? |
-| `resolve_all()` pagination | Low | Array outputs for large cohorts could return thousands of entities |
+| Aggregate/collect rules (v0.3+) | Medium | Multi-sample inputs to Canon (e.g. CountsMatrix merge across N samples). Cappella currently handles set-level aggregation by invoking `CWLExecutorAdapter` directly. Canon v0.3 aggregate rules will provide a first-class rule type for set inputs, but the exact `produces.match` semantics for set-valued identity are not yet designed. |
+| Rule name collision across workflow packages | Low | If two installed `canon-workflows-*` packages define a rule with the same name, startup should raise `CanonConfigError`. Namespace prefix convention (e.g., `rnaseq.align_reads`) deferred to workflow package design. |

@@ -17,6 +17,7 @@
 | `sec4_audit.md` | 4. Audit & Observability | ✅ Draft v0.1 | Structured log events, HarmonizationConflict provenance, health endpoint |
 | `sec5_workflows.md` | 5. Collection Resolution Workflow | ✅ Draft v0.1 | Schema-driven traversal, selection strategies, partial failure, async resolution, CLI |
 | `sec6_nfr.md` | 6. Non-Functional Requirements | ✅ Draft v0.1 | Performance targets, reliability, scalability tiers, extensibility, deployment, full cappella.yaml |
+| `sec7_testing.md` | 7. Trigger Engine Test Strategy | ✅ Draft v0.1 | Behavior matrix for schedule/manual/internal_event (v0.1) and webhook/hippo_poll (v0.2); STARLIMS and HALO scenarios; test file map |
 
 ---
 

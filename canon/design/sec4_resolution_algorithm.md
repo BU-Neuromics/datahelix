@@ -431,3 +431,77 @@ resolved correctly and no unexpected BUILD nodes are present.
 | `CanonIngestionError` | 4c | Output ingestion to Hippo failed | Check Hippo connectivity; check sidecar mappings |
 | `CanonConfigError` | startup | `canon.yaml` invalid; Canon entity types missing from Hippo | Run `hippo reference install canon` |
 | `CanonRuleValidationError` | startup | Rule validation failed (bad syntax, missing CWL, etc.) | Fix rule definitions |
+
+---
+
+### 4.9 Wildcard Resolution Test Coverage Criteria
+
+This section defines the minimum test scenarios required to validate the wildcard binding and resolution algorithm. All scenarios map to the test suite at `canon/tests/test_resolution_algorithm.py`.
+
+#### 4.9.1 Wildcard Binding — Core Cases
+
+| Test ID | Scenario | Expected Outcome |
+|---------|----------|-----------------|
+| `WC-01` | Single wildcard in `produces.match`, bound by request | Wildcard binds to request value; rule matches; BUILD proceeds |
+| `WC-02` | Multiple wildcards, all bound by request | All wildcards bind; rule matches |
+| `WC-03` | Mixed: one fixed param + one wildcard; request matches fixed param | Rule matches; wildcard binds to request value |
+| `WC-04` | Mixed: one fixed param + one wildcard; request provides different fixed param value | Rule does NOT match; `CanonNoRuleError` raised with available rules listed |
+| `WC-05` | Wildcard present in rule but key absent from request | `CanonPlanningError: unbound wildcard` raised before rule matching |
+| `WC-06` | Request has extra keys not in rule `produces.match` | Extra keys are ignored; rule still matches (rule declares minimum identity fields) |
+
+#### 4.9.2 Wildcard in Entity Reference Expressions
+
+| Test ID | Scenario | Expected Outcome |
+|---------|----------|-----------------|
+| `WC-10` | `ref:GenomeBuild{name={genome_build}}` — wildcard bound in request | Wildcard substituted before ref resolution; Hippo query uses concrete value |
+| `WC-11` | `ref:ToolVersion{tool.name=STAR, version={star_version}}` — partial wildcard in nested ref | Dot-notation field is static; version field is wildcard; both resolved correctly |
+| `WC-12` | Wildcard in ref but wildcard not yet bound (no value in request) | `CanonPlanningError: unbound wildcard in ref expression` raised in Phase 1 before Hippo query |
+| `WC-13` | Ref expression wildcard resolves to zero Hippo entities | `CanonResolutionError: No <T> entity found` (not a planning error — the wildcard was bound but the entity doesn't exist) |
+| `WC-14` | Ref expression wildcard resolves to multiple Hippo entities | `CanonResolutionError: Ambiguous reference` |
+
+#### 4.9.3 Wildcard Propagation into `requires`
+
+When a rule's wildcards are bound, those bindings are substituted into all `requires:` entries before recursive resolution begins.
+
+| Test ID | Scenario | Expected Outcome |
+|---------|----------|-----------------|
+| `WC-20` | Top-level wildcard `{sample}` propagates into `requires.match: {sample: "{sample}"}` | Recursive `canon_get` receives concrete sample UUID, not the placeholder string |
+| `WC-21` | Wildcard propagated to requires, required entity exists (REUSE) | Input resolved to URI without BUILD; outer BUILD proceeds with correct input |
+| `WC-22` | Wildcard propagated to requires, required entity absent (BUILD) | Recursive BUILD triggered; outer BUILD receives URI from nested BUILD |
+| `WC-23` | Wildcard binds differently at two requires levels in the same rule | Each `requires` entry substitutes from the shared bindings dict; no cross-contamination between entries |
+
+#### 4.9.4 Rule Ambiguity — Multiple Matching Rules
+
+In v0.1, if two rules both match a request (same entity type, compatible wildcards, same fixed params), Canon should raise an error rather than silently picking one.
+
+| Test ID | Scenario | Expected Outcome |
+|---------|----------|-----------------|
+| `WC-30` | Two rules for same entity type, both fully wildcard on all params | `CanonConfigError: ambiguous rules` at startup validation (rules are validated at load time, not per-request) |
+| `WC-31` | Two rules for same entity type, one more specific (fixed param) than the other | More specific rule matches first; less specific rule is not selected (specificity ordering: more fixed params win) |
+
+**Note on specificity ordering (v0.1):** Rules are ranked by the count of fixed (non-wildcard) parameters — more fixed params = higher specificity. When specificity is equal and both rules match, a startup validation error is raised. This ensures deterministic rule selection without silent surprises.
+
+#### 4.9.5 Cycle Detection
+
+| Test ID | Scenario | Expected Outcome |
+|---------|----------|-----------------|
+| `WC-40` | Rule A requires B; rule B requires A (direct cycle) | `CanonCycleError` raised on the second visit; cycle path is `[A, B, A]` |
+| `WC-41` | Rule A requires B requires C requires A (transitive cycle) | `CanonCycleError` raised when A is encountered again; full path included |
+| `WC-42` | Diamond dependency: A requires B and C; both B and C require D (not a cycle) | Resolves correctly; D is built once (REUSE on second resolution of D) |
+
+#### 4.9.6 Interrupted Execution Re-entry
+
+| Test ID | Scenario | Expected Outcome |
+|---------|----------|-----------------|
+| `WC-50` | `WorkflowRun` entity with `status=running` exists for same spec | `CanonExecutorError: execution already in progress` — duplicate execution blocked |
+| `WC-51` | `WorkflowRun` entity with `status=failed` exists for same spec | Canon proceeds to re-run (failed state does not block retry) |
+| `WC-52` | `WorkflowRun` entity with `status=completed` but no output entity in Hippo | Treated as a BUILD miss — re-run proceeds (output was lost or not ingested) |
+
+#### 4.9.7 `canon plan` Dry-Run Coverage
+
+| Test ID | Scenario | Expected Outcome |
+|---------|----------|-----------------|
+| `WC-60` | All inputs REUSE, top-level BUILD | Plan shows 1 BUILD node, N REUSE nodes; no execution triggered |
+| `WC-61` | Top-level REUSE | Plan shows single REUSE node; no BUILD nodes |
+| `WC-62` | Nested BUILD chain (A builds B builds C) | Plan shows all three as BUILD; correct depth ordering in output |
+| `WC-63` | Cycle in dependency tree during `canon plan` | `CanonCycleError` raised during planning phase; error includes cycle path |
