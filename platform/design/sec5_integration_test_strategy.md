@@ -239,10 +239,10 @@ The following table maps cross-component contracts to their test files. All must
 |---|---|---|---|
 | Canon expects Hippo | `tests/contracts/test_canon_expects_hippo.py` | Exists | `query()`, `create()`, `get()`, availability filtering, `update()` |
 | Cappella expects Hippo | `tests/contracts/test_cappella_expects_hippo.py` | Exists (commit a5900b2) | Upsert-by-ExternalID, `query_updated_since()`, provenance event shape |
-| Cappella expects Canon | `tests/contracts/test_cappella_expects_canon.py` | **Not yet written** | `resolve()` success shape, partial failure format, URI structure |
+| Cappella expects Canon | `tests/contracts/test_cappella_expects_canon.py` | ✅ Written (commit 59cd0ef) | `resolve()` URI format, REUSE/BUILD idempotency, `resolve_with_decision()` decision field, CanonNoRuleError/CanonExecutorError/CanonRuleValidationError hierarchy |
 | Entity loader contract | `tests/contracts/test_entity_loader_contract.py` | In repo — review needed | Flat-file ingestion behavioral guarantees |
 
-The Cappella-expects-Canon contract is the critical gap for Phase 1. See `TESTING.md §Contract Specification: Cappella's View of Canon` for the behavioral spec.
+The Cappella-expects-Canon contract gap is now closed. See `TESTING.md §Contract Specification: Cappella's View of Canon` for the behavioral spec.
 
 ---
 
@@ -255,7 +255,7 @@ tests/
 ├── contracts/
 │   ├── test_canon_expects_hippo.py          # existing
 │   ├── test_cappella_expects_hippo.py       # existing
-│   ├── test_cappella_expects_canon.py       # to write (Phase 1)
+│   ├── test_cappella_expects_canon.py       # ✅ written (Phase 1, commit 59cd0ef)
 │   └── test_entity_loader_contract.py       # existing, review needed
 ├── fixtures/
 │   ├── integration_schema.yaml              # minimal schema (§5.3.1)
@@ -266,7 +266,7 @@ tests/
     ├── test_hippo_platform.py               # existing
     ├── test_canon_platform.py               # existing
     ├── test_hippo_canon.py                  # existing
-    └── test_round_trip.py                   # to write (Phase 1) — §5.4 scenarios
+    └── test_round_trip.py                   # ✅ written (Phase 1, commit 59cd0ef) — §5.4 scenarios
 platform/
 └── benchmarks/
     └── baseline.md                         # NFR performance baselines (§5.8)
