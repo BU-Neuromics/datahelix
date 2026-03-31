@@ -54,6 +54,8 @@ Each contract file is named `test_<consumer>_expects_<provider>.py` and contains
 **Current contracts:**
 - `test_canon_expects_hippo.py` — behaviors Canon depends on from HippoClient
 - `test_hippo_self_contract.py` — Hippo's own behavioral invariants (entity CRUD, validation, provenance)
+- `test_cappella_expects_hippo.py` — behaviors Cappella depends on from HippoClient (upsert, query_updated_since, provenance shape)
+- `test_cappella_expects_canon.py` — behaviors Cappella depends on from Canon's `resolve()` API *(to write — Phase 1)*
 
 **Run:**
 ```bash
@@ -148,6 +150,57 @@ These are the behaviors Canon depends on. Any change to these is a breaking chan
 ### HippoQueryClient — Canon's HTTP shim
 
 Canon's `HippoQueryClient` wraps the HTTP API. The `HippoClientShim` in `tests/platform/conftest.py` is the in-process equivalent. When the HTTP API changes, update both.
+
+---
+
+### CanonClient — Cappella's View
+
+These are the behaviors Cappella depends on from Canon's `resolve()` API. Any change to these is a breaking change for Cappella.
+
+**Success response shape:**
+
+| Field | Type | Guarantee |
+|-------|------|-----------|
+| `uri` | `str` | Non-empty. Hippo entity URI in the form `hippo://<EntityType>/<uuid>` |
+| `decision` | `Literal["REUSE", "BUILD"]` | Always present. `REUSE` means an existing entity was found; `BUILD` means Canon executed a workflow and created a new entity. |
+| `entity_id` | `str` | UUID of the resolved entity in Hippo. Must be retrievable via `HippoClient.get()` immediately after `resolve()` returns. |
+| `entity_type` | `str` | Matches the requested `entity_type` argument. |
+| `rule` | `str | None` | `None` on REUSE. Name of the rule that produced the result on BUILD. |
+
+**Partial failure format:**
+
+Cappella calls `resolve()` per-sample and must handle all failure modes. Canon raises typed exceptions — never returns a partial dict.
+
+| Exception | When raised | Cappella behavior |
+|---|---|---|
+| `CanonResolutionError` | No rule found, or ref expression matched zero or multiple entities | Mark sample as `unresolved` with reason `NO_RULE` or `RESOLUTION_ERROR`; continue run |
+| `CanonExecutorError` | CWL execution failed, or in-progress run detected | Mark sample as `unresolved` with reason `EXECUTOR_ERROR`; continue run |
+| `CanonRuleValidationError` | Raised at Canon startup — rule file is malformed | Propagate as Cappella startup error; resolution run never starts |
+
+Cappella never catches `Exception` broadly. Only the three documented typed exceptions above are handled as non-aborting per-sample failures.
+
+**URI structure guarantee:**
+
+Canon-produced URIs follow the pattern `hippo://<EntityType>/<uuid>`. Cappella extracts the UUID component for Hippo queries. The UUID is always a valid UUID4 string.
+
+```python
+# Cappella's expected URI parsing
+import re
+CANON_URI_RE = re.compile(r"^hippo://(\w+)/([0-9a-f-]{36})$")
+
+def parse_canon_uri(uri: str) -> tuple[str, str]:
+    """Returns (entity_type, uuid). Raises ValueError if uri does not match."""
+    m = CANON_URI_RE.match(uri)
+    if not m:
+        raise ValueError(f"Unexpected Canon URI format: {uri!r}")
+    return m.group(1), m.group(2)
+```
+
+Any change to the URI format (e.g. from `hippo://` to a different scheme) is a **breaking change** for Cappella.
+
+**Idempotency guarantee:**
+
+Calling `resolve()` twice with the same `entity_type` and parameters must return the same `uri` both times (on the second call, `decision == "REUSE"`). Cappella depends on this for safe re-runs and progress checkpointing.
 
 ---
 
