@@ -3,7 +3,7 @@
 
 **Codename:** Cappella  
 **Component:** Integration & Harmonization Engine  
-**Version:** 0.1-draft (design in progress)
+**Version:** 0.1 (implemented)
 
 ---
 
@@ -59,7 +59,7 @@ See `platform/design/INDEX.md` for full rationale and config format examples.
 | Canon transport (v0.1) | In-process (import canon directly); HTTP mode available for distributed deployment |
 | Resolution API | Always async — POST /resolve validates immediately (400/422/202); client polls GET /resolve/{run_id}; CLI blocks with progress display; live samples_resolved counter for Aperture/Composer |
 | CLI | In scope for v0.1 — cappella resolve/ingest/trigger/status/findings |
-| Workflow executor strategy | **Open** — wrap Nextflow/Snakemake vs. define own; see open questions |
+| Workflow executor strategy | **Resolved** — Canon owns per-artifact CWL execution; Cappella delegates to `canon.resolve()` |
 
 ---
 
@@ -75,4 +75,4 @@ See `platform/design/INDEX.md` for full rationale and config format examples.
 
 ---
 
-> ⚠️ The existing [Cappella user docs](../docs/introduction.md) predate this design session and describe a generic workflow executor. They should be rewritten after sec1 and sec2 are complete.
+> ✅ User docs have been updated to align with the v0.1 design and implementation. See `cappella/docs/` for the current documentation.
