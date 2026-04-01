@@ -1,0 +1,21 @@
+/* Custom "not-implemented" admonition for marking incomplete implementations */
+:root {
+  --md-admonition-icon--not-implemented: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14h-2V9h2m0 9h-2v-2h2M1 21h22L12 2 1 21z"/></svg>');
+}
+
+.md-typeset .admonition.not-implemented,
+.md-typeset details.not-implemented {
+  border-color: #ff9100;
+}
+
+.md-typeset .not-implemented > .admonition-title,
+.md-typeset .not-implemented > summary {
+  background-color: rgba(255, 145, 0, 0.1);
+}
+
+.md-typeset .not-implemented > .admonition-title::before,
+.md-typeset .not-implemented > summary::before {
+  background-color: #ff9100;
+  -webkit-mask-image: var(--md-admonition-icon--not-implemented);
+  mask-image: var(--md-admonition-icon--not-implemented);
+}

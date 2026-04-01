@@ -1,27 +1,37 @@
-site_name: DryLIMS Documentation
-site_description: Documentation for the DryLIMS Bioinformatics Analysis Software System
-repo_url: https://github.com/drylims/drylims-docs
+site_name: BASS Documentation
+site_description: Bioinformatics Analysis Software System — platform documentation
 
 theme:
   name: material
   palette:
-    - scheme: default
-      primary: indigo
-      accent: indigo
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: cyan
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
-    - scheme: slate
-      primary: indigo
-      accent: indigo
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: cyan
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
+  font:
+    text: Inter
+    code: JetBrains Mono
   features:
+    - navigation.tabs
     - navigation.sections
     - navigation.expand
+    - navigation.top
     - search.highlight
+    - search.suggest
     - content.code.copy
+
+plugins:
+  - search
 
 markdown_extensions:
   - admonition
@@ -29,8 +39,131 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - attr_list
+  - md_in_html
   - toc:
       permalink: true
 
+# Pre-existing source docs contain relative links written for GitHub browsing
+# that do not resolve within MkDocs. Downgrade to info for now; tracked for cleanup.
+validation:
+  links:
+    not_found: info
+    absolute_links: info
+    unrecognized_links: info
+  nav:
+    omitted_files: info
+    not_found: warn
+    absolute_links: info
+
+extra_css:
+  - stylesheets/custom.css
+
 nav:
   - Home: index.md
+  - Platform:
+      - platform/index.md
+      - Overview: platform/src/overview.md
+      - Architecture: platform/src/architecture.md
+      - Getting Started: platform/src/getting-started.md
+      - Deployment: platform/src/deployment.md
+      - Glossary: platform/src/glossary.md
+      - Design Spec:
+          - Platform Overview: platform/src/design/sec1_overview.md
+          - Component Architecture: platform/src/design/sec2_components.md
+          - Integration Patterns: platform/src/design/sec3_integration.md
+          - Unified Ingestion: platform/src/design/sec4_unified_ingestion.md
+          - Integration Test Strategy: platform/src/design/sec5_integration_test_strategy.md
+  - Hippo:
+      - hippo/index.md
+      - User Docs:
+          - Introduction: hippo/user-docs/introduction.md
+          - Installation: hippo/user-docs/installation.md
+          - Quick Start: hippo/user-docs/quickstart.md
+          - Schema Guide: hippo/user-docs/schema-guide.md
+          - Data Model: hippo/user-docs/data-model.md
+          - Configuration: hippo/user-docs/configuration.md
+          - CLI Reference: hippo/user-docs/cli-reference.md
+          - API Reference: hippo/user-docs/api-reference.md
+      - Design Spec:
+          - Overview & Scope: hippo/design/sec1_overview.md
+          - Architecture: hippo/design/sec2_architecture.md
+          - Data Model: hippo/design/sec3_data_model.md
+          - Relational Storage: hippo/design/sec3b_relational_storage.md
+          - API Layer: hippo/design/sec4_api_layer.md
+          - Ingestion & Integration: hippo/design/sec5_ingestion.md
+          - Provenance & Audit: hippo/design/sec6_provenance.md
+          - Non-Functional Requirements: hippo/design/sec7_nfr.md
+          - Auth Integration: hippo/design/sec8_auth_integration.md
+          - "Appendix A: Example Schema": hippo/design/appendix_a_example_schema_omics.md
+          - "Appendix B: Implementation Guide": hippo/design/appendix_b_implementation_guide.md
+          - "Reference: hippo.yaml": hippo/design/reference_hippo_yaml.md
+          - "Reference: validators.yaml": hippo/design/reference_validators_yaml.md
+          - "Reference: CEL Context": hippo/design/reference_cel_context.md
+  - Cappella:
+      - cappella/index.md
+      - User Docs:
+          - Introduction: cappella/user-docs/introduction.md
+          - Installation: cappella/user-docs/installation.md
+          - Overview: cappella/user-docs/overview.md
+          - Quick Start: cappella/user-docs/quickstart.md
+          - User Guide: cappella/user-docs/user_guide.md
+          - Workflows: cappella/user-docs/workflows.md
+      - Design Spec:
+          - Overview & Scope: cappella/design/sec1_overview.md
+          - Architecture: cappella/design/sec2_architecture.md
+          - Adapter System: cappella/design/sec3_adapters.md
+          - Audit & Observability: cappella/design/sec4_audit.md
+          - Collection Resolution: cappella/design/sec5_workflows.md
+          - Non-Functional Requirements: cappella/design/sec6_nfr.md
+          - Trigger Engine Testing: cappella/design/sec7_testing.md
+  - Aperture:
+      - aperture/index.md
+      - User Docs:
+          - Introduction: aperture/user-docs/introduction.md
+          - Quick Start: aperture/user-docs/quickstart.md
+          - CLI Reference: aperture/user-docs/cli-reference.md
+      - Design Spec:
+          - Overview & Scope: aperture/design/sec1_overview.md
+          - Architecture: aperture/design/sec2_architecture.md
+          - CLI Design: aperture/design/sec3_cli.md
+          - Web Interface (v0.2): aperture/design/sec4_web_ui.md
+          - API Clients (v0.2): aperture/design/sec5_api_clients.md
+          - Non-Functional Requirements: aperture/design/sec6_nfr.md
+  - Bridge:
+      - bridge/index.md
+      - User Docs:
+          - Introduction: bridge/user-docs/introduction.md
+          - Authentication: bridge/user-docs/auth.md
+          - Security Model: bridge/user-docs/security-model.md
+          - Admin Guide: bridge/user-docs/admin-guide.md
+      - Design Spec:
+          - Overview & Scope: bridge/design/sec1_overview.md
+          - Architecture: bridge/design/sec2_architecture.md
+          - Unified API Design: bridge/design/sec3_api_unification.md
+          - Authentication & Authorization: bridge/design/sec4_auth.md
+          - Cross-Component Sync: bridge/design/sec5_sync.md
+          - Non-Functional Requirements: bridge/design/sec6_nfr.md
+  - Canon:
+      - canon/index.md
+      - User Docs:
+          - Introduction: canon/user-docs/introduction.md
+          - Quick Start: canon/user-docs/quickstart.md
+          - User Guide: canon/user-docs/user-guide.md
+      - Design Spec:
+          - Overview & Scope: canon/design/sec1_overview.md
+          - Architecture: canon/design/sec2_architecture.md
+          - Rules DSL: canon/design/sec3_rules_dsl.md
+          - CWL Integration: canon/design/sec3b_cwl_integration.md
+          - Resolution Algorithm: canon/design/sec4_resolution_algorithm.md
+          - Executor Adapters: canon/design/sec5_executor_adapters.md
+          - Storage Adapters: canon/design/sec5b_storage_adapters.md
+          - Hippo Integration: canon/design/sec6_hippo_integration.md
+          - Non-Functional Requirements: canon/design/sec7_nfr.md
+          - Dynamic Rules: canon/design/sec8_dynamic_rules.md
+          - "Reference: canon.yaml": canon/design/reference_canon_yaml.md
+          - "Reference: canon_rules.yaml": canon/design/reference_canon_rules_yaml.md
+          - "Appendix A: RNA-seq Example": canon/design/appendix_a_rnaseq_example.md
