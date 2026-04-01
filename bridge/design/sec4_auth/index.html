@@ -1,0 +1,5624 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Bioinformatics Analysis Software System — platform documentation">
+      
+      
+      
+      
+        <link rel="prev" href="../sec3_api_unification/">
+      
+      
+        <link rel="next" href="../sec5_sync/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Authentication & Authorization - BASS Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#4-authentication-authorization" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="BASS Documentation" class="md-header__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BASS Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Authentication & Authorization
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../platform/" class="md-tabs__link">
+          
+  
+  
+  Platform
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../hippo/" class="md-tabs__link">
+          
+  
+  
+  Hippo
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../cappella/" class="md-tabs__link">
+          
+  
+  
+  Cappella
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../aperture/" class="md-tabs__link">
+          
+  
+  
+  Aperture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+  Bridge
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../canon/" class="md-tabs__link">
+          
+  
+  
+  Canon
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="BASS Documentation" class="md-nav__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    BASS Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Platform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BASS Platform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Spec
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design Spec
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/design/sec1_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/design/sec2_components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Component Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/design/sec3_integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unified Ingestion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration Test Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hippo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hippo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hippo — Metadata Tracking Service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Docs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Docs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/user-docs/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/user-docs/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/user-docs/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/user-docs/schema-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schema Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/user-docs/data-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/user-docs/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/user-docs/cli-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/user-docs/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Spec
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design Spec
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/design/sec1_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Scope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/design/sec2_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/design/sec3_data_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/design/sec3b_relational_storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relational Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/design/sec4_api_layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/design/sec5_ingestion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingestion & Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/design/sec6_provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Provenance & Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/design/sec7_nfr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Non-Functional Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/design/sec8_auth_integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/design/appendix_a_example_schema_omics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendix A: Example Schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/design/appendix_b_implementation_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendix B: Implementation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/design/reference_hippo_yaml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference: hippo.yaml
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/design/reference_validators_yaml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference: validators.yaml
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hippo/design/reference_cel_context/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference: CEL Context
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cappella
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cappella
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cappella — Integration &amp; Harmonization Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Docs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Docs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/user-docs/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/user-docs/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/user-docs/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/user-docs/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/user-docs/user_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/user-docs/workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Spec
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design Spec
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/design/sec1_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Scope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/design/sec2_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/design/sec3_adapters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adapter System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/design/sec4_audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audit & Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/design/sec5_workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Collection Resolution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/design/sec6_nfr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Non-Functional Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/design/sec7_testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trigger Engine Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Aperture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Aperture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Aperture — Interface Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Docs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Docs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/user-docs/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/user-docs/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/user-docs/cli-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Spec
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design Spec
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/design/sec1_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Scope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/design/sec2_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/design/sec3_cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/design/sec4_web_ui/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Interface (v0.2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/design/sec5_api_clients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Clients (v0.2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/design/sec6_nfr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Non-Functional Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bridge
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Bridge
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bridge — Integration Middleware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Docs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Docs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-docs/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-docs/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-docs/security-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-docs/admin-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Spec
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design Spec
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec1_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Scope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec2_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec3_api_unification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unified API Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication & Authorization
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication & Authorization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#4-authentication-authorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Authentication &amp; Authorization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Authentication &amp; Authorization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-design-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Design Philosophy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-authentication-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Authentication Standards
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 Authentication Standards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#421-primary-oauth-20-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.1 Primary: OAuth 2.0 + JWT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#422-identity-provider-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.2 Identity Provider Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#423-token-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.3 Token Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-role-based-access-control-rbac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Role-Based Access Control (RBAC)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Role-Based Access Control (RBAC)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#431-role-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.1 Role Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#432-permission-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.2 Permission Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#433-project-scoping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.3 Project Scoping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#434-future-hierarchical-roles-and-custom-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.4 Future: Hierarchical Roles and Custom Permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-token-management-and-session-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Token Management and Session Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 Token Management and Session Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#441-token-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.1 Token Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#442-token-refresh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.2 Token Refresh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#443-token-revocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.3 Token Revocation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-integration-with-hippo-provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Integration with Hippo Provenance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.5 Integration with Hippo Provenance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#451-actor-identity-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5.1 Actor Identity Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#452-service-account-actors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5.2 Service Account Actors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#453-provenance-query-authorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5.3 Provenance Query Authorization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-api-key-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 API Key Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.6 API Key Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#461-key-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6.1 Key Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#462-key-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6.2 Key Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#463-key-authentication-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6.3 Key Authentication Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#47-service-to-service-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 Service-to-Service Authentication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.7 Service-to-Service Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#471-service-registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7.1 Service Registration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#472-internal-token-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7.2 Internal Token Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#48-deployment-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.8 Deployment Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.8 Deployment Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#481-bridge-auth-configuration-bridgeyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.8.1 Bridge Auth Configuration (bridge.yaml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#482-deployment-tiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.8.2 Deployment Tiers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#49-component-auth-integration-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.9 Component Auth Integration Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.9 Component Auth Integration Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#491-hippo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.9.1 Hippo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#492-cappella" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.9.2 Cappella
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#493-aperture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.9.3 Aperture
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#410-security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.10 Security Considerations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#411-open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.11 Open Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec5_sync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-Component Sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec6_nfr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Non-Functional Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Canon
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Canon
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Canon — Semantic Artifact Resolver
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Docs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Docs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/user-docs/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/user-docs/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/user-docs/user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Spec
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design Spec
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec1_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Scope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec2_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rules DSL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CWL Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resolution Algorithm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Executor Adapters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage Adapters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec6_hippo_integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hippo Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec7_nfr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Non-Functional Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Rules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/reference_canon_yaml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference: canon.yaml
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference: canon_rules.yaml
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendix A: RNA-seq Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#4-authentication-authorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Authentication &amp; Authorization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Authentication &amp; Authorization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-design-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Design Philosophy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-authentication-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Authentication Standards
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 Authentication Standards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#421-primary-oauth-20-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.1 Primary: OAuth 2.0 + JWT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#422-identity-provider-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.2 Identity Provider Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#423-token-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2.3 Token Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-role-based-access-control-rbac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Role-Based Access Control (RBAC)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Role-Based Access Control (RBAC)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#431-role-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.1 Role Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#432-permission-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.2 Permission Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#433-project-scoping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.3 Project Scoping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#434-future-hierarchical-roles-and-custom-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3.4 Future: Hierarchical Roles and Custom Permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-token-management-and-session-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Token Management and Session Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 Token Management and Session Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#441-token-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.1 Token Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#442-token-refresh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.2 Token Refresh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#443-token-revocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.3 Token Revocation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-integration-with-hippo-provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Integration with Hippo Provenance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.5 Integration with Hippo Provenance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#451-actor-identity-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5.1 Actor Identity Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#452-service-account-actors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5.2 Service Account Actors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#453-provenance-query-authorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5.3 Provenance Query Authorization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-api-key-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 API Key Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.6 API Key Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#461-key-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6.1 Key Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#462-key-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6.2 Key Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#463-key-authentication-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6.3 Key Authentication Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#47-service-to-service-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 Service-to-Service Authentication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.7 Service-to-Service Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#471-service-registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7.1 Service Registration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#472-internal-token-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7.2 Internal Token Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#48-deployment-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.8 Deployment Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.8 Deployment Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#481-bridge-auth-configuration-bridgeyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.8.1 Bridge Auth Configuration (bridge.yaml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#482-deployment-tiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.8.2 Deployment Tiers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#49-component-auth-integration-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.9 Component Auth Integration Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.9 Component Auth Integration Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#491-hippo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.9.1 Hippo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#492-cappella" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.9.2 Cappella
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#493-aperture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.9.3 Aperture
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#410-security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.10 Security Considerations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#411-open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.11 Open Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Authentication & Authorization</h1>
+
+<h2 id="4-authentication-authorization">4. Authentication &amp; Authorization<a class="headerlink" href="#4-authentication-authorization" title="Permanent link">&para;</a></h2>
+<p><strong>Document status:</strong> Draft v0.1
+<strong>Depends on:</strong> Hippo sec2 (auth middleware stub, actor field), Hippo sec6 (provenance event model), Aperture sec2 (auth model / token expectations)
+<strong>Feeds into:</strong> Bridge sec2 (architecture), Bridge sec3 (unified API), Aperture sec2 (auth integration), all component deployment docs</p>
+<hr />
+<h3 id="41-design-philosophy">4.1 Design Philosophy<a class="headerlink" href="#41-design-philosophy" title="Permanent link">&para;</a></h3>
+<p>Bridge owns all authentication and authorization for the BASS platform. Individual components
+(Hippo, Cappella) are auth-unaware by design — they accept a validated <code>actor</code> identity from
+their transport layer and trust it unconditionally. Bridge sits in front of component REST APIs
+as the single enforcement point:</p>
+<ol>
+<li>
+<p><strong>Centralized auth, decentralized enforcement</strong> — Bridge validates credentials and injects
+   a verified actor identity. Component auth middleware stubs (e.g., Hippo's <code>AuthMiddleware</code>
+   ABC) are replaced by Bridge-aware implementations that extract the validated identity from
+   request context rather than performing their own credential checks.</p>
+</li>
+<li>
+<p><strong>No component user stores</strong> — Components never maintain user databases, session tables, or
+   credential stores. All identity resolution flows through Bridge.</p>
+</li>
+<li>
+<p><strong>SDK bypass is intentional</strong> — When components are used in SDK mode (e.g., local
+   <code>HippoClient</code> with SQLite), there is no Bridge and no auth. This is the correct posture for
+   single-user local deployments. Auth applies only at the transport layer boundary.</p>
+</li>
+<li>
+<p><strong>Standards-based</strong> — Bridge uses widely adopted standards (OAuth 2.0, JWT, RBAC) to
+   minimize custom security code and maximize interoperability with institutional identity
+   providers.</p>
+</li>
+</ol>
+<hr />
+<h3 id="42-authentication-standards">4.2 Authentication Standards<a class="headerlink" href="#42-authentication-standards" title="Permanent link">&para;</a></h3>
+<h4 id="421-primary-oauth-20-jwt">4.2.1 Primary: OAuth 2.0 + JWT<a class="headerlink" href="#421-primary-oauth-20-jwt" title="Permanent link">&para;</a></h4>
+<p>Bridge uses <strong>OAuth 2.0</strong> as the authorization framework and <strong>JWT (RFC 7519)</strong> as the token
+format. This combination was chosen because:</p>
+<ul>
+<li>OAuth 2.0 is the dominant standard in both enterprise and research computing environments</li>
+<li>JWTs are stateless and can carry claims (roles, scopes) that downstream components inspect
+  without calling back to Bridge</li>
+<li>Broad library support in Python (<code>PyJWT</code>, <code>authlib</code>) and every other language</li>
+</ul>
+<p><strong>Supported OAuth 2.0 flows:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Flow</th>
+<th>Use Case</th>
+<th>Client Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authorization Code + PKCE</td>
+<td>Web portal (Aperture web UI)</td>
+<td>Public client (browser)</td>
+</tr>
+<tr>
+<td>Device Code (RFC 8628)</td>
+<td>CLI tools (Aperture CLI, <code>bass</code> command)</td>
+<td>Public client (terminal)</td>
+</tr>
+<tr>
+<td>Client Credentials</td>
+<td>Service-to-service (Cappella → Hippo, pipeline agents)</td>
+<td>Confidential client</td>
+</tr>
+</tbody>
+</table>
+<p>SAML 2.0 is <strong>not</strong> natively supported. Institutions requiring SAML can federate through their
+IdP's OAuth 2.0 bridge (e.g., Shibboleth with OAuth proxy, Azure AD). This avoids the
+complexity of maintaining a SAML SP implementation while remaining compatible with the academic
+identity ecosystem.</p>
+<h4 id="422-identity-provider-integration">4.2.2 Identity Provider Integration<a class="headerlink" href="#422-identity-provider-integration" title="Permanent link">&para;</a></h4>
+<p>Bridge acts as an <strong>OAuth 2.0 client</strong> to external Identity Providers (IdPs), not as an IdP
+itself. Supported IdP configurations:</p>
+<table>
+<thead>
+<tr>
+<th>Provider Type</th>
+<th>Examples</th>
+<th>Protocol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Institutional IdP</td>
+<td>Azure AD, Okta, Auth0, Keycloak</td>
+<td>OIDC (OpenID Connect)</td>
+</tr>
+<tr>
+<td>Academic federation</td>
+<td>CILogon, InCommon</td>
+<td>OIDC via CILogon proxy</td>
+</tr>
+<tr>
+<td>Local dev/test</td>
+<td>Bridge built-in provider</td>
+<td>OAuth 2.0 (local-only)</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌────────────┐     ┌─────────────────┐     ┌────────────────┐
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│  Aperture   │────▶│     Bridge      │────▶│  External IdP  │
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│  (CLI/Web)  │◀────│  (OAuth Client) │◀────│  (OIDC Server) │
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>└────────────┘     └────────┬────────┘     └────────────────┘
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>                            │
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>                  ┌─────────▼─────────┐
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>                  │  JWT issued by    │
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>                  │  Bridge (signed)  │
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>                  └───────────────────┘
+</code></pre></div>
+<p>After external authentication, Bridge issues its own <strong>signed JWT</strong> with BASS-specific claims.
+Components never interact with external IdP tokens directly.</p>
+<h4 id="423-token-structure">4.2.3 Token Structure<a class="headerlink" href="#423-token-structure" title="Permanent link">&para;</a></h4>
+<p>Bridge-issued JWTs contain the following claims:</p>
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sub</code></td>
+<td>string</td>
+<td>Unique user identifier (Bridge user ID, UUID)</td>
+</tr>
+<tr>
+<td><code>iss</code></td>
+<td>string</td>
+<td><code>bass-bridge</code> (fixed issuer)</td>
+</tr>
+<tr>
+<td><code>aud</code></td>
+<td>string</td>
+<td><code>bass-platform</code> (or component-specific audience for scoped tokens)</td>
+</tr>
+<tr>
+<td><code>exp</code></td>
+<td>int</td>
+<td>Expiry timestamp (UTC epoch)</td>
+</tr>
+<tr>
+<td><code>iat</code></td>
+<td>int</td>
+<td>Issued-at timestamp</td>
+</tr>
+<tr>
+<td><code>jti</code></td>
+<td>string</td>
+<td>Unique token ID (for revocation checking)</td>
+</tr>
+<tr>
+<td><code>bass:actor</code></td>
+<td>string</td>
+<td>The actor identity string passed to component <code>actor</code> fields</td>
+</tr>
+<tr>
+<td><code>bass:roles</code></td>
+<td>string[]</td>
+<td>RBAC roles assigned to this user (see §4.3)</td>
+</tr>
+<tr>
+<td><code>bass:scopes</code></td>
+<td>string[]</td>
+<td>OAuth scopes granted in this session</td>
+</tr>
+<tr>
+<td><code>bass:org</code></td>
+<td>string</td>
+<td>Organization/tenant identifier (multi-tenant deployments)</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>bass:actor</code> claim is the canonical link between Bridge auth and Hippo provenance — it
+becomes the <code>actor</code> field on all provenance events, ensuring an unbroken audit trail from
+login through every data mutation.</p>
+<hr />
+<h3 id="43-role-based-access-control-rbac">4.3 Role-Based Access Control (RBAC)<a class="headerlink" href="#43-role-based-access-control-rbac" title="Permanent link">&para;</a></h3>
+<h4 id="431-role-model">4.3.1 Role Model<a class="headerlink" href="#431-role-model" title="Permanent link">&para;</a></h4>
+<p>Bridge implements a <strong>flat RBAC model</strong> (no role hierarchy in v0.1) with the following
+predefined roles:</p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Description</th>
+<th>Typical Persona</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>admin</code></td>
+<td>Full platform access; manage users, roles, and configuration</td>
+<td>Platform administrator</td>
+</tr>
+<tr>
+<td><code>project_lead</code></td>
+<td>Full data access within assigned projects; manage project membership</td>
+<td>PI, lab manager</td>
+</tr>
+<tr>
+<td><code>analyst</code></td>
+<td>Read/write entities and run pipelines within assigned projects</td>
+<td>Bioinformatician, data scientist</td>
+</tr>
+<tr>
+<td><code>viewer</code></td>
+<td>Read-only access to entities and pipeline results within assigned projects</td>
+<td>Collaborator, auditor</td>
+</tr>
+<tr>
+<td><code>service</code></td>
+<td>Machine identity for pipelines and automated processes</td>
+<td>Cappella runner, ingestion agent</td>
+</tr>
+</tbody>
+</table>
+<p>Roles are assigned per-user. Project scoping (which projects a user can access) is a separate
+dimension — see §4.3.3.</p>
+<h4 id="432-permission-matrix">4.3.2 Permission Matrix<a class="headerlink" href="#432-permission-matrix" title="Permanent link">&para;</a></h4>
+<p>Permissions map roles to operations on BASS resources:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th><code>admin</code></th>
+<th><code>project_lead</code></th>
+<th><code>analyst</code></th>
+<th><code>viewer</code></th>
+<th><code>service</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Entity CRUD</strong> (create, read, update)</td>
+<td>✅</td>
+<td>✅ (own projects)</td>
+<td>✅ (own projects)</td>
+<td>read only</td>
+<td>✅ (scoped)</td>
+</tr>
+<tr>
+<td><strong>Entity availability change</strong></td>
+<td>✅</td>
+<td>✅ (own projects)</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>Schema management</strong> (upload, migrate)</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>Pipeline execution</strong> (submit, cancel)</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>Pipeline results</strong> (read)</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅ (own)</td>
+</tr>
+<tr>
+<td><strong>Provenance read</strong> (history, audit log)</td>
+<td>✅</td>
+<td>✅ (own projects)</td>
+<td>✅ (own projects)</td>
+<td>✅ (own projects)</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>User/role management</strong></td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>API key management</strong> (create, revoke)</td>
+<td>✅</td>
+<td>own keys only</td>
+<td>own keys only</td>
+<td>❌</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><strong>Reference data install</strong></td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<h4 id="433-project-scoping">4.3.3 Project Scoping<a class="headerlink" href="#433-project-scoping" title="Permanent link">&para;</a></h4>
+<p>Non-admin roles are scoped to <strong>projects</strong> — a lightweight grouping concept managed by Bridge:</p>
+<ul>
+<li>A project has a name, description, and a set of member-role assignments</li>
+<li>Entity types in Hippo can optionally declare a <code>project</code> field; Bridge enforces that
+  non-admin users can only access entities belonging to their assigned projects</li>
+<li>When a project field is not declared in the schema, project scoping is disabled and all
+  authenticated users with the appropriate role can access all entities</li>
+<li><code>admin</code> users bypass project scoping entirely</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>┌──────────────────────────────────────────────┐
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│  Bridge Project: &quot;Genomics Lab A&quot;            │
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>│                                              │
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>│  Members:                                    │
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>│    alice@uni.edu   → project_lead            │
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>│    bob@uni.edu     → analyst                 │
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>│    pipeline-agent  → service                 │
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>│                                              │
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>│  Scoped to: entities where project =         │
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>│             &quot;genomics-lab-a&quot;                  │
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>└──────────────────────────────────────────────┘
+</code></pre></div>
+<h4 id="434-future-hierarchical-roles-and-custom-permissions">4.3.4 Future: Hierarchical Roles and Custom Permissions<a class="headerlink" href="#434-future-hierarchical-roles-and-custom-permissions" title="Permanent link">&para;</a></h4>
+<p>v0.1 uses a flat role model for simplicity. Future versions may add:
+- Role hierarchy (e.g., <code>project_lead</code> inherits all <code>analyst</code> permissions)
+- Custom permission definitions per deployment
+- Attribute-based access control (ABAC) for fine-grained entity-level rules</p>
+<p>These are explicitly deferred. The flat model covers the common cases for academic and small
+institutional deployments.</p>
+<hr />
+<h3 id="44-token-management-and-session-handling">4.4 Token Management and Session Handling<a class="headerlink" href="#44-token-management-and-session-handling" title="Permanent link">&para;</a></h3>
+<h4 id="441-token-lifecycle">4.4.1 Token Lifecycle<a class="headerlink" href="#441-token-lifecycle" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>┌──────────┐  authenticate  ┌─────────┐  issue tokens  ┌──────────────┐
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>│  Client   │──────────────▶│  Bridge  │───────────────▶│ Access Token │
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>│ (Aperture)│               │  Auth    │                │ (JWT, 15min) │
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>└──────────┘               │  Service │                ├──────────────┤
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>                            │          │───────────────▶│Refresh Token │
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>                            └─────────┘                │ (opaque, 7d) │
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>                                                       └──────────────┘
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Token Type</th>
+<th>Format</th>
+<th>Lifetime</th>
+<th>Storage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Access token</td>
+<td>JWT (signed, not encrypted)</td>
+<td>15 minutes (configurable)</td>
+<td>In-memory only; never persisted by client</td>
+</tr>
+<tr>
+<td>Refresh token</td>
+<td>Opaque string (UUID)</td>
+<td>7 days (configurable)</td>
+<td>Client: <code>~/.bass/tokens.json</code> (encrypted via OS keyring). Bridge: hashed in token store</td>
+</tr>
+<tr>
+<td>API key</td>
+<td>Opaque string (prefixed <code>bass_</code>)</td>
+<td>No expiry (revocable)</td>
+<td>Client: environment variable or config file. Bridge: hashed in key store</td>
+</tr>
+</tbody>
+</table>
+<h4 id="442-token-refresh">4.4.2 Token Refresh<a class="headerlink" href="#442-token-refresh" title="Permanent link">&para;</a></h4>
+<p>Aperture (and other clients) refresh tokens automatically before access token expiry:</p>
+<ol>
+<li>Client detects access token will expire within 60 seconds</li>
+<li>Client sends refresh token to <code>POST /bridge/auth/token/refresh</code></li>
+<li>Bridge validates refresh token, issues new access + refresh token pair</li>
+<li>Old refresh token is invalidated (rotation)</li>
+</ol>
+<p>Refresh token rotation ensures that a leaked refresh token can only be used once before
+detection. If a rotated-out refresh token is presented, Bridge revokes the entire token
+family and forces re-authentication.</p>
+<h4 id="443-token-revocation">4.4.3 Token Revocation<a class="headerlink" href="#443-token-revocation" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Individual tokens: <code>POST /bridge/auth/token/revoke</code> (by <code>jti</code> or refresh token)</li>
+<li>All user tokens: <code>POST /bridge/auth/users/{userId}/revoke-all</code> (admin only)</li>
+<li>Revocation is checked via a short-lived revocation cache (in-memory set of revoked <code>jti</code>
+  values, synced from the token store). Because access tokens are short-lived (15min), the
+  revocation window is bounded.</li>
+</ul>
+<hr />
+<h3 id="45-integration-with-hippo-provenance">4.5 Integration with Hippo Provenance<a class="headerlink" href="#45-integration-with-hippo-provenance" title="Permanent link">&para;</a></h3>
+<p>Bridge auth integrates with Hippo's provenance system through the <code>actor</code> field:</p>
+<h4 id="451-actor-identity-flow">4.5.1 Actor Identity Flow<a class="headerlink" href="#451-actor-identity-flow" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>┌──────────┐     ┌─────────┐     ┌──────────────┐     ┌─────────────┐
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>│  Client   │────▶│  Bridge │────▶│  Hippo REST  │────▶│  Provenance │
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│           │     │         │     │              │     │  Event      │
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│  JWT with │     │ Extract │     │ auth.py uses │     │             │
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│ bass:actor│     │ actor   │     │ actor from   │     │ actor =     │
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│           │     │ claim   │     │ request ctx  │     │ &quot;alice@     │
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│           │     │         │     │              │     │  uni.edu&quot;   │
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>└──────────┘     └─────────┘     └──────────────┘     └─────────────┘
+</code></pre></div>
+<ol>
+<li>Bridge extracts the <code>bass:actor</code> claim from the JWT</li>
+<li>Bridge injects the actor identity into the proxied request (via <code>X-Bass-Actor</code> header
+   or request body override)</li>
+<li>Hippo's <code>AuthMiddleware</code> implementation (Bridge-aware) reads the injected actor and
+   uses it for all provenance events</li>
+<li>The actor value in provenance is always the authenticated identity — callers cannot
+   override it when Bridge is active</li>
+</ol>
+<h4 id="452-service-account-actors">4.5.2 Service Account Actors<a class="headerlink" href="#452-service-account-actors" title="Permanent link">&para;</a></h4>
+<p>Service accounts (role <code>service</code>) produce provenance events with actor values like
+<code>service:cappella-runner</code> or <code>service:ingestion-agent-01</code>. These are distinguishable from
+human actors by the <code>service:</code> prefix convention.</p>
+<h4 id="453-provenance-query-authorization">4.5.3 Provenance Query Authorization<a class="headerlink" href="#453-provenance-query-authorization" title="Permanent link">&para;</a></h4>
+<p>Bridge enforces that provenance history queries respect project scoping:
+- Users can only view provenance events for entities in their assigned projects
+- <code>admin</code> users can view all provenance events
+- The <code>viewer</code> role can read provenance but not trigger mutations</p>
+<hr />
+<h3 id="46-api-key-management">4.6 API Key Management<a class="headerlink" href="#46-api-key-management" title="Permanent link">&para;</a></h3>
+<p>API keys provide long-lived authentication for non-interactive use cases (scripts, pipeline
+agents, CI/CD integrations).</p>
+<h4 id="461-key-structure">4.6.1 Key Structure<a class="headerlink" href="#461-key-structure" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>bass_live_7f3a8b2c4d5e6f...    (production key)
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>bass_test_9a1b2c3d4e5f6a...    (test/staging key)
+</code></pre></div>
+<p>Keys are prefixed with <code>bass_live_</code> or <code>bass_test_</code> to prevent accidental cross-environment
+use. The prefix is not secret — it aids in key identification and rotation auditing.</p>
+<h4 id="462-key-lifecycle">4.6.2 Key Lifecycle<a class="headerlink" href="#462-key-lifecycle" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Endpoint</th>
+<th>Who Can Do It</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Create key</td>
+<td><code>POST /bridge/auth/api-keys</code></td>
+<td><code>admin</code>, or user creating own key (<code>project_lead</code>, <code>analyst</code>)</td>
+</tr>
+<tr>
+<td>List keys</td>
+<td><code>GET /bridge/auth/api-keys</code></td>
+<td>Own keys, or all keys for <code>admin</code></td>
+</tr>
+<tr>
+<td>Revoke key</td>
+<td><code>DELETE /bridge/auth/api-keys/{keyId}</code></td>
+<td>Key owner or <code>admin</code></td>
+</tr>
+<tr>
+<td>Rotate key</td>
+<td><code>POST /bridge/auth/api-keys/{keyId}/rotate</code></td>
+<td>Key owner or <code>admin</code></td>
+</tr>
+</tbody>
+</table>
+<p>Keys are created with:
+- A human-readable <strong>label</strong> (e.g., "Cappella pipeline runner")
+- An optional <strong>expiry date</strong> (no expiry by default)
+- An assigned <strong>role</strong> (cannot exceed the creating user's role)
+- Optional <strong>project scope</strong> (limits key to specific projects)</p>
+<h4 id="463-key-authentication-flow">4.6.3 Key Authentication Flow<a class="headerlink" href="#463-key-authentication-flow" title="Permanent link">&para;</a></h4>
+<p>When a request arrives with an API key (via <code>Authorization: Bearer bass_live_...</code> or
+<code>X-Api-Key</code> header):</p>
+<ol>
+<li>Bridge hashes the key and looks it up in the key store</li>
+<li>If found and not revoked/expired, Bridge constructs an equivalent JWT claim set from the
+   key's metadata (role, scopes, actor identity)</li>
+<li>Downstream processing is identical to JWT-authenticated requests — components see no
+   difference</li>
+</ol>
+<hr />
+<h3 id="47-service-to-service-authentication">4.7 Service-to-Service Authentication<a class="headerlink" href="#47-service-to-service-authentication" title="Permanent link">&para;</a></h3>
+<p>Internal communication between BASS components (e.g., Cappella calling Hippo to register
+pipeline outputs) uses the <strong>Client Credentials</strong> OAuth 2.0 flow:</p>
+<h4 id="471-service-registration">4.7.1 Service Registration<a class="headerlink" href="#471-service-registration" title="Permanent link">&para;</a></h4>
+<p>Each component that needs to call other components registers as an OAuth client with Bridge:</p>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Client ID</th>
+<th>Default Role</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cappella</td>
+<td><code>cappella-engine</code></td>
+<td><code>service</code></td>
+<td>Register pipeline outputs in Hippo</td>
+</tr>
+<tr>
+<td>Aperture (web portal)</td>
+<td><code>aperture-portal</code></td>
+<td>N/A (acts on behalf of users)</td>
+<td>Backend-for-frontend</td>
+</tr>
+<tr>
+<td>Custom pipeline agents</td>
+<td>Per-agent registration</td>
+<td><code>service</code></td>
+<td>Automated data ingestion</td>
+</tr>
+</tbody>
+</table>
+<h4 id="472-internal-token-flow">4.7.2 Internal Token Flow<a class="headerlink" href="#472-internal-token-flow" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>┌──────────┐  client_credentials  ┌─────────┐  service JWT  ┌───────┐
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>│ Cappella  │────────────────────▶│  Bridge  │─────────────▶│ Hippo │
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>│           │    (client_id +     │  Auth    │              │       │
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>│           │     client_secret)  │          │              │       │
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>└──────────┘                     └─────────┘              └───────┘
+</code></pre></div>
+<p>Service tokens are short-lived (5 minutes) and scoped to the specific operations the service
+needs. Service secrets are provisioned at deployment time and stored in the platform's secret
+manager (e.g., AWS Secrets Manager, Vault, or environment variables for local deployments).</p>
+<hr />
+<h3 id="48-deployment-configuration">4.8 Deployment Configuration<a class="headerlink" href="#48-deployment-configuration" title="Permanent link">&para;</a></h3>
+<h4 id="481-bridge-auth-configuration-bridgeyaml">4.8.1 Bridge Auth Configuration (<code>bridge.yaml</code>)<a class="headerlink" href="#481-bridge-auth-configuration-bridgeyaml" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">auth</span><span class="p">:</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="c1"># JWT signing</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">jwt</span><span class="p">:</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="nt">algorithm</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RS256</span><span class="w">                    </span><span class="c1"># RS256 recommended; HS256 for local dev</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="nt">signing_key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${BRIDGE_JWT_KEY}</span><span class="w">      </span><span class="c1"># Path to PEM private key or inline HMAC secret</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="nt">public_key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${BRIDGE_JWT_PUB_KEY}</span><span class="w">   </span><span class="c1"># Path to PEM public key (RS256 only)</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="nt">access_token_ttl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">900</span><span class="w">              </span><span class="c1"># seconds (15 min default)</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="nt">refresh_token_ttl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">604800</span><span class="w">          </span><span class="c1"># seconds (7 day default)</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">  </span><span class="c1"># Identity provider</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">  </span><span class="nt">idp</span><span class="p">:</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oidc</span><span class="w">                     </span><span class="c1"># oidc | local</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">    </span><span class="nt">issuer_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://idp.uni.edu</span><span class="w">    </span><span class="c1"># OIDC discovery endpoint</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">    </span><span class="nt">client_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${BRIDGE_OIDC_CLIENT}</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">    </span><span class="nt">client_secret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${BRIDGE_OIDC_SECRET}</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">  </span><span class="c1"># Token storage (refresh tokens, revocations)</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">  </span><span class="nt">token_store</span><span class="p">:</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">    </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sqlite</span><span class="w">                    </span><span class="c1"># sqlite | postgresql | redis</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="w">    </span><span class="nt">connection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${BRIDGE_TOKEN_DB}</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="w">  </span><span class="c1"># API key storage</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="w">  </span><span class="nt">api_key_store</span><span class="p">:</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="w">    </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sqlite</span><span class="w">                    </span><span class="c1"># sqlite | postgresql</span>
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="w">    </span><span class="nt">connection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${BRIDGE_APIKEY_DB}</span>
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="w">  </span><span class="c1"># Built-in local provider (dev/test only)</span>
+<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="w">  </span><span class="nt">local_provider</span><span class="p">:</span>
+<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a><span class="w">    </span><span class="nt">users</span><span class="p">:</span>
+<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">admin</span>
+<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="w">        </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${BRIDGE_LOCAL_ADMIN_PW}</span>
+<a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="w">        </span><span class="nt">roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">admin</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">testuser</span>
+<a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="w">        </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${BRIDGE_LOCAL_TEST_PW}</span>
+<a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a><span class="w">        </span><span class="nt">roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">analyst</span><span class="p p-Indicator">]</span>
+</code></pre></div>
+<h4 id="482-deployment-tiers">4.8.2 Deployment Tiers<a class="headerlink" href="#482-deployment-tiers" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>IdP</th>
+<th>JWT Algorithm</th>
+<th>Token Store</th>
+<th>Key Store</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Local dev</strong></td>
+<td>Built-in local</td>
+<td>HS256</td>
+<td>SQLite</td>
+<td>SQLite</td>
+</tr>
+<tr>
+<td><strong>Team server</strong></td>
+<td>Keycloak / Auth0</td>
+<td>RS256</td>
+<td>SQLite or PostgreSQL</td>
+<td>SQLite or PostgreSQL</td>
+</tr>
+<tr>
+<td><strong>Enterprise</strong></td>
+<td>Institutional OIDC (Azure AD, Okta)</td>
+<td>RS256</td>
+<td>PostgreSQL or Redis</td>
+<td>PostgreSQL</td>
+</tr>
+</tbody>
+</table>
+<p>All tiers use the same Bridge codebase. Tier is determined entirely by <code>bridge.yaml</code>
+configuration.</p>
+<hr />
+<h3 id="49-component-auth-integration-points">4.9 Component Auth Integration Points<a class="headerlink" href="#49-component-auth-integration-points" title="Permanent link">&para;</a></h3>
+<p>This section documents how each BASS component integrates with Bridge auth:</p>
+<h4 id="491-hippo">4.9.1 Hippo<a class="headerlink" href="#491-hippo" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Middleware replacement:</strong> Hippo's <code>AuthMiddleware</code> ABC (defined in <code>hippo/rest/auth.py</code>)
+  receives a Bridge-aware implementation that extracts <code>X-Bass-Actor</code> and <code>X-Bass-Roles</code>
+  headers from proxied requests</li>
+<li><strong><code>authenticate()</code>:</strong> Returns the actor identity from <code>X-Bass-Actor</code> (validated by Bridge
+  before the request reaches Hippo)</li>
+<li><strong><code>authorize()</code>:</strong> Checks the operation against the role permissions in <code>X-Bass-Roles</code>.
+  Because Bridge has already validated the JWT and injected headers, Hippo does not need JWT
+  libraries or signing keys</li>
+<li><strong>SDK mode:</strong> No change — <code>HippoClient</code> accepts <code>actor</code> as a string parameter with no
+  validation, as designed in Hippo sec2 §2.7</li>
+</ul>
+<h4 id="492-cappella">4.9.2 Cappella<a class="headerlink" href="#492-cappella" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Pipeline submission:</strong> Cappella validates the caller's JWT (forwarded by Bridge) to ensure
+  the <code>analyst</code> or <code>service</code> role before accepting pipeline execution requests</li>
+<li><strong>Output registration:</strong> Cappella uses its service credential (Client Credentials flow) to
+  write pipeline results back to Hippo through Bridge</li>
+</ul>
+<h4 id="493-aperture">4.9.3 Aperture<a class="headerlink" href="#493-aperture" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>CLI:</strong> Uses Device Code flow. On first use, <code>bass login</code> opens a browser for
+  authentication. Tokens stored in <code>~/.bass/tokens.json</code> (encrypted via OS keyring)</li>
+<li><strong>Web portal:</strong> Uses Authorization Code + PKCE flow. Session managed by Aperture's BFF
+  (backend-for-frontend) server</li>
+<li><strong>Token refresh:</strong> Handled transparently by Aperture's <code>backends/auth.py</code> module (see
+  Aperture sec2 §2.8)</li>
+</ul>
+<hr />
+<h3 id="410-security-considerations">4.10 Security Considerations<a class="headerlink" href="#410-security-considerations" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JWT signing key compromise</td>
+<td>Use RS256 with hardware-backed keys in production; rotate annually</td>
+</tr>
+<tr>
+<td>Refresh token theft</td>
+<td>Rotation on every use; stolen rotated token triggers family revocation</td>
+</tr>
+<tr>
+<td>API key leakage</td>
+<td>Prefixed keys for environment detection; hash-only storage; revocation API</td>
+</tr>
+<tr>
+<td>Privilege escalation</td>
+<td>API keys cannot exceed creator's role; no self-promotion</td>
+</tr>
+<tr>
+<td>Cross-site attacks (web portal)</td>
+<td>PKCE for all browser flows; <code>SameSite=Strict</code> cookies; CORS allowlist</td>
+</tr>
+<tr>
+<td>Service credential compromise</td>
+<td>Short-lived service tokens (5min); secrets in dedicated secret manager</td>
+</tr>
+<tr>
+<td>Actor identity spoofing</td>
+<td><code>X-Bass-Actor</code> header only accepted from Bridge's internal network; components reject it from external sources</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="411-open-questions">4.11 Open Questions<a class="headerlink" href="#411-open-questions" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Should Bridge support LDAP directly for institutions without OIDC?</td>
+<td>Medium</td>
+<td>Current position: no — use OIDC proxy. May revisit if adoption blocked</td>
+</tr>
+<tr>
+<td>Fine-grained entity-type permissions (e.g., can edit Sample but not Subject)</td>
+<td>Medium</td>
+<td>Deferred to v0.2; current RBAC is operation-level, not entity-type-level</td>
+</tr>
+<tr>
+<td>Multi-tenant isolation model (shared vs. siloed token stores)</td>
+<td>High</td>
+<td>Relevant for SaaS deployment; deferred until multi-tenancy is scoped</td>
+</tr>
+<tr>
+<td>Offline token validation (JWT verification without Bridge connectivity)</td>
+<td>Low</td>
+<td>JWTs are self-contained by design; document the offline-capable pattern</td>
+</tr>
+<tr>
+<td>Audit log for auth events (login, token refresh, key creation)</td>
+<td>Medium</td>
+<td>Should feed into Bridge's own event log, separate from Hippo provenance</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
