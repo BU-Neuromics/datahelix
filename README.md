@@ -1,8 +1,8 @@
 # BASS — Bioinformatics Analysis Software System
 
-[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://va-ncptsdbb-bioinformatics.github.io/drylims-docs/)
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://va-ncptsdbb-bioinformatics.github.io/drylims/)
 
-**Documentation site:** https://va-ncptsdbb-bioinformatics.github.io/drylims-docs/
+**Documentation site:** https://va-ncptsdbb-bioinformatics.github.io/drylims/
 
 This repository contains all documentation for the BASS platform and its components.
 
