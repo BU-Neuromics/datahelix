@@ -4,6 +4,24 @@ Hippo is an open-source, configurable metadata tracking service. It provides a u
 
 Hippo is **domain-agnostic**: the entity types, fields, and relationships it tracks are defined entirely by a schema config file authored for each deployment. For example, an omics research deployment might define entity types like Subject, Sample, and Datafile, while a manufacturing deployment might define Batch, Component, and Inspection.
 
+## Who Is Hippo For?
+
+- **Pipeline authors** who need to resolve file paths and sample metadata at runtime from Nextflow, Snakemake, or custom scripts
+- **Researchers** who want a queryable record of what data exists, where it lives, and what it describes
+- **Data managers** who need to track the provenance, lifecycle, and relationships of samples and files across a project
+- **Platform developers** building downstream tools that need a reliable metadata API
+
+## When to Use Hippo
+
+Use Hippo when you need a central metadata registry that is:
+
+- **Queryable** — find entities by type, field values, relationships, or external identifiers
+- **Auditable** — every write is versioned with full provenance; nothing is hard-deleted
+- **Flexible** — define your own entity types and relationships without changing code
+- **Embeddable** — use the Python SDK directly in scripts and notebooks, or run a REST API for shared access
+
+Hippo tracks *where data lives* and *what it describes* — not the data itself. Raw data files stay in place on your filesystem or object store.
+
 ## Key Features
 
 - **Config-driven data model** — Define entity types, fields, and relationships in YAML/JSON schema (Hippo DSL) compiled to LinkML
@@ -11,6 +29,55 @@ Hippo is **domain-agnostic**: the entity types, fields, and relationships it tra
 - **Provenance tracking** — Every change is logged with structured context and full audit trail
 - **SDK-first architecture** — Embed Hippo directly in Python scripts or notebooks; REST API is a thin transport wrapper
 - **Flexible deployment** — From a single researcher's laptop (SQLite) to enterprise cloud (PostgreSQL)
+
+## Key Concepts
+
+| Concept | Description |
+|---|---|
+| **Entity** | A top-level object tracked by Hippo. Entity types are defined in your schema config (e.g., Subject, Sample, Datafile). |
+| **Schema config** | A YAML file defining entity types, fields, and relationships for your deployment. Written in Hippo DSL, compiled to LinkML. |
+| **Relationship** | A directional, typed edge connecting two entities with cardinality constraints. |
+| **External ID** | An identifier from an upstream system (e.g., LIMS barcode) mapped to a Hippo entity UUID. |
+| **Provenance record** | An immutable log entry recording what changed, when, and by whom. |
+| **Availability** | Entities are never hard-deleted. Instead, they transition through lifecycle states: `active`, `archived`, `superseded`, `deleted`. |
+
+## Architecture Overview
+
+Hippo has three concentric layers — only the Core SDK is required:
+
+```
+┌─────────────────────────────────────────────────┐
+│            Transport Layer (optional)            │
+│       REST (FastAPI)  ·  GraphQL (future)        │
+├─────────────────────────────────────────────────┤
+│               Core Python SDK                    │
+│  HippoClient · QueryEngine · IngestionPipeline  │
+│  ProvenanceManager · SchemaConfig                │
+├─────────────────────────────────────────────────┤
+│         Infrastructure Layer (adapters)          │
+│    SQLite (v0.1)  ·  PostgreSQL (future)         │
+└─────────────────────────────────────────────────┘
+```
+
+All business logic lives in the **Core SDK**. The REST API is a thin wrapper — you can embed Hippo directly in Python code without running a server.
+
+## Deployment Options
+
+| Tier | How it works | Typical use |
+|---|---|---|
+| **Local / single-user** | `pip install hippo`, point at a SQLite file, query from Python or a notebook. No server required. | Individual researcher, exploratory analysis |
+| **Small team** | Run `hippo serve` on a shared host backed by SQLite or PostgreSQL. | Lab group, shared project |
+| **Enterprise / cloud** | Deploy with a managed PostgreSQL backend, container orchestration, and Bridge for authentication. | Production platform, multi-team environment |
+
+## Getting Started
+
+```bash
+pip install hippo
+hippo init my-project
+hippo serve
+```
+
+See the **[Quick Start guide](user-docs/quickstart.md)** for a complete walkthrough — from schema definition through entity creation, querying, and provenance inspection.
 
 ## Related Components
 

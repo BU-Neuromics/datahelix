@@ -12,6 +12,54 @@ Bridge is the **integration middleware** for the BASS platform. It sits between 
 
 Bridge is **optional**. Individual BASS components are fully usable without it — Hippo, Cappella, and Canon each expose their own REST APIs. Bridge adds the authentication and routing layer needed for multi-user, multi-component deployments.
 
+## Who Is Bridge For?
+
+- **Platform administrators** who need to control access to BASS services with API keys, roles, and project-scoped permissions
+- **Teams** deploying multiple BASS components that want a single HTTP endpoint instead of managing separate component URLs
+- **Security-conscious organizations** that require audit trails, credential rotation, and role-based access control
+
+## When to Use Bridge
+
+Use Bridge when you need:
+
+- **Multi-user access control** — Authenticate users and enforce role-based permissions across all BASS components
+- **A single API gateway** — Route all requests through one endpoint instead of managing per-component URLs and ports
+- **Centralized audit logging** — Track every authenticated request and auth event in one place
+- **Cross-component coordination** — Ensure data consistency across Hippo, Cappella, and Canon after complex operations
+
+**When you don't need Bridge:** Single-user local deployments (researcher on a laptop using Hippo SDK directly) require no authentication or routing — Bridge adds no value in this scenario.
+
+## Key Concepts
+
+| Concept | Description |
+|---|---|
+| **API key** | The primary credential type in v1.0. Keys are scoped to a user and optionally to specific projects. |
+| **Role** | Access level assigned to a user: `admin`, `project_lead`, `analyst`, `viewer`, `service`. Each role defines what operations are permitted. |
+| **Project scoping** | Keys and permissions can be scoped to specific projects, limiting what data a user can access. |
+| **Actor identity** | Bridge validates credentials and injects a verified `actor` identity into requests forwarded to components. Components trust this identity unconditionally. |
+| **Auth-unaware components** | Hippo, Cappella, and Canon do not implement credential validation — they rely on Bridge to handle auth at the HTTP boundary. |
+| **Progressive deployment** | Bridge can be added to an existing Hippo-only deployment without modifying Hippo's configuration. |
+
+## Architecture Overview
+
+```
+┌───────────┐         ┌──────────────────────────────────────┐
+│  Aperture │         │                Bridge                 │
+│  (CLI /   │────────▶│   Auth  ·  Router  ·  Sync  ·  Mon  │
+│   Web UI) │         │     │         │                       │
+└───────────┘         │     ▼         ▼                       │
+                      │  ┌──────┐ ┌──────┐ ┌──────┐          │
+                      │  │Hippo │ │Capp. │ │Canon │          │
+                      │  └──────┘ └──────┘ └──────┘          │
+                      └──────────────────────────────────────┘
+```
+
+Bridge is a thin routing and enforcement layer. It validates credentials, routes requests, injects actor identity, and records auth events. All business logic remains in the components themselves.
+
+## Getting Started
+
+See the **[Authentication guide](user-docs/auth.md)** for setting up API keys, roles, and project scoping. The **[Admin Guide](user-docs/admin-guide.md)** covers deployment, user management, key rotation, monitoring, and backup procedures.
+
 ## Related Components
 
 - [Hippo](../hippo/index.md) — Bridge routes and authenticates requests to Hippo's REST API
