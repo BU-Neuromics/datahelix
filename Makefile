@@ -3,7 +3,7 @@
 
 .PHONY: test test-unit test-contracts test-platform test-all help
 
-PYTHONPATH := hippo/src:canon/src
+PYTHONPATH := hippo/src:canon/src:cappella/src:aperture/src
 export PYTHONPATH
 
 ## Run all tiers in order (fails fast at each stage)

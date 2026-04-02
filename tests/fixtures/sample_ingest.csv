@@ -1,0 +1,4 @@
+external_id,species,tissue_type,sample_id
+SUBJ-001,Homo sapiens,brain,s001
+SUBJ-002,Homo sapiens,liver,s002
+SUBJ-003,Homo sapiens,csf,s003

@@ -152,3 +152,56 @@ def mock_executor() -> MagicMock:
         outputs={"output_uri": {"location": "file:///tmp/output.txt"}},
     )
     return executor
+
+
+# ---------------------------------------------------------------------------
+# Shared fixture factory for cross-component integration tests
+# ---------------------------------------------------------------------------
+
+_fixtures_dir = Path(__file__).parent.parent / "fixtures"
+
+
+@pytest.fixture()
+def fixtures_dir() -> Path:
+    """Path to tests/fixtures/ directory."""
+    return _fixtures_dir
+
+
+@pytest.fixture()
+def sample_csv_path() -> Path:
+    """Path to the sample CSV ingest file."""
+    return _fixtures_dir / "sample_ingest.csv"
+
+
+@pytest.fixture()
+def seed_subject(hippo_client: HippoClient) -> dict:
+    """Seed a Subject entity and return it."""
+    return hippo_client.create(
+        "Subject", {"external_id": "SUBJ-001", "species": "Homo sapiens"}
+    )
+
+
+@pytest.fixture()
+def seed_sample(hippo_client: HippoClient, seed_subject: dict) -> dict:
+    """Seed a Sample entity linked to the seeded Subject and return it."""
+    return hippo_client.create(
+        "Sample",
+        {
+            "subject_id": seed_subject["id"],
+            "tissue_type": "brain",
+            "sample_id": "s001",
+        },
+    )
+
+
+@pytest.fixture()
+def seed_cohort(hippo_client: HippoClient, seed_subject: dict) -> list[dict]:
+    """Seed a cohort of 3 samples for partial-failure testing."""
+    samples = []
+    for sid, tissue in [("s001", "brain"), ("s002", "liver"), ("s003", "csf")]:
+        s = hippo_client.create(
+            "Sample",
+            {"subject_id": seed_subject["id"], "tissue_type": tissue, "sample_id": sid},
+        )
+        samples.append(s)
+    return samples

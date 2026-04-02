@@ -76,3 +76,35 @@ jobs:
       - name: Run tests
         working-directory: canon
         run: pytest -v
+
+  platform:
+    runs-on: ubuntu-latest
+    needs: [hippo, cappella, canon]
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install all component dependencies
+        run: |
+          uv pip install --system -e "hippo/[dev]"
+          uv pip install --system -e "canon/[dev]"
+          uv pip install --system -e "cappella/[test]"
+          uv pip install --system -e "aperture/[dev]"
+
+      - name: Run contract tests
+        env:
+          PYTHONPATH: hippo/src:canon/src:cappella/src:aperture/src
+        run: pytest tests/contracts/ -v -m contract --tb=short
+
+      - name: Run platform integration tests
+        env:
+          PYTHONPATH: hippo/src:canon/src:cappella/src:aperture/src
+        run: pytest tests/platform/ -v -m platform --tb=short

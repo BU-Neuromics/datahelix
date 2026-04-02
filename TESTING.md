@@ -59,7 +59,7 @@ Each contract file is named `test_<consumer>_expects_<provider>.py` and contains
 
 **Run:**
 ```bash
-PYTHONPATH=hippo/src:canon/src uv run pytest tests/contracts/ -v
+PYTHONPATH=hippo/src:canon/src:cappella/src:aperture/src uv run pytest tests/contracts/ -v
 ```
 
 **When they fail:**
@@ -93,13 +93,17 @@ A failing contract test is a **breaking change signal**. Treat it like a failed 
 
 **Run:**
 ```bash
-PYTHONPATH=hippo/src:canon/src uv run pytest tests/platform/ -v
+PYTHONPATH=hippo/src:canon/src:cappella/src:aperture/src uv run pytest tests/platform/ -v
 ```
 
 **Test files:**
 - `test_hippo_platform.py` — Hippo-only: CRUD, CEL validation, FTS5, REST API, supersession, external IDs
 - `test_canon_platform.py` — Canon-only: rules DSL, entity ref parsing, planner decisions, sidecar, ingestion
 - `test_hippo_canon.py` — Cross-cutting: Canon resolving against real Hippo, full bioinformatics chain, idempotency
+- `test_round_trip.py` — Full round-trip: external source → Hippo → Canon → Hippo (sec5 §5.2–§5.5)
+- `test_cross_component.py` — Cross-component: CSV ingest via Cappella → Hippo → Canon resolution, entity relationships, provenance chain
+- `test_webhook_integration.py` — Webhook triggers: HMAC-SHA256 verification, payload mapping → Hippo entity creation, deduplication
+- `test_cli_integration.py` — CLI integration: `bass list`, `bass get`, `bass search`, `bass history` against pipeline-created entities
 
 **When they fail:**
 1. Identify which component's behavior changed
@@ -265,17 +269,17 @@ cd hippo && uv run pytest tests/ -v
 cd canon && uv run pytest tests/ -v
 
 # Tier 2 only
-PYTHONPATH=hippo/src:canon/src uv run pytest tests/contracts/ -v
+PYTHONPATH=hippo/src:canon/src:cappella/src:aperture/src uv run pytest tests/contracts/ -v
 
 # Tier 3 only
-PYTHONPATH=hippo/src:canon/src uv run pytest tests/platform/ -v
+PYTHONPATH=hippo/src:canon/src:cappella/src:aperture/src uv run pytest tests/platform/ -v
 
 # All tiers
 make test
 
 # Just the cross-cutting platform tests
-PYTHONPATH=hippo/src:canon/src uv run pytest tests/platform/test_hippo_canon.py -v
+PYTHONPATH=hippo/src:canon/src:cappella/src:aperture/src uv run pytest tests/platform/test_hippo_canon.py -v
 
 # Only xfail tests (to check if gaps have been closed)
-PYTHONPATH=hippo/src:canon/src uv run pytest tests/platform/ -v -m "xfail"
+PYTHONPATH=hippo/src:canon/src:cappella/src:aperture/src uv run pytest tests/platform/ -v -m "xfail"
 ```

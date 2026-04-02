@@ -1,0 +1,23 @@
+# Minimal integration test schema (sec5 §5.3.1)
+#
+# Defines the minimum entity types needed to trace the full round-trip:
+# External source → Cappella → Hippo → Canon → Hippo (provenance)
+
+entity_types:
+  Subject:
+    fields:
+      external_id: {type: string, required: true, unique: true}
+      species:     {type: string, required: true}
+
+  Sample:
+    fields:
+      subject_id:  {type: ref, target: Subject, required: true}
+      tissue_type: {type: string, required: true}
+      sample_id:   {type: string, required: true}
+
+  AlignedDatafile:
+    fields:
+      sample_id:       {type: ref, target: Sample, required: true}
+      aligner:         {type: string}
+      aligner_version: {type: string}
+      uri:             {type: string}

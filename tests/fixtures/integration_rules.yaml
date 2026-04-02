@@ -1,0 +1,17 @@
+# Minimal Canon rules for integration tests (sec5 §5.3.2)
+
+rules:
+  - name: align_sample
+    produces:
+      entity_type: AlignedDatafile
+      match:
+        sample_id: "{{sample_id}}"
+    requires:
+      - entity_type: Sample
+        bind: sample
+        match:
+          sample_id: "{{sample_id}}"
+    execute:
+      workflow: tests/fixtures/align.cwl
+      inputs:
+        sample_id: "{{sample_id}}"
