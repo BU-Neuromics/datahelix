@@ -43,5 +43,33 @@ test-all:
 test-xfail:
 	uv run pytest tests/ -v -r x --tb=short 2>&1 | grep -E "XFAIL|XPASS|xfail"
 
+## ── Docker targets ──────────────────────────────────────────
+
+## Build all Docker images
+build:
+	docker compose build
+
+## Start the full stack (detached)
+up:
+	docker compose up -d
+
+## Stop and remove containers
+down:
+	docker compose down
+
+## Tail logs from all services
+logs:
+	docker compose logs -f
+
+## Run tests inside containers
+docker-test:
+	docker compose run --rm hippo hippo --help
+	docker compose run --rm canon python -c "import canon; print('canon OK')"
+	docker compose run --rm cappella python -c "import cappella; print('cappella OK')"
+
+## Show status of all services
+ps:
+	docker compose ps
+
 help:
 	@grep -E '^##' Makefile | sed 's/## //'

@@ -1,0 +1,10 @@
+# Canon configuration — Docker Compose deployment
+
+hippo:
+  url: http://hippo:8001
+
+storage:
+  backend: local
+  output_dir: /data/outputs
+
+log_level: INFO

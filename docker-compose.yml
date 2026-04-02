@@ -1,0 +1,103 @@
+# BASS Platform — Docker Compose (single-node deployment)
+#
+# Usage:
+#   cp .env.example .env   # edit values
+#   docker compose up -d
+#
+# See platform/deployment.md for full deployment guide.
+
+services:
+
+  # ---------- PostgreSQL ----------
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-bass}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-bass}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - bass-internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-bass}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ---------- Hippo (metadata tracking) ----------
+  hippo:
+    build:
+      context: ./hippo
+      dockerfile: Dockerfile
+    environment:
+      HIPPO_DB: postgresql://${POSTGRES_USER:-bass}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-bass}
+    volumes:
+      - ./config/hippo.yaml:/app/hippo.yaml:ro
+      - ./schemas:/app/schemas:ro
+    networks:
+      - bass-internal
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ---------- Canon (semantic artifact resolver) ----------
+  canon:
+    build:
+      context: ./canon
+      dockerfile: Dockerfile
+    environment:
+      HIPPO_URL: http://hippo:8001
+      HIPPO_TOKEN: ${CANON_SERVICE_TOKEN:-}
+    volumes:
+      - ./config/canon.yaml:/app/canon.yaml:ro
+      - canon-outputs:/data/outputs
+    networks:
+      - bass-internal
+    depends_on:
+      - hippo
+    restart: unless-stopped
+
+  # ---------- Cappella (workflow engine) ----------
+  cappella:
+    build:
+      context: ./cappella
+      dockerfile: Dockerfile
+    environment:
+      HIPPO_URL: http://hippo:8001
+      HIPPO_TOKEN: ${CAPPELLA_SERVICE_TOKEN:-}
+    volumes:
+      - ./config/cappella.yaml:/app/cappella.yaml:ro
+    networks:
+      - bass-internal
+    depends_on:
+      - hippo
+    restart: unless-stopped
+
+  # ---------- Bridge (API gateway) ----------
+  bridge:
+    build:
+      context: .
+      dockerfile: bridge/Dockerfile
+    ports:
+      - "${BRIDGE_PORT:-8080}:8080"
+    environment:
+      BRIDGE_JWT_KEY: ${BRIDGE_JWT_KEY:-}
+      BRIDGE_LOCAL_ADMIN_PW: ${BRIDGE_LOCAL_ADMIN_PW:-}
+    networks:
+      - bass-internal
+    depends_on:
+      - hippo
+      - canon
+      - cappella
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  canon-outputs:
+
+networks:
+  bass-internal:
+    driver: bridge
