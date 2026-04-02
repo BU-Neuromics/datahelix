@@ -13,8 +13,10 @@ from cappella.exceptions import (
     CanonNoRuleError,
     ConfigError,
     ReconciliationError,
+    TriggerError,
 )
 from cappella.reconciliation.engine import FindingsStore
+from cappella.triggers.engine import TriggerEngine
 
 
 def create_app(config: Any = None) -> FastAPI:
@@ -26,6 +28,17 @@ def create_app(config: Any = None) -> FastAPI:
     app.state.job_store = job_store
     app.state.findings_store = findings_store
     app.state.config = config
+
+    # Initialize trigger engine from config
+    raw_trigger_configs = getattr(config, "triggers", []) if config else []
+    engine_triggers = []
+    for tc in raw_trigger_configs:
+        if hasattr(tc, "to_trigger_config"):
+            engine_triggers.append(tc.to_trigger_config())
+        else:
+            engine_triggers.append(tc)
+    trigger_engine = TriggerEngine(triggers=engine_triggers if engine_triggers else None)
+    app.state.trigger_engine = trigger_engine
 
     # -------------------------
     # Error handlers
@@ -64,6 +77,18 @@ def create_app(config: Any = None) -> FastAPI:
         return JSONResponse(
             status_code=422,
             content={"error": "ReconciliationError", "message": str(exc), "context": exc.context},
+        )
+
+    @app.exception_handler(TriggerError)
+    async def trigger_error_handler(request: Request, exc: TriggerError) -> JSONResponse:
+        status_code = 400
+        if "invalid signature" in str(exc).lower():
+            status_code = 401
+        elif "no trigger registered" in str(exc).lower():
+            status_code = 404
+        return JSONResponse(
+            status_code=status_code,
+            content={"error": "TriggerError", "message": str(exc), "context": exc.context},
         )
 
     @app.exception_handler(CappellaError)
@@ -145,6 +170,15 @@ def create_app(config: Any = None) -> FastAPI:
                 for t in triggers
             ]
         }
+
+    @app.post("/webhooks/{path:path}")
+    async def handle_webhook(path: str, request: Request) -> dict:
+        """Accept incoming webhook POST and dispatch to the matching trigger."""
+        payload = await request.body()
+        signature = request.headers.get("X-Hub-Signature-256", "")
+        webhook_path = f"/webhooks/{path}"
+        result = trigger_engine.handle_webhook(webhook_path, payload, signature)
+        return result
 
     @app.post("/reconcile")
     async def start_reconcile(body: dict) -> dict:

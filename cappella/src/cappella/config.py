@@ -47,11 +47,41 @@ class ActionConfig(BaseModel):
 
 class TriggerConfig(BaseModel):
     name: str
-    type: str  # "schedule" | "manual" | "internal_event"
+    type: str  # "schedule" | "manual" | "internal_event" | "webhook" | "hippo_poll"
     action: ActionConfig
     schedule: str | None = None
     event: str | None = None
     on_success: str | None = None
+    webhook: dict[str, Any] | None = None  # raw dict, converted to triggers.WebhookConfig
+    hippo_poll: dict[str, Any] | None = None  # raw dict, converted to triggers.HippoPollConfig
+
+    def to_trigger_config(self) -> "TriggerConfig":
+        """Convert to a triggers.models.TriggerConfig with typed sub-configs."""
+        from cappella.triggers.models import (
+            ActionConfig as TActionConfig,
+            HippoPollConfig,
+            TriggerConfig as TTriggerConfig,
+            WebhookConfig,
+        )
+
+        webhook = WebhookConfig(**self.webhook) if self.webhook else None
+        hippo_poll = HippoPollConfig(**self.hippo_poll) if self.hippo_poll else None
+
+        return TTriggerConfig(
+            name=self.name,
+            type=self.type,
+            action=TActionConfig(
+                type=self.action.type,
+                adapter=self.action.adapter,
+                entity_type=self.action.entity_type,
+                parameters=self.action.parameters,
+            ),
+            schedule=self.schedule,
+            event=self.event,
+            on_success=self.on_success,
+            webhook=webhook,
+            hippo_poll=hippo_poll,
+        )
 
 
 class LoggingConfig(BaseModel):
