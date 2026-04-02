@@ -24,10 +24,12 @@
 
 | File | Status | Notes |
 |---|---|---|
-| `docs/introduction.md` | Stub | Top-level intro |
+| `docs/introduction.md` | ✅ Draft v0.1 | Top-level intro, component overview, deployment guidance |
 | `docs/auth.md` | ✅ Draft v0.1 | API keys, interactive login, roles, project scoping, best practices |
 | `docs/security-model.md` | ✅ Draft v0.1 | What Bridge protects, audit trail coverage, JWT/key security properties |
 | `docs/admin-guide.md` | ✅ Draft v0.1 | User/key mgmt, project mgmt, audit log, key rotation, monitoring, backup |
+| `docs/sdk.md` | ✅ Draft v0.1 | BridgeClient Python SDK, auth header injection, key management, component access |
+| `docs/api-reference.md` | ✅ Draft v0.1 | All Bridge-owned HTTP endpoints (auth, keys, health, sync) |
 
 ---
 
@@ -60,4 +62,4 @@
 
 ---
 
-> All six design spec sections at Draft v0.1. User-facing docs (auth, security model, admin guide) also at Draft v0.1. Ready for engineering review.
+> All six design spec sections at Draft v0.1. All user-facing docs (introduction, auth, security model, admin guide, SDK, API reference) at Draft v0.1. Ready for engineering review.

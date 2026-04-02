@@ -45,3 +45,5 @@ Bridge can be added to an existing deployment without modifying how components w
 - **[Authentication](auth.md)** — API keys, interactive login, roles, and project scoping
 - **[Security Model](security-model.md)** — What Bridge protects and the audit trail it generates
 - **[Admin Guide](admin-guide.md)** — Deployment, user management, key rotation, monitoring, and backup
+- **[Python SDK](sdk.md)** — `BridgeClient` for programmatic access, key management, and auth header injection
+- **[API Reference](api-reference.md)** — All Bridge-owned HTTP endpoints
