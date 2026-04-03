@@ -1,4 +1,4 @@
-# BASS — Bioinformatics Analysis Software System
+# drylims — Bioinformatics Analysis Software System
 
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://va-ncptsdbb-bioinformatics.github.io/drylims/)
 
