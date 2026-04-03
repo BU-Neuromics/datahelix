@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#aperture-interface-layer" class="md-skip">
+        <a href="#introduction-to-aperture" class="md-skip">
           Skip to content
         </a>
       
@@ -2403,6 +2403,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -2419,6 +2437,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-core-idea" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Core Idea
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-aperture-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Aperture Does
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-aperture-does-not-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Aperture Does Not Do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deployment Modes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -3903,6 +3995,69 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-core-idea" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Core Idea
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-aperture-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Aperture Does
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-aperture-does-not-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Aperture Does Not Do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deployment Modes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -3918,11 +4073,55 @@
 
 
 
-<h1 id="aperture-interface-layer">Aperture — Interface Layer<a class="headerlink" href="#aperture-interface-layer" title="Permanent link">&para;</a></h1>
-<p>Aperture is the interface layer for the BASS platform, providing CLI tools, a web-based interface, and REST API client libraries for interacting with Hippo, Cappella, and other BASS components.</p>
-<blockquote>
-<p>🚧 This section is under development.</p>
-</blockquote>
+<h1 id="introduction-to-aperture">Introduction to Aperture<a class="headerlink" href="#introduction-to-aperture" title="Permanent link">&para;</a></h1>
+<p>Aperture is the <strong>interface layer</strong> of the BASS platform. It provides the tools that humans use to interact with Hippo, Cappella, Canon, and Bridge — via a command-line interface, a web-based portal (v0.2), and programmatic API client libraries (v0.2).</p>
+<h2 id="the-core-idea">The Core Idea<a class="headerlink" href="#the-core-idea" title="Permanent link">&para;</a></h2>
+<p>BASS components expose Python SDKs and REST APIs designed for machine-to-machine communication. Aperture translates these into human-friendly interfaces — tabular output, guided workflows, search, and filtering — without adding business logic of its own.</p>
+<p>Aperture is to BASS what <code>git</code> CLI + GitHub UI are to Git: a thin, ergonomic surface over a well-defined SDK layer.</p>
+<h2 id="what-aperture-does">What Aperture Does<a class="headerlink" href="#what-aperture-does" title="Permanent link">&para;</a></h2>
+<p><strong>Entity browsing</strong> — List, filter, inspect, and search Hippo entities across all configured entity types. Output in table, JSON, or CSV format.</p>
+<p><strong>Entity management</strong> — Create, update, and change availability of entities via the CLI with validation and confirmation prompts.</p>
+<p><strong>Schema inspection</strong> — Display loaded entity types, field definitions, relationships, and validation rules to understand the data model without reading YAML config files.</p>
+<p><strong>Provenance viewing</strong> — Browse the full change history of any entity — who changed it, when, and what the previous values were.</p>
+<p><strong>Batch ingestion</strong> — Trigger and monitor metadata ingestion from flat files or (in v0.2) external sources via Cappella.</p>
+<p><strong>System status</strong> — Show deployment health: Hippo connectivity, adapter type, entity counts, and schema version.</p>
+<h2 id="what-aperture-does-not-do">What Aperture Does Not Do<a class="headerlink" href="#what-aperture-does-not-do" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Store data</strong> — All persistent state lives in Hippo. Aperture is stateless.</li>
+<li><strong>Run analyses</strong> — Computation is Canon's domain. Aperture displays results but does not produce them.</li>
+<li><strong>Harmonize data</strong> — That is Cappella's role. Aperture triggers Cappella operations and presents results.</li>
+<li><strong>Enforce authentication</strong> — Auth is Bridge's domain. When Bridge is deployed, Aperture delegates credential validation to it.</li>
+<li><strong>Define schemas</strong> — Schema authoring is done in LinkML YAML files. Aperture can display schemas but does not edit them.</li>
+</ul>
+<h2 id="deployment-modes">Deployment Modes<a class="headerlink" href="#deployment-modes" title="Permanent link">&para;</a></h2>
+<p>Aperture works in two modes, configured via <code>bass config</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>How it works</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Local SDK</strong></td>
+<td>Aperture imports the Hippo Python SDK directly and operates on a local database. No server needed.</td>
+<td>Single researcher on a laptop</td>
+</tr>
+<tr>
+<td><strong>Remote REST</strong></td>
+<td>Aperture connects to a running Hippo REST API (optionally behind Bridge for auth).</td>
+<td>Shared team deployment</td>
+</tr>
+</tbody>
+</table>
+<p>The same <code>bass</code> CLI commands work in both modes — only the backend connection changes.</p>
+<h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><a href="../quickstart/">Quick Start</a></strong> — Install Aperture and browse entities in 10 minutes</li>
+<li><strong><a href="../cli-reference/">CLI Reference</a></strong> — Complete command reference for all <code>bass</code> subcommands</li>
+</ul>
 
 
 

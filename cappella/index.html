@@ -1792,10 +1792,65 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#who-is-cappella-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who Is Cappella For?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-cappella" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use Cappella
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#key-features" class="md-nav__link">
     <span class="md-ellipsis">
       
         Key Features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Concepts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
       
     </span>
   </a>
@@ -3991,10 +4046,65 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#who-is-cappella-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who Is Cappella For?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-cappella" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use Cappella
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#key-features" class="md-nav__link">
     <span class="md-ellipsis">
       
         Key Features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Concepts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
       
     </span>
   </a>
@@ -4058,6 +4168,21 @@
 </div>
 <p>Cappella is the <strong>harmonization engine</strong> of the BASS platform. Like voices singing <em>a cappella</em> — in harmony, without instrumentation — Cappella takes data arriving from many different sources and makes them sing together in a single, consistent, provenance-rich picture stored in Hippo.</p>
 <p>Cappella answers the question: <strong>"Is everything we know about this subject consistent, present, and correct?"</strong></p>
+<h2 id="who-is-cappella-for">Who Is Cappella For?<a class="headerlink" href="#who-is-cappella-for" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Data managers</strong> who receive metadata from multiple systems (LIMS, clinical databases, sequencing cores) and need it unified in one place</li>
+<li><strong>Researchers</strong> who need a resolved collection of files and metadata for a specific research question — without tracking down files manually</li>
+<li><strong>Platform operators</strong> who need automated, auditable data ingestion pipelines with reconciliation and conflict detection</li>
+</ul>
+<h2 id="when-to-use-cappella">When to Use Cappella<a class="headerlink" href="#when-to-use-cappella" title="Permanent link">&para;</a></h2>
+<p>Use Cappella when you need to:</p>
+<ul>
+<li><strong>Ingest from multiple sources</strong> — Pull records from STARLIMS, HALO, REDCap, CSV files, SQL databases, or custom adapters and normalize them into Hippo's schema</li>
+<li><strong>Resolve collections</strong> — Ask "give me all aligned reads for CTE DLPFC samples" and get back a fully resolved, provenance-tracked JSON with file URIs</li>
+<li><strong>Detect inconsistencies</strong> — Find donors that exist in one source but not another, or field values that differ between systems</li>
+<li><strong>Automate syncs</strong> — Run ingestion on a schedule, on-demand, or in response to events</li>
+</ul>
+<p>Cappella is <strong>stateless</strong> — all persistent data lives in Hippo. Cappella can be restarted at any time without data loss.</p>
 <h2 id="key-features">Key Features<a class="headerlink" href="#key-features" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Multi-source ingestion</strong> — Pull structured data from external sources (STARLIMS, HALO, REDCap, sequencing cores) via adapter plugins</li>
@@ -4066,6 +4191,57 @@
 <li><strong>Reconciliation</strong> — Monitor for inconsistencies across sources and surface structured audit events</li>
 <li><strong>Trigger engine</strong> — Execute ingest and resolution operations on schedule, webhook, poll, or manual triggers</li>
 </ul>
+<h2 id="key-concepts">Key Concepts<a class="headerlink" href="#key-concepts" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Adapter</strong></td>
+<td>A plugin that connects to an external data source (CSV, JSON, SQL, or custom). Each adapter knows how to pull records and map fields to Hippo schema.</td>
+</tr>
+<tr>
+<td><strong>HarmonizedCollection</strong></td>
+<td>The output of collection resolution — a structured JSON containing matched entities, resolved file URIs, and full provenance.</td>
+</tr>
+<tr>
+<td><strong>Selection strategy</strong></td>
+<td>Logic for choosing between alternatives when multiple datasets exist for a sample (e.g., prefer most recent, highest QC score).</td>
+</tr>
+<tr>
+<td><strong>Trigger</strong></td>
+<td>An automation rule that executes ingest or resolution operations. Types: <code>schedule</code>, <code>manual</code>, <code>internal_event</code>.</td>
+</tr>
+<tr>
+<td><strong>Reconciliation</strong></td>
+<td>Active detection of inconsistencies between sources or between external systems and Hippo.</td>
+</tr>
+<tr>
+<td><strong>ExternalID</strong></td>
+<td>The key used to match external records to Hippo entities — create if absent, update if changed.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="architecture-overview">Architecture Overview<a class="headerlink" href="#architecture-overview" title="Permanent link">&para;</a></h2>
+<p>Cappella sits between external data sources and Hippo, with Canon providing file resolution:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Aperture / Composer  ← user interface, aggregate analysis
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>       │
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    Cappella          ← harmonize sources, resolve collections
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>     │    │
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>   Canon  Adapters   ← file resolution | STARLIMS, HALO, REDCap, CSV, SQL
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>       │
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    Hippo             ← entity store (sole persistent state)
+</code></pre></div>
+<p>Cappella does not own data, run analyses, or manage files. It coordinates data flow into Hippo and assembles resolved collections for downstream consumers.</p>
+<h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span>cappella
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>cappella<span class="w"> </span>serve
+</code></pre></div>
+<p>See the <strong><a href="user-docs/quickstart/">Quick Start guide</a></strong> for a complete walkthrough — from configuration through your first ingestion and collection resolution.</p>
 <h2 id="related-components">Related Components<a class="headerlink" href="#related-components" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../hippo/">Hippo</a> — Cappella's sole persistent store; all harmonized data is written to Hippo</li>

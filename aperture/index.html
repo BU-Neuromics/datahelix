@@ -2369,10 +2369,54 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#who-is-aperture-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who Is Aperture For?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-aperture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use Aperture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#key-features" class="md-nav__link">
     <span class="md-ellipsis">
       
         Key Features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Concepts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
       
     </span>
   </a>
@@ -3991,10 +4035,54 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#who-is-aperture-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who Is Aperture For?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-aperture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use Aperture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#key-features" class="md-nav__link">
     <span class="md-ellipsis">
       
         Key Features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Concepts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
       
     </span>
   </a>
@@ -4058,12 +4146,57 @@
 </div>
 <p>Aperture is the <strong>interface layer</strong> of the BASS platform. It provides the tools that humans use to interact with Hippo, Cappella, Canon, and Bridge — via a command-line interface, a web-based portal, and programmatic API client libraries.</p>
 <p>Aperture does not contain business logic. It translates user intent into calls against the underlying BASS component SDKs and APIs, and presents the results in human-readable form. Aperture is to BASS what <code>git</code> CLI + GitHub UI are to Git: a thin, ergonomic surface over a well-defined SDK layer.</p>
+<h2 id="who-is-aperture-for">Who Is Aperture For?<a class="headerlink" href="#who-is-aperture-for" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Persona</th>
+<th>Primary interface</th>
+<th>Key workflows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bench scientist</strong></td>
+<td>Web portal (v0.2)</td>
+<td>Browse entities, request collections, view provenance, download manifests</td>
+</tr>
+<tr>
+<td><strong>Bioinformatician</strong></td>
+<td>CLI + Python SDK</td>
+<td>Query entities, trigger ingestion, inspect schemas, script collection requests</td>
+</tr>
+<tr>
+<td><strong>Data manager</strong></td>
+<td>CLI + Web portal</td>
+<td>Bulk ingest metadata, monitor reconciliation, review audit trails</td>
+</tr>
+<tr>
+<td><strong>Platform admin</strong></td>
+<td>CLI</td>
+<td>Check system status, validate schemas, manage configuration</td>
+</tr>
+</tbody>
+</table>
+<h2 id="when-to-use-aperture">When to Use Aperture<a class="headerlink" href="#when-to-use-aperture" title="Permanent link">&para;</a></h2>
+<p>Use Aperture when you need to:</p>
+<ul>
+<li><strong>Browse and search</strong> Hippo entities from the command line or (in v0.2) a web browser</li>
+<li><strong>Create and update</strong> entities interactively, with guided workflows and validation</li>
+<li><strong>Inspect schemas</strong> — see what entity types, fields, relationships, and validation rules are loaded</li>
+<li><strong>Trigger ingestion</strong> — load metadata from flat files or external sources</li>
+<li><strong>View provenance</strong> — see the full change history of any entity</li>
+</ul>
+<p>Aperture works <strong>with or without</strong> other BASS components. A researcher using only Hippo on their laptop uses the <code>bass</code> CLI. A team running the full platform uses the same CLI plus the web portal with Bridge for authentication.</p>
 <h2 id="key-features">Key Features<a class="headerlink" href="#key-features" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>CLI-first</strong> — Typer-based CLI (<code>bass</code> command) with auto-completion and <code>--format table|json|csv</code> output</li>
 <li><strong>Entity browsing</strong> — List, filter, inspect, and search Hippo entities</li>
+<li><strong>Entity management</strong> — Create, update, and change availability of entities</li>
+<li><strong>Provenance viewing</strong> — Browse entity history and provenance events</li>
 <li><strong>Ingestion</strong> — Trigger and monitor batch ingestion jobs</li>
 <li><strong>Schema inspection</strong> — Display loaded schema, entity types, fields, and validation rules</li>
+<li><strong>System status</strong> — Show deployment health: component connectivity, adapter types, entity counts</li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Not Yet Implemented</p>
@@ -4074,6 +4207,40 @@
 <li><strong>Cappella/Canon/Bridge integration</strong> — Cross-component operations via CLI</li>
 </ul>
 </div>
+<h2 id="key-concepts">Key Concepts<a class="headerlink" href="#key-concepts" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>bass</code> CLI</strong></td>
+<td>The primary command-line tool. Wraps Hippo SDK (local mode) or Hippo REST API (remote mode).</td>
+</tr>
+<tr>
+<td><strong>Output formats</strong></td>
+<td>All commands support <code>--format table\|json\|csv</code> for scripting and human readability.</td>
+</tr>
+<tr>
+<td><strong>Local vs. remote mode</strong></td>
+<td>Configure Aperture to use Hippo's Python SDK directly (no server needed) or point at a remote REST endpoint.</td>
+</tr>
+<tr>
+<td><strong>Stateless</strong></td>
+<td>Aperture stores no persistent state. All data lives in Hippo.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>bass-aperture
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>bass<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>hippo.url<span class="w"> </span>http://localhost:8000<span class="w">  </span><span class="c1"># or use local SDK mode</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>bass<span class="w"> </span>entity<span class="w"> </span>list<span class="w"> </span>Subject
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>bass<span class="w"> </span>schema<span class="w"> </span>show<span class="w"> </span>Subject
+</code></pre></div>
+<p>See the <strong><a href="user-docs/quickstart/">Quick Start guide</a></strong> for a 10-minute walkthrough covering entity browsing, creation, search, and provenance viewing.</p>
 <h2 id="related-components">Related Components<a class="headerlink" href="#related-components" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../hippo/">Hippo</a> — Primary data source for entity browsing and management (v0.1)</li>

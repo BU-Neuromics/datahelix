@@ -3327,10 +3327,65 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#who-is-canon-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who Is Canon For?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-canon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use Canon
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#key-features" class="md-nav__link">
     <span class="md-ellipsis">
       
         Key Features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Concepts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
       
     </span>
   </a>
@@ -3991,10 +4046,65 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#who-is-canon-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who Is Canon For?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-canon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use Canon
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#key-features" class="md-nav__link">
     <span class="md-ellipsis">
       
         Key Features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Concepts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
       
     </span>
   </a>
@@ -4058,6 +4168,21 @@
 </div>
 <p>Canon is the <strong>artifact resolver</strong> for the BASS platform. It answers one question: <em>does this computational result already exist, and if not, how do I produce it?</em></p>
 <p>Artifacts are identified by their <strong>semantic identity</strong> — entity type, sample, reference genome, tool version, and parameters — not by file path. Two results produced from the same inputs with the same tool are the same artifact, regardless of when or where they were produced.</p>
+<h2 id="who-is-canon-for">Who Is Canon For?<a class="headerlink" href="#who-is-canon-for" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Bioinformaticians</strong> who run analysis pipelines and want to avoid recomputing results that already exist</li>
+<li><strong>Pipeline authors</strong> who need a declarative way to define how artifacts are produced and what inputs they require</li>
+<li><strong>Lab teams</strong> who share computed results across projects and want a registry of what has been produced, with what parameters</li>
+</ul>
+<h2 id="when-to-use-canon">When to Use Canon<a class="headerlink" href="#when-to-use-canon" title="Permanent link">&para;</a></h2>
+<p>Use Canon when you need to:</p>
+<ul>
+<li><strong>Avoid redundant computation</strong> — Before running an expensive alignment or analysis, check whether the result already exists with the same parameters</li>
+<li><strong>Track artifact provenance</strong> — Know exactly which tool version, genome build, and parameters produced a given file</li>
+<li><strong>Share results across projects</strong> — A BAM file produced for one project can be reused by any other project with matching parameters</li>
+<li><strong>Define reproducible pipelines</strong> — Declarative YAML rules specify inputs, tools, and CWL workflows; Canon handles resolution and execution</li>
+</ul>
+<p>Canon is <strong>not</strong> a replacement for Snakemake or Nextflow. It is a registry-lookup layer that runs <em>before</em> execution — checking whether the result exists in Hippo before invoking a CWL workflow to produce it.</p>
 <h2 id="key-features">Key Features<a class="headerlink" href="#key-features" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Semantic deduplication</strong> — Avoid recomputing results that already exist</li>
@@ -4076,6 +4201,54 @@
 <li><strong>Non-cwltool executors</strong> — Toil, Nextflow, and other executor plugins</li>
 </ul>
 </div>
+<h2 id="key-concepts">Key Concepts<a class="headerlink" href="#key-concepts" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Semantic identity</strong></td>
+<td>An artifact is identified by its parameters (sample, genome build, tool version, etc.) — not its file path. Same parameters = same artifact.</td>
+</tr>
+<tr>
+<td><strong>Rule</strong></td>
+<td>A YAML declaration that defines how to produce an artifact: what inputs it requires, what tool and CWL workflow to run, and what outputs it produces.</td>
+</tr>
+<tr>
+<td><strong>Resolution</strong></td>
+<td>The process of checking Hippo for an existing artifact matching a specification, and producing it if not found. Outcomes: <code>REUSE</code>, <code>BUILD</code>, <code>FETCH</code>, or <code>FAIL</code>.</td>
+</tr>
+<tr>
+<td><strong>Entity reference</strong></td>
+<td>A parameter that points to a Hippo entity (e.g., <code>genome_build=ref:GenomeBuild{name=GRCh38}</code>), enabling graph traversal queries across artifacts.</td>
+</tr>
+<tr>
+<td><strong>Artifact spec</strong></td>
+<td>A request for a specific artifact: entity type + parameter set. Canon resolves it to a URI or triggers production.</td>
+</tr>
+<tr>
+<td><strong>WorkflowRun</strong></td>
+<td>A record of a CWL execution, linking inputs, outputs, tool version, and timing back to Hippo for provenance.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="architecture-overview">Architecture Overview<a class="headerlink" href="#architecture-overview" title="Permanent link">&para;</a></h2>
+<p>Canon sits between Cappella (which requests file resolution) and the CWL execution layer:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Traditional:  User → Snakemake → runs pipeline → produces file
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Canon:        User → Canon → checks Hippo → already exists? → return URI
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>                                           → not found? → CWL → execute → ingest → return URI
+</code></pre></div>
+<p>All produced artifacts are registered as Hippo entities with full provenance. Canon delegates execution to the configured CWL runner (cwltool for local, Toil or Nextflow for HPC/cloud).</p>
+<h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span>canon
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>canon<span class="w"> </span>plan<span class="w"> </span>my-artifact-spec.yaml<span class="w">   </span><span class="c1"># dry-run: show what would be built</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>canon<span class="w"> </span>get<span class="w"> </span>my-artifact-spec.yaml<span class="w">    </span><span class="c1"># resolve: reuse or build</span>
+</code></pre></div>
+<p>See the <strong><a href="user-docs/quickstart/">Quick Start guide</a></strong> for a complete walkthrough — from rule definition through artifact resolution and provenance inspection.</p>
 <h2 id="related-components">Related Components<a class="headerlink" href="#related-components" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../hippo/">Hippo</a> — Canon resolves entity metadata from Hippo to parameterize artifact rules</li>

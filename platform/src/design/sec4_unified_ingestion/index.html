@@ -4268,8 +4268,8 @@
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    │   ├── CSVLoader (Concrete, Hippo core)
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    │   ├── JSONLoader (Concrete, Hippo core)
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    │   ├── SQLLoader (Concrete, Hippo core, extras: hippo[loaders-sql])
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    │   └── HippoDSLLoader (Concrete, Hippo core)
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    │       Loads structured Hippo DSL YAML directly
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    │   └── EntityYAMLLoader (Concrete, Hippo core)
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    │       Loads structured entity YAML directly
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    │
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    ├── ReferenceLoader subclasses (Hippo plugins)
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    │   │   hippo-reference-ensembl, hippo-reference-bioconda, etc.
@@ -4355,7 +4355,7 @@
 <td>SQLAlchemy + read-only query validation</td>
 </tr>
 <tr>
-<td><code>HippoDSLLoader</code></td>
+<td><code>EntityYAMLLoader</code></td>
 <td><code>hippo.core.loaders.dsl</code></td>
 <td>✅ (stdlib yaml)</td>
 <td>Structured entity YAML, idempotent via external_id</td>
@@ -4368,10 +4368,10 @@
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">loaders-json</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;jsonpath-ng&gt;=1.6&quot;</span><span class="p">]</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">loaders-all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;sqlalchemy&gt;=2.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;jsonpath-ng&gt;=1.6&quot;</span><span class="p">]</span>
 </code></pre></div>
-<p>CSV and HippoDSL have zero additional dependencies. JSON basic parsing needs no extras; JSONPath for nested records is an optional extra.</p>
+<p>CSV and EntityYAML have zero additional dependencies. JSON basic parsing needs no extras; JSONPath for nested records is an optional extra.</p>
 <h2 id="47-hippo-ingest-cli">4.7 <code>hippo ingest</code> CLI<a class="headerlink" href="#47-hippo-ingest-cli" title="Permanent link">&para;</a></h2>
 <p>The CLI becomes the manual entry point for the loader framework. No triggers, no automation — just run a loader once.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Ingest from Hippo DSL YAML (structured entities)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Ingest from structured entity YAML</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>hippo<span class="w"> </span>ingest<span class="w"> </span>--file<span class="w"> </span>entities.yaml
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Ingest from CSV with inline config</span>
@@ -4450,8 +4450,8 @@
 </tr>
 <tr>
 <td><strong>New</strong></td>
-<td><code>hippo/src/hippo/core/loaders/dsl.py</code></td>
-<td><code>HippoDSLLoader</code></td>
+<td><code>hippo/src/hippo/core/loaders/entity_yaml.py</code></td>
+<td><code>EntityYAMLLoader</code></td>
 </tr>
 <tr>
 <td><strong>New</strong></td>
@@ -4529,7 +4529,7 @@
 - <code>hippo/tests/core/test_loaders.py</code> replaces <code>test_ingestion.py</code> (same tests, new module paths)
 - <code>hippo/tests/cli/test_ingest.py</code> (already written, tests DSL ingest + idempotency)</p>
 <h2 id="413-phased-implementation">4.13 Phased Implementation<a class="headerlink" href="#413-phased-implementation" title="Permanent link">&para;</a></h2>
-<p><strong>Phase 1 (Hippo):</strong> Create <code>loaders/</code> package, implement <code>EntityLoader</code> → <code>ConfigurableLoader</code> → <code>CSVLoader/JSONLoader/SQLLoader/HippoDSLLoader</code> + <code>IngestPipeline</code>. Rewrite <code>hippo ingest</code> CLI. All Hippo tests green.</p>
+<p><strong>Phase 1 (Hippo):</strong> Create <code>loaders/</code> package, implement <code>EntityLoader</code> → <code>ConfigurableLoader</code> → <code>CSVLoader/JSONLoader/SQLLoader/EntityYAMLLoader</code> + <code>IngestPipeline</code>. Rewrite <code>hippo ingest</code> CLI. All Hippo tests green.</p>
 <p><strong>Phase 2 (Cross-component contracts):</strong> Write contract tests at monorepo root. RED until Cappella adopts.</p>
 <p><strong>Phase 3 (Cappella):</strong> Refactor adapters to subclass from Hippo. Remove duplicate logic. All platform tests green.</p>
 <p><strong>Phase 4 (Cleanup):</strong> Deprecate <code>hippo.core.ingestion.IngestionPipeline</code>. Update docs.</p>

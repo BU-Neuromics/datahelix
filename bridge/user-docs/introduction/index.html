@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#bridge-integration-middleware" class="md-skip">
+        <a href="#introduction-to-bridge" class="md-skip">
           Skip to content
         </a>
       
@@ -2868,6 +2868,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -2884,6 +2902,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-core-idea" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Core Idea
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-bridge-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Bridge Does
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-bridge-does-not-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Bridge Does Not Do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-is-bridge-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When Is Bridge Required?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -3903,6 +3995,69 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-core-idea" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Core Idea
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-bridge-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Bridge Does
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-bridge-does-not-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Bridge Does Not Do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-is-bridge-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When Is Bridge Required?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -3918,11 +4073,64 @@
 
 
 
-<h1 id="bridge-integration-middleware">Bridge — Integration Middleware<a class="headerlink" href="#bridge-integration-middleware" title="Permanent link">&para;</a></h1>
-<p>Bridge is the optional integration middleware for the BASS platform. It provides a unified API, authentication and authorization management, cross-component data synchronization, and monitoring infrastructure. Bridge is only required when using multiple BASS components together.</p>
-<blockquote>
-<p>🚧 This section is under development.</p>
-</blockquote>
+<h1 id="introduction-to-bridge">Introduction to Bridge<a class="headerlink" href="#introduction-to-bridge" title="Permanent link">&para;</a></h1>
+<p>Bridge is the <strong>integration middleware</strong> for the BASS platform. It provides four cross-cutting services that no single component owns: a unified API gateway, authentication and authorization, cross-component data synchronization, and centralized monitoring.</p>
+<h2 id="the-core-idea">The Core Idea<a class="headerlink" href="#the-core-idea" title="Permanent link">&para;</a></h2>
+<p>Each BASS component (Hippo, Cappella, Canon) exposes its own REST API and can be used independently. This works well for single-user or single-component deployments. But when a team runs multiple components together and needs access control, they face several problems:</p>
+<ul>
+<li>Clients must know the address and port of each component separately</li>
+<li>There is no authentication — anyone with network access can read and write data</li>
+<li>There is no centralized audit trail of who did what across components</li>
+<li>Cross-component operations (e.g., ensuring Cappella and Hippo agree after an ingest) have no coordinator</li>
+</ul>
+<p>Bridge solves all four by sitting in front of the BASS components as a thin gateway.</p>
+<h2 id="what-bridge-does">What Bridge Does<a class="headerlink" href="#what-bridge-does" title="Permanent link">&para;</a></h2>
+<p><strong>Unified API</strong> — A single HTTP endpoint routes requests to the correct component. Clients call <code>bridge.example.com/hippo/...</code> or <code>bridge.example.com/cappella/...</code> without managing separate URLs.</p>
+<p><strong>Authentication &amp; Authorization</strong> — Bridge validates API keys (v1.0) or JWTs, checks role-based access control rules, and injects a verified <code>actor</code> identity into requests forwarded to components. Components trust this identity without implementing their own credential validation.</p>
+<p><strong>Cross-Component Sync</strong> — Bridge coordinates operations that span multiple components, ensuring data consistency after complex workflows like multi-source ingestion.</p>
+<p><strong>Monitoring &amp; Observability</strong> — Centralized request logging, health checks, and Prometheus metrics for the platform as a whole.</p>
+<h2 id="what-bridge-does-not-do">What Bridge Does Not Do<a class="headerlink" href="#what-bridge-does-not-do" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Store BASS data</strong> — All entity data lives in Hippo. Bridge stores only credentials, roles, and audit events.</li>
+<li><strong>Implement business logic</strong> — Harmonization is Cappella's domain, artifact resolution is Canon's, metadata tracking is Hippo's. Bridge routes and enforces, nothing more.</li>
+<li><strong>Require deployment</strong> — Bridge is optional. Single-user local deployments work without it. SDK-mode usage bypasses Bridge entirely.</li>
+</ul>
+<h2 id="when-is-bridge-required">When Is Bridge Required?<a class="headerlink" href="#when-is-bridge-required" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Deployment</th>
+<th>Bridge needed?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single researcher using Hippo SDK on a laptop</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Small team sharing a Hippo REST API on a local server</td>
+<td>Optional (adds auth)</td>
+</tr>
+<tr>
+<td>Multi-component deployment with multiple users</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Production platform with audit requirements</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>Bridge can be added to an existing deployment without modifying how components work internally.</p>
+<h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><a href="../auth/">Authentication</a></strong> — API keys, interactive login, roles, and project scoping</li>
+<li><strong><a href="../security-model/">Security Model</a></strong> — What Bridge protects and the audit trail it generates</li>
+<li><strong><a href="../admin-guide/">Admin Guide</a></strong> — Deployment, user management, key rotation, monitoring, and backup</li>
+<li><strong><a href="../sdk/">Python SDK</a></strong> — <code>BridgeClient</code> for programmatic access, key management, and auth header injection</li>
+<li><strong><a href="../api-reference/">API Reference</a></strong> — All Bridge-owned HTTP endpoints</li>
+</ul>
 
 
 

@@ -2834,6 +2834,61 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#who-is-bridge-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who Is Bridge For?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-bridge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use Bridge
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Concepts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#related-components" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3980,6 +4035,61 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#who-is-bridge-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who Is Bridge For?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-bridge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use Bridge
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Concepts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#related-components" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4042,6 +4152,70 @@
 <li><strong>Monitoring &amp; Observability</strong> — Centralized request logging, health checks, and performance metrics</li>
 </ol>
 <p>Bridge is <strong>optional</strong>. Individual BASS components are fully usable without it — Hippo, Cappella, and Canon each expose their own REST APIs. Bridge adds the authentication and routing layer needed for multi-user, multi-component deployments.</p>
+<h2 id="who-is-bridge-for">Who Is Bridge For?<a class="headerlink" href="#who-is-bridge-for" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Platform administrators</strong> who need to control access to BASS services with API keys, roles, and project-scoped permissions</li>
+<li><strong>Teams</strong> deploying multiple BASS components that want a single HTTP endpoint instead of managing separate component URLs</li>
+<li><strong>Security-conscious organizations</strong> that require audit trails, credential rotation, and role-based access control</li>
+</ul>
+<h2 id="when-to-use-bridge">When to Use Bridge<a class="headerlink" href="#when-to-use-bridge" title="Permanent link">&para;</a></h2>
+<p>Use Bridge when you need:</p>
+<ul>
+<li><strong>Multi-user access control</strong> — Authenticate users and enforce role-based permissions across all BASS components</li>
+<li><strong>A single API gateway</strong> — Route all requests through one endpoint instead of managing per-component URLs and ports</li>
+<li><strong>Centralized audit logging</strong> — Track every authenticated request and auth event in one place</li>
+<li><strong>Cross-component coordination</strong> — Ensure data consistency across Hippo, Cappella, and Canon after complex operations</li>
+</ul>
+<p><strong>When you don't need Bridge:</strong> Single-user local deployments (researcher on a laptop using Hippo SDK directly) require no authentication or routing — Bridge adds no value in this scenario.</p>
+<h2 id="key-concepts">Key Concepts<a class="headerlink" href="#key-concepts" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>API key</strong></td>
+<td>The primary credential type in v1.0. Keys are scoped to a user and optionally to specific projects.</td>
+</tr>
+<tr>
+<td><strong>Role</strong></td>
+<td>Access level assigned to a user: <code>admin</code>, <code>project_lead</code>, <code>analyst</code>, <code>viewer</code>, <code>service</code>. Each role defines what operations are permitted.</td>
+</tr>
+<tr>
+<td><strong>Project scoping</strong></td>
+<td>Keys and permissions can be scoped to specific projects, limiting what data a user can access.</td>
+</tr>
+<tr>
+<td><strong>Actor identity</strong></td>
+<td>Bridge validates credentials and injects a verified <code>actor</code> identity into requests forwarded to components. Components trust this identity unconditionally.</td>
+</tr>
+<tr>
+<td><strong>Auth-unaware components</strong></td>
+<td>Hippo, Cappella, and Canon do not implement credential validation — they rely on Bridge to handle auth at the HTTP boundary.</td>
+</tr>
+<tr>
+<td><strong>Progressive deployment</strong></td>
+<td>Bridge can be added to an existing Hippo-only deployment without modifying Hippo's configuration.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="architecture-overview">Architecture Overview<a class="headerlink" href="#architecture-overview" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌───────────┐         ┌──────────────────────────────────────┐
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│  Aperture │         │                Bridge                 │
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│  (CLI /   │────────▶│   Auth  ·  Router  ·  Sync  ·  Mon  │
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│   Web UI) │         │     │         │                       │
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>└───────────┘         │     ▼         ▼                       │
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>                      │  ┌──────┐ ┌──────┐ ┌──────┐          │
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>                      │  │Hippo │ │Capp. │ │Canon │          │
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>                      │  └──────┘ └──────┘ └──────┘          │
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>                      └──────────────────────────────────────┘
+</code></pre></div>
+<p>Bridge is a thin routing and enforcement layer. It validates credentials, routes requests, injects actor identity, and records auth events. All business logic remains in the components themselves.</p>
+<h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<p>See the <strong><a href="user-docs/auth/">Authentication guide</a></strong> for setting up API keys, roles, and project scoping. The <strong><a href="user-docs/admin-guide/">Admin Guide</a></strong> covers deployment, user management, key rotation, monitoring, and backup procedures.</p>
 <h2 id="related-components">Related Components<a class="headerlink" href="#related-components" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../hippo/">Hippo</a> — Bridge routes and authenticates requests to Hippo's REST API</li>
