@@ -30,4 +30,4 @@ platform/       # Cross-cutting platform docs (architecture, glossary, deploymen
 - Design spec sections should be self-contained and reference dependencies on other sections explicitly.
 - Hippo is the most developed component; use its spec structure as the template when drafting specs for other components.
 - The platform uses an **SDK-first** architecture — business logic in Python SDK, REST/GraphQL as thin transport wrappers. Keep this principle consistent across all component docs.
-- Hippo's data model uses a **config-driven relational** approach with a graph-shaped API and a Hippo DSL (YAML/JSON) compiled to LinkML.
+- Hippo's data model uses a **config-driven relational** approach with a graph-shaped API and schemas authored directly in LinkML.

@@ -29,8 +29,8 @@ EntityLoader (ABC, Hippo core)
     │   ├── CSVLoader (Concrete, Hippo core)
     │   ├── JSONLoader (Concrete, Hippo core)
     │   ├── SQLLoader (Concrete, Hippo core, extras: hippo[loaders-sql])
-    │   └── HippoDSLLoader (Concrete, Hippo core)
-    │       Loads structured Hippo DSL YAML directly
+    │   └── EntityYAMLLoader (Concrete, Hippo core)
+    │       Loads structured entity YAML directly
     │
     ├── ReferenceLoader subclasses (Hippo plugins)
     │   │   hippo-reference-ensembl, hippo-reference-bioconda, etc.
@@ -102,7 +102,7 @@ class ConfigurableLoader(EntityLoader):
 | `CSVLoader` | `hippo.core.loaders.csv` | ✅ (stdlib csv) | File, HTTP URL, or stdin/bytes |
 | `JSONLoader` | `hippo.core.loaders.json` | ✅ (stdlib json) | JSONPath for nested records requires `hippo[loaders-json]` |
 | `SQLLoader` | `hippo.core.loaders.sql` | `hippo[loaders-sql]` | SQLAlchemy + read-only query validation |
-| `HippoDSLLoader` | `hippo.core.loaders.dsl` | ✅ (stdlib yaml) | Structured entity YAML, idempotent via external_id |
+| `EntityYAMLLoader` | `hippo.core.loaders.dsl` | ✅ (stdlib yaml) | Structured entity YAML, idempotent via external_id |
 
 ## 4.6 Dependency Extras (`pyproject.toml`)
 
@@ -113,14 +113,14 @@ loaders-json = ["jsonpath-ng>=1.6"]
 loaders-all = ["sqlalchemy>=2.0", "jsonpath-ng>=1.6"]
 ```
 
-CSV and HippoDSL have zero additional dependencies. JSON basic parsing needs no extras; JSONPath for nested records is an optional extra.
+CSV and EntityYAML have zero additional dependencies. JSON basic parsing needs no extras; JSONPath for nested records is an optional extra.
 
 ## 4.7 `hippo ingest` CLI
 
 The CLI becomes the manual entry point for the loader framework. No triggers, no automation — just run a loader once.
 
 ```bash
-# Ingest from Hippo DSL YAML (structured entities)
+# Ingest from structured entity YAML
 hippo ingest --file entities.yaml
 
 # Ingest from CSV with inline config
@@ -178,7 +178,7 @@ The `IngestPipeline` class (renamed from `IngestionPipeline`) orchestrates this 
 | **New** | `hippo/src/hippo/core/loaders/csv.py` | `CSVLoader` |
 | **New** | `hippo/src/hippo/core/loaders/json.py` | `JSONLoader` |
 | **New** | `hippo/src/hippo/core/loaders/sql.py` | `SQLLoader` |
-| **New** | `hippo/src/hippo/core/loaders/dsl.py` | `HippoDSLLoader` |
+| **New** | `hippo/src/hippo/core/loaders/entity_yaml.py` | `EntityYAMLLoader` |
 | **New** | `hippo/src/hippo/core/loaders/pipeline.py` | `IngestPipeline` (refactored from `IngestionPipeline`) |
 | **New** | `hippo/cli/commands/ingest.py` | `ingest_dsl_file()`, rewired CLI |
 | **Modify** | `hippo/src/hippo/core/ingestion.py` | Keep `extract_fts_content`, `flatten_dict`; deprecate `IngestionPipeline` |
@@ -218,7 +218,7 @@ The `IngestPipeline` class (renamed from `IngestionPipeline`) orchestrates this 
 
 ## 4.13 Phased Implementation
 
-**Phase 1 (Hippo):** Create `loaders/` package, implement `EntityLoader` → `ConfigurableLoader` → `CSVLoader/JSONLoader/SQLLoader/HippoDSLLoader` + `IngestPipeline`. Rewrite `hippo ingest` CLI. All Hippo tests green.
+**Phase 1 (Hippo):** Create `loaders/` package, implement `EntityLoader` → `ConfigurableLoader` → `CSVLoader/JSONLoader/SQLLoader/EntityYAMLLoader` + `IngestPipeline`. Rewrite `hippo ingest` CLI. All Hippo tests green.
 
 **Phase 2 (Cross-component contracts):** Write contract tests at monorepo root. RED until Cappella adopts.
 

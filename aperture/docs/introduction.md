@@ -28,7 +28,7 @@ Aperture is to BASS what `git` CLI + GitHub UI are to Git: a thin, ergonomic sur
 - **Run analyses** — Computation is Canon's domain. Aperture displays results but does not produce them.
 - **Harmonize data** — That is Cappella's role. Aperture triggers Cappella operations and presents results.
 - **Enforce authentication** — Auth is Bridge's domain. When Bridge is deployed, Aperture delegates credential validation to it.
-- **Define schemas** — Schema authoring is done in Hippo DSL YAML files. Aperture can display schemas but does not edit them.
+- **Define schemas** — Schema authoring is done in LinkML YAML files. Aperture can display schemas but does not edit them.
 
 ## Deployment Modes
 

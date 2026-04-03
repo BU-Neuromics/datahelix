@@ -45,7 +45,7 @@ Aperture explicitly does not:
 - **Enforce authentication or authorization.** Auth is Bridge's domain. When Bridge is deployed,
   Aperture delegates auth to it. Without Bridge, Aperture operates in unauthenticated mode
   (same as Hippo's v0.1 no-op auth).
-- **Define or manage schemas.** Schema authoring is done in Hippo DSL YAML files and applied via
+- **Define or manage schemas.** Schema authoring is done in LinkML YAML files and applied via
   `hippo validate` / `hippo migrate`. Aperture can display schemas but does not edit them.
 
 ### 1.4 User Personas

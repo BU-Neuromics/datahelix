@@ -24,7 +24,7 @@ Hippo tracks *where data lives* and *what it describes* — not the data itself.
 
 ## Key Features
 
-- **Config-driven data model** — Define entity types, fields, and relationships in YAML/JSON schema (Hippo DSL) compiled to LinkML
+- **Config-driven data model** — Define entity types, fields, and relationships directly in LinkML schema
 - **Graph-shaped API** — Query entities and traverse relationships through a relational store with graph semantics
 - **Provenance tracking** — Every change is logged with structured context and full audit trail
 - **SDK-first architecture** — Embed Hippo directly in Python scripts or notebooks; REST API is a thin transport wrapper
@@ -35,7 +35,7 @@ Hippo tracks *where data lives* and *what it describes* — not the data itself.
 | Concept | Description |
 |---|---|
 | **Entity** | A top-level object tracked by Hippo. Entity types are defined in your schema config (e.g., Subject, Sample, Datafile). |
-| **Schema config** | A YAML file defining entity types, fields, and relationships for your deployment. Written in Hippo DSL, compiled to LinkML. |
+| **Schema config** | A YAML file defining entity types, fields, and relationships for your deployment, authored directly in LinkML format. |
 | **Relationship** | A directional, typed edge connecting two entities with cardinality constraints. |
 | **External ID** | An identifier from an upstream system (e.g., LIMS barcode) mapped to a Hippo entity UUID. |
 | **Provenance record** | An immutable log entry recording what changed, when, and by whom. |
@@ -91,7 +91,7 @@ See the **[Quick Start guide](user-docs/quickstart.md)** for a complete walkthro
 - [Introduction](user-docs/introduction.md) — Detailed overview and use cases
 - [Installation](user-docs/installation.md) — Setup instructions
 - [Quick Start](user-docs/quickstart.md) — Get running in minutes
-- [Schema Guide](user-docs/schema-guide.md) — Authoring entity schemas with Hippo DSL
+- [Schema Guide](user-docs/schema-guide.md) — Authoring entity schemas in LinkML
 - [Data Model](user-docs/data-model.md) — Core data model concepts
 - [Configuration](user-docs/configuration.md) — Configuration reference
 - [CLI Reference](user-docs/cli-reference.md) — Command-line interface

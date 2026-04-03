@@ -9,7 +9,7 @@ Define GenomeBuild Entity Type: Implement the GenomeBuild entity type definition
 - Given the GenomeBuild entity type is defined in schema.yaml, when the genome_assembly field attributes are inspected, then it is marked as required
 - Given the GenomeBuild entity type is defined in schema.yaml, when its fields are inspected, then a field named build_date exists with type date
 - Given the GenomeBuild entity type is defined in schema.yaml, when the build_date field attributes are inspected, then it is marked as required
-- Given the GenomeBuild entity type is defined in schema.yaml, when a YAML parser loads the file, then the GenomeBuild definition contains no syntax errors and all field type values resolve to valid Hippo DSL types
+- Given the GenomeBuild entity type is defined in schema.yaml, when a YAML parser loads the file, then the GenomeBuild definition contains no syntax errors and all field type values resolve to valid LinkML types
 
 ## Constraints
 - Complexity: low
