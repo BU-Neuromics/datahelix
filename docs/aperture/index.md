@@ -63,7 +63,7 @@ bass entity list Subject
 bass schema show Subject
 ```
 
-See the **[Quick Start guide](user-docs/quickstart.md)** for a 10-minute walkthrough covering entity browsing, creation, search, and provenance viewing.
+See the **[Quick Start guide](docs/quickstart.md)** for a 10-minute walkthrough covering entity browsing, creation, search, and provenance viewing.
 
 ## Related Components
 
@@ -74,9 +74,9 @@ See the **[Quick Start guide](user-docs/quickstart.md)** for a 10-minute walkthr
 
 ## User Documentation
 
-- [Introduction](user-docs/introduction.md) — Overview of the interface layer
-- [Quick Start](user-docs/quickstart.md) — Get started with the Aperture CLI
-- [CLI Reference](user-docs/cli-reference.md) — Command reference
+- [Introduction](docs/introduction.md) — Overview of the interface layer
+- [Quick Start](docs/quickstart.md) — Get started with the Aperture CLI
+- [CLI Reference](docs/cli-reference.md) — Command reference
 
 ## Design Specification
 

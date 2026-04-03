@@ -77,7 +77,7 @@ hippo init my-project
 hippo serve
 ```
 
-See the **[Quick Start guide](user-docs/quickstart.md)** for a complete walkthrough — from schema definition through entity creation, querying, and provenance inspection.
+See the **[Quick Start guide](docs/quickstart.md)** for a complete walkthrough — from schema definition through entity creation, querying, and provenance inspection.
 
 ## Related Components
 
@@ -88,14 +88,14 @@ See the **[Quick Start guide](user-docs/quickstart.md)** for a complete walkthro
 
 ## User Documentation
 
-- [Introduction](user-docs/introduction.md) — Detailed overview and use cases
-- [Installation](user-docs/installation.md) — Setup instructions
-- [Quick Start](user-docs/quickstart.md) — Get running in minutes
-- [Schema Guide](user-docs/schema-guide.md) — Authoring entity schemas in LinkML
-- [Data Model](user-docs/data-model.md) — Core data model concepts
-- [Configuration](user-docs/configuration.md) — Configuration reference
-- [CLI Reference](user-docs/cli-reference.md) — Command-line interface
-- [API Reference](user-docs/api-reference.md) — REST API endpoints
+- [Introduction](docs/introduction.md) — Detailed overview and use cases
+- [Installation](docs/installation.md) — Setup instructions
+- [Quick Start](docs/quickstart.md) — Get running in minutes
+- [Schema Guide](docs/schema-guide.md) — Authoring entity schemas in LinkML
+- [Data Model](docs/data-model.md) — Core data model concepts
+- [Configuration](docs/configuration.md) — Configuration reference
+- [CLI Reference](docs/cli-reference.md) — Command-line interface
+- [API Reference](docs/api-reference.md) — REST API endpoints
 
 ## Design Specification
 

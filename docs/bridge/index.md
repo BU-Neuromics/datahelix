@@ -58,7 +58,7 @@ Bridge is a thin routing and enforcement layer. It validates credentials, routes
 
 ## Getting Started
 
-See the **[Authentication guide](user-docs/auth.md)** for setting up API keys, roles, and project scoping. The **[Admin Guide](user-docs/admin-guide.md)** covers deployment, user management, key rotation, monitoring, and backup procedures.
+See the **[Authentication guide](docs/auth.md)** for setting up API keys, roles, and project scoping. The **[Admin Guide](docs/admin-guide.md)** covers deployment, user management, key rotation, monitoring, and backup procedures.
 
 ## Related Components
 
@@ -69,10 +69,10 @@ See the **[Authentication guide](user-docs/auth.md)** for setting up API keys, r
 
 ## User Documentation
 
-- [Introduction](user-docs/introduction.md) — Overview of integration middleware
-- [Authentication](user-docs/auth.md) — API keys, interactive login, roles, and project scoping
-- [Security Model](user-docs/security-model.md) — What Bridge protects and audit trail coverage
-- [Admin Guide](user-docs/admin-guide.md) — User management, key rotation, monitoring, and backup
+- [Introduction](docs/introduction.md) — Overview of integration middleware
+- [Authentication](docs/auth.md) — API keys, interactive login, roles, and project scoping
+- [Security Model](docs/security-model.md) — What Bridge protects and audit trail coverage
+- [Admin Guide](docs/admin-guide.md) — User management, key rotation, monitoring, and backup
 
 ## Design Specification
 

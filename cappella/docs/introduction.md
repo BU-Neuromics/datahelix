@@ -40,6 +40,6 @@ Aperture / Composer  ← user interface, aggregate analysis
 
 ## Getting Started
 
-→ [Quick Start](quickstart.md) — install, configure, and run your first ingest  
-→ [User Guide](user_guide.md) — adapters, triggers, resolution, reconciliation  
+→ [Quick Start](quickstart.md) — install, configure, and run your first ingest
+→ [User Guide](user_guide.md) — adapters, triggers, resolution, reconciliation
 → [Design Specification](../design/INDEX.md) — architecture decisions and component boundaries

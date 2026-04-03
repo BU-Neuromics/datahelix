@@ -66,7 +66,7 @@ pip install cappella
 cappella serve
 ```
 
-See the **[Quick Start guide](user-docs/quickstart.md)** for a complete walkthrough — from configuration through your first ingestion and collection resolution.
+See the **[Quick Start guide](docs/quickstart.md)** for a complete walkthrough — from configuration through your first ingestion and collection resolution.
 
 ## Related Components
 
@@ -77,12 +77,12 @@ See the **[Quick Start guide](user-docs/quickstart.md)** for a complete walkthro
 
 ## User Documentation
 
-- [Introduction](user-docs/introduction.md) — Detailed overview
-- [Installation](user-docs/installation.md) — Setup instructions
-- [Overview](user-docs/overview.md) — Architecture overview
-- [Quick Start](user-docs/quickstart.md) — Get running quickly
-- [User Guide](user-docs/user_guide.md) — Complete usage guide
-- [Workflows](user-docs/workflows.md) — Workflow definitions and patterns
+- [Introduction](docs/introduction.md) — Detailed overview
+- [Installation](docs/installation.md) — Setup instructions
+- [Overview](docs/overview.md) — Architecture overview
+- [Quick Start](docs/quickstart.md) — Get running quickly
+- [User Guide](docs/user_guide.md) — Complete usage guide
+- [Workflows](docs/workflows.md) — Workflow definitions and patterns
 
 ## Design Specification
 

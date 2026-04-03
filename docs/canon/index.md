@@ -71,7 +71,7 @@ canon plan my-artifact-spec.yaml   # dry-run: show what would be built
 canon get my-artifact-spec.yaml    # resolve: reuse or build
 ```
 
-See the **[Quick Start guide](user-docs/quickstart.md)** for a complete walkthrough — from rule definition through artifact resolution and provenance inspection.
+See the **[Quick Start guide](docs/quickstart.md)** for a complete walkthrough — from rule definition through artifact resolution and provenance inspection.
 
 ## Related Components
 
@@ -82,9 +82,9 @@ See the **[Quick Start guide](user-docs/quickstart.md)** for a complete walkthro
 
 ## User Documentation
 
-- [Introduction](user-docs/introduction.md) — Detailed overview
-- [Quick Start](user-docs/quickstart.md) — Get started with Canon
-- [User Guide](user-docs/user-guide.md) — Complete usage guide
+- [Introduction](docs/introduction.md) — Detailed overview
+- [Quick Start](docs/quickstart.md) — Get started with Canon
+- [User Guide](docs/user-guide.md) — Complete usage guide
 
 ## Design Specification
 

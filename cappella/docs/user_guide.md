@@ -242,6 +242,8 @@ class LabStandardStrategy(SelectionStrategy):
 
 Triggers automate ingest and resolution operations.
 
+### Schedule Triggers
+
 ```yaml
 triggers:
   - name: nightly_sync
@@ -251,7 +253,26 @@ triggers:
       type: ingest
       adapter: lims_db
     on_success: lims_sync_complete    # emit this internal event on success
+```
 
+### Manual Triggers
+
+Fire on demand via the CLI or API:
+
+```bash
+cappella trigger run nightly_sync --config cappella.yaml
+```
+
+```bash
+curl -X POST http://localhost:8000/triggers/nightly_sync/run
+```
+
+### Internal Event Triggers
+
+React to events emitted by other triggers:
+
+```yaml
+triggers:
   - name: resolve_after_sync
     type: internal_event
     event: lims_sync_complete         # fires when lims_sync_complete is emitted
@@ -262,10 +283,63 @@ triggers:
         genome: GRCh38
 ```
 
+### Webhook Triggers
+
+*Added in v0.2.* Receive HTTP callbacks from external systems. Cappella exposes a webhook endpoint that external services (such as HALO) can POST to, triggering an ingest or resolution action.
+
+```yaml
+triggers:
+  - name: halo_case_ready
+    type: webhook
+    path: /webhooks/halo/case_ready
+    secret_env: HALO_WEBHOOK_SECRET     # HMAC-SHA256 key from env var
+    when: "event.status == 'analysis_complete'"   # CEL condition on payload
+    action:
+      type: ingest
+      adapter: halo_cases
+    idempotency_window_seconds: 300     # Auto-deduplicate retries
+```
+
+**Signature verification:** The calling system must include an `X-Signature` header containing the HMAC-SHA256 digest of the request body, computed with the secret specified by `secret_env`. Cappella returns `403 Forbidden` if the signature is missing or invalid.
+
+**CEL condition filtering:** The `when` field accepts a [CEL](https://github.com/google/cel-spec) expression evaluated against the parsed JSON payload. If the expression evaluates to `false`, Cappella returns `200 OK` but takes no action. This lets you subscribe to a broad event stream and only act on relevant payloads.
+
+**Idempotency:** Within the configured `idempotency_window_seconds`, Cappella computes a SHA-256 digest of the request body and deduplicates retries automatically. If a payload with the same digest arrives within the window, Cappella returns `200 OK` with the original run ID and does not re-execute the action.
+
+### Hippo Poll Triggers
+
+*Added in v0.2.* Poll Hippo for new or updated entities matching a filter, and fire an action for each matched entity.
+
+```yaml
+triggers:
+  - name: trigger_alignment_on_new_sample
+    type: hippo_poll
+    poll:
+      entity_type: Sample
+      filter: "tissue == 'DLPFC' && status == 'received'"
+      interval_seconds: 300
+      lookback_seconds: 300
+    action:
+      type: resolve
+      entity_type: AlignmentFile
+      criteria:
+        sample.id: "{entity.id}"
+      parameters:
+        genome: GRCh38
+```
+
+**Polling behavior:** On each tick, Cappella queries Hippo for entities of the specified `entity_type` whose `updated_at` falls within the lookback window and that match the `filter` expression. The query uses Hippo's `updated_at` index for efficient retrieval.
+
+**Per-entity actions:** The action is fired once per matched entity. Use `{entity.<field>}` bindings in `criteria` and `parameters` to inject values from the matched entity into the action. For example, `{entity.id}` resolves to the matched entity's ID.
+
+**Cursor persistence:** Cappella persists its poll cursor as a `CappellaPollCursor` entity in Hippo, keyed by trigger name. This ensures that after a restart, polling resumes from where it left off rather than re-processing old entities. The cursor advances to the latest `updated_at` timestamp seen in each poll cycle, regardless of whether the triggered action succeeds or fails.
+
 **Trigger types:**
 - `schedule` — cron expression (uses standard 5-field cron syntax)
 - `manual` — fire via `cappella trigger run <name>` or `POST /triggers/{name}/run`
 - `internal_event` — fires when a named event is emitted by another trigger's `on_success`
+- `webhook` — fires when an external system sends an HTTP POST to the configured path
+- `hippo_poll` — fires per entity when Hippo entities matching the filter are created or updated
 
 **Action types:**
 - `ingest` — run an adapter's fetch/transform/upsert pipeline

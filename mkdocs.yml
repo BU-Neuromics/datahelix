@@ -80,14 +80,14 @@ nav:
   - Hippo:
       - hippo/index.md
       - User Docs:
-          - Introduction: hippo/user-docs/introduction.md
-          - Installation: hippo/user-docs/installation.md
-          - Quick Start: hippo/user-docs/quickstart.md
-          - Schema Guide: hippo/user-docs/schema-guide.md
-          - Data Model: hippo/user-docs/data-model.md
-          - Configuration: hippo/user-docs/configuration.md
-          - CLI Reference: hippo/user-docs/cli-reference.md
-          - API Reference: hippo/user-docs/api-reference.md
+          - Introduction: hippo/docs/introduction.md
+          - Installation: hippo/docs/installation.md
+          - Quick Start: hippo/docs/quickstart.md
+          - Schema Guide: hippo/docs/schema-guide.md
+          - Data Model: hippo/docs/data-model.md
+          - Configuration: hippo/docs/configuration.md
+          - CLI Reference: hippo/docs/cli-reference.md
+          - API Reference: hippo/docs/api-reference.md
       - Design Spec:
           - Overview & Scope: hippo/design/sec1_overview.md
           - Architecture: hippo/design/sec2_architecture.md
@@ -106,12 +106,12 @@ nav:
   - Cappella:
       - cappella/index.md
       - User Docs:
-          - Introduction: cappella/user-docs/introduction.md
-          - Installation: cappella/user-docs/installation.md
-          - Overview: cappella/user-docs/overview.md
-          - Quick Start: cappella/user-docs/quickstart.md
-          - User Guide: cappella/user-docs/user_guide.md
-          - Workflows: cappella/user-docs/workflows.md
+          - Introduction: cappella/docs/introduction.md
+          - Installation: cappella/docs/installation.md
+          - Overview: cappella/docs/overview.md
+          - Quick Start: cappella/docs/quickstart.md
+          - User Guide: cappella/docs/user_guide.md
+          - Workflows: cappella/docs/workflows.md
       - Design Spec:
           - Overview & Scope: cappella/design/sec1_overview.md
           - Architecture: cappella/design/sec2_architecture.md
@@ -123,9 +123,9 @@ nav:
   - Aperture:
       - aperture/index.md
       - User Docs:
-          - Introduction: aperture/user-docs/introduction.md
-          - Quick Start: aperture/user-docs/quickstart.md
-          - CLI Reference: aperture/user-docs/cli-reference.md
+          - Introduction: aperture/docs/introduction.md
+          - Quick Start: aperture/docs/quickstart.md
+          - CLI Reference: aperture/docs/cli-reference.md
       - Design Spec:
           - Overview & Scope: aperture/design/sec1_overview.md
           - Architecture: aperture/design/sec2_architecture.md
@@ -136,10 +136,10 @@ nav:
   - Bridge:
       - bridge/index.md
       - User Docs:
-          - Introduction: bridge/user-docs/introduction.md
-          - Authentication: bridge/user-docs/auth.md
-          - Security Model: bridge/user-docs/security-model.md
-          - Admin Guide: bridge/user-docs/admin-guide.md
+          - Introduction: bridge/docs/introduction.md
+          - Authentication: bridge/docs/auth.md
+          - Security Model: bridge/docs/security-model.md
+          - Admin Guide: bridge/docs/admin-guide.md
       - Design Spec:
           - Overview & Scope: bridge/design/sec1_overview.md
           - Architecture: bridge/design/sec2_architecture.md
@@ -150,9 +150,9 @@ nav:
   - Canon:
       - canon/index.md
       - User Docs:
-          - Introduction: canon/user-docs/introduction.md
-          - Quick Start: canon/user-docs/quickstart.md
-          - User Guide: canon/user-docs/user-guide.md
+          - Introduction: canon/docs/introduction.md
+          - Quick Start: canon/docs/quickstart.md
+          - User Guide: canon/docs/user-guide.md
       - Design Spec:
           - Overview & Scope: canon/design/sec1_overview.md
           - Architecture: canon/design/sec2_architecture.md
