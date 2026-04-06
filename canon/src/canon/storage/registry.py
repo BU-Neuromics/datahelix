@@ -51,7 +51,12 @@ class StorageAdapterRegistry:
             try:
                 instance: StorageAdapter = adapter_cls(**extra)
             except TypeError:
-                instance = adapter_cls()
+                try:
+                    instance = adapter_cls()
+                except Exception:
+                    continue
+            except Exception:
+                continue
 
             registry._adapters[ep.name] = instance
             for scheme in instance.uri_schemes:

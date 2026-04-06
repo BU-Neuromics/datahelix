@@ -25,7 +25,11 @@ test = [
     "pytest",
     "pytest-anyio",
     "httpx",
+    "hippo",
 ]
+
+[tool.uv.sources]
+hippo = { path = "../hippo", editable = true }
 
 [project.scripts]
 cappella = "cappella.cli.main:app"
