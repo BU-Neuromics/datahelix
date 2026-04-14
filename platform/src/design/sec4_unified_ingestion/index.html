@@ -4356,7 +4356,7 @@
 </tr>
 <tr>
 <td><code>EntityYAMLLoader</code></td>
-<td><code>hippo.core.loaders.dsl</code></td>
+<td><code>hippo.core.loaders.entity_yaml</code></td>
 <td>✅ (stdlib yaml)</td>
 <td>Structured entity YAML, idempotent via external_id</td>
 </tr>
@@ -4461,7 +4461,7 @@
 <tr>
 <td><strong>New</strong></td>
 <td><code>hippo/cli/commands/ingest.py</code></td>
-<td><code>ingest_dsl_file()</code>, rewired CLI</td>
+<td><code>ingest_entity_file()</code>, rewired CLI</td>
 </tr>
 <tr>
 <td><strong>Modify</strong></td>
@@ -4527,7 +4527,7 @@
 - Tests that field_map and vocabulary_map from Hippo core work when called from Cappella</p>
 <p><strong>Updated Hippo unit tests:</strong>
 - <code>hippo/tests/core/test_loaders.py</code> replaces <code>test_ingestion.py</code> (same tests, new module paths)
-- <code>hippo/tests/cli/test_ingest.py</code> (already written, tests DSL ingest + idempotency)</p>
+- <code>hippo/tests/cli/test_ingest.py</code> (already written, tests entity YAML ingest + idempotency)</p>
 <h2 id="413-phased-implementation">4.13 Phased Implementation<a class="headerlink" href="#413-phased-implementation" title="Permanent link">&para;</a></h2>
 <p><strong>Phase 1 (Hippo):</strong> Create <code>loaders/</code> package, implement <code>EntityLoader</code> → <code>ConfigurableLoader</code> → <code>CSVLoader/JSONLoader/SQLLoader/EntityYAMLLoader</code> + <code>IngestPipeline</code>. Rewrite <code>hippo ingest</code> CLI. All Hippo tests green.</p>
 <p><strong>Phase 2 (Cross-component contracts):</strong> Write contract tests at monorepo root. RED until Cappella adopts.</p>
