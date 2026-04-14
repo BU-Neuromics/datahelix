@@ -102,7 +102,7 @@ class ConfigurableLoader(EntityLoader):
 | `CSVLoader` | `hippo.core.loaders.csv` | ✅ (stdlib csv) | File, HTTP URL, or stdin/bytes |
 | `JSONLoader` | `hippo.core.loaders.json` | ✅ (stdlib json) | JSONPath for nested records requires `hippo[loaders-json]` |
 | `SQLLoader` | `hippo.core.loaders.sql` | `hippo[loaders-sql]` | SQLAlchemy + read-only query validation |
-| `EntityYAMLLoader` | `hippo.core.loaders.dsl` | ✅ (stdlib yaml) | Structured entity YAML, idempotent via external_id |
+| `EntityYAMLLoader` | `hippo.core.loaders.entity_yaml` | ✅ (stdlib yaml) | Structured entity YAML, idempotent via external_id |
 
 ## 4.6 Dependency Extras (`pyproject.toml`)
 
@@ -180,7 +180,7 @@ The `IngestPipeline` class (renamed from `IngestionPipeline`) orchestrates this 
 | **New** | `hippo/src/hippo/core/loaders/sql.py` | `SQLLoader` |
 | **New** | `hippo/src/hippo/core/loaders/entity_yaml.py` | `EntityYAMLLoader` |
 | **New** | `hippo/src/hippo/core/loaders/pipeline.py` | `IngestPipeline` (refactored from `IngestionPipeline`) |
-| **New** | `hippo/cli/commands/ingest.py` | `ingest_dsl_file()`, rewired CLI |
+| **New** | `hippo/cli/commands/ingest.py` | `ingest_entity_file()`, rewired CLI |
 | **Modify** | `hippo/src/hippo/core/ingestion.py` | Keep `extract_fts_content`, `flatten_dict`; deprecate `IngestionPipeline` |
 | **Modify** | `hippo/pyproject.toml` | Add `loaders-sql`, `loaders-json` extras |
 | **Remove** | `hippo/src/hippo/core/data_sources.py` | Replaced by loader config files |
@@ -214,7 +214,7 @@ The `IngestPipeline` class (renamed from `IngestionPipeline`) orchestrates this 
 
 **Updated Hippo unit tests:**
 - `hippo/tests/core/test_loaders.py` replaces `test_ingestion.py` (same tests, new module paths)
-- `hippo/tests/cli/test_ingest.py` (already written, tests DSL ingest + idempotency)
+- `hippo/tests/cli/test_ingest.py` (already written, tests entity YAML ingest + idempotency)
 
 ## 4.13 Phased Implementation
 
