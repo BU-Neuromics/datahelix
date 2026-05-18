@@ -1,0 +1,98 @@
+# BASS: A Provenance-First, Schema-Driven Metadata Substrate for a Brain Bank — and the Data Management Research It Demands
+
+**Project Talk Proposal — Biomedical Data Management Systems (BIODMS) 2026**
+
+*Adam Labadorf*  
+*Boston University, labadorf@bu.edu*
+
+---
+
+## 1. Motivation: Twenty Years of the Same Failure Modes
+
+This project's design is the synthesis of nearly two decades of building, deploying, and reanalyzing high-throughput biological data pipelines. The same handful of failure modes recur at every site, across every modality, in every cohort. They are not failures of any one lab; they are the predictable consequence of a missing substrate.
+
+- **Redundant storage of reprocessed artifacts.** The same FASTQ is re-aligned with slightly different parameters across three projects, producing three near-identical BAMs that no system knows are siblings. On cloud object storage, where capacity is billed per GB-month, duplicated re-processing of sequencing corpora multiplies infrastructure cost without producing new information — and no one can later tell which artifact backed which figure.
+- **Lost provenance.** Files accumulate on shared filesystems with no record of which pipeline, which code version, or which inputs produced them. A year later, no one can determine whether a count matrix was built against Ensembl 105 or 111, or whether the QC filter that ran on Tuesday matches the one that ran on Friday.
+- **Ad-hoc reimplementation of common cleaning operations.** Every analyst writes their own subtly different version of "merge clinical metadata to sample IDs, drop the controls, recode the diagnosis labels." Scripts diverge over time; the dataset that comes out of analyst A's notebook is not the dataset that came out of analyst B's, and the divergence is usually not noticed until figures disagree across drafts.
+- **Inaccessible, unshareable metadata.** Sample-to-file mappings live in personal spreadsheets, lab wikis, or LIMS systems behind institutional login walls. Sharing a cohort with a collaborator means re-deriving the manifest by hand, and re-deriving it again the next time someone asks.
+- **Iteration without provenance.** Analysis products evolve — a new normalization, a new outlier filter, a new annotation release — and there is no clean way to ship the new version alongside the old without breaking the link to what was previously published.
+
+Every group eventually builds *something* — a spreadsheet, a SQLite database with a custom schema, a directory tree with a naming convention — to cope. None of those local solutions outlive the person who built them, none are queryable by collaborators, and none are structured well enough for an AI agent to traverse.
+
+We are building BASS at the **National Center for PTSD Brain Bank** because a brain bank is the place where every one of these failure modes becomes acute simultaneously. With more than 300 post-mortem donations supporting research on post-traumatic stress disorder, traumatic brain injury, and related comorbid conditions, the bank holds clinical histories, neuropathology assessments, dissection records, frozen and fixed tissue inventories, histology images and derived scores, and — increasingly — high-throughput sequencing data alongside emerging spatial and multi-modal assays. Each modality currently lives in its own system, with no shared substrate that links them. The cost of redoing the joins from scratch for each new study is no longer affordable, and multi-modal AI on this cohort — exactly the kind of work for which a longitudinal post-mortem collection is uniquely valuable — is gated not on model capacity but on the absence of a trustworthy substrate that an agent or pipeline can query without bespoke connectors.
+
+## 2. The Gap
+
+Several existing tools touch parts of this problem. None fit the joint constraints of a single-institution brain bank that wants (i) full open-source ownership, (ii) a deployment that fits a single researcher's laptop and a multi-institution cloud with the same codebase, (iii) AI-readiness as a first-class property, and (iv) extensibility without forking the core.
+
+- **LIMS systems** (STARLIMS, LabKey, LabVantage) are systems of record for wet-lab operations. They are closed, expensive, and were not designed to be the source of truth that downstream omics pipelines query.
+- **REDCap** excels at structured clinical capture but is not a multi-modal metadata graph; relationships across studies and samples are out of scope.
+- **OMOP / OHDSI** harmonizes electronic-health-record data but assumes a clinical model; tissue, dissection, sequencing, and imaging are second-class.
+- **Generic data lakes / OMOP-on-Parquet** solve scale but offer no provenance-by-default, no relational integrity for derivation chains, and no schema affordances that biologists can edit.
+- **Galaxy, Nextflow Tower, Terra** are workflow- and execution-centric; they do not maintain a canonical entity registry across heterogeneous sources, nor do they provide queryable metadata independent of pipeline runs.
+- **Ad hoc relational schemas** (the most common solution) are brittle: every new modality requires migrations authored by a programmer, and provenance is bolted on after the fact, if at all.
+
+The gap is a **metadata intelligence layer** that is open-source, edited by domain experts rather than database engineers, provenance-rich by construction, deployable across scales, and structured so that AI agents can traverse and resolve it without bespoke connectors. The barrier to entry must be low enough that a single researcher can `pip install` the substrate, point it at a SQLite file, and start querying — with the same codebase scaling to PostgreSQL-on-RDS when an institution grows into it. No DBA, no IRB-bound shared infrastructure, no commercial license stands between the researcher and the first useful query. We are building that layer as **BASS** (Bioinformatics Analysis Software System).
+
+## 3. Approach: Three Technical Bets
+
+BASS is organized around four modular components — **Hippo** (metadata store), **Cappella** (harmonization across external sources), **Canon** (semantic dependency resolution for workflow outputs), and **Aperture** (CLI and portal) — with **Bridge** as an optional integration layer for multi-institution deployments. Rather than describe each in turn, we summarize the three technical bets that make the project simultaneously interesting to the biomedical community and to data-management researchers.
+
+### Bet 1 — LinkML Schemas as a Runtime Artifact
+
+Most relational systems treat the schema as a compile-time spec: a domain expert hands a YAML or ER diagram to an engineer, who translates it into SQL DDL, ORM classes, and migrations. The cost of that translation is the single largest reason why brain-bank metadata schemas calcify the moment they go to production.
+
+In Hippo, the schema is authored directly in **LinkML** — a community standard for biomedical data modeling — and is **read at runtime** by a config-driven relational engine. The same LinkML document drives: (i) the physical tables and indexes (with explicit columns for declared fields, not EAV), (ii) the typed Python SDK exposed to users and notebooks, (iii) the REST API surface, (iv) write-path validation including referential integrity and CEL-expressible business rules, and (v) the migration plan when the schema changes. Adding a new entity type, field, or relationship is a configuration change, not a release.
+
+This is the data-management bet. It poses non-trivial research questions: how do you preserve plan-time query optimization when table structure is recovered from a config at startup? How do you provide safe online schema evolution when the schema is authored by biologists rather than DBAs? How do you reconcile a graph-shaped query API ("walk from donor to all RNA-seq samples whose anatomical region maps under FMA term X") with a row-store backend, while keeping latency predictable across SQLite-on-a-laptop and PostgreSQL-on-RDS deployments? We believe these are publishable contributions at VLDB / SIGMOD if executed honestly, and we want to execute them with input from the DB community rather than reinvent partial answers in isolation.
+
+### Bet 2 — Provenance by Default at the Row Level
+
+Every write in Hippo records who changed what, when, and via which path, in an append-only provenance log. There are no hard deletes; lifecycle is expressed by an `is_available` flag whose transitions are themselves provenance events. The temporal fields a user expects (`created_at`, `updated_at`, `schema_version`) are not stored on the entity row — they are computed at read time from the provenance log. This is a deliberate inversion of the usual pattern, in which provenance is a sidecar table audited only when something goes wrong.
+
+The biomedical motivation is straightforward: a brain bank cannot afford to lose the audit trail of a sample annotation, and reproducibility of a multi-year cohort study requires that every entity be reconstructable to its state on any given date. The data-management motivation is sharper: this design forces us to confront, as primary problems rather than afterthoughts, (i) the storage and query cost of comprehensive bitemporal history at the row level, (ii) the right physical representation for an append-only log that supports point-in-time queries at conversational latency, and (iii) the interaction between provenance, soft-delete, and replication when the system spans multiple institutional deployments. Hyrise/Datomic/XTDB-style techniques are relevant; their tradeoffs in a brain-bank workload are not characterized.
+
+### Bet 3 — AI-Readiness by Construction: Entities as DRS-Resolvable JSON, Workflows as Semantic Dependency Resolution
+
+We claim AI-readiness as a property of the substrate, not a feature shipped on top. Two design choices do the work.
+
+**(a) Every entity is designed to be DRS-resolvable JSON.** BASS is designed so that any Hippo entity — a donor, a sample, a derived DESeq result, a file — is addressable as `drs://host/uuid` via a GA4GH Data Repository Service endpoint shipped as a router in `hippo serve`. File-bearing entities additionally expose physical access methods; pure-metadata entities expose structured fields. The DRS router is targeted for the v0.2 milestone; the data model that makes it work — uniform UUID identity, schema-declared `uri` fields where applicable, and provenance-linked derivations — is already in place. Combined with structured provenance, this means an AI agent (over MCP or any equivalent protocol) will be able to traverse derivation chains, request the underlying artifact, and produce reproducible, citable answers without a bespoke connector per data source. This is the concrete content behind "AI-ready" — not "we plan to call an LLM somewhere."
+
+**(b) Workflow orchestration is reformulated as semantic dependency resolution over entities, not file paths.** Canon takes a metadata specification ("an AlignmentFile for sample S001 against GRCh38 / Ensembl 111 with STAR 2.7.11a") and either (i) finds a satisfying Hippo entity (REUSE), (ii) finds a satisfying remote entity via DRS (FETCH), or (iii) finds a production rule that can derive one and recursively resolves its inputs (BUILD). The execution is delegated to a Nextflow / Snakemake / Cromwell adapter; the planning is at the entity level. This is closer in spirit to incremental view maintenance and rule-based query rewriting than to a DAG scheduler, and it intersects with several active research threads in DB and PL: equivalence reasoning over rule bindings, partial materialization with provenance-aware caching, and federation across remote metadata stores.
+
+The biomedical payoff is that a researcher (or an agent acting on a researcher's behalf) describes *what they want* in entity terms, and the platform decides whether to retrieve, derive, or fail — across institutional boundaries when Bridge is deployed. The data-management payoff is a research-grade testbed for a small set of well-posed problems in semantic dependency resolution.
+
+## 4. Early Status and Roadmap
+
+This is intentionally framed as a young project. Hippo is the most developed component: the core SDK, LinkML-native schema loader, SQLite adapter, provenance log, write-path validation, and REST API are implemented and under active test coverage. Cappella, Canon, Aperture, and Bridge are at the design-spec stage with prototype implementations of the highest-risk pieces (Cappella's external-source adapter ABC and Canon's semantic resolver in particular). The platform v1.0 milestone targets a Docker-Compose deployable stack that lets a new user reproduce a full external-source → harmonization → query → workflow-output round trip from the documentation alone.
+
+Our 18-month plan is to (i) bring the National Center for PTSD Brain Bank's production metadata into Hippo behind Cappella adapters for the bank's existing source systems, (ii) ship the open-source v1.0 with reference deployments at one to two partner institutions, and (iii) drive one biomedical study to publication using BASS as the substrate — likely an AI-assisted multi-modal cohort analysis whose value is gated on this infrastructure.
+
+## 5. Research Questions and Collaboration Ask
+
+The BIODMS call asks for projects that meaningfully advance both communities. We frame the open questions deliberately so that DB researchers can join as first-class contributors rather than as advisors:
+
+- **Schema-as-runtime-artifact query planning.** What is the right cost model and plan cache when the schema is reloaded across deployments and revisions? Can we ship a query planner whose optimization decisions are stable across SQLite-laptop and PostgreSQL-cloud tiers?
+- **Bitemporal storage at row granularity for biomedical workloads.** What is the actual cost in storage, ingest throughput, and point-in-time query latency for a brain-bank-scale corpus? Where does an append-only log win or lose against versioned-row alternatives?
+- **Semantic dependency resolution as a query problem.** Can REUSE / FETCH / BUILD be cast as rule-based query rewriting with provenance-aware caching? How does this scale across federated Hippo instances?
+- **Identifier reconciliation as versioned mappings rather than probabilistic linkage.** Brain banks have authoritative donor identifiers; the harder problem is cross-system mappings that drift. Versioned ExternalID structures may dominate probabilistic record linkage here — under what conditions?
+- **An evaluation corpus.** We will publish a synthetic-but-realistic brain-bank metadata benchmark that DB researchers can use without IRB friction, and that biomedical researchers can use as a reference deployment.
+
+The collaboration ask is concrete: we want DB co-investigators on (i) the bitemporal-storage work and (ii) the semantic-dependency-resolution work, and we want biomedical co-investigators at additional brain banks willing to be the second and third deployments. Both halves are necessary; BASS without the brain bank is generic, and the brain bank without the substrate is yet another spreadsheet archive.
+
+## 6. Why This Belongs at BIODMS
+
+A successful execution of this project should yield publications at a top-tier data management venue (VLDB or SIGMOD on the schema-as-runtime-artifact, semantic-dependency-resolution, or bitemporal-storage threads) *and* at a high-impact biomedical venue (Nature Biomedical Engineering or Cell Patterns on the platform + a substantive cohort study it enables). The two halves are coupled by design rather than by aspiration: the DB-side problems are forced by the biomedical workload, and the biomedical study is gated on the DB-side substrate.
+
+We are looking, in the most literal sense, for the collaborators who would co-author both papers.
+
+---
+
+### Notes for the user — drafting decisions
+
+- **Length.** This draft runs ~1,950 words of body. A 4-page 2-column conference paper is typically 2,500–3,200 words including references — so there is still headroom. Two natural expansions if needed: (i) one paragraph of related work between §2 and §3 (Datomic/XTDB, OMOP, Galaxy, Wings, Pegasus) so reviewers don't think we missed the landscape; (ii) a brief illustrative example in Bet 2 or Bet 3 if a worked case becomes available.
+- **Framing.** §1 is now a "synthesis from sustained practitioner experience" opener, which the BIODMS call explicitly accommodates ("present a viable project vision"). The brain bank is positioned as the deployment site where all the recurring failure modes become acute, rather than as the source of a single dramatic anecdote. The three peer-bets framing in §3 is preserved per your direction.
+- **References to add (8–12 entries):** LinkML (Moxon et al.); GA4GH DRS spec; OMOP/OHDSI; REDCap (Harris 2009); FMA (Rosse & Mejino); Ensembl; representative VLDB/SIGMOD papers on (a) schema evolution, (b) bitemporal databases (Datomic / XTDB / Snodgrass), (c) provenance (PROV-DM, ProvenanceDB), (d) semantic workflow orchestration (Wings, Pegasus, Galaxy); one or two brain-bank-data papers.
+- **Title alternatives** if you want shorter: "Schemas at Runtime, Entities at Rest: An Open Metadata Substrate for a Brain Bank" or "BASS: AI-Ready Metadata Infrastructure for Brain-Bank Research."
+- **What I deliberately did *not* claim:** I did not enumerate specific source systems for the PTSD Brain Bank (you said the list is unknown), and I did not commit to specific years of accrual or a specific in-flight study. The DRS endpoint is described in future-tense, since it is targeted for Hippo v0.2 rather than already shipping. "AI-ready" is grounded in the DRS-plus-provenance design, not in any current LLM integration. The test suite is referenced generically rather than by count.
+- **Things worth double-checking before submission:** (i) the "more than 300 donations" figure — confirm against the current bank inventory; (ii) the modality list in §1 ("high-throughput sequencing data alongside emerging spatial and multi-modal assays") — adjust to whatever the bank actually generates today; (iii) "post-traumatic stress disorder, traumatic brain injury, and related comorbid conditions" as the bank's scope — confirm or refine.
