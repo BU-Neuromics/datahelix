@@ -88,6 +88,8 @@ nav:
           - Configuration: hippo/docs/configuration.md
           - CLI Reference: hippo/docs/cli-reference.md
           - API Reference: hippo/docs/api-reference.md
+          - Reference Loaders: hippo/docs/reference-loaders.md
+          - Writing a Reference Loader: hippo/docs/writing-a-reference-loader.md
       - Design Spec:
           - Overview & Scope: hippo/design/sec1_overview.md
           - Architecture: hippo/design/sec2_architecture.md
