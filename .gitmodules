@@ -1,0 +1,3 @@
+[submodule "hippo"]
+	path = hippo
+	url = https://github.com/BU-Neuromics/hippo.git
