@@ -18,7 +18,7 @@ import pytest
 import yaml
 
 _root = Path(__file__).parent.parent.parent
-_p = str(_root / "hippo/src")
+_p = str(_root / "src")
 if _p not in sys.path:
     sys.path.insert(0, _p)
 
