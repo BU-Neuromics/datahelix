@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Repo Is
 
-This is a **documentation-only** repository for the **BASS (Bioinformatics Analysis Software System)** platform. There is no application code, build system, or test suite — only Markdown design specs and user-facing docs.
+This is the **platform integration repository** for the **BASS (Bioinformatics Analysis Software System)** platform. It hosts cross-cutting platform docs, the unified mkdocs site, and cross-component integration tests under `tests/platform/` and `tests/contracts/`. Component source code lives in component directories — some in-tree, some as git submodules pointing at standalone component repos.
 
 ## Repository Layout
 
@@ -12,11 +12,17 @@ This is a **documentation-only** repository for the **BASS (Bioinformatics Analy
 <component>/
 ├── design/     # Engineering specification (internal, structured sections)
 │   └── INDEX.md
-└── docs/       # User-facing documentation
+├── docs/       # User-facing documentation
+└── src/        # Component source (in-tree) — or this dir IS a submodule (hippo)
 platform/       # Cross-cutting platform docs (architecture, glossary, deployment)
+tests/
+├── contracts/  # Consumer-expectation contract tests (e.g. test_canon_expects_hippo.py)
+└── platform/   # Cross-component integration tests (real Hippo + Canon in-process)
 ```
 
-**Components:** Hippo (metadata tracking), Cappella (workflow engine), Aperture (interface layer), Bridge (integration middleware).
+**Components:** Hippo (metadata tracking — submodule at [BU-Neuromics/hippo](https://github.com/BU-Neuromics/hippo)), Cappella (workflow engine), Aperture (interface layer), Bridge (integration middleware). Hippo was split out 2026-05-25 (see `proposals/hippo-split.md`); other components are expected to follow the same pattern.
+
+**Working with submodules:** Clone with `git clone --recurse-submodules`. To bump hippo's pinned version: `git submodule update --remote hippo`, verify, then commit the submodule pointer change.
 
 ## Key Conventions
 

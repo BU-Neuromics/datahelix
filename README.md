@@ -4,16 +4,18 @@
 
 **Documentation site:** https://va-ncptsdbb-bioinformatics.github.io/drylims/
 
-This repository contains all documentation for the BASS platform and its components.
+This repository hosts the BASS platform: documentation, cross-component integration tests, and submodules pointing at each component's standalone repository.
+
+> ℹ️ **Hippo lives in its own repo** at [BU-Neuromics/hippo](https://github.com/BU-Neuromics/hippo) and is mounted here as a git submodule. Clone with `git clone --recurse-submodules`, or run `git submodule update --init` after a plain clone. Other components are expected to follow the same pattern over time.
 
 ## Components
 
-| Component | Description | Design Spec | User Docs |
-|---|---|---|---|
-| **Hippo** | Metadata tracking service | [design/](hippo/design/INDEX.md) | [docs/](hippo/docs/introduction.md) |
-| **Cappella** | Workflow engine | [design/](cappella/design/INDEX.md) | [docs/](cappella/docs/introduction.md) |
-| **Aperture** | Interface layer | [design/](aperture/design/INDEX.md) | [docs/](aperture/docs/introduction.md) |
-| **Bridge** | Integration middleware | [design/](bridge/design/INDEX.md) | [docs/](bridge/docs/introduction.md) |
+| Component | Description | Source | Design Spec | User Docs |
+|---|---|---|---|---|
+| **Hippo** | Metadata tracking service | [BU-Neuromics/hippo](https://github.com/BU-Neuromics/hippo) (submodule) | [design/](hippo/design/INDEX.md) | [docs/](hippo/docs/introduction.md) |
+| **Cappella** | Workflow engine | in-tree | [design/](cappella/design/INDEX.md) | [docs/](cappella/docs/introduction.md) |
+| **Aperture** | Interface layer | in-tree | [design/](aperture/design/INDEX.md) | [docs/](aperture/docs/introduction.md) |
+| **Bridge** | Integration middleware | in-tree | [design/](bridge/design/INDEX.md) | [docs/](bridge/docs/introduction.md) |
 
 ## Platform Documentation
 
