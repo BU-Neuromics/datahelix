@@ -1,6 +1,6 @@
 # Splitting Hippo out of `drylims` into its own repository
 
-**Status:** Decisions locked (2026-05-25) — see §1. `BU-Neuromics/hippo` exists (empty, public). Skipping PR ceremony — user is sole maintainer; direct push to `main` on both repos. Ready to execute starting Phase A on user go-ahead.
+**Status:** ✅ **Executed 2026-05-25** — commits `8a58c61` (plan) through `a614fc7` (README/CLAUDE.md update) on drylims `main`; cutover at `7cfab61`; CI fix at `7a7ca1f`. New repo: https://github.com/BU-Neuromics/hippo. Migrated PRs: BU-Neuromics/hippo#1/#2/#3 (stacked). Drylims origin now has only `main` and `gh-pages`. This document is historical — do not re-run.
 **Goal:** Extract `hippo/` from the `drylims` monorepo into a standalone GitHub repository with full git history preserved, then re-attach it to `drylims` as a git submodule so cross-component integration tests under `tests/platform/` and `tests/contracts/` keep working without code changes.
 **Non-goal:** Splitting out Canon, Cappella, Aperture, or Bridge — those follow later, using this migration as the template.
 
