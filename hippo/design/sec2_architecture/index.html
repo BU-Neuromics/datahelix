@@ -930,6 +930,34 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../../docs/why-hippo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why Hippo?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     
     
     
@@ -949,10 +977,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
         
           
-          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
             
   
   
@@ -970,8 +998,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_2">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1261,6 +1289,90 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/writing-a-recipe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writing a Recipe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/installing-recipes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installing Recipes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/recipe-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recipe Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1294,10 +1406,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="">
             
   
   
@@ -1315,8 +1427,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3_3">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1727,6 +1839,28 @@
     <span class="md-ellipsis">
       
         2.14.7 Test Fixtures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2148-loadresult-and-entityref-v2-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.14.8 LoadResult and EntityRef (v2 shape)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2149-reference-write-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.14.9 Reference Write Log
       
     </span>
   </a>
@@ -4651,6 +4785,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#2148-loadresult-and-entityref-v2-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.14.8 LoadResult and EntityRef (v2 shape)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2149-reference-write-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.14.9 Reference Write Log
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -5400,6 +5556,16 @@ Redundant entries (child listed with parent) emit a startup warning.</p>
 Distributed as <code>hippo-reference-&lt;name&gt;</code> packages, discovered via two entry point groups:
 <code>hippo.reference_loaders</code> (the ABC subclass) and <code>hippo.reference_loader_cli</code> (an optional
 <code>typer.Typer</code> app mounted under <code>hippo reference &lt;name&gt; ...</code>).</p>
+<p><strong>v2 status.</strong> The contract documented in this section is the v2 ReferenceLoader contract.
+v1 (locked in <a href="/PTS/issues/PTS-215">PTS-215</a> against GitHub #6) shipped with two follow-up
+gaps that the v1 design left undecided: opt-in <code>LoadResult.entity_ids</code> as the <code>--prune-old</code>
+substrate did not scale to production references (GitHub #15), and the
+<code>entity_type</code> + <code>entity_ids</code> sibling-field shape was ambiguous for multi-class loaders
+(GitHub #16). v2 closes both. The substrate moves to a Hippo-internal write log
+(§2.14.9). The <code>LoadResult</code> shape adopts <code>EntityRef</code> and drops the v1 sibling fields
+(§2.14.8). v2 is a clean break — the migration touches in-tree fixtures only because no
+downstream <code>hippo-reference-*</code> package has shipped against v1. Decisions are recorded in
+<a href="../sec9_decisions/">sec9 §2.14.J, §2.14.K, §2.14.L</a>.</p>
 <p><strong><code>ReferenceLoader</code> ABC:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 <a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
@@ -5560,6 +5726,10 @@ existing FK references in user data.</p>
 <p><strong><code>--prune-old</code> — opt-in destructive.</strong> When passed to <code>hippo reference upgrade</code>, Hippo removes
 the prior version's rows <em>after</em> the new install succeeds. Destructive; gated behind an
 explicit flag. Never the default.</p>
+<p>The prune substrate is the <strong>reference write log</strong> (§2.14.9), not <code>LoadResult</code>. Loader authors
+do not opt into prune support — <code>--prune-old</code> works for every loader because Hippo records every
+<code>client.put()</code> call made inside the lifecycle wrapper (§2.14.9). The v1 <code>LoadResult.entity_ids</code>
+opt-in is removed in v2 (see §2.14.8 transition).</p>
 <p><strong><code>upgrade()</code> ABC method.</strong> The default implementation calls <code>load(to_version, params)</code>. Loaders
 with efficient diff logic override it:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">upgrade</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">from_version</span><span class="p">,</span> <span class="n">to_version</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -5567,7 +5737,7 @@ with efficient diff logic override it:</p>
 <a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>    <span class="o">...</span>
 </code></pre></div>
 <p>Migrate-with-deprecation semantics (marking old rows as superseded without deleting them) are
-deferred to v2 once entity write paths support row-superseded marking.</p>
+deferred to v3 once entity write paths support row-superseded marking.</p>
 <hr />
 <h4 id="2145-schema-fragment-merge-rules">2.14.5 Schema-Fragment Merge Rules<a class="headerlink" href="#2145-schema-fragment-merge-rules" title="Permanent link">&para;</a></h4>
 <p>Every loader's <code>schema_fragment()</code> return value is a LinkML YAML dict. Three rules govern
@@ -5619,6 +5789,158 @@ dataset without a live network connection. This is a convention, not enforced by
 loaders that omit <code>"test"</code> will not break Hippo, but their downstream consumers lose the
 hermetic test path.</p>
 <p><code>"test"</code> is a <strong>reserved slug</strong> — Hippo will never generate it as a real release version.</p>
+<hr />
+<h4 id="2148-loadresult-and-entityref-v2-shape">2.14.8 <code>LoadResult</code> and <code>EntityRef</code> (v2 shape)<a class="headerlink" href="#2148-loadresult-and-entityref-v2-shape" title="Permanent link">&para;</a></h4>
+<p>The v1 <code>LoadResult</code> paired <code>entity_type: str | None</code> with <code>entity_ids: list[str]</code> as sibling
+fields whose invariant ("every id shares the declared type") was implicit and easy to violate
+in multi-class loaders. v2 replaces that pair with a typed list of <code>EntityRef</code> handles. Counter
+fields are unchanged — they answer "what happened," while <code>entities</code> answers "what was written."</p>
+<p><strong><code>EntityRef</code> — public dataclass:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># hippo/core/loaders/reference.py</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">EntityRef</span><span class="p">:</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Lightweight (id, type) handle to a written entity.</span>
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>
+<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a><span class="sd">    Returned by Hippo helpers that surface a written entity to a loader,</span>
+<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a><span class="sd">    and accumulated into ``LoadResult.entities`` so multi-class loaders</span>
+<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="sd">    can report heterogeneous writes without an iterable return type.</span>
+<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a>    <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-28-14" name="__codelineno-28-14" href="#__codelineno-28-14"></a>
+<a id="__codelineno-28-15" name="__codelineno-28-15" href="#__codelineno-28-15"></a>    <span class="nd">@classmethod</span>
+<a id="__codelineno-28-16" name="__codelineno-28-16" href="#__codelineno-28-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">from_put_result</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">rec</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;EntityRef&quot;</span><span class="p">:</span>
+<a id="__codelineno-28-17" name="__codelineno-28-17" href="#__codelineno-28-17"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Bridge from the dict returned by ``HippoClient.put`` to an</span>
+<a id="__codelineno-28-18" name="__codelineno-28-18" href="#__codelineno-28-18"></a><span class="sd">        ``EntityRef``. Use inside ``load()`` when assembling</span>
+<a id="__codelineno-28-19" name="__codelineno-28-19" href="#__codelineno-28-19"></a><span class="sd">        ``LoadResult.entities`` for the advisory inspection list.&quot;&quot;&quot;</span>
+<a id="__codelineno-28-20" name="__codelineno-28-20" href="#__codelineno-28-20"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">rec</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="n">rec</span><span class="p">[</span><span class="s2">&quot;entity_type&quot;</span><span class="p">])</span>
+</code></pre></div>
+<p><strong><code>LoadResult</code> v2:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="nd">@dataclass</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">LoadResult</span><span class="p">:</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>    <span class="c1"># Counters — authoritative for &quot;what happened&quot; (D2.14.K-2).</span>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>    <span class="n">created</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>    <span class="n">updated</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>    <span class="n">unchanged</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>    <span class="n">errors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>    <span class="n">error_messages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>    <span class="c1"># Advisory inspection list — see &quot;Advisory contract&quot; below.</span>
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>    <span class="n">entities</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">EntityRef</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Advisory contract for <code>entities</code>.</strong> <code>LoadResult.entities</code> is <strong>advisory only</strong>. Loaders MAY
+populate it for inspection / CLI breakdown; consumers MUST NOT treat it as authoritative for
+any operation. In particular:</p>
+<ul>
+<li><code>--prune-old</code> is driven by the reference write log (§2.14.9), not by <code>entities</code>.</li>
+<li><code>entities</code> MAY be empty (large loaders are encouraged to leave it empty to avoid in-memory
+  growth) or partial (a loader may sample one EntityRef per type).</li>
+<li>The CLI breakdown shown by <code>hippo reference install</code> derives counts from <code>entities</code> when
+  non-empty, otherwise it queries the write log scoped to <code>(loader_name, version)</code> to render
+  the same per-type counts. Loader authors do not have to choose between "ergonomic CLI" and
+  "scale" — both paths produce the same display.</li>
+</ul>
+<p><strong>Recommended loader patterns:</strong></p>
+<p>Small loaders (≤ ~10⁴ entities, single-class or few-class) populate <code>entities</code> directly:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>    <span class="n">entities</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">parse_fixture</span><span class="p">():</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>        <span class="n">entities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">EntityRef</span><span class="o">.</span><span class="n">from_put_result</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;FakeTerm&quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">)))</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>    <span class="k">return</span> <span class="n">LoadResult</span><span class="p">(</span><span class="n">created</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">entities</span><span class="p">),</span> <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span>
+</code></pre></div>
+<p>Large loaders (~10⁵+ entities) skip the in-memory accumulation. The write log captures every
+write transparently:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>    <span class="n">counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>  <span class="c1"># only what the loader needs for its own reporting</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">parse_gtf</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>        <span class="n">client</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Gene&quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>        <span class="n">counts</span><span class="p">[</span><span class="s2">&quot;Gene&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>    <span class="c1"># No EntityRef accumulation; write log is authoritative for prune.</span>
+<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>    <span class="k">return</span> <span class="n">LoadResult</span><span class="p">(</span><span class="n">created</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+</code></pre></div>
+<p><strong>Transition from v1 (D2.14.L).</strong> Clean break. <code>LoadResult.entity_type</code> and
+<code>LoadResult.entity_ids</code> are removed in v2. The v1 → v2 migration is mechanical and limited to
+in-tree fixtures (<code>FakeReferenceLoader</code>, <code>RichParamsLoader</code>, <code>BareParamsLoader</code>) plus the
+lifecycle code in <code>hippo/cli/commands/reference.py</code>. Downstream loader count at the point of
+v2 cut-over is zero (the Ensembl prototype team held off shipping per the PTS-215 thread), so
+the deprecation-window cost would be unrecovered overhead.</p>
+<p><strong><code>HippoClient.put()</code> return shape — deferred.</strong> GitHub #16 proposes bundling <code>HippoClient.put()
+-&gt; EntityRef</code> with this change. v2 declines the bundle: <code>HippoClient.put()</code> retains its
+<code>dict[str, Any]</code> return (<code>id</code>, <code>entity_type</code>, <code>data</code>, <code>version</code>, <code>created_at</code>, <code>updated_at</code>)
+because tests, <code>TypedClient</code>, and the ingestion pipeline all index those keys today. A future
+v3 decision may revisit <code>put()</code>'s return type with its own migration story. The
+<code>EntityRef.from_put_result()</code> classmethod bridges cleanly in the meantime.</p>
+<hr />
+<h4 id="2149-reference-write-log">2.14.9 Reference Write Log<a class="headerlink" href="#2149-reference-write-log" title="Permanent link">&para;</a></h4>
+<p>The reference write log is Hippo's internal substrate for <code>--prune-old</code>. It records every
+<code>client.put()</code> call made while a loader's <code>load()</code> or <code>upgrade()</code> is active, so prune can
+discover the prior version's entity IDs and types without depending on loader-author
+diligence. Loader code does not interact with the log directly.</p>
+<p><strong>Schema:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">reference_write_log</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="w">    </span><span class="n">loader_name</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="w">    </span><span class="k">version</span><span class="w">     </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="w">    </span><span class="n">entity_id</span><span class="w">   </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="w">    </span><span class="n">entity_type</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="w">    </span><span class="n">written_at</span><span class="w">  </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">loader_name</span><span class="p">,</span><span class="w"> </span><span class="k">version</span><span class="p">,</span><span class="w"> </span><span class="n">entity_id</span><span class="p">)</span>
+<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a><span class="p">);</span>
+<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a>
+<a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_reference_write_log_lookup</span>
+<a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a><span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">reference_write_log</span><span class="w"> </span><span class="p">(</span><span class="n">loader_name</span><span class="p">,</span><span class="w"> </span><span class="k">version</span><span class="p">);</span>
+</code></pre></div>
+<p>The composite PK collapses repeat writes to the same <code>(loader_name, version, entity_id)</code> to a
+single row (idempotent for re-runs and for <code>upgrade()</code> that re-writes a stable id). The
+<code>(loader_name, version)</code> index serves bulk prune queries grouped by <code>entity_type</code>.</p>
+<p><strong>Loader-context plumbing.</strong> The lifecycle code in <code>hippo/cli/commands/reference.py</code> wraps
+each <code>loader.load()</code> / <code>loader.upgrade()</code> invocation in an explicit context manager:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># In install_reference() and upgrade_reference()</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="k">with</span> <span class="n">client</span><span class="o">.</span><span class="n">load_context</span><span class="p">(</span><span class="n">loader_name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">resolved_version</span><span class="p">):</span>
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>    <span class="n">load_result</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">resolved_version</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</code></pre></div>
+<p><code>HippoClient.load_context()</code> is the <strong>only</strong> sanctioned way to enter logging mode. Inside the
+block, every successful <code>client.put()</code> records a row in <code>reference_write_log</code> keyed by
+<code>(loader_name, version, entity_id, entity_type)</code>. Outside the block, <code>client.put()</code> is a
+no-op for the log (user-data writes, ingestion CLI, REST handler writes, etc., never hit the
+log).</p>
+<p>Rationale for explicit <code>with</code> over ContextVar: lifecycle entry/exit is visible at the call
+site, the binding is one stack frame deep, and the scope of "what counts as a load" is
+auditable in code review. ContextVar would obscure the boundary; a wrapper-client would force
+<code>HippoClient</code> to be wrap-friendly for one caller's benefit.</p>
+<p><strong>Failure recovery.</strong> Write-log inserts share the same SQL transaction as the entity write.
+If <code>loader.load()</code> raises midway, the in-flight transaction rolls back and no orphan log rows
+persist beyond committed entity writes. If a previously committed batch then a later batch
+raises (loader does its own batching with explicit commits), committed log rows correspond
+exactly to committed entity writes — <code>--prune-old</code> on a failed-then-retried install therefore
+cleans only what was actually written during the failed attempt. Loader authors who batch
+explicitly own that recovery story; Hippo does not retry on their behalf.</p>
+<p><strong>Garbage collection.</strong></p>
+<ul>
+<li><code>hippo reference upgrade --prune-old</code> deletes the prior version's entities AND the prior
+  version's log rows in the same transaction. After a successful prune, the only log rows
+  remaining for <code>loader_name</code> correspond to the current installed version.</li>
+<li><code>hippo reference uninstall &lt;name&gt;</code> (existing verb) deletes all log rows where
+  <code>loader_name = &lt;name&gt;</code>.</li>
+<li>Log rows for a <code>loader_name</code> not currently registered in <code>hippo_meta.reference_versions</code>
+  (e.g., loader was force-removed without <code>uninstall</code>) are GC candidates. <code>hippo reference
+  doctor</code> (existing diagnostic command) reports such orphans; cleanup is manual until v3.</li>
+</ul>
+<p><strong>Upgrade overlap.</strong> When <code>upgrade()</code> re-writes a stable <code>entity_id</code> under a new version slug,
+the log records a new <code>(loader_name, new_version, entity_id, entity_type)</code> row alongside the
+existing <code>(loader_name, old_version, entity_id, entity_type)</code> row. Both rows persist until
+prune. This is the intended behavior for the Ensembl <code>Gene.stable_id</code> pattern, where the same
+gene appears across releases — prune for <code>old_version</code> will then attempt to delete the entity
+even though the new version still references the same id. Loaders that rely on
+stable-id upgrade overlap MUST override <code>upgrade()</code> to skip writing rows that are unchanged
+across versions, OR accept that <code>--prune-old</code> on overlap removes the entity (the new install
+will re-create it). v3 may add a <code>keep_if_unchanged</code> policy; v2 documents the constraint.</p>
+<p><strong>Replaces <code>hippo_meta.reference_entity_ids</code>.</strong> The v1 implementation persisted entity IDs
+as a JSON blob in <code>hippo_meta.reference_entity_ids</code>. v2 deletes that key and migrates to the
+write-log table. The migration runs once on first v2 startup: existing JSON entries are
+read, written into <code>reference_write_log</code> (with <code>entity_type</code> resolved by per-entity lookup),
+and the <code>hippo_meta</code> key is deleted. Migration is idempotent; subsequent startups are no-ops.</p>
 <hr />
 <h3 id="215-error-hierarchy">2.15 Error Hierarchy<a class="headerlink" href="#215-error-hierarchy" title="Permanent link">&para;</a></h3>
 <p>All Hippo exceptions inherit from <code>HippoError</code>. The full hierarchy is specified in

@@ -1,0 +1,4923 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Bioinformatics Analysis Software System — platform documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>sec9 Handoff — Recipes v1 - BASS Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sec9-handoff-recipes-v1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="BASS Documentation" class="md-header__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BASS Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              sec9 Handoff — Recipes v1
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../platform/" class="md-tabs__link">
+          
+  
+  
+  Platform
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+  Hippo
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../cappella/" class="md-tabs__link">
+          
+  
+  
+  Cappella
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../aperture/" class="md-tabs__link">
+          
+  
+  
+  Aperture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../bridge/" class="md-tabs__link">
+          
+  
+  
+  Bridge
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../canon/" class="md-tabs__link">
+          
+  
+  
+  Canon
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="BASS Documentation" class="md-nav__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    BASS Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Platform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BASS Platform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Spec
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design Spec
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/design/sec1_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/design/sec2_components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Component Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/design/sec3_integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unified Ingestion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration Test Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hippo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hippo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hippo — Metadata Tracking Service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/why-hippo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why Hippo?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Docs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Docs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/schema-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schema Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/data-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/cli-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/reference-loaders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Loaders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/writing-a-reference-loader/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writing a Reference Loader
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/writing-a-recipe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writing a Recipe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/installing-recipes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installing Recipes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/recipe-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recipe Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Spec
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design Spec
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec1_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Scope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec2_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec3_data_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec3b_relational_storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relational Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec4_api_layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec5_ingestion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingestion & Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec6_provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Provenance & Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec7_nfr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Non-Functional Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sec8_auth_integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix_a_example_schema_omics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendix A: Example Schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix_b_implementation_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendix B: Implementation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference_hippo_yaml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference: hippo.yaml
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference_validators_yaml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference: validators.yaml
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference_cel_context/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference: CEL Context
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cappella
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cappella
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cappella — Integration &amp; Harmonization Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Docs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Docs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/docs/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/docs/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/docs/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/docs/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/docs/user_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/docs/workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Spec
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design Spec
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/design/sec1_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Scope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/design/sec2_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/design/sec3_adapters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adapter System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/design/sec4_audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audit & Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/design/sec5_workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Collection Resolution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/design/sec6_nfr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Non-Functional Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cappella/design/sec7_testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trigger Engine Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Aperture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Aperture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Aperture — Interface Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Docs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Docs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/docs/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/docs/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/docs/cli-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Spec
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design Spec
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/design/sec1_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Scope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/design/sec2_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/design/sec3_cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/design/sec4_web_ui/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Interface (v0.2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/design/sec5_api_clients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Clients (v0.2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../aperture/design/sec6_nfr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Non-Functional Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bridge
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Bridge
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bridge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bridge — Integration Middleware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Docs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Docs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bridge/docs/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bridge/docs/auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bridge/docs/security-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bridge/docs/admin-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Spec
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design Spec
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bridge/design/sec1_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Scope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bridge/design/sec2_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bridge/design/sec3_api_unification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unified API Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bridge/design/sec4_auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication & Authorization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bridge/design/sec5_sync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-Component Sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bridge/design/sec6_nfr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Non-Functional Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Canon
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Canon
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Canon — Semantic Artifact Resolver
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Docs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Docs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/docs/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/docs/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/docs/user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Spec
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design Spec
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec1_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Scope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec2_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rules DSL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CWL Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resolution Algorithm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Executor Adapters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage Adapters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec6_hippo_integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hippo Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec7_nfr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Non-Functional Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Rules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/reference_canon_yaml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference: canon.yaml
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference: canon_rules.yaml
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendix A: RNA-seq Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TL;DR
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#read-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Read first
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scope
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scope">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#out-of-scope-deferred-to-v2-or-later" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Out of scope (deferred to v2 or later)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-invariants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture invariants
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phased-work-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phased work plan
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phased work plan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-author-the-design-spec-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Author the design spec — COMPLETE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-schema-level-groundwork" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Schema-level groundwork
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-install-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Install path
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-authoring-and-reproducibility-ergonomics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Authoring and reproducibility ergonomics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recipe-artifact-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recipe artifact specification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Recipe artifact specification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manifest-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manifest fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reciperef-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RecipeRef shape
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#digest-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Digest algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parent-vs-requires" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parent vs requires
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli-surface-v1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI surface (v1)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk-surface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SDK surface
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#provenance-entries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provenance entries
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-questions-resolved-in-sec10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open questions — RESOLVED in sec10
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#definition-of-done" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition of done
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="sec9-handoff-recipes-v1">sec9 Handoff — Recipes v1<a class="headerlink" href="#sec9-handoff-recipes-v1" title="Permanent link">&para;</a></h1>
+<p><strong>Date:</strong> 2026-05-27
+<strong>Target completion:</strong> ~2 weeks of focused engineering
+<strong>Tracking issue:</strong> <em>to be filed</em></p>
+<hr />
+<h2 id="tldr">TL;DR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
+<p>Add a <strong>Recipe</strong> system to Hippo: a declarative, content-addressed, version-pinned bundle that packages a LinkML schema fragment so it can be shared between deployments. A recipe is a manifest + a schema YAML, distributed as either a directory or a tarball, resolved from <code>file:</code> or <code>https:</code> URIs, and verified by sha256 digest at install time. Recipes carry a <code>parent</code> lineage pointer and a <code>requires:</code> list so derivative deployments preserve attribution and are reproducible from manifest alone.</p>
+<p>This generalises today's Reference Loader pattern: the Reference Loader stays unchanged in v1, but the design positions it as a future "recipe producer" — a Python-distributed loader that runs imperative ingestion and may, in a later phase, emit a recipe as its install artifact.</p>
+<p><strong>Implementation must not begin until <code>design/sec10_recipes.md</code> is authored and merged</strong> (Phase 1 below). That section, not this handoff, is the authoritative design spec — this handoff is the implementation directive. Where the two disagree, fix <code>sec10</code> and update this handoff to match.</p>
+<p>V1 ships <strong>schema only</strong>. No data sidecar. No federation / HTTP endpoint. No overlay / harmonize import mode. No 3-way merge or <code>rebase</code>. No signing. Schema-level "overrides" are achieved via native LinkML inheritance (<code>is_a:</code> + <code>slot_usage:</code> + <code>attributes:</code>) on the user side, not via in-place mutation of upstream classes.</p>
+<hr />
+<h2 id="read-first">Read first<a class="headerlink" href="#read-first" title="Permanent link">&para;</a></h2>
+<p>Read these in order before starting:</p>
+<ol>
+<li><strong><code>hippo/src/hippo/core/schema_manager.py</code></strong> — owner of all LinkML schema merging, prefix collision checks, and <code>provided_by</code> annotation injection. RecipeService composes this; do <strong>not</strong> reimplement schema-merge logic inside RecipeService.</li>
+<li><strong><code>hippo/src/hippo/core/ingestion_service.py</code></strong>, <strong><code>provenance_service.py</code></strong>, <strong><code>query_service.py</code></strong> — the service-facade pattern RecipeService must follow. Each is a single class instantiated in <code>HippoClient.__init__</code> and exposed through thin delegating wrappers.</li>
+<li><strong><code>hippo/src/hippo/core/client.py</code></strong> — <code>HippoClient</code> composition point. The diff to this file in v1 is one new <code>self._recipe_service = RecipeService(...)</code> line plus a small set of delegating wrappers.</li>
+<li><strong><code>hippo/src/hippo/core/loaders/reference.py</code></strong> — the existing Reference Loader install path. RecipeService reuses its content-addressable cache pattern and its <code>hippo_meta.reference_versions</code> registry shape. Do not change this file in v1.</li>
+<li><strong><code>hippo/src/hippo/core/meta.py</code></strong> — <code>hippo_meta</code> registry helper. The new <code>installed_recipes</code> key lives here.</li>
+<li><strong><code>hippo/src/hippo/schemas/hippo_core.yaml</code></strong> — sibling location for the new <code>recipe_manifest.yaml</code> schema this work introduces.</li>
+<li><strong><code>hippo/design/sec9_linkml_redesign.md</code> §9.5–§9.7</strong> — the LinkML-native invariants every new component must preserve (closed-schema validation, schema-driven, annotation discipline).</li>
+</ol>
+<hr />
+<h2 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link">&para;</a></h2>
+<h3 id="in-scope">In scope<a class="headerlink" href="#in-scope" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Add <code>src/hippo/schemas/recipe_manifest.yaml</code> — LinkML schema defining <code>RecipeManifest</code> and <code>RecipeRef</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>New module <code>src/hippo/core/recipe_service.py</code> exposing <code>RecipeService</code>. Optional small subpackage <code>src/hippo/core/recipe/</code> for dataclasses (<code>ImportPlan</code>, <code>ImportResult</code>, <code>RecipeReport</code>, <code>RecipeDiff</code>, <code>InstalledRecipe</code>) if they grow past ~80 lines inline.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Two resolvers behind a <code>RecipeResolver</code> interface: <code>FileResolver</code> (handles <code>file:</code> URIs and bare paths) and <code>HttpsResolver</code> (handles <code>https:</code> URIs). No other schemes in v1.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Content-addressable cache at <code>~/.hippo/recipe-cache/&lt;sha256&gt;/</code> for fetched recipes. Cache key is the digest; cache hit skips network.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Bootstrap import — installs a recipe whose declared <code>name</code>/<code>default_prefix</code> does not collide with any currently installed prefix. No merge / overlay in v1.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>installed_recipes</code> section in <code>hippo_meta</code>, mirroring the shape of <code>reference_versions</code>.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>CLI commands: <code>hippo recipe list | inspect | import | export | extend | diff | export-lockfile | install-from-lockfile</code>.</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>HippoClient</code> thin delegators for each <code>RecipeService</code> public method.</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>provided_by: recipe.&lt;id&gt;@&lt;version&gt;</code> injection on all classes/slots imported via a recipe — applied by <code>SchemaManager</code> at the merge call, sourced from the manifest's identity.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>One new provenance event kind <code>recipe_imported</code>, emitted in the same transaction as the schema merge.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="out-of-scope-deferred-to-v2-or-later">Out of scope (deferred to v2 or later)<a class="headerlink" href="#out-of-scope-deferred-to-v2-or-later" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Federation / HTTP <code>/recipe</code> endpoint.</strong> No server-side surface.</li>
+<li><strong>Overlay / harmonize import modes.</strong> Only bootstrap install in v1.</li>
+<li><strong>Cross-namespace schema overrides.</strong> Users override by subclassing upstream classes locally via LinkML inheritance. In-place mutation of an upstream class is explicitly disallowed in v1.</li>
+<li><strong><code>recipe rebase</code> / 3-way schema merge.</strong></li>
+<li><strong>Data sidecar / seed rows.</strong> LinkML enums (<code>permissible_values:</code>) cover small controlled vocabularies inside <code>schema.yaml</code>. Bulk reference data continues to ship via Reference Loaders declared in <code>requires.reference_loaders</code>.</li>
+<li><strong>Signing / authorship trust.</strong> v1 verifies bytes (digest), not authorship. v2 may layer on sigstore/minisign.</li>
+<li><strong>Recipe uninstall.</strong> Consistent with the no-hard-deletes principle. Workaround: rebuild instance from a lockfile that omits the unwanted entry. State this in the user docs.</li>
+<li><strong>Discovery / search / registry.</strong> No <code>hippo recipe search</code>. Users find recipes the way they find Python packages (READMEs, lab wikis, DOIs).</li>
+<li><strong>Refactoring Reference Loader internals to use RecipeService.</strong> Keep the loader on its existing code path. Convergence happens in a later phase.</li>
+<li><strong><code>git:</code> / <code>oci:</code> URI schemes.</strong> <code>file:</code> + <code>https:</code> only.</li>
+</ul>
+<hr />
+<h2 id="architecture-invariants">Architecture invariants<a class="headerlink" href="#architecture-invariants" title="Permanent link">&para;</a></h2>
+<p>These must remain true after every PR in this work. The implementing agent should reject its own changes that violate any of them.</p>
+<ol>
+<li><strong><code>SchemaManager</code> owns schema merging.</strong> <code>RecipeService</code> never touches LinkML <code>SchemaView</code> directly to merge — it calls <code>SchemaManager</code> and lets that class enforce prefix collision, closed-schema validation, and <code>provided_by</code> injection.</li>
+<li><strong>All schema writes from a recipe import flow through <code>SchemaManager.merge_fragment(...)</code></strong> (or whichever exact method the implementer chooses to add/use) so future invariants added there apply to recipes for free.</li>
+<li><strong>Provenance is unconditional.</strong> Every successful recipe import writes exactly one <code>recipe_imported</code> provenance entry in the same transaction as the schema merge. Failed imports leave no state change in either store.</li>
+<li><strong>Digest is the source of truth.</strong> When a <code>RecipeRef</code> declares a <code>digest</code>, the install path verifies it against the freshly fetched bytes and aborts on mismatch with <code>RecipeDigestMismatchError</code>. When no digest is declared (only legal for <code>file:</code> sources in v1), the install path computes one and records it in <code>installed_recipes</code>.</li>
+<li><strong>No implicit lineage.</strong> Editing the live schema after a recipe import does not retroactively attach those edits to the recipe. Lineage is created only by <code>hippo recipe extend</code> and propagated only by an explicit subsequent <code>import</code> of the extended recipe.</li>
+<li><strong>No in-place override of upstream classes.</strong> The merge layer rejects a recipe whose schema modifies a class/slot whose <code>provided_by</code> annotation names a different recipe or loader. Users override by subclassing (<code>is_a:</code>). The implementing agent must add a check for this in the SchemaManager seam.</li>
+<li><strong><code>provided_by</code> is set, not inferred.</strong> <code>recipe.&lt;id&gt;@&lt;version&gt;</code> is injected by the merge layer. <code>loader.&lt;name&gt;@&lt;version&gt;</code> continues to be injected by the Reference Loader path. Annotations a recipe author hand-writes for <code>provided_by</code> are overwritten — the manifest identity wins.</li>
+</ol>
+<hr />
+<h2 id="phased-work-plan">Phased work plan<a class="headerlink" href="#phased-work-plan" title="Permanent link">&para;</a></h2>
+<p>Four phases, each PR-sized at the boundaries. Phases must land in order. Phase 1 produces the authoritative design spec; Phases 2–4 are implementation and may not begin until Phase 1 has merged.</p>
+<h3 id="phase-1-author-the-design-spec-complete">Phase 1: Author the design spec — COMPLETE<a class="headerlink" href="#phase-1-author-the-design-spec-complete" title="Permanent link">&para;</a></h3>
+<p><strong>Goal:</strong> produce <code>design/sec10_recipes.md</code>, the durable design section for the recipe subsystem. From this phase onward, <code>sec10</code> is the authoritative spec; this handoff is reduced to "how to execute it."</p>
+<p><strong>Required structure</strong> — follow the convention of <code>sec1</code>–<code>sec9</code>: numbered subsections, tables for structured data, ASCII diagrams for architecture. Suggested subsection map (adjust as you see fit, but cover all the material):</p>
+<table>
+<thead>
+<tr>
+<th>Subsection</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10.1 Overview &amp; Motivation</td>
+<td>What a recipe is; how it generalises Reference Loaders; what problem reproducibility-of-deployments solves.</td>
+</tr>
+<tr>
+<td>10.2 Architecture</td>
+<td><code>RecipeService</code> as a service facade composed with <code>SchemaManager</code> and <code>ProvenanceService</code>. Diagram of the install pipeline (source → resolver → cache → manifest validate → dep resolve → schema merge → provenance write).</td>
+</tr>
+<tr>
+<td>10.3 Data Model</td>
+<td><code>RecipeManifest</code>, <code>RecipeRef</code>, <code>installed_recipes</code> registry shape, lineage via <code>parent</code>.</td>
+</tr>
+<tr>
+<td>10.4 Install Semantics</td>
+<td>Resolvers (<code>file:</code>, <code>https:</code>), content-addressable cache, digest algorithm, bottom-up dependency resolution, cycle detection, atomicity.</td>
+</tr>
+<tr>
+<td>10.5 Export Semantics</td>
+<td>Selectivity by <code>provided_by</code>, parent/requires inference, what is and is not packaged.</td>
+</tr>
+<tr>
+<td>10.6 Reproducibility Model</td>
+<td>Digest as source of truth, lockfile as portable deployment manifest, round-trip guarantee, documented limits (URL availability, no signing in v1).</td>
+</tr>
+<tr>
+<td>10.7 Override &amp; Extension Model</td>
+<td>LinkML-native inheritance for overrides; explicit rejection of in-place override of upstream classes; <code>extend</code> workflow.</td>
+</tr>
+<tr>
+<td>10.8 Error Model &amp; Provenance</td>
+<td>Error hierarchy and the <code>recipe_imported</code> provenance event.</td>
+</tr>
+<tr>
+<td>10.9 Out of Scope (v1)</td>
+<td>Federation, overlay/harmonize, data sidecar, signing, uninstall — each with a one-sentence rationale and pointer to the v2 surface.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Source material:</strong> the rest of this handoff is the source. Restructure for readability rather than copying verbatim. Resolve any drafting decisions still ambiguous in this handoff — including the three open questions at the bottom — inside <code>sec10</code>, and update this handoff to match before closing the PR.</p>
+<p><strong>Also in this phase:</strong> add a row to <code>design/INDEX.md</code> for <code>sec10_recipes.md</code>. Status: <code>Draft v0.1</code>.</p>
+<p><strong>Acceptance gate:</strong> Phase 2 may not start until the <code>sec10</code> PR is merged. The implementation phases reference <code>sec10</code> by section number, not this handoff, in code comments and commit messages.</p>
+<h3 id="phase-2-schema-level-groundwork">Phase 2: Schema-level groundwork<a class="headerlink" href="#phase-2-schema-level-groundwork" title="Permanent link">&para;</a></h3>
+<p><strong>Goal:</strong> the <code>RecipeManifest</code> LinkML schema, the dataclasses, the empty service shell. No CLI, no fetch, no install behavior.</p>
+<p>Suggested PR boundaries — one PR per:</p>
+<ol>
+<li>Add <code>src/hippo/schemas/recipe_manifest.yaml</code> (<code>RecipeManifest</code> + <code>RecipeRef</code>). Ship a unit test that loads it via <code>SchemaView</code> and validates a hand-written example manifest.</li>
+<li>Add <code>core/recipe/</code> dataclasses (<code>InstalledRecipe</code>, <code>RecipeReport</code>, <code>RecipeDiff</code>, <code>ImportPlan</code>, <code>ImportResult</code>) — Python types only, no behavior.</li>
+<li>Add <code>core/recipe_service.py</code> with <code>RecipeService(__init__, list_installed)</code> and the new <code>installed_recipes</code> accessor on <code>hippo_meta</code>. Wire one delegator in <code>HippoClient</code>: <code>client.recipe_list()</code>.</li>
+<li>Extend <code>SchemaManager</code> with the no-in-place-override check (invariant 6). Tests: a recipe trying to redefine a class previously installed by another recipe is rejected; a recipe adding a subclass (<code>is_a:</code> upstream) is accepted.</li>
+</ol>
+<h3 id="phase-3-install-path">Phase 3: Install path<a class="headerlink" href="#phase-3-install-path" title="Permanent link">&para;</a></h3>
+<p><strong>Goal:</strong> end-to-end bootstrap install from a local directory and from an https URL. CLI surface partially live.</p>
+<ol>
+<li><code>RecipeResolver</code> interface + <code>FileResolver</code>. Implement <code>RecipeService.inspect(source)</code> against it. CLI: <code>hippo recipe inspect</code>.</li>
+<li><code>HttpsResolver</code> + content-addressable cache (<code>~/.hippo/recipe-cache/&lt;sha256&gt;/</code>). Mandatory digest verification for <code>https:</code> sources; computed-and-recorded for <code>file:</code> sources. New errors: <code>RecipeFetchError</code>, <code>RecipeDigestMismatchError</code>.</li>
+<li><code>RecipeService.import_(source, dry_run=False)</code> for the bootstrap-only case: parse manifest → resolve &amp; install dependencies (parent + <code>requires.recipes</code>) bottom-up → call <code>SchemaManager.merge_fragment(...)</code> → write <code>installed_recipes</code> entry → emit <code>recipe_imported</code> provenance entry. All inside a single storage transaction. CLI: <code>hippo recipe import</code>.</li>
+<li><code>RecipeService.export(scope="schema")</code> and <code>hippo recipe export</code>. Export semantics defined under "Export rules" below.</li>
+</ol>
+<h3 id="phase-4-authoring-and-reproducibility-ergonomics">Phase 4: Authoring and reproducibility ergonomics<a class="headerlink" href="#phase-4-authoring-and-reproducibility-ergonomics" title="Permanent link">&para;</a></h3>
+<p><strong>Goal:</strong> the rest of the CLI and the lockfile flow.</p>
+<ol>
+<li><code>RecipeService.extend(installed_id, out_dir)</code> → scaffolds a directory with a manifest carrying a populated <code>parent: RecipeRef</code> (resolved from <code>installed_recipes</code>) and an empty <code>schema.yaml</code>. CLI: <code>hippo recipe extend</code>.</li>
+<li><code>RecipeService.diff(a, b)</code> → structural diff over the two manifests' schemas (classes added/removed/changed, slots added/removed/changed). CLI: <code>hippo recipe diff</code>.</li>
+<li><code>RecipeService.export_lockfile(out)</code> → dumps <code>installed_recipes</code> as a portable YAML document (<code>recipe.lock.yaml</code>). <code>RecipeService.install_from_lockfile(lockfile)</code> → iterates entries in dependency order, fetching each via its <code>source</code>, verifying each <code>digest</code>, and installing. CLI: <code>hippo recipe export-lockfile</code>, <code>hippo recipe install-from-lockfile</code>.</li>
+</ol>
+<hr />
+<h2 id="recipe-artifact-specification">Recipe artifact specification<a class="headerlink" href="#recipe-artifact-specification" title="Permanent link">&para;</a></h2>
+<h3 id="layout">Layout<a class="headerlink" href="#layout" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>my-recipe/                # directory form
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── recipe.yaml           # manifest, validated against recipe_manifest.yaml
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>└── schema.yaml           # LinkML schema fragment
+</code></pre></div>
+<p>Tarball form: <code>tar -czf my-recipe.tar.gz my-recipe/</code> — the contained directory MUST be the recipe root, not the tarball itself. Inspect/import accepts either form; the resolver normalises tarballs by extracting into a temp directory and operating on the directory form.</p>
+<h3 id="manifest-fields">Manifest fields<a class="headerlink" href="#manifest-fields" title="Permanent link">&para;</a></h3>
+<p>Defined in <code>src/hippo/schemas/recipe_manifest.yaml</code>. Required vs optional listed; full LinkML schema is the source of truth.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>yes</td>
+<td>Reverse-DNS style stable identifier, e.g. <code>org.broad.scrnaseq</code>.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>yes</td>
+<td>Short, file-system safe. Becomes the LinkML <code>default_prefix</code> for the schema fragment.</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>yes</td>
+<td>Opaque slug. SemVer recommended in user docs but not enforced by Hippo.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>no</td>
+<td>Human-readable, one paragraph.</td>
+</tr>
+<tr>
+<td><code>author</code></td>
+<td>no</td>
+<td>Sub-object: <code>name</code>, <code>email</code>, <code>organization</code>.</td>
+</tr>
+<tr>
+<td><code>license</code></td>
+<td>no</td>
+<td>SPDX identifier.</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td>yes</td>
+<td>ISO 8601 UTC instant.</td>
+</tr>
+<tr>
+<td><code>hippo_version</code></td>
+<td>yes</td>
+<td>PEP 440 version specifier (e.g. <code>"&gt;=0.3,&lt;0.5"</code>). Parse with <code>packaging.specifiers.SpecifierSet</code>; introduce that dep if not already present.</td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td>no</td>
+<td>Author-declared canonical origin URI (e.g. a Zenodo DOI URL). Metadata only — Hippo never fetches from it. Distinct from per-RecipeRef and installed-recipe <code>source</code> fields; the three may legitimately disagree.</td>
+</tr>
+<tr>
+<td><code>parent</code></td>
+<td>no</td>
+<td><code>RecipeRef</code>. Present on extended recipes. Auto-resolved at install (see "Parent vs requires" below).</td>
+</tr>
+<tr>
+<td><code>requires.recipes</code></td>
+<td>no</td>
+<td>List of <code>RecipeRef</code>.</td>
+</tr>
+<tr>
+<td><code>requires.reference_loaders</code></td>
+<td>no</td>
+<td>List of pin strings <code>name==version</code>. Existing Reference Loader convention.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="reciperef-shape">RecipeRef shape<a class="headerlink" href="#reciperef-shape" title="Permanent link">&para;</a></h3>
+<p>A single LinkML class reused for <code>parent</code>, <code>requires.recipes[i]</code>, and entries in <code>installed_recipes</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>yes</td>
+<td>Matches <code>RecipeManifest.id</code> of the referenced recipe.</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>yes</td>
+<td>Matches <code>RecipeManifest.version</code>.</td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td>yes (in v1)</td>
+<td><code>file:</code> URI, bare path, or <code>https:</code> URI. Relative paths in a manifest resolve against the <strong>importing recipe's directory</strong>. Relative paths in a lockfile resolve against the <strong>lockfile's directory</strong>.</td>
+</tr>
+<tr>
+<td><code>digest</code></td>
+<td>required when <code>source</code> is <code>https:</code>; optional but recorded when <code>source</code> is <code>file:</code></td>
+<td>sha256 over the canonical content hash (algorithm below).</td>
+</tr>
+</tbody>
+</table>
+<p><code>installed_recipes</code> entries extend <code>RecipeRef</code> with <code>installed_at</code> (ISO 8601 UTC) and may additionally carry the original manifest's <code>parent</code> field as an embedded sub-object for audit.</p>
+<h3 id="digest-algorithm">Digest algorithm<a class="headerlink" href="#digest-algorithm" title="Permanent link">&para;</a></h3>
+<p>The digest is computed over the recipe's <strong>canonical content hash</strong>, not over the tarball bytes (which are repack-sensitive). Algorithm:</p>
+<ol>
+<li>Enumerate all files in the recipe directory recursively, relative to the recipe root.</li>
+<li>Sort the file list lexicographically by relative path.</li>
+<li>Build a buffer by concatenating, for each file in order: <code>&lt;relative-path-as-utf8&gt;\n&lt;lowercase-hex-sha256-of-file-bytes&gt;\n</code>.</li>
+<li>The recipe digest is <code>sha256(buffer)</code>, lowercase hex.</li>
+</ol>
+<p>This algorithm yields the same digest whether the recipe is shipped as a directory or a tarball, and is stable across repacking. No file is excluded — the recipe directory IS the recipe. Document this in the user-facing CLI reference.</p>
+<p>Reference implementation must live in <code>core/recipe/digest.py</code> and be a single ~20-line function. <code>hippo recipe inspect</code> prints the computed digest for authoring convenience.</p>
+<h3 id="parent-vs-requires">Parent vs requires<a class="headerlink" href="#parent-vs-requires" title="Permanent link">&para;</a></h3>
+<p><code>parent</code> is <strong>auto-resolved</strong> as a dependency at install time. A child manifest does NOT need to also list its parent in <code>requires.recipes</code>. The parent pointer is itself a typed dependency.</p>
+<p><code>requires.recipes</code> lists all OTHER recipe dependencies (siblings or peers, not ancestors). The merge into the live schema is bottom-up: parent → requires → self.</p>
+<p>Cycle detection is mandatory across both <code>parent</code> and <code>requires.recipes</code>. Implementation: keep a visiting set during the resolution recursion; emit <code>RecipeLineageCycleError</code> on revisit.</p>
+<h3 id="export-rules">Export rules<a class="headerlink" href="#export-rules" title="Permanent link">&para;</a></h3>
+<p><code>hippo recipe export</code> packages only the <strong>locally-authored</strong> content of the live schema — classes and slots whose <code>provided_by</code> annotation is absent or does not start with <code>recipe.</code> or <code>loader.</code>. Upstream content from imported recipes and Reference Loaders is excluded. This prevents accidental re-distribution of upstream content, protects attribution, and lets the export be installed cleanly on a peer instance that already has the same upstream recipes installed.</p>
+<p>The resulting manifest's <code>parent</code> is left empty by default. If the user wants to declare lineage, they pass <code>--parent &lt;installed-id&gt;</code> and Hippo populates <code>parent</code> from the matching <code>installed_recipes</code> entry. The <code>requires.recipes</code> list is populated automatically from the set of installed recipes whose content is referenced by <code>is_a:</code> or slot ranges in the exported schema.</p>
+<hr />
+<h2 id="reproducibility-model">Reproducibility model<a class="headerlink" href="#reproducibility-model" title="Permanent link">&para;</a></h2>
+<p>Two primitives:</p>
+<p><strong>Content addressing.</strong> A recipe is identified by its sha256 canonical-content-hash digest. URIs are resolvers — they tell Hippo where to fetch the bytes. The contract: declared digest → verify; no declared digest (legal only for <code>file:</code>) → compute and record. Tag drift, link rot of mutable URLs, MITM substitution are all caught loudly.</p>
+<p><strong>Lockfile = <code>installed_recipes</code>.</strong> The <code>hippo_meta.installed_recipes</code> registry already carries <code>{id, version, source, digest, installed_at, parent?}</code> per installed recipe. <code>hippo recipe export-lockfile</code> dumps that registry as a portable YAML; <code>hippo recipe install-from-lockfile</code> re-fetches each entry by its <code>source</code>, verifies each <code>digest</code>, and installs in dependency order. Together these provide a full reproducibility round-trip — a deployment can be re-created on a peer instance from a single file, provided each entry's <code>source</code> URI is still resolvable.</p>
+<p>V1 reproducibility limits, documented for users:</p>
+<ul>
+<li>URL availability is out of Hippo's control. Encourage DOI-minted releases (Zenodo, etc.) for canonical recipes.</li>
+<li>Digest verifies integrity but not authorship. Signing is v2.</li>
+<li>Mutable tags (e.g. <code>latest.tar.gz</code>) are technically allowed but self-defeating with the required digest. Spec discourages but does not forbid.</li>
+</ul>
+<hr />
+<h2 id="cli-surface-v1">CLI surface (v1)<a class="headerlink" href="#cli-surface-v1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>hippo recipe list                              # installed recipes
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hippo recipe inspect &lt;path-or-uri&gt;             # parse + validate, no DB writes; prints digest
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>hippo recipe import &lt;path-or-uri&gt; [--dry-run]  # bootstrap-only install
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>hippo recipe export [--out PATH] [--parent &lt;installed-id&gt;]
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>hippo recipe extend &lt;installed-id&gt; --out PATH  # scaffold derivative directory
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>hippo recipe diff &lt;a&gt; &lt;b&gt;                      # structural diff (paths or URIs)
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>hippo recipe export-lockfile [--out PATH]      # dump installed_recipes as portable YAML
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>hippo recipe install-from-lockfile &lt;file&gt;      # re-fetch + verify + install
+</code></pre></div>
+<p>CLI lives in the existing CLI module structure; one new <code>hippo/cli/recipe.py</code> mirroring how other subcommands are organised. CLI calls <code>HippoClient</code> delegators; never reaches into <code>RecipeService</code> directly.</p>
+<hr />
+<h2 id="sdk-surface">SDK surface<a class="headerlink" href="#sdk-surface" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># src/hippo/core/recipe_service.py</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">RecipeService</span><span class="p">:</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Manages recipe export, inspection, lineage, and bootstrap import.</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="sd">    This facade owns all recipe-related logic. Delegates schema merging to</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="sd">    SchemaManager and provenance writes to ProvenanceService. Reference Loader</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="sd">    installs do not go through this service in v1.</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        <span class="bp">self</span><span class="p">,</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>        <span class="n">storage</span><span class="p">:</span> <span class="n">SQLiteAdapter</span><span class="p">,</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>        <span class="n">schema_manager</span><span class="p">:</span> <span class="n">SchemaManager</span><span class="p">,</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>        <span class="n">provenance_service</span><span class="p">:</span> <span class="n">ProvenanceService</span><span class="p">,</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>        <span class="n">cache_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>        <span class="n">resolvers</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">RecipeResolver</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">list_installed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">InstalledRecipe</span><span class="p">]:</span> <span class="o">...</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">inspect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RecipeReport</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">import_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">dry_run</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ImportResult</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">scope</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;schema&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Recipe</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">installed_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">out_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RecipeDiff</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">export_lockfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">install_from_lockfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lockfile</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ImportResult</span><span class="p">]:</span> <span class="o">...</span>
+</code></pre></div>
+<p><code>HippoClient</code> delegators are thin wrappers, one per public method, named <code>recipe_&lt;verb&gt;</code>.</p>
+<hr />
+<h2 id="error-hierarchy">Error hierarchy<a class="headerlink" href="#error-hierarchy" title="Permanent link">&para;</a></h2>
+<p>Define under <code>core/exceptions.py</code> (existing module). All inherit from the existing base error.</p>
+<table>
+<thead>
+<tr>
+<th>Error</th>
+<th>Cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RecipeManifestError</code></td>
+<td>Manifest fails LinkML validation against <code>recipe_manifest.yaml</code>.</td>
+</tr>
+<tr>
+<td><code>RecipePrefixCollisionError</code></td>
+<td>Incoming recipe's <code>name</code>/<code>default_prefix</code> collides with an installed prefix from any source (recipe, loader, hand-authored).</td>
+</tr>
+<tr>
+<td><code>RecipeRequiresUnsatisfiedError</code></td>
+<td>A declared <code>requires.recipes</code> or <code>requires.reference_loaders</code> dep cannot be resolved. Message must include the unresolved <code>RecipeRef.source</code> URI.</td>
+</tr>
+<tr>
+<td><code>RecipeVersionIncompatibleError</code></td>
+<td><code>hippo_version</code> SpecifierSet excludes the running Hippo version.</td>
+</tr>
+<tr>
+<td><code>RecipeLineageCycleError</code></td>
+<td>Parent / requires graph contains a cycle.</td>
+</tr>
+<tr>
+<td><code>RecipeSchemaError</code></td>
+<td>Embedded <code>schema.yaml</code> fails LinkML validation, or <code>SchemaManager.merge_fragment</code> rejects (including the no-in-place-override check).</td>
+</tr>
+<tr>
+<td><code>RecipeFetchError</code></td>
+<td>Resolver could not retrieve the artifact (404, network error, unreadable tarball).</td>
+</tr>
+<tr>
+<td><code>RecipeDigestMismatchError</code></td>
+<td>Fetched bytes' canonical-content-hash digest does not match the digest declared in the <code>RecipeRef</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Every error must include the recipe <code>id</code> + <code>version</code> and the failing <code>RecipeRef.source</code> in its message when those are known.</p>
+<hr />
+<h2 id="provenance-entries">Provenance entries<a class="headerlink" href="#provenance-entries" title="Permanent link">&para;</a></h2>
+<p>One new event kind: <code>recipe_imported</code>. Schema lives in <code>hippo_core.yaml</code> alongside existing provenance event kinds. Required payload:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>recipe_id</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>recipe_version</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>recipe_digest</code></td>
+<td>The verified-or-computed sha256.</td>
+</tr>
+<tr>
+<td><code>recipe_source</code></td>
+<td>The exact URI Hippo fetched from (post-resolution).</td>
+</tr>
+<tr>
+<td><code>parent</code></td>
+<td><code>RecipeRef</code> or null.</td>
+</tr>
+<tr>
+<td><code>classes_added</code></td>
+<td>List of qualified class names introduced by this import.</td>
+</tr>
+<tr>
+<td><code>slots_added</code></td>
+<td>List of qualified slot names introduced by this import.</td>
+</tr>
+</tbody>
+</table>
+<p>Emit exactly one event per top-level import. Bottom-up dependency installs each emit their own event in the same transaction.</p>
+<hr />
+<h2 id="tests">Tests<a class="headerlink" href="#tests" title="Permanent link">&para;</a></h2>
+<p>Place under <code>tests/recipe/</code>. Minimum surface:</p>
+<ul>
+<li><strong>Manifest validation:</strong> valid manifest loads; each required field missing produces <code>RecipeManifestError</code>.</li>
+<li><strong>Digest stability:</strong> dir-form and tarball-form of the same recipe produce identical digests; reordering files in the tarball does not change the digest.</li>
+<li><strong>Resolvers:</strong> <code>FileResolver</code> resolves <code>file:</code> URIs, bare absolute paths, and bare relative paths (relative to importing recipe). <code>HttpsResolver</code> fetches and caches; cache hit on second fetch.</li>
+<li><strong>Bootstrap install:</strong> dry-run leaves no state change; real install creates <code>installed_recipes</code> entry and <code>recipe_imported</code> provenance entry; failure mid-merge rolls back both.</li>
+<li><strong>Digest mismatch:</strong> modifying bytes after declaring digest produces <code>RecipeDigestMismatchError</code>.</li>
+<li><strong>Prefix collision:</strong> importing a recipe whose <code>name</code> matches an installed prefix fails atomically.</li>
+<li><strong>No in-place override:</strong> a recipe redefining an existing class fails; a recipe adding <code>is_a: upstream:Class</code> succeeds.</li>
+<li><strong>Lineage cycle:</strong> A requires B requires A produces <code>RecipeLineageCycleError</code>.</li>
+<li><strong>Lockfile round-trip:</strong> export, wipe instance, install-from-lockfile reproduces identical <code>installed_recipes</code> digests.</li>
+<li><strong>Export selectivity:</strong> instance with one imported recipe + local additions exports only the local additions.</li>
+</ul>
+<hr />
+<h2 id="open-questions-resolved-in-sec10">Open questions — RESOLVED in sec10<a class="headerlink" href="#open-questions-resolved-in-sec10" title="Permanent link">&para;</a></h2>
+<p>These were flagged for resolution before Phase 2 begins. All three are resolved in <code>design/sec10_recipes.md §10.12</code>. Summary:</p>
+<ol>
+<li><strong><code>requires.reference_loaders</code> resolution</strong> — <strong>Precondition only.</strong> v1 does NOT install RLs as a side effect of recipe import. Hippo checks that each pinned RL is installed at the declared version; failure raises <code>RecipeRequiresUnsatisfiedError</code>. See sec10 §10.4.5.</li>
+<li><strong>Lockfile schema version</strong> — <strong>Yes.</strong> <code>recipe.lock.yaml</code> carries <code>lockfile_version: 1</code> at the top level for forward-compatible parsing. See sec10 §10.6.2.</li>
+<li><strong>Cache-dir override</strong> — <strong>Yes.</strong> <code>HIPPO_RECIPE_CACHE</code> env var overrides <code>~/.hippo/recipe-cache/</code>, parallel to existing cache conventions. See sec10 §10.4.2 and §10.4.6.</li>
+</ol>
+<hr />
+<h2 id="definition-of-done">Definition of done<a class="headerlink" href="#definition-of-done" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><code>design/sec10_recipes.md</code> authored and merged</strong> as the authoritative design spec (Phase 1). <code>design/INDEX.md</code> carries a row for it.</li>
+<li>All ten "in scope" steps merged across Phases 2–4.</li>
+<li>All architecture invariants hold under the new test suite.</li>
+<li><code>hippo recipe import</code> + <code>hippo recipe export-lockfile</code> + <code>hippo recipe install-from-lockfile</code> round-trip on a real instance with at least one imported recipe and one local extension.</li>
+<li>User documentation pages added under <code>docs/</code>: <code>writing-a-recipe.md</code>, <code>installing-recipes.md</code>, <code>recipe-reference.md</code> (manifest field reference). The Reference Loader docs gain a single paragraph cross-link to recipes.</li>
+<li>Any drift between <code>sec10</code> and this handoff resolved in favour of <code>sec10</code>; this handoff updated accordingly before the final implementation PR merges.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
