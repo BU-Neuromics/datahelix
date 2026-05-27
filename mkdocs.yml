@@ -91,6 +91,9 @@ nav:
           - API Reference: hippo/docs/api-reference.md
           - Reference Loaders: hippo/docs/reference-loaders.md
           - Writing a Reference Loader: hippo/docs/writing-a-reference-loader.md
+          - Writing a Recipe: hippo/docs/writing-a-recipe.md
+          - Installing Recipes: hippo/docs/installing-recipes.md
+          - Recipe Reference: hippo/docs/recipe-reference.md
       - Design Spec:
           - Overview & Scope: hippo/design/sec1_overview.md
           - Architecture: hippo/design/sec2_architecture.md
