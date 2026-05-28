@@ -32,10 +32,13 @@ from hippo.core.loaders.csv import CSVLoader
 from hippo.core.loaders.pipeline import IngestPipeline
 from hippo.core.storage.adapters.sqlite_adapter import SQLiteAdapter
 
+from tests.conftest import build_test_schema_registry
+
 
 def _make_client(tmp_path: Path) -> HippoClient:
-    storage = SQLiteAdapter(str(tmp_path / "hippo.db"))
-    return HippoClient(storage=storage)
+    registry = build_test_schema_registry()
+    storage = SQLiteAdapter(str(tmp_path / "hippo.db"), schema_registry=registry)
+    return HippoClient(storage=storage, registry=registry)
 
 
 # ---------------------------------------------------------------------------
@@ -188,7 +191,7 @@ class TestIngestPipelineContract:
     _CSV_MIXED = b"id,name\nfail,Alpha\n1,Beta\n"
 
     def _make_loader(self, **kwargs) -> CSVLoader:
-        config = {"entity_type": "sample", "external_id_field": "id", **kwargs}
+        config = {"entity_type": "Sample", "external_id_field": "id", **kwargs}
         return CSVLoader(config)
 
     def test_first_run_creates_entity(self, tmp_path):
@@ -231,7 +234,7 @@ class TestIngestPipelineContract:
                 return super().transform(record)
 
         loader = PartialLoader(
-            {"entity_type": "sample", "external_id_field": "id"}
+            {"entity_type": "Sample", "external_id_field": "id"}
         )
         client = _make_client(tmp_path)
         pipeline = IngestPipeline(client, loader)

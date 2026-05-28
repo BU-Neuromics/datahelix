@@ -3,34 +3,42 @@
 Tests exercise the real HippoClient backed by SQLiteAdapter in-process.
 No HTTP server is required except for REST API contract tests (TestClient).
 
-## Category taxonomy
+## Status: SKIPPED at module level (post-PTS-282 hippo split)
 
-### Implemented
-1.  Schema lifecycle — client with/without schema, FTS metadata derivation,
-    schema evolution (additive field addition)
-2.  Entity CRUD contract — create/get/update/delete with correct return shapes
-3.  CEL validation — valid/invalid entities, multi-rule, bypass mode
-4.  Provenance and event model — timestamps, version tracking, supersede
-5.  FTS5 search — matching, no-results, multi-result, deleted entity excluded
-6.  Query and pagination — limit, offset, total count, date filtering
-7.  REST API contract — status codes, error shapes via FastAPI TestClient
-8.  Delete behavior — soft delete, idempotency, post-delete state
-9.  Supersede entity — atomic supersession, guards, relationship edge
-10. External IDs — register, lookup, supersede external ID
+This file pre-dates the hippo split (PTS-282 / 2026-05-25) and exercises
+hippo-internal behavior — schema lifecycle, CRUD, CEL validation,
+provenance, FTS5, query/pagination, REST API, delete, supersede,
+external IDs. All ten categories now have first-party coverage inside
+``hippo/tests/`` (e.g. ``test_client.py``, ``test_cel_write_validator.py``,
+``test_provenance.py``, ``test_fts_search.py``, ``test_external_id.py``,
+``test_ddl_generator.py``). The file additionally relies on hippo APIs
+that no longer exist (``hippo.config.models.SchemaConfig``, the
+``schemas=`` kwarg on ``HippoClient``, ``FTSTableMetadata.from_field``)
+so a fixture-level rewrite cannot restore it — every test needs a
+structural rewrite against ``SchemaRegistry``-based construction.
 
-### Pending
-- Partial indexes and summary views (requires CLI migration; covered by test_migrate.py)
-- Concurrency / isolation via threading (deferred: SQLite WAL mode correctness)
-- Reference types / expand paths (covered by test_expand_workflow.py)
+Tracked for removal/migration in PTS-300 follow-up; skipped here so the
+``platform`` CI job stays green without dragging in stale hippo-internal
+coverage. Do not add new tests to this file — write hippo-internal tests
+in ``hippo/tests/`` and cross-component integration tests next to
+``test_hippo_canon.py``.
 """
 
 from __future__ import annotations
+
+import pytest
+
+pytest.skip(
+    "test_hippo_platform.py predates the hippo split (PTS-282) and tests "
+    "hippo-internal behavior already covered by hippo/tests/. Tracked for "
+    "removal in PTS-300 follow-up.",
+    allow_module_level=True,
+)
 
 import sqlite3
 from pathlib import Path
 from typing import Any
 
-import pytest
 import yaml
 from fastapi.testclient import TestClient
 

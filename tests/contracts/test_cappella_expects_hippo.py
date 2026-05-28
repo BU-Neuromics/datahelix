@@ -39,11 +39,14 @@ from hippo.core.client import HippoClient
 from hippo.core.exceptions import EntityNotFoundError, ValidationFailure
 from hippo.core.storage.adapters.sqlite_adapter import SQLiteAdapter
 
+from tests.conftest import build_test_schema_registry
+
 
 @pytest.fixture()
 def client(tmp_path: Path) -> HippoClient:
-    storage = SQLiteAdapter(str(tmp_path / "hippo.db"))
-    return HippoClient(storage=storage)
+    registry = build_test_schema_registry()
+    storage = SQLiteAdapter(str(tmp_path / "hippo.db"), schema_registry=registry)
+    return HippoClient(storage=storage, registry=registry)
 
 
 # ---------------------------------------------------------------------------
