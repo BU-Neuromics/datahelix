@@ -42,6 +42,8 @@ for _pkg in ("hippo/src", "canon/src"):
 
 from hippo.core.client import HippoClient
 from hippo.core.storage.adapters.sqlite_adapter import SQLiteAdapter
+
+from tests.conftest import build_test_schema_registry
 from canon.exceptions import (
     CanonError,
     CanonExecutorError,
@@ -114,8 +116,9 @@ class _HippoShim:
 
 @pytest.fixture()
 def hippo_client(tmp_path: Path) -> HippoClient:
-    storage = SQLiteAdapter(str(tmp_path / "hippo.db"))
-    return HippoClient(storage=storage)
+    registry = build_test_schema_registry()
+    storage = SQLiteAdapter(str(tmp_path / "hippo.db"), schema_registry=registry)
+    return HippoClient(storage=storage, registry=registry)
 
 
 @pytest.fixture()

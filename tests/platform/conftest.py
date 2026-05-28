@@ -27,6 +27,8 @@ from canon.config import CanonConfig
 from canon.executors.base import CWLRunResult
 from canon.types import Entity
 
+from tests.conftest import build_test_schema_registry
+
 
 # ---------------------------------------------------------------------------
 # HippoClientShim
@@ -107,8 +109,9 @@ class HippoClientShim:
 @pytest.fixture()
 def hippo_client(tmp_path: Path) -> HippoClient:
     """Real HippoClient backed by SQLiteAdapter in a temporary directory."""
-    storage = SQLiteAdapter(str(tmp_path / "hippo.db"))
-    return HippoClient(storage=storage)
+    registry = build_test_schema_registry()
+    storage = SQLiteAdapter(str(tmp_path / "hippo.db"), schema_registry=registry)
+    return HippoClient(storage=storage, registry=registry)
 
 
 @pytest.fixture()
