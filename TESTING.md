@@ -97,7 +97,6 @@ PYTHONPATH=hippo/src:canon/src:cappella/src:aperture/src uv run pytest tests/pla
 ```
 
 **Test files:**
-- `test_hippo_platform.py` — Hippo-only: CRUD, CEL validation, FTS5, REST API, supersession, external IDs
 - `test_canon_platform.py` — Canon-only: rules DSL, entity ref parsing, planner decisions, sidecar, ingestion
 - `test_hippo_canon.py` — Cross-cutting: Canon resolving against real Hippo, full bioinformatics chain, idempotency
 - `test_round_trip.py` — Full round-trip: external source → Hippo → Canon → Hippo (sec5 §5.2–§5.5)

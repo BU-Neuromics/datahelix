@@ -263,7 +263,6 @@ tests/
 │   └── align.cwl                           # mock CWL workflow stub
 └── platform/
     ├── conftest.py                          # HippoClientShim, mock CWL executor
-    ├── test_hippo_platform.py               # existing
     ├── test_canon_platform.py               # existing
     ├── test_hippo_canon.py                  # existing
     └── test_round_trip.py                   # ✅ written (Phase 1, commit 59cd0ef) — §5.4 scenarios
