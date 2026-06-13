@@ -6,7 +6,7 @@
 
 This repository hosts the BASS platform: documentation, cross-component integration tests, and submodules pointing at each component's standalone repository.
 
-> ℹ️ **Hippo lives in its own repo** at [BU-Neuromics/hippo](https://github.com/BU-Neuromics/hippo) and is mounted here as a git submodule. Clone with `git clone --recurse-submodules`, or run `git submodule update --init` after a plain clone. Other components are expected to follow the same pattern over time.
+> ℹ️ **Hippo and Aperture live in their own repos** ([BU-Neuromics/hippo](https://github.com/BU-Neuromics/hippo), [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture)) and are mounted here as git submodules. Clone with `git clone --recurse-submodules`, or run `git submodule update --init` after a plain clone. Other components are expected to follow the same pattern over time.
 
 ## Components
 
@@ -14,7 +14,7 @@ This repository hosts the BASS platform: documentation, cross-component integrat
 |---|---|---|---|---|
 | **Hippo** | Metadata tracking service | [BU-Neuromics/hippo](https://github.com/BU-Neuromics/hippo) (submodule) | [design/](hippo/design/INDEX.md) | [docs/](hippo/docs/introduction.md) |
 | **Cappella** | Workflow engine | in-tree | [design/](cappella/design/INDEX.md) | [docs/](cappella/docs/introduction.md) |
-| **Aperture** | Interface layer | in-tree | [design/](aperture/design/INDEX.md) | [docs/](aperture/docs/introduction.md) |
+| **Aperture** | Interface layer (config-driven data portal) | [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture) (submodule) | [design/](aperture/design/INDEX.md) | — |
 | **Bridge** | Integration middleware | in-tree | [design/](bridge/design/INDEX.md) | [docs/](bridge/docs/introduction.md) |
 
 ## Platform Documentation

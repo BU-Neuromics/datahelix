@@ -128,17 +128,10 @@ nav:
           - Trigger Engine Testing: cappella/design/sec7_testing.md
   - Aperture:
       - aperture/index.md
-      - User Docs:
-          - Introduction: aperture/docs/introduction.md
-          - Quick Start: aperture/docs/quickstart.md
-          - CLI Reference: aperture/docs/cli-reference.md
-      - Design Spec:
-          - Overview & Scope: aperture/design/sec1_overview.md
-          - Architecture: aperture/design/sec2_architecture.md
-          - CLI Design: aperture/design/sec3_cli.md
-          - Web Interface (v0.2): aperture/design/sec4_web_ui.md
-          - API Clients (v0.2): aperture/design/sec5_api_clients.md
-          - Non-Functional Requirements: aperture/design/sec6_nfr.md
+      - Design:
+          - Index: aperture/design/INDEX.md
+          - Portal Vision (Handoff): aperture/design/portal-vision-handoff.md
+          - Open Questions: aperture/design/portal-open-questions.md
   - Bridge:
       - bridge/index.md
       - User Docs:

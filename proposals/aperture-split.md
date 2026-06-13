@@ -1,9 +1,11 @@
 # Splitting Aperture out of `drylims` into its own repository
 
-**Status:** 📋 **Planned — not yet executed.** Runbook for a future session that has
-write scope on `BU-Neuromics/aperture`. This session (scoped to `drylims` only) prepared
-the in-tree handoff + design docs and this runbook; it does **not** create the repo or
-perform the cutover.
+**Status:** ✅ **Executed 2026-06-13.** The seed repo was built, pushed to
+`BU-Neuromics/aperture` (made public; CI green at seed commit `cbcd1c7`), and `drylims`
+was cut over: `aperture/` is now a submodule pinned to the seed. CI/docs/mkdocs were
+updated in the same change. The runbook below is retained as the historical record;
+divergences from execution are noted inline (visibility, docs-symlink layer, PR-based
+cutover).
 **Goal:** Stand up a standalone `BU-Neuromics/aperture` repository for the **config-driven
 portal** vision (see `aperture/design/portal-vision-handoff.md`), then re-attach it to
 `drylims` as a git submodule so cross-component tests under `tests/platform/` and

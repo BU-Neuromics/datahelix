@@ -79,14 +79,13 @@ jobs:
           uv pip install --system -e "hippo/[dev]"
           uv pip install --system -e "canon/[dev]"
           uv pip install --system -e "cappella/[test]"
-          uv pip install --system -e "aperture/[dev]"
 
       - name: Run contract tests
         env:
-          PYTHONPATH: hippo/src:canon/src:cappella/src:aperture/src
+          PYTHONPATH: hippo/src:canon/src:cappella/src
         run: pytest tests/contracts/ -v --tb=short
 
       - name: Run platform integration tests
         env:
-          PYTHONPATH: hippo/src:canon/src:cappella/src:aperture/src
+          PYTHONPATH: hippo/src:canon/src:cappella/src
         run: pytest tests/platform/ -v --tb=short
