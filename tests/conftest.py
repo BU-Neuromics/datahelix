@@ -22,7 +22,7 @@ import pytest
 
 # Ensure component packages are importable regardless of how pytest is invoked.
 _repo_root = Path(__file__).parent.parent
-for _pkg in ("hippo/src", "canon/src", "cappella/src", "aperture/src"):
+for _pkg in ("hippo/src", "canon/src", "cappella/src"):
     _p = str(_repo_root / _pkg)
     if _p not in sys.path:
         sys.path.insert(0, _p)
