@@ -7,11 +7,32 @@
 
 ---
 
+> ## ⚠️ Direction change (2026-06-13): config-driven portal
+>
+> Aperture is being re-scoped from a **CLI-first interface layer** to a
+> **config-driven data portal** (config modeled in LinkML and stored in hippo,
+> typed sandboxed plugins, visualization catalog, agent-driven dev loop). The
+> portal vision is captured in:
+>
+> - **`portal-vision-handoff.md`** — the authoritative problem statement / settled
+>   architectural decisions (supersedes the CLI-first framing below).
+> - **`portal-open-questions.md`** — proposed (not yet ratified) resolutions to the
+>   handoff's §9 open questions.
+>
+> Plan: extract Aperture into its own repo **`BU-Neuromics/aperture`** on a **fresh
+> start** that keeps only `src/aperture/backends/` and carries the portal design docs
+> forward; the CLI v0.1 sections below are retained as historical reference until the
+> split. Runbook: **`proposals/aperture-split.md`**.
+
+---
+
 ## Document Map
 
 | File | Section | Status | Notes |
 |---|---|---|---|
-| `sec1_overview.md` | 1. Overview & Scope | ✅ Draft v0.1 | CLI-first v0.1 scope; personas, design principles, component relationships |
+| `portal-vision-handoff.md` | Portal vision (new direction) | 🟢 Handoff | Config-driven portal; settled decisions + §9 open questions. **Supersedes CLI-first scope.** |
+| `portal-open-questions.md` | Portal §9 resolutions | 🟡 Proposed | Recommendations to ratify next session; not yet decided |
+| `sec1_overview.md` | 1. Overview & Scope | 🗄️ Superseded (CLI v0.1) | CLI-first v0.1 scope; personas, design principles, component relationships |
 | `sec2_architecture.md` | 2. Architecture | ✅ Draft v0.1 | Typer CLI, backend integration layer (SDK/REST), config, output formatting |
 | `sec3_cli.md` | 3. CLI Design | ✅ Draft v0.1 | Command taxonomy, full flag specs, interactive flows, error messages, exit codes |
 | `sec4_web_ui.md` | 4. Web Interface | ✅ Draft v0.1 (stub) | Deferred to v0.2; decisions recorded, architectural constraints listed |
