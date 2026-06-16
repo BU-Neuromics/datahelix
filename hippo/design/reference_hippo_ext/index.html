@@ -3910,6 +3910,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#hippo_external_xref" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        hippo_external_xref
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4012,12 +4023,13 @@ introspects <code>hippo_ext</code> to obtain the vocabulary; user schemas use th
 annotations via the standard <code>annotations:</code> block on their own classes / slots.</p>
 <hr />
 <h3 id="vocabulary">Vocabulary<a class="headerlink" href="#vocabulary" title="Permanent link">&para;</a></h3>
-<p>Five annotations are currently declared. <code>hippo_unique</code>, <code>hippo_index</code>,
-<code>hippo_index_partial</code>, and <code>hippo_search</code> landed with Wave 1
-(<code>hippo-ext-vocabulary</code>); <code>hippo_append_only</code> landed with Wave 2
-(<code>provenance-as-linkml-class</code>) as a declaration — adapter enforcement
-follows in <code>provenance-migration</code>. <code>hippo_accessor</code> joins the vocabulary
-with Wave 3's <code>typed-client</code> — see <em>Deferred annotations</em> below.</p>
+<p><code>hippo_unique</code>, <code>hippo_index</code>, <code>hippo_index_partial</code>, and <code>hippo_search</code>
+landed with Wave 1 (<code>hippo-ext-vocabulary</code>); <code>hippo_append_only</code> landed
+with Wave 2 (<code>provenance-as-linkml-class</code>) as a declaration — adapter
+enforcement follows in <code>provenance-migration</code>. <code>hippo_accessor</code> joins the
+vocabulary with Wave 3's <code>typed-client</code> — see <em>Deferred annotations</em>
+below. <code>hippo_external_xref</code> landed with issue #48 (ExternalReference
+value type).</p>
 <h4 id="hippo_unique"><code>hippo_unique</code><a class="headerlink" href="#hippo_unique" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
@@ -4226,6 +4238,87 @@ DDL-generator-driven emission paths, etc.).</p>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Entity</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nt">annotations</span><span class="p">:</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">      </span><span class="nt">hippo_append_only</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div></p>
+<h4 id="hippo_external_xref"><code>hippo_external_xref</code><a class="headerlink" href="#hippo_external_xref" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Applies to</td>
+<td>slot</td>
+</tr>
+<tr>
+<td>Value type</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>Default</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>Consumer</td>
+<td>DDL generators + storage adapter write path; <code>HippoClient.find_by_xref</code> / <code>list_xrefs</code>; REST <code>GET /xref/{system}/{value}</code>; GraphQL <code>findByXref</code></td>
+</tr>
+<tr>
+<td>Requires</td>
+<td><code>range: ExternalReference</code> on the same slot (DDL generation fails at startup otherwise)</td>
+</tr>
+</tbody>
+</table>
+<p>Marks an <code>ExternalReference</code>-ranged slot as a <strong>reverse-lookup key</strong>
+(issue #48). The slot's <code>(system, value)</code> pairs are maintained in the
+<code>hippo_xref_index</code> side table:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>hippo_xref_index(entity_id, entity_type, slot, system, value)
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>UNIQUE (system, value)
+</code></pre></div>
+<ul>
+<li><strong>Maintenance.</strong> The SQLite adapter's per-class write helpers re-derive
+  the entity's index rows (delete-then-insert) on every create, update,
+  replace, availability transition, soft delete, and supersession — on the
+  same cursor, so index maintenance shares the entity write's transaction.
+  Works identically for single- and multivalued slots (the slot stores
+  inline JSON either way).</li>
+<li><strong>Availability semantics.</strong> Index rows exist ONLY for available
+  (<code>is_available = 1</code>) entities — the same "unique among live records"
+  semantics as <code>hippo_unique</code>'s partial index (PTS-348), realised by row
+  lifecycle instead of a <code>WHERE</code> predicate. Turning an entity unavailable
+  frees its pairs; turning it back available re-claims them (and fails
+  with a clear conflict if another live entity took a pair in between).</li>
+<li><strong>Uniqueness.</strong> <code>(system, value)</code> is globally unique among available
+  entities — across classes and slots. Violations raise
+  <code>XrefUniquenessError</code> (a <code>ValidationError</code>) naming the system, value,
+  and conflicting entity; the triggering write rolls back. Transports map
+  it to the standard validation path (REST 422, GraphQL
+  <code>VALIDATION_FAILED</code>).</li>
+<li><strong>Without the annotation</strong> a slot can still range <code>ExternalReference</code> —
+  it then carries the structured value but is not indexed, not
+  uniqueness-constrained, and not resolvable via the lookup APIs.</li>
+<li><strong>Adapter support.</strong> SQLite: full. PostgreSQL: the lookup surface raises
+  <code>NotImplementedError</code> (parity is scoped to that adapter's
+  per-class-table migration).</li>
+</ul>
+<p><strong>Example.</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">classes</span><span class="p">:</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">Sample</span><span class="p">:</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Entity</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="nt">attributes</span><span class="p">:</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">      </span><span class="nt">starlims_ref</span><span class="p">:</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">        </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ExternalReference</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">        </span><span class="nt">inlined</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">        </span><span class="nt">annotations</span><span class="p">:</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">          </span><span class="nt">hippo_external_xref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">      </span><span class="nt">donor_refs</span><span class="p">:</span><span class="w">                 </span><span class="c1"># multivalued works the same way</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">        </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ExternalReference</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">        </span><span class="nt">multivalued</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">        </span><span class="nt">inlined</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">        </span><span class="nt">inlined_as_list</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">        </span><span class="nt">annotations</span><span class="p">:</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">          </span><span class="nt">hippo_external_xref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div></p>
 <hr />
 <h3 id="deferred-annotations">Deferred annotations<a class="headerlink" href="#deferred-annotations" title="Permanent link">&para;</a></h3>
