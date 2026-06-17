@@ -60,7 +60,7 @@ Every design decision serves one of these. If a change you're considering weaken
 
 | Component | Role | Source | Version | Maturity (verified 2026-06-11) | Spec status |
 |---|---|---|---|---|---|
-| **Hippo** | Metadata store — the platform spine | submodule | **0.8.0** | **Well-developed** (~120 src files, 110+ test files; SDK, SQLite adapter, provenance, REST, CLI, TUI, validators, plugins) | v0.1 spec approved; LinkML redesign (sec9) approved 2026-04-18 and mid-rollout via OpenSpec waves |
+| **Hippo** | LinkML runtime / structured domain graph — the platform spine | submodule | **0.8.0** | **Well-developed** (~120 src files, 110+ test files; SDK, SQLite adapter, provenance, REST, CLI, TUI, validators, plugins) | v0.1 spec approved; LinkML redesign (sec9) approved 2026-04-18 and mid-rollout via OpenSpec waves |
 | **Canon** | Semantic artifact resolver (REUSE/FETCH/BUILD) | in-tree | 0.1.0 | **Skeleton** (~38 files, 11 test files; resolver/rules/executors/storage scaffolded, cwltool-only) | **Design v0.2 complete**, well ahead of code |
 | **Cappella** | Harmonization engine: external sources → Hippo | in-tree | 0.1.0 | **v0.1 implemented** (~31 files, 15 test files; generic CSV/JSON/XML/SQL adapters, trigger engine, upsert-by-ExternalID) | Design v0.1 complete; v0.2 (real LIMS adapters, reactive triggers) undesigned |
 | **Aperture** | Interface layer (CLI now, web later) | in-tree | 0.1.0 (`bass-aperture`) | **Early CLI skeleton** (~23 files, 2 test files; Typer `bass` CLI, Hippo backends) | Design v0.1 (CLI) complete; **no openspec/plan decomposition yet** |

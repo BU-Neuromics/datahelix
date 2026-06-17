@@ -28,7 +28,7 @@ Every BUILD execution records a `WorkflowRun` provenance entity in Hippo, linkin
 
 | Component | Role |
 |-----------|------|
-| Hippo | Metadata store — tracks all entities and their relationships |
+| Hippo | Structured domain graph (LinkML runtime) — holds all entities and their relationships |
 | **Canon** | **Semantic resolver — decides REUSE vs BUILD, orchestrates execution** |
 | Cappella | Workflow engine — long-running pipeline scheduling |
 | Aperture | Interface layer — REST/GraphQL API surface |

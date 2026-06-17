@@ -26,7 +26,7 @@ Bridge solves all four by sitting in front of the BASS components as a thin gate
 ## What Bridge Does Not Do
 
 - **Store BASS data** — All entity data lives in Hippo. Bridge stores only credentials, roles, and audit events.
-- **Implement business logic** — Harmonization is Cappella's domain, artifact resolution is Canon's, metadata tracking is Hippo's. Bridge routes and enforces, nothing more.
+- **Implement business logic** — Harmonization is Cappella's domain, artifact resolution is Canon's, the structured domain graph is Hippo's. Bridge routes and enforces, nothing more.
 - **Require deployment** — Bridge is optional. Single-user local deployments work without it. SDK-mode usage bypasses Bridge entirely.
 
 ## When Is Bridge Required?

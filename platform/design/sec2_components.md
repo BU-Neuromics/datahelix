@@ -11,7 +11,7 @@
 
 | Component | Role | Optional? | Dependencies |
 |---|---|---|---|
-| **Hippo** | Canonical metadata store | No (platform foundation) | None |
+| **Hippo** | Structured domain graph (LinkML runtime) | No (platform foundation) | None |
 | **Canon** | File artifact resolver | Yes | Hippo (for provenance write-back) |
 | **Cappella** | Harmonization and pipeline engine | Yes | Hippo (sole storage backend) |
 | **Aperture** | User-facing CLI and web interface | Yes | Hippo, optionally Canon + Cappella |
@@ -19,7 +19,7 @@
 
 ---
 
-### 2.2 Hippo — Canonical Metadata Store
+### 2.2 Hippo — Structured Domain Graph (LinkML Runtime)
 
 #### What Hippo Owns
 

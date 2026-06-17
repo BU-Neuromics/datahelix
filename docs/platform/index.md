@@ -8,7 +8,7 @@ BASS is a modular, open-source software ecosystem designed to streamline bioinfo
 
 | Component | Role | Status |
 |---|---|---|
-| [Hippo](../hippo/index.md) | Metadata tracking service | Design complete, implementation ready |
+| [Hippo](../hippo/index.md) | Structured domain graph (LinkML runtime) | Design complete, implementation ready |
 | [Cappella](../cappella/index.md) | Integration & harmonization engine | Design complete |
 | [Aperture](../aperture/index.md) | Interface layer (CLI, web, API clients) | Design complete (CLI v0.1) |
 | [Bridge](../bridge/index.md) | Integration middleware (auth, routing) | Design complete |

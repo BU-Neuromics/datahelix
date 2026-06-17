@@ -20,7 +20,7 @@ tests/
 └── platform/   # Cross-component integration tests (real Hippo + Canon in-process)
 ```
 
-**Components:** Hippo (metadata tracking — submodule at [BU-Neuromics/hippo](https://github.com/BU-Neuromics/hippo)), Cappella (workflow engine), Aperture (interface layer / config-driven data portal — submodule at [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture)), Bridge (integration middleware). Hippo was split out 2026-05-25 (see `proposals/hippo-split.md`); Aperture was split out 2026-06-13 as a fresh start carrying only the Hippo backend protocol + portal design (see `proposals/aperture-split.md`). The remaining in-tree components are expected to follow the same pattern.
+**Components:** Hippo (LinkML runtime — the platform's structured domain graph; metadata tracking is one application — submodule at [BU-Neuromics/hippo](https://github.com/BU-Neuromics/hippo)), Cappella (workflow engine), Aperture (interface layer — AI-native data & workflow explorer; the config-driven portal is its substrate — submodule at [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture)), Bridge (integration middleware / auth gateway — the platform's sole PEP/PDP). Hippo was split out 2026-05-25 (see `proposals/hippo-split.md`); Aperture was split out 2026-06-13 as a fresh start carrying only the Hippo backend protocol + portal design (see `proposals/aperture-split.md`). The remaining in-tree components are expected to follow the same pattern.
 
 **Working with submodules:** Clone with `git clone --recurse-submodules`. To bump a submodule's pinned version: `git submodule update --remote <hippo|aperture>`, verify, then commit the submodule pointer change.
 

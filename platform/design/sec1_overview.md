@@ -32,8 +32,8 @@ inertia.
 
 #### 1.2.1 Modularity — Use What You Need
 
-BASS components are independently installable and usable. A researcher who only needs
-metadata tracking can install Hippo alone; a team that additionally needs file artifact
+BASS components are independently installable and usable. A researcher who only needs the
+structured domain graph (e.g. for metadata tracking) can install Hippo alone; a team that additionally needs file artifact
 resolution adds Canon; a lab with external LIMS systems adds Cappella for integration; a
 multi-user deployment adds Bridge for auth.
 
@@ -140,7 +140,7 @@ STARLIMS   REDCap   Clinical DB   Sequencing Core
 Platform v1.0 is the first production-ready release of the full component stack.
 
 **v1.0 components:**
-- Hippo v0.4+ (stable metadata store, REST API, provenance, schema migrations)
+- Hippo v0.4+ (stable structured domain graph / LinkML runtime, REST API, provenance, schema migrations)
 - Canon v0.3+ (artifact resolution, CWL execution integration, storage adapters)
 - Cappella v0.2+ (trigger engine, external adapters, reconciliation)
 - Aperture v0.1 (CLI: entity CRUD, schema inspection, provenance, auth commands)

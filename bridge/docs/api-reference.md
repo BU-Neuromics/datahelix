@@ -457,7 +457,7 @@ documentation for endpoint details.
 
 | Prefix | Component | Example |
 |---|---|---|
-| `/api/v1/hippo/` | Hippo (metadata tracking) | `GET /api/v1/hippo/entities/sample` |
+| `/api/v1/hippo/` | Hippo (structured domain graph) | `GET /api/v1/hippo/entities/sample` |
 | `/api/v1/cappella/` | Cappella (workflow engine) | `POST /api/v1/cappella/runs` |
 | `/api/v1/canon/` | Canon (file cache) | `GET /api/v1/canon/resolve` |
 
