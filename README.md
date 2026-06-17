@@ -12,9 +12,9 @@ This repository hosts the BASS platform: documentation, cross-component integrat
 
 | Component | Description | Source | Design Spec | User Docs |
 |---|---|---|---|---|
-| **Hippo** | Metadata tracking service | [BU-Neuromics/hippo](https://github.com/BU-Neuromics/hippo) (submodule) | [design/](hippo/design/INDEX.md) | [docs/](hippo/docs/introduction.md) |
+| **Hippo** | LinkML runtime — the platform's structured domain graph (metadata tracking is one application) | [BU-Neuromics/hippo](https://github.com/BU-Neuromics/hippo) (submodule) | [design/](hippo/design/INDEX.md) | [docs/](hippo/docs/introduction.md) |
 | **Cappella** | Workflow engine | in-tree | [design/](cappella/design/INDEX.md) | [docs/](cappella/docs/introduction.md) |
-| **Aperture** | Interface layer (config-driven data portal) | [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture) (submodule) | [design/](aperture/design/INDEX.md) | — |
+| **Aperture** | AI-native data & workflow explorer (config-driven portal = substrate) | [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture) (submodule) | [design/](aperture/design/INDEX.md) | — |
 | **Bridge** | Integration middleware | in-tree | [design/](bridge/design/INDEX.md) | [docs/](bridge/docs/introduction.md) |
 
 ## Platform Documentation

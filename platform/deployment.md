@@ -17,7 +17,7 @@ Install each component you need with `pip`. Components are independent — insta
 your workflow requires.
 
 ```bash
-# Core metadata store (required for all other components)
+# Core structured domain graph / LinkML runtime (required for all other components)
 pip install hippo
 
 # Artifact resolver (if you use Canon rules + CWL pipelines)

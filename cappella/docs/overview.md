@@ -11,7 +11,7 @@ A neuroscience research lab tracks data across multiple systems:
 - **Sequencing core** — FASTQ manifests (spreadsheets)
 - **Canon** — computed artifacts (alignment files, gene counts)
 
-Each system uses different field names, different controlled vocabularies, and different update cadences. Cappella pulls all of this together into Hippo — the platform's metadata store — ensuring everything is consistent, correctly linked, and fully provenance-tracked.
+Each system uses different field names, different controlled vocabularies, and different update cadences. Cappella pulls all of this together into Hippo — the platform's structured domain graph — ensuring everything is consistent, correctly linked, and fully provenance-tracked.
 
 ## What Cappella Does
 

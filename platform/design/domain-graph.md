@@ -78,9 +78,10 @@ as implying the federated graph is a cheap or free abstraction.
 ## Consequences
 
 - **Retire "metadata store" for Hippo**; use "structured domain graph" (catalog / knowledge
-  layer). "Tracks where data lives" is *one role* (file cataloging), not Hippo's essence. *(Hippo's
-  own self-description — `hippo/CLAUDE.md` "Metadata Tracking Service" — should be revised; tracked
-  as a follow-up.)*
+  layer). "Tracks where data lives" is *one role* (file cataloging), not Hippo's essence. *(Done
+  2026-06-17: Hippo's self-description (`hippo/CLAUDE.md`, `hippo/design/INDEX.md`, sec1) and the
+  rest of the platform docs were brought into line by the reframe consistency pass —
+  `proposals/reframe-consistency-pass.md`.)*
 - **Query results are knowledge subgraphs.** Downstream surfaces (Aperture views, data stories)
   consume subgraphs; the cohort/selection object should be **grain-agnostic and re-rootable** (a
   position in the graph + predicates), since re-rooting the focal entity is exactly the
