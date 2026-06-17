@@ -15,6 +15,7 @@ This document records cross-cutting architectural decisions that apply to the BA
 | `sec1_overview.md` | Platform vision, scope, and component relationships | ✅ Draft v0.1 |
 | `sec2_components.md` | Component responsibilities and boundaries | ✅ Draft v0.1 |
 | `sec3_integration.md` | Inter-component interfaces and contracts | ✅ Draft v0.1 |
+| `domain-graph.md` | **The domain graph** — foundational data model: one typed knowledge graph (LinkML schema = type system; Hippo = runtime); structured records (Hippo) vs. bulk payloads (Canon/Cappella) as induced subgraphs unioned at query time (OBDA/VKG). Supersedes Hippo's "metadata store" framing. | 🟢 Foundational |
 
 ---
 
