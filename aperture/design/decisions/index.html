@@ -3823,54 +3823,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#the-system-in-one-paragraph" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The system, in one paragraph
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lifecycle-and-statuses" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Lifecycle and statuses
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-a-decision-gets-made" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How a decision gets made
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#relationship-to-the-other-design-docs" class="md-nav__link">
     <span class="md-ellipsis">
       
         Relationship to the other design docs
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#conventions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Conventions
       
     </span>
   </a>
@@ -3895,67 +3851,20 @@
 
 
 <h1 id="aperture-design-decisions-adrs">Aperture Design Decisions (ADRs)<a class="headerlink" href="#aperture-design-decisions-adrs" title="Permanent link">&para;</a></h1>
-<p>This directory is the <strong>canonical, durable record of Aperture's design decisions</strong>. It
-exists to defend a long series of design sessions against context rot: every load-bearing
-choice lives in exactly one numbered file, with a one-line summary mirrored in the
-<a href="../INDEX/"><code>design/INDEX.md</code></a> Decision Log so the whole set is scannable at a glance.</p>
+<p>Aperture records design decisions as <strong>ADRs</strong> following the <strong>platform-wide convention</strong> — the
+canonical process, lifecycle/statuses, and template live in the parent repo at
+<a href="../../../platform/design/decisions/README.md"><code>platform/design/decisions/README.md</code></a> (see also
+the root <a href="../../CLAUDE.md"><code>../CLAUDE.md</code></a>). <strong>Aperture's <code>design/decisions/</code> is the reference
+implementation</strong> of that convention: it was designed ADR-first, so essentially every
+load-bearing decision is an ADR here. <a href="_template/"><code>_template.md</code></a> is the local copy of the
+canonical template.</p>
 <blockquote>
 <p>If a decision isn't recorded here, it isn't decided. Prose in the vision handoff is
 <em>context</em>; an ADR is the <em>decision</em>.</p>
 </blockquote>
-<h2 id="the-system-in-one-paragraph">The system, in one paragraph<a class="headerlink" href="#the-system-in-one-paragraph" title="Permanent link">&para;</a></h2>
-<p>Each decision is an <strong>ADR</strong> (Architecture Decision Record): a numbered Markdown file
-(<code>ADR-NNNN-slug.md</code>) with a status, the context that forced the choice, the decision
-itself, its consequences, and the alternatives rejected. The
-<a href="../INDEX/"><code>design/INDEX.md</code></a> <strong>Decision Log</strong> table is the index of record — one row
-per ADR, status-tracked. Open questions are ADRs in <code>Proposed</code> status (the <em>decision
-queue</em>); ratifying one is a status flip from <code>Proposed</code> → <code>Accepted</code>, not a new document.</p>
-<h2 id="lifecycle-and-statuses">Lifecycle and statuses<a class="headerlink" href="#lifecycle-and-statuses" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>        ┌─────────┐  ratify   ┌──────────┐  revisit   ┌─────────────┐
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>new ───►│ Proposed│ ────────► │ Accepted │ ─────────► │ Superseded  │
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        └─────────┘           └──────────┘            │ by ADR-NNNN │
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>             │                                         └─────────────┘
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>             └────────► Rejected (kept, not deleted)
-</code></pre></div>
-<table>
-<thead>
-<tr>
-<th>Status</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Proposed</code></td>
-<td>An open question with a recommended resolution. In the decision queue; not yet binding.</td>
-</tr>
-<tr>
-<td><code>Accepted</code></td>
-<td>Ratified. Binding on Aperture source and design. Change only by superseding.</td>
-</tr>
-<tr>
-<td><code>Rejected</code></td>
-<td>Considered and declined. Kept for the record (never deleted) so we don't relitigate.</td>
-</tr>
-<tr>
-<td><code>Superseded by ADR-NNNN</code></td>
-<td>Was <code>Accepted</code>, now replaced. Points forward to its replacement.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Decisions are never deleted.</strong> A reversed decision is <code>Superseded</code>, with a forward
-pointer. This is the same discipline Hippo's Key Decisions Log uses (superseded entries
-gain a <code>Superseded by</code> pointer rather than disappearing).</p>
-<h2 id="how-a-decision-gets-made">How a decision gets made<a class="headerlink" href="#how-a-decision-gets-made" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>Raise it as a <code>Proposed</code> ADR.</strong> Copy <a href="_template/"><code>_template.md</code></a>, take the next
-   number, fill in Context + the question, and record the recommended resolution under
-   Decision. Add the row to the INDEX Decision Log with status <code>Proposed</code>.</li>
-<li><strong>Pressure-test it in a design session.</strong> Capture alternatives weighed and any probe
-   results (e.g. "can the survival curve be expressed as catalog primitives?") in the ADR.</li>
-<li><strong>Ratify.</strong> When agreed, flip the status to <code>Accepted</code>, set the date, and update the
-   INDEX row. If it replaces an earlier decision, mark the old one <code>Superseded by</code> this one.</li>
-</ol>
+<p>The <a href="../INDEX/"><code>../INDEX.md</code></a> <strong>Decision Log</strong> table is Aperture's index of record — one row
+per ADR, status-tracked. Open questions are <code>Proposed</code> ADRs (the <em>decision queue</em>); ratifying
+one is a status flip from <code>Proposed</code> → <code>Accepted</code>, not a new document.</p>
 <h2 id="relationship-to-the-other-design-docs">Relationship to the other design docs<a class="headerlink" href="#relationship-to-the-other-design-docs" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -3979,20 +3888,14 @@ gain a <code>Superseded by</code> pointer rather than disappearing).</p>
 </tr>
 <tr>
 <td><code>portal-open-questions.md</code></td>
-<td><strong>Working notes.</strong> Proposed resolutions to §9, now carried into the corresponding <code>Proposed</code> ADRs as their recommended Decision + rationale.</td>
+<td><strong>Working notes.</strong> Proposed resolutions to §9, carried into the corresponding <code>Proposed</code> ADRs as their recommended Decision + rationale.</td>
+</tr>
+<tr>
+<td><code>instruction-path-model.md</code></td>
+<td><strong>Working design.</strong> The data-story substrate model; its open decisions D-1–D-5 are recorded as ADR-0022–0025 (+ a Hippo requirement).</td>
 </tr>
 </tbody>
 </table>
-<h2 id="conventions">Conventions<a class="headerlink" href="#conventions" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Numbering:</strong> zero-padded, monotonic, never reused. Gaps are fine; numbers are stable IDs.</li>
-<li><strong>Slugs:</strong> short, decision-shaped (<code>ADR-0011-component-execution-runtime.md</code>).</li>
-<li><strong>One decision per ADR.</strong> If you're writing "and also," it's two ADRs.</li>
-<li><strong>Invariants link back.</strong> When an ADR establishes an invariant, reference the handoff §10
-  Invariants Checklist so review keeps catching violations.</li>
-<li><strong>Supersede, don't edit history.</strong> Correcting a typo is fine; reversing a decision means a
-  new ADR that supersedes the old one.</li>
-</ul>
 
 
 

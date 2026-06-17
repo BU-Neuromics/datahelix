@@ -4260,6 +4260,14 @@
 </ol>
 <hr />
 <h2 id="key-decisions-log">Key Decisions Log<a class="headerlink" href="#key-decisions-log" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>Recording format (ADRs, hybrid — 2026-06-17).</strong> Hippo follows the platform-wide ADR
+convention (<a href="../../platform/design/decisions/README.md"><code>platform/design/decisions/README.md</code></a>).
+<strong>New, non-trivial, or still-in-flux decisions</strong> get an ADR in
+<a href="./decisions/"><code>decisions/</code></a>; this table remains the <strong>scannable index of record</strong> for the
+settled, shipped decisions and is backfilled only opportunistically (forward-only adoption —
+no mass migration). See <a href="../decisions/"><code>decisions/README.md</code></a>.</p>
+</blockquote>
 <table>
 <thead>
 <tr>
@@ -4709,6 +4717,12 @@ out of scope for v0.1 and documented here for tracking.</p>
 <td>—</td>
 <td><strong>✅ Implemented (Hippo v0.4)</strong></td>
 <td>Reads <code>FieldDefinition.references</code> from already-loaded schema. Returns <code>[{field, target_entity_type}]</code> for each field with <code>references: {entity_type: &lt;name&gt;}</code> declared in schema YAML. REST endpoint: <code>GET /schemas/{entity_type}/references</code>. Works today — caller schemas must declare <code>references:</code> on foreign-key fields.</td>
+</tr>
+<tr>
+<td>Graph-level / query-spanning as-of reconstruction</td>
+<td>sec6, sec4</td>
+<td>High</td>
+<td><strong>🟡 Proposed — see <a href="../decisions/ADR-0001-graph-level-as-of-query/"><code>decisions/ADR-0001</code></a>.</strong> Per-entity <code>state_at</code> exists; query-spanning ("evaluate this whole subgraph query as the graph stood at T", resolving entities + relationships + schema version) does not. Required by Aperture data-story reproducibility (Aperture ADR-0023). Read-only view over the existing append-only provenance log. Bitemporal scope (transaction- vs valid-time) and GraphQL expression are open sub-questions.</td>
 </tr>
 </tbody>
 </table>
