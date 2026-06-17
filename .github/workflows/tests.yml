@@ -57,35 +57,19 @@ jobs:
         working-directory: canon
         run: pytest -v
 
-  platform:
-    runs-on: ubuntu-latest
-    needs: [cappella, canon]
-    strategy:
-      matrix:
-        python-version: ["3.11", "3.12"]
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - uses: astral-sh/setup-uv@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install all component dependencies
-        run: |
-          uv pip install --system -e "hippo/[dev]"
-          uv pip install --system -e "canon/[dev]"
-          uv pip install --system -e "cappella/[test]"
-
-      - name: Run contract tests
-        env:
-          PYTHONPATH: hippo/src:canon/src:cappella/src
-        run: pytest tests/contracts/ -v --tb=short
-
-      - name: Run platform integration tests
-        env:
-          PYTHONPATH: hippo/src:canon/src:cappella/src
-        run: pytest tests/platform/ -v --tb=short
+  # ---------------------------------------------------------------------------
+  # Platform-level CI (cross-component) — DISABLED 2026-06-17.
+  #
+  # A `platform` job used to run the cross-component contract tests
+  # (tests/contracts/) and platform integration tests (tests/platform/) against a
+  # full in-process Hippo + Canon + Cappella install. It dominated CI wall-clock
+  # (~30 min, serialized behind the cappella/canon jobs) and exercised
+  # cross-component behavior that is being actively redesigned — so it gated
+  # rapid PR iteration while asserting stale design assumptions.
+  #
+  # The test files are intentionally KEPT in the repo (tests/contracts/ and
+  # tests/platform/); only their execution in CI is disabled. Reintroduce them
+  # PER-COMPONENT as each component's design and interfaces stabilize: restore a
+  # job that installs the relevant components and runs the relevant subset.
+  # See the drylims CI discussion, 2026-06-17.
+  # ---------------------------------------------------------------------------
