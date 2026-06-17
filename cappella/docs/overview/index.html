@@ -907,7 +907,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo — Metadata Tracking Service
+    Hippo — LinkML Runtime (the structured domain graph)
   
 
     
@@ -2592,7 +2592,7 @@
   <span class="md-ellipsis">
     
   
-    Aperture — Config-Driven Data Portal
+    Aperture — AI-Native Data &amp; Workflow Explorer
   
 
     
@@ -4020,7 +4020,7 @@
 - <strong>REDCap</strong> — clinical assessments (CSV export or SQL)
 - <strong>Sequencing core</strong> — FASTQ manifests (spreadsheets)
 - <strong>Canon</strong> — computed artifacts (alignment files, gene counts)</p>
-<p>Each system uses different field names, different controlled vocabularies, and different update cadences. Cappella pulls all of this together into Hippo — the platform's metadata store — ensuring everything is consistent, correctly linked, and fully provenance-tracked.</p>
+<p>Each system uses different field names, different controlled vocabularies, and different update cadences. Cappella pulls all of this together into Hippo — the platform's structured domain graph — ensuring everything is consistent, correctly linked, and fully provenance-tracked.</p>
 <h2 id="what-cappella-does">What Cappella Does<a class="headerlink" href="#what-cappella-does" title="Permanent link">&para;</a></h2>
 <p><strong>Ingest &amp; harmonize</strong> — Pull records from external sources, transform field names and vocabulary to the canonical Hippo schema, detect conflicts between sources, and upsert with full provenance context.</p>
 <p><strong>Collection resolution</strong> — Given a high-level research question ("give me all gene counts for CTE DLPFC donors"), Cappella queries Hippo to find matching entities, applies selection logic to choose the right dataset per sample, and calls Canon to ensure all required files are materialized. Returns a structured <code>HarmonizedCollection</code> with resolved URIs and provenance.</p>

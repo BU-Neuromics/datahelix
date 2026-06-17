@@ -1128,7 +1128,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo — Metadata Tracking Service
+    Hippo — LinkML Runtime (the structured domain graph)
   
 
     
@@ -2702,7 +2702,7 @@
   <span class="md-ellipsis">
     
   
-    Aperture — Config-Driven Data Portal
+    Aperture — AI-Native Data &amp; Workflow Explorer
   
 
     
@@ -4264,8 +4264,8 @@ inertia.</p>
 <hr />
 <h3 id="12-design-principles">1.2 Design Principles<a class="headerlink" href="#12-design-principles" title="Permanent link">&para;</a></h3>
 <h4 id="121-modularity-use-what-you-need">1.2.1 Modularity — Use What You Need<a class="headerlink" href="#121-modularity-use-what-you-need" title="Permanent link">&para;</a></h4>
-<p>BASS components are independently installable and usable. A researcher who only needs
-metadata tracking can install Hippo alone; a team that additionally needs file artifact
+<p>BASS components are independently installable and usable. A researcher who only needs the
+structured domain graph (e.g. for metadata tracking) can install Hippo alone; a team that additionally needs file artifact
 resolution adds Canon; a lab with external LIMS systems adds Cappella for integration; a
 multi-user deployment adds Bridge for auth.</p>
 <p>No component requires another as a runtime dependency. Integration is opt-in.</p>
@@ -4442,7 +4442,7 @@ rather than querying multiple upstream systems directly.</p>
 <h3 id="15-v10-scope-and-release-criteria">1.5 v1.0 Scope and Release Criteria<a class="headerlink" href="#15-v10-scope-and-release-criteria" title="Permanent link">&para;</a></h3>
 <p>Platform v1.0 is the first production-ready release of the full component stack.</p>
 <p><strong>v1.0 components:</strong>
-- Hippo v0.4+ (stable metadata store, REST API, provenance, schema migrations)
+- Hippo v0.4+ (stable structured domain graph / LinkML runtime, REST API, provenance, schema migrations)
 - Canon v0.3+ (artifact resolution, CWL execution integration, storage adapters)
 - Cappella v0.2+ (trigger engine, external adapters, reconciliation)
 - Aperture v0.1 (CLI: entity CRUD, schema inspection, provenance, auth commands)

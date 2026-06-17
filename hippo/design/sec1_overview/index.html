@@ -910,7 +910,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo — Metadata Tracking Service
+    Hippo — LinkML Runtime (the structured domain graph)
   
 
     
@@ -2638,7 +2638,7 @@
   <span class="md-ellipsis">
     
   
-    Aperture — Config-Driven Data Portal
+    Aperture — AI-Native Data &amp; Workflow Explorer
   
 
     
@@ -4109,14 +4109,19 @@
 
 <h2 id="1-overview-scope">1. Overview &amp; Scope<a class="headerlink" href="#1-overview-scope" title="Permanent link">&para;</a></h2>
 <h3 id="11-what-is-hippo">1.1 What Is Hippo?<a class="headerlink" href="#11-what-is-hippo" title="Permanent link">&para;</a></h3>
-<p>Hippo is an open source, configurable metadata tracking service. It provides a unified,
-queryable registry of entities, their fields, and their relationships — enabling downstream
-systems, analysis pipelines, and data portals to reliably locate and filter metadata without
-manually managing spreadsheets or bespoke file manifests.</p>
-<p>Hippo is designed as the first module of a larger platform. It tracks <em>where data lives</em>
-and <em>what it describes</em> — not the data itself. Raw data files remain in place (e.g., S3,
-local filesystem); Hippo stores the metadata and file locations needed to find and interpret
-them.</p>
+<p>Hippo is an open source <strong>LinkML runtime</strong>: point it at a LinkML schema and it <em>becomes</em> the
+typed, queryable <strong>knowledge graph</strong> that schema describes — its classes, fields, and
+relationships instantiated as storage, validation, API, and query semantics. In a BASS
+deployment Hippo is the platform's <strong>structured domain graph</strong> (see the platform
+<a href="../../platform/design/domain-graph.md"><code>domain-graph.md</code></a>); every query returns a knowledge
+subgraph, enabling downstream systems, analysis pipelines, and portals to reliably locate and
+filter records without manually managing spreadsheets or bespoke file manifests.</p>
+<p>Hippo is designed as the first module of a larger platform. <strong>Metadata tracking</strong> — recording
+<em>where data lives</em> and <em>what it describes</em>, not the data itself — is Hippo's reference
+application: <strong>one role</strong> it plays (file cataloging), not its defining essence. Raw bulk files
+remain in place (e.g., S3, local filesystem); Hippo holds the structured records and file
+locations needed to find and interpret them. (The intrinsic boundary is structured records vs.
+bulk payloads, not "metadata vs. data" — see the platform domain-graph model.)</p>
 <p>Hippo is domain-agnostic: the entity types, fields, and relationships it tracks are defined
 entirely by a schema config file authored for each deployment. For example, an omics research
 deployment might define entity types like Subject, Sample, and Datafile, while a manufacturing
@@ -4143,7 +4148,7 @@ interfaces.</p>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│                                                      │
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│  ┌─────────┐  ┌──────────┐  ┌──────────────────┐    │
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│  │  Hippo  │  │ Module B │  │  Module C        │    │
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│  │  (MTS)  │  │ (future) │  │  (future)        │    │
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│  │(runtime)│  │ (future) │  │  (future)        │    │
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│  │  ◄ HERE │  │          │  │                  │    │
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│  └────┬────┘  └──────────┘  └──────────────────┘    │
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│       │                                              │

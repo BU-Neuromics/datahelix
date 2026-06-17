@@ -25,7 +25,7 @@
     
     
       
-        <title>Aperture — Config-Driven Data Portal - BASS Documentation</title>
+        <title>Aperture — AI-Native Data & Workflow Explorer - BASS Documentation</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#aperture-config-driven-data-portal" class="md-skip">
+        <a href="#aperture-ai-native-data-workflow-explorer" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Aperture — Config-Driven Data Portal
+              Aperture — AI-Native Data &amp; Workflow Explorer
             
           </span>
         </div>
@@ -907,7 +907,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo — Metadata Tracking Service
+    Hippo — LinkML Runtime (the structured domain graph)
   
 
     
@@ -2493,7 +2493,7 @@
   <span class="md-ellipsis">
     
   
-    Aperture — Config-Driven Data Portal
+    Aperture — AI-Native Data &amp; Workflow Explorer
   
 
     
@@ -2511,7 +2511,7 @@
   <span class="md-ellipsis">
     
   
-    Aperture — Config-Driven Data Portal
+    Aperture — AI-Native Data &amp; Workflow Explorer
   
 
     
@@ -4008,7 +4008,7 @@
 
 
 
-<h1 id="aperture-config-driven-data-portal">Aperture — Config-Driven Data Portal<a class="headerlink" href="#aperture-config-driven-data-portal" title="Permanent link">&para;</a></h1>
+<h1 id="aperture-ai-native-data-workflow-explorer">Aperture — AI-Native Data &amp; Workflow Explorer<a class="headerlink" href="#aperture-ai-native-data-workflow-explorer" title="Permanent link">&para;</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Now a standalone repository</p>
 <p>Aperture lives in its own repo, <a href="https://github.com/BU-Neuromics/aperture">BU-Neuromics/aperture</a>,
@@ -4016,11 +4016,14 @@ and is wired into this monorepo as a git submodule. The earlier CLI-first v0.1 d
 and implementation were superseded by the portal vision and remain only in <code>drylims</code>
 history.</p>
 </div>
-<p>Aperture is the <strong>interface layer</strong> of the BASS platform: a <strong>config-driven data portal</strong>
-that talks to <a href="../hippo/">Hippo</a> (the LinkML runtime + GraphQL/REST data store).
-Browsing, faceted search, view construction/export, and visualization are <strong>configured,
-not coded</strong>, for the common cases; custom behavior is delivered through typed, sandboxed
-plugins/components rather than a scripting layer.</p>
+<p>Aperture is the <strong>interface layer</strong> of the BASS platform: an <strong>AI-native data &amp; workflow
+explorer</strong> — an LLM-native interaction layer over the BASS <strong>domain graph</strong> (one typed knowledge
+graph whose runtime is <a href="../hippo/">Hippo</a>, the platform's LinkML runtime, exposed over
+GraphQL + REST). Its differentiator is the <em>interaction paradigm</em>: exploring and transforming
+scientific data through natural language. The <strong>config-driven portal is Aperture's substrate and
+MVP, not the product</strong> — browsing, faceted search, view construction/export, and visualization are
+<strong>configured, not coded</strong>, and that typed, validated, declarative surface is exactly what makes
+natural-language control safe and reliable.</p>
 <p>Aperture does not contain business logic. It is generic against <em>any</em> Hippo deployment +
 LinkML schema — the brain-bank portal is simply the first and most-tested instance.</p>
 <h2 id="guiding-intent">Guiding Intent<a class="headerlink" href="#guiding-intent" title="Permanent link">&para;</a></h2>
@@ -4059,8 +4062,9 @@ functionality. The agent edits <strong>config</strong> (always safe, unsupervise
 </tr>
 </tbody>
 </table>
-<p>See the <a href="design/portal-vision-handoff/">Portal Vision handoff</a> for the authoritative
-problem statement and full decision list.</p>
+<p>See the <a href="design/vision/">Vision</a> for the north-star framing (AI-native explorer; portal =
+substrate) and the <a href="design/portal-vision-handoff/">Portal Vision handoff</a> for the original
+problem statement and full decision list (historical context).</p>
 <h2 id="what-exists-today">What Exists Today<a class="headerlink" href="#what-exists-today" title="Permanent link">&para;</a></h2>
 <p>The standalone repo currently ships the reusable Hippo backend foundation that the portal
 is built on:</p>

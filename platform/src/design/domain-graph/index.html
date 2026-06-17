@@ -901,7 +901,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo — Metadata Tracking Service
+    Hippo — LinkML Runtime (the structured domain graph)
   
 
     
@@ -2475,7 +2475,7 @@
   <span class="md-ellipsis">
     
   
-    Aperture — Config-Driven Data Portal
+    Aperture — AI-Native Data &amp; Workflow Explorer
   
 
     
@@ -3980,9 +3980,10 @@ as implying the federated graph is a cheap or free abstraction.</p>
 <h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Retire "metadata store" for Hippo</strong>; use "structured domain graph" (catalog / knowledge
-  layer). "Tracks where data lives" is <em>one role</em> (file cataloging), not Hippo's essence. <em>(Hippo's
-  own self-description — <code>hippo/CLAUDE.md</code> "Metadata Tracking Service" — should be revised; tracked
-  as a follow-up.)</em></li>
+  layer). "Tracks where data lives" is <em>one role</em> (file cataloging), not Hippo's essence. <em>(Done
+  2026-06-17: Hippo's self-description (<code>hippo/CLAUDE.md</code>, <code>hippo/design/INDEX.md</code>, sec1) and the
+  rest of the platform docs were brought into line by the reframe consistency pass —
+  <code>proposals/reframe-consistency-pass.md</code>.)</em></li>
 <li><strong>Query results are knowledge subgraphs.</strong> Downstream surfaces (Aperture views, data stories)
   consume subgraphs; the cohort/selection object should be <strong>grain-agnostic and re-rootable</strong> (a
   position in the graph + predicates), since re-rooting the focal entity is exactly the
