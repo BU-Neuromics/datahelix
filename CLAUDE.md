@@ -28,6 +28,7 @@ tests/
 
 - Each component's design spec is split into numbered section files (`sec1_overview.md`, `sec2_architecture.md`, etc.) with explicit `Depends on` / `Feeds into` headers for cross-referencing.
 - The Hippo `design/INDEX.md` tracks section status (complete, in review, not started), key decisions, and open questions. Other components follow the same pattern.
+- **Design decisions are recorded as ADRs** (Architecture Decision Records), one file per decision in each component's `design/decisions/`, following the platform-wide convention in [`platform/design/decisions/README.md`](platform/design/decisions/README.md). Each component's `design/INDEX.md` Decision Log indexes its ADRs; platform-wide (cross-component) decisions live in `platform/design/decisions/`. New/non-trivial decisions get an ADR; mature components (Hippo) adopt forward-only (no mass backfill). Aperture's `design/decisions/` is the reference implementation.
 - Design specs feed into the **openplan** pipeline: `Spec sections → vision.yaml → roadmap → epics → features → OpenSpec`.
 - The `.gitignore` excludes `.obsidian/` (Obsidian editor config).
 
