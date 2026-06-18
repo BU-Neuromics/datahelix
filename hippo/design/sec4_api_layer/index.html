@@ -4960,6 +4960,12 @@ separate REST-layer business logic.</p>
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p><strong>As-of reads (Proposed — ADR-0001 / sec6 §6.8).</strong> Read endpoints will accept an additive
+<code>?as_of=&lt;ISO-8601&gt;</code> query parameter that reconstructs the response (entity set, state,
+relationships, schema version) as the graph stood at that transaction-time; omitted = current
+state. Semantics and reconstruction model in sec6 §6.8.</p>
+</blockquote>
 <h4 id="search-endpoints">Search endpoints<a class="headerlink" href="#search-endpoints" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
@@ -5468,6 +5474,12 @@ in <code>failures</code> and never roll back sibling successes (the GraphQL anal
 <p><code>hippoSchema</code> / <code>hippoEntityType</code> are Hippo's <em>domain</em> schema introspection — the LinkML
 type model the GraphQL surface itself is generated from — distinct from GraphQL's own
 <code>__schema</code> introspection.</p>
+<blockquote>
+<p><strong>As-of reads (Proposed — ADR-0001 / sec6 §6.8).</strong> Generated query and resolved-traversal
+fields will gain an additive <code>asOf: DateTime</code> argument that reconstructs the result as the
+graph stood at that transaction-time (omitted = current state). DataLoader batch/cache keys
+include <code>asOf</code> so per-request batching stays correct. Semantics in sec6 §6.8.</p>
+</blockquote>
 <p><code>updateX</code> is a <strong>partial update</strong>: <code>HippoClient.update</code> has full-replace (PUT) semantics, so
 the resolver composes the SDK's read and write — the patch is merged over the stored data.
 This is pure envelope composition; the SDK remains the only reader/writer.</p>

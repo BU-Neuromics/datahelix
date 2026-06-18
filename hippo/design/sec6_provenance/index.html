@@ -1874,10 +1874,104 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#68-retention-policy" class="md-nav__link">
+  <a href="#68-graph-level-as-of-reconstruction" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6.8 Retention Policy
+        6.8 Graph-Level As-Of Reconstruction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.8 Graph-Level As-Of Reconstruction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#681-semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8.1 Semantics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#682-reconstruction-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8.2 Reconstruction model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#683-schema-as-of-and-decoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8.3 Schema-as-of and decoding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#684-storage-indexing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8.4 Storage &amp; indexing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#685-sdk-transport-surface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8.5 SDK &amp; transport surface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#686-implementation-increments-sequencing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8.6 Implementation increments (sequencing)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#687-deferred" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8.7 Deferred
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#69-retention-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.9 Retention Policy
       
     </span>
   </a>
@@ -4305,10 +4399,104 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#68-retention-policy" class="md-nav__link">
+  <a href="#68-graph-level-as-of-reconstruction" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6.8 Retention Policy
+        6.8 Graph-Level As-Of Reconstruction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.8 Graph-Level As-Of Reconstruction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#681-semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8.1 Semantics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#682-reconstruction-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8.2 Reconstruction model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#683-schema-as-of-and-decoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8.3 Schema-as-of and decoding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#684-storage-indexing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8.4 Storage &amp; indexing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#685-sdk-transport-surface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8.5 SDK &amp; transport surface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#686-implementation-increments-sequencing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8.6 Implementation increments (sequencing)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#687-deferred" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8.7 Deferred
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#69-retention-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.9 Retention Policy
       
     </span>
   </a>
@@ -4779,9 +4967,156 @@ the exclusion logic is deferred to a future sec6 revision.</p>
 </code></pre></div>
 <p><code>client.state_at()</code> reconstructs entity state by replaying provenance events up to the given
 timestamp. This is a read-only operation and does not require any additional storage.</p>
-<p>The REST API exposes history at <code>GET /entities/{entity_type}/{entity_id}/history</code>.</p>
+<p>The REST API exposes history at <code>GET /entities/{entity_type}/{entity_id}/history</code>.
+See §6.8 for <strong>graph-level</strong> (query-spanning) as-of reconstruction, which generalizes
+<code>state_at</code> from a single entity to a whole subgraph.</p>
 <hr />
-<h3 id="68-retention-policy">6.8 Retention Policy<a class="headerlink" href="#68-retention-policy" title="Permanent link">&para;</a></h3>
+<h3 id="68-graph-level-as-of-reconstruction">6.8 Graph-Level As-Of Reconstruction<a class="headerlink" href="#68-graph-level-as-of-reconstruction" title="Permanent link">&para;</a></h3>
+<p><strong>Status:</strong> Design (2026-06-17). Resolves the open sub-questions of
+<a href="../decisions/ADR-0001-graph-level-as-of-query/">ADR-0001</a> and records the design and
+direction; the implementation is decomposed into increments (§6.8.6) and sequenced via OpenSpec
+— it is not a v0.1 commitment.</p>
+<p>§6.7's <code>state_at</code> reconstructs <strong>one entity</strong> at a point in time. A consumer that needs a
+<em>reproducible view of the whole graph</em> — notably Aperture's data stories, which pin an "as-of
+watermark" so a story reruns identically (Aperture ADR-0023) — needs to evaluate an <em>entire
+query</em> (entity selection + relationship traversal + the schema in force) against the graph <strong>as
+it stood at a timestamp <code>T</code></strong>. This section specifies that capability: a read may carry <code>T</code>, and
+when present the whole result is reconstructed to <code>T</code> from the append-only provenance log.</p>
+<h4 id="681-semantics">6.8.1 Semantics<a class="headerlink" href="#681-semantics" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Transaction-time as-of.</strong> <code>T</code> selects the graph <strong>as Hippo had recorded it</strong> at <code>T</code> — the
+  provenance log's <code>timestamp</code> axis (§6.6). This is exactly what reproducibility needs: "what the
+  system knew at <code>T</code>." Valid-time (when a fact was <em>true in the world</em>) is <strong>out of scope</strong> and
+  would require a data-model change (per-fact <code>valid_from</code>/<code>valid_to</code>); see §6.8.7.
+  <em>(Resolves ADR-0001 sub-question 1.)</em></li>
+<li><strong>Opt-in and additive.</strong> A read without <code>T</code> behaves exactly as today (current state). <code>T</code> is an
+  additive parameter on reads; it never touches the write path.</li>
+<li><strong>Read-only.</strong> Reconstruction is a <em>view</em> over data already retained in the provenance log
+  (§6.6) and the immutable relationship history (§6.3) — no new state is written and no snapshots
+  are materialized.</li>
+<li><strong>One snapshot per read scope.</strong> All elements of a single as-of read — entity set, each
+  entity's state, relationship liveness, schema version, temporal fields — are bound to the
+  <strong>same <code>T</code></strong>, yielding a coherent point-in-time subgraph. A consumer issuing several reads for
+  one logical view (one data story) passes the same <code>T</code> to all of them (§6.8.5).</li>
+</ul>
+<h4 id="682-reconstruction-model">6.8.2 Reconstruction model<a class="headerlink" href="#682-reconstruction-model" title="Permanent link">&para;</a></h4>
+<p>For a timestamp <code>T</code>, the graph is reconstructed from the provenance log as follows.</p>
+<p><strong>Entity state at <code>T</code>.</strong> An entity's state at <code>T</code> is the post-image carried by its most recent
+provenance record with <code>timestamp &lt;= T</code> — i.e. <code>state_at</code> (§6.7) applied per entity.</p>
+<blockquote>
+<p><strong>Reconstruction contract (verified — increment 1, BU-Neuromics/hippo#71).</strong> The <code>create</code> and
+<code>update</code> write paths both record the <strong>full post-image</strong> of the entity as the <code>patch</code>, so an
+entity's data state at <code>T</code> is the patch of its most recent <strong>state-replacing</strong> (<code>create</code> /
+<code>update</code>) record with <code>timestamp &lt;= T</code> — no replay needed. Non-state-replacing records
+(<code>availability_change</code>, <code>external_id_add</code>, <code>supersede</code>) carry <strong>deltas</strong>, not entity state, and
+never define the reconstructed state; the most recent <code>availability_change</code> with
+<code>timestamp &lt;= T</code> decides availability. <code>state_at</code> / <code>get_state_at</code> now implement exactly this
+(previously they returned the latest record's <code>patch</code> regardless of <code>operation</code> — incorrect for
+non-state ops). <strong>Resolved (increment 2):</strong> the supersede path now records the replacement's
+<strong>full post-image</strong> as the <code>patch</code> (the audit note moved to provenance <code>context</code>), so the
+full-post-image invariant holds for <em>every</em> <code>create</code>/<code>update</code> record and as-of reconstruction
+returns the replacement's real data — no annotation masquerading as state.</p>
+</blockquote>
+<p><strong>Entity set at <code>T</code>.</strong> A query for type <code>X</code> as-of <code>T</code> returns the entities that, at <code>T</code>, had been
+created and were available: an entity is <strong>present at <code>T</code></strong> iff its earliest <code>create</code> record has
+<code>timestamp &lt;= T</code> and its most recent availability-affecting record with <code>timestamp &lt;= T</code> leaves
+it available. Filters then apply to each entity's reconstructed state.</p>
+<p><strong>Relationship liveness at <code>T</code>.</strong> Edge liveness is reconstructed from the <strong>provenance log</strong>, not
+from the <code>relationships.is_available</code> flag. The relationships table records only the <em>current</em>
+flag with no change-timestamp, so it cannot answer "was this edge live at <code>T</code>?"; the provenance
+log can, because edge mutations are recorded as <code>relationship_add</code> / <code>relationship_remove</code> events
+(§6.3) with timestamps. An edge is <strong>live at <code>T</code></strong> iff its most recent add/remove event with
+<code>timestamp &lt;= T</code> is an <code>add</code>. Traversal at <code>T</code> walks only edges live at <code>T</code>.</p>
+<p><strong>Schema version at <code>T</code>.</strong> The <code>schema_version</code> in force is that of the most recent provenance
+record with <code>timestamp &lt;= T</code> — the §6.4 derivation, bounded by <code>T</code>.</p>
+<p><strong>Temporal fields at <code>T</code>.</strong> <code>created_at</code> = the first <code>create</code> record (always <code>&lt;= T</code> for present
+entities); <code>updated_at</code> = the most recent record with <code>timestamp &lt;= T</code>. The §6.4 derivation,
+bounded by <code>T</code>.</p>
+<h4 id="683-schema-as-of-and-decoding">6.8.3 Schema-as-of and decoding<a class="headerlink" href="#683-schema-as-of-and-decoding" title="Permanent link">&para;</a></h4>
+<p>An entity reconstructed to <code>T</code> carries the <code>schema_version</code> in force at <code>T</code>. Because Hippo's
+schema evolution is <strong>additive-only</strong> at the transport surface (§4.7), decoding an as-of-<code>T</code>
+record against the <em>current</em> type model is tolerant: slots added after <code>T</code> are simply absent
+(resolve to defaults/null). Non-additive schema change between <code>T</code> and now is <strong>out of scope</strong> —
+a deployment that has made a breaking schema change cannot be guaranteed to decode pre-change
+states under the new model; such cases are flagged rather than silently mis-decoded.
+<em>(Resolves ADR-0001 sub-question 4.)</em></p>
+<h4 id="684-storage-indexing">6.8.4 Storage &amp; indexing<a class="headerlink" href="#684-storage-indexing" title="Permanent link">&para;</a></h4>
+<p>Reconstruction is provenance-driven and leans on the existing log and indexes (§6.6):</p>
+<ul>
+<li><strong>Per-entity state / temporal / schema at <code>T</code></strong> — <code>WHERE entity_id = ? AND timestamp &lt;= ?
+  ORDER BY timestamp DESC LIMIT 1</code> is already served by <code>idx_provenance_entity
+  (entity_id, entity_type, timestamp)</code>. The batched <code>get_temporal</code> query (§6.4/§6.6) gains a
+  single <code>AND timestamp &lt;= :as_of</code> predicate.</li>
+<li><strong>Entity-set selection for a type at <code>T</code></strong> — "the entities of type <code>X</code> present at <code>T</code>" scans
+  provenance by <code>entity_type</code> + <code>timestamp</code>. Add a covering index
+  <code>idx_provenance_type_time (entity_type, timestamp, entity_id)</code>; the existing
+  <code>idx_provenance_entity</code> already covers the per-entity reductions.</li>
+<li><strong>Relationship liveness at <code>T</code></strong> — resolved from <code>relationship_add</code> / <code>relationship_remove</code>
+  records; benefits from a relationship-event lookup index (by edge source/target/type within the
+  provenance log). Exact index is an increment detail.</li>
+<li><strong>No materialized snapshots.</strong> Because <code>T</code> is a free parameter, the <code>entity_provenance_summary</code>
+  view (§6.6) cannot be reused directly (it is unbounded in time); as-of reductions are computed
+  at query time with the <code>timestamp &lt;= :as_of</code> bound. A snapshot/caching tier is a <em>later</em>
+  optimization, only if profiling demands it. <em>(Resolves ADR-0001 sub-question 3.)</em></li>
+</ul>
+<h4 id="685-sdk-transport-surface">6.8.5 SDK &amp; transport surface<a class="headerlink" href="#685-sdk-transport-surface" title="Permanent link">&para;</a></h4>
+<p><strong>SDK.</strong> <code>as_of</code> is threaded through the read surface; the storage contract (<code>EntityStore</code> ABC)
+formalizes methods the SQLite/Postgres adapters already implement de facto:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># HippoClient / QueryService</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;Sample&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">],</span> <span class="n">as_of</span><span class="o">=</span><span class="s2">&quot;2026-06-01T00:00:00Z&quot;</span><span class="p">)</span>          <span class="c1"># set + state at T</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="n">client</span><span class="o">.</span><span class="n">relationships</span><span class="o">.</span><span class="n">traverse</span><span class="p">(</span><span class="n">source_id</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">as_of</span><span class="o">=</span><span class="s2">&quot;2026-06-01T00:00:00Z&quot;</span><span class="p">)</span>  <span class="c1"># edges live at T</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="c1"># EntityStore ABC (formalize — currently de facto on the adapters)</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="k">def</span><span class="w"> </span><span class="nf">find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">Query</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">as_of</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Entity</span><span class="p">]:</span> <span class="o">...</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_temporal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity_ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">as_of</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TemporalRecord</span><span class="p">]:</span> <span class="o">...</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="k">def</span><span class="w"> </span><span class="nf">state_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">traverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_id</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">as_of</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span> <span class="o">...</span>
+</code></pre></div>
+<p>For consumers that need many reads under one coherent <code>T</code> (Aperture data stories), an ergonomic
+<strong>snapshot handle</strong> scopes the watermark once:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">snap</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">snapshot</span><span class="p">(</span><span class="n">as_of</span><span class="o">=</span><span class="s2">&quot;2026-06-01T00:00:00Z&quot;</span><span class="p">)</span>   <span class="c1"># thin read-only view; same T on every read</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="n">snap</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;Sample&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">]);</span> <span class="n">snap</span><span class="o">.</span><span class="n">relationships</span><span class="o">.</span><span class="n">traverse</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Transports (additive — §4.3 / §4.7).</strong>
+- <strong>REST:</strong> an <code>?as_of=&lt;ISO-8601&gt;</code> query parameter on reads (e.g.
+  <code>GET /entities/Sample?diagnosis=PTSD&amp;as_of=2026-06-01T00:00:00Z</code>).
+- <strong>GraphQL:</strong> an additive <code>asOf: DateTime</code> argument on the generated query and resolved-traversal
+  fields. The chosen expression is a <strong>per-field argument</strong> (not a request header): explicit,
+  composes with existing filters, and preserves the additive-only contract (§4.7). DataLoader
+  batch/cache keys MUST include <code>as_of</code> so a request mixing timestamps stays correct (in practice
+  one request uses one <code>T</code>). A request-level default may be layered later as pure ergonomics over
+  the per-field argument. <em>(Resolves ADR-0001 sub-question 2.)</em></p>
+<h4 id="686-implementation-increments-sequencing">6.8.6 Implementation increments (sequencing)<a class="headerlink" href="#686-implementation-increments-sequencing" title="Permanent link">&para;</a></h4>
+<p>Decomposed so each increment is independently shippable and testable <em>(resolves ADR-0001
+sub-question 5 — sequence via OpenSpec, after the current surface; not a v0.1 commitment)</em>:</p>
+<ol>
+<li>✅ <strong>(done — #73) Formalize the <code>EntityStore</code> as-of contract</strong> — <code>state_at</code> / <code>get_temporal</code> /
+   <code>find(..., as_of=)</code> on the ABC; verified the §6.8.2 reconstruction contract per <code>operation</code>.</li>
+<li>✅ <strong>(done) Entity set + state + temporal + schema at <code>T</code></strong> — <code>client.query(..., as_of=)</code>
+   end-to-end on the SQLite adapter (provenance-driven entity-set reconstruction); added
+   <code>idx_provenance_type_time</code>; closed the §6.8.2 supersede-annotation gap.</li>
+<li>✅ <strong>(done) Relationship liveness at <code>T</code></strong> — provenance-driven <code>traverse(..., as_of=)</code>: edge
+   liveness reconstructed from <code>relationship_add</code>/<code>remove</code> events (SQLite). Postgres parity in (5).</li>
+<li>✅ <strong>(done) Transports</strong> — REST <code>?as_of=</code> (entity list) and GraphQL <code>asOf</code> (generated list
+   queries) thread to <code>client.query(as_of=)</code>. As-of resolution of <em>nested</em> resolved-relationship
+   fields (DataLoader keyed by <code>as_of</code>) and the optional <code>client.snapshot()</code> handle remain
+   follow-ups.</li>
+<li>✅ <strong>(done) Postgres adapter parity</strong> — <code>find(as_of=)</code>, <code>entities_created_by</code> /
+   <code>state_version_at</code>, provenance-driven relationship <code>traverse(as_of=)</code>, and the
+   <code>idx_ProvenanceRecord_type_timestamp</code> index, all mirrored from the SQLite path. Verified by
+   compile + the gated <code>tests/integration/test_postgres_asof.py</code> (runs only with a live
+   PostgreSQL / <code>HIPPO_DATABASE_URL</code>). The §6.8.4 snapshot/cache <strong>performance tier</strong> remains
+   deliberately deferred ("only if profiling demands"); both adapters carry the type-scoped index.</li>
+</ol>
+<h4 id="687-deferred">6.8.7 Deferred<a class="headerlink" href="#687-deferred" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Valid-time / full bitemporality</strong> — would need per-fact <code>valid_from</code>/<code>valid_to</code>;
+  transaction-time only for now (§6.8.1).</li>
+<li><strong>As-of across non-additive schema change</strong> — flagged, not guaranteed (§6.8.3).</li>
+<li><strong>Snapshot/cache materialization</strong> — query-time reconstruction first; optimize only if needed.</li>
+</ul>
+<hr />
+<h3 id="69-retention-policy">6.9 Retention Policy<a class="headerlink" href="#69-retention-policy" title="Permanent link">&para;</a></h3>
 <p><strong>v0.1 position: no retention policy.</strong> All provenance records are retained indefinitely.
 There is no archive, purge, or truncation mechanism.</p>
 <p><strong>Rationale:</strong> For the expected v0.1 workload (small-to-medium research deployments),

@@ -3867,10 +3867,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#notes-open-sub-questions" class="md-nav__link">
+  <a href="#sub-questions-resolved-2026-06-17" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Notes / open sub-questions
+        Sub-questions resolved (2026-06-17)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes-remaining-items-before-ratify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes / remaining items before ratify
       
     </span>
   </a>
@@ -3896,10 +3907,10 @@
 
 <h1 id="adr-0001-graph-level-query-spanning-as-of-reconstruction">ADR-0001: Graph-level / query-spanning as-of reconstruction<a class="headerlink" href="#adr-0001-graph-level-query-spanning-as-of-reconstruction" title="Permanent link">&para;</a></h1>
 <ul>
-<li><strong>Status:</strong> Proposed</li>
-<li><strong>Date:</strong> 2026-06-17</li>
+<li><strong>Status:</strong> Accepted</li>
+<li><strong>Date:</strong> 2026-06-17 (ratified; design merged as sec6 §6.8)</li>
 <li><strong>Deciders:</strong> labadorf, design session</li>
-<li><strong>Related:</strong> sec6 (Provenance &amp; Audit), sec4 §4.7 (GraphQL transport), sec3/sec3b (data model &amp; storage), <code>docs/data-model.md</code> (<code>client.state_at</code>, history); <strong>Aperture ADR-0023</strong> (data-story reproducibility) + Aperture <code>instruction-path-model.md</code> §9 (the requirement origin)</li>
+<li><strong>Related:</strong> <strong>sec6 §6.8 (the design this ADR drives)</strong>, sec6 §6.4/§6.6/§6.7 (temporal fields, provenance storage, history/<code>state_at</code>), sec4 §4.3/§4.7 (REST/GraphQL <code>as_of</code>), sec3/sec3b (data model &amp; storage), <code>docs/data-model.md</code> (<code>client.state_at</code>, history); <strong>Aperture ADR-0023</strong> (data-story reproducibility) + Aperture <code>instruction-path-model.md</code> §9 (the requirement origin)</li>
 </ul>
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
 <p>Aperture builds <strong>data stories</strong> — narrated, re-runnable analyses over the domain graph — whose
@@ -3964,20 +3975,36 @@ already retains.</p>
   cost, checkpoint-cadence guesswork, and it duplicates what the append-only provenance log
   already encodes. Rejected: reconstruct from the log on demand.</li>
 </ul>
-<h2 id="notes-open-sub-questions">Notes / open sub-questions<a class="headerlink" href="#notes-open-sub-questions" title="Permanent link">&para;</a></h2>
+<h2 id="sub-questions-resolved-2026-06-17">Sub-questions resolved (2026-06-17)<a class="headerlink" href="#sub-questions-resolved-2026-06-17" title="Permanent link">&para;</a></h2>
+<p>The design that resolves these is <strong>sec6 §6.8 (Graph-Level As-Of Reconstruction)</strong>; summary:</p>
+<ol>
+<li><strong>Bitemporality → transaction-time only.</strong> <code>T</code> selects the graph as Hippo <em>recorded</em> it (the
+   provenance <code>timestamp</code> axis) — exactly what reproducibility needs. Valid-time is deferred (it
+   needs per-fact <code>valid_from</code>/<code>valid_to</code>, a data-model change). <em>(§6.8.1)</em></li>
+<li><strong>Transport expression → a per-field <code>asOf</code> argument</strong> (REST <code>?as_of=</code>, GraphQL <code>asOf:
+   DateTime</code>), additive and filter-composable; DataLoader batch/cache keys include <code>asOf</code>. A
+   request-level default may be layered later as ergonomics. <em>(§6.8.5)</em></li>
+<li><strong>Performance → query-time reconstruction on the existing <code>idx_provenance_entity</code></strong> plus one
+   covering index <code>idx_provenance_type_time (entity_type, timestamp, entity_id)</code> for type-scoped
+   set selection. No materialized snapshots (a cache tier only if profiling demands). <em>(§6.8.4)</em></li>
+<li><strong>Schema-as-of → additive-only tolerance.</strong> Decode as-of-<code>T</code> records under the current model;
+   slots added after <code>T</code> resolve to defaults. Non-additive change between <code>T</code> and now is out of
+   scope (flagged, not silently mis-decoded). <em>(§6.8.3)</em></li>
+<li><strong>Versioning → decomposed into shippable increments</strong> (§6.8.6), sequenced via OpenSpec after
+   the current surface; not a v0.1 commitment.</li>
+</ol>
+<h2 id="notes-remaining-items-before-ratify">Notes / remaining items before ratify<a class="headerlink" href="#notes-remaining-items-before-ratify" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Bitemporality:</strong> is <strong>transaction-time</strong> as-of (when Hippo recorded the fact) sufficient, or
-  is <strong>valid-time</strong> (when the fact was true in the world) also needed? The provenance log gives
-  transaction-time directly; valid-time would be a larger data-model change. Lead with
-  transaction-time.</li>
-<li><strong>GraphQL expression:</strong> a per-query argument vs. a request-level header vs. a "snapshot handle"
-  obtained once and reused — which best fits the additive-only contract and DataLoader batching?</li>
-<li><strong>Performance:</strong> what provenance indexes / caching make subgraph reconstruction at <code>T</code>
-  acceptable? Relationship immutability (relationships are append-only) helps.</li>
-<li><strong>Schema-as-of:</strong> confirm <code>schema_version</code> reconstruction at <code>T</code> composes cleanly with typed
-  decoding when the schema has evolved between <code>T</code> and now (additive-only tolerance).</li>
-<li><strong>Versioning:</strong> scope which Hippo version targets this; the requirement is recorded now,
-  driven by Aperture's keystone.</li>
+<li><strong>Ratified <code>Accepted</code> 2026-06-17</strong> after review of the sec6 §6.8 design. Implementation is
+  decomposed into 5 increments (§6.8.6), tracked in BU-Neuromics/hippo#71 and sequenced via
+  OpenSpec.</li>
+<li><strong>Reconstruction contract to verify in implementation (§6.8.2):</strong> confirm, per <code>operation</code>,
+  whether each provenance <code>patch</code> is a full post-image (latest-record-≤-<code>T</code> suffices) or a sparse
+  delta (must replay from <code>create</code>). Today's <code>state_at</code> takes the latest patch; §6.7 intends
+  replay — the first increment reconciles them.</li>
+<li><strong>Relationship liveness must be provenance-driven</strong> (<code>relationship_add</code>/<code>remove</code> events), since
+  <code>relationships.is_available</code> carries no change-timestamp (§6.8.2). Confirm those events capture
+  enough to reconstruct edge liveness at <code>T</code>.</li>
 </ul>
 
 
