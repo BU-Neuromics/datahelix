@@ -4110,6 +4110,10 @@ config-driven <strong>portal</strong> design — now framed as the <strong>subst
 (<a href="../vision/"><code>vision.md</code></a>), not the product itself. The earlier CLI-first v0.1 specification
 (<code>sec1</code>–<code>sec6</code>) and its implementation were intentionally left behind in <code>drylims</code> history and
 are <strong>not</strong> reproduced here.</p>
+<blockquote>
+<p><strong>New here (or handing off)?</strong> Start with <a href="../ONBOARDING.md"><code>../ONBOARDING.md</code></a> — the repo entry
+point: status, how to run <code>web/</code>, the roadmap (as GitHub issues), and cross-component deps.</p>
+</blockquote>
 <h2 id="document-map">Document Map<a class="headerlink" href="#document-map" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -4156,6 +4160,36 @@ are <strong>not</strong> reproduced here.</p>
 <td>Gen3 deep comparison</td>
 <td>🟢 Research</td>
 <td>Service-by-service map of Gen3 to the whole BASS platform (fence+arborist=Bridge, Peregrine=Hippo GraphQL, dictionary=LinkML); explorerConfig ≈ our core-loop config; the two-tier graph+index lesson that answers our aggregation gap.</td>
+</tr>
+<tr>
+<td><code>library-survey.md</code></td>
+<td>Implementation library survey (2026-06-25)</td>
+<td>🟢 Research</td>
+<td>Package-level buy-vs-build for the complex components (vs. <code>prior-art.md</code>'s whole-product altitude). Leads: JSONForms (wizard-as-data), XState (engine, not config), Serverless Workflow DSL (steal the model), TanStack Table, nuqs, FINOS Perspective; runtime introspection-binding confirmed greenfield. Flags open angles: saga/W4.7, durable engines, admin/low-code, sandbox runtime.</td>
+</tr>
+<tr>
+<td><code>implementation-plan.md</code></td>
+<td>Implementation plan (working)</td>
+<td>🟠 Working</td>
+<td>Sequenced MVP build plan grounded in the ADRs. Phasing: 0 walking-skeleton (current) → read loop → write loop → Tier-1 workflow → control plane.</td>
+</tr>
+<tr>
+<td><code>claude-design-brief.md</code></td>
+<td>Claude Design brief (working)</td>
+<td>🟠 Working</td>
+<td>Ready-to-paste prompt for claude.ai/design to mock the skeleton UI + the ADR-0031 layout library; grounded in ADR-0002/0029/0030/0031 + core-loop. Feeds Phase 0.</td>
+</tr>
+<tr>
+<td><code>design-export/</code></td>
+<td>Claude Design export (reference)</td>
+<td>🟢 Reference</td>
+<td>The <code>.dc</code> prototype returned by Claude Design from the brief: all 3 layouts + 6 collections + table states. Visual source of truth for Phase 0; see its <code>README.md</code>.</td>
+</tr>
+<tr>
+<td><code>design-tokens.md</code></td>
+<td>Design tokens (seed)</td>
+<td>🟠 Working</td>
+<td>Framework-neutral token/type/spacing/radius set extracted from the export → seeds the <code>web/</code> theme.</td>
 </tr>
 <tr>
 <td><code>prefab/</code></td>
@@ -4277,13 +4311,13 @@ a status flip to <code>Accepted</code>, not a new document. Decisions are never 
 <tr>
 <td><a href="../decisions/ADR-0013-agent-loop-local-vs-remote/">0013</a></td>
 <td>One API-based agent loop; component source is the only file artifact</td>
-<td>🟡 Proposed</td>
+<td>⛔ Deferred (MVP)</td>
 <td>handoff §9.3 (Q3)</td>
 </tr>
 <tr>
 <td><a href="../decisions/ADR-0014-application-architecture/">0014</a></td>
 <td>Application architecture: server-rendered vs client-side shell</td>
-<td>🟡 Proposed</td>
+<td>✅ Accepted</td>
 <td>raised 2026-06-13</td>
 </tr>
 <tr>
@@ -4301,56 +4335,92 @@ a status flip to <code>Accepted</code>, not a new document. Decisions are never 
 <tr>
 <td><a href="../decisions/ADR-0017-data-plane-vs-control-plane/">0017</a></td>
 <td>Separate data plane (browsed sources) from control plane (config/state store)</td>
-<td>✅ Accepted</td>
+<td>✅ Accepted (amended L2)</td>
 <td>2026-06-15</td>
 </tr>
 <tr>
 <td><a href="../decisions/ADR-0018-agents-act-with-user-delegated-authority/">0018</a></td>
 <td>Agents act with the invoking user's delegated authority (not a separate principal)</td>
-<td>✅ Accepted</td>
+<td>⛔ Deferred (MVP)</td>
 <td>2026-06-16</td>
 </tr>
 <tr>
 <td><a href="../decisions/ADR-0019-per-user-llm-provider-keys/">0019</a></td>
 <td>Per-user LLM provider key management (config-as-LinkML; key refs, not secrets)</td>
-<td>✅ Accepted</td>
+<td>⛔ Deferred (MVP)</td>
 <td>2026-06-16</td>
 </tr>
 <tr>
 <td><a href="../decisions/ADR-0020-llm-conversations-are-provenance-events/">0020</a></td>
 <td>LLM conversations &amp; agent actions are provenance events + observability</td>
-<td>✅ Accepted</td>
+<td>⛔ Deferred (MVP)</td>
 <td>2026-06-16</td>
 </tr>
 <tr>
 <td><a href="../decisions/ADR-0021-defer-in-app-chat-mcp-agent-first/">0021</a></td>
 <td>Defer in-app chat; coding agent (MCP/API) is the near-term agent surface</td>
-<td>✅ Accepted</td>
+<td>⛔ Deferred (MVP)</td>
 <td>2026-06-16</td>
 </tr>
 <tr>
 <td><a href="../decisions/ADR-0022-data-story-is-an-instruction-path/">0022</a></td>
 <td>A data story is an instruction path → typed subgraph states + artifacts</td>
-<td>🟡 Proposed</td>
+<td>⛔ Deferred (MVP)</td>
 <td>instruction-path-model.md (D-1)</td>
 </tr>
 <tr>
 <td><a href="../decisions/ADR-0023-data-story-reproducibility-as-of-watermark/">0023</a></td>
 <td>Reproducibility: one as-of watermark per story-version; "pull new data" = recorded watermark-advance</td>
-<td>🟡 Proposed</td>
+<td>⛔ Deferred (MVP)</td>
 <td>instruction-path-model.md (D-2)</td>
 </tr>
 <tr>
 <td><a href="../decisions/ADR-0024-instruction-path-linear-first-general-schema/">0024</a></td>
 <td>Topology: general <code>parents</code>-list schema now, linear-only validator in v1</td>
-<td>🟡 Proposed</td>
+<td>⛔ Deferred (MVP)</td>
 <td>instruction-path-model.md (D-3)</td>
 </tr>
 <tr>
 <td><a href="../decisions/ADR-0025-mid-path-edit-recompute-with-suspend/">0025</a></td>
 <td>Mid-path edits recompute downstream + suspend-on-invalid (not discard)</td>
-<td>🟡 Proposed</td>
+<td>⛔ Deferred (MVP)</td>
 <td>instruction-path-model.md (D-5)</td>
+</tr>
+<tr>
+<td><a href="../decisions/ADR-0026-portal-first-mvp-defer-agentic-surfaces/">0026</a></td>
+<td>Portal-first MVP; defer agentic, agent-assist &amp; schema-editing surfaces</td>
+<td>✅ Accepted</td>
+<td>portal-requirements L1/L13/L14</td>
+</tr>
+<tr>
+<td><a href="../decisions/ADR-0027-read-and-write-portal/">0027</a></td>
+<td>Read <em>and</em> write portal; v1 write boundary = Tier 0 forms + one Tier 1 workflow</td>
+<td>✅ Accepted</td>
+<td>portal-requirements L3/L4</td>
+</tr>
+<tr>
+<td><a href="../decisions/ADR-0028-workflow-atomicity-staged-batch/">0028</a></td>
+<td>Workflow atomicity: stage → whole-set dry-run validate → atomic commit (Hippo #84); saga fallback</td>
+<td>✅ Accepted</td>
+<td>portal-requirements L9/L10</td>
+</tr>
+<tr>
+<td><a href="../decisions/ADR-0029-capability-gated-honest-degradation/">0029</a></td>
+<td>Capability-gated UI, honest degradation (faceting/aggregation/export)</td>
+<td>✅ Accepted</td>
+<td>portal-requirements L7/L8</td>
+</tr>
+<tr>
+<td><a href="../decisions/ADR-0030-frontend-stack/">0030</a></td>
+<td>Frontend stack: TS SPA (React + Vite + urql; TanStack Table + nuqs), in-repo, talks to Hippo directly</td>
+<td>✅ Accepted</td>
+<td>library-survey; N5.9</td>
+</tr>
+<tr>
+<td><a href="../decisions/ADR-0031-app-shell-layout-library/">0031</a></td>
+<td>App shell = library of fixed layouts selected by config; typed named-slot contract</td>
+<td>✅ Accepted</td>
+<td>layout design session</td>
 </tr>
 </tbody>
 </table>

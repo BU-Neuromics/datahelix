@@ -21,7 +21,7 @@
     
     
       
-        <title>Aperture — Prior-Art Survey (2026-06-16) - BASS Documentation</title>
+        <title>Aperture — Implementation Plan - BASS Documentation</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#aperture-prior-art-survey-2026-06-16" class="md-skip">
+        <a href="#aperture-implementation-plan" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Aperture — Prior-Art Survey (2026-06-16)
+              Aperture — Implementation Plan
             
           </span>
         </div>
@@ -3823,10 +3823,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#verdict-build-genuinely-greenfield" class="md-nav__link">
+  <a href="#phasing-overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verdict: BUILD (genuinely greenfield)
+        Phasing (overview)
       
     </span>
   </a>
@@ -3834,57 +3834,85 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#closest-matches-fit-gap" class="md-nav__link">
+  <a href="#phase-0-walking-skeleton" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Closest matches — fit / gap
+        Phase 0 — Walking skeleton
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 0 — Walking skeleton">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Steps
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#design-lessons-mapped-to-our-decisions" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#explicitly-out-of-scope-phase-0" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Design lessons mapped to our decisions
+        Explicitly out of scope (Phase 0)
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#caveats-coverage-gaps-absence-evidence" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#dependencies-dev-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Caveats &amp; coverage gaps (absence ≠ evidence)
+        Dependencies &amp; dev setup
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#recommended-follow-ups" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#tests" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recommended follow-ups
+        Tests
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#sources-verified-primary-unless-noted" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#acceptance-criteria" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sources (verified, primary unless noted)
+        Acceptance criteria
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open-questions-to-resolve-during-phase-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open questions to resolve during Phase 0
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3905,157 +3933,128 @@
 
 
 
-<h1 id="aperture-prior-art-survey-2026-06-16">Aperture — Prior-Art Survey (2026-06-16)<a class="headerlink" href="#aperture-prior-art-survey-2026-06-16" title="Permanent link">&para;</a></h1>
+<h1 id="aperture-implementation-plan">Aperture — Implementation Plan<a class="headerlink" href="#aperture-implementation-plan" title="Permanent link">&para;</a></h1>
+<p><strong>Status:</strong> 🟠 Working plan (2026-06-30). Sequenced build plan for the MVP, grounded in the ADRs
+(esp. ADR-0014 SPA, ADR-0017 Layer-D adapter, ADR-0029 capability-gating, ADR-0030 stack) and
+<code>portal-requirements.md</code> (R3.<em>/W4.</em>/N5.<em>). </em><em>Current focus: Phase 0 — the walking skeleton.</em>*</p>
 <blockquote>
-<p><strong>Companion:</strong> <a href="../library-survey/"><code>library-survey.md</code></a> (2026-06-25) takes this down to the
-<strong>implementation-package</strong> altitude — concrete libraries (JSONForms, XState, Serverless
-Workflow, TanStack Table, nuqs, Perspective) with maturity/license/fit-gap and build-vs-adopt
-verdicts, deepest on the multi-step <strong>workflow</strong> component.</p>
+<p><strong>Visual target available (2026-07-01):</strong> the Claude Design export
+(<a href="./design-export/"><code>design-export/</code></a>) is the visual source of truth for the skeleton, and
+<a href="../design-tokens/"><code>design-tokens.md</code></a> is the extracted design-system seed for the <code>web/</code>
+theme. Phase-0 steps 0.1a / 0.5 implement against these (hand-translated to React + TanStack —
+not converted; self-host fonts, tokenize inline styles — see the export README's "deltas").</p>
 </blockquote>
-<p><strong>Status:</strong> 🟢 Research findings (verified). Deep-research harness: 5 angles, 24 sources
-fetched, 91 claims extracted, 25 verified by 3-vote adversarial check (25 confirmed, 0 killed;
-mostly primary sources). Informs — does not override — the ADRs.</p>
-<h2 id="verdict-build-genuinely-greenfield">Verdict: BUILD (genuinely greenfield)<a class="headerlink" href="#verdict-build-genuinely-greenfield" title="Permanent link">&para;</a></h2>
-<p><strong>No surveyed tool unifies Aperture's pillars</strong> — config-as-data + GraphQL-introspection-driven
-binding + a typed serializable noun-catalog view vocabulary + a capability-scoped Web-Worker
-component sandbox + LLM/agent-editable config. The prior art splits on two axes, and nothing
-spans both (let alone the sandbox + agent pillars):</p>
-<ul>
-<li><strong>(a) Config-driven scientific portals</strong> — Gen3, DataBiosphere. Real schema-derived faceted
-  UIs, but bespoke REST/Elasticsearch backends, no Worker sandbox, no agent editing.</li>
-<li><strong>(b) Declarative spec-as-data viz/dashboard grammars</strong> — Vega/Vega-Lite, Grafana JSON. The
-  canonical models for a serializable, growable, typed view vocabulary, but no schema-binding
-  or data-portal layer.</li>
-</ul>
-<p><strong>Recommendation: build, reusing patterns piecemeal.</strong> Prototype the config/binding layer
-against Gen3's validation model + Hippo introspection; prototype the view layer against
-Vega-Lite's compiler + view-algebra; treat Grafana's frontend sandbox as a <em>cautionary tale</em>,
-not a foundation.</p>
-<h2 id="closest-matches-fit-gap">Closest matches — fit / gap<a class="headerlink" href="#closest-matches-fit-gap" title="Permanent link">&para;</a></h2>
+<h2 id="phasing-overview">Phasing (overview)<a class="headerlink" href="#phasing-overview" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Tool</th>
-<th>What it proves</th>
-<th>Gap vs Aperture</th>
+<th>Phase</th>
+<th>Deliverable</th>
+<th>Requirements</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Gen3 Data Explorer</strong> ⭐</td>
-<td>Faceted UI driven by a <strong>serializable JSON config</strong> (<code>gitops.json</code>/<code>explorerConfig</code>: filters/tabs/charts/table blocks) <strong>validated so only properties in the backend ETL mapping + Data Dictionary can be surfaced</strong> — real config-as-data + schema-derived binding, = our L1 composition + L2 binding split</td>
-<td>Validation is <strong>CI-time tooling</strong> (gen3utils), not structural; backend is bespoke Guppy/Elasticsearch, <strong>not an introspectable GraphQL transport</strong></td>
+<td><strong>0 — Walking skeleton</strong> <em>(this plan)</em></td>
+<td>SPA boots → connects to a Hippo GraphQL endpoint → negotiates capabilities → lists <strong>one</strong> schema-derived collection in a table, with query-state in the URL. Proves the spine.</td>
+<td>N5.1/N5.2/N5.9; R3.1/R3.2 (thin slice)</td>
 </tr>
 <tr>
-<td><strong>DataBiosphere/data-browser</strong></td>
-<td>One Next.js codebase → many portals (AnVIL, HCA, LungMAP) via per-site config — <strong>multi-portal-from-config is proven</strong></td>
-<td>Config is <strong>TypeScript <em>code</em></strong> (imports live React components/builders), <strong>not serializable data</strong>; REST/Azul backend. A <em>counter-example</em> that validates our config-as-LinkML-data choice</td>
+<td>1 — Read loop</td>
+<td>Full browse: collections nav, table, <strong>facets + FTS</strong>, detail, cross-links, export</td>
+<td>R3.1–R3.10; ADR-0029</td>
 </tr>
 <tr>
-<td><strong>ra-data-graphql / react-admin</strong></td>
-<td>Runtime <strong>GraphQL introspection</strong> data provider is an established pattern</td>
-<td>Maintainer: runtime introspection <strong>unsuitable for production</strong> (often disabled for security); binding is <strong>coded</strong> in a <code>buildQuery</code> adapter, <strong>not derived</strong> from schema</td>
+<td>2 — Write loop (Tier 0)</td>
+<td>Schema-derived create/edit forms + client pre-validation</td>
+<td>W4.1–W4.5; ADR-0027</td>
 </tr>
 <tr>
-<td><strong>DataHarmonizer</strong></td>
-<td><strong>LinkML-native</strong> UI generated from schema annotations (columns/picklists/validation from <code>range</code>/<code>enum</code>/<code>title</code>/<code>slot_group</code>; surfaced via <code>is_a: dh_interface</code>) — validates <strong>binding-from-annotations</strong></td>
-<td>Offline <strong>spreadsheet editor</strong> (xlsx/csv import/export); <strong>no GraphQL</strong>; compiles LinkML → templates, not → a live transport</td>
+<td>3 — Tier 1 workflow</td>
+<td>One guided multi-step workflow (staged → validate → atomic commit via Hippo #84)</td>
+<td>W4.6–W4.9; ADR-0028</td>
 </tr>
 <tr>
-<td><strong>Vega-Lite</strong> ⭐</td>
-<td>Template for a serializable, typed, <strong>growable</strong> noun-catalog without a bloated DSL: a <strong>closed view algebra</strong> (layer/concat/facet/repeat) + a <strong>smart-defaults compiler</strong> that absorbs complexity; cleanly separates <em>what to show</em> (declarative) from <em>how to compute</em> (compiler/runtime)</td>
-<td>Pure viz layer — no schema binding, no data-portal, no security</td>
-</tr>
-<tr>
-<td><strong>Vega</strong></td>
-<td>"View-description is <strong>self-contained JSON parsed by a separate runtime</strong>" — exactly our emit-spec/render-elsewhere split</td>
-<td>(same — viz only)</td>
-</tr>
-<tr>
-<td><strong>Grafana dashboard-spec</strong></td>
-<td>Dashboard-as-data with a <strong>typed schema</strong> works and is battle-tested</td>
-<td>The externalized spec repo was <strong>deprecated and reabsorbed into the runtime</strong> → keep config schema <strong>co-evolving with the runtime that consumes it</strong> (validates config-in-Hippo)</td>
-</tr>
-<tr>
-<td><strong>Grafana Plugin Frontend Sandbox</strong></td>
-<td>Closest frontend-component-sandbox prior art</td>
-<td><strong>Same-thread Proxy/realm membrane</strong> (not Worker/iframe/WASM); <strong>coarse isolation only — prevents UI/global interference but does NOT scope data-access authority.</strong> Public-preview, off by default, excludes Angular/signed plugins — <strong>unproven</strong></td>
-</tr>
-<tr>
-<td><strong>Observable runtime</strong></td>
-<td>Strongest model for "<strong>components emit values, never touch the DOM</strong>": <code>variable.define(name, inputs, def)</code> with explicit deps + headless observers that render</td>
-<td><strong>No security sandbox / capability scoping</strong> — that part is Aperture's to add via the Worker boundary</td>
+<td>4 — Control plane</td>
+<td>Saved views, drafts, config-as-data persistence (LinkML-on-Hippo)</td>
+<td>ADR-0003/0017; L10</td>
 </tr>
 </tbody>
 </table>
-<h2 id="design-lessons-mapped-to-our-decisions">Design lessons mapped to our decisions<a class="headerlink" href="#design-lessons-mapped-to-our-decisions" title="Permanent link">&para;</a></h2>
+<p>Component sandbox (ADR-0011), agentic &amp; schema-editing surfaces are <strong>deferred</strong> (ADR-0026).</p>
+<hr />
+<h2 id="phase-0-walking-skeleton">Phase 0 — Walking skeleton<a class="headerlink" href="#phase-0-walking-skeleton" title="Permanent link">&para;</a></h2>
+<p><strong>Goal.</strong> The smallest end-to-end vertical slice that exercises the architecture's spine:
+<strong>config → Layer-D adapter → capability negotiation → schema-derived render</strong>. When done, a
+developer points the app at a running <code>hippo serve</code>, the app introspects the schema, lists entity
+types, and renders one type's entities in a TanStack table with the collection + page reflected in
+the URL. No facets, detail, write, or auth yet.</p>
+<p><strong>Why this slice.</strong> It de-risks the novel bet (<code>prior-art.md</code>): runtime schema-introspection →
+derived binding, behind the capability protocol — the thing nobody else does — on the smallest
+possible surface.</p>
+<h3 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Config-as-LinkML-data (ADR-0003):</strong> <em>strongly validated.</em> Gen3 proves config-as-data with
-  schema-validated binding; DataBiosphere's TS-code config is the bloat/agent-hostile
-  counter-example; Grafana's externalized-spec reabsorption says <strong>keep config co-evolving with
-  the runtime</strong> — i.e. config-as-LinkML-<em>in-Hippo</em> is the right instinct.</li>
-<li><strong>Derived binding from schema annotations:</strong> <strong>this is our novel bet — nobody surveyed
-  auto-derives GraphQL binding from schema.</strong> GraphQL providers <em>code</em> binding (<code>buildQuery</code>);
-  DataHarmonizer derives UI from LinkML annotations but only offline. → <strong>De-risk with a Hippo
-  introspection → derived-binding prototype</strong>, and <strong>do not depend on live standard <code>__schema</code>
-  in production</strong> (commonly gated); Hippo's <em>custom</em> <code>hippoSchema</code> query sidesteps this if it
-  can be auth-gated rather than disabled.</li>
-<li><strong>Noun-catalog view vocabulary (ADR-0010):</strong> Vega-Lite is the <strong>design template</strong> — a closed
-  set of typed primitives + a smart-defaults compiler is exactly how to grow the catalog
-  (table/faceted-list/KM-curve/heatmap) <strong>without</strong> a middle scripting layer (ADR-0004). Its
-  layer/facet/repeat algebra models view composition; its noun-vs-verb split validates pushing
-  computation to the GraphQL query layer.</li>
-<li><strong>View-description-not-DOM (ADR-0009):</strong> validated by Vega (serializable spec + separate
-  runtime) and Observable (emit-values-to-observer, explicit-dependency recompute).</li>
-<li><strong>Worker sandbox + capability-scoped client (ADR-0008, ADR-0011):</strong> Grafana's sandbox is the
-  closest prior art <strong>and the key cautionary tale</strong> — it stops the DOM-tampering/ambient-UI
-  trap but <strong>does not scope data authority per viewer.</strong> Our Worker boundary + injected
-  <strong>capability-scoped data client</strong> is a <strong>genuine advance and our core differentiator</strong> — but
-  it is <strong>unproven prior art</strong> (nobody does it), so it carries real design risk.</li>
-<li><strong>Capability-negotiated adapter (architecture Layer D):</strong> <strong>no prior art</strong> — no surveyed tool
-  gates UI features by negotiated GraphQL source capability. <strong>Design from first principles.</strong></li>
-<li><strong>Agent-editable config (ADR-0018, ADR-0021):</strong> <strong>zero verified prior art surfaced</strong> for
-  agent-driven editing of config-as-data via MCP with dry-run + user-authority. Consistent with
-  being novel, but <strong>unconfirmed</strong> — leads worth a follow-up: A2UI (<code>a2ui.org</code>, "AI agent for
-  UI"), Retool 2025 AI features, "Grafana dashboards via AI CLI."</li>
+<li><strong>0.1 — Repo &amp; tooling.</strong> Add a top-level <strong><code>web/</code></strong> package: Vite + React + TypeScript, ESLint</li>
+<li>Prettier, Vitest, <code>npm</code>/<code>pnpm</code> scripts (<code>dev</code>/<code>build</code>/<code>test</code>/<code>typecheck</code>/<code>lint</code>). Add a CI job
+  (typecheck + lint + test + build) alongside the existing Python CI. <em>(ADR-0030)</em></li>
+<li><strong>0.1a — App shell (layout library).</strong> A <strong>layout registry</strong> + a typed <strong>named-slot contract</strong>
+  (<code>header</code>, <code>primaryNav</code>, <code>main</code>, optional <code>footer</code>/<code>inspector</code>/<code>aside</code>); ship <strong>one</strong> hard-coded
+  layout <code>headerNavMain</code> implementing it. Config "selects" a layout (trivial — one entry) and binds
+  content to slots; a slot a layout lacks degrades honestly. The registry seam exists so more
+  layouts drop in later without a refactor. <em>(ADR-0031)</em></li>
+<li><strong>0.2 — Endpoint config.</strong> A single <strong>active endpoint</strong> (L2) resolved from env/config
+  (<code>VITE_HIPPO_GRAPHQL_URL</code>, mirroring the Python side's <code>BASS_*</code> convention). One config module;
+  no multi-source. <em>(N5.2)</em></li>
+<li><strong>0.3 — GraphQL client + Layer-D adapter.</strong> A urql client; a <code>HippoSource</code> adapter module that:
+  (a) runs <code>__schema</code> introspection baseline + Hippo <code>hippoSchema</code>/<code>hippoEntityType</code> enrichment,
+  (b) exposes a typed <strong><code>Capabilities</code></strong> object (facets, FTS, pagination kind, sort, aggregation,
+  relationship traversal, batch write — populated from what the endpoint advertises). <em>(ADR-0017;
+  N5.1)</em></li>
+<li><strong>0.4 — Capability seam.</strong> A small <code>useCapabilities()</code> surface the UI reads; features check it
+  and <strong>degrade honestly</strong> — Phase 0 only needs "offset pagination supported?" but the seam is the
+  one ADR-0029 mandates, established here so later features plug in. <em>(ADR-0029)</em></li>
+<li><strong>0.5 — Schema-derived collection list (the slice).</strong> Query <code>hippoSchema</code> → list entity types
+  (rendered in the <code>primaryNav</code> slot) → select one → query its entities (offset page) → render a
+  <strong>TanStack Table</strong> in the <code>main</code> slot whose columns derive from the type's slots (scalar/enum/ref
+  renderers minimal). Loading/empty/error states. <em>(R3.1/R3.2; slots per ADR-0031)</em></li>
+<li><strong>0.6 — Query-state in URL.</strong> <code>nuqs</code>-backed state for <code>{collection, page}</code> so the view is
+  shareable/bookmarkable — the R3.9 precursor, proven on the thin slice. <em>(R3.9)</em></li>
+<li><strong>0.7 — Capability-scoped client seam (no-op).</strong> Thread the data client through an injection
+  point so Bridge can later wrap it; for MVP it's a transparent pass-through. <em>(ADR-0008/0016; N5.3)</em></li>
 </ul>
-<h2 id="caveats-coverage-gaps-absence-evidence">Caveats &amp; coverage gaps (absence ≠ evidence)<a class="headerlink" href="#caveats-coverage-gaps-absence-evidence" title="Permanent link">&para;</a></h2>
+<h3 id="explicitly-out-of-scope-phase-0">Explicitly out of scope (Phase 0)<a class="headerlink" href="#explicitly-out-of-scope-phase-0" title="Permanent link">&para;</a></h3>
+<p>Facets/FTS, detail view, cross-links, export (→ Phase 1); any write (→ Phase 2/3); component
+sandbox; real control-plane store (Phase 4); auth beyond the no-op seam.</p>
+<h3 id="dependencies-dev-setup">Dependencies &amp; dev setup<a class="headerlink" href="#dependencies-dev-setup" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>No surviving verified claims</strong> for several area-1 frameworks (<strong>Refine, Directus,
-  PostGraphile, Retool/Appsmith/Budibase/ToolJet, Forest Admin, Strapi, Amplication</strong>) or
-  several area-4 portals (<strong>cBioPortal, OHDSI ATLAS, i2b2/tranSMART, Beacon v2, CZ CELLxGENE,
-  HuBMAP</strong>). Their absence here is <em>not</em> a finding about them.</li>
-<li><strong>GraphQL introspection-disabled-in-prod is configurable</strong>, not absolute — Hasura/PostGraphile
-  can gate it behind auth. Design for both gated and open.</li>
-<li><strong>Grafana's sandbox is public-preview</strong> (&gt;=11.5, Jan 2025), not a hardened boundary; weaker
-  than our intended Worker boundary.</li>
-<li>Current Grafana schema work (CUE/kindsys/K8s-style kinds, V2) was <strong>not</strong> deeply surveyed —
-  may hold fresher dashboard-as-data lessons.</li>
+<li>A running <strong>Hippo GraphQL</strong> endpoint (<code>hippo serve</code>, graphql extra) for dev + e2e; document the
+  one-liner. Confirm CORS / introspection availability against <code>hippo serve</code> early (a known risk —
+  <code>prior-art.md</code> notes introspection is sometimes gated; Hippo's <code>hippoSchema</code> sidesteps standard
+  <code>__schema</code> if needed).</li>
 </ul>
-<h2 id="recommended-follow-ups">Recommended follow-ups<a class="headerlink" href="#recommended-follow-ups" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>De-risk the novel bet:</strong> prototype Hippo <code>hippoSchema</code> introspection → <strong>derived binding</strong>
-   (the thing nobody has done) — directly feeds core-loop Step 2/3.</li>
-<li><strong>Prototype config validation</strong> against <strong>Gen3's <code>gitops.json</code> model</strong> (config-as-data
-   validated against the backend schema), translated to LinkML-validated config.</li>
-<li><strong>Prototype the view layer</strong> against <strong>Vega-Lite's compiler + view-algebra</strong> as the
-   noun-catalog reference.</li>
-<li><strong>Dedicated follow-up search</strong> on agent-editable config-as-data (A2UI / MCP-over-config) —
-   the one pillar with no verified prior art.</li>
-<li><strong>Quick prototype-fit eval</strong> of the unsurveyed frameworks (esp. <strong>Refine, Directus,
-   PostGraphile, Hasura DDN v3</strong>) for whether any consumes GraphQL introspection to emit
-   serializable config (not code).</li>
-</ol>
-<h2 id="sources-verified-primary-unless-noted">Sources (verified, primary unless noted)<a class="headerlink" href="#sources-verified-primary-unless-noted" title="Permanent link">&para;</a></h2>
+<h3 id="tests">Tests<a class="headerlink" href="#tests" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Gen3: <code>docs.gen3.org/.../customize-search/</code>, <code>github.com/uc-cdis/data-portal</code> (portal_config), <code>github.com/uc-cdis/gen3utils</code></li>
-<li>DataBiosphere: <code>github.com/DataBiosphere/data-browser</code>, <code>github.com/DataBiosphere/azul</code></li>
-<li>react-admin GraphQL: <code>github.com/marmelab/react-admin</code> (ra-data-graphql README; issue #6639); Hasura introspection docs</li>
-<li>DataHarmonizer: <code>github.com/cidgoh/DataHarmonizer</code>; <code>linkml.io/linkml/generators/</code></li>
-<li>Vega-Lite: <code>idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf</code>; Vega: <code>vega.github.io/vega/</code></li>
-<li>Grafana: <code>github.com/grafana/dashboard-spec</code>; frontend-sandbox docs + 2025-01-14 what's-new</li>
-<li>Observable: <code>github.com/observablehq/runtime</code></li>
-<li>Agent-UI leads (unverified): <code>a2ui.org</code>, Grid Dynamics A2UI blog, Retool 2025 features, Quesma "Grafana dashboards via AI CLI"</li>
+<li><strong>Adapter unit tests</strong> (mock GraphQL): introspection → <code>Capabilities</code>; schema → column model.</li>
+<li><strong>Component test</strong>: table renders rows/columns from a fixture; empty/error states.</li>
+<li><strong>Capability-gating test</strong>: a feature hidden when its capability is absent (no faking).</li>
+<li><strong>Smoke e2e</strong> (optional, gated on a dev Hippo): boot → list a seeded type.</li>
+</ul>
+<h3 id="acceptance-criteria">Acceptance criteria<a class="headerlink" href="#acceptance-criteria" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>cd web &amp;&amp; npm run dev</code>, point at a <code>hippo serve</code> URL → app lists entity types, renders one
+  type's entities in a table; <code>{collection, page}</code> round-trips through the URL.</li>
+<li>The adapter exposes a populated <code>Capabilities</code> object; at least one UI affordance is gated on it.</li>
+<li>CI (JS pipeline) green: typecheck, lint, unit tests, build.</li>
+</ul>
+<h3 id="open-questions-to-resolve-during-phase-0">Open questions to resolve during Phase 0<a class="headerlink" href="#open-questions-to-resolve-during-phase-0" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>web/</code> vs <code>app/</code> dir name; <code>npm</code> vs <code>pnpm</code>.</li>
+<li>The <strong>slot superset</strong> for the layout contract (ADR-0031): start minimal
+  (<code>header</code>/<code>primaryNav</code>/<code>main</code>/<code>footer</code>) and grow, vs. enumerate <code>inspector</code>/<code>aside</code> now. Lean
+  minimal; add slots when a layout needs them.</li>
+<li>Exact shape of the <code>Capabilities</code> type (enumerate now vs. grow per feature — start minimal).</li>
+<li>Whether to generate TS types from the Hippo schema at build time, or stay fully runtime-derived
+  (lean runtime-derived per the novel bet; revisit if DX suffers).</li>
 </ul>
 
 

@@ -4589,6 +4589,15 @@ for large batch loads where a few malformed rows should not roll back thousands 
 writes.</p>
 <p><strong><code>--atomic</code> flag (future):</strong> A future <code>--atomic</code> flag will wrap the entire batch in a single
 transaction, rolling back all writes if any record fails. Deferred from v0.1.</p>
+<blockquote>
+<p><strong>Batch unit-of-work (issue #84).</strong> The flat-file <code>--atomic</code> idea generalizes to an SDK-level
+<strong>batch unit-of-work</strong>: <code>HippoClient.validate_batch()</code> (whole-set dry-run validation, no writes)
+and <code>HippoClient.batch_put()</code> (atomic multi-entity commit via the existing
+<code>staged_transaction()</code>, with intra-batch reference resolution). Exposed over the transports as
+REST <code>POST /ingest/validate</code> + <code>POST /ingest/batch</code> and GraphQL <code>validateBatch</code> / <code>ingestBatch</code>.
+Driven by the Aperture write loop (<code>aperture/design/portal-requirements.md</code> X4). See
+<code>openspec/changes/batch-unit-of-work/</code>.</p>
+</blockquote>
 <hr />
 <h3 id="55-relationship-ingestion">5.5 Relationship Ingestion<a class="headerlink" href="#55-relationship-ingestion" title="Permanent link">&para;</a></h3>
 <p>Relationships between entities can be declared inline in flat-file ingestion via a special

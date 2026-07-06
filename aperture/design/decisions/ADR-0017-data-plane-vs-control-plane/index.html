@@ -3845,6 +3845,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#amendment-2026-06-30-mvp-narrowing-portal-requirementsmd-l2-n54" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amendment (2026-06-30 — MVP narrowing, portal-requirements.md L2 / N5.4)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#consequences" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3908,6 +3919,18 @@ GraphQL in two unrelated roles, and treating them as one muddied the architectur
 points at Canon/Cappella or a third-party GraphQL API.</strong> ADR-0003 therefore reads as "the
 config-store port has a reference implementation in LinkML-on-Hippo," not "Aperture requires
 Hippo."</p>
+<h2 id="amendment-2026-06-30-mvp-narrowing-portal-requirementsmd-l2-n54">Amendment (2026-06-30 — MVP narrowing, <code>portal-requirements.md</code> L2 / N5.4)<a class="headerlink" href="#amendment-2026-06-30-mvp-narrowing-portal-requirementsmd-l2-n54" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>One active data-plane endpoint at a time (L2).</strong> The data plane stays <em>source-agnostic and
+  capability-negotiated</em>, but the MVP talks to exactly <strong>one</strong> active endpoint at a time
+  (Hippo now; swapping to Bridge or a future Cappella gateway is a <strong>config change, not a
+  refactor</strong>). Cross-source <strong>federation is deferred</strong> and, if ever needed, is a gateway (Bridge)
+  concern, not Aperture's — this narrows the "potentially many heterogeneous sources" framing
+  below to "one swappable source" for the MVP without changing the plane split.</li>
+<li><strong>Control plane co-located for MVP (N5.4).</strong> The MVP runs the control-plane store on <strong>a Hippo</strong>
+  (may be the same instance as the data plane). The port abstraction is unchanged; co-location is
+  a deployment stance, reversible.</li>
+</ul>
 <h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
 <ul>
 <li>The data-access layer must be a capability-negotiated source adapter (see <code>architecture.md</code>

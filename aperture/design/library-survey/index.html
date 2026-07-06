@@ -21,7 +21,7 @@
     
     
       
-        <title>Aperture — Prior-Art Survey (2026-06-16) - BASS Documentation</title>
+        <title>Aperture — Implementation Library & Package Survey (2026-06-25) - BASS Documentation</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#aperture-prior-art-survey-2026-06-16" class="md-skip">
+        <a href="#aperture-implementation-library-package-survey-2026-06-25" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Aperture — Prior-Art Survey (2026-06-16)
+              Aperture — Implementation Library &amp; Package Survey (2026-06-25)
             
           </span>
         </div>
@@ -3823,10 +3823,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#verdict-build-genuinely-greenfield" class="md-nav__link">
+  <a href="#build-vs-adopt-summary-per-component-area" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verdict: BUILD (genuinely greenfield)
+        Build-vs-adopt summary (per component area)
       
     </span>
   </a>
@@ -3834,10 +3834,104 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#closest-matches-fit-gap" class="md-nav__link">
+  <a href="#detailed-findings" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Closest matches — fit / gap
+        Detailed findings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Detailed findings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-schema-form-wizard-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Schema → form + wizard generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-workflow-the-multi-step-component-deepest-angle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Workflow — the multi-step component (deepest angle)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-data-grid-faceted-browse-urlquery-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Data grid + faceted browse + URL/query-state
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-graphql-client-introspection-driven-binding-greenfield-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. GraphQL client + introspection-driven binding — greenfield (BUILD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-client-side-aggregation-the-x1-facet-count-gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Client-side aggregation (the X1 facet-count gap)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-component-sandbox-runtime-extracted-not-adversarially-verified-treat-as-leads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Component sandbox runtime ⚠️ (extracted, NOT adversarially verified — treat as leads)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-admin-low-code-re-evaluation-not-covered-this-round" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Admin / low-code re-evaluation — Not covered this round
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-this-lands-against-the-locked-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How this lands against the locked decisions
       
     </span>
   </a>
@@ -3845,10 +3939,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#design-lessons-mapped-to-our-decisions" class="md-nav__link">
+  <a href="#recommended-follow-ups-ordered" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Design lessons mapped to our decisions
+        Recommended follow-ups (ordered)
       
     </span>
   </a>
@@ -3856,32 +3950,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#caveats-coverage-gaps-absence-evidence" class="md-nav__link">
+  <a href="#sources-primary-verified-unless-noted" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Caveats &amp; coverage gaps (absence ≠ evidence)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recommended-follow-ups" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recommended follow-ups
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sources-verified-primary-unless-noted" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sources (verified, primary unless noted)
+        Sources (primary, verified unless noted)
       
     </span>
   </a>
@@ -3905,157 +3977,281 @@
 
 
 
-<h1 id="aperture-prior-art-survey-2026-06-16">Aperture — Prior-Art Survey (2026-06-16)<a class="headerlink" href="#aperture-prior-art-survey-2026-06-16" title="Permanent link">&para;</a></h1>
-<blockquote>
-<p><strong>Companion:</strong> <a href="../library-survey/"><code>library-survey.md</code></a> (2026-06-25) takes this down to the
-<strong>implementation-package</strong> altitude — concrete libraries (JSONForms, XState, Serverless
-Workflow, TanStack Table, nuqs, Perspective) with maturity/license/fit-gap and build-vs-adopt
-verdicts, deepest on the multi-step <strong>workflow</strong> component.</p>
-</blockquote>
-<p><strong>Status:</strong> 🟢 Research findings (verified). Deep-research harness: 5 angles, 24 sources
-fetched, 91 claims extracted, 25 verified by 3-vote adversarial check (25 confirmed, 0 killed;
-mostly primary sources). Informs — does not override — the ADRs.</p>
-<h2 id="verdict-build-genuinely-greenfield">Verdict: BUILD (genuinely greenfield)<a class="headerlink" href="#verdict-build-genuinely-greenfield" title="Permanent link">&para;</a></h2>
-<p><strong>No surveyed tool unifies Aperture's pillars</strong> — config-as-data + GraphQL-introspection-driven
-binding + a typed serializable noun-catalog view vocabulary + a capability-scoped Web-Worker
-component sandbox + LLM/agent-editable config. The prior art splits on two axes, and nothing
-spans both (let alone the sandbox + agent pillars):</p>
-<ul>
-<li><strong>(a) Config-driven scientific portals</strong> — Gen3, DataBiosphere. Real schema-derived faceted
-  UIs, but bespoke REST/Elasticsearch backends, no Worker sandbox, no agent editing.</li>
-<li><strong>(b) Declarative spec-as-data viz/dashboard grammars</strong> — Vega/Vega-Lite, Grafana JSON. The
-  canonical models for a serializable, growable, typed view vocabulary, but no schema-binding
-  or data-portal layer.</li>
-</ul>
-<p><strong>Recommendation: build, reusing patterns piecemeal.</strong> Prototype the config/binding layer
-against Gen3's validation model + Hippo introspection; prototype the view layer against
-Vega-Lite's compiler + view-algebra; treat Grafana's frontend sandbox as a <em>cautionary tale</em>,
-not a foundation.</p>
-<h2 id="closest-matches-fit-gap">Closest matches — fit / gap<a class="headerlink" href="#closest-matches-fit-gap" title="Permanent link">&para;</a></h2>
+<h1 id="aperture-implementation-library-package-survey-2026-06-25">Aperture — Implementation Library &amp; Package Survey (2026-06-25)<a class="headerlink" href="#aperture-implementation-library-package-survey-2026-06-25" title="Permanent link">&para;</a></h1>
+<p><strong>Status:</strong> 🟢 Research findings. Companion to <a href="../prior-art/"><code>prior-art.md</code></a> and
+<a href="../gen3-comparison/"><code>gen3-comparison.md</code></a> — those survey <strong>whole-product prior art</strong> (Gen3,
+Vega-Lite, Grafana, Observable, react-admin); this surveys <strong>concrete implementation
+libraries</strong> we could adopt or learn from, at the package level, with <strong>multi-step workflows</strong>
+as the centerpiece. Informs — does not override — the ADRs.</p>
+<p><strong>Provenance:</strong> deep-research harness, 2026-06-25. 5 search angles → 25 sources fetched → 77
+claims extracted → 25 adversarially verified (3-vote; <strong>24 confirmed, 1 killed</strong>). All
+confirmed findings rest on <strong>primary sources</strong> (GitHub repos, npm, official docs). Version/star
+facts are accurate as of the survey date and <strong>will drift</strong>. ⚠️ Several requested angles
+produced <strong>no verified claims this round</strong> — they are flagged <em>Not covered</em> below and remain open
+(don't read absence as a negative verdict).</p>
+<hr />
+<h2 id="build-vs-adopt-summary-per-component-area">Build-vs-adopt summary (per component area)<a class="headerlink" href="#build-vs-adopt-summary-per-component-area" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Tool</th>
-<th>What it proves</th>
-<th>Gap vs Aperture</th>
+<th>Area</th>
+<th>Verdict</th>
+<th>Lead pick</th>
+<th>Why / caveat</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Gen3 Data Explorer</strong> ⭐</td>
-<td>Faceted UI driven by a <strong>serializable JSON config</strong> (<code>gitops.json</code>/<code>explorerConfig</code>: filters/tabs/charts/table blocks) <strong>validated so only properties in the backend ETL mapping + Data Dictionary can be surfaced</strong> — real config-as-data + schema-derived binding, = our L1 composition + L2 binding split</td>
-<td>Validation is <strong>CI-time tooling</strong> (gen3utils), not structural; backend is bespoke Guppy/Elasticsearch, <strong>not an introspectable GraphQL transport</strong></td>
+<td>Schema → form + wizard</td>
+<td><strong>ADOPT</strong></td>
+<td><strong>JSONForms</strong> (EclipseSource, MIT)</td>
+<td>Form <em>and</em> stepper-wizard are <strong>serializable JSON</strong> (schema + UI-schema) — the only surveyed lib whose wizard definition is config-as-data. RJSF / Formily are alternates.</td>
 </tr>
 <tr>
-<td><strong>DataBiosphere/data-browser</strong></td>
-<td>One Next.js codebase → many portals (AnVIL, HCA, LungMAP) via per-site config — <strong>multi-portal-from-config is proven</strong></td>
-<td>Config is <strong>TypeScript <em>code</em></strong> (imports live React components/builders), <strong>not serializable data</strong>; REST/Azul backend. A <em>counter-example</em> that validates our config-as-LinkML-data choice</td>
+<td>Workflow-as-config model</td>
+<td><strong>STEAL pattern</strong></td>
+<td><strong>CNCF Serverless Workflow DSL</strong></td>
+<td>Best serializable declarative workflow DSL (switch/listen/emit/for). A <em>server orchestration</em> DSL, not a UI-form-flow spec → steal the model, don't adopt wholesale.</td>
 </tr>
 <tr>
-<td><strong>ra-data-graphql / react-admin</strong></td>
-<td>Runtime <strong>GraphQL introspection</strong> data provider is an established pattern</td>
-<td>Maintainer: runtime introspection <strong>unsuitable for production</strong> (often disabled for security); binding is <strong>coded</strong> in a <code>buildQuery</code> adapter, <strong>not derived</strong> from schema</td>
+<td>Wizard runtime engine</td>
+<td><strong>ADOPT (as interpreter target)</strong></td>
+<td><strong>XState</strong> (MIT)</td>
+<td>Mature statechart engine; hierarchical/parallel/<strong>history</strong> states map to multi-step/branching/resume. ⚠️ <strong>code-not-data</strong> — we interpret <em>our</em> config and drive XState; XState machines are <strong>not</strong> our serialization format.</td>
 </tr>
 <tr>
-<td><strong>DataHarmonizer</strong></td>
-<td><strong>LinkML-native</strong> UI generated from schema annotations (columns/picklists/validation from <code>range</code>/<code>enum</code>/<code>title</code>/<code>slot_group</code>; surfaced via <code>is_a: dh_interface</code>) — validates <strong>binding-from-annotations</strong></td>
-<td>Offline <strong>spreadsheet editor</strong> (xlsx/csv import/export); <strong>no GraphQL</strong>; compiles LinkML → templates, not → a live transport</td>
+<td>Data grid</td>
+<td><strong>ADOPT</strong></td>
+<td><strong>TanStack Table</strong> (headless, MIT)</td>
+<td>Headless + framework-agnostic core → fits "view-description" render layer, no framework lock-in.</td>
 </tr>
 <tr>
-<td><strong>Vega-Lite</strong> ⭐</td>
-<td>Template for a serializable, typed, <strong>growable</strong> noun-catalog without a bloated DSL: a <strong>closed view algebra</strong> (layer/concat/facet/repeat) + a <strong>smart-defaults compiler</strong> that absorbs complexity; cleanly separates <em>what to show</em> (declarative) from <em>how to compute</em> (compiler/runtime)</td>
-<td>Pure viz layer — no schema binding, no data-portal, no security</td>
+<td>URL / query-state</td>
+<td><strong>ADOPT</strong></td>
+<td><strong>nuqs</strong> (MIT)</td>
+<td>Type-safe URL search-param state → shareable facet/grid state (R3.9). ⚠️ React-oriented; pattern transfers if we're not React.</td>
 </tr>
 <tr>
-<td><strong>Vega</strong></td>
-<td>"View-description is <strong>self-contained JSON parsed by a separate runtime</strong>" — exactly our emit-spec/render-elsewhere split</td>
-<td>(same — viz only)</td>
+<td>Client-side aggregation</td>
+<td><strong>ADOPT (capability-gated)</strong></td>
+<td><strong>FINOS Perspective</strong> (Apache-2.0)</td>
+<td>Arrow + WASM pivot/aggregation engine; runs in a worker. Softens the <strong>X1 facet-count gap</strong> <em>for data the client holds</em> — trades a capability gap for a <strong>data-volume</strong> gap, still gate it.</td>
 </tr>
 <tr>
-<td><strong>Grafana dashboard-spec</strong></td>
-<td>Dashboard-as-data with a <strong>typed schema</strong> works and is battle-tested</td>
-<td>The externalized spec repo was <strong>deprecated and reabsorbed into the runtime</strong> → keep config schema <strong>co-evolving with the runtime that consumes it</strong> (validates config-in-Hippo)</td>
+<td>Introspection-driven binding</td>
+<td><strong>BUILD</strong></td>
+<td>— (greenfield)</td>
+<td>Codegen-time introspection tools (urql-introspection) are <strong>schema-coupled at build time</strong>, not runtime-generic. Our generic-over-any-endpoint binding is ours to build.</td>
 </tr>
 <tr>
-<td><strong>Grafana Plugin Frontend Sandbox</strong></td>
-<td>Closest frontend-component-sandbox prior art</td>
-<td><strong>Same-thread Proxy/realm membrane</strong> (not Worker/iframe/WASM); <strong>coarse isolation only — prevents UI/global interference but does NOT scope data-access authority.</strong> Public-preview, off by default, excludes Angular/signed plugins — <strong>unproven</strong></td>
-</tr>
-<tr>
-<td><strong>Observable runtime</strong></td>
-<td>Strongest model for "<strong>components emit values, never touch the DOM</strong>": <code>variable.define(name, inputs, def)</code> with explicit deps + headless observers that render</td>
-<td><strong>No security sandbox / capability scoping</strong> — that part is Aperture's to add via the Worker boundary</td>
+<td>Component sandbox runtime</td>
+<td><strong>ADOPT (libraries), BUILD (the seam)</strong></td>
+<td>Comlink + SES/Endo</td>
+<td><em>Extracted, not yet adversarially verified — see ⚠️ below.</em></td>
 </tr>
 </tbody>
 </table>
-<h2 id="design-lessons-mapped-to-our-decisions">Design lessons mapped to our decisions<a class="headerlink" href="#design-lessons-mapped-to-our-decisions" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="detailed-findings">Detailed findings<a class="headerlink" href="#detailed-findings" title="Permanent link">&para;</a></h2>
+<h3 id="1-schema-form-wizard-generation">1. Schema → form + wizard generation<a class="headerlink" href="#1-schema-form-wizard-generation" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Config-as-LinkML-data (ADR-0003):</strong> <em>strongly validated.</em> Gen3 proves config-as-data with
-  schema-validated binding; DataBiosphere's TS-code config is the bloat/agent-hostile
-  counter-example; Grafana's externalized-spec reabsorption says <strong>keep config co-evolving with
-  the runtime</strong> — i.e. config-as-LinkML-<em>in-Hippo</em> is the right instinct.</li>
-<li><strong>Derived binding from schema annotations:</strong> <strong>this is our novel bet — nobody surveyed
-  auto-derives GraphQL binding from schema.</strong> GraphQL providers <em>code</em> binding (<code>buildQuery</code>);
-  DataHarmonizer derives UI from LinkML annotations but only offline. → <strong>De-risk with a Hippo
-  introspection → derived-binding prototype</strong>, and <strong>do not depend on live standard <code>__schema</code>
-  in production</strong> (commonly gated); Hippo's <em>custom</em> <code>hippoSchema</code> query sidesteps this if it
-  can be auth-gated rather than disabled.</li>
-<li><strong>Noun-catalog view vocabulary (ADR-0010):</strong> Vega-Lite is the <strong>design template</strong> — a closed
-  set of typed primitives + a smart-defaults compiler is exactly how to grow the catalog
-  (table/faceted-list/KM-curve/heatmap) <strong>without</strong> a middle scripting layer (ADR-0004). Its
-  layer/facet/repeat algebra models view composition; its noun-vs-verb split validates pushing
-  computation to the GraphQL query layer.</li>
-<li><strong>View-description-not-DOM (ADR-0009):</strong> validated by Vega (serializable spec + separate
-  runtime) and Observable (emit-values-to-observer, explicit-dependency recompute).</li>
-<li><strong>Worker sandbox + capability-scoped client (ADR-0008, ADR-0011):</strong> Grafana's sandbox is the
-  closest prior art <strong>and the key cautionary tale</strong> — it stops the DOM-tampering/ambient-UI
-  trap but <strong>does not scope data authority per viewer.</strong> Our Worker boundary + injected
-  <strong>capability-scoped data client</strong> is a <strong>genuine advance and our core differentiator</strong> — but
-  it is <strong>unproven prior art</strong> (nobody does it), so it carries real design risk.</li>
-<li><strong>Capability-negotiated adapter (architecture Layer D):</strong> <strong>no prior art</strong> — no surveyed tool
-  gates UI features by negotiated GraphQL source capability. <strong>Design from first principles.</strong></li>
-<li><strong>Agent-editable config (ADR-0018, ADR-0021):</strong> <strong>zero verified prior art surfaced</strong> for
-  agent-driven editing of config-as-data via MCP with dry-run + user-authority. Consistent with
-  being novel, but <strong>unconfirmed</strong> — leads worth a follow-up: A2UI (<code>a2ui.org</code>, "AI agent for
-  UI"), Retool 2025 AI features, "Grafana dashboards via AI CLI."</li>
+<li><strong>JSONForms</strong> ⭐ — <em>EclipseSource · MIT · v3.8.0 (2026-06-16) · ~2.7k★ · 72 releases · React/Angular/Vue.</em>
+  Generates forms from a <strong>JSON Schema (data shape) + a separate UI Schema (layout)</strong>, both
+  serializable JSON. A wizard is a UI-Schema layout of <code>type: "Categorization"</code> (an <code>elements</code>
+  array of <code>Category</code> = steps) with stepper behavior via <code>options: {variant: "stepper",
+  showNavButtons: true}</code>. <strong>This is the only surveyed library whose <em>wizard</em> is config-as-data</strong>,
+  matching L3/L4 and the config-as-LinkML-data invariant. <strong>Gap:</strong> custom renderers/widgets are
+  framework <em>code</em> — the form definition is data, but bespoke widgets need a code escape hatch
+  (consistent with our typed-component-as-escape-hatch model, ADR-0010/0011).</li>
+<li><strong>RJSF (react-jsonschema-form)</strong> — <em>rjsf-team · Apache-2.0 · v6.6.2 (2026-06-06) · 15.8k★.</em>
+  Declarative React forms from JSON Schema + <code>uiSchema</code> (serializable, named-widget
+  registration). <strong>Gap:</strong> React-only; custom widgets are code. Solid alternate if we commit to React.</li>
+<li><strong>Formily</strong> — <em>Alibaba · v2.3.6 (2025-05-15).</em> JSON Schema / JSchema (inter-convertible) +
+  a <strong>Form Builder</strong>; strong <strong>reactive conditional/dependent-field</strong> linkages
+  (<code>onFieldReact</code>/<code>onFieldValueChange</code>, MobX-like reactivity) — the best surveyed answer for
+  dependent fields (W4 forms). <strong>Gap:</strong> its JSChema also has a non-serializable JSX/Markup form;
+  only the JSON-Schema paradigm is config-as-data.</li>
+<li><strong>Already covered (delta only):</strong> <strong>DataHarmonizer</strong> remains the LinkML-native reference
+  (binding-from-annotations), but is an offline spreadsheet editor — see <code>prior-art.md</code>.</li>
 </ul>
-<h2 id="caveats-coverage-gaps-absence-evidence">Caveats &amp; coverage gaps (absence ≠ evidence)<a class="headerlink" href="#caveats-coverage-gaps-absence-evidence" title="Permanent link">&para;</a></h2>
+<p><strong>Implication for Step 4 (W4.1–W4.2):</strong> strongest validation yet that schema-derived <em>and
+serializable</em> forms are off-the-shelf viable. JSONForms' schema+UI-schema split maps cleanly
+onto our LinkML-schema (data shape) + view-description (layout) separation. Conditional fields
+(Formily) and ref-pickers (W4.5) are the differentiators to evaluate in a spike.</p>
+<h3 id="2-workflow-the-multi-step-component-deepest-angle">2. Workflow — the multi-step component (deepest angle)<a class="headerlink" href="#2-workflow-the-multi-step-component-deepest-angle" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>No surviving verified claims</strong> for several area-1 frameworks (<strong>Refine, Directus,
-  PostGraphile, Retool/Appsmith/Budibase/ToolJet, Forest Admin, Strapi, Amplication</strong>) or
-  several area-4 portals (<strong>cBioPortal, OHDSI ATLAS, i2b2/tranSMART, Beacon v2, CZ CELLxGENE,
-  HuBMAP</strong>). Their absence here is <em>not</em> a finding about them.</li>
-<li><strong>GraphQL introspection-disabled-in-prod is configurable</strong>, not absolute — Hasura/PostGraphile
-  can gate it behind auth. Design for both gated and open.</li>
-<li><strong>Grafana's sandbox is public-preview</strong> (&gt;=11.5, Jan 2025), not a hardened boundary; weaker
-  than our intended Worker boundary.</li>
-<li>Current Grafana schema work (CUE/kindsys/K8s-style kinds, V2) was <strong>not</strong> deeply surveyed —
-  may hold fresher dashboard-as-data lessons.</li>
+<li><strong>CNCF Serverless Workflow DSL</strong> ⭐ (steal, don't adopt) — <em>serializable JSON/YAML; stable
+  v1.0.0 (2025-01-27); ~900★.</em> Declarative workflow language with normative <code>switch</code>
+  (branching), <code>listen</code>/<code>emit</code> (events), <code>for</code> (looping), JQ expressions. <strong>Best serializable
+  workflow-as-config prior art</strong> — the conceptual template for modeling our steps + per-step
+  validation + drafts <strong>as data</strong>. <strong>Caveat:</strong> a <em>server orchestration</em> DSL with modest
+  adoption, <strong>not</strong> a UI-form-flow spec → steal the model (declarative step graph as data),
+  pair it with JSONForms for per-step form rendering.</li>
+<li><strong>XState</strong> ⭐ (runtime engine) — <em>Stately.ai · MIT · v5.32.2 (2026-06-23) · framework-agnostic,
+  zero-dep core · very active.</em> Hierarchical + parallel + <strong>history</strong> states → directly model
+  multi-step/branching wizards and <strong>returning to / resuming prior steps</strong>. Ideal as the wizard
+  <strong>execution engine inside the worker</strong>. ⚠️ <strong>Critical distinction:</strong> XState machines are
+  authored in <strong>code, not serializable JSON</strong>. To honor config-as-data we <strong>interpret our own
+  serialized workflow config</strong> and drive an XState (or hand-rolled) interpreter — XState is the
+  <em>engine</em>, not the <em>config format</em>. Do not conflate "good wizard runtime" with "satisfies
+  config-as-data."</li>
+<li><strong>robot3</strong> — <em>single-maintainer · BSD-2-Clause · react-robot@1.2.1 (2025-11-28) · ~2.2k★.</em>
+  Smaller functional/immutable FSM. Same <strong>code-not-data</strong> limitation as XState, plus
+  <strong>single-maintainer risk</strong> → weaker fit for a load-bearing component.</li>
+<li><strong>Zag.js</strong> — <em>chakra-ui · headless FSM-driven UI machines.</em> Headless aligns with avoiding DOM
+  coupling, <strong>but</strong> it emits <strong>prop-getters onto a consumer's own DOM</strong>, not a serializable
+  view-description → fails the Vega-style emit-a-description constraint (ADR-0009). <em>(The narrower
+  claim that Zag is "too low-level for wizards" was </em><em>refuted 0-3</em><em> — scope isn't the
+  disqualifier; the prop-getter-not-description mismatch is.)</em></li>
+<li><strong>Demonstrated composition pattern:</strong> XState + a form lib (Formik/Yup in the cited example) is
+  an established multi-step-wizard recipe (per-step validation, step transitions). For us:
+  <strong>XState (engine) + JSONForms (per-step form) + our config interpreter (the data layer).</strong></li>
 </ul>
-<h2 id="recommended-follow-ups">Recommended follow-ups<a class="headerlink" href="#recommended-follow-ups" title="Permanent link">&para;</a></h2>
+<p><strong>Not covered this round (no verified claims — still open):</strong>
+- <strong>Saga / compensation patterns</strong> for multi-entity writes when the backend has only per-entity
+  transactions. ← directly the <strong>Step-4 atomicity question (W4.7)</strong>. <strong>✅ Resolved</strong> in a focused
+  follow-up pass (2026-06-25): saga <em>orchestration + compensation via supersede/availability-flip</em>,
+  hand-rolled in our workflow interpreter (no load-bearing TS saga lib). See
+  <a href="../portal-requirements/"><code>portal-requirements.md</code></a> §Step 4 "Research basis" and decisions
+  L9/L10.
+- <strong>Durable/server-side engines as prior art</strong> (Temporal, Camunda/Zeebe+BPMN, Conductor,
+  Prefect, Airflow, Windmill, n8n, Argo). Worth a focused follow-up for conceptual lessons.
+- <strong>Declarative form-flow specs</strong> beyond Serverless Workflow (BPMN/DMN, SurveyJS, Form.io).</p>
+<h3 id="3-data-grid-faceted-browse-urlquery-state">3. Data grid + faceted browse + URL/query-state<a class="headerlink" href="#3-data-grid-faceted-browse-urlquery-state" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>TanStack Table</strong> ⭐ — <em>headless; framework-agnostic core (React/Vue/Solid/Svelte/Angular/Lit/Qwik
+  adapters); v8.</em> Sorting, filtering, grouping/aggregation, selection, expansion with <strong>no
+  built-in markup/styles</strong> — consumer renders. Fits the description-driven render layer and avoids
+  framework lock-in. Strong pick for the browse/grid surface (R3.2/R3.5).</li>
+<li><strong>nuqs</strong> ⭐ — <em>47ng · ~10.6k★ · 1M+ weekly downloads (Sentry/Supabase/Vercel/Clerk) · recent
+  releases.</em> Type-safe <strong>URL search-param state</strong> ("useState stored in the URL") → inherently
+  shareable/bookmarkable → directly enables <strong>R3.9 (query-state ⇄ URL)</strong>. ⚠️ React-oriented; the
+  <em>pattern</em> transfers even if we aren't React.</li>
+<li><em>(AG Grid, MUI Data Grid, Glide, dedicated faceted-search UI libs — not verified this round.)</em></li>
+</ul>
+<h3 id="4-graphql-client-introspection-driven-binding-greenfield-build">4. GraphQL client + introspection-driven binding — <strong>greenfield (BUILD)</strong><a class="headerlink" href="#4-graphql-client-introspection-driven-binding-greenfield-build" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>urql-introspection</strong> (the surveyed introspection tool) only minifies a <code>__schema</code> result into
+  a static client-schema artifact for urql Graphcache — a <strong>build-time graphql-codegen plugin
+  coupled to one fixed schema</strong>, <strong>not</strong> a runtime component adapting to any introspected
+  endpoint. <strong>Verdict: BUILD.</strong> Aperture's "generic over any LinkML+GraphQL endpoint <strong>at
+  runtime</strong>" requirement (Layer D, ADR-0002/0017) is not served by codegen-time tooling — consume
+  <code>__schema</code> (or Hippo's <code>hippoSchema</code>) <strong>live at runtime</strong>. Reconfirms the <code>prior-art.md</code>
+  finding: derived runtime binding is our novel bet.</li>
+<li><em>(Apollo vs urql vs Relay vs graphql-request comparison for the live-introspection client —
+  not verified this round; open question.)</em></li>
+</ul>
+<h3 id="5-client-side-aggregation-the-x1-facet-count-gap">5. Client-side aggregation (the X1 facet-count gap)<a class="headerlink" href="#5-client-side-aggregation-the-x1-facet-count-gap" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>FINOS Perspective</strong> ⭐ — <em>FINOS/Linux Foundation · Apache-2.0.</em> Streaming pivot/aggregation +
+  grid + charts; engine in <strong>C++/Rust → WebAssembly</strong>, runs in-browser (worker-friendly). Uses
+  <strong>Apache Arrow</strong> + a columnar expression language (ExprTK); <strong>pluggable Data Model API</strong>
+  (in-browser WASM <em>or</em> remote engine, and can translate view configs into native queries against
+  e.g. DuckDB). <strong>Fit:</strong> the WASM engine fits the worker sandbox (architecture Layer C/D, the
+  "DuckDB-WASM-as-adapter-compensation" role) and gives <strong>real</strong> aggregation — never a faked facet
+  count over a partial page (honors <strong>L7</strong>). ⚠️ <strong>Caveat:</strong> client aggregation only sees data the
+  client <em>has</em> → it trades a capability gap for a <strong>data-volume</strong> gap, which must <strong>still be
+  capability-gated</strong>. Gen3's lesson stands: facet counts <em>at scale</em> want the server index (X1),
+  not client compute.</li>
+<li><strong>DuckDB-WASM</strong> (⚠️ extracted, <strong>not</strong> verified): browser WASM memory is <strong>capped per tab (~4GB
+  in Chrome)</strong> → a hard ceiling on client-side dataset size / non-trivial joins. Reinforces:
+  client aggregation is a small-/mid-scale compensation, not the X1 answer.</li>
+<li><em>(Arquero, Arrow JS, Polars-WASM — not verified this round.)</em></li>
+</ul>
+<h3 id="6-component-sandbox-runtime-extracted-not-adversarially-verified-treat-as-leads">6. Component sandbox runtime ⚠️ <em>(extracted, NOT adversarially verified — treat as leads)</em><a class="headerlink" href="#6-component-sandbox-runtime-extracted-not-adversarially-verified-treat-as-leads" title="Permanent link">&para;</a></h3>
+<p>These came from primary-source fetches but were dropped from final verification by the round's
+budget; do not cite as confirmed without a follow-up pass.</p>
+<ul>
+<li><strong>Comlink</strong> (GoogleChromeLabs) — RPC over <code>postMessage</code> + ES6 Proxies; lets the main thread call
+  a Worker's exposed object as if local, with transferable/proxy passing. Natural fit for the
+  <strong>capability-scoped data client injected across the Worker boundary</strong> (ADR-0008/0011) — pass the
+  scoped client in as a Comlink proxy, no ambient network.</li>
+<li><strong>SES / Hardened JS (Agoric Endo)</strong> — <code>lockdown()</code>, <code>harden()</code>, <code>Compartment</code> APIs to confine
+  untrusted JS. Candidate for <strong>in-Worker</strong> hardening of component code (defense-in-depth <em>inside</em>
+  the Worker boundary the architecture already mandates).</li>
+<li><strong>Verdict (provisional):</strong> <strong>adopt the libraries</strong> (Comlink for the RPC seam, SES/Endo for
+  in-Worker hardening) but <strong>build the capability-scoped seam itself</strong> — <code>prior-art.md</code> already
+  found no prior art that scopes <em>data authority</em> per viewer at the sandbox boundary; that remains
+  our differentiator and our risk.</li>
+</ul>
+<h3 id="7-admin-low-code-re-evaluation-not-covered-this-round">7. Admin / low-code re-evaluation — <strong>Not covered this round</strong><a class="headerlink" href="#7-admin-low-code-re-evaluation-not-covered-this-round" title="Permanent link">&para;</a></h3>
+<p>Refine, Directus, PostGraphile, Hasura DDN v3, Retool/Budibase/Appsmith/ToolJet, Forest Admin,
+Strapi, Amplication produced <strong>no verified claims</strong> this round. The key question — <em>does any
+consume GraphQL introspection to emit </em><em>serializable config (not code)</em><em>, and does any have a
+serializable workflow model worth stealing?</em> — is <strong>still open</strong> (it was also a <code>prior-art.md</code>
+coverage gap). Recommended as the next focused search.</p>
+<hr />
+<h2 id="how-this-lands-against-the-locked-decisions">How this lands against the locked decisions<a class="headerlink" href="#how-this-lands-against-the-locked-decisions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Touches</th>
+<th>Library finding</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L3/L4, R-W (Step 4 forms)</strong></td>
+<td>JSONForms (wizard-as-data), Formily (conditional fields)</td>
+<td>De-risks schema-derived <strong>serializable</strong> forms + wizard — off-the-shelf viable; spike candidate.</td>
+</tr>
+<tr>
+<td><strong>L4, W4.6 (workflow component)</strong></td>
+<td>Serverless Workflow (model) + XState (engine) + JSONForms (steps)</td>
+<td>Concrete build recipe: interpret <em>our</em> workflow config; XState is engine not format.</td>
+</tr>
+<tr>
+<td><strong>W4.7 (atomicity)</strong></td>
+<td>saga/compensation <strong>Not covered</strong></td>
+<td>Step-4 atomicity stays a <strong>design decision</strong>; schedule the focused follow-up.</td>
+</tr>
+<tr>
+<td><strong>L7, X1 (facet counts)</strong></td>
+<td>Perspective (client agg) + DuckDB-WASM cap</td>
+<td>Client-agg is a <strong>gated small-scale</strong> compensation; X1 server index still the at-scale answer.</td>
+</tr>
+<tr>
+<td><strong>R3.9 (query ⇄ URL)</strong></td>
+<td>nuqs</td>
+<td>Direct off-the-shelf fit.</td>
+</tr>
+<tr>
+<td><strong>Layer D (ADR-0002/0017)</strong></td>
+<td>introspection tools are build-time only</td>
+<td><strong>Confirms BUILD</strong> for runtime generic binding.</td>
+</tr>
+<tr>
+<td><strong>ADR-0008/0011 (sandbox)</strong></td>
+<td>Comlink + SES/Endo (leads)</td>
+<td>Adopt libs for the seam; <strong>build</strong> the capability scoping.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="recommended-follow-ups-ordered">Recommended follow-ups (ordered)<a class="headerlink" href="#recommended-follow-ups-ordered" title="Permanent link">&para;</a></h2>
 <ol>
-<li><strong>De-risk the novel bet:</strong> prototype Hippo <code>hippoSchema</code> introspection → <strong>derived binding</strong>
-   (the thing nobody has done) — directly feeds core-loop Step 2/3.</li>
-<li><strong>Prototype config validation</strong> against <strong>Gen3's <code>gitops.json</code> model</strong> (config-as-data
-   validated against the backend schema), translated to LinkML-validated config.</li>
-<li><strong>Prototype the view layer</strong> against <strong>Vega-Lite's compiler + view-algebra</strong> as the
-   noun-catalog reference.</li>
-<li><strong>Dedicated follow-up search</strong> on agent-editable config-as-data (A2UI / MCP-over-config) —
-   the one pillar with no verified prior art.</li>
-<li><strong>Quick prototype-fit eval</strong> of the unsurveyed frameworks (esp. <strong>Refine, Directus,
-   PostGraphile, Hasura DDN v3</strong>) for whether any consumes GraphQL introspection to emit
-   serializable config (not code).</li>
+<li><strong>Focused workflow-engine + saga search</strong> — durable engines (Temporal/Camunda/Conductor) +
+   compensation patterns, aimed squarely at the <strong>W4.7 atomicity</strong> decision. <em>(Highest value —
+   it unblocks the paused Step 4.)</em></li>
+<li><strong>Admin/low-code re-eval</strong> (angle #7) — the standing coverage gap from both surveys.</li>
+<li><strong>GraphQL-client comparison</strong> for <strong>runtime</strong> live-introspection binding (Apollo/urql/Relay).</li>
+<li><strong>Verify the sandbox leads</strong> (Comlink/SES-Endo/QuickJS/Pyodide) in a proper adversarial pass.</li>
+<li><strong>Spike:</strong> JSONForms + XState + a hand-rolled config interpreter on a real LinkML type, to
+   pressure-test "interpret our config, drive the engine" vs. authoring engine code.</li>
 </ol>
-<h2 id="sources-verified-primary-unless-noted">Sources (verified, primary unless noted)<a class="headerlink" href="#sources-verified-primary-unless-noted" title="Permanent link">&para;</a></h2>
+<h2 id="sources-primary-verified-unless-noted">Sources (primary, verified unless noted)<a class="headerlink" href="#sources-primary-verified-unless-noted" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Gen3: <code>docs.gen3.org/.../customize-search/</code>, <code>github.com/uc-cdis/data-portal</code> (portal_config), <code>github.com/uc-cdis/gen3utils</code></li>
-<li>DataBiosphere: <code>github.com/DataBiosphere/data-browser</code>, <code>github.com/DataBiosphere/azul</code></li>
-<li>react-admin GraphQL: <code>github.com/marmelab/react-admin</code> (ra-data-graphql README; issue #6639); Hasura introspection docs</li>
-<li>DataHarmonizer: <code>github.com/cidgoh/DataHarmonizer</code>; <code>linkml.io/linkml/generators/</code></li>
-<li>Vega-Lite: <code>idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf</code>; Vega: <code>vega.github.io/vega/</code></li>
-<li>Grafana: <code>github.com/grafana/dashboard-spec</code>; frontend-sandbox docs + 2025-01-14 what's-new</li>
-<li>Observable: <code>github.com/observablehq/runtime</code></li>
-<li>Agent-UI leads (unverified): <code>a2ui.org</code>, Grid Dynamics A2UI blog, Retool 2025 features, Quesma "Grafana dashboards via AI CLI"</li>
+<li>Workflow: <code>github.com/statelyai/xstate</code>, <code>github.com/matthewp/robot</code>, <code>zagjs.com</code> /
+  <code>github.com/chakra-ui/zag</code>, <code>serverlessworkflow.io</code> / <code>github.com/serverlessworkflow/specification</code>,
+  <code>github.com/TheWidlarzGroup/multistep-form-xstate-formik</code> (secondary)</li>
+<li>Forms: <code>github.com/eclipsesource/jsonforms</code>, <code>jsonforms.io/examples/categorization</code>,
+  <code>github.com/rjsf-team/react-jsonschema-form</code>, <code>github.com/alibaba/formily</code></li>
+<li>Grid/URL: <code>github.com/TanStack/table</code>, <code>nuqs.dev</code> / <code>github.com/47ng/nuqs</code></li>
+<li>GraphQL binding: <code>the-guild.dev/graphql/codegen/plugins/other/urql-introspection</code></li>
+<li>Aggregation: <code>github.com/finos/perspective</code>; DuckDB-WASM (<code>duckdb.org/2021/10/29/duckdb-wasm</code>,
+  blog — <em>unverified</em>)</li>
+<li>Sandbox (<em>extracted, unverified</em>): <code>github.com/GoogleChromeLabs/comlink</code>, <code>github.com/endojs/endo</code></li>
 </ul>
 
 

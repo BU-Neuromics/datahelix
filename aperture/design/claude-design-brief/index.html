@@ -21,7 +21,7 @@
     
     
       
-        <title>Aperture — Prior-Art Survey (2026-06-16) - BASS Documentation</title>
+        <title>Aperture — Claude Design brief (skeleton UI + layout library) - BASS Documentation</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#aperture-prior-art-survey-2026-06-16" class="md-skip">
+        <a href="#aperture-claude-design-brief-skeleton-ui-layout-library" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Aperture — Prior-Art Survey (2026-06-16)
+              Aperture — Claude Design brief (skeleton UI + layout library)
             
           </span>
         </div>
@@ -3823,10 +3823,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#verdict-build-genuinely-greenfield" class="md-nav__link">
+  <a href="#how-to-use" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verdict: BUILD (genuinely greenfield)
+        How to use
       
     </span>
   </a>
@@ -3834,10 +3834,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#closest-matches-fit-gap" class="md-nav__link">
+  <a href="#grounding-why-the-prompt-says-what-it-says" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Closest matches — fit / gap
+        Grounding (why the prompt says what it says)
       
     </span>
   </a>
@@ -3845,10 +3845,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#design-lessons-mapped-to-our-decisions" class="md-nav__link">
+  <a href="#the-prompt-paste-into-claude-design" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Design lessons mapped to our decisions
+        The prompt (paste into Claude Design)
       
     </span>
   </a>
@@ -3856,32 +3856,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#caveats-coverage-gaps-absence-evidence" class="md-nav__link">
+  <a href="#handoff-checklist-when-the-export-comes-back" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Caveats &amp; coverage gaps (absence ≠ evidence)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recommended-follow-ups" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recommended follow-ups
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sources-verified-primary-unless-noted" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sources (verified, primary unless noted)
+        Handoff checklist (when the export comes back)
       
     </span>
   </a>
@@ -3905,157 +3883,127 @@
 
 
 
-<h1 id="aperture-prior-art-survey-2026-06-16">Aperture — Prior-Art Survey (2026-06-16)<a class="headerlink" href="#aperture-prior-art-survey-2026-06-16" title="Permanent link">&para;</a></h1>
-<blockquote>
-<p><strong>Companion:</strong> <a href="../library-survey/"><code>library-survey.md</code></a> (2026-06-25) takes this down to the
-<strong>implementation-package</strong> altitude — concrete libraries (JSONForms, XState, Serverless
-Workflow, TanStack Table, nuqs, Perspective) with maturity/license/fit-gap and build-vs-adopt
-verdicts, deepest on the multi-step <strong>workflow</strong> component.</p>
-</blockquote>
-<p><strong>Status:</strong> 🟢 Research findings (verified). Deep-research harness: 5 angles, 24 sources
-fetched, 91 claims extracted, 25 verified by 3-vote adversarial check (25 confirmed, 0 killed;
-mostly primary sources). Informs — does not override — the ADRs.</p>
-<h2 id="verdict-build-genuinely-greenfield">Verdict: BUILD (genuinely greenfield)<a class="headerlink" href="#verdict-build-genuinely-greenfield" title="Permanent link">&para;</a></h2>
-<p><strong>No surveyed tool unifies Aperture's pillars</strong> — config-as-data + GraphQL-introspection-driven
-binding + a typed serializable noun-catalog view vocabulary + a capability-scoped Web-Worker
-component sandbox + LLM/agent-editable config. The prior art splits on two axes, and nothing
-spans both (let alone the sandbox + agent pillars):</p>
-<ul>
-<li><strong>(a) Config-driven scientific portals</strong> — Gen3, DataBiosphere. Real schema-derived faceted
-  UIs, but bespoke REST/Elasticsearch backends, no Worker sandbox, no agent editing.</li>
-<li><strong>(b) Declarative spec-as-data viz/dashboard grammars</strong> — Vega/Vega-Lite, Grafana JSON. The
-  canonical models for a serializable, growable, typed view vocabulary, but no schema-binding
-  or data-portal layer.</li>
-</ul>
-<p><strong>Recommendation: build, reusing patterns piecemeal.</strong> Prototype the config/binding layer
-against Gen3's validation model + Hippo introspection; prototype the view layer against
-Vega-Lite's compiler + view-algebra; treat Grafana's frontend sandbox as a <em>cautionary tale</em>,
-not a foundation.</p>
-<h2 id="closest-matches-fit-gap">Closest matches — fit / gap<a class="headerlink" href="#closest-matches-fit-gap" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Tool</th>
-<th>What it proves</th>
-<th>Gap vs Aperture</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Gen3 Data Explorer</strong> ⭐</td>
-<td>Faceted UI driven by a <strong>serializable JSON config</strong> (<code>gitops.json</code>/<code>explorerConfig</code>: filters/tabs/charts/table blocks) <strong>validated so only properties in the backend ETL mapping + Data Dictionary can be surfaced</strong> — real config-as-data + schema-derived binding, = our L1 composition + L2 binding split</td>
-<td>Validation is <strong>CI-time tooling</strong> (gen3utils), not structural; backend is bespoke Guppy/Elasticsearch, <strong>not an introspectable GraphQL transport</strong></td>
-</tr>
-<tr>
-<td><strong>DataBiosphere/data-browser</strong></td>
-<td>One Next.js codebase → many portals (AnVIL, HCA, LungMAP) via per-site config — <strong>multi-portal-from-config is proven</strong></td>
-<td>Config is <strong>TypeScript <em>code</em></strong> (imports live React components/builders), <strong>not serializable data</strong>; REST/Azul backend. A <em>counter-example</em> that validates our config-as-LinkML-data choice</td>
-</tr>
-<tr>
-<td><strong>ra-data-graphql / react-admin</strong></td>
-<td>Runtime <strong>GraphQL introspection</strong> data provider is an established pattern</td>
-<td>Maintainer: runtime introspection <strong>unsuitable for production</strong> (often disabled for security); binding is <strong>coded</strong> in a <code>buildQuery</code> adapter, <strong>not derived</strong> from schema</td>
-</tr>
-<tr>
-<td><strong>DataHarmonizer</strong></td>
-<td><strong>LinkML-native</strong> UI generated from schema annotations (columns/picklists/validation from <code>range</code>/<code>enum</code>/<code>title</code>/<code>slot_group</code>; surfaced via <code>is_a: dh_interface</code>) — validates <strong>binding-from-annotations</strong></td>
-<td>Offline <strong>spreadsheet editor</strong> (xlsx/csv import/export); <strong>no GraphQL</strong>; compiles LinkML → templates, not → a live transport</td>
-</tr>
-<tr>
-<td><strong>Vega-Lite</strong> ⭐</td>
-<td>Template for a serializable, typed, <strong>growable</strong> noun-catalog without a bloated DSL: a <strong>closed view algebra</strong> (layer/concat/facet/repeat) + a <strong>smart-defaults compiler</strong> that absorbs complexity; cleanly separates <em>what to show</em> (declarative) from <em>how to compute</em> (compiler/runtime)</td>
-<td>Pure viz layer — no schema binding, no data-portal, no security</td>
-</tr>
-<tr>
-<td><strong>Vega</strong></td>
-<td>"View-description is <strong>self-contained JSON parsed by a separate runtime</strong>" — exactly our emit-spec/render-elsewhere split</td>
-<td>(same — viz only)</td>
-</tr>
-<tr>
-<td><strong>Grafana dashboard-spec</strong></td>
-<td>Dashboard-as-data with a <strong>typed schema</strong> works and is battle-tested</td>
-<td>The externalized spec repo was <strong>deprecated and reabsorbed into the runtime</strong> → keep config schema <strong>co-evolving with the runtime that consumes it</strong> (validates config-in-Hippo)</td>
-</tr>
-<tr>
-<td><strong>Grafana Plugin Frontend Sandbox</strong></td>
-<td>Closest frontend-component-sandbox prior art</td>
-<td><strong>Same-thread Proxy/realm membrane</strong> (not Worker/iframe/WASM); <strong>coarse isolation only — prevents UI/global interference but does NOT scope data-access authority.</strong> Public-preview, off by default, excludes Angular/signed plugins — <strong>unproven</strong></td>
-</tr>
-<tr>
-<td><strong>Observable runtime</strong></td>
-<td>Strongest model for "<strong>components emit values, never touch the DOM</strong>": <code>variable.define(name, inputs, def)</code> with explicit deps + headless observers that render</td>
-<td><strong>No security sandbox / capability scoping</strong> — that part is Aperture's to add via the Worker boundary</td>
-</tr>
-</tbody>
-</table>
-<h2 id="design-lessons-mapped-to-our-decisions">Design lessons mapped to our decisions<a class="headerlink" href="#design-lessons-mapped-to-our-decisions" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Config-as-LinkML-data (ADR-0003):</strong> <em>strongly validated.</em> Gen3 proves config-as-data with
-  schema-validated binding; DataBiosphere's TS-code config is the bloat/agent-hostile
-  counter-example; Grafana's externalized-spec reabsorption says <strong>keep config co-evolving with
-  the runtime</strong> — i.e. config-as-LinkML-<em>in-Hippo</em> is the right instinct.</li>
-<li><strong>Derived binding from schema annotations:</strong> <strong>this is our novel bet — nobody surveyed
-  auto-derives GraphQL binding from schema.</strong> GraphQL providers <em>code</em> binding (<code>buildQuery</code>);
-  DataHarmonizer derives UI from LinkML annotations but only offline. → <strong>De-risk with a Hippo
-  introspection → derived-binding prototype</strong>, and <strong>do not depend on live standard <code>__schema</code>
-  in production</strong> (commonly gated); Hippo's <em>custom</em> <code>hippoSchema</code> query sidesteps this if it
-  can be auth-gated rather than disabled.</li>
-<li><strong>Noun-catalog view vocabulary (ADR-0010):</strong> Vega-Lite is the <strong>design template</strong> — a closed
-  set of typed primitives + a smart-defaults compiler is exactly how to grow the catalog
-  (table/faceted-list/KM-curve/heatmap) <strong>without</strong> a middle scripting layer (ADR-0004). Its
-  layer/facet/repeat algebra models view composition; its noun-vs-verb split validates pushing
-  computation to the GraphQL query layer.</li>
-<li><strong>View-description-not-DOM (ADR-0009):</strong> validated by Vega (serializable spec + separate
-  runtime) and Observable (emit-values-to-observer, explicit-dependency recompute).</li>
-<li><strong>Worker sandbox + capability-scoped client (ADR-0008, ADR-0011):</strong> Grafana's sandbox is the
-  closest prior art <strong>and the key cautionary tale</strong> — it stops the DOM-tampering/ambient-UI
-  trap but <strong>does not scope data authority per viewer.</strong> Our Worker boundary + injected
-  <strong>capability-scoped data client</strong> is a <strong>genuine advance and our core differentiator</strong> — but
-  it is <strong>unproven prior art</strong> (nobody does it), so it carries real design risk.</li>
-<li><strong>Capability-negotiated adapter (architecture Layer D):</strong> <strong>no prior art</strong> — no surveyed tool
-  gates UI features by negotiated GraphQL source capability. <strong>Design from first principles.</strong></li>
-<li><strong>Agent-editable config (ADR-0018, ADR-0021):</strong> <strong>zero verified prior art surfaced</strong> for
-  agent-driven editing of config-as-data via MCP with dry-run + user-authority. Consistent with
-  being novel, but <strong>unconfirmed</strong> — leads worth a follow-up: A2UI (<code>a2ui.org</code>, "AI agent for
-  UI"), Retool 2025 AI features, "Grafana dashboards via AI CLI."</li>
-</ul>
-<h2 id="caveats-coverage-gaps-absence-evidence">Caveats &amp; coverage gaps (absence ≠ evidence)<a class="headerlink" href="#caveats-coverage-gaps-absence-evidence" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>No surviving verified claims</strong> for several area-1 frameworks (<strong>Refine, Directus,
-  PostGraphile, Retool/Appsmith/Budibase/ToolJet, Forest Admin, Strapi, Amplication</strong>) or
-  several area-4 portals (<strong>cBioPortal, OHDSI ATLAS, i2b2/tranSMART, Beacon v2, CZ CELLxGENE,
-  HuBMAP</strong>). Their absence here is <em>not</em> a finding about them.</li>
-<li><strong>GraphQL introspection-disabled-in-prod is configurable</strong>, not absolute — Hasura/PostGraphile
-  can gate it behind auth. Design for both gated and open.</li>
-<li><strong>Grafana's sandbox is public-preview</strong> (&gt;=11.5, Jan 2025), not a hardened boundary; weaker
-  than our intended Worker boundary.</li>
-<li>Current Grafana schema work (CUE/kindsys/K8s-style kinds, V2) was <strong>not</strong> deeply surveyed —
-  may hold fresher dashboard-as-data lessons.</li>
-</ul>
-<h2 id="recommended-follow-ups">Recommended follow-ups<a class="headerlink" href="#recommended-follow-ups" title="Permanent link">&para;</a></h2>
+<h1 id="aperture-claude-design-brief-skeleton-ui-layout-library">Aperture — Claude Design brief (skeleton UI + layout library)<a class="headerlink" href="#aperture-claude-design-brief-skeleton-ui-layout-library" title="Permanent link">&para;</a></h1>
+<p><strong>Status:</strong> 🟠 Working brief (2026-06-30). A ready-to-paste prompt for <strong><a href="https://claude.ai/design">Claude Design</a></strong>
+(Anthropic Labs, research preview) to produce the MVP walking-skeleton UI and the shell <strong>layout
+library</strong>. Encodes the relevant decisions so Design output aligns with the architecture and is
+cheap to integrate.</p>
+<h2 id="how-to-use">How to use<a class="headerlink" href="#how-to-use" title="Permanent link">&para;</a></h2>
 <ol>
-<li><strong>De-risk the novel bet:</strong> prototype Hippo <code>hippoSchema</code> introspection → <strong>derived binding</strong>
-   (the thing nobody has done) — directly feeds core-loop Step 2/3.</li>
-<li><strong>Prototype config validation</strong> against <strong>Gen3's <code>gitops.json</code> model</strong> (config-as-data
-   validated against the backend schema), translated to LinkML-validated config.</li>
-<li><strong>Prototype the view layer</strong> against <strong>Vega-Lite's compiler + view-algebra</strong> as the
-   noun-catalog reference.</li>
-<li><strong>Dedicated follow-up search</strong> on agent-editable config-as-data (A2UI / MCP-over-config) —
-   the one pillar with no verified prior art.</li>
-<li><strong>Quick prototype-fit eval</strong> of the unsurveyed frameworks (esp. <strong>Refine, Directus,
-   PostGraphile, Hasura DDN v3</strong>) for whether any consumes GraphQL introspection to emit
-   serializable config (not code).</li>
+<li>New project at <strong>claude.ai/design</strong>; paste the prompt below. Optionally <em>point it at the
+   <code>aperture</code> repo</em> for extra grounding.</li>
+<li>Iterate via conversation + <strong>sliders</strong> (density, spacing, sidebar width, accent).</li>
+<li><strong>Export</strong> an HTML prototype + a <strong>ZIP to code from</strong> + the <strong>design-system tokens</strong>.</li>
+<li>Bring the export back here; the exported code is a <strong>visual target + design-system reference</strong>,
+   not a drop-in — it gets translated into the real <code>web/</code> components (Phase 0: layout templates +
+   slot contract + urql-wired TanStack table).</li>
 </ol>
-<h2 id="sources-verified-primary-unless-noted">Sources (verified, primary unless noted)<a class="headerlink" href="#sources-verified-primary-unless-noted" title="Permanent link">&para;</a></h2>
+<h2 id="grounding-why-the-prompt-says-what-it-says">Grounding (why the prompt says what it says)<a class="headerlink" href="#grounding-why-the-prompt-says-what-it-says" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Gen3: <code>docs.gen3.org/.../customize-search/</code>, <code>github.com/uc-cdis/data-portal</code> (portal_config), <code>github.com/uc-cdis/gen3utils</code></li>
-<li>DataBiosphere: <code>github.com/DataBiosphere/data-browser</code>, <code>github.com/DataBiosphere/azul</code></li>
-<li>react-admin GraphQL: <code>github.com/marmelab/react-admin</code> (ra-data-graphql README; issue #6639); Hasura introspection docs</li>
-<li>DataHarmonizer: <code>github.com/cidgoh/DataHarmonizer</code>; <code>linkml.io/linkml/generators/</code></li>
-<li>Vega-Lite: <code>idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf</code>; Vega: <code>vega.github.io/vega/</code></li>
-<li>Grafana: <code>github.com/grafana/dashboard-spec</code>; frontend-sandbox docs + 2025-01-14 what's-new</li>
-<li>Observable: <code>github.com/observablehq/runtime</code></li>
-<li>Agent-UI leads (unverified): <code>a2ui.org</code>, Grid Dynamics A2UI blog, Retool 2025 features, Quesma "Grafana dashboards via AI CLI"</li>
+<li><strong>App shell = library of fixed layouts + typed slot contract</strong> → <strong>ADR-0031</strong>. The prompt asks
+  for <code>headerNavMain</code> + two variants (<code>masterDetail</code>, <code>dashboard</code>) sharing
+  <code>{header, primaryNav, main, footer?, inspector?}</code>.</li>
+<li><strong>Generic, not domain-specific</strong> → <strong>ADR-0002</strong>. Brain-bank data is <em>sample content only</em>;
+  no domain motifs baked into the design.</li>
+<li><strong>Schema-derived collection browse / table</strong> → <code>portal-requirements.md</code> R3.1/R3.2,
+  <code>prefab/core-loop.md</code> (nav of collections; curated columns; cell renderers by slot kind;
+  loading/empty/error states; pagination + count).</li>
+<li><strong>React + TanStack Table</strong> target → <strong>ADR-0030</strong> (structure components to map cleanly).</li>
+<li><strong>Honest states</strong> (loading/empty/error) and count caveats → <strong>ADR-0029</strong>.</li>
+<li>Deferred, shown only as a reserved empty region: the <strong>inspector/facet</strong> panel (Phase 1).</li>
+</ul>
+<hr />
+<h2 id="the-prompt-paste-into-claude-design">The prompt (paste into Claude Design)<a class="headerlink" href="#the-prompt-paste-into-claude-design" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>You are helping design the UI skeleton for &quot;Aperture&quot; — a generic, config-driven
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>data-exploration portal over a scientific knowledge graph. It is NOT domain-specific:
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>the same UI works over any schema. This brief uses a brain-bank/genomics dataset as
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>realistic sample content, but nothing in the design should hardcode that domain.
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>GOAL
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Design the MVP &quot;walking skeleton&quot;: an app shell + a schema-derived collection browser
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>(a navigable list of entity types on the left, a data table in the main area). Also
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>produce a small LIBRARY of shell layouts that share one slot contract, so we can see
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>the reusable structure. Deliver a clean, reusable design system alongside the screens.
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>AUDIENCE &amp; TONE
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>Scientific/research users (lab staff, data analysts). Aesthetic: clean, calm, neutral,
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>information-dense but highly readable — think a serious data tool, not a marketing site.
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>Light mode primary; please also provide a dark variant. Accessible contrast.
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>═══════════════════════════════════════════════════════════════════
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>PART 1 — THE PRIMARY SCREEN: &quot;headerNavMain&quot; layout
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>═══════════════════════════════════════════════════════════════════
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>A three-region app shell:
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>• HEADER (top bar): product name &quot;Aperture&quot;, a global search field (placeholder only,
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>  non-functional), and a right-side slot for user/account + settings icons.
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>• PRIMARY NAV (left sidebar): a hand-curated list of &quot;collections&quot; (entity types),
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>  each with an icon, a human label, and a selected/active state. For the sample data:
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>    Donors, Samples, Brain Samples, Datafiles, Datasets, Workflows
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>  Note: labels differ from underlying type names (e.g. &quot;Donors&quot; → type &quot;Subject&quot;).
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>  Collapsible sidebar is a plus.
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>• MAIN (content area): the selected collection&#39;s TABLE view. For &quot;Donors&quot; show columns:
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>    external_id · species · biological_sex · age_at_collection · diagnosis · # samples
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>  Populate ~12 realistic rows. Design cells by data type:
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>    - enum (species, biological_sex, diagnosis) → subtle chips/labels
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>    - number (age_at_collection) → right-aligned formatted number
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>    - text/id (external_id) → monospace-ish, the row&#39;s primary link
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>    - relationship count (# samples) → a small count badge
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>  Include, above the table: the collection title + a total count (&quot;1,243 donors&quot;),
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>  and (design-only) a &quot;Columns&quot; and &quot;Export&quot; affordance. Sortable column headers.
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>  Pagination control (page size + prev/next or numbered) at the bottom.
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>  Design ALL THREE table states as separate frames:
+<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>    1. Loaded (the populated table above)
+<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>    2. Loading (skeleton rows)
+<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>    3. Empty (&quot;No matching donors&quot;) and Error (&quot;Couldn&#39;t load donors — retry&quot;)
+<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>
+<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>RESERVE (show as a labeled, empty region, don&#39;t build yet): an optional right-side
+<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>INSPECTOR/aside panel — future home for a record detail and a facet/filter panel.
+<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>
+<a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>═══════════════════════════════════════════════════════════════════
+<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a>PART 2 — THE LAYOUT LIBRARY (same slot contract, different chrome)
+<a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a>═══════════════════════════════════════════════════════════════════
+<a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a>Show that the shell is a small catalog of interchangeable layouts that all fill the
+<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a>SAME named slots: {header, primaryNav, main, footer?, inspector?}. Design two more
+<a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a>layouts reusing the same header/nav/data:
+<a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a>
+<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a>• &quot;masterDetail&quot;: primaryNav + a narrower main LIST + a persistent right INSPECTOR
+<a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a>  showing one selected record&#39;s details (key–value fields).
+<a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a>
+<a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a>• &quot;dashboard&quot;: a landing layout where MAIN is a grid of summary cards/blocks
+<a id="__codelineno-0-61" name="__codelineno-0-61" href="#__codelineno-0-61"></a>  (counts per collection, a couple of simple charts as placeholders) instead of a table.
+<a id="__codelineno-0-62" name="__codelineno-0-62" href="#__codelineno-0-62"></a>
+<a id="__codelineno-0-63" name="__codelineno-0-63" href="#__codelineno-0-63"></a>Present them so the shared structure is obvious (a layout switcher, or side-by-side).
+<a id="__codelineno-0-64" name="__codelineno-0-64" href="#__codelineno-0-64"></a>
+<a id="__codelineno-0-65" name="__codelineno-0-65" href="#__codelineno-0-65"></a>═══════════════════════════════════════════════════════════════════
+<a id="__codelineno-0-66" name="__codelineno-0-66" href="#__codelineno-0-66"></a>DESIGN SYSTEM (please formalize and keep consistent)
+<a id="__codelineno-0-67" name="__codelineno-0-67" href="#__codelineno-0-67"></a>═══════════════════════════════════════════════════════════════════
+<a id="__codelineno-0-68" name="__codelineno-0-68" href="#__codelineno-0-68"></a>Establish reusable tokens/components I can hand to engineering:
+<a id="__codelineno-0-69" name="__codelineno-0-69" href="#__codelineno-0-69"></a>• Color tokens (surfaces, text, border, accent, semantic success/warn/error), light+dark
+<a id="__codelineno-0-70" name="__codelineno-0-70" href="#__codelineno-0-70"></a>• Type scale + a mono face for IDs/data; spacing scale; radius; density option (comfortable/compact)
+<a id="__codelineno-0-71" name="__codelineno-0-71" href="#__codelineno-0-71"></a>• Components: top bar, sidebar nav item, data table (header/row/cell/badge/chip),
+<a id="__codelineno-0-72" name="__codelineno-0-72" href="#__codelineno-0-72"></a>  pagination, buttons, inputs, empty/loading/error states, card (for dashboard)
+<a id="__codelineno-0-73" name="__codelineno-0-73" href="#__codelineno-0-73"></a>
+<a id="__codelineno-0-74" name="__codelineno-0-74" href="#__codelineno-0-74"></a>CONSTRAINTS / HANDOFF
+<a id="__codelineno-0-75" name="__codelineno-0-75" href="#__codelineno-0-75"></a>• Target implementation is React with a headless table (TanStack Table) — structure the
+<a id="__codelineno-0-76" name="__codelineno-0-76" href="#__codelineno-0-76"></a>  components so they map cleanly to that (semantic table markup, tokenized styles).
+<a id="__codelineno-0-77" name="__codelineno-0-77" href="#__codelineno-0-77"></a>• Keep the design GENERIC (schema-driven): the table, columns, and nav are data, not
+<a id="__codelineno-0-78" name="__codelineno-0-78" href="#__codelineno-0-78"></a>  hardcoded — avoid brain-bank-specific visual motifs.
+<a id="__codelineno-0-79" name="__codelineno-0-79" href="#__codelineno-0-79"></a>• Deliverables to export: an HTML prototype of the screens, a ZIP I can code from, and
+<a id="__codelineno-0-80" name="__codelineno-0-80" href="#__codelineno-0-80"></a>  the design-system tokens/spec.
+</code></pre></div>
+<hr />
+<h2 id="handoff-checklist-when-the-export-comes-back">Handoff checklist (when the export comes back)<a class="headerlink" href="#handoff-checklist-when-the-export-comes-back" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[ ] Design-system tokens captured (colors/type/spacing/radius/density) → seed <code>web/</code> theme.</li>
+<li>[ ] <code>headerNavMain</code> structure maps to the ADR-0031 slot contract.</li>
+<li>[ ] Table markup is semantic and headless-friendly (TanStack Table).</li>
+<li>[ ] Loading / empty / error states covered.</li>
+<li>[ ] Nothing domain-specific baked into components (ADR-0002).</li>
+<li>[ ] Note which pieces are visual-only (search, columns, export, sort) vs. wired later.</li>
 </ul>
 
 

@@ -16,19 +16,19 @@
         
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Aperture — Prior-Art Survey (2026-06-16) - BASS Documentation</title>
+        <title>ADR-0029: Capability-gated UI with honest degradation (faceting, aggregation, export) - BASS Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -47,9 +47,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../stylesheets/custom.css">
+      <link rel="stylesheet" href="../../../../stylesheets/custom.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#aperture-prior-art-survey-2026-06-16" class="md-skip">
+        <a href="#adr-0029-capability-gated-ui-with-honest-degradation-faceting-aggregation-export" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="BASS Documentation" class="md-header__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../../.." title="BASS Documentation" class="md-header__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Aperture — Prior-Art Survey (2026-06-16)
+              ADR-0029: Capability-gated UI with honest degradation (faceting, aggregation, export)
             
           </span>
         </div>
@@ -209,7 +209,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../../../.." class="md-tabs__link">
         
   
   
@@ -230,7 +230,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../platform/" class="md-tabs__link">
+        <a href="../../../../platform/" class="md-tabs__link">
           
   
   
@@ -250,7 +250,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../hippo/" class="md-tabs__link">
+        <a href="../../../../hippo/" class="md-tabs__link">
           
   
   
@@ -270,7 +270,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../cappella/" class="md-tabs__link">
+        <a href="../../../../cappella/" class="md-tabs__link">
           
   
   
@@ -290,7 +290,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../" class="md-tabs__link">
+        <a href="../../../" class="md-tabs__link">
           
   
   
@@ -310,7 +310,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../bridge/" class="md-tabs__link">
+        <a href="../../../../bridge/" class="md-tabs__link">
           
   
   
@@ -330,7 +330,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../canon/" class="md-tabs__link">
+        <a href="../../../../canon/" class="md-tabs__link">
           
   
   
@@ -364,7 +364,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="BASS Documentation" class="md-nav__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../../.." title="BASS Documentation" class="md-nav__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -382,7 +382,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   
@@ -463,7 +463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/" class="md-nav__link">
+      <a href="../../../../platform/" class="md-nav__link">
         
   
   
@@ -491,7 +491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/overview/" class="md-nav__link">
+      <a href="../../../../platform/src/overview/" class="md-nav__link">
         
   
   
@@ -519,7 +519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/architecture/" class="md-nav__link">
+      <a href="../../../../platform/src/architecture/" class="md-nav__link">
         
   
   
@@ -547,7 +547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/getting-started/" class="md-nav__link">
+      <a href="../../../../platform/src/getting-started/" class="md-nav__link">
         
   
   
@@ -575,7 +575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/deployment/" class="md-nav__link">
+      <a href="../../../../platform/src/deployment/" class="md-nav__link">
         
   
   
@@ -603,7 +603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/glossary/" class="md-nav__link">
+      <a href="../../../../platform/src/glossary/" class="md-nav__link">
         
   
   
@@ -685,7 +685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -713,7 +713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec2_components/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec2_components/" class="md-nav__link">
         
   
   
@@ -741,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec3_integration/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec3_integration/" class="md-nav__link">
         
   
   
@@ -769,7 +769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
         
   
   
@@ -797,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
         
   
   
@@ -894,7 +894,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/" class="md-nav__link">
+      <a href="../../../../hippo/" class="md-nav__link">
         
   
   
@@ -922,7 +922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/docs/why-hippo/" class="md-nav__link">
+      <a href="../../../../hippo/docs/why-hippo/" class="md-nav__link">
         
   
   
@@ -1004,7 +1004,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/docs/introduction/" class="md-nav__link">
+      <a href="../../../../hippo/docs/introduction/" class="md-nav__link">
         
   
   
@@ -1032,7 +1032,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/docs/installation/" class="md-nav__link">
+      <a href="../../../../hippo/docs/installation/" class="md-nav__link">
         
   
   
@@ -1060,7 +1060,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../hippo/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -1088,7 +1088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/docs/schema-guide/" class="md-nav__link">
+      <a href="../../../../hippo/docs/schema-guide/" class="md-nav__link">
         
   
   
@@ -1116,7 +1116,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/docs/data-model/" class="md-nav__link">
+      <a href="../../../../hippo/docs/data-model/" class="md-nav__link">
         
   
   
@@ -1144,7 +1144,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/docs/configuration/" class="md-nav__link">
+      <a href="../../../../hippo/docs/configuration/" class="md-nav__link">
         
   
   
@@ -1172,7 +1172,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/docs/cli-reference/" class="md-nav__link">
+      <a href="../../../../hippo/docs/cli-reference/" class="md-nav__link">
         
   
   
@@ -1200,7 +1200,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/docs/api-reference/" class="md-nav__link">
+      <a href="../../../../hippo/docs/api-reference/" class="md-nav__link">
         
   
   
@@ -1228,7 +1228,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/docs/reference-loaders/" class="md-nav__link">
+      <a href="../../../../hippo/docs/reference-loaders/" class="md-nav__link">
         
   
   
@@ -1256,7 +1256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/docs/writing-a-reference-loader/" class="md-nav__link">
+      <a href="../../../../hippo/docs/writing-a-reference-loader/" class="md-nav__link">
         
   
   
@@ -1284,7 +1284,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/docs/writing-a-recipe/" class="md-nav__link">
+      <a href="../../../../hippo/docs/writing-a-recipe/" class="md-nav__link">
         
   
   
@@ -1312,7 +1312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/docs/installing-recipes/" class="md-nav__link">
+      <a href="../../../../hippo/docs/installing-recipes/" class="md-nav__link">
         
   
   
@@ -1340,7 +1340,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/docs/recipe-reference/" class="md-nav__link">
+      <a href="../../../../hippo/docs/recipe-reference/" class="md-nav__link">
         
   
   
@@ -1430,7 +1430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../hippo/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -1458,7 +1458,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../hippo/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -1486,7 +1486,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/design/sec3_data_model/" class="md-nav__link">
+      <a href="../../../../hippo/design/sec3_data_model/" class="md-nav__link">
         
   
   
@@ -1514,7 +1514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/design/sec3b_relational_storage/" class="md-nav__link">
+      <a href="../../../../hippo/design/sec3b_relational_storage/" class="md-nav__link">
         
   
   
@@ -1542,7 +1542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/design/sec4_api_layer/" class="md-nav__link">
+      <a href="../../../../hippo/design/sec4_api_layer/" class="md-nav__link">
         
   
   
@@ -1570,7 +1570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/design/sec5_ingestion/" class="md-nav__link">
+      <a href="../../../../hippo/design/sec5_ingestion/" class="md-nav__link">
         
   
   
@@ -1598,7 +1598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/design/sec6_provenance/" class="md-nav__link">
+      <a href="../../../../hippo/design/sec6_provenance/" class="md-nav__link">
         
   
   
@@ -1626,7 +1626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/design/sec7_nfr/" class="md-nav__link">
+      <a href="../../../../hippo/design/sec7_nfr/" class="md-nav__link">
         
   
   
@@ -1654,7 +1654,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/design/sec8_auth_integration/" class="md-nav__link">
+      <a href="../../../../hippo/design/sec8_auth_integration/" class="md-nav__link">
         
   
   
@@ -1682,7 +1682,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/design/appendix_a_example_schema_omics/" class="md-nav__link">
+      <a href="../../../../hippo/design/appendix_a_example_schema_omics/" class="md-nav__link">
         
   
   
@@ -1710,7 +1710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/design/appendix_b_implementation_guide/" class="md-nav__link">
+      <a href="../../../../hippo/design/appendix_b_implementation_guide/" class="md-nav__link">
         
   
   
@@ -1738,7 +1738,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/design/reference_hippo_yaml/" class="md-nav__link">
+      <a href="../../../../hippo/design/reference_hippo_yaml/" class="md-nav__link">
         
   
   
@@ -1766,7 +1766,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/design/reference_validators_yaml/" class="md-nav__link">
+      <a href="../../../../hippo/design/reference_validators_yaml/" class="md-nav__link">
         
   
   
@@ -1794,7 +1794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/design/reference_cel_context/" class="md-nav__link">
+      <a href="../../../../hippo/design/reference_cel_context/" class="md-nav__link">
         
   
   
@@ -1891,7 +1891,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/" class="md-nav__link">
+      <a href="../../../../cappella/" class="md-nav__link">
         
   
   
@@ -1973,7 +1973,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/introduction/" class="md-nav__link">
+      <a href="../../../../cappella/docs/introduction/" class="md-nav__link">
         
   
   
@@ -2001,7 +2001,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/installation/" class="md-nav__link">
+      <a href="../../../../cappella/docs/installation/" class="md-nav__link">
         
   
   
@@ -2029,7 +2029,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/overview/" class="md-nav__link">
+      <a href="../../../../cappella/docs/overview/" class="md-nav__link">
         
   
   
@@ -2057,7 +2057,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../cappella/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -2085,7 +2085,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/user_guide/" class="md-nav__link">
+      <a href="../../../../cappella/docs/user_guide/" class="md-nav__link">
         
   
   
@@ -2113,7 +2113,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/workflows/" class="md-nav__link">
+      <a href="../../../../cappella/docs/workflows/" class="md-nav__link">
         
   
   
@@ -2203,7 +2203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -2231,7 +2231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -2259,7 +2259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec3_adapters/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec3_adapters/" class="md-nav__link">
         
   
   
@@ -2287,7 +2287,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec4_audit/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec4_audit/" class="md-nav__link">
         
   
   
@@ -2315,7 +2315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec5_workflows/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec5_workflows/" class="md-nav__link">
         
   
   
@@ -2343,7 +2343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec6_nfr/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec6_nfr/" class="md-nav__link">
         
   
   
@@ -2371,7 +2371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec7_testing/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec7_testing/" class="md-nav__link">
         
   
   
@@ -2468,7 +2468,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../" class="md-nav__link">
+      <a href="../../../" class="md-nav__link">
         
   
   
@@ -2550,7 +2550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../INDEX/" class="md-nav__link">
+      <a href="../../INDEX/" class="md-nav__link">
         
   
   
@@ -2578,7 +2578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../portal-vision-handoff/" class="md-nav__link">
+      <a href="../../portal-vision-handoff/" class="md-nav__link">
         
   
   
@@ -2606,7 +2606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../portal-open-questions/" class="md-nav__link">
+      <a href="../../portal-open-questions/" class="md-nav__link">
         
   
   
@@ -2703,7 +2703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/" class="md-nav__link">
+      <a href="../../../../bridge/" class="md-nav__link">
         
   
   
@@ -2785,7 +2785,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/introduction/" class="md-nav__link">
+      <a href="../../../../bridge/docs/introduction/" class="md-nav__link">
         
   
   
@@ -2813,7 +2813,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/auth/" class="md-nav__link">
+      <a href="../../../../bridge/docs/auth/" class="md-nav__link">
         
   
   
@@ -2841,7 +2841,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/security-model/" class="md-nav__link">
+      <a href="../../../../bridge/docs/security-model/" class="md-nav__link">
         
   
   
@@ -2869,7 +2869,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/admin-guide/" class="md-nav__link">
+      <a href="../../../../bridge/docs/admin-guide/" class="md-nav__link">
         
   
   
@@ -2959,7 +2959,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -2987,7 +2987,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -3015,7 +3015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec3_api_unification/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec3_api_unification/" class="md-nav__link">
         
   
   
@@ -3043,7 +3043,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec4_auth/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec4_auth/" class="md-nav__link">
         
   
   
@@ -3071,7 +3071,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec5_sync/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec5_sync/" class="md-nav__link">
         
   
   
@@ -3099,7 +3099,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec6_nfr/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec6_nfr/" class="md-nav__link">
         
   
   
@@ -3196,7 +3196,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/" class="md-nav__link">
+      <a href="../../../../canon/" class="md-nav__link">
         
   
   
@@ -3278,7 +3278,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/introduction/" class="md-nav__link">
+      <a href="../../../../canon/docs/introduction/" class="md-nav__link">
         
   
   
@@ -3306,7 +3306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../canon/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -3334,7 +3334,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/user-guide/" class="md-nav__link">
+      <a href="../../../../canon/docs/user-guide/" class="md-nav__link">
         
   
   
@@ -3424,7 +3424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../canon/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -3452,7 +3452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../canon/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -3480,7 +3480,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
+      <a href="../../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
         
   
   
@@ -3508,7 +3508,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
+      <a href="../../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
         
   
   
@@ -3536,7 +3536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
+      <a href="../../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
         
   
   
@@ -3564,7 +3564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
+      <a href="../../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
         
   
   
@@ -3592,7 +3592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
+      <a href="../../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
         
   
   
@@ -3620,7 +3620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec6_hippo_integration/" class="md-nav__link">
+      <a href="../../../../canon/design/sec6_hippo_integration/" class="md-nav__link">
         
   
   
@@ -3648,7 +3648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec7_nfr/" class="md-nav__link">
+      <a href="../../../../canon/design/sec7_nfr/" class="md-nav__link">
         
   
   
@@ -3676,7 +3676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
+      <a href="../../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
         
   
   
@@ -3704,7 +3704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/reference_canon_yaml/" class="md-nav__link">
+      <a href="../../../../canon/design/reference_canon_yaml/" class="md-nav__link">
         
   
   
@@ -3732,7 +3732,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
+      <a href="../../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
         
   
   
@@ -3760,7 +3760,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
+      <a href="../../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
         
   
   
@@ -3823,10 +3823,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#verdict-build-genuinely-greenfield" class="md-nav__link">
+  <a href="#context" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verdict: BUILD (genuinely greenfield)
+        Context
       
     </span>
   </a>
@@ -3834,10 +3834,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#closest-matches-fit-gap" class="md-nav__link">
+  <a href="#decision" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Closest matches — fit / gap
+        Decision
       
     </span>
   </a>
@@ -3845,10 +3845,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#design-lessons-mapped-to-our-decisions" class="md-nav__link">
+  <a href="#consequences" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Design lessons mapped to our decisions
+        Consequences
       
     </span>
   </a>
@@ -3856,32 +3856,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#caveats-coverage-gaps-absence-evidence" class="md-nav__link">
+  <a href="#alternatives-considered" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Caveats &amp; coverage gaps (absence ≠ evidence)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recommended-follow-ups" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recommended follow-ups
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sources-verified-primary-unless-noted" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sources (verified, primary unless noted)
+        Alternatives considered
       
     </span>
   </a>
@@ -3905,157 +3883,52 @@
 
 
 
-<h1 id="aperture-prior-art-survey-2026-06-16">Aperture — Prior-Art Survey (2026-06-16)<a class="headerlink" href="#aperture-prior-art-survey-2026-06-16" title="Permanent link">&para;</a></h1>
-<blockquote>
-<p><strong>Companion:</strong> <a href="../library-survey/"><code>library-survey.md</code></a> (2026-06-25) takes this down to the
-<strong>implementation-package</strong> altitude — concrete libraries (JSONForms, XState, Serverless
-Workflow, TanStack Table, nuqs, Perspective) with maturity/license/fit-gap and build-vs-adopt
-verdicts, deepest on the multi-step <strong>workflow</strong> component.</p>
-</blockquote>
-<p><strong>Status:</strong> 🟢 Research findings (verified). Deep-research harness: 5 angles, 24 sources
-fetched, 91 claims extracted, 25 verified by 3-vote adversarial check (25 confirmed, 0 killed;
-mostly primary sources). Informs — does not override — the ADRs.</p>
-<h2 id="verdict-build-genuinely-greenfield">Verdict: BUILD (genuinely greenfield)<a class="headerlink" href="#verdict-build-genuinely-greenfield" title="Permanent link">&para;</a></h2>
-<p><strong>No surveyed tool unifies Aperture's pillars</strong> — config-as-data + GraphQL-introspection-driven
-binding + a typed serializable noun-catalog view vocabulary + a capability-scoped Web-Worker
-component sandbox + LLM/agent-editable config. The prior art splits on two axes, and nothing
-spans both (let alone the sandbox + agent pillars):</p>
+<h1 id="adr-0029-capability-gated-ui-with-honest-degradation-faceting-aggregation-export">ADR-0029: Capability-gated UI with honest degradation (faceting, aggregation, export)<a class="headerlink" href="#adr-0029-capability-gated-ui-with-honest-degradation-faceting-aggregation-export" title="Permanent link">&para;</a></h1>
 <ul>
-<li><strong>(a) Config-driven scientific portals</strong> — Gen3, DataBiosphere. Real schema-derived faceted
-  UIs, but bespoke REST/Elasticsearch backends, no Worker sandbox, no agent editing.</li>
-<li><strong>(b) Declarative spec-as-data viz/dashboard grammars</strong> — Vega/Vega-Lite, Grafana JSON. The
-  canonical models for a serializable, growable, typed view vocabulary, but no schema-binding
-  or data-portal layer.</li>
+<li><strong>Status:</strong> Accepted</li>
+<li><strong>Date:</strong> 2026-06-30</li>
+<li><strong>Deciders:</strong> labadorf, design session</li>
+<li><strong>Related:</strong> ADR-0002/0017 (generic over any endpoint; Layer-D adapter), ADR-0008 (capability-scoped client); <code>portal-requirements.md</code> L7/L8, N5.1/N5.11, R3.3–R3.6; Hippo deps X1 (aggregation), X2 (server export)</li>
 </ul>
-<p><strong>Recommendation: build, reusing patterns piecemeal.</strong> Prototype the config/binding layer
-against Gen3's validation model + Hippo introspection; prototype the view layer against
-Vega-Lite's compiler + view-algebra; treat Grafana's frontend sandbox as a <em>cautionary tale</em>,
-not a foundation.</p>
-<h2 id="closest-matches-fit-gap">Closest matches — fit / gap<a class="headerlink" href="#closest-matches-fit-gap" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Tool</th>
-<th>What it proves</th>
-<th>Gap vs Aperture</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Gen3 Data Explorer</strong> ⭐</td>
-<td>Faceted UI driven by a <strong>serializable JSON config</strong> (<code>gitops.json</code>/<code>explorerConfig</code>: filters/tabs/charts/table blocks) <strong>validated so only properties in the backend ETL mapping + Data Dictionary can be surfaced</strong> — real config-as-data + schema-derived binding, = our L1 composition + L2 binding split</td>
-<td>Validation is <strong>CI-time tooling</strong> (gen3utils), not structural; backend is bespoke Guppy/Elasticsearch, <strong>not an introspectable GraphQL transport</strong></td>
-</tr>
-<tr>
-<td><strong>DataBiosphere/data-browser</strong></td>
-<td>One Next.js codebase → many portals (AnVIL, HCA, LungMAP) via per-site config — <strong>multi-portal-from-config is proven</strong></td>
-<td>Config is <strong>TypeScript <em>code</em></strong> (imports live React components/builders), <strong>not serializable data</strong>; REST/Azul backend. A <em>counter-example</em> that validates our config-as-LinkML-data choice</td>
-</tr>
-<tr>
-<td><strong>ra-data-graphql / react-admin</strong></td>
-<td>Runtime <strong>GraphQL introspection</strong> data provider is an established pattern</td>
-<td>Maintainer: runtime introspection <strong>unsuitable for production</strong> (often disabled for security); binding is <strong>coded</strong> in a <code>buildQuery</code> adapter, <strong>not derived</strong> from schema</td>
-</tr>
-<tr>
-<td><strong>DataHarmonizer</strong></td>
-<td><strong>LinkML-native</strong> UI generated from schema annotations (columns/picklists/validation from <code>range</code>/<code>enum</code>/<code>title</code>/<code>slot_group</code>; surfaced via <code>is_a: dh_interface</code>) — validates <strong>binding-from-annotations</strong></td>
-<td>Offline <strong>spreadsheet editor</strong> (xlsx/csv import/export); <strong>no GraphQL</strong>; compiles LinkML → templates, not → a live transport</td>
-</tr>
-<tr>
-<td><strong>Vega-Lite</strong> ⭐</td>
-<td>Template for a serializable, typed, <strong>growable</strong> noun-catalog without a bloated DSL: a <strong>closed view algebra</strong> (layer/concat/facet/repeat) + a <strong>smart-defaults compiler</strong> that absorbs complexity; cleanly separates <em>what to show</em> (declarative) from <em>how to compute</em> (compiler/runtime)</td>
-<td>Pure viz layer — no schema binding, no data-portal, no security</td>
-</tr>
-<tr>
-<td><strong>Vega</strong></td>
-<td>"View-description is <strong>self-contained JSON parsed by a separate runtime</strong>" — exactly our emit-spec/render-elsewhere split</td>
-<td>(same — viz only)</td>
-</tr>
-<tr>
-<td><strong>Grafana dashboard-spec</strong></td>
-<td>Dashboard-as-data with a <strong>typed schema</strong> works and is battle-tested</td>
-<td>The externalized spec repo was <strong>deprecated and reabsorbed into the runtime</strong> → keep config schema <strong>co-evolving with the runtime that consumes it</strong> (validates config-in-Hippo)</td>
-</tr>
-<tr>
-<td><strong>Grafana Plugin Frontend Sandbox</strong></td>
-<td>Closest frontend-component-sandbox prior art</td>
-<td><strong>Same-thread Proxy/realm membrane</strong> (not Worker/iframe/WASM); <strong>coarse isolation only — prevents UI/global interference but does NOT scope data-access authority.</strong> Public-preview, off by default, excludes Angular/signed plugins — <strong>unproven</strong></td>
-</tr>
-<tr>
-<td><strong>Observable runtime</strong></td>
-<td>Strongest model for "<strong>components emit values, never touch the DOM</strong>": <code>variable.define(name, inputs, def)</code> with explicit deps + headless observers that render</td>
-<td><strong>No security sandbox / capability scoping</strong> — that part is Aperture's to add via the Worker boundary</td>
-</tr>
-</tbody>
-</table>
-<h2 id="design-lessons-mapped-to-our-decisions">Design lessons mapped to our decisions<a class="headerlink" href="#design-lessons-mapped-to-our-decisions" title="Permanent link">&para;</a></h2>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<p>Aperture is generic over any LinkML+GraphQL endpoint (ADR-0002/0017), so backends differ in what
+they support. Hippo today offers full-text search, equality facets, offset pagination, and
+relationship traversal — but <strong>no facet counts, <code>totalCount</code>, server sort, or range filters</strong>. The
+risk is a UI that <em>appears</em> to offer these and silently lies (e.g. a facet "count" computed over
+only the loaded page).</p>
+<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
+<p>The Layer-D source adapter <strong>declares its capabilities</strong> (FTS, equality facets, pagination, sort,
+aggregation/counts, range filters, relationship traversal, batch write/validate, schema
+introspection) and the UI <strong>gates features on the declared set</strong>. <strong>The UI never fakes a capability
+the backend lacks</strong> — it degrades <em>visibly</em>:</p>
 <ul>
-<li><strong>Config-as-LinkML-data (ADR-0003):</strong> <em>strongly validated.</em> Gen3 proves config-as-data with
-  schema-validated binding; DataBiosphere's TS-code config is the bloat/agent-hostile
-  counter-example; Grafana's externalized-spec reabsorption says <strong>keep config co-evolving with
-  the runtime</strong> — i.e. config-as-LinkML-<em>in-Hippo</em> is the right instinct.</li>
-<li><strong>Derived binding from schema annotations:</strong> <strong>this is our novel bet — nobody surveyed
-  auto-derives GraphQL binding from schema.</strong> GraphQL providers <em>code</em> binding (<code>buildQuery</code>);
-  DataHarmonizer derives UI from LinkML annotations but only offline. → <strong>De-risk with a Hippo
-  introspection → derived-binding prototype</strong>, and <strong>do not depend on live standard <code>__schema</code>
-  in production</strong> (commonly gated); Hippo's <em>custom</em> <code>hippoSchema</code> query sidesteps this if it
-  can be auth-gated rather than disabled.</li>
-<li><strong>Noun-catalog view vocabulary (ADR-0010):</strong> Vega-Lite is the <strong>design template</strong> — a closed
-  set of typed primitives + a smart-defaults compiler is exactly how to grow the catalog
-  (table/faceted-list/KM-curve/heatmap) <strong>without</strong> a middle scripting layer (ADR-0004). Its
-  layer/facet/repeat algebra models view composition; its noun-vs-verb split validates pushing
-  computation to the GraphQL query layer.</li>
-<li><strong>View-description-not-DOM (ADR-0009):</strong> validated by Vega (serializable spec + separate
-  runtime) and Observable (emit-values-to-observer, explicit-dependency recompute).</li>
-<li><strong>Worker sandbox + capability-scoped client (ADR-0008, ADR-0011):</strong> Grafana's sandbox is the
-  closest prior art <strong>and the key cautionary tale</strong> — it stops the DOM-tampering/ambient-UI
-  trap but <strong>does not scope data authority per viewer.</strong> Our Worker boundary + injected
-  <strong>capability-scoped data client</strong> is a <strong>genuine advance and our core differentiator</strong> — but
-  it is <strong>unproven prior art</strong> (nobody does it), so it carries real design risk.</li>
-<li><strong>Capability-negotiated adapter (architecture Layer D):</strong> <strong>no prior art</strong> — no surveyed tool
-  gates UI features by negotiated GraphQL source capability. <strong>Design from first principles.</strong></li>
-<li><strong>Agent-editable config (ADR-0018, ADR-0021):</strong> <strong>zero verified prior art surfaced</strong> for
-  agent-driven editing of config-as-data via MCP with dry-run + user-authority. Consistent with
-  being novel, but <strong>unconfirmed</strong> — leads worth a follow-up: A2UI (<code>a2ui.org</code>, "AI agent for
-  UI"), Retool 2025 AI features, "Grafana dashboards via AI CLI."</li>
+<li><strong>Faceting</strong> = capability-gated. Ship what the backend advertises; surface facet <strong>counts /
+  range filters / sort / <code>totalCount</code></strong> only when declared. No client-side count over a partial
+  page. The Hippo aggregation enhancement (<strong>X1</strong>) is the path to counts in v1.x.</li>
+<li><strong>Export</strong> = client-side page-through of the filtered set to <strong>CSV + JSON</strong> over configured
+  columns (no Hippo dependency); server-side streamed bulk export (<strong>X2</strong>) deferred to v1.x.</li>
+<li><strong>Client-side aggregation</strong> (e.g. a WASM engine) is allowed <em>only at small scale</em> as adapter
+  compensation, itself behind the capability gate — never presented as a backend guarantee.</li>
 </ul>
-<h2 id="caveats-coverage-gaps-absence-evidence">Caveats &amp; coverage gaps (absence ≠ evidence)<a class="headerlink" href="#caveats-coverage-gaps-absence-evidence" title="Permanent link">&para;</a></h2>
+<p>Errors are surfaced honestly: the server <code>ValidationResult</code> (field-attributed, tier-annotated) and
+coded transport errors are shown, not swallowed.</p>
+<h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>No surviving verified claims</strong> for several area-1 frameworks (<strong>Refine, Directus,
-  PostGraphile, Retool/Appsmith/Budibase/ToolJet, Forest Admin, Strapi, Amplication</strong>) or
-  several area-4 portals (<strong>cBioPortal, OHDSI ATLAS, i2b2/tranSMART, Beacon v2, CZ CELLxGENE,
-  HuBMAP</strong>). Their absence here is <em>not</em> a finding about them.</li>
-<li><strong>GraphQL introspection-disabled-in-prod is configurable</strong>, not absolute — Hasura/PostGraphile
-  can gate it behind auth. Design for both gated and open.</li>
-<li><strong>Grafana's sandbox is public-preview</strong> (&gt;=11.5, Jan 2025), not a hardened boundary; weaker
-  than our intended Worker boundary.</li>
-<li>Current Grafana schema work (CUE/kindsys/K8s-style kinds, V2) was <strong>not</strong> deeply surveyed —
-  may hold fresher dashboard-as-data lessons.</li>
+<li>Establishes the capability-negotiation protocol as a load-bearing part of Layer D (ADR-0017);
+  every feature surface must declare its capability requirement and a degraded fallback.</li>
+<li>Raises two tracked Hippo dependencies: <strong>X1</strong> (aggregation/counts/sort/range/<code>totalCount</code>) and
+  <strong>X2</strong> (server-side bulk export), both deferred to v1.x.</li>
+<li>Keeps ADR-0002's "generic" honest: the same UI works against a thinner or richer endpoint, just
+  with more features lit up.</li>
 </ul>
-<h2 id="recommended-follow-ups">Recommended follow-ups<a class="headerlink" href="#recommended-follow-ups" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>De-risk the novel bet:</strong> prototype Hippo <code>hippoSchema</code> introspection → <strong>derived binding</strong>
-   (the thing nobody has done) — directly feeds core-loop Step 2/3.</li>
-<li><strong>Prototype config validation</strong> against <strong>Gen3's <code>gitops.json</code> model</strong> (config-as-data
-   validated against the backend schema), translated to LinkML-validated config.</li>
-<li><strong>Prototype the view layer</strong> against <strong>Vega-Lite's compiler + view-algebra</strong> as the
-   noun-catalog reference.</li>
-<li><strong>Dedicated follow-up search</strong> on agent-editable config-as-data (A2UI / MCP-over-config) —
-   the one pillar with no verified prior art.</li>
-<li><strong>Quick prototype-fit eval</strong> of the unsurveyed frameworks (esp. <strong>Refine, Directus,
-   PostGraphile, Hasura DDN v3</strong>) for whether any consumes GraphQL introspection to emit
-   serializable config (not code).</li>
-</ol>
-<h2 id="sources-verified-primary-unless-noted">Sources (verified, primary unless noted)<a class="headerlink" href="#sources-verified-primary-unless-noted" title="Permanent link">&para;</a></h2>
+<h2 id="alternatives-considered">Alternatives considered<a class="headerlink" href="#alternatives-considered" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Gen3: <code>docs.gen3.org/.../customize-search/</code>, <code>github.com/uc-cdis/data-portal</code> (portal_config), <code>github.com/uc-cdis/gen3utils</code></li>
-<li>DataBiosphere: <code>github.com/DataBiosphere/data-browser</code>, <code>github.com/DataBiosphere/azul</code></li>
-<li>react-admin GraphQL: <code>github.com/marmelab/react-admin</code> (ra-data-graphql README; issue #6639); Hasura introspection docs</li>
-<li>DataHarmonizer: <code>github.com/cidgoh/DataHarmonizer</code>; <code>linkml.io/linkml/generators/</code></li>
-<li>Vega-Lite: <code>idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf</code>; Vega: <code>vega.github.io/vega/</code></li>
-<li>Grafana: <code>github.com/grafana/dashboard-spec</code>; frontend-sandbox docs + 2025-01-14 what's-new</li>
-<li>Observable: <code>github.com/observablehq/runtime</code></li>
-<li>Agent-UI leads (unverified): <code>a2ui.org</code>, Grid Dynamics A2UI blog, Retool 2025 features, Quesma "Grafana dashboards via AI CLI"</li>
+<li><strong>Assume Hippo's current surface everywhere.</strong> Rejected — couples the UI to one backend's
+  capabilities, breaking the generic invariant.</li>
+<li><strong>Fake counts/sort client-side over the loaded page.</strong> Rejected — silently wrong at any scale
+  beyond one page; erodes trust in a data portal where counts are decision-grade.</li>
+<li><strong>Block features until every backend supports them.</strong> Rejected — denies value the current
+  backend <em>can</em> deliver; capability-gating lights up features per-endpoint instead.</li>
 </ul>
 
 
@@ -4112,10 +3985,10 @@ not a foundation.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

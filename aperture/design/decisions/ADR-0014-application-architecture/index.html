@@ -3834,10 +3834,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#decision-proposed" class="md-nav__link">
+  <a href="#decision" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Decision (proposed)
+        Decision
       
     </span>
   </a>
@@ -3885,10 +3885,10 @@
 
 <h1 id="adr-0014-application-architecture-server-rendered-vs-client-side-app-shell">ADR-0014: Application architecture — server-rendered vs client-side app shell<a class="headerlink" href="#adr-0014-application-architecture-server-rendered-vs-client-side-app-shell" title="Permanent link">&para;</a></h1>
 <ul>
-<li><strong>Status:</strong> Proposed</li>
-<li><strong>Date:</strong> 2026-06-13</li>
-<li><strong>Deciders:</strong> —</li>
-<li><strong>Related:</strong> raised 2026-06-13 ("architecture: server vs client side app"); distinct from but informed by ADR-0011; depends on ADR-0009</li>
+<li><strong>Status:</strong> Accepted</li>
+<li><strong>Date:</strong> 2026-06-30 (ratified — MVP = client-side SPA)</li>
+<li><strong>Deciders:</strong> labadorf, design session</li>
+<li><strong>Related:</strong> ADR-0026 (portal-first MVP), ADR-0011, ADR-0009, ADR-0016 (Bridge BFF deferred); <code>portal-requirements.md</code> N5.9</li>
 </ul>
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
 <p>ADR-0011 decides where <em>components</em> execute (the sandbox). This ADR is the separate,
@@ -3900,8 +3900,16 @@ component view-specs).</p>
 in Web Workers (ADR-0011), or ship a pure SPA that hosts the same workers. The realized
 view-description (ADR-0009) has to be turned into pixels <em>somewhere</em> — that "somewhere" is
 this decision.</p>
-<h2 id="decision-proposed">Decision (proposed)<a class="headerlink" href="#decision-proposed" title="Permanent link">&para;</a></h2>
-<p><em>To be decided in a design session.</em> Candidate framing:</p>
+<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
+<p><strong>Ratified (2026-06-30, MVP — <code>portal-requirements.md</code> N5.9): a pure client-side SPA.</strong> The MVP
+ships a browser app that talks to the active endpoint's GraphQL/REST directly (Hippo now), with a
+thin Aperture API; component view-specs run in client-side Web Workers (ADR-0011). This is the
+simplest deployment story and aligns with the capability-scoped client (ADR-0008) and Bridge-as-BFF
+deferral (ADR-0016) — auth/capability enforcement is server-side (Bridge) when present, a no-op
+pass-through locally. SSR / hybrid is <strong>not</strong> an MVP requirement; revisit if first-load weight
+(esp. a bundled Pyodide escape hatch) or deep-link/SEO needs demand it. The original candidate
+framing is retained below.</p>
+<p><em>Candidate framing (pre-ratification):</em></p>
 <ul>
 <li><strong>Pure client-side SPA</strong> — browser app talks to Hippo GraphQL/REST directly; Aperture's own
   API is thin. Simplest deployment story; aligns with ADR-0013's "always talk to a running
