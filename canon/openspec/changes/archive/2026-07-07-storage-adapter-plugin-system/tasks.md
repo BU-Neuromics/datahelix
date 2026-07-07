@@ -45,6 +45,6 @@
 
 ### Post-Implementation TODOs (separate commits)
 
-- [ ] Add `tests/contracts/test_storage_adapter_contract.py` — behavioral contract for StorageAdapter ABC
-- [ ] Add platform-level storage tests to `tests/platform/test_canon_platform.py`
-- [ ] Update project notes and memory
+- [x] Add `tests/contracts/test_storage_adapter_contract.py` — behavioral contract for StorageAdapter ABC (landed; passing in the 2026-07-07 contract-tier run)
+- [x] Add platform-level storage tests to `tests/platform/test_canon_platform.py` (landed; passing in the 2026-07-07 platform-tier run)
+- [x] Update project notes and memory (close-out recorded in DataHelix epic #38; specs synced to `openspec/specs/`)

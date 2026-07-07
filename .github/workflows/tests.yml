@@ -5,6 +5,11 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  # Nightly + on-demand runs additionally execute the platform tier (tier 3),
+  # which is too slow to gate PRs — see the `platform` job.
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
 
 concurrency:
   group: tests-${{ github.ref }}
@@ -73,18 +78,81 @@ jobs:
         run: pytest -v
 
   # ---------------------------------------------------------------------------
-  # Platform-level CI (cross-component) — DISABLED 2026-06-17.
-  #
-  # A `platform` job used to run the cross-component contract tests
-  # (tests/contracts/) and platform integration tests (tests/platform/) against a
-  # full in-process Hippo + Canon + Cappella install. It dominated CI wall-clock
-  # (~30 min, serialized behind the cappella/canon jobs) and exercised
-  # cross-component behavior that is being actively redesigned — so it gated
-  # rapid PR iteration while asserting stale design assumptions.
-  #
-  # The test files are intentionally KEPT in the repo (tests/contracts/ and
-  # tests/platform/); only their execution in CI is disabled. Reintroduce them
-  # PER-COMPONENT as each component's design and interfaces stabilize: restore a
-  # job that installs the relevant components and runs the relevant subset.
-  # See the DataHelix CI discussion, 2026-06-17.
+  # Cross-component tiers (restored 2026-07-07, epic P1.7 / issue #37; the
+  # platform job had been disabled since 2026-06-17 for dominating wall-clock
+  # while asserting stale design). The contract tier (tier 2) runs per-PR,
+  # split into two parallel seam slices so neither gates PRs for the full ~16
+  # minutes. The platform tier (tier 3, ~13 min) runs nightly and on demand —
+  # sequence it back into PRs as component interfaces stabilize (roadmap
+  # phases 2+). All suites verified green against the pinned hippo submodule
+  # on restore day. LinkML schema processing is what makes these slow.
   # ---------------------------------------------------------------------------
+
+  contracts-hippo-seam:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: astral-sh/setup-uv@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install components
+        run: uv pip install --system -e "./hippo[dev]" -e "./canon[dev]" pytest-asyncio
+
+      - name: Run hippo-provider contracts (canon↔hippo, cappella↔hippo, entity-loader)
+        run: |
+          pytest --tb=short -q \
+            tests/contracts/test_canon_expects_hippo.py \
+            tests/contracts/test_cappella_expects_hippo.py \
+            tests/contracts/test_entity_loader_contract.py
+
+  contracts-canon-seam:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: astral-sh/setup-uv@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install components
+        run: uv pip install --system -e "./hippo[dev]" -e "./canon[dev]" pytest-asyncio
+
+      - name: Run canon-provider contracts (storage-adapter, cappella↔canon)
+        run: |
+          pytest --tb=short -q \
+            tests/contracts/test_storage_adapter_contract.py \
+            tests/contracts/test_cappella_expects_canon.py
+
+  # Tier 3 — nightly / on-demand only (not a PR gate yet).
+  platform:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: astral-sh/setup-uv@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install components
+        run: uv pip install --system -e "./hippo[dev]" -e "./canon[dev]" -e ./cappella pytest-asyncio pytest-anyio
+
+      - name: Run platform tier
+        run: pytest tests/platform/ --tb=short -q
