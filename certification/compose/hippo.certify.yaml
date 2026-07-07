@@ -1,23 +1,23 @@
 # Hippo config for a certification boot.
 #
-# Mounted into the pinned Hippo image at /app/hippo.yaml. GraphQL autogenerates
-# from `schema_path` at serve time, so the fixture schemas MUST be present and
-# named here. Postgres matches the production single-node compose (multivalued
-# reference slots persist as relationships — Hippo ADR-0002 — unlike the v0.1
-# SQLite adapter).
-storage:
-  backend: postgresql
-  connection: ${HIPPO_DATABASE_URL}
-
+# Mounted into the pinned Hippo image at /app/hippo.yaml. Shape must match
+# hippo's HippoConfig (src/hippo/config/models.py) exactly — a flat model with
+# extra="forbid", so only its declared fields may appear here. GraphQL
+# autogenerates from `schema_path` at serve time.
+#
+# schema_path is the directory carrying BOTH fixture schemas (portal +
+# control-plane recipe), bind-mounted from certification/fixtures/bootstrap/
+# schema; hippo merges every *.yaml in the directory into one schema.
+#
+# Postgres matches the production single-node compose (multivalued reference
+# slots persist as relationships — Hippo ADR-0002 — unlike the v0.1 SQLite
+# adapter). `postgres` is the hippo.storage_adapters entry-point name, and
+# ${HIPPO_DATABASE_URL} is substituted from the container environment by
+# hippo's config loader.
+#
 # The certification composition talks to Hippo directly (no Bridge) — Aperture
 # is built/demoed against Hippo per Aperture ADR-0016; auth is out of the seam
 # scope for the golden path.
-bridge:
-  enabled: false
-
-schema:
-  # Directory carrying BOTH fixture schemas (portal + control-plane recipe),
-  # bind-mounted from certification/fixtures/bootstrap/schema.
-  path: /app/schemas
-
-log_level: INFO
+schema_path: /app/schemas
+storage_backend: postgres
+database_url: ${HIPPO_DATABASE_URL}
