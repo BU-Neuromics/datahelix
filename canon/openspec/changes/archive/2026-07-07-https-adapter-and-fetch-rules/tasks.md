@@ -58,11 +58,11 @@
 ### Phase 4: Full Suite Validation
 
 - [x] Run `cd canon && uv run pytest tests/ -v --tb=short` — all Canon tests pass (133 passed)
-- [ ] Run `make test` at monorepo root — all 3 tiers pass, no regressions
-- [ ] Commit Canon-only changes: `feat(canon): HTTP adapter and fetch rules — REUSE/FETCH/BUILD/FAIL planner`
+- [x] Run `make test` at monorepo root — all 3 tiers pass, no regressions (2026-07-07: canon 211 passed; contracts 108 passed; platform 114 passed)
+- [x] Commit Canon-only changes: `feat(canon): HTTP adapter and fetch rules — REUSE/FETCH/BUILD/FAIL planner` (already landed on main before close-out)
 
 ### Post-Implementation TODOs (separate commits)
 
-- [ ] Add `tests/contracts/test_storage_adapter_contract.py` (from previous change todo)
-- [ ] Update platform tests in `tests/platform/test_canon_platform.py` with fetch rule scenarios
-- [ ] Update project notes and memory with fetch rules design decisions
+- [x] Add `tests/contracts/test_storage_adapter_contract.py` (from previous change todo) (landed; passing)
+- [x] Update platform tests in `tests/platform/test_canon_platform.py` with fetch rule scenarios (landed — fetch/HTTP scenarios in `test_canon_platform.py` + `test_hippo_canon.py`; passing)
+- [x] Update project notes and memory with fetch rules design decisions (close-out recorded in DataHelix epic #38; specs synced to `openspec/specs/`)
