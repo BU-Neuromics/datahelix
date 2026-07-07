@@ -161,7 +161,7 @@ a key for themselves.
 {
   "id": "key_01jx...",
   "label": "My notebook key",
-  "secret": "bass_live_7f3a8b2c4d5e6f...",
+  "secret": "datahelix_live_7f3a8b2c4d5e6f...",
   "role": "analyst",
   "project": "lab-a",
   "expires": "2027-01-01T00:00:00Z",
@@ -256,7 +256,7 @@ label, role, and project scope.
 {
   "new_key": {
     "id": "key_01jy...",
-    "secret": "bass_live_9c8d7e6f...",
+    "secret": "datahelix_live_9c8d7e6f...",
     "label": "My notebook key",
     "role": "analyst",
     "project": "lab-a"
@@ -464,8 +464,8 @@ documentation for endpoint details.
 Bridge strips the `/api/v1/{component}/` prefix before forwarding. Components receive
 requests on their own internal path scheme.
 
-All proxied requests require authentication. Bridge injects `X-Bass-Actor`,
-`X-Bass-Roles`, and `X-Bass-Request-Id` headers before forwarding.
+All proxied requests require authentication. Bridge injects `X-DataHelix-Actor`,
+`X-DataHelix-Roles`, and `X-DataHelix-Request-Id` headers before forwarding.
 
 ---
 

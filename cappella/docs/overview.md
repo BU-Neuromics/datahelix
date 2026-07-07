@@ -1,6 +1,6 @@
 # Cappella — Overview
 
-**Cappella** is the harmonization engine of the BASS (Bioinformatics Analysis Support System) platform. Its job is to make data from many different sources sing together in a single, consistent, provenance-rich picture.
+**Cappella** is the harmonization engine of the DataHelix platform. Its job is to make data from many different sources sing together in a single, consistent, provenance-rich picture.
 
 ## The Problem It Solves
 

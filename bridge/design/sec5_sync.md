@@ -8,7 +8,7 @@
 
 ### 5.1 What Cross-Component Sync Addresses
 
-BASS components operate independently. Each has its own state:
+DataHelix components operate independently. Each has its own state:
 
 - **Hippo** stores entity metadata and provenance records.
 - **Cappella** tracks pipeline run state, reconciliation records, and trigger history.

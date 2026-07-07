@@ -206,7 +206,7 @@ data:
     image: "quay.io/biocontainers/star:2.7.11a"
     digest: "sha256:def456..."
   inputs:                                           # resolved concrete values
-    fastq: "drs://bass.lab.org/fastq-uuid"
+    fastq: "drs://datahelix.lab.org/fastq-uuid"
     genome_index: "s3://bucket/star_index_GRCh38"
   output_entity_id: "alignment-uuid"
   started_at: "2026-03-24T09:00:00Z"

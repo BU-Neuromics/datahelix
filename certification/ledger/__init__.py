@@ -1,4 +1,4 @@
-"""BASS certified-frontier ledger tooling.
+"""DataHelix certified-frontier ledger tooling.
 
 The ledger is the append-only record of composition certifications described in
 platform ADR-0001. Every certification of an exact version pair (with artifact

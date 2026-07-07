@@ -7,9 +7,9 @@
 
 ---
 
-### 1.1 What BASS Is
+### 1.1 What DataHelix Is
 
-**BASS (Bioinformatics Analysis Software System)** is an open-source, modular platform for
+**DataHelix** is an open-source, modular platform for
 managing and analyzing biological research data. It provides a unified foundation for:
 
 - **Metadata management** — a single, queryable registry of entities (subjects, samples,
@@ -20,7 +20,7 @@ managing and analyzing biological research data. It provides a unified foundatio
   laboratory information systems (LIMS), clinical databases, and analysis pipelines
 - **Access control** — optional authentication and authorization for shared deployments
 
-BASS is designed for **research labs and institutions** working with high-dimensional
+DataHelix is designed for **research labs and institutions** working with high-dimensional
 biological data: genomics, transcriptomics, spatial biology, clinical omics, and related
 fields. It targets the gap between raw data files and downstream analyses — the metadata
 and logistics layer that is often managed via spreadsheets, ad hoc scripts, and institutional
@@ -32,7 +32,7 @@ inertia.
 
 #### 1.2.1 Modularity — Use What You Need
 
-BASS components are independently installable and usable. A researcher who only needs the
+DataHelix components are independently installable and usable. A researcher who only needs the
 structured domain graph (e.g. for metadata tracking) can install Hippo alone; a team that additionally needs file artifact
 resolution adds Canon; a lab with external LIMS systems adds Cappella for integration; a
 multi-user deployment adds Bridge for auth.
@@ -73,9 +73,9 @@ not an add-on — it is fundamental to the data model. Provenance enables:
 
 #### 1.2.5 Config-Driven Domain Adaptation
 
-BASS is domain-agnostic at the platform level. Entity types, fields, relationships, and
+DataHelix is domain-agnostic at the platform level. Entity types, fields, relationships, and
 validation rules are defined by deployment-specific configuration files (`schema.yaml`,
-`validators.yaml`). The same BASS codebase runs for a genomics lab, a cell therapy program,
+`validators.yaml`). The same DataHelix codebase runs for a genomics lab, a cell therapy program,
 a clinical biobank, or a plant biology consortium — with different configurations.
 
 ---
@@ -99,18 +99,18 @@ a clinical biobank, or a plant biology consortium — with different configurati
 
 | Capability | Status | Notes |
 |---|---|---|
-| Bioinformatics analysis execution | Out of scope | BASS manages data about analyses, not analyses themselves (except file cache in Canon) |
-| File storage and data transfer | Out of scope | BASS stores paths/URIs, not file contents |
+| Bioinformatics analysis execution | Out of scope | DataHelix manages data about analyses, not analyses themselves (except file cache in Canon) |
+| File storage and data transfer | Out of scope | DataHelix stores paths/URIs, not file contents |
 | Web portal (beyond CLI) | Deferred to v1.1+ | Aperture web portal in design; CLI ships in v1.0 |
 | GraphQL API | Deferred to v1.1 | REST first; GraphQL gateway via Bridge in v1.1 |
-| Multi-institution federation | Deferred to v2.0 | Bridge as inter-BASS federation layer — needs design |
+| Multi-institution federation | Deferred to v2.0 | Bridge as inter-DataHelix federation layer — needs design |
 | Full RBAC and OAuth 2.0 | Deferred to v1.1 | v1.0 ships API key auth only |
 
 ---
 
 ### 1.4 Relationship to Existing LIMS Systems
 
-BASS is **not a replacement for existing LIMS systems** (STARLIMS, REDCap, LabKey, etc.).
+DataHelix is **not a replacement for existing LIMS systems** (STARLIMS, REDCap, LabKey, etc.).
 It is a **metadata intelligence layer that aggregates and harmonizes data from those systems**.
 
 Existing LIMS systems continue to be the system of record for wet-lab operations (sample
@@ -160,6 +160,6 @@ Platform v1.0 is the first production-ready release of the full component stack.
 
 | Question | Priority | Status |
 |---|---|---|
-| Platform name: "BASS" vs. "DryLIMS" vs. other | Low | Open — revisit before v1.0 public announcement |
+| Platform name | Low | Settled as **DataHelix**. |
 | Multi-institution federation model | Medium | Candidate: Bridge as federation gateway; needs design for v2.0 |
 | GraphQL gateway scope for v1.1 | Low | Open |

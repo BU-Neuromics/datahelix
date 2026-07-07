@@ -1,6 +1,6 @@
 # Authentication & Access Control
 
-Bridge manages all authentication and authorization for the BASS platform. This document
+Bridge manages all authentication and authorization for the DataHelix platform. This document
 explains how credentials work, what roles are available, and how to set up access for your
 team.
 
@@ -8,7 +8,7 @@ team.
 
 ## How Authentication Works
 
-All requests to the BASS platform go through Bridge. Bridge checks your credentials and
+All requests to the DataHelix platform go through Bridge. Bridge checks your credentials and
 decides whether to forward the request to the appropriate component.
 
 There are two types of credentials:
@@ -16,7 +16,7 @@ There are two types of credentials:
 | Credential type | Best for | Lifetime |
 |---|---|---|
 | **API key** | Scripts, pipelines, CI/CD, notebooks | Long-lived (no expiry by default) |
-| **JWT (login session)** | Interactive use via the CLI (`bass login`) or web portal | Short-lived (15 min access, 7 day refresh) |
+| **JWT (login session)** | Interactive use via the CLI (`datahelix login`) or web portal | Short-lived (15 min access, 7 day refresh) |
 
 ---
 
@@ -26,13 +26,13 @@ There are two types of credentials:
 
 ```bash
 # Create a key with analyst role
-bass auth create-key --label "My notebook key" --role analyst
+datahelix auth create-key --label "My notebook key" --role analyst
 
 # Create a project-scoped key (can only access Lab A)
-bass auth create-key --label "Lab A pipeline" --role analyst --project lab-a
+datahelix auth create-key --label "Lab A pipeline" --role analyst --project lab-a
 
 # Create a key with an expiry date
-bass auth create-key --label "Temp access" --role viewer --expires 2026-12-31
+datahelix auth create-key --label "Temp access" --role viewer --expires 2026-12-31
 ```
 
 The key is printed **once** and cannot be retrieved again. Store it securely.
@@ -40,7 +40,7 @@ The key is printed **once** and cannot be retrieved again. Store it securely.
 ```
 API key created successfully.
 
-Key:   bass_live_7f3a8b2c4d5e6f1a2b3c4d5e6f7a8b9c...
+Key:   datahelix_live_7f3a8b2c4d5e6f1a2b3c4d5e6f7a8b9c...
 Label: My notebook key
 Role:  analyst
 ID:    key_01jx...
@@ -53,33 +53,33 @@ Store this key now — it will not be shown again.
 Pass the key as a `Bearer` token in the `Authorization` header:
 
 ```bash
-curl -H "Authorization: Bearer bass_live_7f3a..." \
-     https://bass.your-org.edu/api/v1/hippo/entities/sample
+curl -H "Authorization: Bearer datahelix_live_7f3a..." \
+     https://datahelix.your-org.edu/api/v1/hippo/entities/sample
 ```
 
 Or set it as an environment variable for the CLI and SDK:
 
 ```bash
-export BASS_API_KEY=bass_live_7f3a...
-bass entities list sample
+export DATAHELIX_API_KEY=datahelix_live_7f3a...
+datahelix entities list sample
 ```
 
 ```python
 from hippo import HippoClient
 
-client = HippoClient(url="https://bass.your-org.edu/api/v1/hippo", api_key="bass_live_...")
+client = HippoClient(url="https://datahelix.your-org.edu/api/v1/hippo", api_key="datahelix_live_...")
 ```
 
 ### Listing your keys
 
 ```bash
-bass auth list-keys
+datahelix auth list-keys
 ```
 
 ### Revoking a key
 
 ```bash
-bass auth revoke-key <key-id>
+datahelix auth revoke-key <key-id>
 ```
 
 ### Rotating a key
@@ -88,7 +88,7 @@ Rotation creates a new key and revokes the old one atomically. Old key stops wor
 immediately.
 
 ```bash
-bass auth rotate-key <key-id>
+datahelix auth rotate-key <key-id>
 ```
 
 ---
@@ -98,21 +98,21 @@ bass auth rotate-key <key-id>
 For interactive use, log in with your institutional account:
 
 ```bash
-bass login
+datahelix login
 ```
 
 A browser window opens for authentication. After completing the login flow, your session
-is saved to `~/.bass/tokens.json` (encrypted via your system keychain).
+is saved to `~/.datahelix/tokens.json` (encrypted via your system keychain).
 
-Subsequent `bass` commands use this session automatically. Sessions expire after 7 days;
-`bass login` renews them.
+Subsequent `datahelix` commands use this session automatically. Sessions expire after 7 days;
+`datahelix login` renews them.
 
 ```bash
 # Check who you're logged in as
-bass auth whoami
+datahelix auth whoami
 
 # Log out (revokes tokens)
-bass logout
+datahelix logout
 ```
 
 ---
@@ -145,9 +145,9 @@ in that specific project, even if the creating user has access to more projects.
 Project membership is managed by the platform admin via:
 
 ```bash
-bass admin projects add-member --project lab-a --user alice@uni.edu --role analyst
-bass admin projects list-members --project lab-a
-bass admin projects remove-member --project lab-a --user alice@uni.edu
+datahelix admin projects add-member --project lab-a --user alice@uni.edu --role analyst
+datahelix admin projects list-members --project lab-a
+datahelix admin projects remove-member --project lab-a --user alice@uni.edu
 ```
 
 ---
@@ -163,7 +163,7 @@ bass admin projects remove-member --project lab-a --user alice@uni.edu
 
 **Secrets management:**
 - Do not commit API keys to version control. Use environment variables or a secrets manager.
-- The `bass_live_` prefix is public information; the full key is the secret. Keep the
+- The `datahelix_live_` prefix is public information; the full key is the secret. Keep the
   full key out of logs and error messages.
 
 **Sharing access:**

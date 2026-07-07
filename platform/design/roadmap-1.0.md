@@ -1,4 +1,4 @@
-# BASS 1.0 — Six-Month Design-Sprint Roadmap
+# DataHelix 1.0 — Six-Month Design-Sprint Roadmap
 
 **Status:** Working roadmap (design-sprint output, 2026-07-07)
 **Horizon:** 2026-07-07 → 2027-01-05 (26 weeks, four ~6-week phases)
@@ -58,7 +58,7 @@ a certified composition, and 1.0 itself is a ledger entry.
 | **P1.8 Canon v0.2 close-out** — finish `storage-adapter-plugin-system` (3 tasks) + `https-adapter-and-fetch-rules` (5 tasks); archive | drylims/canon | S | — | REUSE/FETCH/BUILD all live; suites green |
 | **P1.9 Aperture #18 nav overrides** (unblocked, parallel) — `config/nav` document: derive-all + reorder/relabel/hide + default landing; hide control-plane collection | aperture | M | — | per issue #18 acceptance |
 
-**[HUMAN] decisions due in P1:** platform name (BASS vs drylims — blocks 1.0 branding/docs); confirm `ghcr.io` as registry + digest/attestation format (ADR-0001 open note).
+**[HUMAN] decisions due in P1:** platform name settled as DataHelix (1.0 branding/docs follow); confirm `ghcr.io` as registry + digest/attestation format (ADR-0001 open note).
 
 ### Phase 2 — "Contract-guarded and portal-complete" (wks 7–13, Aug 17 → Oct 5)
 *Theme: seams under contract; the portal reaches feature-complete; storage/API converge on freezable. Maps to FABLE M2 + M4 (part).*
@@ -72,7 +72,7 @@ a certified composition, and 1.0 itself is a ledger entry.
 | **P2.5 Hippo Postgres parity** — per-class-table migration; xref reverse lookup, multivalued refs (ADR-0002), polymorphic ingest (ADR-0003); ratify both ADRs; publish parity matrix | hippo | L | P1.2 | `hippo.yaml` backend swap is truthful for all shipped features; ADR-0002/0003 Accepted |
 | **P2.6 Unified ingestion framework** (BREAKING, pre-freeze) — `EntityLoader` ABC lands in hippo; Cappella's `adopt-hippo-loaders` change executes; cyclic-FK ingest (hippo#95) + ingest `--db-path` (hippo#89) fixed en route | hippo + drylims/cappella | L | P1.2 | one ingest path; `test_entity_loader_contract.py` re-enabled and green; breaking change lands before any API freeze |
 | **P2.7 Hippo transport v0.5 slice** — REST `PUT`, bulk availability, OR filters, cursor pagination + GraphQL parity, exception→HTTP map (#62), DRS router mount (#55), status introspection (#61), `query_updated_since` (#63, needed by Cappella poll triggers) | hippo | M/L | P1.2 | INDEX "Planned v0.5 Phase 1" items closed; GraphQL known-limitations list shrinks accordingly |
-| **P2.8 Bridge v0.1 skeleton** — from zero: `/api/v1/{component}/` routing, API-key auth, `X-Bass-Actor`/`X-Bass-Roles` injection, trust-proxy CIDR, health aggregation; openplan decomposition first | drylims/bridge | L | — (parallel track) | authenticated REST proxying to hippo works in compose; Bridge has its own test suite + CI job |
+| **P2.8 Bridge v0.1 skeleton** — from zero: `/api/v1/{component}/` routing, API-key auth, `X-DataHelix-Actor`/`X-DataHelix-Roles` injection, trust-proxy CIDR, health aggregation; openplan decomposition first | drylims/bridge | L | — (parallel track) | authenticated REST proxying to hippo works in compose; Bridge has its own test suite + CI job |
 | **P2.9 Hippo `IN`-filter** — set-membership filter (predicate-pushdown prerequisite, sec6 §6.8) | hippo | S/M | — | `IN` composes with equality/AND/OR on REST+GraphQL |
 
 **[HUMAN] decision due in P2:** which hippo schema-sync slices (503-on-mismatch / polling reload / expand-contract) are 1.0-blocking vs 1.x.

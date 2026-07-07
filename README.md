@@ -1,10 +1,10 @@
-# drylims — Bioinformatics Analysis Software System
+# DataHelix
 
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://va-ncptsdbb-bioinformatics.github.io/drylims/)
 
 **Documentation site:** https://va-ncptsdbb-bioinformatics.github.io/drylims/
 
-This repository hosts the BASS platform: documentation, cross-component integration tests, and submodules pointing at each component's standalone repository.
+This repository hosts the DataHelix platform: documentation, cross-component integration tests, and submodules pointing at each component's standalone repository.
 
 > ℹ️ **Hippo and Aperture live in their own repos** ([BU-Neuromics/hippo](https://github.com/BU-Neuromics/hippo), [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture)) and are mounted here as git submodules. Clone with `git clone --recurse-submodules`, or run `git submodule update --init` after a plain clone. Other components are expected to follow the same pattern over time.
 

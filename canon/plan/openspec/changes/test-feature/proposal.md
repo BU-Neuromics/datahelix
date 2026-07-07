@@ -1,6 +1,6 @@
 ## Why
 
-This change addresses the need to establish a proper documentation workflow for the BASS platform components. The repository currently lacks structured documentation artifacts that would help guide development and ensure consistency across components like Hippo, Cappella, Aperture, and Bridge.
+This change addresses the need to establish a proper documentation workflow for the DataHelix platform components. The repository currently lacks structured documentation artifacts that would help guide development and ensure consistency across components like Hippo, Cappella, Aperture, and Bridge.
 
 ## What Changes
 
@@ -12,7 +12,7 @@ This change addresses the need to establish a proper documentation workflow for 
 ## Capabilities
 
 ### New Capabilities
-- `component-documentation`: Standardized documentation framework for all BASS platform components
+- `component-documentation`: Standardized documentation framework for all DataHelix platform components
 - `spec-structure`: Consistent structure for design specifications across components
 - `cross-component-reference`: Mechanism for clearly defining dependencies and relationships between components
 - `sdk-first-approach`: Documentation that consistently follows the SDK-first architecture principle
@@ -23,4 +23,4 @@ This change addresses the need to establish a proper documentation workflow for 
 
 ## Impact
 
-This change will affect how all future development work is documented across the BASS platform. It will require developers to follow new conventions when creating new features or modifying existing ones, ensuring consistent documentation practices across the entire codebase. The impact on current code will be minimal as this focuses on documentation structure rather than implementation changes.
+This change will affect how all future development work is documented across the DataHelix platform. It will require developers to follow new conventions when creating new features or modifying existing ones, ensuring consistent documentation practices across the entire codebase. The impact on current code will be minimal as this focuses on documentation structure rather than implementation changes.

@@ -1,7 +1,7 @@
 # Composition certification & the certified-frontier ledger
 
 This directory implements the cross-component **version-compatibility strategy**
-for the BASS platform. Components (aperture, hippo) version and ship
+for the DataHelix platform. Components (aperture, hippo) version and ship
 independently; drylims certifies that **one exact version pair at a time** boots
 and passes the golden-path scenarios, and records each result in an append-only
 **ledger**. Deployment is gated on that ledger.

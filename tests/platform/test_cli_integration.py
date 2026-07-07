@@ -1,6 +1,6 @@
-"""Platform integration tests: Aperture CLI (bass) → Hippo.
+"""Platform integration tests: Aperture CLI (datahelix) → Hippo.
 
-Tests validate that `bass` CLI commands correctly interact with entities
+Tests validate that `datahelix` CLI commands correctly interact with entities
 created by the upstream pipeline (Cappella → Hippo → Canon).
 
 These tests use the HippoSdkBackend directly (no HTTP server) to exercise
@@ -73,30 +73,30 @@ def _align_rule() -> ProductionRule:
 # ---------------------------------------------------------------------------
 # CLI-equivalent operations: list, get, search
 #
-# These tests simulate what `bass list`, `bass get`, `bass search`, and
-# `bass history` do internally — they call the HippoClient SDK directly,
+# These tests simulate what `datahelix list`, `datahelix get`, `datahelix search`, and
+# `datahelix history` do internally — they call the HippoClient SDK directly,
 # which is the same code path used by HippoSdkBackend.
 # ---------------------------------------------------------------------------
 
 
 @pytest.mark.platform
 class TestCLIListEntities:
-    """Simulate `bass list` — list entities of a given type."""
+    """Simulate `datahelix list` — list entities of a given type."""
 
     def test_list_returns_all_entities(self, hippo_client, seed_cohort):
-        """bass list Sample returns all 3 seeded samples."""
+        """datahelix list Sample returns all 3 seeded samples."""
         result = hippo_client.query("Sample")
         assert len(result.items) == 3
 
     def test_list_returns_empty_for_unknown_type(self, hippo_client):
-        """bass list NonExistent returns empty results."""
+        """datahelix list NonExistent returns empty results."""
         result = hippo_client.query("NonExistent")
         assert len(result.items) == 0
 
     def test_list_after_canon_build(
         self, hippo_client, hippo_shim, mock_executor, seed_sample, tmp_path
     ):
-        """bass list AlignedDatafile returns entity created by Canon BUILD."""
+        """datahelix list AlignedDatafile returns entity created by Canon BUILD."""
         rule = _align_rule()
         planner = _make_planner(hippo_shim, [rule], mock_executor, tmp_path)
         planner.resolve("AlignedDatafile", {"sample_id": "s001"})
@@ -108,10 +108,10 @@ class TestCLIListEntities:
 
 @pytest.mark.platform
 class TestCLIGetEntity:
-    """Simulate `bass get` — fetch a single entity by UUID."""
+    """Simulate `datahelix get` — fetch a single entity by UUID."""
 
     def test_get_returns_entity_by_id(self, hippo_client, seed_sample):
-        """bass get Sample <uuid> returns the correct entity."""
+        """datahelix get Sample <uuid> returns the correct entity."""
         fetched = hippo_client.get("Sample", seed_sample["id"])
         assert fetched["id"] == seed_sample["id"]
         assert fetched["data"]["sample_id"] == "s001"
@@ -120,7 +120,7 @@ class TestCLIGetEntity:
     def test_get_canon_built_entity(
         self, hippo_client, hippo_shim, mock_executor, seed_sample, tmp_path
     ):
-        """bass get AlignedDatafile <uuid> returns Canon-built entity."""
+        """datahelix get AlignedDatafile <uuid> returns Canon-built entity."""
         rule = _align_rule()
         planner = _make_planner(hippo_shim, [rule], mock_executor, tmp_path)
         uri = planner.resolve("AlignedDatafile", {"sample_id": "s001"})
@@ -134,7 +134,7 @@ class TestCLIGetEntity:
 
 @pytest.mark.platform
 class TestCLISearchEntities:
-    """Simulate `bass search` — search entities by field value."""
+    """Simulate `datahelix search` — search entities by field value."""
 
     def test_search_by_query_finds_matching(self, hippo_client, seed_cohort):
         """Search for entities with tissue_type='brain' returns matching samples."""
@@ -159,7 +159,7 @@ class TestCLISearchEntities:
 
 @pytest.mark.platform
 class TestCLIHistory:
-    """Simulate `bass history` — view entity provenance/version history."""
+    """Simulate `datahelix history` — view entity provenance/version history."""
 
     def test_entity_has_version_after_create(self, hippo_client, seed_sample):
         """Newly created entity has version=1."""
@@ -217,19 +217,19 @@ class TestCLIEndToEnd:
         uri = planner.resolve("AlignedDatafile", {"sample_id": "s001"})
 
         # Step 3: CLI queries (Aperture → Hippo)
-        # bass list Sample
+        # datahelix list Sample
         samples = hippo_client.query("Sample")
         assert len(samples.items) == 1
 
-        # bass list AlignedDatafile
+        # datahelix list AlignedDatafile
         aligned = hippo_client.query("AlignedDatafile")
         assert len(aligned.items) == 1
 
-        # bass get Sample <uuid>
+        # datahelix get Sample <uuid>
         fetched_sample = hippo_client.get("Sample", sample["id"])
         assert fetched_sample["data"]["tissue_type"] == "brain"
 
-        # bass get AlignedDatafile <uuid>
+        # datahelix get AlignedDatafile <uuid>
         aligned_id = aligned.items[0]["id"]
         fetched_aligned = hippo_client.get("AlignedDatafile", aligned_id)
         assert fetched_aligned["data"]["uri"] == uri

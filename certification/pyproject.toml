@@ -1,7 +1,7 @@
 [project]
 name = "bass-certification"
 version = "0.1.0"
-description = "Certified-frontier ledger tooling for BASS composition certification (platform ADR-0001)"
+description = "Certified-frontier ledger tooling for DataHelix composition certification (platform ADR-0001)"
 requires-python = ">=3.11"
 dependencies = []
 

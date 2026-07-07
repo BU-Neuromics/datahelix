@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "cappella"
 version = "0.1.0"
-description = "Harmonization engine for the BASS platform"
+description = "Harmonization engine for the DataHelix platform"
 requires-python = ">=3.11"
 dependencies = [
     "pydantic>=2",

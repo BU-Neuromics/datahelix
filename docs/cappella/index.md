@@ -3,7 +3,7 @@
 !!! success "v0.1 Implemented"
     Cappella v0.1 is fully implemented with all 27 features passing across 8 epics, including the adapter system, collection resolver, trigger engine, reconciliation, REST API, and CLI.
 
-Cappella is the **harmonization engine** of the BASS platform. Like voices singing *a cappella* — in harmony, without instrumentation — Cappella takes data arriving from many different sources and makes them sing together in a single, consistent, provenance-rich picture stored in Hippo.
+Cappella is the **harmonization engine** of the DataHelix platform. Like voices singing *a cappella* — in harmony, without instrumentation — Cappella takes data arriving from many different sources and makes them sing together in a single, consistent, provenance-rich picture stored in Hippo.
 
 Cappella answers the question: **"Is everything we know about this subject consistent, present, and correct?"**
 

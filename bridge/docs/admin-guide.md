@@ -26,7 +26,7 @@ Bridge is accessible externally):
 bass-mgr bridge api-keys create-admin --label "Initial admin key"
 ```
 
-This prints a `bass_live_` key. Store it securely. Use it to bootstrap subsequent admin
+This prints a `datahelix_live_` key. Store it securely. Use it to bootstrap subsequent admin
 operations.
 
 ### 3. Configure authentication mode
@@ -45,13 +45,13 @@ auth:
 ### List all API keys
 
 ```bash
-bass auth list-keys --all          # Admin: shows all users' keys
+datahelix auth list-keys --all          # Admin: shows all users' keys
 ```
 
 ### Revoke a specific key
 
 ```bash
-bass auth revoke-key <key-id> --reason "Key exposed in repo"
+datahelix auth revoke-key <key-id> --reason "Key exposed in repo"
 ```
 
 Revocation is immediate. The key stops working on the next request.
@@ -59,7 +59,7 @@ Revocation is immediate. The key stops working on the next request.
 ### Revoke all keys for a user
 
 ```bash
-bass admin users revoke-all-keys --user alice@uni.edu
+datahelix admin users revoke-all-keys --user alice@uni.edu
 ```
 
 Use this when a user leaves the organisation or a credential set is compromised.
@@ -67,7 +67,7 @@ Use this when a user leaves the organisation or a credential set is compromised.
 ### View key metadata
 
 ```bash
-bass auth list-keys --all --user alice@uni.edu
+datahelix auth list-keys --all --user alice@uni.edu
 ```
 
 Output includes: key ID, label, role, project scope, created date, last used date,
@@ -80,7 +80,7 @@ expiry (if set). Plaintext key is never shown after creation.
 ### Create a project
 
 ```bash
-bass admin projects create \
+datahelix admin projects create \
   --name "lab-a" \
   --display-name "Genomics Lab A" \
   --description "CTE DLPFC cohort"
@@ -89,7 +89,7 @@ bass admin projects create \
 ### Add a member
 
 ```bash
-bass admin projects add-member \
+datahelix admin projects add-member \
   --project lab-a \
   --user alice@uni.edu \
   --role analyst
@@ -98,7 +98,7 @@ bass admin projects add-member \
 ### Change a member's role
 
 ```bash
-bass admin projects update-member \
+datahelix admin projects update-member \
   --project lab-a \
   --user alice@uni.edu \
   --role project_lead
@@ -107,7 +107,7 @@ bass admin projects update-member \
 ### Remove a member
 
 ```bash
-bass admin projects remove-member \
+datahelix admin projects remove-member \
   --project lab-a \
   --user alice@uni.edu
 ```
@@ -115,7 +115,7 @@ bass admin projects remove-member \
 ### List project members
 
 ```bash
-bass admin projects list-members --project lab-a
+datahelix admin projects list-members --project lab-a
 ```
 
 ---
@@ -126,30 +126,30 @@ bass admin projects list-members --project lab-a
 
 ```bash
 # Last 50 auth events
-bass admin audit auth --limit 50
+datahelix admin audit auth --limit 50
 
 # Filter by actor
-bass admin audit auth --actor alice@uni.edu
+datahelix admin audit auth --actor alice@uni.edu
 
 # Filter by event type
-bass admin audit auth --event key_revoked
+datahelix admin audit auth --event key_revoked
 ```
 
 ### View recent request failures
 
 ```bash
 # Non-200 requests in the last hour
-bass admin audit requests --status 4xx,5xx --since 1h
+datahelix admin audit requests --status 4xx,5xx --since 1h
 
 # Unauthorized access attempts
-bass admin audit requests --error insufficient_role,project_scope_denied
+datahelix admin audit requests --error insufficient_role,project_scope_denied
 ```
 
 ### Export audit log
 
 ```bash
 # Export to JSON lines (for ingestion into SIEM or log aggregator)
-bass admin audit export \
+datahelix admin audit export \
   --from 2026-08-01 \
   --to 2026-09-01 \
   --output audit-aug-2026.jsonl
@@ -157,7 +157,7 @@ bass admin audit export \
 
 ### Audit log location
 
-If the audit log backend is `file`, the default path is `/var/log/bass/audit.jsonl`.
+If the audit log backend is `file`, the default path is `/var/log/datahelix/audit.jsonl`.
 Configure in `bridge.yaml`:
 
 ```yaml
@@ -165,7 +165,7 @@ observability:
   audit_log:
     enabled: true
     backend: file
-    path: /var/log/bass/audit.jsonl
+    path: /var/log/datahelix/audit.jsonl
 ```
 
 ---
@@ -179,10 +179,10 @@ immediately. Notify the key owner to update their environment variables or secre
 
 ```bash
 # Admin rotating another user's key
-bass auth rotate-key <key-id>
+datahelix auth rotate-key <key-id>
 
 # Output:
-# New key:  bass_live_...  (one-time display)
+# New key:  datahelix_live_...  (one-time display)
 # Old key:  key_01jx...    (revoked)
 ```
 
@@ -205,7 +205,7 @@ For RS256 deployments, rotate the signing key pair annually or after suspected c
 
 4. Revoke all refresh tokens if compromise is suspected:
    ```bash
-   bass admin tokens revoke-all
+   datahelix admin tokens revoke-all
    ```
 
 ---
@@ -218,13 +218,13 @@ Hippo. Review and resolve these regularly.
 ### List unresolved mismatches
 
 ```bash
-bass admin sync mismatches --status unresolved
+datahelix admin sync mismatches --status unresolved
 ```
 
 ### View mismatch details
 
 ```bash
-bass admin sync mismatches show <event-id>
+datahelix admin sync mismatches show <event-id>
 ```
 
 Output includes: run ID, missing entities, actor, timestamp, recommended repair strategy.
@@ -234,23 +234,23 @@ Output includes: run ID, missing entities, actor, timestamp, recommended repair 
 If the mismatch is expected (e.g., a run was deliberately cancelled):
 
 ```bash
-bass admin sync mismatches resolve <event-id> --note "Run cancelled by user; no repair needed"
+datahelix admin sync mismatches resolve <event-id> --note "Run cancelled by user; no repair needed"
 ```
 
 If the run should be resubmitted:
 
 ```bash
-bass admin sync resubmit <run-id>
+datahelix admin sync resubmit <run-id>
 ```
 
 ### Trigger a full consistency scan
 
 ```bash
-bass admin sync scan
+datahelix admin sync scan
 ```
 
 Runs a full cross-component consistency check. Results are stored in the sync event log
-and available via `bass admin sync mismatches`.
+and available via `datahelix admin sync mismatches`.
 
 ---
 
@@ -259,13 +259,13 @@ and available via `bass admin sync mismatches`.
 ### Platform health
 
 ```bash
-bass admin health
+datahelix admin health
 ```
 
 Or directly via HTTP:
 
 ```bash
-curl https://bass.your-org.edu/api/v1/bridge/health
+curl https://datahelix.your-org.edu/api/v1/bridge/health
 ```
 
 ### Prometheus metrics
@@ -273,7 +273,7 @@ curl https://bass.your-org.edu/api/v1/bridge/health
 If `observability.metrics.enabled: true` in `bridge.yaml`, scrape:
 
 ```
-https://bass.your-org.edu/api/v1/bridge/metrics
+https://datahelix.your-org.edu/api/v1/bridge/metrics
 ```
 
 Key metrics to alert on:
@@ -304,6 +304,6 @@ Key metrics to alert on:
 If the token store is lost:
 - All active refresh tokens are invalidated — users must log in again.
 - All API keys are invalidated — users must generate new keys.
-- No BASS entity data is affected (that lives in Hippo).
+- No DataHelix entity data is affected (that lives in Hippo).
 
-Recovery: restore from backup, or have users create new keys via `bass auth create-key`.
+Recovery: restore from backup, or have users create new keys via `datahelix auth create-key`.

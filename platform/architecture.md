@@ -2,7 +2,7 @@
 
 ## Main Software Components
 
-BASS is structured around several core components that work together to provide a comprehensive bioinformatics analysis platform:
+DataHelix is structured around several core components that work together to provide a comprehensive bioinformatics analysis platform:
 
 - **Data Storage**: Efficiently manages large-scale biological data, supporting common bioinformatics file formats and ensuring data provenance and version control.
 - **Analysis Framework**: Facilitates the creation and execution of standardized pipelines, integrating with popular bioinformatics tools to ensure reproducible workflows.
@@ -17,4 +17,4 @@ graph TD;
     A --> D;
 ```
 
-This architecture ensures that BASS is both flexible and scalable, allowing users to efficiently manage and analyze biological data while facilitating collaboration and data sharing.
+This architecture ensures that DataHelix is both flexible and scalable, allowing users to efficiently manage and analyze biological data while facilitating collaboration and data sharing.

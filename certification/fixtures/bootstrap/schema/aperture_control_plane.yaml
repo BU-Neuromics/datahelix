@@ -1,6 +1,6 @@
-id: https://w3id.org/bass/certification/aperture_control_plane
-name: bass_certification_aperture_control_plane
-title: BASS certification — Aperture control-plane document recipe
+id: https://w3id.org/datahelix/certification/aperture_control_plane
+name: datahelix_certification_aperture_control_plane
+title: DataHelix certification — Aperture control-plane document recipe
 description: >-
   The Aperture control-plane document type, as an ordinary Hippo entity type
   (Aperture ADR-0032; refines ADR-0017). Aperture persists its OWN state —

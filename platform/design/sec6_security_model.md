@@ -56,7 +56,7 @@ authenticated request it:
 1. validates the caller's credential and resolves the **current viewer** (actor + roles);
 2. decides the viewer's **record-level predicates** and **slot-level field masks** (the PDP);
 3. builds a **capability-scoped client** carrying that decision and injects it downstream (the PEP);
-4. forwards to the target component with a verified `X-Bass-Actor` / `X-Bass-Roles` identity
+4. forwards to the target component with a verified `X-DataHelix-Actor` / `X-DataHelix-Roles` identity
    (sec3 §3.6), strips internal prefixes, and aggregates health/observability.
 
 Authorization never lives in Aperture or Hippo. The "thin BFF in front of Hippo" that a

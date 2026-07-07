@@ -1,6 +1,6 @@
 """Cross-component integration tests: Cappella → Hippo → Canon → Aperture.
 
-This test suite validates the full data flow across all four BASS components,
+This test suite validates the full data flow across all four DataHelix components,
 exercising real in-process instances with mocked CWL execution.
 
 ## Test categories
@@ -9,7 +9,7 @@ exercising real in-process instances with mocked CWL execution.
 2. Entity relationships maintained across the pipeline
 3. Provenance chain: Cappella ingest → Hippo entity → Canon resolution
 4. Webhook trigger → Cappella adapter → Hippo entity creation
-5. CLI (bass) commands query entities created by the pipeline
+5. CLI (datahelix) commands query entities created by the pipeline
 """
 
 from __future__ import annotations

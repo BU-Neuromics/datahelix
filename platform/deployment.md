@@ -1,6 +1,6 @@
-# BASS Platform Deployment Guide
+# DataHelix Platform Deployment Guide
 
-Deployment options for the BASS platform across local, single-host, and multi-node
+Deployment options for the DataHelix platform across local, single-host, and multi-node
 environments. Choose the tier that matches your usage:
 
 | Tier | Who it's for | Auth | Storage |
@@ -49,7 +49,7 @@ Provides Hippo + Canon + Cappella + Bridge in a single `docker-compose.yaml`.
 
 - Docker 24+ and Docker Compose v2
 - A server with at least 4 GB RAM and 20 GB free disk
-- A domain name or internal hostname (e.g., `bass.lab.internal`)
+- A domain name or internal hostname (e.g., `datahelix.lab.internal`)
 
 ### Directory Layout
 
@@ -77,7 +77,7 @@ version: "3.9"
 services:
 
   hippo:
-    image: ghcr.io/bass-platform/hippo:0.4
+    image: ghcr.io/datahelix-platform/hippo:0.4
     volumes:
       - ./config/hippo.yaml:/app/hippo.yaml:ro
       - ./schemas:/app/schemas:ro
@@ -89,7 +89,7 @@ services:
     restart: unless-stopped
 
   canon:
-    image: ghcr.io/bass-platform/canon:0.1
+    image: ghcr.io/datahelix-platform/canon:0.1
     volumes:
       - ./config/canon.yaml:/app/canon.yaml:ro
       - ./data/canon-outputs:/data/outputs
@@ -100,7 +100,7 @@ services:
     restart: unless-stopped
 
   cappella:
-    image: ghcr.io/bass-platform/cappella:0.3
+    image: ghcr.io/datahelix-platform/cappella:0.3
     volumes:
       - ./config/cappella.yaml:/app/cappella.yaml:ro
     environment:
@@ -110,7 +110,7 @@ services:
     restart: unless-stopped
 
   bridge:
-    image: ghcr.io/bass-platform/bridge:0.1
+    image: ghcr.io/datahelix-platform/bridge:0.1
     volumes:
       - ./config/bridge.yaml:/app/bridge.yaml:ro
     environment:
@@ -215,8 +215,8 @@ curl -X POST http://localhost:8080/bridge/auth/api-keys \
   -d '{"label": "alice-workstation", "role": "analyst"}'
 ```
 
-Team members set `BASS_API_KEY=bass_live_...` in their environment and point their tools at
-`http://bass.lab.internal:8080`.
+Team members set `DATAHELIX_API_KEY=datahelix_live_...` in their environment and point their tools at
+`http://datahelix.lab.internal:8080`.
 
 ---
 

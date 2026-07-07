@@ -1,7 +1,7 @@
 ## ADDED Requirements
 
 ### Requirement: Standardized Component Documentation Structure
-The system SHALL define a consistent documentation structure across all BASS platform components (Hippo, Cappella, Aperture, Bridge).
+The system SHALL define a consistent documentation structure across all DataHelix platform components (Hippo, Cappella, Aperture, Bridge).
 
 #### Scenario: New component documentation follows standard structure
 - **WHEN** a new component is created

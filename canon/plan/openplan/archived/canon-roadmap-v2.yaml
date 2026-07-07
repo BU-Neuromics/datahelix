@@ -1,5 +1,5 @@
 id: canon-roadmap-v2
-title: Canon v0.1 — Semantic Artifact Resolver for BASS
+title: Canon v0.1 — Semantic Artifact Resolver for DataHelix
 vision_id: canon-vision-v2
 epics:
   - id: epic-001

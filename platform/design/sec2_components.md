@@ -102,10 +102,10 @@ intentional: Cappella is a force multiplier on top of Hippo, not a second source
 
 #### What Aperture Owns
 
-- **CLI** (`bass`) — entity CRUD, schema inspection, provenance history, auth commands, system status.
+- **CLI** (`datahelix`) — entity CRUD, schema inspection, provenance history, auth commands, system status.
 - **Web portal** (v1.1+) — browser-based query and exploration interface (in design; not in v1.0).
-- **Python API client library** — a typed SDK for interacting with the BASS REST API from user code (notebooks, scripts).
-- **Auth credential management** — `bass login`, `bass logout`, API key environment variable handling.
+- **Python API client library** — a typed SDK for interacting with the DataHelix REST API from user code (notebooks, scripts).
+- **Auth credential management** — `datahelix login`, `datahelix logout`, API key environment variable handling.
 
 #### What Aperture Does Not Own
 
@@ -117,8 +117,8 @@ intentional: Cappella is a force multiplier on top of Hippo, not a second source
 #### Design Invariant
 
 Aperture is a **thin client**. It has no persistent state of its own (beyond user config in
-`~/.config/bass/` and cached session tokens in `~/.bass/tokens.json`). All data operations
-go through the BASS REST API (via Bridge in multi-user deployments, directly to Hippo in
+`~/.config/datahelix/` and cached session tokens in `~/.datahelix/tokens.json`). All data operations
+go through the DataHelix REST API (via Bridge in multi-user deployments, directly to Hippo in
 single-user deployments).
 
 ---
@@ -129,8 +129,8 @@ single-user deployments).
 
 - **Authentication** — API key validation, JWT issuance and verification, token lifecycle, optional OIDC integration.
 - **Authorization** — RBAC role and project-scope enforcement before forwarding requests to components.
-- **Request routing** — single `https://bass.your-org.edu/api/v1/` URL namespace that routes to Hippo, Cappella, Canon.
-- **Actor identity injection** — inserts validated `X-Bass-Actor` header into every forwarded request.
+- **Request routing** — single `https://datahelix.your-org.edu/api/v1/` URL namespace that routes to Hippo, Cappella, Canon.
+- **Actor identity injection** — inserts validated `X-DataHelix-Actor` header into every forwarded request.
 - **Cross-component sync** — detects and surfaces consistency mismatches between components after pipeline runs.
 - **Observability** — aggregated health checks, request audit logging, Prometheus metrics.
 

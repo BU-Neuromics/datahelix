@@ -3,26 +3,26 @@
 !!! warning "Not Yet Implemented"
     Bridge is in the design specification phase. The v1.0 design ships with API key authentication only; OAuth 2.0 and full RBAC are deferred to v1.1.
 
-Bridge is the **integration middleware** for the BASS platform. It sits between the BASS components — Hippo, Cappella, Canon, Aperture — and provides four cross-cutting services that no single component owns:
+Bridge is the **integration middleware** for the DataHelix platform. It sits between the DataHelix components — Hippo, Cappella, Canon, Aperture — and provides four cross-cutting services that no single component owns:
 
 1. **Unified API** — A single HTTP gateway that routes requests to the correct component
 2. **Authentication & Authorization** — Credential validation, token lifecycle, and role-based access control
 3. **Cross-Component Sync** — Coordinated data consistency operations spanning multiple components
 4. **Monitoring & Observability** — Centralized request logging, health checks, and performance metrics
 
-Bridge is **optional**. Individual BASS components are fully usable without it — Hippo, Cappella, and Canon each expose their own REST APIs. Bridge adds the authentication and routing layer needed for multi-user, multi-component deployments.
+Bridge is **optional**. Individual DataHelix components are fully usable without it — Hippo, Cappella, and Canon each expose their own REST APIs. Bridge adds the authentication and routing layer needed for multi-user, multi-component deployments.
 
 ## Who Is Bridge For?
 
-- **Platform administrators** who need to control access to BASS services with API keys, roles, and project-scoped permissions
-- **Teams** deploying multiple BASS components that want a single HTTP endpoint instead of managing separate component URLs
+- **Platform administrators** who need to control access to DataHelix services with API keys, roles, and project-scoped permissions
+- **Teams** deploying multiple DataHelix components that want a single HTTP endpoint instead of managing separate component URLs
 - **Security-conscious organizations** that require audit trails, credential rotation, and role-based access control
 
 ## When to Use Bridge
 
 Use Bridge when you need:
 
-- **Multi-user access control** — Authenticate users and enforce role-based permissions across all BASS components
+- **Multi-user access control** — Authenticate users and enforce role-based permissions across all DataHelix components
 - **A single API gateway** — Route all requests through one endpoint instead of managing per-component URLs and ports
 - **Centralized audit logging** — Track every authenticated request and auth event in one place
 - **Cross-component coordination** — Ensure data consistency across Hippo, Cappella, and Canon after complex operations

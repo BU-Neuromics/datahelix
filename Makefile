@@ -1,4 +1,4 @@
-# BASS Platform Test Runner
+# DataHelix Platform Test Runner
 # See TESTING.md for the full test strategy and failure protocol.
 
 .PHONY: test test-unit test-contracts test-platform test-all help \

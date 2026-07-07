@@ -1,7 +1,7 @@
 ## ADDED Requirements
 
 ### Requirement: Component Design Specification Structure
-The system SHALL provide a structured approach for documenting each BASS platform component's architectural requirements.
+The system SHALL provide a structured approach for documenting each DataHelix platform component's architectural requirements.
 
 #### Scenario: Document Hippo component
 - **WHEN** a developer needs to document the Hippo metadata tracking component  

@@ -1,4 +1,4 @@
-"""Canon CLI — semantic artifact resolver for the BASS platform."""
+"""Canon CLI — semantic artifact resolver for the DataHelix platform."""
 
 from __future__ import annotations
 

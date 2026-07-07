@@ -1,4 +1,4 @@
-# BASS certification — seed data bundle (fixture v1.0.0)
+# DataHelix certification — seed data bundle (fixture v1.0.0)
 #
 # Tree-root bundle format (hippo ingest --file): top-level keys are pluralized
 # class-name accessors; values are lists of instance dicts; identity is by `id`

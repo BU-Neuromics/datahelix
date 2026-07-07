@@ -26,7 +26,7 @@ than Hippo's and deliberately diverges — see §0.1.
   commit. (Contrast Hippo: 170 of 270 commits.) **There is no Aperture history worth
   preserving**, which is why this split skips `git filter-repo` entirely.
 - **No test imports `aperture`.** `tests/platform/test_cli_integration.py` and
-  `test_cross_component.py` only *simulate* `bass` by calling `HippoClient` directly; the
+  `test_cross_component.py` only *simulate* `datahelix` by calling `HippoClient` directly; the
   `aperture/src` entries in `tests/conftest.py` and `test_cli_integration.py` PYTHONPATH
   are **vestigial**. Dropping the CLI breaks zero tests.
 - `backends/` coupling: `src/aperture/backends/factory.py` imports
@@ -110,7 +110,7 @@ cp <drylims>/aperture/design/portal-vision-handoff.md design/
 cp <drylims>/aperture/design/portal-open-questions.md design/
 #    Write a fresh design/INDEX.md scoped to the portal (no CLI sec1..sec6 carryover).
 
-# 4. New pyproject.toml (drop the `bass` CLI script + typer; see §2.B.4 draft).
+# 4. New pyproject.toml (drop the `datahelix` CLI script + typer; see §2.B.4 draft).
 # 5. README.md describing the portal (not the CLI).
 # 6. LICENSE — copy from drylims (MIT).
 cp <drylims>/LICENSE .
@@ -134,7 +134,7 @@ build-backend = "hatchling.build"
 [project]
 name = "bass-aperture"
 version = "0.1.0"
-description = "BASS Aperture - config-driven data portal over Hippo"
+description = "DataHelix Aperture - config-driven data portal over Hippo"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -148,7 +148,7 @@ dependencies = [
 local = ["bass-hippo"]
 dev = ["pytest>=7.0", "pytest-cov"]
 
-# NOTE: no [project.scripts] `bass` entry — the CLI is superseded.
+# NOTE: no [project.scripts] `datahelix` entry — the CLI is superseded.
 # Web/portal + component-runtime deps will be added as the portal is built.
 
 [tool.hatch.build.targets.wheel]

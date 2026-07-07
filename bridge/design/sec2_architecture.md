@@ -46,7 +46,7 @@ Bridge is structured as a single Python service with four distinct subsystems:
 ```
 
 Bridge maintains a small local SQLite (or PostgreSQL) database for its own state: token
-revocation records, API key hashes, and sync event history. It does **not** duplicate BASS
+revocation records, API key hashes, and sync event history. It does **not** duplicate DataHelix
 entity data — that lives exclusively in Hippo.
 
 ---
@@ -83,7 +83,7 @@ Client Request
        │ (403 if insufficient permissions)
        ▼
 ┌─────────────┐
-│   Router    │  Rewrite path, inject X-Bass-Actor / X-Bass-Roles headers
+│   Router    │  Rewrite path, inject X-DataHelix-Actor / X-DataHelix-Roles headers
 └──────┬──────┘
        │
        ▼
@@ -144,21 +144,21 @@ bridge/
 
 ### 2.4 Component Integration
 
-Bridge integrates with each BASS component via its REST API. There is no special
+Bridge integrates with each DataHelix component via its REST API. There is no special
 protocol — Bridge proxies standard HTTP and adds headers.
 
 #### 2.4.1 Hippo Integration
 
 | Concern | Mechanism |
 |---|---|
-| Actor identity | Bridge injects `X-Bass-Actor: alice@uni.edu` before forwarding |
-| Role enforcement | Bridge injects `X-Bass-Roles: analyst,project:lab-a` |
+| Actor identity | Bridge injects `X-DataHelix-Actor: alice@uni.edu` before forwarding |
+| Role enforcement | Bridge injects `X-DataHelix-Roles: analyst,project:lab-a` |
 | Auth middleware | Hippo's `AuthMiddleware` ABC implementation reads injected headers instead of validating tokens itself |
 | SDK mode | No change — SDK uses string `actor` parameter directly; Bridge is not involved |
 
 Hippo's existing `AuthMiddleware` stub (defined in `hippo/rest/auth.py`) is replaced by a
 `BridgeAwareAuthMiddleware` implementation that:
-- Reads `X-Bass-Actor` from request context (validated upstream by Bridge)
+- Reads `X-DataHelix-Actor` from request context (validated upstream by Bridge)
 - Rejects the header if the source IP is not in Bridge's internal network
 - Falls back to an "anonymous" actor if Bridge is not configured (local dev mode)
 
@@ -180,10 +180,10 @@ Hippo's existing `AuthMiddleware` stub (defined in `hippo/rest/auth.py`) is repl
 
 #### 2.4.4 Aperture Integration
 
-Aperture (CLI and web portal) talks exclusively to Bridge for all BASS data operations.
+Aperture (CLI and web portal) talks exclusively to Bridge for all DataHelix data operations.
 It does not contact Hippo, Cappella, or Canon directly.
 
-- **CLI:** Uses Device Code flow (`bass login`); refreshes tokens automatically.
+- **CLI:** Uses Device Code flow (`datahelix login`); refreshes tokens automatically.
 - **Web portal:** Uses Authorization Code + PKCE; session managed by Aperture's BFF.
 
 ---
@@ -191,7 +191,7 @@ It does not contact Hippo, Cappella, or Canon directly.
 ### 2.5 Bridge-Local Storage
 
 Bridge maintains a small local database for its own operational state. This is distinct
-from BASS entity data (stored in Hippo).
+from DataHelix entity data (stored in Hippo).
 
 | Store | Contents | Backend options |
 |---|---|---|
@@ -240,7 +240,7 @@ observability:
   audit_log:
     enabled: true
     backend: file                   # file | postgres | stdout
-    path: /var/log/bass/audit.jsonl
+    path: /var/log/datahelix/audit.jsonl
   metrics:
     enabled: true
     path: /bridge/metrics           # Prometheus scrape endpoint
@@ -267,14 +267,14 @@ class BridgeAwareAuthMiddleware(AuthMiddlewareABC):
 
     def authenticate(self, request: Request) -> str:
         if not self._is_trusted_source(request.client.host):
-            raise AuthenticationError("X-Bass-Actor not accepted from untrusted source")
-        actor = request.headers.get("X-Bass-Actor")
+            raise AuthenticationError("X-DataHelix-Actor not accepted from untrusted source")
+        actor = request.headers.get("X-DataHelix-Actor")
         if not actor:
-            raise AuthenticationError("Missing X-Bass-Actor header")
+            raise AuthenticationError("Missing X-DataHelix-Actor header")
         return actor
 
     def authorize(self, actor: str, operation: str, request: Request) -> bool:
-        roles = request.headers.get("X-Bass-Roles", "").split(",")
+        roles = request.headers.get("X-DataHelix-Roles", "").split(",")
         return self._check_permission(roles, operation)
 ```
 

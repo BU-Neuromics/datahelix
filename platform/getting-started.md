@@ -1,7 +1,7 @@
-# Getting Started with BASS
+# Getting Started with DataHelix
 
 **Time:** ~30 minutes
-**Goal:** Install the BASS platform, load sample data, run an RNA-seq artifact resolution, and query the results.
+**Goal:** Install the DataHelix platform, load sample data, run an RNA-seq artifact resolution, and query the results.
 
 This guide walks through the full platform end-to-end: Hippo (metadata), Canon (artifact resolution), Cappella (ingestion), and Aperture (CLI). You only need to install the components relevant to your workflow — skip sections that don't apply.
 
@@ -16,7 +16,7 @@ This guide walks through the full platform end-to-end: Hippo (metadata), Canon (
 - Internet connection (for reference data download)
 
 **What you'll build:**
-A local BASS deployment with a small RNA-seq study dataset. You'll ingest sample metadata, register file locations, resolve canonical artifact paths, and query results via the CLI.
+A local DataHelix deployment with a small RNA-seq study dataset. You'll ingest sample metadata, register file locations, resolve canonical artifact paths, and query results via the CLI.
 
 ---
 
@@ -60,15 +60,15 @@ pip install bass-aperture
 Verify:
 
 ```bash
-bass --version
-# bass 0.4.0
+datahelix --version
+# datahelix 0.4.0
 ```
 
 ---
 
 ## Part 2: Initialize a Project
 
-Create a directory for your BASS deployment:
+Create a directory for your DataHelix deployment:
 
 ```bash
 mkdir ~/my_study && cd ~/my_study
@@ -216,16 +216,16 @@ hippo ingest data/datafiles.json --entity-type Datafile
 
 ## Part 5: Query with Aperture CLI
 
-### 5.1 Configure `bass`
+### 5.1 Configure `datahelix`
 
 ```bash
-bass config set hippo.url http://localhost:8001
+datahelix config set hippo.url http://localhost:8001
 ```
 
 ### 5.2 List entities
 
 ```bash
-bass list Subject
+datahelix list Subject
 ```
 
 Output:
@@ -240,13 +240,13 @@ ID                                    subject_id   species         age_at_collec
 ### 5.3 Filter entities
 
 ```bash
-bass list Sample --filter tissue_type="prefrontal cortex"
+datahelix list Sample --filter tissue_type="prefrontal cortex"
 ```
 
 ### 5.4 Get provenance for a specific entity
 
 ```bash
-bass history SAMP-001 --entity-type Sample
+datahelix history SAMP-001 --entity-type Sample
 ```
 
 Output:
@@ -309,7 +309,7 @@ Canon checks whether the file exists at the resolved path and reports its status
 ### 6.4 Batch resolve for a collection
 
 ```bash
-bass list Sample --format json | canon resolve --rule aligned_bam --from-stdin
+datahelix list Sample --format json | canon resolve --rule aligned_bam --from-stdin
 ```
 
 This resolves artifacts for all samples and reports which are present, missing, or stale.
@@ -366,7 +366,7 @@ entities are skipped.
 ## Part 8: Check System Status
 
 ```bash
-bass status
+datahelix status
 ```
 
 Output:
@@ -406,9 +406,9 @@ cappella    ✓ online  http://localhost:8002    0.2.0
 Check that port 8001 is not already in use: `lsof -i :8001`. Change the port in
 `hippo.yaml` (`server.port: 8002`) if needed.
 
-**`bass list` shows "connection refused":**
-Make sure Hippo is running: `hippo serve &`. Verify the URL in `~/.config/bass/aperture.yaml`
-or run `bass config show`.
+**`datahelix list` shows "connection refused":**
+Make sure Hippo is running: `hippo serve &`. Verify the URL in `~/.config/datahelix/aperture.yaml`
+or run `datahelix config show`.
 
 **Schema migration fails:**
 If you changed an existing field type, Hippo will refuse the migration to protect data

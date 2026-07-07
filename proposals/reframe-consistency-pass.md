@@ -22,7 +22,7 @@ checklist items below are done; submodule pins (hippo, aperture) bumped; everyth
 
 ## The reframe in one paragraph (the target the docs must reflect)
 
-A BASS deployment is **one typed knowledge graph (the "domain graph")**: the LinkML schema is its
+A DataHelix deployment is **one typed knowledge graph (the "domain graph")**: the LinkML schema is its
 type system and **Hippo is the runtime that becomes it** ("LinkML runtime" and "domain graph" are
 the same claim). Every query returns a **knowledge subgraph**. **"Metadata vs. data" is a
 query-relative *role*, not a storage category** — so Hippo is **not** a "metadata store," it is the
@@ -68,7 +68,7 @@ but **the file does not exist.**
 - **Acceptance:** every reference to `sec6_security_model.md` resolves (file exists) or is corrected.
 
 ### 3. Bridge role contradiction  *(in-tree)*
-`platform/design/INDEX.md` calls Bridge a **"federation layer between BASS instances"**;
+`platform/design/INDEX.md` calls Bridge a **"federation layer between DataHelix instances"**;
 `bridge/design/sec1–sec6` + aperture ADR-0008/0016 + the auth issues call it the **auth gateway
 (PEP/PDP)**. The auth-gateway framing is far more developed and appears canonical — **confirm, then
 reconcile** (don't silently pick).

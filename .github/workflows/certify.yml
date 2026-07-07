@@ -105,8 +105,8 @@ jobs:
         run: |
           RESULT=$(python -c "import json;print(json.load(open('certification/result.json'))['result'])")
           CHECK=$(python -c "import json;print(json.load(open('certification/result.json')).get('failing_check') or '')")
-          git config user.name  "bass-ledger[bot]"
-          git config user.email "bass-ledger@users.noreply.github.com"
+          git config user.name  "datahelix-ledger[bot]"
+          git config user.email "datahelix-ledger@users.noreply.github.com"
           ARGS=(--component "aperture=${{ steps.pins.outputs.aperture_version }}@${{ steps.pins.outputs.aperture_digest }}"
                 --component "hippo=${{ steps.pins.outputs.hippo_version }}@${{ steps.pins.outputs.hippo_digest }}"
                 --suite-sha "${GITHUB_SHA}"

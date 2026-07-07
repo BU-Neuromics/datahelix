@@ -1,4 +1,4 @@
-# BASS certification bootstrap fixture — manifest
+# DataHelix certification bootstrap fixture — manifest
 #
 # A versioned package consumed by BOTH the drylims composition-certification
 # suite AND (once it lands) the component-repo contract checks — notably

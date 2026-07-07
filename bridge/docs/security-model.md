@@ -7,7 +7,7 @@ what the audit trail covers.
 
 ## What Bridge Protects
 
-Bridge is the authentication and authorization boundary for the BASS platform. After
+Bridge is the authentication and authorization boundary for the DataHelix platform. After
 deployment, **no component API (Hippo, Cappella, Canon) is accessible without a valid
 credential**. Bridge validates every request before it reaches a component.
 
@@ -42,7 +42,7 @@ When an API request arrives at Bridge:
 4. **Resolve role and project scope** — from JWT claims or API key metadata.
 5. **Enforce RBAC** — check that the role permits the requested operation.
 6. **Enforce project scope** — check that the actor is a member of the target project.
-7. **Inject actor identity** — add `X-Bass-Actor` and `X-Bass-Roles` headers.
+7. **Inject actor identity** — add `X-DataHelix-Actor` and `X-DataHelix-Roles` headers.
 8. **Forward to component** — component processes the request and returns its response.
 9. **Write audit record** — actor, method, path, response status, latency.
 
@@ -78,7 +78,7 @@ For all non-successful requests, Bridge logs:
 | `status` | HTTP response status |
 | `error_code` | Bridge error code (e.g., `insufficient_role`) |
 | `latency_ms` | Total request duration |
-| `request_id` | Unique request ID (matches `X-Bass-Request-Id` response header) |
+| `request_id` | Unique request ID (matches `X-DataHelix-Request-Id` response header) |
 | `timestamp` | UTC ISO-8601 |
 
 Successful `GET` requests are not logged by default (configurable). Mutating requests
@@ -93,7 +93,7 @@ script or notebook (no Bridge, no REST API), there is no credential enforcement.
 intentional — local single-user use should be frictionless.
 
 **Bridge-to-component traffic is trusted.** Requests from Bridge to Hippo/Cappella/Canon
-are not re-authenticated. Components accept `X-Bass-Actor` headers only from Bridge's
+are not re-authenticated. Components accept `X-DataHelix-Actor` headers only from Bridge's
 known network address. Ensure components are not accessible from outside the trusted
 network.
 
@@ -103,7 +103,7 @@ network.
 
 - **Stored as hashes.** Bridge never stores the plaintext key. The full key is shown once
   at creation time and is unrecoverable after that.
-- **Prefixed for environment detection.** `bass_live_` keys are for production; `bass_test_`
+- **Prefixed for environment detection.** `datahelix_live_` keys are for production; `datahelix_test_`
   keys are for staging. The prefix does not change security properties, but it prevents
   accidental cross-environment key use.
 - **Role ceiling.** A key's role cannot exceed the role of the user who created it.
@@ -139,6 +139,6 @@ future version.
 
 ## Reporting Security Issues
 
-Found a security vulnerability in BASS? Please report it directly to the maintainers
+Found a security vulnerability in DataHelix? Please report it directly to the maintainers
 rather than opening a public issue. See `SECURITY.md` in the repository root for the
 responsible disclosure policy.

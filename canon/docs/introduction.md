@@ -1,6 +1,6 @@
 # Canon — Introduction
 
-Canon is the **artifact resolver** for the BASS platform. It answers one question:
+Canon is the **artifact resolver** for the DataHelix platform. It answers one question:
 
 > *Does this computational result already exist, and if not, how do I produce it?*
 

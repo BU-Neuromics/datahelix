@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "canon"
 version = "0.1.0"
-description = "Semantic dependency resolver and workflow orchestrator for BASS"
+description = "Semantic dependency resolver and workflow orchestrator for DataHelix"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

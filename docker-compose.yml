@@ -1,4 +1,4 @@
-# BASS Platform — Docker Compose (single-node deployment)
+# DataHelix Platform — Docker Compose (single-node deployment)
 #
 # Usage:
 #   cp .env.example .env   # edit values
@@ -12,15 +12,15 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-bass}
+      POSTGRES_USER: ${POSTGRES_USER:-datahelix}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
-      POSTGRES_DB: ${POSTGRES_DB:-bass}
+      POSTGRES_DB: ${POSTGRES_DB:-datahelix}
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
-      - bass-internal
+      - datahelix-internal
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-bass}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-datahelix}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -32,12 +32,12 @@ services:
       context: ./hippo
       dockerfile: Dockerfile
     environment:
-      HIPPO_DB: postgresql://${POSTGRES_USER:-bass}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-bass}
+      HIPPO_DB: postgresql://${POSTGRES_USER:-datahelix}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-datahelix}
     volumes:
       - ./config/hippo.yaml:/app/hippo.yaml:ro
       - ./schemas:/app/schemas:ro
     networks:
-      - bass-internal
+      - datahelix-internal
     depends_on:
       postgres:
         condition: service_healthy
@@ -55,7 +55,7 @@ services:
       - ./config/canon.yaml:/app/canon.yaml:ro
       - canon-outputs:/data/outputs
     networks:
-      - bass-internal
+      - datahelix-internal
     depends_on:
       - hippo
     restart: unless-stopped
@@ -71,7 +71,7 @@ services:
     volumes:
       - ./config/cappella.yaml:/app/cappella.yaml:ro
     networks:
-      - bass-internal
+      - datahelix-internal
     depends_on:
       - hippo
     restart: unless-stopped
@@ -87,7 +87,7 @@ services:
       BRIDGE_JWT_KEY: ${BRIDGE_JWT_KEY:-}
       BRIDGE_LOCAL_ADMIN_PW: ${BRIDGE_LOCAL_ADMIN_PW:-}
     networks:
-      - bass-internal
+      - datahelix-internal
     depends_on:
       - hippo
       - canon
@@ -99,5 +99,5 @@ volumes:
   canon-outputs:
 
 networks:
-  bass-internal:
+  datahelix-internal:
     driver: bridge

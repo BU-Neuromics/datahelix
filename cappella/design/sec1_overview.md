@@ -7,7 +7,7 @@
 
 ## 1.1 What Cappella Is
 
-Cappella is the **harmonization engine** of the BASS platform. Its name reflects its role: like voices singing *a cappella* — in harmony, without instrumentation — Cappella takes data arriving from many different sources and makes them sing together in a single, consistent, provenance-rich picture stored in Hippo.
+Cappella is the **harmonization engine** of the DataHelix platform. Its name reflects its role: like voices singing *a cappella* — in harmony, without instrumentation — Cappella takes data arriving from many different sources and makes them sing together in a single, consistent, provenance-rich picture stored in Hippo.
 
 Cappella answers the question: **"Is everything we know about this subject consistent, present, and correct?"**
 

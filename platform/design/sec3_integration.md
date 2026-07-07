@@ -9,7 +9,7 @@
 
 ### 3.1 Integration Philosophy
 
-BASS components integrate through well-defined, tested interfaces. The integration contract
+DataHelix components integrate through well-defined, tested interfaces. The integration contract
 for each component pair is:
 
 1. **Interface definition** — what API/SDK calls cross the boundary
@@ -26,7 +26,7 @@ shared in-process state between components.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                        BASS Platform                                 │
+│                        DataHelix Platform                                 │
 │                                                                      │
 │  ┌──────────────────────────────────────────────────────────────┐   │
 │  │                          Bridge                               │   │
@@ -167,9 +167,9 @@ Bridge strips the `/api/v1/{component}/` prefix before forwarding.
 All components that receive requests via Bridge must implement the auth middleware
 contract. When Bridge is active, each component:
 
-1. Accepts `X-Bass-Actor` and `X-Bass-Roles` headers from Bridge's trusted network CIDR.
-2. Uses `X-Bass-Actor` as the `actor` parameter for all writes.
-3. Rejects `X-Bass-Actor` headers from sources outside the trusted network.
+1. Accepts `X-DataHelix-Actor` and `X-DataHelix-Roles` headers from Bridge's trusted network CIDR.
+2. Uses `X-DataHelix-Actor` as the `actor` parameter for all writes.
+3. Rejects `X-DataHelix-Actor` headers from sources outside the trusted network.
 4. Falls through to the component's own auth stub when the header is absent (local dev mode).
 
 This is implemented via the `BridgeAwareAuthMiddleware` class in `bridge.sdk.auth_middleware`.
@@ -200,7 +200,7 @@ Cappella calls `GET /api/v1/canon/resolve` via Bridge.
 ### 3.8 Contract Tests
 
 Each component pair has a corresponding contract test that verifies the interface from
-both sides. Contract tests use real instances (not mocks) because BASS's integration
+both sides. Contract tests use real instances (not mocks) because DataHelix's integration
 failures typically arise from assumption drift, not logic bugs.
 
 | Test file | Contract verified |
@@ -231,7 +231,7 @@ Full data flow for a Cappella-driven pipeline run:
 8. Canon writes provenance event to Hippo (artifact_produced)
 9. Cappella writes pipeline output entities to Hippo (actor: service:cappella-pipeline-<run-id>)
 10. Bridge sync engine detects run completion, verifies outputs present in Hippo
-11. Aperture user queries results: bass list Sample --filter cohort=CTE
+11. Aperture user queries results: datahelix list Sample --filter cohort=CTE
 ```
 
 ---

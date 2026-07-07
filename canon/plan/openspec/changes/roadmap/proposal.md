@@ -1,6 +1,6 @@
 ## Why
 
-This roadmap change is needed to establish a structured framework for documenting and tracking the development of the BASS (Bioinformatics Analysis Software System) platform. The current documentation-only repository lacks a clear plan for which features, components, and specifications will be developed over time.
+This roadmap change is needed to establish a structured framework for documenting and tracking the development of the DataHelix platform. The current documentation-only repository lacks a clear plan for which features, components, and specifications will be developed over time.
 
 ## What Changes
 
@@ -13,7 +13,7 @@ This roadmap change is needed to establish a structured framework for documentin
 
 ### New Capabilities
 - `platform-roadmap`: Defines the overall roadmap infrastructure framework for tracking development progress
-- `component-design-specs`: Specification structure for documenting each BASS component's architectural requirements
+- `component-design-specs`: Specification structure for documenting each DataHelix component's architectural requirements
 - `spec-artifact-flow`: Process for transitioning from vision to implementation through spec artifacts
 - `version-control-process`: Documentation of how the git workflow handles specifications and changes
 

@@ -1,6 +1,6 @@
 ## Why
 
-This change proposes establishing a standardized documentation structure for the BASS platform that addresses inconsistencies in how design specifications and user-facing documentation are organized. The current repository lacks a clear framework for documenting component interactions, which hampers development efficiency and platform maintainability.
+This change proposes establishing a standardized documentation structure for the DataHelix platform that addresses inconsistencies in how design specifications and user-facing documentation are organized. The current repository lacks a clear framework for documenting component interactions, which hampers development efficiency and platform maintainability.
 
 ## What Changes
 
@@ -14,7 +14,7 @@ This change proposes establishing a standardized documentation structure for the
 ### New Capabilities
 - `component-structure`: Standardized directory and file structure for platform components
 - `cross-component-linking`: Mechanism for clearly defining dependencies between platform components
-- `design-spec-template`: Consistent format for design specifications across all BASS components
+- `design-spec-template`: Consistent format for design specifications across all DataHelix components
 
 ### Modified Capabilities
 - `data-model`: Updated requirements to include explicit mention of config-driven relational approach and graph-shaped API in documentation
@@ -22,4 +22,4 @@ This change proposes establishing a standardized documentation structure for the
 
 ## Impact
 
-This change will provide a consistent framework for documenting all components in the BASS platform, making it easier for developers to understand relationships between components. It will require updates to how documentation is currently organized but will improve long-term maintainability and development velocity.
+This change will provide a consistent framework for documenting all components in the DataHelix platform, making it easier for developers to understand relationships between components. It will require updates to how documentation is currently organized but will improve long-term maintainability and development velocity.
