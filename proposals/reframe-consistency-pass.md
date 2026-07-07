@@ -8,7 +8,7 @@ checklist items below are done; submodule pins (hippo, aperture) bumped; everyth
 > **Intentional exclusion:** `proposals/biodms2026/biodms2026-project-talk.md` (a captured
 > research-talk draft) still describes Hippo as "(metadata store)" and Bridge as a multi-institution
 > "integration layer." It is treated as a historical/authored artifact (same class as
-> `bass-vs-gen3-strategic-review.md`) and left verbatim — flag for the author to update if/when the
+> `datahelix-vs-gen3-strategic-review.md`) and left verbatim — flag for the author to update if/when the
 > talk is revised.
 
 ## Read first (the canonical source of truth)
@@ -17,7 +17,7 @@ checklist items below are done; submodule pins (hippo, aperture) bumped; everyth
    model (the reframe's anchor).
 2. [`aperture/design/vision.md`](../aperture/design/vision.md) — Aperture as AI-native explorer.
 3. [`aperture/design/prefab/data-stories.md`](../aperture/design/prefab/data-stories.md) — the MVP.
-4. [`proposals/bass-vs-gen3-strategic-review.md`](./bass-vs-gen3-strategic-review.md) — the
+4. [`proposals/datahelix-vs-gen3-strategic-review.md`](./datahelix-vs-gen3-strategic-review.md) — the
    strategic verdict (narrow hybrid) the reframe answers.
 
 ## The reframe in one paragraph (the target the docs must reflect)
