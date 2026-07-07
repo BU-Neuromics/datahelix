@@ -4451,11 +4451,25 @@ Once the PostgreSQL storage adapter ships (Phase 4 milestone), the Helm chart wi
 </code></pre></div>
 <p>Always run <code>hippo migrate</code> before restarting Hippo after an upgrade. The migration command
 is safe to run on an already-migrated database (it is idempotent).</p>
+<blockquote>
+<p><strong>Only deploy certified pairs.</strong> Because components version independently, a pair of
+versions is safe to run together only if the <strong>certified-frontier ledger</strong> has certified
+it (platform <a href="../design/decisions/ADR-0001-certified-frontier-composition/">ADR-0001</a>).
+Deploy tooling must run the ledger gate as a pre-flight — it refuses any pair (and digest)
+not present as a passing ledger entry, so an untested version skew can never reach
+production:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># pre-flight: exits non-zero unless the pinned pair is certified</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>bash<span class="w"> </span>certification/scripts/deploy_gate.sh<span class="w"> </span>certification/composition.lock.json
+</code></pre></div>
+<p>If the pair you need is uncertified, run an on-demand backfill (the "Certify composition"
+workflow via <code>workflow_dispatch</code>) and it joins the ledger. Never re-cut a released version
+under the same number — the ledger records digests and a rebuilt artifact is refused.</p>
+</blockquote>
 <hr />
 <h2 id="backup">Backup<a class="headerlink" href="#backup" title="Permanent link">&para;</a></h2>
 <p><strong>SQLite (single-node):</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Daily cron backup</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>sqlite3<span class="w"> </span>data/hippo-db/hippo.db<span class="w"> </span><span class="s2">&quot;.backup &#39;/backups/hippo-</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span><span class="s2">.db&#39;&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Daily cron backup</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>sqlite3<span class="w"> </span>data/hippo-db/hippo.db<span class="w"> </span><span class="s2">&quot;.backup &#39;/backups/hippo-</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span><span class="s2">.db&#39;&quot;</span>
 </code></pre></div>
 <p>The Hippo provenance log is immutable — a daily backup of the SQLite file is sufficient for
 disaster recovery.</p>

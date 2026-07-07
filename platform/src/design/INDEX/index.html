@@ -3834,6 +3834,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#platform-adrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Platform ADRs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#key-decisions-log" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4195,8 +4206,29 @@
 </tr>
 <tr>
 <td><code>decisions/</code></td>
-<td><strong>ADR convention (canonical)</strong> — the platform-wide decision-recording process every component follows (<code>decisions/README.md</code> + <code>_template.md</code>); also the home for platform-wide / cross-component ADRs. Each component keeps its own <code>design/decisions/</code>; this <code>INDEX.md</code> Key Decisions Log remains the cross-cutting table-form index.</td>
+<td><strong>ADR convention (canonical)</strong> — the platform-wide decision-recording process every component follows (<code>decisions/README.md</code> + <code>_template.md</code>); also the home for platform-wide / cross-component ADRs (see the Platform ADRs log below). Each component keeps its own <code>design/decisions/</code>; this <code>INDEX.md</code> Key Decisions Log remains the cross-cutting table-form index.</td>
 <td>🟢 Canonical</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="platform-adrs">Platform ADRs<a class="headerlink" href="#platform-adrs" title="Permanent link">&para;</a></h2>
+<p>Platform-wide (cross-component) decisions, recorded as ADRs in
+<a href="./decisions/"><code>decisions/</code></a> per the canonical convention. Component-specific
+decisions live in each component's own <code>design/decisions/</code>.</p>
+<table>
+<thead>
+<tr>
+<th>ADR</th>
+<th>Decision</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../decisions/ADR-0001-certified-frontier-composition/">0001</a></td>
+<td>Certified-frontier ledger — composition certified per exact version pair (+digests); deployment gated on the ledger; patch-auto-merge / minor-major-review; frontier-vs-maintenance failure asymmetry; latest + ≤1 LTS; release immutability. Implemented in <a href="../../certification/"><code>certification/</code></a>. Extends <code>sec5</code>.</td>
+<td>✅ Accepted</td>
 </tr>
 </tbody>
 </table>

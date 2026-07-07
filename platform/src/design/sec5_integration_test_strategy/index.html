@@ -4345,6 +4345,10 @@
 <li>Contract test coverage matrix</li>
 </ol>
 <p>This strategy is the authoritative source for what the Phase 1 integration test suite must cover. It does not replace the unit test policies in <code>TESTING.md</code>; it extends the Tier 2 (contract) and Tier 3 (platform) layers with the cross-component integration view.</p>
+<blockquote>
+<p><strong>Independently-versioned components (aperture, hippo) — see <a href="../decisions/ADR-0001-certified-frontier-composition/">ADR-0001</a>.</strong>
+The in-process round-trip below covers the in-tree components. For components that ship as their own repos/submodules with independent semver releases, the composition is certified <strong>per exact version pair (with artifact digests)</strong> via the <strong>certified-frontier ledger</strong>, and deployment is gated on it. That infrastructure — the ledger tooling, the versioned bootstrap fixture, the golden-path Playwright suite (one scenario per product loop), the certification workflow, the bump bot, and the deploy gate — lives in <a href="../../certification/"><code>certification/</code></a>. The two strategies are complementary: this section is the in-process integration view; ADR-0001 is the cross-repo composition-certification view.</p>
+</blockquote>
 <hr />
 <h2 id="52-full-round-trip-scenario">5.2 Full Round-Trip Scenario<a class="headerlink" href="#52-full-round-trip-scenario" title="Permanent link">&para;</a></h2>
 <h3 id="521-scenario-definition">5.2.1 Scenario definition<a class="headerlink" href="#521-scenario-definition" title="Permanent link">&para;</a></h3>
