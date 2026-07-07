@@ -1,0 +1,11 @@
+{
+  "certified_versions": {},
+  "counts": {
+    "failing": 0,
+    "passing": 0,
+    "total": 0
+  },
+  "entries": [],
+  "generated_from": "certified/* git tags (source of truth)",
+  "schema": "bass.compatibility/v1"
+}

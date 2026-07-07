@@ -22,6 +22,17 @@ The BASS platform uses a three-tier testing model. Each tier has a distinct purp
 └──────────────────────────────────────────────────────────────────┘
 ```
 
+> **Independently-versioned components (aperture, hippo).** The three tiers above
+> assume components installed in-process from the same tree. Components that ship
+> as their own repos with independent semver releases are additionally certified
+> **per exact version pair** through the **certified-frontier ledger** (platform
+> [ADR-0001](platform/design/decisions/ADR-0001-certified-frontier-composition.md);
+> tooling in [`certification/`](certification/)). That adds a producer-run
+> **contract check** (a consumer's contract file booted in the producer's CI) and
+> a drylims **composition certification** (one exact pair boots + passes the
+> golden path, appended to an append-only ledger; deployment is gated on it).
+> Run the ledger tooling tests with `make ledger-test`.
+
 ## Tier 1 — Unit Tests
 
 **Location:** `hippo/tests/`, `canon/tests/`

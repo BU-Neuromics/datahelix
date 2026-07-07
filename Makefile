@@ -1,7 +1,8 @@
 # BASS Platform Test Runner
 # See TESTING.md for the full test strategy and failure protocol.
 
-.PHONY: test test-unit test-contracts test-platform test-all help
+.PHONY: test test-unit test-contracts test-platform test-all help \
+        ledger-test ledger-assemble ledger-query certify-local deploy-gate
 
 PYTHONPATH := hippo/src:canon/src:cappella/src:aperture/src
 export PYTHONPATH
@@ -42,6 +43,31 @@ test-all:
 ## Show xfail tests (known gaps — check if any have been fixed)
 test-xfail:
 	uv run pytest tests/ -v -r x --tb=short 2>&1 | grep -E "XFAIL|XPASS|xfail"
+
+## ── Certification / certified-frontier ledger (platform ADR-0001) ──
+
+## Run the ledger tooling unit tests
+ledger-test:
+	cd certification && uv run --with pytest python -m pytest tests/ -q
+
+## Rebuild compatibility.json from the certified/* ledger tags
+ledger-assemble:
+	cd certification && python3 -m ledger.cli --repo .. assemble --out compatibility.json
+
+## Query partner versions certified with a line, e.g. ANCHOR=aperture LINE=1.4.* PARTNER=hippo
+ledger-query:
+	cd certification && python3 -m ledger.cli --repo .. query \
+		--anchor "$(ANCHOR)" --line "$(LINE)" --partner "$(PARTNER)"
+
+## Boot the pinned composition and run the golden-path suite locally (needs published images)
+certify-local:
+	HIPPO_IMAGE=$${HIPPO_IMAGE:?set to <image>@<digest>} \
+	APERTURE_IMAGE=$${APERTURE_IMAGE:?set to <image>@<digest>} \
+	bash certification/scripts/run_composition.sh
+
+## Deploy pre-flight: refuse an uncertified pair (wire into your deploy tooling)
+deploy-gate:
+	bash certification/scripts/deploy_gate.sh certification/composition.lock.json
 
 ## ── Docker targets ──────────────────────────────────────────
 

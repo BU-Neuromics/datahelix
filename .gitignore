@@ -4,6 +4,16 @@ __pycache__/
 site/
 .env
 
+# Certification tooling / scenarios build & run artifacts
+node_modules/
+.venv/
+*.egg-info/
+certification/uv.lock
+certification/result.json
+certification/scenarios/playwright-report.json
+certification/scenarios/test-results/
+certification/scenarios/playwright/.cache/
+
 # LaTeX build artifacts and template infrastructure
 *.aux
 *.bbl

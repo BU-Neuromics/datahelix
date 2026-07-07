@@ -11,6 +11,21 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Certified-frontier ledger tooling (platform ADR-0001). Pure Python + git —
+  # no components — so it runs fast and gives a real green signal for the part of
+  # the certification infrastructure that is testable in isolation.
+  certification-tooling:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run ledger tooling tests
+        working-directory: certification
+        run: uv run --with pytest python -m pytest tests/ -q
+
   cappella:
     runs-on: ubuntu-latest
     strategy:

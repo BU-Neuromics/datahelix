@@ -1,0 +1,22 @@
+[project]
+name = "bass-certification"
+version = "0.1.0"
+description = "Certified-frontier ledger tooling for BASS composition certification (platform ADR-0001)"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[project.scripts]
+bass-ledger = "ledger.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["ledger"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

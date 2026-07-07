@@ -1,0 +1,69 @@
+# Composition-certification stack (platform ADR-0001).
+#
+# Boots ONE exact, digest-pinned pair: hippo serve (REST + GraphQL) over a
+# freshly-seeded fixture schema, plus the Aperture SPA pointed at it. Images are
+# PULLED BY DIGEST — never built from source in drylims. The certification
+# workflow resolves ${HIPPO_IMAGE} / ${APERTURE_IMAGE} to <image>@<digest> from
+# composition.lock.json (or workflow_dispatch inputs) before `up`.
+#
+# Seeding is a separate step (see scripts/run_composition.sh): after hippo is
+# healthy, the fixture bundle is ingested; then aperture is brought up. Kept out
+# of the image so one image serves any fixture version.
+
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: hippo
+      POSTGRES_PASSWORD: hippo
+      POSTGRES_DB: hippo
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hippo"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    networks: [cert]
+
+  hippo:
+    image: ${HIPPO_IMAGE:?set HIPPO_IMAGE=<image>@<digest>}
+    # Override the image's default CMD (REST only, port 8001) to enable GraphQL
+    # and point at the mounted fixture config. GraphQL is the seam Aperture uses.
+    command: ["serve", "--host", "0.0.0.0", "--port", "8001", "--graphql",
+              "--config", "/app/hippo.yaml"]
+    environment:
+      HIPPO_DATABASE_URL: postgresql://hippo:hippo@postgres:5432/hippo
+    volumes:
+      - ../compose/hippo.certify.yaml:/app/hippo.yaml:ro
+      - ../fixtures/bootstrap/schema:/app/schemas:ro
+      - ../fixtures/bootstrap/data:/app/seed:ro
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8001/health || exit 1"]
+      interval: 3s
+      timeout: 3s
+      retries: 40
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [cert]
+
+  aperture:
+    # The SPA. VITE_* endpoint vars are build-time; the pinned image must be
+    # built with VITE_HIPPO_GRAPHQL_URL pointing at the hippo service, OR served
+    # by an entrypoint that injects runtime config. The certification workflow
+    # builds/pins the image accordingly (aperture#16 + a Dockerfile).
+    image: ${APERTURE_IMAGE:?set APERTURE_IMAGE=<image>@<digest>}
+    environment:
+      # Consumed at build time; declared here for entrypoints that support
+      # runtime injection and for local `docker compose` overrides.
+      VITE_HIPPO_GRAPHQL_URL: http://hippo:8001/graphql
+    ports:
+      - "5173:80"
+    depends_on:
+      hippo:
+        condition: service_healthy
+    networks: [cert]
+
+networks:
+  cert:
+    driver: bridge
