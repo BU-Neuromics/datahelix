@@ -12,7 +12,7 @@ Requires `admin` role.
 ### 1. Initialize Bridge databases
 
 ```bash
-bass-mgr bridge db init --config bridge.yaml
+datahelix-mgr bridge db init --config bridge.yaml
 ```
 
 Creates the token store and API key tables. Safe to re-run.
@@ -23,7 +23,7 @@ On a fresh deployment, create the initial admin API key directly on the server (
 Bridge is accessible externally):
 
 ```bash
-bass-mgr bridge api-keys create-admin --label "Initial admin key"
+datahelix-mgr bridge api-keys create-admin --label "Initial admin key"
 ```
 
 This prints a `datahelix_live_` key. Store it securely. Use it to bootstrap subsequent admin

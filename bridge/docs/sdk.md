@@ -9,12 +9,12 @@ code can work with Hippo, Cappella, and Canon through a single client.
 ## Installation
 
 ```bash
-pip install bass-bridge
+pip install datahelix-bridge
 # or
-uv add bass-bridge
+uv add datahelix-bridge
 ```
 
-The SDK is included in the `bass-bridge` package alongside the server.
+The SDK is included in the `datahelix-bridge` package alongside the server.
 
 ---
 

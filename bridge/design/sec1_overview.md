@@ -154,7 +154,7 @@ components scale independently.
 
 ### 1.6 Versioning and Compatibility
 
-Bridge tracks the platform release version (`bass-platform`). Component API versions are
+Bridge tracks the platform release version (`datahelix-platform`). Component API versions are
 managed by each component. Bridge does not impose a version contract on components beyond
 requiring that the routed paths respond to HTTP.
 

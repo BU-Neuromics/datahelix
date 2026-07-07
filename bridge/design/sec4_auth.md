@@ -89,8 +89,8 @@ Bridge-issued JWTs contain the following claims:
 | Claim | Type | Description |
 |---|---|---|
 | `sub` | string | Unique user identifier (Bridge user ID, UUID) |
-| `iss` | string | `bass-bridge` (fixed issuer) |
-| `aud` | string | `bass-platform` (or component-specific audience for scoped tokens) |
+| `iss` | string | `datahelix-bridge` (fixed issuer) |
+| `aud` | string | `datahelix-platform` (or component-specific audience for scoped tokens) |
 | `exp` | int | Expiry timestamp (UTC epoch) |
 | `iat` | int | Issued-at timestamp |
 | `jti` | string | Unique token ID (for revocation checking) |

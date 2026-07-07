@@ -1,4 +1,4 @@
-"""``bass-ledger`` — command-line front end to the certified-frontier ledger.
+"""``datahelix-ledger`` — command-line front end to the certified-frontier ledger.
 
 Subcommands:
     certify   append a certification result as a ``certified/*`` tag
@@ -7,7 +7,7 @@ Subcommands:
     gate      exit non-zero unless a requested pair is certified for deploy
 
 Component pins are given as ``name=version@digest`` (repeatable), e.g.
-    bass-ledger certify \
+    datahelix-ledger certify \
         --component aperture=1.4.2@sha256:ab...  \
         --component hippo=1.2.4@sha256:cd...     \
         --suite-sha $GITHUB_SHA --fixture-version 1.0.0 \
@@ -106,7 +106,7 @@ def _cmd_gate(args: argparse.Namespace) -> int:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="bass-ledger", description=__doc__)
+    p = argparse.ArgumentParser(prog="datahelix-ledger", description=__doc__)
     p.add_argument("--repo", default=".", help="path to the drylims git repo")
     sub = p.add_subparsers(dest="cmd", required=True)
 

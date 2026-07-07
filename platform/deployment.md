@@ -182,8 +182,8 @@ Create a `.env` file in the `drylims/` directory. **Never commit this file to ve
 
 BRIDGE_JWT_KEY=<generate with: python -c "import secrets; print(secrets.token_hex(32))">
 BRIDGE_LOCAL_ADMIN_PW=<strong password>
-CANON_SERVICE_TOKEN=<generate with: bass-keygen>
-CAPPELLA_SERVICE_TOKEN=<generate with: bass-keygen>
+CANON_SERVICE_TOKEN=<generate with: datahelix-keygen>
+CAPPELLA_SERVICE_TOKEN=<generate with: datahelix-keygen>
 ```
 
 ### Start the Stack

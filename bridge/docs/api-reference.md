@@ -34,7 +34,7 @@ Issue an access token. Supports Device Code callback and Client Credentials flow
 {
   "grant_type": "urn:ietf:params:oauth:grant-type:device_code",
   "device_code": "...",
-  "client_id": "bass-cli"
+  "client_id": "datahelix-cli"
 }
 ```
 

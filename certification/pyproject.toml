@@ -1,5 +1,5 @@
 [project]
-name = "bass-certification"
+name = "datahelix-certification"
 version = "0.1.0"
 description = "Certified-frontier ledger tooling for DataHelix composition certification (platform ADR-0001)"
 requires-python = ">=3.11"
@@ -9,7 +9,7 @@ dependencies = []
 test = ["pytest>=8.0"]
 
 [project.scripts]
-bass-ledger = "ledger.cli:main"
+datahelix-ledger = "ledger.cli:main"
 
 [build-system]
 requires = ["setuptools>=68"]

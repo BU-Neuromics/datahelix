@@ -131,8 +131,8 @@ def build_test_schema_registry() -> "SchemaRegistry":
     from hippo.linkml_bridge import SchemaRegistry, _bundled_importmap
 
     overlay = {
-        "id": "https://example.org/drylims/tests_minimal",
-        "name": "drylims_tests_minimal",
+        "id": "https://example.org/datahelix/tests_minimal",
+        "name": "datahelix_tests_minimal",
         "prefixes": {
             "linkml": "https://w3id.org/linkml/",
             "hippo": "https://w3id.org/hippo/",

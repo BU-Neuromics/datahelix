@@ -47,7 +47,7 @@ def assemble(repo: str | Path = ".") -> dict[str, Any]:
         for c in e.components:
             components.setdefault(c.name, set()).add(c.version)
     return {
-        "schema": "bass.compatibility/v1",
+        "schema": "datahelix.compatibility/v1",
         "generated_from": "certified/* git tags (source of truth)",
         "counts": {
             "total": len(entries),

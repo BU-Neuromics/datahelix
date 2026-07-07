@@ -54,7 +54,7 @@ pip install cappella
 ### 1.4 Install Aperture CLI
 
 ```bash
-pip install bass-aperture
+pip install datahelix-aperture
 ```
 
 Verify:

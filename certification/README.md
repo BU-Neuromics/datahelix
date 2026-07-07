@@ -24,7 +24,7 @@ lazy, targeted **backfill** (`workflow_dispatch`), never a standing matrix.
 | Path | What it is |
 |---|---|
 | `composition.lock.json` | The current pins for this branch's line (versions + digests + fixture). The bump bot moves one component per PR; certification reads this. |
-| `ledger/` | The ledger tooling (`bass-ledger`): `certify`, `assemble`, `query`, `gate`. Pure stdlib + git. |
+| `ledger/` | The ledger tooling (`datahelix-ledger`): `certify`, `assemble`, `query`, `gate`. Pure stdlib + git. |
 | `fixtures/bootstrap/` | Versioned seed schema + data + the Aperture control-plane recipe. One source, consumed by drylims CI **and** (later) hippo CI for the aperture contract file. |
 | `compose/` | `docker-compose.certify.yml` + `hippo.certify.yaml` — boots the pinned pair (hippo serve --graphql over the fixture + the aperture SPA). |
 | `scenarios/` | The golden-path Playwright suite — **one scenario per product loop**, under a hard ~10-min budget. |

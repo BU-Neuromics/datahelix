@@ -21,7 +21,7 @@ Bridge is structured as a single Python service with four distinct subsystems:
 │                     │  │  Auth Engine  │   │     Request Router    ││  │
 │  ┌──────────────┐   │  │              │   │                       ││  │
 │  │  Admin CLI   │   │  │  - validate  │   │  - path rewrite       ││  │
-│  │  (bass-mgr)  │──▶│  │  - issue JWT │   │  - actor injection    ││  │
+│  │  (datahelix-mgr)  │──▶│  │  - issue JWT │   │  - actor injection    ││  │
 │  └──────────────┘   │  │  - RBAC check│   │  - response passthru  ││  │
 │                     │  └──────────────┘   └───────────────────────┘│  │
 │                     │                                               │  │
@@ -199,7 +199,7 @@ from DataHelix entity data (stored in Hippo).
 | **API key store** | Hashed API keys, metadata (label, role, expiry, project scope) | SQLite, PostgreSQL |
 | **Sync event log** | Cross-component consistency events, resolution history | SQLite, PostgreSQL |
 
-All Bridge-local storage is initialized via `bass-mgr db init` before first use.
+All Bridge-local storage is initialized via `datahelix-mgr db init` before first use.
 
 ---
 

@@ -229,9 +229,9 @@ Integration test requirements:
 #### 6.7.1 Installation
 
 ```bash
-pip install bass-bridge          # PyPI
+pip install datahelix-bridge          # PyPI
 # or
-uv add bass-bridge               # via uv (preferred)
+uv add datahelix-bridge               # via uv (preferred)
 ```
 
 #### 6.7.2 Minimum System Requirements
@@ -246,7 +246,7 @@ uv add bass-bridge               # via uv (preferred)
 #### 6.7.3 Startup Command
 
 ```bash
-bass-bridge serve --config bridge.yaml
+datahelix-bridge serve --config bridge.yaml
 # or
 uvicorn bridge.server:app --host 0.0.0.0 --port 8000 --workers 4
 ```
@@ -254,7 +254,7 @@ uvicorn bridge.server:app --host 0.0.0.0 --port 8000 --workers 4
 #### 6.7.4 Database Initialization
 
 ```bash
-bass-mgr bridge db init --config bridge.yaml
+datahelix-mgr bridge db init --config bridge.yaml
 ```
 
 Creates token store and API key tables. Safe to re-run (idempotent).
