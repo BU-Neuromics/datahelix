@@ -27,7 +27,7 @@ if [ "${PIN_published:-false}" != "true" ]; then
   exit 2
 fi
 
-# Delegate to the ledger gate (reads certified/* tags in the drylims repo).
+# Delegate to the ledger gate (reads certified/* tags in the DataHelix repo).
 export PYTHONPATH="$CERT_DIR${PYTHONPATH:+:$PYTHONPATH}"
 exec python3 -m ledger.cli --repo "$REPO_DIR" gate \
   --component "aperture=${PIN_aperture_version}@${PIN_aperture_digest}" \

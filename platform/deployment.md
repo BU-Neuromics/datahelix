@@ -30,8 +30,8 @@ pip install cappella
 Initialize Hippo in a local project directory:
 
 ```bash
-hippo init --path ~/drylims
-cd ~/drylims
+hippo init --path ~/DataHelix
+cd ~/DataHelix
 hippo serve          # starts REST API on http://localhost:8001
 ```
 
@@ -54,7 +54,7 @@ Provides Hippo + Canon + Cappella + Bridge in a single `docker-compose.yaml`.
 ### Directory Layout
 
 ```
-drylims/
+DataHelix/
 ├── docker-compose.yaml
 ├── config/
 │   ├── hippo.yaml
@@ -175,7 +175,7 @@ log_level: INFO
 
 ### Environment Variables (`.env`)
 
-Create a `.env` file in the `drylims/` directory. **Never commit this file to version control.**
+Create a `.env` file in the `DataHelix/` directory. **Never commit this file to version control.**
 
 ```bash
 # .env
@@ -189,7 +189,7 @@ CAPPELLA_SERVICE_TOKEN=<generate with: datahelix-keygen>
 ### Start the Stack
 
 ```bash
-cd drylims/
+cd DataHelix/
 docker compose up -d
 
 # Verify all services are healthy

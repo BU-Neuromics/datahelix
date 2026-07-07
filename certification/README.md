@@ -2,7 +2,7 @@
 
 This directory implements the cross-component **version-compatibility strategy**
 for the DataHelix platform. Components (aperture, hippo) version and ship
-independently; drylims certifies that **one exact version pair at a time** boots
+independently; DataHelix certifies that **one exact version pair at a time** boots
 and passes the golden-path scenarios, and records each result in an append-only
 **ledger**. Deployment is gated on that ledger.
 
@@ -25,7 +25,7 @@ lazy, targeted **backfill** (`workflow_dispatch`), never a standing matrix.
 |---|---|
 | `composition.lock.json` | The current pins for this branch's line (versions + digests + fixture). The bump bot moves one component per PR; certification reads this. |
 | `ledger/` | The ledger tooling (`datahelix-ledger`): `certify`, `assemble`, `query`, `gate`. Pure stdlib + git. |
-| `fixtures/bootstrap/` | Versioned seed schema + data + the Aperture control-plane recipe. One source, consumed by drylims CI **and** (later) hippo CI for the aperture contract file. |
+| `fixtures/bootstrap/` | Versioned seed schema + data + the Aperture control-plane recipe. One source, consumed by DataHelix CI **and** (later) hippo CI for the aperture contract file. |
 | `compose/` | `docker-compose.certify.yml` + `hippo.certify.yaml` — boots the pinned pair (hippo serve --graphql over the fixture + the aperture SPA). |
 | `scenarios/` | The golden-path Playwright suite — **one scenario per product loop**, under a hard ~10-min budget. |
 | `scripts/` | `read_lock.py` (resolve pins), `run_composition.sh` (boot + seed + run under budget), `deploy_gate.sh` (deploy pre-flight). |
@@ -62,7 +62,7 @@ another, or move to the non-blocking nightly tier.
 ## The frontier flow
 
 1. A component releases → the **bump bot** ([`../renovate.json`](../renovate.json))
-   opens one drylims PR moving that one pin. One release = one delta.
+   opens one DataHelix PR moving that one pin. One release = one delta.
 2. The certification workflow ([`../.github/workflows/certify.yml`](../.github/workflows/certify.yml))
    reads the lock, pulls both artifacts by digest, boots the composition, runs
    the suite under budget.
@@ -76,7 +76,7 @@ another, or move to the non-blocking nightly tier.
 ## Maintenance lines & backports
 
 Supported set = **latest + at most one LTS line**. A maintenance line freezes
-both its code and its contracts: its drylims branch (`release/lts-*`) carries its
+both its code and its contracts: its DataHelix branch (`release/lts-*`) carries its
 own `composition.lock.json` and pins the era-appropriate fixture version. If a
 backport certification fails against the line's frozen partners, **the backport
 is wrong** — revise it, never upgrade the pinned consumer. See ADR-0001 §4 and

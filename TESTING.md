@@ -29,7 +29,7 @@ The DataHelix platform uses a three-tier testing model. Each tier has a distinct
 > [ADR-0001](platform/design/decisions/ADR-0001-certified-frontier-composition.md);
 > tooling in [`certification/`](certification/)). That adds a producer-run
 > **contract check** (a consumer's contract file booted in the producer's CI) and
-> a drylims **composition certification** (one exact pair boots + passes the
+> a DataHelix **composition certification** (one exact pair boots + passes the
 > golden path, appended to an append-only ledger; deployment is gated on it).
 > Run the ledger tooling tests with `make ledger-test`.
 

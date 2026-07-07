@@ -41,7 +41,7 @@ certification records the new `fixture_version` in its ledger entry. Old ledger
 entries keep the fixture version they were certified against — they are never
 re-tested (facts about immutable inputs; ADR-0001).
 
-> **Maintenance lines freeze their fixture.** A drylims maintenance branch
+> **Maintenance lines freeze their fixture.** A DataHelix maintenance branch
 > (`release/lts-*`) pins the era-appropriate fixture version alongside its
 > submodule pins; the `main` fixture may assert newer-only behavior and must not
 > be used to certify an older line.

@@ -86,5 +86,5 @@ jobs:
   # tests/platform/); only their execution in CI is disabled. Reintroduce them
   # PER-COMPONENT as each component's design and interfaces stabilize: restore a
   # job that installs the relevant components and runs the relevant subset.
-  # See the drylims CI discussion, 2026-06-17.
+  # See the DataHelix CI discussion, 2026-06-17.
   # ---------------------------------------------------------------------------

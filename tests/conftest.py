@@ -1,14 +1,14 @@
-"""Shared pytest configuration for drylims contract and platform tests.
+"""Shared pytest configuration for DataHelix contract and platform tests.
 
 After the hippo split (PTS-282), :class:`hippo.core.storage.adapters.sqlite_adapter.SQLiteAdapter`
-requires a ``schema_registry`` argument. Drylims-side tests previously called
+requires a ``schema_registry`` argument. DataHelix-side tests previously called
 the legacy single-arg form; this module provides a shared helper and fixture
 that build a minimal :class:`hippo.linkml_bridge.SchemaRegistry` covering
 every entity type referenced by the contract and platform suites.
 
 Mirrors ``hippo/tests/conftest.py``'s ``_build_minimal_schema_registry``
 helper but extends it with cross-component user-domain classes
-(``Subject``, ``AlignedDatafile``, ``GenomeBuild``, etc.) used by drylims
+(``Subject``, ``AlignedDatafile``, ``GenomeBuild``, etc.) used by DataHelix
 integration tests.
 """
 
@@ -118,10 +118,10 @@ _TEST_ATTRIBUTES: dict[str, dict[str, str]] = {
 
 
 def build_test_schema_registry() -> "SchemaRegistry":
-    """Return a ``SchemaRegistry`` covering all drylims test entity classes.
+    """Return a ``SchemaRegistry`` covering all DataHelix test entity classes.
 
     Built from an in-memory LinkML overlay that imports ``hippo_core`` and
-    declares the user-domain classes used by drylims contract and platform
+    declares the user-domain classes used by DataHelix contract and platform
     tests. Each declared class extends ``Entity`` and carries the union of
     string-typed attributes those tests write.
     """

@@ -3,7 +3,7 @@
 !!! info "Now a standalone repository"
     Aperture lives in its own repo, [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture),
     and is wired into this monorepo as a git submodule. The earlier CLI-first v0.1 design
-    and implementation were superseded by the portal vision and remain only in `drylims`
+    and implementation were superseded by the portal vision and remain only in `DataHelix`
     history.
 
 Aperture is the **interface layer** of the DataHelix platform: an **AI-native data & workflow

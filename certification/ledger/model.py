@@ -71,7 +71,7 @@ class LedgerEntry:
     """
 
     components: list[Component]
-    suite_sha: str          # the certification suite (drylims commit) that ran
+    suite_sha: str          # the certification suite (DataHelix commit) that ran
     fixture_version: str    # bootstrap fixture package version used to seed
     result: str             # "pass" | "fail"
     line: str = "frontier"

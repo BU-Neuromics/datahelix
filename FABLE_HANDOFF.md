@@ -1,7 +1,7 @@
 # DataHelix Platform — Autonomous Development Handoff for Fable
 
 **Audience:** Fable, operating as an autonomous developer on the DataHelix platform.
-**Repo:** `drylims` (platform integration repo) — https://github.com/VA-NCPTSDBB-Bioinformatics/drylims
+**Repo:** `DataHelix` (platform integration repo) — https://github.com/VA-NCPTSDBB-Bioinformatics/DataHelix
 **Prepared:** 2026-06-11. **Ground-truth basis:** all maturity/test claims below were verified by running the suites and reading the specs on this date against `hippo@18935c5` (v0.8.0).
 
 ---
@@ -54,7 +54,7 @@ Every design decision serves one of these. If a change you're considering weaken
 
 ## 3. Repository & component map
 
-`drylims` is the **platform integration repo**: cross-cutting docs, the unified MkDocs site, and cross-component tests under `tests/platform/` and `tests/contracts/`. Component source lives in component directories — some in-tree, **Hippo is a git submodule**.
+`DataHelix` is the **platform integration repo**: cross-cutting docs, the unified MkDocs site, and cross-component tests under `tests/platform/` and `tests/contracts/`. Component source lives in component directories — some in-tree, **Hippo is a git submodule**.
 
 > **Submodule discipline (critical).** Hippo lives at [BU-Neuromics/hippo](https://github.com/BU-Neuromics/hippo), mounted at `hippo/`. Clone with `--recurse-submodules`. To bump it: `git submodule update --remote hippo`, run the contract + platform suites, then commit the pointer change **in its own dedicated PR** — never fold a hippo bump into an unrelated change. Other components are expected to split out the same way over time (see `proposals/hippo-split.md` for the template).
 
@@ -154,7 +154,7 @@ Drive one AI-assisted multi-modal cohort analysis to publication using DataHelix
 **Guardrails — do these without being asked:**
 - **Contract-first.** The files in `tests/contracts/` are the load-bearing inter-component API. Treat a contract change as a breaking change: bump the relevant version, update the consumer, and call it out loudly. Never silently weaken a contract to make a test pass.
 - **Respect the testing pyramid** (`TESTING.md`): unit (in each component's `tests/`) → contract (`tests/contracts/`) → platform (`tests/platform/`). Before merging anything cross-cutting, run **both** the contract and platform suites with the CI `PYTHONPATH`. They're slow (~7 min contracts, ~6 min platform — LinkML→pydantic codegen) — budget for it; don't skip.
-- **Submodule hygiene.** Any hippo change happens in the hippo repo; in drylims it's a *pointer bump in its own PR*, verified against the contract + platform suites. (See §3.)
+- **Submodule hygiene.** Any hippo change happens in the hippo repo; in DataHelix it's a *pointer bump in its own PR*, verified against the contract + platform suites. (See §3.)
 - **Branch + PR discipline.** Branch off `main`; never commit directly to `main`. One concern per PR. Commit messages reference the issue key (`PTS-NNN`) where one exists. End commit messages with the `Co-Authored-By` trailer.
 - **Honor the OpenSpec pipeline** (§5). For components without planning artifacts (Aperture, Bridge), author vision → roadmap → epics *before* coding.
 - **Preserve the three bets and SDK-first.** If an implementation shortcut would store state outside Hippo, hard-delete a row, bypass the SDK from a transport layer, or hardcode a schema, it's wrong — find the path that keeps the invariant.

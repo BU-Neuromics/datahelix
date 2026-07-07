@@ -2,7 +2,7 @@
 #
 # Boots ONE exact, digest-pinned pair: hippo serve (REST + GraphQL) over a
 # freshly-seeded fixture schema, plus the Aperture SPA pointed at it. Images are
-# PULLED BY DIGEST — never built from source in drylims. The certification
+# PULLED BY DIGEST — never built from source in DataHelix. The certification
 # workflow resolves ${HIPPO_IMAGE} / ${APERTURE_IMAGE} to <image>@<digest> from
 # composition.lock.json (or workflow_dispatch inputs) before `up`.
 #

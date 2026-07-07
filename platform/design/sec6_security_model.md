@@ -140,5 +140,5 @@ GraphQL schema) is settled. Remaining work, tracked outside this consistency pas
 - **Bridge `sec4_auth.md` revision** — fold the capability-scoped-client construction and the
   header-injection contract into the auth spec.
 
-Tracked in **hippo#54** and **drylims#27** (the auth issues). These are deliberately left to their
+Tracked in **hippo#54** and **DataHelix#27** (the auth issues). These are deliberately left to their
 own sessions; this document defines the model, not the build.

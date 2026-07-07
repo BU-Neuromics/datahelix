@@ -107,7 +107,7 @@ def _cmd_gate(args: argparse.Namespace) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="datahelix-ledger", description=__doc__)
-    p.add_argument("--repo", default=".", help="path to the drylims git repo")
+    p.add_argument("--repo", default=".", help="path to the DataHelix git repo")
     sub = p.add_subparsers(dest="cmd", required=True)
 
     c = sub.add_parser("certify", help="append a certification result")

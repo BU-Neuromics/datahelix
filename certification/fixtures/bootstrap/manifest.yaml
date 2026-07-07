@@ -1,6 +1,6 @@
 # DataHelix certification bootstrap fixture — manifest
 #
-# A versioned package consumed by BOTH the drylims composition-certification
+# A versioned package consumed by BOTH the DataHelix composition-certification
 # suite AND (once it lands) the component-repo contract checks — notably
 # Aperture's contract file, which runs against a booted `hippo serve` in Hippo's
 # CI (platform ADR-0001). Keeping the seed schema + data + control-plane recipe
@@ -30,7 +30,7 @@ provides:
     upsert_key: [kind, name]
 
 consumers:
-  - drylims composition-certification suite (certification/scenarios)
+  - DataHelix composition-certification suite (certification/scenarios)
   - Aperture contract file (aperture#16, runs in hippo CI) — once published
 
 # How the harness seeds a fresh Hippo from this fixture. The bundle path is the

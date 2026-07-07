@@ -2,7 +2,7 @@
 
 - **Status:** Accepted
 - **Date:** 2026-07-07
-- **Deciders:** labadorf, aperture dev agent, drylims dev agent (DataHelix integration-testing design handoff)
+- **Deciders:** labadorf, aperture dev agent, DataHelix dev agent (DataHelix integration-testing design handoff)
 - **Related:** platform `sec5_integration_test_strategy.md` (extends it to independently-versioned submodules), `TESTING.md` (three-tier model); Aperture ADR-0028 (workflow atomicity → `batch_put` seam), ADR-0032 (control-plane document store seam), ADR-0030 (frontend stack — the SPA under test); Hippo [#84](https://github.com/BU-Neuromics/hippo/issues/84) (batch unit-of-work), Hippo ADR-0001 (graph-level as-of)
 
 ## Context
@@ -13,7 +13,7 @@ Each component repo keeps its own CI, its own semver releases, and publishes an 
 artifact per release** (container image and/or package, addressed by digest). Component CI is
 never re-run here — Hippo's suite alone is 10–20 min; that cost stays in Hippo.
 
-drylims is the integration point: its submodule pins declare exactly **one composed version
+DataHelix is the integration point: its submodule pins declare exactly **one composed version
 pair at a time**, and its job is to certify that pair boots and works together. The question
 this ADR settles: *how do we keep independent shipping safe without ever testing the full
 version matrix?*
@@ -85,9 +85,9 @@ single path through it and record each result append-only. Concretely:
      consumer** — consumers on a maintenance line stay frozen.
 
 7. **Keep the supported set small: latest + at most one older (LTS) line.** Every additional line
-   is a standing cost (a release branch in the component, a maintenance branch in drylims,
+   is a standing cost (a release branch in the component, a maintenance branch in DataHelix,
    occasional certifications). A maintenance line freezes **both its code and its contracts**: its
-   drylims maintenance branch pins the era-appropriate integration suite and the component
+   DataHelix maintenance branch pins the era-appropriate integration suite and the component
    maintenance branch runs its era-pinned contract file — the `main` suite may assert
    newer-only behavior and must not be used to certify an older line.
 
@@ -97,11 +97,11 @@ The three-layer test architecture this sits in:
 |---|---|---|
 | Component CI | each component repo, every PR | the component works in isolation |
 | **Contract checks** | consumer-published, run in the **producer's** CI | the seam shapes hold (aperture's contract file booted against `hippo serve` in hippo's PR CI) |
-| **Composition certification** | drylims, on submodule-bump PRs | one exact pair boots and passes the golden-path scenarios |
+| **Composition certification** | DataHelix, on submodule-bump PRs | one exact pair boots and passes the golden-path scenarios |
 
-Contract checks catch seam breakage on the producer's PR at authorship time, so the drylims
+Contract checks catch seam breakage on the producer's PR at authorship time, so the DataHelix
 certification becomes a near-formality that certifies the pair. Until aperture's contract file
-exists, **the drylims certification suite is the only seam check** — it is built first and does
+exists, **the DataHelix certification suite is the only seam check** — it is built first and does
 not wait on the contract file.
 
 ## Consequences
@@ -117,9 +117,9 @@ not wait on the contract file.
   never re-cut a released number; cut a `release/<line>` branch for any supported LTS line and run
   the era-pinned contract file there. Aperture additionally owes a **contract file** (introspection
   assertions + golden request/response pairs for the four seams) that hippo CI runs — tracked in
-  aperture, consumed by drylims' fixture package. This dependency is cross-referenced from Aperture
+  aperture, consumed by DataHelix' fixture package. This dependency is cross-referenced from Aperture
   ADR-0028/0032 and Hippo #84 per the two-sided-dependency rule.
-- **New obligations on drylims:** a reusable certification workflow (main + maintenance branches +
+- **New obligations on DataHelix:** a reusable certification workflow (main + maintenance branches +
   a `workflow_dispatch` backfill), ledger tooling (tag+JSON on green, `compatibility.json`
   assembly, a partners-of-a-line query), a bump-bot config (one PR per release, patch auto-merge),
   a versioned bootstrap fixture package (seed schema + data + the control-plane document recipe),
@@ -146,7 +146,7 @@ not wait on the contract file.
 - **Store the ledger as a file on the default branch.** Branch-scoped and mutable; loses history on
   branch deletion and invites silent edits. Rejected in favor of annotated tags (repo-global,
   branch-independent, visibly append-only) with `compatibility.json` assembled from them.
-- **Rebuild component artifacts from source in drylims.** Re-runs component CI cost here and, worse,
+- **Rebuild component artifacts from source in DataHelix.** Re-runs component CI cost here and, worse,
   tests an artifact that is not the one shipped. Rejected — pull published artifacts by digest.
 - **Support every released line.** Each line is a standing maintenance cost. Rejected in favor of
   latest + ≤1 LTS; older deployments upgrade to a supported line or accept being uncertified.
@@ -158,8 +158,8 @@ not wait on the contract file.
   attestation format (e.g. cosign/SLSA provenance) are deployment concerns to confirm when the
   first real artifacts ship; the ledger schema already carries the digest field.
 - **Contract-file handoff.** Aperture owes the contract file (aperture-tracked). Until it lands,
-  drylims' fixture package is the shared source of the seed schema + control-plane recipe for both
-  the drylims suite and (later) hippo CI. Revisit the fixture package's packaging (pip vs. vendored)
+  DataHelix' fixture package is the shared source of the seed schema + control-plane recipe for both
+  the DataHelix suite and (later) hippo CI. Revisit the fixture package's packaging (pip vs. vendored)
   once a component repo consumes it.
 - **Multi-component frontier (>2 components).** The frontier walk generalizes to a tuple; one
   bump PR per release still holds. Confirm the ledger key/label scheme when a third component (e.g.

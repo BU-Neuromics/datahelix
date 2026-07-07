@@ -1,8 +1,8 @@
 # DataHelix
 
-[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://va-ncptsdbb-bioinformatics.github.io/drylims/)
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://va-ncptsdbb-bioinformatics.github.io/DataHelix/)
 
-**Documentation site:** https://va-ncptsdbb-bioinformatics.github.io/drylims/
+**Documentation site:** https://va-ncptsdbb-bioinformatics.github.io/DataHelix/
 
 This repository hosts the DataHelix platform: documentation, cross-component integration tests, and submodules pointing at each component's standalone repository.
 
