@@ -79,14 +79,14 @@ all execution to the configured CWL runner.
 
 ---
 
-### 1.4 Position in the BASS Platform
+### 1.4 Position in the DataHelix Platform
 
-Canon is the third independently deliverable module of the BASS platform, after Hippo (metadata
+Canon is the third independently deliverable module of the DataHelix platform, after Hippo (metadata
 tracking) and Cappella (integration and harmonization).
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         BASS Platform                            │
+│                         DataHelix Platform                            │
 │                                                                  │
 │  ┌──────────┐    ┌──────────────┐    ┌──────────────────────┐   │
 │  │  Hippo   │◄───│    Canon     │    │      Cappella        │   │

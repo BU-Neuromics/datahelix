@@ -7,5 +7,5 @@
   },
   "entries": [],
   "generated_from": "certified/* git tags (source of truth)",
-  "schema": "bass.compatibility/v1"
+  "schema": "datahelix.compatibility/v1"
 }

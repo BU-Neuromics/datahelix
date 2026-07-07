@@ -1,4 +1,4 @@
-"""Canon — Semantic artifact resolver for BASS."""
+"""Canon — Semantic artifact resolver for DataHelix."""
 
 from __future__ import annotations
 

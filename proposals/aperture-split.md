@@ -1,14 +1,14 @@
-# Splitting Aperture out of `drylims` into its own repository
+# Splitting Aperture out of `DataHelix` into its own repository
 
 **Status:** ✅ **Executed 2026-06-13.** The seed repo was built, pushed to
-`BU-Neuromics/aperture` (made public; CI green at seed commit `cbcd1c7`), and `drylims`
+`BU-Neuromics/aperture` (made public; CI green at seed commit `cbcd1c7`), and `DataHelix`
 was cut over: `aperture/` is now a submodule pinned to the seed. CI/docs/mkdocs were
 updated in the same change. The runbook below is retained as the historical record;
 divergences from execution are noted inline (visibility, docs-symlink layer, PR-based
 cutover).
 **Goal:** Stand up a standalone `BU-Neuromics/aperture` repository for the **config-driven
 portal** vision (see `aperture/design/portal-vision-handoff.md`), then re-attach it to
-`drylims` as a git submodule so cross-component tests under `tests/platform/` and
+`DataHelix` as a git submodule so cross-component tests under `tests/platform/` and
 `tests/contracts/` keep working without code changes.
 **Template:** `proposals/hippo-split.md` (executed 2026-05-25). This split is **simpler**
 than Hippo's and deliberately diverges — see §0.1.
@@ -26,7 +26,7 @@ than Hippo's and deliberately diverges — see §0.1.
   commit. (Contrast Hippo: 170 of 270 commits.) **There is no Aperture history worth
   preserving**, which is why this split skips `git filter-repo` entirely.
 - **No test imports `aperture`.** `tests/platform/test_cli_integration.py` and
-  `test_cross_component.py` only *simulate* `bass` by calling `HippoClient` directly; the
+  `test_cross_component.py` only *simulate* `datahelix` by calling `HippoClient` directly; the
   `aperture/src` entries in `tests/conftest.py` and `test_cli_integration.py` PYTHONPATH
   are **vestigial**. Dropping the CLI breaks zero tests.
 - `backends/` coupling: `src/aperture/backends/factory.py` imports
@@ -58,11 +58,11 @@ than Hippo's and deliberately diverges — see §0.1.
 | 1.2 | Carry CLI v0.1 code or fresh start | **Fresh start** | Keep only `src/aperture/backends/` (+ `ApertureConfig`); CLI v0.1 superseded by the portal vision. |
 | 1.3 | Submodule pin strategy | **Pin to commit** | `git submodule update --remote && git commit` is the "bump aperture" motion (matches Hippo 1.2). |
 | 1.4 | Initial submodule pin | **Initial portal commit on `main`** | No meaningful tags yet; tag `v0.1.0-portal` optional at first green CI. |
-| 1.5 | Own mkdocs site for the new repo? | **No (for now)** | drylims keeps the unified docs site; aperture repo ships docs source only (matches Hippo 1.6). |
+| 1.5 | Own mkdocs site for the new repo? | **No (for now)** | DataHelix keeps the unified docs site; aperture repo ships docs source only (matches Hippo 1.6). |
 
 ### 1.1 Open sub-decisions (confirm at execution, low-stakes)
 
-- **CLI v0.1 archival:** the CLI code + `sec1..sec6` design remain in drylims history at
+- **CLI v0.1 archival:** the CLI code + `sec1..sec6` design remain in DataHelix history at
   the pre-split commit. Default: **leave in history, link from the split commit message**;
   do *not* copy into the new repo. (Alternative: copy into new repo under
   `design/archive/cli-v0.1/` if you want it browsable there.)
@@ -76,7 +76,7 @@ than Hippo's and deliberately diverges — see §0.1.
 Each phase is independently reviewable. Nothing in §2.C+ runs until §1 is confirmed and
 the new repo exists.
 
-### Phase A — Pre-flight (in `drylims`, this prep session — DONE / TODO)
+### Phase A — Pre-flight (in `DataHelix`, this prep session — DONE / TODO)
 
 - [x] A1. Land the portal handoff verbatim at `aperture/design/portal-vision-handoff.md`.
 - [x] A2. Capture proposed §9 resolutions at `aperture/design/portal-open-questions.md`.
@@ -96,9 +96,9 @@ mkdir -p /tmp/aperture-seed && cd /tmp/aperture-seed && git init -b main
 # 2. Carry the reusable backend protocol + its config dependency.
 #    factory.py imports aperture.config.settings.ApertureConfig, so bring that model too.
 mkdir -p src/aperture/backends src/aperture/config
-cp -r <drylims>/aperture/src/aperture/backends/.        src/aperture/backends/
-cp    <drylims>/aperture/src/aperture/config/settings.py src/aperture/config/
-cp    <drylims>/aperture/src/aperture/__init__.py        src/aperture/__init__.py
+cp -r <DataHelix>/aperture/src/aperture/backends/.        src/aperture/backends/
+cp    <DataHelix>/aperture/src/aperture/config/settings.py src/aperture/config/
+cp    <DataHelix>/aperture/src/aperture/__init__.py        src/aperture/__init__.py
 touch src/aperture/config/__init__.py
 #    Then PRUNE config/settings.py to the fields backends/ actually needs (drop CLI-only
 #    settings), and verify nothing else from the CLI tree is referenced:
@@ -106,22 +106,22 @@ grep -rn "aperture.cli\|aperture.models\|config.defaults" src/aperture/  # expec
 
 # 3. Carry the portal design docs (the reason for the fresh start).
 mkdir -p design
-cp <drylims>/aperture/design/portal-vision-handoff.md design/
-cp <drylims>/aperture/design/portal-open-questions.md design/
+cp <DataHelix>/aperture/design/portal-vision-handoff.md design/
+cp <DataHelix>/aperture/design/portal-open-questions.md design/
 #    Write a fresh design/INDEX.md scoped to the portal (no CLI sec1..sec6 carryover).
 
-# 4. New pyproject.toml (drop the `bass` CLI script + typer; see §2.B.4 draft).
+# 4. New pyproject.toml (drop the `datahelix` CLI script + typer; see §2.B.4 draft).
 # 5. README.md describing the portal (not the CLI).
-# 6. LICENSE — copy from drylims (MIT).
-cp <drylims>/LICENSE .
+# 6. LICENSE — copy from DataHelix (MIT).
+cp <DataHelix>/LICENSE .
 # 7. .github/workflows/tests.yml for the new repo (see §2.B.7 draft).
 
 git add -A
 git commit -m "feat: seed Aperture portal repo (backends protocol + portal design)
 
-Fresh start from the drylims monorepo. Carries the reusable Hippo backend
+Fresh start from the DataHelix monorepo. Carries the reusable Hippo backend
 protocol and the config-driven portal design handoff; the CLI-first v0.1
-implementation is intentionally left behind in drylims history."
+implementation is intentionally left behind in DataHelix history."
 ```
 
 #### §2.B.4 — Draft `pyproject.toml` (portal seed)
@@ -134,7 +134,7 @@ build-backend = "hatchling.build"
 [project]
 name = "bass-aperture"
 version = "0.1.0"
-description = "BASS Aperture - config-driven data portal over Hippo"
+description = "DataHelix Aperture - config-driven data portal over Hippo"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -148,7 +148,7 @@ dependencies = [
 local = ["bass-hippo"]
 dev = ["pytest>=7.0", "pytest-cov"]
 
-# NOTE: no [project.scripts] `bass` entry — the CLI is superseded.
+# NOTE: no [project.scripts] `datahelix` entry — the CLI is superseded.
 # Web/portal + component-runtime deps will be added as the portal is built.
 
 [tool.hatch.build.targets.wheel]
@@ -189,16 +189,16 @@ jobs:
 cd /tmp/aperture-seed
 git remote add origin https://github.com/BU-Neuromics/aperture.git
 git push -u origin main
-# C3. Confirm CI goes green on main before the drylims cutover.
+# C3. Confirm CI goes green on main before the DataHelix cutover.
 # C4. (Optional) tag v0.1.0-portal.
 ```
 
-### Phase D — Replace `aperture/` in drylims with a submodule
+### Phase D — Replace `aperture/` in DataHelix with a submodule
 
-A **single drylims commit** so the tree is never half-state.
+A **single DataHelix commit** so the tree is never half-state.
 
 ```bash
-cd <drylims>
+cd <DataHelix>
 git checkout main && git pull        # (or the designated integration branch)
 
 # 1. Remove the in-tree directory
@@ -215,14 +215,14 @@ git add aperture .gitmodules
 git commit -m "chore: replace aperture/ subtree with submodule (BU-Neuromics/aperture)
 
 Aperture is now a standalone repo for the config-driven portal vision. The
-CLI-first v0.1 implementation remains in drylims history at the parent commit;
+CLI-first v0.1 implementation remains in DataHelix history at the parent commit;
 the submodule carries only the reusable backend protocol and portal design.
 No test imports aperture, so platform/contract suites are unaffected."
 git push
 # 5. Watch the Tests + docs workflows on the pushed ref — green = cutover complete.
 ```
 
-#### §2.D.3 — CI + docs changes in drylims
+#### §2.D.3 — CI + docs changes in DataHelix
 
 In `.github/workflows/tests.yml`:
 - The `platform`-job checkout must become submodule-aware:
@@ -232,7 +232,7 @@ In `.github/workflows/tests.yml`:
       submodules: recursive
   ```
 - The `uv pip install -e "aperture/[dev]"` step: the submodule still has a
-  `pyproject.toml`, so this keeps working. (Optional: drop it if no drylims test needs
+  `pyproject.toml`, so this keeps working. (Optional: drop it if no DataHelix test needs
   the aperture package installed — none import it today.)
 - The `aperture/src` PYTHONPATH entries are now vestigial but **harmless** (the submodule
   mounts `src/aperture/backends` back at the same path). Leave or remove; if removed, also
@@ -258,7 +258,7 @@ In `mkdocs.yml` — **required**, or `mkdocs build --strict` fails:
 - E1. Optionally retire/rename the now-misleadingly-named
   `tests/platform/test_cli_integration.py` (it tests the Hippo/Canon path, not a CLI).
   Low priority; it still passes.
-- E2. Update drylims `README.md` to note `aperture` is a submodule and link the repo.
+- E2. Update DataHelix `README.md` to note `aperture` is a submodule and link the repo.
 - E3. `CLAUDE.md` already describes the submodule pattern; add `aperture` alongside
   `hippo` in the components list if it enumerates which are split.
 
@@ -269,9 +269,9 @@ In `mkdocs.yml` — **required**, or `mkdocs build --strict` fails:
 - **Tests under `tests/platform/` and `tests/contracts/`:** no file imports `aperture`,
   so imports, `PYTHONPATH`, and behavior are unchanged. The submodule mounts at the same
   `aperture/` path.
-- **drylims commit SHAs before the split:** untouched. `git rm -r aperture` + add-submodule
-  is a normal forward commit; drylims history is not rewritten.
-- **CLI v0.1 source + `sec1..sec6` design:** preserved in drylims history at the pre-split
+- **DataHelix commit SHAs before the split:** untouched. `git rm -r aperture` + add-submodule
+  is a normal forward commit; DataHelix history is not rewritten.
+- **CLI v0.1 source + `sec1..sec6` design:** preserved in DataHelix history at the pre-split
   commit (decision 1.1 default: not copied into the new repo).
 
 ---
@@ -279,7 +279,7 @@ In `mkdocs.yml` — **required**, or `mkdocs build --strict` fails:
 ## 4. Rollback plan
 
 If something goes wrong after Phase D but before building on the new layout:
-1. Revert the "replace aperture/ subtree with submodule" commit on drylims — `aperture/`
+1. Revert the "replace aperture/ subtree with submodule" commit on DataHelix — `aperture/`
    reappears verbatim (CLI v0.1 and all).
 2. The new `BU-Neuromics/aperture` repo can sit unused; it's a fresh copy, not a move.
 The point of no return is only if/when CLI history is later pruned — which this plan does
@@ -290,12 +290,12 @@ not do.
 ## 5. Order of operations summary
 
 ```
-A. Pre-flight in drylims (this session: land handoff + design docs + this runbook)
+A. Pre-flight in DataHelix (this session: land handoff + design docs + this runbook)
 B. Build fresh aperture seed (backends/ + ApertureConfig + portal design + pyproject/CI)
 C. Create BU-Neuromics/aperture, push seed, confirm CI green
-D. drylims commit: rm aperture/ + add submodule + CI/mkdocs edits (single commit)
+D. DataHelix commit: rm aperture/ + add submodule + CI/mkdocs edits (single commit)
 E. Cleanup: docs/README touch-ups; optional test rename
 ```
 
-Total work: ~1 focused session in an environment scoped to both `drylims` and
+Total work: ~1 focused session in an environment scoped to both `DataHelix` and
 `BU-Neuromics/aperture`.

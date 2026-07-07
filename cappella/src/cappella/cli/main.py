@@ -4,7 +4,7 @@ import typer
 
 app = typer.Typer(
     name="cappella",
-    help="Cappella - Harmonization engine for the BASS platform",
+    help="Cappella - Harmonization engine for the DataHelix platform",
     no_args_is_help=True,
 )
 

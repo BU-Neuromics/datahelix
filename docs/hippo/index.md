@@ -1,6 +1,6 @@
 # Hippo — LinkML Runtime (the structured domain graph)
 
-Hippo is an open-source **LinkML runtime**: point it at a LinkML schema and it *becomes* the typed, queryable **knowledge graph** that schema describes — entities, their fields, and the relationships between them. In a BASS deployment it is the platform's **structured domain graph**, so downstream systems, analysis pipelines, and portals can reliably locate and filter records without manually managing spreadsheets or bespoke file manifests. **Metadata tracking** — recording *where data lives* and *what it describes* — is one application it serves, not its defining essence.
+Hippo is an open-source **LinkML runtime**: point it at a LinkML schema and it *becomes* the typed, queryable **knowledge graph** that schema describes — entities, their fields, and the relationships between them. In a DataHelix deployment it is the platform's **structured domain graph**, so downstream systems, analysis pipelines, and portals can reliably locate and filter records without manually managing spreadsheets or bespoke file manifests. **Metadata tracking** — recording *where data lives* and *what it describes* — is one application it serves, not its defining essence.
 
 Hippo is **domain-agnostic**: the entity types, fields, and relationships it tracks are defined entirely by a schema config file authored for each deployment. For example, an omics research deployment might define entity types like Subject, Sample, and Datafile, while a manufacturing deployment might define Batch, Component, and Inspection.
 

@@ -17,7 +17,7 @@ problem_statement: >
 target_users: >
   Bioinformaticians at academic biobanks and research institutes who manage multi-step
   omics data processing pipelines (RNA-seq, ATAC-seq, WGS) against large sample cohorts.
-  Platform engineers deploying and operating the BASS platform including the Hippo
+  Platform engineers deploying and operating the DataHelix platform including the Hippo
   metadata store, Canon resolver, and Cappella orchestrator. Research scientists who
   need traceable, reproducible data products where every artifact is linked to its exact
   inputs, CWL workflow, tool version, and execution environment, enabling re-production

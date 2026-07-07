@@ -1,6 +1,6 @@
-# BASS Platform — Design Decisions (ADRs)
+# DataHelix Platform — Design Decisions (ADRs)
 
-This is the **canonical decision-recording convention for the BASS platform** and every
+This is the **canonical decision-recording convention for the DataHelix platform** and every
 component in it. Each component records its load-bearing design decisions as **ADRs**
 (Architecture Decision Records) in its own `design/decisions/` directory, following the format
 and lifecycle defined here. Platform-wide (cross-component) decisions live in *this* directory.

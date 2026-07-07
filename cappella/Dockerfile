@@ -1,4 +1,4 @@
-# Cappella — BASS workflow / harmonization engine
+# Cappella — DataHelix workflow / harmonization engine
 # Multi-stage build: install deps -> slim runtime
 
 FROM python:3.12-slim AS builder
@@ -10,17 +10,17 @@ RUN pip install --no-cache-dir --prefix=/install .
 FROM python:3.12-slim
 
 LABEL org.opencontainers.image.title="cappella" \
-      org.opencontainers.image.description="BASS workflow harmonization engine"
+      org.opencontainers.image.description="DataHelix workflow harmonization engine"
 
-RUN groupadd -r bass && useradd -r -g bass -d /app bass
+RUN groupadd -r datahelix && useradd -r -g datahelix -d /app datahelix
 WORKDIR /app
 
 COPY --from=builder /install /usr/local
 COPY src/ ./src/
 
-RUN mkdir -p /data && chown -R bass:bass /data /app
+RUN mkdir -p /data && chown -R datahelix:datahelix /data /app
 
-USER bass
+USER datahelix
 
 EXPOSE 8003
 

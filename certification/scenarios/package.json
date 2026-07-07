@@ -1,5 +1,5 @@
 {
-  "name": "bass-certification-scenarios",
+  "name": "datahelix-certification-scenarios",
   "version": "1.0.0",
   "private": true,
   "description": "Golden-path composition-certification suite — one scenario per product loop (platform ADR-0001)",

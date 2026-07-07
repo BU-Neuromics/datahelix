@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Repo Is
 
-This is the **platform integration repository** for the **BASS (Bioinformatics Analysis Software System)** platform. It hosts cross-cutting platform docs, the unified mkdocs site, and cross-component integration tests under `tests/platform/` and `tests/contracts/`. Component source code lives in component directories — some in-tree, some as git submodules pointing at standalone component repos.
+This is the **platform integration repository** for the **DataHelix** platform. It hosts cross-cutting platform docs, the unified mkdocs site, and cross-component integration tests under `tests/platform/` and `tests/contracts/`. Component source code lives in component directories — some in-tree, some as git submodules pointing at standalone component repos.
 
 ## Repository Layout
 

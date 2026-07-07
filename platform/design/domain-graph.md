@@ -1,4 +1,4 @@
-# BASS Platform — The Domain Graph (foundational data model)
+# DataHelix Platform — The Domain Graph (foundational data model)
 
 **Status:** 🟢 Foundational concept (2026-06-17). Cross-cutting; takes precedence over
 component-local framings where they conflict. Supersedes the "metadata store" framing of Hippo.
@@ -6,7 +6,7 @@ Origin: Aperture design session (see `aperture/design/vision.md`, `.../prefab/da
 
 ## The reframe: one typed domain graph, not a "metadata store"
 
-A BASS deployment is, conceptually, **one typed knowledge graph** — the *domain graph* — whose
+A DataHelix deployment is, conceptually, **one typed knowledge graph** — the *domain graph* — whose
 type system is the deployment's **LinkML schema** and whose contents are everything the lab knows
 about its biology and its data. "Metadata vs. data" is **not** a property of stored things; it is
 a **role a node plays relative to a query**, assigned at query time. (A toxicology report is the
@@ -51,7 +51,7 @@ selecting a sub-bundle of edges = **inducing a subgraph**. So:
 
 This is **Ontology-Based Data Access / Virtual Knowledge Graphs (OBDA/VKG)**: one conceptual
 graph (the LinkML ontology) over heterogeneous sources; queries rewritten to source-native
-operations; results lifted back into the graph. In BASS terms:
+operations; results lifted back into the graph. In DataHelix terms:
 
 | Layer | OBDA role |
 |---|---|

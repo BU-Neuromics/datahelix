@@ -9,7 +9,7 @@
 
 ## 5.1 Purpose and Scope
 
-This document specifies the **round-trip integration test strategy** for the BASS platform. It covers:
+This document specifies the **round-trip integration test strategy** for the DataHelix platform. It covers:
 
 1. The full end-to-end scenario: external source → Cappella → Hippo → Canon → Hippo (provenance write-back)
 2. Test data setup requirements

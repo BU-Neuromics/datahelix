@@ -1,8 +1,8 @@
-# BASS Platform
+# DataHelix Platform
 
-Cross-cutting documentation for the BASS (Bioinformatics Analysis Software System) platform — architecture decisions, deployment patterns, and shared concepts that span all components.
+Cross-cutting documentation for the DataHelix platform — architecture decisions, deployment patterns, and shared concepts that span all components.
 
-BASS is a modular, open-source software ecosystem designed to streamline bioinformatics workflows. Each component can be used independently or as part of the complete system.
+DataHelix is a modular, open-source software ecosystem designed to streamline bioinformatics workflows. Each component can be used independently or as part of the complete system.
 
 ## Components
 
@@ -18,7 +18,7 @@ BASS is a modular, open-source software ecosystem designed to streamline bioinfo
 
 - [Overview](src/overview.md) — High-level platform introduction
 - [Architecture](src/architecture.md) — System architecture and component interactions
-- [Getting Started](src/getting-started.md) — First steps with BASS
+- [Getting Started](src/getting-started.md) — First steps with DataHelix
 - [Deployment](src/deployment.md) — Deployment guide
 - [Glossary](src/glossary.md) — Key terms and definitions
 

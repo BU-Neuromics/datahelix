@@ -1,11 +1,11 @@
 ## Context
 
-The BASS platform currently lacks a consistent documentation structure across its components (Hippo, Cappella, Aperture, Bridge). Each component has its own organization of design specs and docs, leading to confusion for developers and inconsistency in how information is presented. The existing Hippo component provides a model with a config-driven relational approach and graph-shaped API that could serve as the foundation for standardizing documentation practices across all components.
+The DataHelix platform currently lacks a consistent documentation structure across its components (Hippo, Cappella, Aperture, Bridge). Each component has its own organization of design specs and docs, leading to confusion for developers and inconsistency in how information is presented. The existing Hippo component provides a model with a config-driven relational approach and graph-shaped API that could serve as the foundation for standardizing documentation practices across all components.
 
 ## Goals / Non-Goals
 
 **Goals:**
-- Establish a standardized documentation structure for all BASS platform components
+- Establish a standardized documentation structure for all DataHelix platform components
 - Create consistent conventions for linking between platform components in design specifications  
 - Implement a config-driven documentation framework that aligns with existing Hippo component practices
 - Ensure clear dependency tracking in cross-component references

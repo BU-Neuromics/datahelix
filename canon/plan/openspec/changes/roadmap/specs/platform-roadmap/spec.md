@@ -1,7 +1,7 @@
 ## ADDED Requirements
 
 ### Requirement: Platform Roadmap Framework
-The system SHALL provide a structured framework for documenting and tracking the development of the BASS platform.
+The system SHALL provide a structured framework for documenting and tracking the development of the DataHelix platform.
 
 #### Scenario: Create roadmap documentation
 - **WHEN** a developer wants to contribute to the roadmap

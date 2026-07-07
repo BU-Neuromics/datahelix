@@ -1,8 +1,8 @@
-# TESTING.md — BASS Platform Test Strategy
+# TESTING.md — DataHelix Platform Test Strategy
 
 ## Overview
 
-The BASS platform uses a three-tier testing model. Each tier has a distinct purpose and failure protocol.
+The DataHelix platform uses a three-tier testing model. Each tier has a distinct purpose and failure protocol.
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
@@ -29,7 +29,7 @@ The BASS platform uses a three-tier testing model. Each tier has a distinct purp
 > [ADR-0001](platform/design/decisions/ADR-0001-certified-frontier-composition.md);
 > tooling in [`certification/`](certification/)). That adds a producer-run
 > **contract check** (a consumer's contract file booted in the producer's CI) and
-> a drylims **composition certification** (one exact pair boots + passes the
+> a DataHelix **composition certification** (one exact pair boots + passes the
 > golden path, appended to an append-only ledger; deployment is gated on it).
 > Run the ledger tooling tests with `make ledger-test`.
 
@@ -113,7 +113,7 @@ PYTHONPATH=hippo/src:canon/src:cappella/src:aperture/src uv run pytest tests/pla
 - `test_round_trip.py` — Full round-trip: external source → Hippo → Canon → Hippo (sec5 §5.2–§5.5)
 - `test_cross_component.py` — Cross-component: CSV ingest via Cappella → Hippo → Canon resolution, entity relationships, provenance chain
 - `test_webhook_integration.py` — Webhook triggers: HMAC-SHA256 verification, payload mapping → Hippo entity creation, deduplication
-- `test_cli_integration.py` — CLI integration: `bass list`, `bass get`, `bass search`, `bass history` against pipeline-created entities
+- `test_cli_integration.py` — CLI integration: `datahelix list`, `datahelix get`, `datahelix search`, `datahelix history` against pipeline-created entities
 
 **When they fail:**
 1. Identify which component's behavior changed

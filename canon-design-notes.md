@@ -5,7 +5,7 @@
 
 ## What Canon Is
 
-Canon is the **semantic dependency resolver and workflow orchestrator** for BASS. It sits
+Canon is the **semantic dependency resolver and workflow orchestrator** for DataHelix. It sits
 between a metadata database (Hippo) and one or more workflow executors (Nextflow, Snakemake,
 Cromwell, etc.), providing:
 
@@ -158,7 +158,7 @@ with a `uri` field is also a valid Canon output. The entity model handles both u
 
 - **v0.1**: single-org, local URIs (s3, file, https)
 - **v0.2**: DRS client — Canon can resolve `drs://` URIs from configured remote endpoints
-- **v0.3/Bridge**: federated metadata query across BASS instances
+- **v0.3/Bridge**: federated metadata query across DataHelix instances
 
 ---
 
@@ -186,7 +186,7 @@ Built into `hippo serve` as a router, enabled by config:
 # hippo.yaml
 drs:
   enabled: true
-  base_url: "https://bass.brainbank-a.org"
+  base_url: "https://datahelix.brainbank-a.org"
   auth: bearer          # passport_visa deferred to v0.3
   public: false
 ```

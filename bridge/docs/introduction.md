@@ -1,17 +1,17 @@
 # Introduction to Bridge
 
-Bridge is the **integration middleware** for the BASS platform. It provides four cross-cutting services that no single component owns: a unified API gateway, authentication and authorization, cross-component data synchronization, and centralized monitoring.
+Bridge is the **integration middleware** for the DataHelix platform. It provides four cross-cutting services that no single component owns: a unified API gateway, authentication and authorization, cross-component data synchronization, and centralized monitoring.
 
 ## The Core Idea
 
-Each BASS component (Hippo, Cappella, Canon) exposes its own REST API and can be used independently. This works well for single-user or single-component deployments. But when a team runs multiple components together and needs access control, they face several problems:
+Each DataHelix component (Hippo, Cappella, Canon) exposes its own REST API and can be used independently. This works well for single-user or single-component deployments. But when a team runs multiple components together and needs access control, they face several problems:
 
 - Clients must know the address and port of each component separately
 - There is no authentication — anyone with network access can read and write data
 - There is no centralized audit trail of who did what across components
 - Cross-component operations (e.g., ensuring Cappella and Hippo agree after an ingest) have no coordinator
 
-Bridge solves all four by sitting in front of the BASS components as a thin gateway.
+Bridge solves all four by sitting in front of the DataHelix components as a thin gateway.
 
 ## What Bridge Does
 
@@ -25,7 +25,7 @@ Bridge solves all four by sitting in front of the BASS components as a thin gate
 
 ## What Bridge Does Not Do
 
-- **Store BASS data** — All entity data lives in Hippo. Bridge stores only credentials, roles, and audit events.
+- **Store DataHelix data** — All entity data lives in Hippo. Bridge stores only credentials, roles, and audit events.
 - **Implement business logic** — Harmonization is Cappella's domain, artifact resolution is Canon's, the structured domain graph is Hippo's. Bridge routes and enforces, nothing more.
 - **Require deployment** — Bridge is optional. Single-user local deployments work without it. SDK-mode usage bypasses Bridge entirely.
 

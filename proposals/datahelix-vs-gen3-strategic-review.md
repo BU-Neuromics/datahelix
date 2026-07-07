@@ -1,10 +1,10 @@
-# BASS vs. Gen3 — Strategic Review (2026-06-16)
+# DataHelix vs. Gen3 — Strategic Review (2026-06-16)
 
-**Question:** Is BASS too close a match to Gen3 (in audience, capabilities, strategy) to justify
+**Question:** Is DataHelix too close a match to Gen3 (in audience, capabilities, strategy) to justify
 continued investment, vs. adopting/extending Gen3 or a hybrid? Asked honestly, willing to
 abandon, sunk-cost explicitly disallowed as a reason.
 
-**Method:** an adversarial multi-agent panel with clean context (none invested in BASS): 5
+**Method:** an adversarial multi-agent panel with clean context (none invested in DataHelix): 5
 independent lenses (abandon-prosecutor, continue-defender, neutral dimensional analyst, Gen3
 reality-check *with live web + repo research*, third-path strategist) → 2 devil's-advocate
 cross-examinations (one attacking each direction) → 1 synthesis. The research agents read the
@@ -12,7 +12,7 @@ actual repo (corrections below) and primary Gen3 sources.
 
 ## Verdict: **narrow hybrid** (high confidence on structure, medium on the Aperture endpoint)
 
-"Abandon BASS?" is the wrong unit of analysis. BASS is two assets with opposite profiles, and
+"Abandon DataHelix?" is the wrong unit of analysis. DataHelix is two assets with opposite profiles, and
 the evidence splits them cleanly:
 
 1. **KEEP Hippo — low-regret, near-zero doubt.** Built, tested, in production at the brain bank,
@@ -55,14 +55,14 @@ the evidence splits them cleanly:
 
 ## Decision matrix (synthesis)
 
-| Dimension | Gen3 | BASS | Edge |
+| Dimension | Gen3 | DataHelix | Edge |
 |---|---|---|---|
-| Audience fit | National federated commons | One brain bank, ~300 donors, local | **BASS** |
-| Built half (overlap) | Domain-locked per-node JSON-Schema metadata | Hippo: generic LinkML, metadata-only, PROV-O | **BASS** |
+| Audience fit | National federated commons | One brain bank, ~300 donors, local | **DataHelix** |
+| Built half (overlap) | Domain-locked per-node JSON-Schema metadata | Hippo: generic LinkML, metadata-only, PROV-O | **DataHelix** |
 | Unbuilt half (overlap) | Data Explorer + Guppy/Tube, proven across commons | Aperture: stubs, zero frontend | **Gen3** |
 | Aggregation/facet-count gap | Solved at national scale | None yet — but at <100k it's SQL/DuckDB, not a tier | tie |
 | Strategy / positioning | Off-the-shelf commons; gitops+redeploy | SDK-first, config-as-data, agent-native (unproven) | tie |
-| Operational cost (small team) | K8s + dozen microservices, needs DevOps | `hippo serve`, SQLite, no Docker | **BASS** |
+| Operational cost (small team) | K8s + dozen microservices, needs DevOps | `hippo serve`, SQLite, no Docker | **DataHelix** |
 | Extensibility / new viz | Config explorer, but new viz = React in-tree | Sandboxed view-descriptions — elegant but unbuilt | tie |
 | Maintenance / longevity | Funded center, thin self-host community | Bus-factor-of-one, small surface, salvageable | tie |
 | Build-it-yourself cost | Exists, but adopting = re-platform | Hippo cheap-kept; Aperture runtime is the risky remainder | tie |
@@ -81,7 +81,7 @@ the evidence splits them cleanly:
   mandate, no metadata-only/brain-bank/LinkML story): adoption *relocates* the maintenance
   burden onto a heavier, worse-fitting stack rather than reducing it.
 - **The architectural convergence (fence+arborist≈Bridge, dictionary≈LinkML, Peregrine≈Hippo
-  GraphQL) is ambiguous, not pro-BASS.** It validates the *patterns* (→ steal them); BASS differs
+  GraphQL) is ambiguous, not pro-DataHelix.** It validates the *patterns* (→ steal them); DataHelix differs
   at the *substrate* (LinkML-native, introspection-derived binding, provenance-by-construction).
   It argues for "steal patterns," not "adopt the deployment" — and not for "re-derive every
   service solo" either.

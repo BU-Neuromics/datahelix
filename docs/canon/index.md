@@ -3,7 +3,7 @@
 !!! warning "Not Yet Implemented"
     Canon is in the design specification phase. The rules DSL and resolution algorithm are fully specified; executor and storage adapter plugins are designed but not yet implemented.
 
-Canon is the **artifact resolver** for the BASS platform. It answers one question: *does this computational result already exist, and if not, how do I produce it?*
+Canon is the **artifact resolver** for the DataHelix platform. It answers one question: *does this computational result already exist, and if not, how do I produce it?*
 
 Artifacts are identified by their **semantic identity** — entity type, sample, reference genome, tool version, and parameters — not by file path. Two results produced from the same inputs with the same tool are the same artifact, regardless of when or where they were produced.
 

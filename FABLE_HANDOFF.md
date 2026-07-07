@@ -1,14 +1,14 @@
-# BASS Platform — Autonomous Development Handoff for Fable
+# DataHelix Platform — Autonomous Development Handoff for Fable
 
-**Audience:** Fable, operating as an autonomous developer on the BASS platform.
-**Repo:** `drylims` (platform integration repo) — https://github.com/VA-NCPTSDBB-Bioinformatics/drylims
+**Audience:** Fable, operating as an autonomous developer on the DataHelix platform.
+**Repo:** `DataHelix` (platform integration repo) — https://github.com/VA-NCPTSDBB-Bioinformatics/DataHelix
 **Prepared:** 2026-06-11. **Ground-truth basis:** all maturity/test claims below were verified by running the suites and reading the specs on this date against `hippo@18935c5` (v0.8.0).
 
 ---
 
 ## 0. How to use this document
 
-This is your orientation and charter. It tells you **what BASS is**, **why it exists**, **what's actually built vs. designed**, **how to find the next unit of work**, and **the ambitious milestones you should drive toward**. It does not replace the design specs — it points you into them. When this document and a design spec disagree, **the design spec wins** and you should flag the drift.
+This is your orientation and charter. It tells you **what DataHelix is**, **why it exists**, **what's actually built vs. designed**, **how to find the next unit of work**, and **the ambitious milestones you should drive toward**. It does not replace the design specs — it points you into them. When this document and a design spec disagree, **the design spec wins** and you should flag the drift.
 
 Read in this order before writing any code:
 1. This handoff (you're here).
@@ -19,9 +19,9 @@ Read in this order before writing any code:
 
 ---
 
-## 1. What BASS is
+## 1. What DataHelix is
 
-**BASS (Bioinformatics Analysis Software System)** is an open-source, modular **metadata-intelligence layer** for high-throughput biomedical data. It is the synthesis of ~two decades of building and re-analyzing biological pipelines, designed to kill five recurring failure modes that recur at every site, in every modality:
+**DataHelix** is an open-source, modular **metadata-intelligence layer** for high-throughput biomedical data. It is the synthesis of ~two decades of building and re-analyzing biological pipelines, designed to kill five recurring failure modes that recur at every site, in every modality:
 
 1. **Redundant storage of reprocessed artifacts** — the same FASTQ re-aligned with slightly different parameters, producing near-identical BAMs with unknown lineage.
 2. **Lost provenance** — files accumulate with no record of which pipeline, code version, or inputs produced them (*"was this built against Ensembl 105 or 111?"* becomes unanswerable).
@@ -54,7 +54,7 @@ Every design decision serves one of these. If a change you're considering weaken
 
 ## 3. Repository & component map
 
-`drylims` is the **platform integration repo**: cross-cutting docs, the unified MkDocs site, and cross-component tests under `tests/platform/` and `tests/contracts/`. Component source lives in component directories — some in-tree, **Hippo is a git submodule**.
+`DataHelix` is the **platform integration repo**: cross-cutting docs, the unified MkDocs site, and cross-component tests under `tests/platform/` and `tests/contracts/`. Component source lives in component directories — some in-tree, **Hippo is a git submodule**.
 
 > **Submodule discipline (critical).** Hippo lives at [BU-Neuromics/hippo](https://github.com/BU-Neuromics/hippo), mounted at `hippo/`. Clone with `--recurse-submodules`. To bump it: `git submodule update --remote hippo`, run the contract + platform suites, then commit the pointer change **in its own dedicated PR** — never fold a hippo bump into an unrelated change. Other components are expected to split out the same way over time (see `proposals/hippo-split.md` for the template).
 
@@ -63,7 +63,7 @@ Every design decision serves one of these. If a change you're considering weaken
 | **Hippo** | LinkML runtime / structured domain graph — the platform spine | submodule | **0.8.0** | **Well-developed** (~120 src files, 110+ test files; SDK, SQLite adapter, provenance, REST, CLI, TUI, validators, plugins) | v0.1 spec approved; LinkML redesign (sec9) approved 2026-04-18 and mid-rollout via OpenSpec waves |
 | **Canon** | Semantic artifact resolver (REUSE/FETCH/BUILD) | in-tree | 0.1.0 | **Skeleton** (~38 files, 11 test files; resolver/rules/executors/storage scaffolded, cwltool-only) | **Design v0.2 complete**, well ahead of code |
 | **Cappella** | Harmonization engine: external sources → Hippo | in-tree | 0.1.0 | **v0.1 implemented** (~31 files, 15 test files; generic CSV/JSON/XML/SQL adapters, trigger engine, upsert-by-ExternalID) | Design v0.1 complete; v0.2 (real LIMS adapters, reactive triggers) undesigned |
-| **Aperture** | Interface layer (CLI now, web later) | in-tree | 0.1.0 (`bass-aperture`) | **Early CLI skeleton** (~23 files, 2 test files; Typer `bass` CLI, Hippo backends) | Design v0.1 (CLI) complete; **no openspec/plan decomposition yet** |
+| **Aperture** | Interface layer (CLI now, web later) | in-tree | 0.1.0 (`datahelix-aperture`) | **Early CLI skeleton** (~23 files, 2 test files; Typer `datahelix` CLI, Hippo backends) | Design v0.1 (CLI) complete; **no openspec/plan decomposition yet** |
 | **Bridge** | Optional auth gateway + cross-component sync | in-tree | — | **Design-only — zero code** (no `src/`, no `pyproject.toml`; only Dockerfile + nginx.conf) | Design v0.1 complete (6 sections + 6 user docs) |
 
 There is also a **Canon** dependency on Hippo's reference-schema concepts (Tool, ToolVersion, GenomeBuild, GeneAnnotation, WorkflowRun). Dependency order is **Hippo → Canon → Cappella → Aperture → Bridge**; Bridge is off the critical path for v1.0 (everything works in single-user SDK mode without it).
@@ -92,13 +92,13 @@ So the following is **real, tested, and load-bearing** — treat it as the stabl
 - Canon v0.2: **storage-adapter plugin system**, dynamic rule registration, convention-based CWL→entity output mapping, Snakemake/Nextflow/Toil executor adapters, FETCH-via-DRS path.
 - Cappella v0.2: **concrete external adapters** (STARLIMS, HALO, REDCap — currently absent), webhook + hippo-poll reactive triggers, `SyncRun` audit entity.
 - Aperture v0.2: web portal, R/Python client libraries, Canon/Cappella/Bridge integration (v0.1 is Hippo-only).
-- **Bridge v0.1**: the entire component — unified `/api/v1/{component}/` routing, API-key auth, `X-Bass-Actor`/`X-Bass-Roles` header injection, flat RBAC, in-process sync event bus.
+- **Bridge v0.1**: the entire component — unified `/api/v1/{component}/` routing, API-key auth, `X-DataHelix-Actor`/`X-DataHelix-Roles` header injection, flat RBAC, in-process sync event bus.
 
 ---
 
 ## 5. How to find the next unit of work — the planning pipeline
 
-BASS uses a deterministic pipeline (documented in `CLAUDE.md`):
+DataHelix uses a deterministic pipeline (documented in `CLAUDE.md`):
 
 ```
 Design spec sections  →  vision.yaml  →  roadmap  →  epics  →  features  →  OpenSpec changes  →  code + tests
@@ -115,7 +115,7 @@ Design spec sections  →  vision.yaml  →  roadmap  →  epics  →  features 
 
 ## 6. Ambitious targets & milestones
 
-These ladder up to the proposal's **18-month plan**: *(i) bring the PTSD Brain Bank's production metadata into Hippo behind Cappella adapters, (ii) ship open-source v1.0 with reference deployments at 1–2 partner institutions, (iii) drive one biomedical study to publication using BASS as the substrate.* Sequenced by dependency; each milestone has a **Definition of Done** you can verify objectively.
+These ladder up to the proposal's **18-month plan**: *(i) bring the PTSD Brain Bank's production metadata into Hippo behind Cappella adapters, (ii) ship open-source v1.0 with reference deployments at 1–2 partner institutions, (iii) drive one biomedical study to publication using DataHelix as the substrate.* Sequenced by dependency; each milestone has a **Definition of Done** you can verify objectively.
 
 ### M1 — Finish the Hippo LinkML core (foundation)
 Land the remaining sec9 OpenSpec waves so the schema is fully a runtime artifact end-to-end: ext-vocabulary, hippo_core schema, id-registry/UUID strategy, computed temporal fields, provenance-as-LinkML-class, typed client, generated REST surface.
@@ -142,8 +142,8 @@ The headline proposal deliverable, verbatim: *"a Docker-Compose deployable stack
 **DoD:** A fresh user, following only the docs, runs `docker compose up`, ingests a sample source, resolves a workflow output, and queries the result — with no tribal knowledge. Reference deployment stood up at 1–2 partner sites.
 
 ### M7 — Publication-grade demonstrator (proposal milestone iii)
-Drive one AI-assisted multi-modal cohort analysis to publication using BASS as the substrate. Publish the **synthetic brain-bank metadata benchmark** for the DB + biomedical communities.
-**DoD:** A reproducible, BASS-backed study artifact whose value is gated on this infrastructure; benchmark released. (Publication targets the proposal names: VLDB/SIGMOD for the systems threads, Nature Biomedical Engineering / Cell Patterns for the cohort study.)
+Drive one AI-assisted multi-modal cohort analysis to publication using DataHelix as the substrate. Publish the **synthetic brain-bank metadata benchmark** for the DB + biomedical communities.
+**DoD:** A reproducible, DataHelix-backed study artifact whose value is gated on this infrastructure; benchmark released. (Publication targets the proposal names: VLDB/SIGMOD for the systems threads, Nature Biomedical Engineering / Cell Patterns for the cohort study.)
 
 > **Stretch / aspirational** (don't schedule until M1–M4 are solid): multi-institution federation via Bridge, GraphQL surface, Kubernetes/Helm tier-3 deployment, OAuth 2.0 + hierarchical RBAC, additional storage backends.
 
@@ -154,7 +154,7 @@ Drive one AI-assisted multi-modal cohort analysis to publication using BASS as t
 **Guardrails — do these without being asked:**
 - **Contract-first.** The files in `tests/contracts/` are the load-bearing inter-component API. Treat a contract change as a breaking change: bump the relevant version, update the consumer, and call it out loudly. Never silently weaken a contract to make a test pass.
 - **Respect the testing pyramid** (`TESTING.md`): unit (in each component's `tests/`) → contract (`tests/contracts/`) → platform (`tests/platform/`). Before merging anything cross-cutting, run **both** the contract and platform suites with the CI `PYTHONPATH`. They're slow (~7 min contracts, ~6 min platform — LinkML→pydantic codegen) — budget for it; don't skip.
-- **Submodule hygiene.** Any hippo change happens in the hippo repo; in drylims it's a *pointer bump in its own PR*, verified against the contract + platform suites. (See §3.)
+- **Submodule hygiene.** Any hippo change happens in the hippo repo; in DataHelix it's a *pointer bump in its own PR*, verified against the contract + platform suites. (See §3.)
 - **Branch + PR discipline.** Branch off `main`; never commit directly to `main`. One concern per PR. Commit messages reference the issue key (`PTS-NNN`) where one exists. End commit messages with the `Co-Authored-By` trailer.
 - **Honor the OpenSpec pipeline** (§5). For components without planning artifacts (Aperture, Bridge), author vision → roadmap → epics *before* coding.
 - **Preserve the three bets and SDK-first.** If an implementation shortcut would store state outside Hippo, hard-delete a row, bypass the SDK from a transport layer, or hardcode a schema, it's wrong — find the path that keeps the invariant.
@@ -164,7 +164,7 @@ Drive one AI-assisted multi-modal cohort analysis to publication using BASS as t
 - Hippo's spec is the template for the other components' specs.
 - Schemas are authored directly in LinkML; the data model is config-driven relational with a graph-shaped API.
 
-**Escalate to a human (don't decide solo):** anything that publishes or mutates outside the repo (deploys, partner-site coordination, real PHI/brain-bank data handling), the unresolved open design questions in §8, and the "BASS vs DryLIMS" public name. When blocked on one of these, open an issue and keep moving on unblocked work.
+**Escalate to a human (don't decide solo):** anything that publishes or mutates outside the repo (deploys, partner-site coordination, real PHI/brain-bank data handling), the unresolved open design questions in §8, and public platform branding (the name is settled as **DataHelix**). When blocked on one of these, open an issue and keep moving on unblocked work.
 
 ---
 
@@ -175,7 +175,7 @@ From the design specs' "Open Questions" sections — surface these, propose opti
 2. **Canon routing** — does Cappella call Canon directly (perf) or via Bridge (auth) in multi-server deployments?
 3. **Aperture web portal MVP** — feature set for the deferred web tier (SPA vs. server-rendered undecided).
 4. **Multi-institution federation** — can Bridge serve as the federation gateway? (v2.0 candidate, needs design.)
-5. **Platform name** — "BASS" vs "DryLIMS" before any public announcement.
+5. **Platform name** — settled as **DataHelix**; finalize public branding before any announcement.
 
 ---
 

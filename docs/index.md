@@ -1,6 +1,6 @@
-# BASS — Bioinformatics Analysis Software System
+# DataHelix
 
-BASS is a modular, open-source platform for managing bioinformatics metadata, orchestrating analysis workflows, and integrating research data across sources. Each component can be used independently or composed into a complete system.
+DataHelix is a modular, open-source platform for managing bioinformatics metadata, orchestrating analysis workflows, and integrating research data across sources. Each component can be used independently or composed into a complete system.
 
 ## Components
 
@@ -14,7 +14,7 @@ BASS is a modular, open-source platform for managing bioinformatics metadata, or
 
 ## Architecture
 
-BASS follows an **SDK-first** architecture: all business logic lives in Python SDKs, with REST/GraphQL APIs serving as thin transport wrappers. This means you can embed any component directly in your Python code without running a server.
+DataHelix follows an **SDK-first** architecture: all business logic lives in Python SDKs, with REST/GraphQL APIs serving as thin transport wrappers. This means you can embed any component directly in your Python code without running a server.
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -31,6 +31,6 @@ BASS follows an **SDK-first** architecture: all business logic lives in Python S
 
 ## Getting Started
 
-New to BASS? Start with the [Platform Overview](platform/src/overview.md) for a high-level introduction, then follow the [Getting Started](platform/src/getting-started.md) guide to set up your first deployment.
+New to DataHelix? Start with the [Platform Overview](platform/src/overview.md) for a high-level introduction, then follow the [Getting Started](platform/src/getting-started.md) guide to set up your first deployment.
 
 For individual components, see each component's introduction page linked in the table above.

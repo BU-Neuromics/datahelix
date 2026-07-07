@@ -8,8 +8,8 @@
 
 ### 1.1 What Is Bridge?
 
-Bridge is the **integration middleware** for the BASS (Bioinformatics Analysis Software System)
-platform. It sits between the BASS components — Hippo, Cappella, Canon, Aperture — and provides
+Bridge is the **integration middleware** for the DataHelix
+platform. It sits between the DataHelix components — Hippo, Cappella, Canon, Aperture — and provides
 four cross-cutting services that no single component owns:
 
 1. **Unified API** — A single HTTP gateway that routes requests to the correct component,
@@ -24,7 +24,7 @@ four cross-cutting services that no single component owns:
 4. **Monitoring & Observability** — Centralized request logging, health checks, and performance
    metrics for the platform as a whole.
 
-Bridge is **optional**. Individual BASS components are fully usable without it:
+Bridge is **optional**. Individual DataHelix components are fully usable without it:
 
 - Hippo, Cappella, and Canon each expose their own REST APIs when deployed as services.
 - Bridge adds the authentication and routing layer needed for multi-user, multi-component
@@ -38,7 +38,7 @@ Bridge is **optional**. Individual BASS components are fully usable without it:
 #### 1.2.1 Thin Gateway, Not a Microservices Orchestrator
 
 Bridge is a routing and enforcement layer, not a business logic layer. It does not:
-- Maintain its own data store for BASS entities (that is Hippo's domain)
+- Maintain its own data store for DataHelix entities (that is Hippo's domain)
 - Implement pipeline logic or transformation rules (that is Cappella's and Canon's domain)
 - Generate analysis outputs (that is Composer's domain)
 
@@ -54,7 +54,7 @@ This keeps component code simple and testable without Bridge. The full auth desi
 
 #### 1.2.3 SDK Bypass is Intentional
 
-When BASS components are used in SDK mode (e.g., a researcher's laptop with `HippoClient`
+When DataHelix components are used in SDK mode (e.g., a researcher's laptop with `HippoClient`
 and SQLite), there is no Bridge and no auth. This is correct. Bridge applies only at the
 HTTP transport boundary. Single-user local use should be frictionless.
 
@@ -67,11 +67,11 @@ Bridge's network address.
 
 ---
 
-### 1.3 Position in the BASS Platform
+### 1.3 Position in the DataHelix Platform
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                            BASS Platform                                  │
+│                            DataHelix Platform                                  │
 │                                                                           │
 │   ┌───────────┐    ┌──────────────────────────────────────────────────┐  │
 │   │  Aperture │    │                     Bridge                        │  │
@@ -154,7 +154,7 @@ components scale independently.
 
 ### 1.6 Versioning and Compatibility
 
-Bridge tracks the platform release version (`bass-platform`). Component API versions are
+Bridge tracks the platform release version (`datahelix-platform`). Component API versions are
 managed by each component. Bridge does not impose a version contract on components beyond
 requiring that the routed paths respond to HTTP.
 

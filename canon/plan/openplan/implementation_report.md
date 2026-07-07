@@ -1,7 +1,7 @@
 # OpenPlan Implementation Report
 
 **Generated:** 2026-03-24T17:19:09  
-**Project:** /home/admin/.openclaw/workspace/drylims-docs/canon/plan  
+**Project:** /home/admin/.openclaw/workspace/DataHelix-docs/canon/plan  
 **Roadmap:** roadmap-canon-v01 — Canon v0.1 Semantic Artifact Resolver  
 **Features:** 44/44 implemented  
 

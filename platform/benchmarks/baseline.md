@@ -1,4 +1,4 @@
-# BASS Platform — Performance Baseline Targets
+# DataHelix Platform — Performance Baseline Targets
 
 **Status:** Draft v0.1
 **Last updated:** 2026-03-31

@@ -1,5 +1,5 @@
-site_name: BASS Documentation
-site_description: Bioinformatics Analysis Software System — platform documentation
+site_name: DataHelix Documentation
+site_description: DataHelix — platform documentation
 
 theme:
   name: material

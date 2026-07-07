@@ -1,6 +1,6 @@
 # Canon
 
-Semantic dependency resolver and workflow orchestrator for the BASS platform.
+Semantic dependency resolver and workflow orchestrator for the DataHelix platform.
 
 ## Overview
 
@@ -24,7 +24,7 @@ When you ask Canon to produce an `AlignmentFile` with `aligner=STAR, genome_buil
 
 Every BUILD execution records a `WorkflowRun` provenance entity in Hippo, linking input and output entity IDs, timestamps, rule name, and executor type.
 
-**Where Canon fits in BASS**
+**Where Canon fits in DataHelix**
 
 | Component | Role |
 |-----------|------|

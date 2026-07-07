@@ -1,4 +1,4 @@
-# Bridge — BASS API gateway (nginx reverse proxy)
+# Bridge — DataHelix API gateway (nginx reverse proxy)
 #
 # Bridge's application layer is not yet implemented. This image provides
 # the gateway routing pattern (single exposed port, internal fan-out)
@@ -7,14 +7,14 @@
 FROM nginx:1.27-alpine
 
 LABEL org.opencontainers.image.title="bridge" \
-      org.opencontainers.image.description="BASS API gateway (nginx proxy)"
+      org.opencontainers.image.description="DataHelix API gateway (nginx proxy)"
 
-RUN addgroup -S bass && adduser -S bass -G bass
+RUN addgroup -S datahelix && adduser -S datahelix -G datahelix
 
 COPY bridge/nginx.conf /etc/nginx/nginx.conf
 
 RUN mkdir -p /var/cache/nginx /var/run && \
-    chown -R bass:bass /var/cache/nginx /var/run /etc/nginx
+    chown -R datahelix:datahelix /var/cache/nginx /var/run /etc/nginx
 
 EXPOSE 8080
 

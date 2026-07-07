@@ -1,6 +1,6 @@
 # Bridge Python SDK
 
-The Bridge SDK provides a Python client for programmatic access to the BASS platform
+The Bridge SDK provides a Python client for programmatic access to the DataHelix platform
 through Bridge. It handles authentication, key management, and request routing so your
 code can work with Hippo, Cappella, and Canon through a single client.
 
@@ -9,18 +9,18 @@ code can work with Hippo, Cappella, and Canon through a single client.
 ## Installation
 
 ```bash
-pip install bass-bridge
+pip install datahelix-bridge
 # or
-uv add bass-bridge
+uv add datahelix-bridge
 ```
 
-The SDK is included in the `bass-bridge` package alongside the server.
+The SDK is included in the `datahelix-bridge` package alongside the server.
 
 ---
 
 ## BridgeClient
 
-`BridgeClient` is the primary entry point for SDK access to the BASS platform.
+`BridgeClient` is the primary entry point for SDK access to the DataHelix platform.
 
 ### Basic usage
 
@@ -29,8 +29,8 @@ from bridge.sdk import BridgeClient
 
 # Authenticate with an API key
 client = BridgeClient(
-    url="https://bass.your-org.edu",
-    api_key="bass_live_7f3a8b2c..."
+    url="https://datahelix.your-org.edu",
+    api_key="datahelix_live_7f3a8b2c..."
 )
 
 # Access Hippo entities through Bridge
@@ -51,32 +51,32 @@ print(health.status)  # "healthy", "degraded", or "unhealthy"
 
 | Parameter | Type | Required | Description |
 |---|---|---|---|
-| `url` | `str` | Yes | Bridge base URL (e.g., `https://bass.your-org.edu`) |
-| `api_key` | `str` | No | API key for authentication (`bass_live_...` or `bass_test_...`) |
+| `url` | `str` | Yes | Bridge base URL (e.g., `https://datahelix.your-org.edu`) |
+| `api_key` | `str` | No | API key for authentication (`datahelix_live_...` or `datahelix_test_...`) |
 | `token` | `str` | No | JWT access token (for interactive session reuse) |
 | `timeout` | `float` | No | Request timeout in seconds (default: 30.0) |
 | `verify_ssl` | `bool` | No | Verify TLS certificates (default: `True`) |
 
 Provide either `api_key` or `token`. If neither is provided, the client checks the
-`BASS_API_KEY` environment variable.
+`DATAHELIX_API_KEY` environment variable.
 
 ### Auth header injection
 
 `BridgeClient` automatically injects the appropriate authentication header on every
 request:
 
-- **API key:** Sends `Authorization: Bearer bass_live_...`
+- **API key:** Sends `Authorization: Bearer datahelix_live_...`
 - **JWT:** Sends `Authorization: Bearer <jwt>`
-- **Environment variable:** Reads `BASS_API_KEY` at construction time
+- **Environment variable:** Reads `DATAHELIX_API_KEY` at construction time
 
 ```python
 # All three are equivalent:
-client = BridgeClient(url=url, api_key="bass_live_...")
+client = BridgeClient(url=url, api_key="datahelix_live_...")
 client = BridgeClient(url=url, token="eyJhbGciOi...")
 
 import os
-os.environ["BASS_API_KEY"] = "bass_live_..."
-client = BridgeClient(url=url)  # reads BASS_API_KEY
+os.environ["DATAHELIX_API_KEY"] = "datahelix_live_..."
+client = BridgeClient(url=url)  # reads DATAHELIX_API_KEY
 ```
 
 ### Token refresh
@@ -172,7 +172,7 @@ sub-clients.
 ## API Key Management
 
 `BridgeClient` includes methods for managing API keys programmatically. These mirror
-the `bass auth` CLI commands.
+the `datahelix auth` CLI commands.
 
 ### Create a key
 
@@ -183,7 +183,7 @@ key = client.auth.create_key(
     project="lab-a",           # optional: restrict to a project
     expires="2027-01-01",      # optional: set expiry date
 )
-print(key.secret)   # bass_live_... (shown once)
+print(key.secret)   # datahelix_live_... (shown once)
 print(key.id)       # key_01jx...
 ```
 
@@ -214,7 +214,7 @@ Rotation creates a new key and revokes the old one atomically.
 
 ```python
 new_key = client.auth.rotate_key("key_01jx...")
-print(new_key.secret)  # new bass_live_... value
+print(new_key.secret)  # new datahelix_live_... value
 ```
 
 ---
@@ -249,7 +249,7 @@ Bridge errors are raised as `BridgeError` exceptions with structured details:
 ```python
 from bridge.sdk import BridgeClient, BridgeError
 
-client = BridgeClient(url=url, api_key="bass_live_...")
+client = BridgeClient(url=url, api_key="datahelix_live_...")
 
 try:
     client.hippo.get_entity("sample", "NONEXISTENT")
@@ -257,7 +257,7 @@ except BridgeError as e:
     print(e.status_code)   # 404
     print(e.error_code)    # "not_found" (from component) or "component_unavailable"
     print(e.message)       # human-readable description
-    print(e.request_id)    # matches X-Bass-Request-Id for debugging
+    print(e.request_id)    # matches X-DataHelix-Request-Id for debugging
 ```
 
 Bridge-specific error codes (returned before the request reaches a component):
@@ -282,15 +282,15 @@ not provided:
 
 | Variable | Purpose |
 |---|---|
-| `BASS_API_KEY` | API key for authentication |
-| `BASS_BRIDGE_URL` | Bridge base URL |
-| `BASS_VERIFY_SSL` | Set to `0` or `false` to disable TLS verification (dev only) |
+| `DATAHELIX_API_KEY` | API key for authentication |
+| `DATAHELIX_BRIDGE_URL` | Bridge base URL |
+| `DATAHELIX_VERIFY_SSL` | Set to `0` or `false` to disable TLS verification (dev only) |
 
 ```python
 # With env vars set, no constructor arguments needed:
 import os
-os.environ["BASS_BRIDGE_URL"] = "https://bass.your-org.edu"
-os.environ["BASS_API_KEY"] = "bass_live_..."
+os.environ["DATAHELIX_BRIDGE_URL"] = "https://datahelix.your-org.edu"
+os.environ["DATAHELIX_API_KEY"] = "datahelix_live_..."
 
 client = BridgeClient()
 ```
@@ -305,7 +305,7 @@ client = BridgeClient()
 from bridge.sdk import AsyncBridgeClient
 
 async def main():
-    client = AsyncBridgeClient(url=url, api_key="bass_live_...")
+    client = AsyncBridgeClient(url=url, api_key="datahelix_live_...")
     samples = await client.hippo.list_entities("sample")
     await client.close()
 ```

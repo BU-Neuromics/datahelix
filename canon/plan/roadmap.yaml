@@ -1,6 +1,6 @@
 version: 1.0
-title: BASS Platform Roadmap
-description: Roadmap for the BASS (Bioinformatics Analysis Software System) platform
+title: DataHelix Platform Roadmap
+description: Roadmap for the DataHelix platform
 status: draft
 sections:
   - name: Platform Foundation

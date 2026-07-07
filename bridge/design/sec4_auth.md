@@ -8,7 +8,7 @@
 
 ### 4.1 Design Philosophy
 
-Bridge owns all authentication and authorization for the BASS platform. Individual components
+Bridge owns all authentication and authorization for the DataHelix platform. Individual components
 (Hippo, Cappella) are auth-unaware by design — they accept a validated `actor` identity from
 their transport layer and trust it unconditionally. Bridge sits in front of component REST APIs
 as the single enforcement point:
@@ -48,7 +48,7 @@ format. This combination was chosen because:
 | Flow | Use Case | Client Type |
 |---|---|---|
 | Authorization Code + PKCE | Web portal (Aperture web UI) | Public client (browser) |
-| Device Code (RFC 8628) | CLI tools (Aperture CLI, `bass` command) | Public client (terminal) |
+| Device Code (RFC 8628) | CLI tools (Aperture CLI, `datahelix` command) | Public client (terminal) |
 | Client Credentials | Service-to-service (Cappella → Hippo, pipeline agents) | Confidential client |
 
 SAML 2.0 is **not** natively supported. Institutions requiring SAML can federate through their
@@ -79,7 +79,7 @@ itself. Supported IdP configurations:
                   └───────────────────┘
 ```
 
-After external authentication, Bridge issues its own **signed JWT** with BASS-specific claims.
+After external authentication, Bridge issues its own **signed JWT** with DataHelix-specific claims.
 Components never interact with external IdP tokens directly.
 
 #### 4.2.3 Token Structure
@@ -89,17 +89,17 @@ Bridge-issued JWTs contain the following claims:
 | Claim | Type | Description |
 |---|---|---|
 | `sub` | string | Unique user identifier (Bridge user ID, UUID) |
-| `iss` | string | `bass-bridge` (fixed issuer) |
-| `aud` | string | `bass-platform` (or component-specific audience for scoped tokens) |
+| `iss` | string | `datahelix-bridge` (fixed issuer) |
+| `aud` | string | `datahelix-platform` (or component-specific audience for scoped tokens) |
 | `exp` | int | Expiry timestamp (UTC epoch) |
 | `iat` | int | Issued-at timestamp |
 | `jti` | string | Unique token ID (for revocation checking) |
-| `bass:actor` | string | The actor identity string passed to component `actor` fields |
-| `bass:roles` | string[] | RBAC roles assigned to this user (see §4.3) |
-| `bass:scopes` | string[] | OAuth scopes granted in this session |
-| `bass:org` | string | Organization/tenant identifier (multi-tenant deployments) |
+| `datahelix:actor` | string | The actor identity string passed to component `actor` fields |
+| `datahelix:roles` | string[] | RBAC roles assigned to this user (see §4.3) |
+| `datahelix:scopes` | string[] | OAuth scopes granted in this session |
+| `datahelix:org` | string | Organization/tenant identifier (multi-tenant deployments) |
 
-The `bass:actor` claim is the canonical link between Bridge auth and Hippo provenance — it
+The `datahelix:actor` claim is the canonical link between Bridge auth and Hippo provenance — it
 becomes the `actor` field on all provenance events, ensuring an unbroken audit trail from
 login through every data mutation.
 
@@ -125,7 +125,7 @@ dimension — see §4.3.3.
 
 #### 4.3.2 Permission Matrix
 
-Permissions map roles to operations on BASS resources:
+Permissions map roles to operations on DataHelix resources:
 
 | Operation | `admin` | `project_lead` | `analyst` | `viewer` | `service` |
 |---|---|---|---|---|---|
@@ -193,8 +193,8 @@ institutional deployments.
 | Token Type | Format | Lifetime | Storage |
 |---|---|---|---|
 | Access token | JWT (signed, not encrypted) | 15 minutes (configurable) | In-memory only; never persisted by client |
-| Refresh token | Opaque string (UUID) | 7 days (configurable) | Client: `~/.bass/tokens.json` (encrypted via OS keyring). Bridge: hashed in token store |
-| API key | Opaque string (prefixed `bass_`) | No expiry (revocable) | Client: environment variable or config file. Bridge: hashed in key store |
+| Refresh token | Opaque string (UUID) | 7 days (configurable) | Client: `~/.datahelix/tokens.json` (encrypted via OS keyring). Bridge: hashed in token store |
+| API key | Opaque string (prefixed `datahelix_`) | No expiry (revocable) | Client: environment variable or config file. Bridge: hashed in key store |
 
 #### 4.4.2 Token Refresh
 
@@ -230,14 +230,14 @@ Bridge auth integrates with Hippo's provenance system through the `actor` field:
 │  Client   │────▶│  Bridge │────▶│  Hippo REST  │────▶│  Provenance │
 │           │     │         │     │              │     │  Event      │
 │  JWT with │     │ Extract │     │ auth.py uses │     │             │
-│ bass:actor│     │ actor   │     │ actor from   │     │ actor =     │
+│ datahelix:actor│     │ actor   │     │ actor from   │     │ actor =     │
 │           │     │ claim   │     │ request ctx  │     │ "alice@     │
 │           │     │         │     │              │     │  uni.edu"   │
 └──────────┘     └─────────┘     └──────────────┘     └─────────────┘
 ```
 
-1. Bridge extracts the `bass:actor` claim from the JWT
-2. Bridge injects the actor identity into the proxied request (via `X-Bass-Actor` header
+1. Bridge extracts the `datahelix:actor` claim from the JWT
+2. Bridge injects the actor identity into the proxied request (via `X-DataHelix-Actor` header
    or request body override)
 3. Hippo's `AuthMiddleware` implementation (Bridge-aware) reads the injected actor and
    uses it for all provenance events
@@ -267,11 +267,11 @@ agents, CI/CD integrations).
 #### 4.6.1 Key Structure
 
 ```
-bass_live_7f3a8b2c4d5e6f...    (production key)
-bass_test_9a1b2c3d4e5f6a...    (test/staging key)
+datahelix_live_7f3a8b2c4d5e6f...    (production key)
+datahelix_test_9a1b2c3d4e5f6a...    (test/staging key)
 ```
 
-Keys are prefixed with `bass_live_` or `bass_test_` to prevent accidental cross-environment
+Keys are prefixed with `datahelix_live_` or `datahelix_test_` to prevent accidental cross-environment
 use. The prefix is not secret — it aids in key identification and rotation auditing.
 
 #### 4.6.2 Key Lifecycle
@@ -291,7 +291,7 @@ Keys are created with:
 
 #### 4.6.3 Key Authentication Flow
 
-When a request arrives with an API key (via `Authorization: Bearer bass_live_...` or
+When a request arrives with an API key (via `Authorization: Bearer datahelix_live_...` or
 `X-Api-Key` header):
 
 1. Bridge hashes the key and looks it up in the key store
@@ -304,7 +304,7 @@ When a request arrives with an API key (via `Authorization: Bearer bass_live_...
 
 ### 4.7 Service-to-Service Authentication
 
-Internal communication between BASS components (e.g., Cappella calling Hippo to register
+Internal communication between DataHelix components (e.g., Cappella calling Hippo to register
 pipeline outputs) uses the **Client Credentials** OAuth 2.0 flow:
 
 #### 4.7.1 Service Registration
@@ -391,16 +391,16 @@ configuration.
 
 ### 4.9 Component Auth Integration Points
 
-This section documents how each BASS component integrates with Bridge auth:
+This section documents how each DataHelix component integrates with Bridge auth:
 
 #### 4.9.1 Hippo
 
 - **Middleware replacement:** Hippo's `AuthMiddleware` ABC (defined in `hippo/rest/auth.py`)
-  receives a Bridge-aware implementation that extracts `X-Bass-Actor` and `X-Bass-Roles`
+  receives a Bridge-aware implementation that extracts `X-DataHelix-Actor` and `X-DataHelix-Roles`
   headers from proxied requests
-- **`authenticate()`:** Returns the actor identity from `X-Bass-Actor` (validated by Bridge
+- **`authenticate()`:** Returns the actor identity from `X-DataHelix-Actor` (validated by Bridge
   before the request reaches Hippo)
-- **`authorize()`:** Checks the operation against the role permissions in `X-Bass-Roles`.
+- **`authorize()`:** Checks the operation against the role permissions in `X-DataHelix-Roles`.
   Because Bridge has already validated the JWT and injected headers, Hippo does not need JWT
   libraries or signing keys
 - **SDK mode:** No change — `HippoClient` accepts `actor` as a string parameter with no
@@ -415,8 +415,8 @@ This section documents how each BASS component integrates with Bridge auth:
 
 #### 4.9.3 Aperture
 
-- **CLI:** Uses Device Code flow. On first use, `bass login` opens a browser for
-  authentication. Tokens stored in `~/.bass/tokens.json` (encrypted via OS keyring)
+- **CLI:** Uses Device Code flow. On first use, `datahelix login` opens a browser for
+  authentication. Tokens stored in `~/.datahelix/tokens.json` (encrypted via OS keyring)
 - **Web portal:** Uses Authorization Code + PKCE flow. Session managed by Aperture's BFF
   (backend-for-frontend) server
 - **Token refresh:** Handled transparently by Aperture's `backends/auth.py` module (see
@@ -434,7 +434,7 @@ This section documents how each BASS component integrates with Bridge auth:
 | Privilege escalation | API keys cannot exceed creator's role; no self-promotion |
 | Cross-site attacks (web portal) | PKCE for all browser flows; `SameSite=Strict` cookies; CORS allowlist |
 | Service credential compromise | Short-lived service tokens (5min); secrets in dedicated secret manager |
-| Actor identity spoofing | `X-Bass-Actor` header only accepted from Bridge's internal network; components reject it from external sources |
+| Actor identity spoofing | `X-DataHelix-Actor` header only accepted from Bridge's internal network; components reject it from external sources |
 
 ---
 

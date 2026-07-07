@@ -8,7 +8,7 @@
 
 ### 3.1 Design Goals
 
-Bridge exposes a **single URL namespace** that covers all BASS components. Clients make all
+Bridge exposes a **single URL namespace** that covers all DataHelix components. Clients make all
 requests to Bridge; Bridge routes to the appropriate component. This provides:
 
 - One base URL to configure (instead of one per component)
@@ -70,12 +70,12 @@ Before forwarding, Bridge adds the following headers:
 
 | Header | Value | Purpose |
 |---|---|---|
-| `X-Bass-Actor` | Authenticated actor identity string | Component provenance |
-| `X-Bass-Roles` | Comma-separated role list | Component auth middleware |
-| `X-Bass-Request-Id` | UUIDv4 per request | Distributed tracing |
+| `X-DataHelix-Actor` | Authenticated actor identity string | Component provenance |
+| `X-DataHelix-Roles` | Comma-separated role list | Component auth middleware |
+| `X-DataHelix-Request-Id` | UUIDv4 per request | Distributed tracing |
 | `X-Forwarded-For` | Original client IP | Logging and rate limiting |
 
-Bridge removes all inbound `X-Bass-*` headers from external clients before processing
+Bridge removes all inbound `X-DataHelix-*` headers from external clients before processing
 to prevent header spoofing.
 
 #### 3.3.3 Response Passthrough
@@ -100,7 +100,7 @@ All Bridge-generated errors use a consistent JSON shape:
 {
   "error": "string",         // machine-readable error code
   "message": "string",       // human-readable description
-  "request_id": "uuid",      // matches X-Bass-Request-Id
+  "request_id": "uuid",      // matches X-DataHelix-Request-Id
   "details": {}              // optional structured details
 }
 ```
@@ -196,7 +196,7 @@ CORS headers are applied by Bridge (not components) for browser-based Aperture a
 # bridge.yaml
 cors:
   allowed_origins:
-    - https://bass.uni.edu           # Aperture web portal
+    - https://datahelix.uni.edu           # Aperture web portal
     - http://localhost:3000          # Local dev
   allowed_methods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
   allowed_headers: [Authorization, Content-Type, X-Api-Key]

@@ -1,13 +1,13 @@
 ## Context
 
-This design documents the roadmap infrastructure for the BASS (Bioinformatics Analysis Software System) platform. The repository needs a structured approach to track development, with clear documentation of how changes flow from initial vision through specification and implementation.
+This design documents the roadmap infrastructure for the DataHelix platform. The repository needs a structured approach to track development, with clear documentation of how changes flow from initial vision through specification and implementation.
 
 The current documentation-only repository lacks a clear plan for which features, components, and specifications will be developed over time, making it difficult to coordinate development efforts and track progress.
 
 ## Goals / Non-Goals
 
 **Goals:**
-- Establish a standardized framework for documenting and tracking BASS platform development
+- Establish a standardized framework for documenting and tracking DataHelix platform development
 - Create a structured process for transitioning from vision to implementation through spec artifacts
 - Define how changes are tracked from initial planning through specification to implementation
 - Document the platform's SDK-first architecture approach with config-driven relational data model
@@ -15,7 +15,7 @@ The current documentation-only repository lacks a clear plan for which features,
 **Non-Goals:**
 - Implement actual platform features or components
 - Modify existing documentation content beyond establishing the framework
-- Change the core functionality of any BASS components
+- Change the core functionality of any DataHelix components
 
 ## Decisions
 

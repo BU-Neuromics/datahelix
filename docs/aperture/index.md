@@ -3,11 +3,11 @@
 !!! info "Now a standalone repository"
     Aperture lives in its own repo, [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture),
     and is wired into this monorepo as a git submodule. The earlier CLI-first v0.1 design
-    and implementation were superseded by the portal vision and remain only in `drylims`
+    and implementation were superseded by the portal vision and remain only in `DataHelix`
     history.
 
-Aperture is the **interface layer** of the BASS platform: an **AI-native data & workflow
-explorer** — an LLM-native interaction layer over the BASS **domain graph** (one typed knowledge
+Aperture is the **interface layer** of the DataHelix platform: an **AI-native data & workflow
+explorer** — an LLM-native interaction layer over the DataHelix **domain graph** (one typed knowledge
 graph whose runtime is [Hippo](../hippo/index.md), the platform's LinkML runtime, exposed over
 GraphQL + REST). Its differentiator is the *interaction paradigm*: exploring and transforming
 scientific data through natural language. The **config-driven portal is Aperture's substrate and
@@ -46,7 +46,7 @@ is built on:
 
 - **`HippoBackend` protocol** with two adapters — `HippoSdkBackend` (in-process SDK) and
   `HippoRestBackend` (REST API) — selected via `create_backend(config)`.
-- **`ApertureConfig`** — resolves Hippo backend settings from config files and `BASS_*`
+- **`ApertureConfig`** — resolves Hippo backend settings from config files and `DATAHELIX_*`
   environment variables.
 
 The portal application (config-in-Hippo, the agent-driven dev loop, the typed component
