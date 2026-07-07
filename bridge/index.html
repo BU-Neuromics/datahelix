@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Bioinformatics Analysis Software System — platform documentation">
+        <meta name="description" content="DataHelix — platform documentation">
       
       
       
@@ -25,7 +25,7 @@
     
     
       
-        <title>Bridge — Integration Middleware - BASS Documentation</title>
+        <title>Bridge — Integration Middleware - DataHelix Documentation</title>
       
     
     
@@ -92,7 +92,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="BASS Documentation" class="md-header__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href=".." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -106,7 +106,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            BASS Documentation
+            DataHelix Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -370,13 +370,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="BASS Documentation" class="md-nav__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href=".." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    BASS Documentation
+    DataHelix Documentation
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -476,7 +476,7 @@
   <span class="md-ellipsis">
     
   
-    BASS Platform
+    DataHelix Platform
   
 
     
@@ -4082,24 +4082,24 @@
 <p class="admonition-title">Not Yet Implemented</p>
 <p>Bridge is in the design specification phase. The v1.0 design ships with API key authentication only; OAuth 2.0 and full RBAC are deferred to v1.1.</p>
 </div>
-<p>Bridge is the <strong>integration middleware</strong> for the BASS platform. It sits between the BASS components — Hippo, Cappella, Canon, Aperture — and provides four cross-cutting services that no single component owns:</p>
+<p>Bridge is the <strong>integration middleware</strong> for the DataHelix platform. It sits between the DataHelix components — Hippo, Cappella, Canon, Aperture — and provides four cross-cutting services that no single component owns:</p>
 <ol>
 <li><strong>Unified API</strong> — A single HTTP gateway that routes requests to the correct component</li>
 <li><strong>Authentication &amp; Authorization</strong> — Credential validation, token lifecycle, and role-based access control</li>
 <li><strong>Cross-Component Sync</strong> — Coordinated data consistency operations spanning multiple components</li>
 <li><strong>Monitoring &amp; Observability</strong> — Centralized request logging, health checks, and performance metrics</li>
 </ol>
-<p>Bridge is <strong>optional</strong>. Individual BASS components are fully usable without it — Hippo, Cappella, and Canon each expose their own REST APIs. Bridge adds the authentication and routing layer needed for multi-user, multi-component deployments.</p>
+<p>Bridge is <strong>optional</strong>. Individual DataHelix components are fully usable without it — Hippo, Cappella, and Canon each expose their own REST APIs. Bridge adds the authentication and routing layer needed for multi-user, multi-component deployments.</p>
 <h2 id="who-is-bridge-for">Who Is Bridge For?<a class="headerlink" href="#who-is-bridge-for" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Platform administrators</strong> who need to control access to BASS services with API keys, roles, and project-scoped permissions</li>
-<li><strong>Teams</strong> deploying multiple BASS components that want a single HTTP endpoint instead of managing separate component URLs</li>
+<li><strong>Platform administrators</strong> who need to control access to DataHelix services with API keys, roles, and project-scoped permissions</li>
+<li><strong>Teams</strong> deploying multiple DataHelix components that want a single HTTP endpoint instead of managing separate component URLs</li>
 <li><strong>Security-conscious organizations</strong> that require audit trails, credential rotation, and role-based access control</li>
 </ul>
 <h2 id="when-to-use-bridge">When to Use Bridge<a class="headerlink" href="#when-to-use-bridge" title="Permanent link">&para;</a></h2>
 <p>Use Bridge when you need:</p>
 <ul>
-<li><strong>Multi-user access control</strong> — Authenticate users and enforce role-based permissions across all BASS components</li>
+<li><strong>Multi-user access control</strong> — Authenticate users and enforce role-based permissions across all DataHelix components</li>
 <li><strong>A single API gateway</strong> — Route all requests through one endpoint instead of managing per-component URLs and ports</li>
 <li><strong>Centralized audit logging</strong> — Track every authenticated request and auth event in one place</li>
 <li><strong>Cross-component coordination</strong> — Ensure data consistency across Hippo, Cappella, and Canon after complex operations</li>

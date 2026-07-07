@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Bioinformatics Analysis Software System — platform documentation">
+        <meta name="description" content="DataHelix — platform documentation">
       
       
       
@@ -21,7 +21,7 @@
     
     
       
-        <title>BASS 1.0 — Six-Month Design-Sprint Roadmap - BASS Documentation</title>
+        <title>DataHelix 1.0 — Six-Month Design-Sprint Roadmap - DataHelix Documentation</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#bass-10-six-month-design-sprint-roadmap" class="md-skip">
+        <a href="#datahelix-10-six-month-design-sprint-roadmap" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../.." title="BASS Documentation" class="md-header__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -102,13 +102,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            BASS Documentation
+            DataHelix Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              BASS 1.0 — Six-Month Design-Sprint Roadmap
+              DataHelix 1.0 — Six-Month Design-Sprint Roadmap
             
           </span>
         </div>
@@ -364,13 +364,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../.." title="BASS Documentation" class="md-nav__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    BASS Documentation
+    DataHelix Documentation
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -470,7 +470,7 @@
   <span class="md-ellipsis">
     
   
-    BASS Platform
+    DataHelix Platform
   
 
     
@@ -3955,11 +3955,11 @@
 
 
 
-<h1 id="bass-10-six-month-design-sprint-roadmap">BASS 1.0 — Six-Month Design-Sprint Roadmap<a class="headerlink" href="#bass-10-six-month-design-sprint-roadmap" title="Permanent link">&para;</a></h1>
+<h1 id="datahelix-10-six-month-design-sprint-roadmap">DataHelix 1.0 — Six-Month Design-Sprint Roadmap<a class="headerlink" href="#datahelix-10-six-month-design-sprint-roadmap" title="Permanent link">&para;</a></h1>
 <p><strong>Status:</strong> Working roadmap (design-sprint output, 2026-07-07)
 <strong>Horizon:</strong> 2026-07-07 → 2027-01-05 (26 weeks, four ~6-week phases)
 <strong>Scope decisions (ratified with maintainer, 2026-07-07):</strong>
-1. <strong>Bridge minimal ships in 1.0</strong> — 1.0 is a multi-user release; Bridge is the sole enforcing PEP/PDP (<code>sec6_security_model.md</code>, drylims#27, hippo#54).
+1. <strong>Bridge minimal ships in 1.0</strong> — 1.0 is a multi-user release; Bridge is the sole enforcing PEP/PDP (<code>sec6_security_model.md</code>, DataHelix#27, hippo#54).
 2. <strong>AI ambition = portal-complete + MCP agent surface</strong> (Aperture ADR-0021's agent-first path). Data stories (Aperture ADR-0022–0025) and in-app chat stay deferred past 1.0.
 3. <strong>Cappella ships ONE reference adapter</strong> proving live ingestion end-to-end; the full adapter catalog is 1.x.</p>
 <p>This roadmap supersedes the milestone framing in <code>FABLE_HANDOFF.md</code> §6 where they
@@ -3971,7 +3971,7 @@ a certified composition, and 1.0 itself is a ledger entry.</p>
 <blockquote>
 <p><strong>Way of working (all agents):</strong> hippo uses the OpenSpec pipeline
 (spec → change → tasks → code+tests); aperture is ADR-first (decision before
-code; <code>design/INDEX.md</code> Decision Log is the source of truth); drylims records
+code; <code>design/INDEX.md</code> Decision Log is the source of truth); DataHelix records
 cross-component decisions in <code>platform/design/decisions/</code>. Contract files in
 <code>tests/contracts/</code> are load-bearing. One release = one bump PR (never batch).
 Escalate to humans: deploys touching PHI, open design questions marked
@@ -4050,7 +4050,7 @@ Escalate to humans: deploys touching PHI, open design questions marked
 <td>hippo</td>
 <td>M</td>
 <td>—</td>
-<td><code>vX.Y.Z</code> tag → published wheel + <code>ghcr.io/bu-neuromics/hippo@sha256:…</code>; digest lands in a release asset the drylims bump bot can read</td>
+<td><code>vX.Y.Z</code> tag → published wheel + <code>ghcr.io/bu-neuromics/hippo@sha256:…</code>; digest lands in a release asset the DataHelix bump bot can read</td>
 </tr>
 <tr>
 <td><strong>P1.2 Wave-1 LinkML-core reconciliation</strong> — reconcile the five 0/N OpenSpec changes (<code>hippo-core-schema</code>, <code>id-registry</code>, <code>process-class</code>, <code>provenance-as-linkml-class</code>, + <code>hippo-ext-vocabulary</code>) against shipped code; finish real gaps (the <code>hippo_core.yaml</code> "placeholder" note); archive the 3 complete + finish the 5 near-complete changes</td>
@@ -4074,29 +4074,29 @@ Escalate to humans: deploys touching PHI, open design questions marked
 <td><code>ghcr.io/bu-neuromics/aperture@sha256:…</code> published per release</td>
 </tr>
 <tr>
-<td><strong>P1.5 Control-plane recipe (aperture#17)</strong> — <code>ApertureDocument</code> recipe via <code>recipe_import</code>; drylims bootstrap fixture consumes it (replacing the interim copy in <code>certification/fixtures/</code>)</td>
+<td><strong>P1.5 Control-plane recipe (aperture#17)</strong> — <code>ApertureDocument</code> recipe via <code>recipe_import</code>; DataHelix bootstrap fixture consumes it (replacing the interim copy in <code>certification/fixtures/</code>)</td>
 <td>aperture</td>
 <td>S/M</td>
 <td>P1.3</td>
-<td>footer reports LinkML-on-Hippo store on a stock seeded hippo; drylims fixture imports the recipe, not a fork of it</td>
+<td>footer reports LinkML-on-Hippo store on a stock seeded hippo; DataHelix fixture imports the recipe, not a fork of it</td>
 </tr>
 <tr>
 <td><strong>P1.6 First certified pair</strong> — fill <code>composition.lock.json</code> digests; certify workflow runs a real boot; fix golden-path suite against reality (e.g. <code>batchPut</code> vs <code>ingestBatch</code> naming, filter SDL)</td>
-<td>drylims</td>
+<td>DataHelix</td>
 <td>M</td>
 <td>P1.1, P1.3, P1.4</td>
 <td><code>certified/aperture-*+hippo-*</code> tag exists with <code>result: pass</code>; deploy gate admits the pair</td>
 </tr>
 <tr>
 <td><strong>P1.7 Re-enable contract CI (slice 1)</strong> — restore <code>tests/contracts/</code> per-component for the stable seams (canon↔hippo, cappella↔hippo); prune stale assertions</td>
-<td>drylims</td>
+<td>DataHelix</td>
 <td>M</td>
 <td>—</td>
 <td>contract jobs green and required on PRs; disabled-job comment in <code>tests.yml</code> retired</td>
 </tr>
 <tr>
 <td><strong>P1.8 Canon v0.2 close-out</strong> — finish <code>storage-adapter-plugin-system</code> (3 tasks) + <code>https-adapter-and-fetch-rules</code> (5 tasks); archive</td>
-<td>drylims/canon</td>
+<td>DataHelix/canon</td>
 <td>S</td>
 <td>—</td>
 <td>REUSE/FETCH/BUILD all live; suites green</td>
@@ -4110,7 +4110,7 @@ Escalate to humans: deploys touching PHI, open design questions marked
 </tr>
 </tbody>
 </table>
-<p><strong>[HUMAN] decisions due in P1:</strong> platform name (BASS vs drylims — blocks 1.0 branding/docs); confirm <code>ghcr.io</code> as registry + digest/attestation format (ADR-0001 open note).</p>
+<p><strong>[HUMAN] decisions due in P1:</strong> platform name settled as DataHelix (1.0 branding/docs follow); confirm <code>ghcr.io</code> as registry + digest/attestation format (ADR-0001 open note).</p>
 <h3 id="phase-2-contract-guarded-and-portal-complete-wks-713-aug-17-oct-5">Phase 2 — "Contract-guarded and portal-complete" (wks 7–13, Aug 17 → Oct 5)<a class="headerlink" href="#phase-2-contract-guarded-and-portal-complete-wks-713-aug-17-oct-5" title="Permanent link">&para;</a></h3>
 <p><em>Theme: seams under contract; the portal reaches feature-complete; storage/API converge on freezable. Maps to FABLE M2 + M4 (part).</em></p>
 <table>
@@ -4125,8 +4125,8 @@ Escalate to humans: deploys touching PHI, open design questions marked
 </thead>
 <tbody>
 <tr>
-<td><strong>P2.1 Aperture→Hippo contract file (aperture#16)</strong> — portable introspection assertions + golden pairs; hippo CI job runs it against booted <code>hippo serve</code>; aperture CI runs it against its stub; drylims fixture consumes it</td>
-<td>aperture + hippo + drylims</td>
+<td><strong>P2.1 Aperture→Hippo contract file (aperture#16)</strong> — portable introspection assertions + golden pairs; hippo CI job runs it against booted <code>hippo serve</code>; aperture CI runs it against its stub; DataHelix fixture consumes it</td>
+<td>aperture + hippo + DataHelix</td>
 <td>M</td>
 <td>P1.3</td>
 <td>a hippo PR breaking a seam fails hippo CI; contract versioned; ledger entries record contract version via the fixture</td>
@@ -4161,7 +4161,7 @@ Escalate to humans: deploys touching PHI, open design questions marked
 </tr>
 <tr>
 <td><strong>P2.6 Unified ingestion framework</strong> (BREAKING, pre-freeze) — <code>EntityLoader</code> ABC lands in hippo; Cappella's <code>adopt-hippo-loaders</code> change executes; cyclic-FK ingest (hippo#95) + ingest <code>--db-path</code> (hippo#89) fixed en route</td>
-<td>hippo + drylims/cappella</td>
+<td>hippo + DataHelix/cappella</td>
 <td>L</td>
 <td>P1.2</td>
 <td>one ingest path; <code>test_entity_loader_contract.py</code> re-enabled and green; breaking change lands before any API freeze</td>
@@ -4174,8 +4174,8 @@ Escalate to humans: deploys touching PHI, open design questions marked
 <td>INDEX "Planned v0.5 Phase 1" items closed; GraphQL known-limitations list shrinks accordingly</td>
 </tr>
 <tr>
-<td><strong>P2.8 Bridge v0.1 skeleton</strong> — from zero: <code>/api/v1/{component}/</code> routing, API-key auth, <code>X-Bass-Actor</code>/<code>X-Bass-Roles</code> injection, trust-proxy CIDR, health aggregation; openplan decomposition first</td>
-<td>drylims/bridge</td>
+<td><strong>P2.8 Bridge v0.1 skeleton</strong> — from zero: <code>/api/v1/{component}/</code> routing, API-key auth, <code>X-DataHelix-Actor</code>/<code>X-DataHelix-Roles</code> injection, trust-proxy CIDR, health aggregation; openplan decomposition first</td>
+<td>DataHelix/bridge</td>
 <td>L</td>
 <td>— (parallel track)</td>
 <td>authenticated REST proxying to hippo works in compose; Bridge has its own test suite + CI job</td>
@@ -4204,8 +4204,8 @@ Escalate to humans: deploys touching PHI, open design questions marked
 </thead>
 <tbody>
 <tr>
-<td><strong>P3.1 Bridge as sole PEP incl. GraphQL</strong> (drylims#27) — GraphQL operation parsing, RBAC matrix solely in Bridge, PDP engine (predicates + field masks), capability-scoped enforcing client</td>
-<td>drylims/bridge</td>
+<td><strong>P3.1 Bridge as sole PEP incl. GraphQL</strong> (DataHelix#27) — GraphQL operation parsing, RBAC matrix solely in Bridge, PDP engine (predicates + field masks), capability-scoped enforcing client</td>
+<td>DataHelix/bridge</td>
 <td>L</td>
 <td>P2.8, P2.9</td>
 <td>role-scoped user sees predicate-filtered, field-masked results through the same autogenerated GraphQL contract; graceful degradation per sec6 §6.5</td>
@@ -4240,14 +4240,14 @@ Escalate to humans: deploys touching PHI, open design questions marked
 </tr>
 <tr>
 <td><strong>P3.6 Cappella reference adapter</strong> — design (v0.2 design doc first: adapter choice <strong>[HUMAN]</strong> — REDCap vs CSV-batch drop), then implement ONE production adapter + <code>hippo_poll</code>/webhook trigger + <code>SyncRun</code> audit trail, on the unified <code>EntityLoader</code></td>
-<td>drylims/cappella</td>
+<td>DataHelix/cappella</td>
 <td>L</td>
 <td>P2.6, P2.7 (<code>query_updated_since</code>)</td>
 <td>live source → Cappella → hippo ingestion runs on a schedule with idempotent re-runs and a queryable audit trail</td>
 </tr>
 <tr>
 <td><strong>P3.7 DRS + AI-readiness slice</strong> — <code>drs-self-uri</code> decomposed + implemented in hippo; Canon FETCH-via-DRS wired</td>
-<td>hippo + drylims/canon</td>
+<td>hippo + DataHelix/canon</td>
 <td>M</td>
 <td>P2.7 (DRS mount)</td>
 <td><code>drs://host/uuid</code> resolves; Canon fetch path exercises it in a platform test</td>
@@ -4276,28 +4276,28 @@ Escalate to humans: deploys touching PHI, open design questions marked
 </tr>
 <tr>
 <td><strong>P4.2 The 1.0 certified composition</strong> — bump PRs → golden path green → <code>certified/aperture-1.0.0+hippo-1.0.0</code>; cut <code>release/lts-1</code> maintenance branches per ADR-0001 (frontier + 1 LTS policy starts)</td>
-<td>drylims</td>
+<td>DataHelix</td>
 <td>S/M</td>
 <td>P4.1</td>
 <td>ledger entry exists; deploy gate admits exactly this pair; LTS branch carries frozen suite+fixture</td>
 </tr>
 <tr>
 <td><strong>P4.3 Deployable stack (M6 DoD)</strong> — <code>docker compose up</code> (hippo+aperture+bridge+postgres) from docs alone: fresh clone → deploy → ingest via Cappella adapter → browse/write/workflow in portal → agent connects over MCP; deploy gate wired in</td>
-<td>drylims</td>
+<td>DataHelix</td>
 <td>M</td>
 <td>P3.*, P4.2</td>
 <td>a documented cold-start run-through completes with no undocumented steps (the M6 "docs alone" test, executed by an agent that has never seen the repo)</td>
 </tr>
 <tr>
 <td><strong>P4.4 NFR benchmark harness</strong> — implement sec7 measurement (p99 targets, ingest throughput); publish <code>platform/benchmarks/baseline.md</code>; certification nightly gains the regression gate (sec5 §5.8)</td>
-<td>hippo + drylims</td>
+<td>hippo + DataHelix</td>
 <td>M</td>
 <td>P4.1</td>
 <td>baseline published; nightly regression thresholds active</td>
 </tr>
 <tr>
 <td><strong>P4.5 Docs 1.0</strong> — mkdocs <code>--strict</code> restored; sec6/domain-graph in nav; per-component 1.0 guides; Postgres parity matrix; rename fallout if <strong>[HUMAN]</strong> renames platform</td>
-<td>drylims</td>
+<td>DataHelix</td>
 <td>M</td>
 <td>P4.1</td>
 <td>strict build green; getting-started verified by the P4.3 cold-start</td>
@@ -4340,11 +4340,11 @@ their dependents.</p>
 </ul>
 <h2 id="4-handoff-protocol-for-the-agents-executing-this">4. Handoff protocol (for the agents executing this)<a class="headerlink" href="#4-handoff-protocol-for-the-agents-executing-this" title="Permanent link">&para;</a></h2>
 <ol>
-<li><strong>One epic = one agent engagement</strong>, on a feature branch in the owning repo; PR per epic (or per increment for L epics). Follow the owning repo's process (hippo: OpenSpec change first; aperture: ADR first when a decision is embedded; drylims: platform ADR for cross-component decisions).</li>
-<li><strong>Never break a certified pair:</strong> changes to a seam require the contract file (post-P2.1) green in your own CI before release; releases are one-per-bump-PR into drylims.</li>
+<li><strong>One epic = one agent engagement</strong>, on a feature branch in the owning repo; PR per epic (or per increment for L epics). Follow the owning repo's process (hippo: OpenSpec change first; aperture: ADR first when a decision is embedded; DataHelix: platform ADR for cross-component decisions).</li>
+<li><strong>Never break a certified pair:</strong> changes to a seam require the contract file (post-P2.1) green in your own CI before release; releases are one-per-bump-PR into DataHelix.</li>
 <li><strong>Acceptance criteria above are the definition of done</strong> — an epic isn't done until its acceptance row is demonstrably true (tests/CI/certification evidence, not assertion).</li>
 <li><strong>Escalate [HUMAN] items</strong> — never resolve them by implication. Current queue: platform name; registry/attestation choice; schema-sync 1.0 scope; Cappella adapter choice (REDCap vs CSV-batch).</li>
-<li><strong>Status legibility:</strong> update the owning repo's <code>design/INDEX.md</code> (and this file's phase tables via PR) as epics complete; the drylims Dependency Dashboard + ledger tags are the ground truth for composition state.</li>
+<li><strong>Status legibility:</strong> update the owning repo's <code>design/INDEX.md</code> (and this file's phase tables via PR) as epics complete; the DataHelix Dependency Dashboard + ledger tags are the ground truth for composition state.</li>
 </ol>
 <h2 id="5-six-month-success-definition">5. Six-month success definition<a class="headerlink" href="#5-six-month-success-definition" title="Permanent link">&para;</a></h2>
 <p>1.0 exists when, from documentation alone, a fresh agent can: stand up the

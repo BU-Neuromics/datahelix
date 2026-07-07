@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Bioinformatics Analysis Software System — platform documentation">
+        <meta name="description" content="DataHelix — platform documentation">
       
       
       
@@ -25,7 +25,7 @@
     
     
       
-        <title>Integration Patterns - BASS Documentation</title>
+        <title>Integration Patterns - DataHelix Documentation</title>
       
     
     
@@ -92,7 +92,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../.." title="BASS Documentation" class="md-header__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -106,7 +106,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            BASS Documentation
+            DataHelix Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -370,13 +370,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../.." title="BASS Documentation" class="md-nav__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    BASS Documentation
+    DataHelix Documentation
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -479,7 +479,7 @@
   <span class="md-ellipsis">
     
   
-    BASS Platform
+    DataHelix Platform
   
 
     
@@ -4411,7 +4411,7 @@
 <strong>Feeds into:</strong> Platform test strategy (sec5), deployment docs, contract tests</p>
 <hr />
 <h3 id="31-integration-philosophy">3.1 Integration Philosophy<a class="headerlink" href="#31-integration-philosophy" title="Permanent link">&para;</a></h3>
-<p>BASS components integrate through well-defined, tested interfaces. The integration contract
+<p>DataHelix components integrate through well-defined, tested interfaces. The integration contract
 for each component pair is:</p>
 <ol>
 <li><strong>Interface definition</strong> — what API/SDK calls cross the boundary</li>
@@ -4424,7 +4424,7 @@ shared in-process state between components.</p>
 <hr />
 <h3 id="32-integration-map">3.2 Integration Map<a class="headerlink" href="#32-integration-map" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────────────────────────────────────────────────────────────┐
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│                        BASS Platform                                 │
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│                        DataHelix Platform                                 │
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│                                                                      │
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│  ┌──────────────────────────────────────────────────────────────┐   │
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│  │                          Bridge                               │   │
@@ -4664,9 +4664,9 @@ component is the component's REST API, augmented with injected headers.</p>
 <p>All components that receive requests via Bridge must implement the auth middleware
 contract. When Bridge is active, each component:</p>
 <ol>
-<li>Accepts <code>X-Bass-Actor</code> and <code>X-Bass-Roles</code> headers from Bridge's trusted network CIDR.</li>
-<li>Uses <code>X-Bass-Actor</code> as the <code>actor</code> parameter for all writes.</li>
-<li>Rejects <code>X-Bass-Actor</code> headers from sources outside the trusted network.</li>
+<li>Accepts <code>X-DataHelix-Actor</code> and <code>X-DataHelix-Roles</code> headers from Bridge's trusted network CIDR.</li>
+<li>Uses <code>X-DataHelix-Actor</code> as the <code>actor</code> parameter for all writes.</li>
+<li>Rejects <code>X-DataHelix-Actor</code> headers from sources outside the trusted network.</li>
 <li>Falls through to the component's own auth stub when the header is absent (local dev mode).</li>
 </ol>
 <p>This is implemented via the <code>BridgeAwareAuthMiddleware</code> class in <code>bridge.sdk.auth_middleware</code>.</p>
@@ -4708,7 +4708,7 @@ Cappella calls <code>GET /api/v1/canon/resolve</code> via Bridge.</p>
 <hr />
 <h3 id="38-contract-tests">3.8 Contract Tests<a class="headerlink" href="#38-contract-tests" title="Permanent link">&para;</a></h3>
 <p>Each component pair has a corresponding contract test that verifies the interface from
-both sides. Contract tests use real instances (not mocks) because BASS's integration
+both sides. Contract tests use real instances (not mocks) because DataHelix's integration
 failures typically arise from assumption drift, not logic bugs.</p>
 <table>
 <thead>
@@ -4752,7 +4752,7 @@ failures typically arise from assumption drift, not logic bugs.</p>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>8. Canon writes provenance event to Hippo (artifact_produced)
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>9. Cappella writes pipeline output entities to Hippo (actor: service:cappella-pipeline-&lt;run-id&gt;)
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>10. Bridge sync engine detects run completion, verifies outputs present in Hippo
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>11. Aperture user queries results: bass list Sample --filter cohort=CTE
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>11. Aperture user queries results: datahelix list Sample --filter cohort=CTE
 </code></pre></div>
 <hr />
 <h3 id="310-open-questions">3.10 Open Questions<a class="headerlink" href="#310-open-questions" title="Permanent link">&para;</a></h3>

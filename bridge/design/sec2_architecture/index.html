@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Bioinformatics Analysis Software System — platform documentation">
+        <meta name="description" content="DataHelix — platform documentation">
       
       
       
@@ -25,7 +25,7 @@
     
     
       
-        <title>Architecture - BASS Documentation</title>
+        <title>Architecture - DataHelix Documentation</title>
       
     
     
@@ -92,7 +92,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="BASS Documentation" class="md-header__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -106,7 +106,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            BASS Documentation
+            DataHelix Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -370,13 +370,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="BASS Documentation" class="md-nav__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    BASS Documentation
+    DataHelix Documentation
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -476,7 +476,7 @@
   <span class="md-ellipsis">
     
   
-    BASS Platform
+    DataHelix Platform
   
 
     
@@ -4224,7 +4224,7 @@
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│                     │  │  Auth Engine  │   │     Request Router    ││  │
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│  ┌──────────────┐   │  │              │   │                       ││  │
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│  │  Admin CLI   │   │  │  - validate  │   │  - path rewrite       ││  │
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│  │  (bass-mgr)  │──▶│  │  - issue JWT │   │  - actor injection    ││  │
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│  │  (datahelix-mgr)  │──▶│  │  - issue JWT │   │  - actor injection    ││  │
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│  └──────────────┘   │  │  - RBAC check│   │  - response passthru  ││  │
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│                     │  └──────────────┘   └───────────────────────┘│  │
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│                     │                                               │  │
@@ -4248,7 +4248,7 @@
 <a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>└────────────────────────────────────────────────────────────────────────┘
 </code></pre></div>
 <p>Bridge maintains a small local SQLite (or PostgreSQL) database for its own state: token
-revocation records, API key hashes, and sync event history. It does <strong>not</strong> duplicate BASS
+revocation records, API key hashes, and sync event history. It does <strong>not</strong> duplicate DataHelix
 entity data — that lives exclusively in Hippo.</p>
 <hr />
 <h3 id="22-request-lifecycle">2.2 Request Lifecycle<a class="headerlink" href="#22-request-lifecycle" title="Permanent link">&para;</a></h3>
@@ -4280,7 +4280,7 @@ entity data — that lives exclusively in Hippo.</p>
 <a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>       │ (403 if insufficient permissions)
 <a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>       ▼
 <a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>┌─────────────┐
-<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>│   Router    │  Rewrite path, inject X-Bass-Actor / X-Bass-Roles headers
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>│   Router    │  Rewrite path, inject X-DataHelix-Actor / X-DataHelix-Roles headers
 <a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>└──────┬──────┘
 <a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>       │
 <a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>       ▼
@@ -4333,7 +4333,7 @@ never receive unauthenticated requests when Bridge is active.</p>
 </code></pre></div>
 <hr />
 <h3 id="24-component-integration">2.4 Component Integration<a class="headerlink" href="#24-component-integration" title="Permanent link">&para;</a></h3>
-<p>Bridge integrates with each BASS component via its REST API. There is no special
+<p>Bridge integrates with each DataHelix component via its REST API. There is no special
 protocol — Bridge proxies standard HTTP and adds headers.</p>
 <h4 id="241-hippo-integration">2.4.1 Hippo Integration<a class="headerlink" href="#241-hippo-integration" title="Permanent link">&para;</a></h4>
 <table>
@@ -4346,11 +4346,11 @@ protocol — Bridge proxies standard HTTP and adds headers.</p>
 <tbody>
 <tr>
 <td>Actor identity</td>
-<td>Bridge injects <code>X-Bass-Actor: alice@uni.edu</code> before forwarding</td>
+<td>Bridge injects <code>X-DataHelix-Actor: alice@uni.edu</code> before forwarding</td>
 </tr>
 <tr>
 <td>Role enforcement</td>
-<td>Bridge injects <code>X-Bass-Roles: analyst,project:lab-a</code></td>
+<td>Bridge injects <code>X-DataHelix-Roles: analyst,project:lab-a</code></td>
 </tr>
 <tr>
 <td>Auth middleware</td>
@@ -4364,7 +4364,7 @@ protocol — Bridge proxies standard HTTP and adds headers.</p>
 </table>
 <p>Hippo's existing <code>AuthMiddleware</code> stub (defined in <code>hippo/rest/auth.py</code>) is replaced by a
 <code>BridgeAwareAuthMiddleware</code> implementation that:
-- Reads <code>X-Bass-Actor</code> from request context (validated upstream by Bridge)
+- Reads <code>X-DataHelix-Actor</code> from request context (validated upstream by Bridge)
 - Rejects the header if the source IP is not in Bridge's internal network
 - Falls back to an "anonymous" actor if Bridge is not configured (local dev mode)</p>
 <h4 id="242-cappella-integration">2.4.2 Cappella Integration<a class="headerlink" href="#242-cappella-integration" title="Permanent link">&para;</a></h4>
@@ -4414,16 +4414,16 @@ protocol — Bridge proxies standard HTTP and adds headers.</p>
 </tbody>
 </table>
 <h4 id="244-aperture-integration">2.4.4 Aperture Integration<a class="headerlink" href="#244-aperture-integration" title="Permanent link">&para;</a></h4>
-<p>Aperture (CLI and web portal) talks exclusively to Bridge for all BASS data operations.
+<p>Aperture (CLI and web portal) talks exclusively to Bridge for all DataHelix data operations.
 It does not contact Hippo, Cappella, or Canon directly.</p>
 <ul>
-<li><strong>CLI:</strong> Uses Device Code flow (<code>bass login</code>); refreshes tokens automatically.</li>
+<li><strong>CLI:</strong> Uses Device Code flow (<code>datahelix login</code>); refreshes tokens automatically.</li>
 <li><strong>Web portal:</strong> Uses Authorization Code + PKCE; session managed by Aperture's BFF.</li>
 </ul>
 <hr />
 <h3 id="25-bridge-local-storage">2.5 Bridge-Local Storage<a class="headerlink" href="#25-bridge-local-storage" title="Permanent link">&para;</a></h3>
 <p>Bridge maintains a small local database for its own operational state. This is distinct
-from BASS entity data (stored in Hippo).</p>
+from DataHelix entity data (stored in Hippo).</p>
 <table>
 <thead>
 <tr>
@@ -4450,7 +4450,7 @@ from BASS entity data (stored in Hippo).</p>
 </tr>
 </tbody>
 </table>
-<p>All Bridge-local storage is initialized via <code>bass-mgr db init</code> before first use.</p>
+<p>All Bridge-local storage is initialized via <code>datahelix-mgr db init</code> before first use.</p>
 <hr />
 <h3 id="26-configuration">2.6 Configuration<a class="headerlink" href="#26-configuration" title="Permanent link">&para;</a></h3>
 <p>Bridge is configured entirely via <code>bridge.yaml</code>. No environment-specific code branches.</p>
@@ -4485,7 +4485,7 @@ from BASS entity data (stored in Hippo).</p>
 <a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="w">  </span><span class="nt">audit_log</span><span class="p">:</span>
 <a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">    </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">file</span><span class="w">                   </span><span class="c1"># file | postgres | stdout</span>
-<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/log/bass/audit.jsonl</span>
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/log/datahelix/audit.jsonl</span>
 <a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="w">  </span><span class="nt">metrics</span><span class="p">:</span>
 <a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/bridge/metrics</span><span class="w">           </span><span class="c1"># Prometheus scrape endpoint</span>
@@ -4507,14 +4507,14 @@ from BASS entity data (stored in Hippo).</p>
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
 <a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">authenticate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_trusted_source</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">host</span><span class="p">):</span>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>            <span class="k">raise</span> <span class="n">AuthenticationError</span><span class="p">(</span><span class="s2">&quot;X-Bass-Actor not accepted from untrusted source&quot;</span><span class="p">)</span>
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>        <span class="n">actor</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;X-Bass-Actor&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>            <span class="k">raise</span> <span class="n">AuthenticationError</span><span class="p">(</span><span class="s2">&quot;X-DataHelix-Actor not accepted from untrusted source&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>        <span class="n">actor</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;X-DataHelix-Actor&quot;</span><span class="p">)</span>
 <a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">actor</span><span class="p">:</span>
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>            <span class="k">raise</span> <span class="n">AuthenticationError</span><span class="p">(</span><span class="s2">&quot;Missing X-Bass-Actor header&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>            <span class="k">raise</span> <span class="n">AuthenticationError</span><span class="p">(</span><span class="s2">&quot;Missing X-DataHelix-Actor header&quot;</span><span class="p">)</span>
 <a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>        <span class="k">return</span> <span class="n">actor</span>
 <a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
 <a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">authorize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>        <span class="n">roles</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;X-Bass-Roles&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>        <span class="n">roles</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;X-DataHelix-Roles&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
 <a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_permission</span><span class="p">(</span><span class="n">roles</span><span class="p">,</span> <span class="n">operation</span><span class="p">)</span>
 </code></pre></div>
 <p>This class is importable from <code>bridge.sdk.auth_middleware</code> and is the only Bridge

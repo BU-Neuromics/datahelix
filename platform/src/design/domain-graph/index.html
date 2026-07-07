@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Bioinformatics Analysis Software System — platform documentation">
+        <meta name="description" content="DataHelix — platform documentation">
       
       
       
@@ -21,7 +21,7 @@
     
     
       
-        <title>BASS Platform — The Domain Graph (foundational data model) - BASS Documentation</title>
+        <title>DataHelix Platform — The Domain Graph (foundational data model) - DataHelix Documentation</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#bass-platform-the-domain-graph-foundational-data-model" class="md-skip">
+        <a href="#datahelix-platform-the-domain-graph-foundational-data-model" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../.." title="BASS Documentation" class="md-header__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -102,13 +102,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            BASS Documentation
+            DataHelix Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              BASS Platform — The Domain Graph (foundational data model)
+              DataHelix Platform — The Domain Graph (foundational data model)
             
           </span>
         </div>
@@ -364,13 +364,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../.." title="BASS Documentation" class="md-nav__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    BASS Documentation
+    DataHelix Documentation
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -470,7 +470,7 @@
   <span class="md-ellipsis">
     
   
-    BASS Platform
+    DataHelix Platform
   
 
     
@@ -3894,12 +3894,12 @@
 
 
 
-<h1 id="bass-platform-the-domain-graph-foundational-data-model">BASS Platform — The Domain Graph (foundational data model)<a class="headerlink" href="#bass-platform-the-domain-graph-foundational-data-model" title="Permanent link">&para;</a></h1>
+<h1 id="datahelix-platform-the-domain-graph-foundational-data-model">DataHelix Platform — The Domain Graph (foundational data model)<a class="headerlink" href="#datahelix-platform-the-domain-graph-foundational-data-model" title="Permanent link">&para;</a></h1>
 <p><strong>Status:</strong> 🟢 Foundational concept (2026-06-17). Cross-cutting; takes precedence over
 component-local framings where they conflict. Supersedes the "metadata store" framing of Hippo.
 Origin: Aperture design session (see <code>aperture/design/vision.md</code>, <code>.../prefab/data-stories.md</code>).</p>
 <h2 id="the-reframe-one-typed-domain-graph-not-a-metadata-store">The reframe: one typed domain graph, not a "metadata store"<a class="headerlink" href="#the-reframe-one-typed-domain-graph-not-a-metadata-store" title="Permanent link">&para;</a></h2>
-<p>A BASS deployment is, conceptually, <strong>one typed knowledge graph</strong> — the <em>domain graph</em> — whose
+<p>A DataHelix deployment is, conceptually, <strong>one typed knowledge graph</strong> — the <em>domain graph</em> — whose
 type system is the deployment's <strong>LinkML schema</strong> and whose contents are everything the lab knows
 about its biology and its data. "Metadata vs. data" is <strong>not</strong> a property of stored things; it is
 a <strong>role a node plays relative to a query</strong>, assigned at query time. (A toxicology report is the
@@ -3941,7 +3941,7 @@ query surface.</strong></p>
 </blockquote>
 <p>This is <strong>Ontology-Based Data Access / Virtual Knowledge Graphs (OBDA/VKG)</strong>: one conceptual
 graph (the LinkML ontology) over heterogeneous sources; queries rewritten to source-native
-operations; results lifted back into the graph. In BASS terms:</p>
+operations; results lifted back into the graph. In DataHelix terms:</p>
 <table>
 <thead>
 <tr>

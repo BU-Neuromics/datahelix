@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Bioinformatics Analysis Software System — platform documentation">
+        <meta name="description" content="DataHelix — platform documentation">
       
       
       
@@ -25,7 +25,7 @@
     
     
       
-        <title>Component Architecture - BASS Documentation</title>
+        <title>Component Architecture - DataHelix Documentation</title>
       
     
     
@@ -92,7 +92,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../.." title="BASS Documentation" class="md-header__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -106,7 +106,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            BASS Documentation
+            DataHelix Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -370,13 +370,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../.." title="BASS Documentation" class="md-nav__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    BASS Documentation
+    DataHelix Documentation
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -479,7 +479,7 @@
   <span class="md-ellipsis">
     
   
-    BASS Platform
+    DataHelix Platform
   
 
     
@@ -4636,10 +4636,10 @@ intentional: Cappella is a force multiplier on top of Hippo, not a second source
 <h3 id="25-aperture-user-facing-interface">2.5 Aperture — User-Facing Interface<a class="headerlink" href="#25-aperture-user-facing-interface" title="Permanent link">&para;</a></h3>
 <h4 id="what-aperture-owns">What Aperture Owns<a class="headerlink" href="#what-aperture-owns" title="Permanent link">&para;</a></h4>
 <ul>
-<li><strong>CLI</strong> (<code>bass</code>) — entity CRUD, schema inspection, provenance history, auth commands, system status.</li>
+<li><strong>CLI</strong> (<code>datahelix</code>) — entity CRUD, schema inspection, provenance history, auth commands, system status.</li>
 <li><strong>Web portal</strong> (v1.1+) — browser-based query and exploration interface (in design; not in v1.0).</li>
-<li><strong>Python API client library</strong> — a typed SDK for interacting with the BASS REST API from user code (notebooks, scripts).</li>
-<li><strong>Auth credential management</strong> — <code>bass login</code>, <code>bass logout</code>, API key environment variable handling.</li>
+<li><strong>Python API client library</strong> — a typed SDK for interacting with the DataHelix REST API from user code (notebooks, scripts).</li>
+<li><strong>Auth credential management</strong> — <code>datahelix login</code>, <code>datahelix logout</code>, API key environment variable handling.</li>
 </ul>
 <h4 id="what-aperture-does-not-own">What Aperture Does Not Own<a class="headerlink" href="#what-aperture-does-not-own" title="Permanent link">&para;</a></h4>
 <ul>
@@ -4650,8 +4650,8 @@ intentional: Cappella is a force multiplier on top of Hippo, not a second source
 </ul>
 <h4 id="design-invariant_3">Design Invariant<a class="headerlink" href="#design-invariant_3" title="Permanent link">&para;</a></h4>
 <p>Aperture is a <strong>thin client</strong>. It has no persistent state of its own (beyond user config in
-<code>~/.config/bass/</code> and cached session tokens in <code>~/.bass/tokens.json</code>). All data operations
-go through the BASS REST API (via Bridge in multi-user deployments, directly to Hippo in
+<code>~/.config/datahelix/</code> and cached session tokens in <code>~/.datahelix/tokens.json</code>). All data operations
+go through the DataHelix REST API (via Bridge in multi-user deployments, directly to Hippo in
 single-user deployments).</p>
 <hr />
 <h3 id="26-bridge-auth-gateway-and-integration-middleware">2.6 Bridge — Auth Gateway and Integration Middleware<a class="headerlink" href="#26-bridge-auth-gateway-and-integration-middleware" title="Permanent link">&para;</a></h3>
@@ -4659,8 +4659,8 @@ single-user deployments).</p>
 <ul>
 <li><strong>Authentication</strong> — API key validation, JWT issuance and verification, token lifecycle, optional OIDC integration.</li>
 <li><strong>Authorization</strong> — RBAC role and project-scope enforcement before forwarding requests to components.</li>
-<li><strong>Request routing</strong> — single <code>https://bass.your-org.edu/api/v1/</code> URL namespace that routes to Hippo, Cappella, Canon.</li>
-<li><strong>Actor identity injection</strong> — inserts validated <code>X-Bass-Actor</code> header into every forwarded request.</li>
+<li><strong>Request routing</strong> — single <code>https://datahelix.your-org.edu/api/v1/</code> URL namespace that routes to Hippo, Cappella, Canon.</li>
+<li><strong>Actor identity injection</strong> — inserts validated <code>X-DataHelix-Actor</code> header into every forwarded request.</li>
 <li><strong>Cross-component sync</strong> — detects and surfaces consistency mismatches between components after pipeline runs.</li>
 <li><strong>Observability</strong> — aggregated health checks, request audit logging, Prometheus metrics.</li>
 </ul>

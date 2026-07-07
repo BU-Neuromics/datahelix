@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Bioinformatics Analysis Software System — platform documentation">
+        <meta name="description" content="DataHelix — platform documentation">
       
       
       
@@ -21,7 +21,7 @@
     
     
       
-        <title>ADR-0001: Certified-frontier ledger — composition is certified per exact version pair, and deployment is gated on the ledger - BASS Documentation</title>
+        <title>ADR-0001: Certified-frontier ledger — composition is certified per exact version pair, and deployment is gated on the ledger - DataHelix Documentation</title>
       
     
     
@@ -88,7 +88,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../../.." title="BASS Documentation" class="md-header__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -102,7 +102,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            BASS Documentation
+            DataHelix Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -364,13 +364,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../../.." title="BASS Documentation" class="md-nav__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    BASS Documentation
+    DataHelix Documentation
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -470,7 +470,7 @@
   <span class="md-ellipsis">
     
   
-    BASS Platform
+    DataHelix Platform
   
 
     
@@ -3898,16 +3898,16 @@
 <ul>
 <li><strong>Status:</strong> Accepted</li>
 <li><strong>Date:</strong> 2026-07-07</li>
-<li><strong>Deciders:</strong> labadorf, aperture dev agent, drylims dev agent (DryLIMS integration-testing design handoff)</li>
+<li><strong>Deciders:</strong> labadorf, aperture dev agent, DataHelix dev agent (DataHelix integration-testing design handoff)</li>
 <li><strong>Related:</strong> platform <code>sec5_integration_test_strategy.md</code> (extends it to independently-versioned submodules), <code>TESTING.md</code> (three-tier model); Aperture ADR-0028 (workflow atomicity → <code>batch_put</code> seam), ADR-0032 (control-plane document store seam), ADR-0030 (frontend stack — the SPA under test); Hippo <a href="https://github.com/BU-Neuromics/hippo/issues/84">#84</a> (batch unit-of-work), Hippo ADR-0001 (graph-level as-of)</li>
 </ul>
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
-<p>The BASS components (currently <strong>aperture</strong> and <strong>hippo</strong>, referenced by this monorepo as git
+<p>The DataHelix components (currently <strong>aperture</strong> and <strong>hippo</strong>, referenced by this monorepo as git
 submodules; the in-tree components are expected to follow) <strong>version and ship independently</strong>.
 Each component repo keeps its own CI, its own semver releases, and publishes an <strong>immutable
 artifact per release</strong> (container image and/or package, addressed by digest). Component CI is
 never re-run here — Hippo's suite alone is 10–20 min; that cost stays in Hippo.</p>
-<p>drylims is the integration point: its submodule pins declare exactly <strong>one composed version
+<p>DataHelix is the integration point: its submodule pins declare exactly <strong>one composed version
 pair at a time</strong>, and its job is to certify that pair boots and works together. The question
 this ADR settles: <em>how do we keep independent shipping safe without ever testing the full
 version matrix?</em></p>
@@ -3984,9 +3984,9 @@ single path through it and record each result append-only. Concretely:</p>
 </li>
 <li>
 <p><strong>Keep the supported set small: latest + at most one older (LTS) line.</strong> Every additional line
-   is a standing cost (a release branch in the component, a maintenance branch in drylims,
+   is a standing cost (a release branch in the component, a maintenance branch in DataHelix,
    occasional certifications). A maintenance line freezes <strong>both its code and its contracts</strong>: its
-   drylims maintenance branch pins the era-appropriate integration suite and the component
+   DataHelix maintenance branch pins the era-appropriate integration suite and the component
    maintenance branch runs its era-pinned contract file — the <code>main</code> suite may assert
    newer-only behavior and must not be used to certify an older line.</p>
 </li>
@@ -4013,14 +4013,14 @@ single path through it and record each result append-only. Concretely:</p>
 </tr>
 <tr>
 <td><strong>Composition certification</strong></td>
-<td>drylims, on submodule-bump PRs</td>
+<td>DataHelix, on submodule-bump PRs</td>
 <td>one exact pair boots and passes the golden-path scenarios</td>
 </tr>
 </tbody>
 </table>
-<p>Contract checks catch seam breakage on the producer's PR at authorship time, so the drylims
+<p>Contract checks catch seam breakage on the producer's PR at authorship time, so the DataHelix
 certification becomes a near-formality that certifies the pair. Until aperture's contract file
-exists, <strong>the drylims certification suite is the only seam check</strong> — it is built first and does
+exists, <strong>the DataHelix certification suite is the only seam check</strong> — it is built first and does
 not wait on the contract file.</p>
 <h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
 <ul>
@@ -4035,9 +4035,9 @@ not wait on the contract file.</p>
   never re-cut a released number; cut a <code>release/&lt;line&gt;</code> branch for any supported LTS line and run
   the era-pinned contract file there. Aperture additionally owes a <strong>contract file</strong> (introspection
   assertions + golden request/response pairs for the four seams) that hippo CI runs — tracked in
-  aperture, consumed by drylims' fixture package. This dependency is cross-referenced from Aperture
+  aperture, consumed by DataHelix' fixture package. This dependency is cross-referenced from Aperture
   ADR-0028/0032 and Hippo #84 per the two-sided-dependency rule.</li>
-<li><strong>New obligations on drylims:</strong> a reusable certification workflow (main + maintenance branches +
+<li><strong>New obligations on DataHelix:</strong> a reusable certification workflow (main + maintenance branches +
   a <code>workflow_dispatch</code> backfill), ledger tooling (tag+JSON on green, <code>compatibility.json</code>
   assembly, a partners-of-a-line query), a bump-bot config (one PR per release, patch auto-merge),
   a versioned bootstrap fixture package (seed schema + data + the control-plane document recipe),
@@ -4064,7 +4064,7 @@ not wait on the contract file.</p>
 <li><strong>Store the ledger as a file on the default branch.</strong> Branch-scoped and mutable; loses history on
   branch deletion and invites silent edits. Rejected in favor of annotated tags (repo-global,
   branch-independent, visibly append-only) with <code>compatibility.json</code> assembled from them.</li>
-<li><strong>Rebuild component artifacts from source in drylims.</strong> Re-runs component CI cost here and, worse,
+<li><strong>Rebuild component artifacts from source in DataHelix.</strong> Re-runs component CI cost here and, worse,
   tests an artifact that is not the one shipped. Rejected — pull published artifacts by digest.</li>
 <li><strong>Support every released line.</strong> Each line is a standing maintenance cost. Rejected in favor of
   latest + ≤1 LTS; older deployments upgrade to a supported line or accept being uncertified.</li>
@@ -4076,8 +4076,8 @@ not wait on the contract file.</p>
   attestation format (e.g. cosign/SLSA provenance) are deployment concerns to confirm when the
   first real artifacts ship; the ledger schema already carries the digest field.</li>
 <li><strong>Contract-file handoff.</strong> Aperture owes the contract file (aperture-tracked). Until it lands,
-  drylims' fixture package is the shared source of the seed schema + control-plane recipe for both
-  the drylims suite and (later) hippo CI. Revisit the fixture package's packaging (pip vs. vendored)
+  DataHelix' fixture package is the shared source of the seed schema + control-plane recipe for both
+  the DataHelix suite and (later) hippo CI. Revisit the fixture package's packaging (pip vs. vendored)
   once a component repo consumes it.</li>
 <li><strong>Multi-component frontier (&gt;2 components).</strong> The frontier walk generalizes to a tuple; one
   bump PR per release still holds. Confirm the ledger key/label scheme when a third component (e.g.

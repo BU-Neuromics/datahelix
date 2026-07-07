@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Bioinformatics Analysis Software System — platform documentation">
+        <meta name="description" content="DataHelix — platform documentation">
       
       
       
@@ -21,7 +21,7 @@
     
     
       
-        <title>Bridge Python SDK - BASS Documentation</title>
+        <title>Bridge Python SDK - DataHelix Documentation</title>
       
     
     
@@ -88,7 +88,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="BASS Documentation" class="md-header__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -102,7 +102,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            BASS Documentation
+            DataHelix Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -364,13 +364,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="BASS Documentation" class="md-nav__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    BASS Documentation
+    DataHelix Documentation
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -470,7 +470,7 @@
   <span class="md-ellipsis">
     
   
-    BASS Platform
+    DataHelix Platform
   
 
     
@@ -4106,26 +4106,26 @@
 
 
 <h1 id="bridge-python-sdk">Bridge Python SDK<a class="headerlink" href="#bridge-python-sdk" title="Permanent link">&para;</a></h1>
-<p>The Bridge SDK provides a Python client for programmatic access to the BASS platform
+<p>The Bridge SDK provides a Python client for programmatic access to the DataHelix platform
 through Bridge. It handles authentication, key management, and request routing so your
 code can work with Hippo, Cappella, and Canon through a single client.</p>
 <hr />
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>bass-bridge
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>datahelix-bridge
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># or</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>uv<span class="w"> </span>add<span class="w"> </span>bass-bridge
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>uv<span class="w"> </span>add<span class="w"> </span>datahelix-bridge
 </code></pre></div>
-<p>The SDK is included in the <code>bass-bridge</code> package alongside the server.</p>
+<p>The SDK is included in the <code>datahelix-bridge</code> package alongside the server.</p>
 <hr />
 <h2 id="bridgeclient">BridgeClient<a class="headerlink" href="#bridgeclient" title="Permanent link">&para;</a></h2>
-<p><code>BridgeClient</code> is the primary entry point for SDK access to the BASS platform.</p>
+<p><code>BridgeClient</code> is the primary entry point for SDK access to the DataHelix platform.</p>
 <h3 id="basic-usage">Basic usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bridge.sdk</span><span class="w"> </span><span class="kn">import</span> <span class="n">BridgeClient</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Authenticate with an API key</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">client</span> <span class="o">=</span> <span class="n">BridgeClient</span><span class="p">(</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://bass.your-org.edu&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;bass_live_7f3a8b2c...&quot;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://datahelix.your-org.edu&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;datahelix_live_7f3a8b2c...&quot;</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">)</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># Access Hippo entities through Bridge</span>
@@ -4156,13 +4156,13 @@ code can work with Hippo, Cappella, and Canon through a single client.</p>
 <td><code>url</code></td>
 <td><code>str</code></td>
 <td>Yes</td>
-<td>Bridge base URL (e.g., <code>https://bass.your-org.edu</code>)</td>
+<td>Bridge base URL (e.g., <code>https://datahelix.your-org.edu</code>)</td>
 </tr>
 <tr>
 <td><code>api_key</code></td>
 <td><code>str</code></td>
 <td>No</td>
-<td>API key for authentication (<code>bass_live_...</code> or <code>bass_test_...</code>)</td>
+<td>API key for authentication (<code>datahelix_live_...</code> or <code>datahelix_test_...</code>)</td>
 </tr>
 <tr>
 <td><code>token</code></td>
@@ -4185,22 +4185,22 @@ code can work with Hippo, Cappella, and Canon through a single client.</p>
 </tbody>
 </table>
 <p>Provide either <code>api_key</code> or <code>token</code>. If neither is provided, the client checks the
-<code>BASS_API_KEY</code> environment variable.</p>
+<code>DATAHELIX_API_KEY</code> environment variable.</p>
 <h3 id="auth-header-injection">Auth header injection<a class="headerlink" href="#auth-header-injection" title="Permanent link">&para;</a></h3>
 <p><code>BridgeClient</code> automatically injects the appropriate authentication header on every
 request:</p>
 <ul>
-<li><strong>API key:</strong> Sends <code>Authorization: Bearer bass_live_...</code></li>
+<li><strong>API key:</strong> Sends <code>Authorization: Bearer datahelix_live_...</code></li>
 <li><strong>JWT:</strong> Sends <code>Authorization: Bearer &lt;jwt&gt;</code></li>
-<li><strong>Environment variable:</strong> Reads <code>BASS_API_KEY</code> at construction time</li>
+<li><strong>Environment variable:</strong> Reads <code>DATAHELIX_API_KEY</code> at construction time</li>
 </ul>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># All three are equivalent:</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">BridgeClient</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;bass_live_...&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">BridgeClient</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;datahelix_live_...&quot;</span><span class="p">)</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">client</span> <span class="o">=</span> <span class="n">BridgeClient</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="s2">&quot;eyJhbGciOi...&quot;</span><span class="p">)</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;BASS_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;bass_live_...&quot;</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">client</span> <span class="o">=</span> <span class="n">BridgeClient</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">)</span>  <span class="c1"># reads BASS_API_KEY</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;DATAHELIX_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;datahelix_live_...&quot;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">client</span> <span class="o">=</span> <span class="n">BridgeClient</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">)</span>  <span class="c1"># reads DATAHELIX_API_KEY</span>
 </code></pre></div>
 <h3 id="token-refresh">Token refresh<a class="headerlink" href="#token-refresh" title="Permanent link">&para;</a></h3>
 <p>When using JWT authentication, <code>BridgeClient</code> handles token refresh automatically.
@@ -4272,7 +4272,7 @@ sub-clients.</p>
 <hr />
 <h2 id="api-key-management">API Key Management<a class="headerlink" href="#api-key-management" title="Permanent link">&para;</a></h2>
 <p><code>BridgeClient</code> includes methods for managing API keys programmatically. These mirror
-the <code>bass auth</code> CLI commands.</p>
+the <code>datahelix auth</code> CLI commands.</p>
 <h3 id="create-a-key">Create a key<a class="headerlink" href="#create-a-key" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">key</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">create_key</span><span class="p">(</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Pipeline runner&quot;</span><span class="p">,</span>
@@ -4280,7 +4280,7 @@ the <code>bass auth</code> CLI commands.</p>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="n">project</span><span class="o">=</span><span class="s2">&quot;lab-a&quot;</span><span class="p">,</span>           <span class="c1"># optional: restrict to a project</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    <span class="n">expires</span><span class="o">=</span><span class="s2">&quot;2027-01-01&quot;</span><span class="p">,</span>      <span class="c1"># optional: set expiry date</span>
 <a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="p">)</span>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">secret</span><span class="p">)</span>   <span class="c1"># bass_live_... (shown once)</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">secret</span><span class="p">)</span>   <span class="c1"># datahelix_live_... (shown once)</span>
 <a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>       <span class="c1"># key_01jx...</span>
 </code></pre></div>
 <p>The <code>secret</code> field is only available in the creation response. Store it immediately.</p>
@@ -4300,7 +4300,7 @@ the <code>bass auth</code> CLI commands.</p>
 <h3 id="rotate-a-key">Rotate a key<a class="headerlink" href="#rotate-a-key" title="Permanent link">&para;</a></h3>
 <p>Rotation creates a new key and revokes the old one atomically.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">new_key</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">rotate_key</span><span class="p">(</span><span class="s2">&quot;key_01jx...&quot;</span><span class="p">)</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">new_key</span><span class="o">.</span><span class="n">secret</span><span class="p">)</span>  <span class="c1"># new bass_live_... value</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">new_key</span><span class="o">.</span><span class="n">secret</span><span class="p">)</span>  <span class="c1"># new datahelix_live_... value</span>
 </code></pre></div>
 <hr />
 <h2 id="health-and-diagnostics">Health and Diagnostics<a class="headerlink" href="#health-and-diagnostics" title="Permanent link">&para;</a></h2>
@@ -4322,7 +4322,7 @@ the <code>bass auth</code> CLI commands.</p>
 <p>Bridge errors are raised as <code>BridgeError</code> exceptions with structured details:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bridge.sdk</span><span class="w"> </span><span class="kn">import</span> <span class="n">BridgeClient</span><span class="p">,</span> <span class="n">BridgeError</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">client</span> <span class="o">=</span> <span class="n">BridgeClient</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;bass_live_...&quot;</span><span class="p">)</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">client</span> <span class="o">=</span> <span class="n">BridgeClient</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;datahelix_live_...&quot;</span><span class="p">)</span>
 <a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
 <a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="k">try</span><span class="p">:</span>
 <a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    <span class="n">client</span><span class="o">.</span><span class="n">hippo</span><span class="o">.</span><span class="n">get_entity</span><span class="p">(</span><span class="s2">&quot;sample&quot;</span><span class="p">,</span> <span class="s2">&quot;NONEXISTENT&quot;</span><span class="p">)</span>
@@ -4330,7 +4330,7 @@ the <code>bass auth</code> CLI commands.</p>
 <a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>   <span class="c1"># 404</span>
 <a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">error_code</span><span class="p">)</span>    <span class="c1"># &quot;not_found&quot; (from component) or &quot;component_unavailable&quot;</span>
 <a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>       <span class="c1"># human-readable description</span>
-<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">request_id</span><span class="p">)</span>    <span class="c1"># matches X-Bass-Request-Id for debugging</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">request_id</span><span class="p">)</span>    <span class="c1"># matches X-DataHelix-Request-Id for debugging</span>
 </code></pre></div>
 <p>Bridge-specific error codes (returned before the request reaches a component):</p>
 <table>
@@ -4397,23 +4397,23 @@ not provided:</p>
 </thead>
 <tbody>
 <tr>
-<td><code>BASS_API_KEY</code></td>
+<td><code>DATAHELIX_API_KEY</code></td>
 <td>API key for authentication</td>
 </tr>
 <tr>
-<td><code>BASS_BRIDGE_URL</code></td>
+<td><code>DATAHELIX_BRIDGE_URL</code></td>
 <td>Bridge base URL</td>
 </tr>
 <tr>
-<td><code>BASS_VERIFY_SSL</code></td>
+<td><code>DATAHELIX_VERIFY_SSL</code></td>
 <td>Set to <code>0</code> or <code>false</code> to disable TLS verification (dev only)</td>
 </tr>
 </tbody>
 </table>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># With env vars set, no constructor arguments needed:</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;BASS_BRIDGE_URL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;https://bass.your-org.edu&quot;</span>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;BASS_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;bass_live_...&quot;</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;DATAHELIX_BRIDGE_URL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;https://datahelix.your-org.edu&quot;</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;DATAHELIX_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;datahelix_live_...&quot;</span>
 <a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
 <a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="n">client</span> <span class="o">=</span> <span class="n">BridgeClient</span><span class="p">()</span>
 </code></pre></div>
@@ -4423,7 +4423,7 @@ not provided:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bridge.sdk</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncBridgeClient</span>
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncBridgeClient</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;bass_live_...&quot;</span><span class="p">)</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    <span class="n">client</span> <span class="o">=</span> <span class="n">AsyncBridgeClient</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;datahelix_live_...&quot;</span><span class="p">)</span>
 <a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>    <span class="n">samples</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">hippo</span><span class="o">.</span><span class="n">list_entities</span><span class="p">(</span><span class="s2">&quot;sample&quot;</span><span class="p">)</span>
 <a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </code></pre></div>

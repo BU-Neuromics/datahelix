@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Bioinformatics Analysis Software System — platform documentation">
+        <meta name="description" content="DataHelix — platform documentation">
       
       
       
@@ -25,7 +25,7 @@
     
     
       
-        <title>Authentication - BASS Documentation</title>
+        <title>Authentication - DataHelix Documentation</title>
       
     
     
@@ -92,7 +92,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="BASS Documentation" class="md-header__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -106,7 +106,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            BASS Documentation
+            DataHelix Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -370,13 +370,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="BASS Documentation" class="md-nav__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    BASS Documentation
+    DataHelix Documentation
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -476,7 +476,7 @@
   <span class="md-ellipsis">
     
   
-    BASS Platform
+    DataHelix Platform
   
 
     
@@ -4156,12 +4156,12 @@
 
 
 <h1 id="authentication-access-control">Authentication &amp; Access Control<a class="headerlink" href="#authentication-access-control" title="Permanent link">&para;</a></h1>
-<p>Bridge manages all authentication and authorization for the BASS platform. This document
+<p>Bridge manages all authentication and authorization for the DataHelix platform. This document
 explains how credentials work, what roles are available, and how to set up access for your
 team.</p>
 <hr />
 <h2 id="how-authentication-works">How Authentication Works<a class="headerlink" href="#how-authentication-works" title="Permanent link">&para;</a></h2>
-<p>All requests to the BASS platform go through Bridge. Bridge checks your credentials and
+<p>All requests to the DataHelix platform go through Bridge. Bridge checks your credentials and
 decides whether to forward the request to the appropriate component.</p>
 <p>There are two types of credentials:</p>
 <table>
@@ -4180,7 +4180,7 @@ decides whether to forward the request to the appropriate component.</p>
 </tr>
 <tr>
 <td><strong>JWT (login session)</strong></td>
-<td>Interactive use via the CLI (<code>bass login</code>) or web portal</td>
+<td>Interactive use via the CLI (<code>datahelix login</code>) or web portal</td>
 <td>Short-lived (15 min access, 7 day refresh)</td>
 </tr>
 </tbody>
@@ -4189,18 +4189,18 @@ decides whether to forward the request to the appropriate component.</p>
 <h2 id="api-keys">API Keys<a class="headerlink" href="#api-keys" title="Permanent link">&para;</a></h2>
 <h3 id="creating-an-api-key">Creating an API key<a class="headerlink" href="#creating-an-api-key" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Create a key with analyst role</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>bass<span class="w"> </span>auth<span class="w"> </span>create-key<span class="w"> </span>--label<span class="w"> </span><span class="s2">&quot;My notebook key&quot;</span><span class="w"> </span>--role<span class="w"> </span>analyst
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>create-key<span class="w"> </span>--label<span class="w"> </span><span class="s2">&quot;My notebook key&quot;</span><span class="w"> </span>--role<span class="w"> </span>analyst
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Create a project-scoped key (can only access Lab A)</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>bass<span class="w"> </span>auth<span class="w"> </span>create-key<span class="w"> </span>--label<span class="w"> </span><span class="s2">&quot;Lab A pipeline&quot;</span><span class="w"> </span>--role<span class="w"> </span>analyst<span class="w"> </span>--project<span class="w"> </span>lab-a
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>create-key<span class="w"> </span>--label<span class="w"> </span><span class="s2">&quot;Lab A pipeline&quot;</span><span class="w"> </span>--role<span class="w"> </span>analyst<span class="w"> </span>--project<span class="w"> </span>lab-a
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Create a key with an expiry date</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>bass<span class="w"> </span>auth<span class="w"> </span>create-key<span class="w"> </span>--label<span class="w"> </span><span class="s2">&quot;Temp access&quot;</span><span class="w"> </span>--role<span class="w"> </span>viewer<span class="w"> </span>--expires<span class="w"> </span><span class="m">2026</span>-12-31
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>create-key<span class="w"> </span>--label<span class="w"> </span><span class="s2">&quot;Temp access&quot;</span><span class="w"> </span>--role<span class="w"> </span>viewer<span class="w"> </span>--expires<span class="w"> </span><span class="m">2026</span>-12-31
 </code></pre></div>
 <p>The key is printed <strong>once</strong> and cannot be retrieved again. Store it securely.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>API key created successfully.
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Key:   bass_live_7f3a8b2c4d5e6f1a2b3c4d5e6f7a8b9c...
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Key:   datahelix_live_7f3a8b2c4d5e6f1a2b3c4d5e6f7a8b9c...
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Label: My notebook key
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Role:  analyst
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>ID:    key_01jx...
@@ -4209,42 +4209,42 @@ decides whether to forward the request to the appropriate component.</p>
 </code></pre></div>
 <h3 id="using-an-api-key">Using an API key<a class="headerlink" href="#using-an-api-key" title="Permanent link">&para;</a></h3>
 <p>Pass the key as a <code>Bearer</code> token in the <code>Authorization</code> header:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer bass_live_7f3a...&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">     </span>https://bass.your-org.edu/api/v1/hippo/entities/sample
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer datahelix_live_7f3a...&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">     </span>https://datahelix.your-org.edu/api/v1/hippo/entities/sample
 </code></pre></div>
 <p>Or set it as an environment variable for the CLI and SDK:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">BASS_API_KEY</span><span class="o">=</span>bass_live_7f3a...
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>bass<span class="w"> </span>entities<span class="w"> </span>list<span class="w"> </span>sample
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">DATAHELIX_API_KEY</span><span class="o">=</span>datahelix_live_7f3a...
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>datahelix<span class="w"> </span>entities<span class="w"> </span>list<span class="w"> </span>sample
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hippo</span><span class="w"> </span><span class="kn">import</span> <span class="n">HippoClient</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">client</span> <span class="o">=</span> <span class="n">HippoClient</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://bass.your-org.edu/api/v1/hippo&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;bass_live_...&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">client</span> <span class="o">=</span> <span class="n">HippoClient</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://datahelix.your-org.edu/api/v1/hippo&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;datahelix_live_...&quot;</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="listing-your-keys">Listing your keys<a class="headerlink" href="#listing-your-keys" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>bass<span class="w"> </span>auth<span class="w"> </span>list-keys
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>list-keys
 </code></pre></div>
 <h3 id="revoking-a-key">Revoking a key<a class="headerlink" href="#revoking-a-key" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>bass<span class="w"> </span>auth<span class="w"> </span>revoke-key<span class="w"> </span>&lt;key-id&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>revoke-key<span class="w"> </span>&lt;key-id&gt;
 </code></pre></div>
 <h3 id="rotating-a-key">Rotating a key<a class="headerlink" href="#rotating-a-key" title="Permanent link">&para;</a></h3>
 <p>Rotation creates a new key and revokes the old one atomically. Old key stops working
 immediately.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>bass<span class="w"> </span>auth<span class="w"> </span>rotate-key<span class="w"> </span>&lt;key-id&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>rotate-key<span class="w"> </span>&lt;key-id&gt;
 </code></pre></div>
 <hr />
 <h2 id="interactive-login-cli">Interactive Login (CLI)<a class="headerlink" href="#interactive-login-cli" title="Permanent link">&para;</a></h2>
 <p>For interactive use, log in with your institutional account:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>bass<span class="w"> </span>login
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>datahelix<span class="w"> </span>login
 </code></pre></div>
 <p>A browser window opens for authentication. After completing the login flow, your session
-is saved to <code>~/.bass/tokens.json</code> (encrypted via your system keychain).</p>
-<p>Subsequent <code>bass</code> commands use this session automatically. Sessions expire after 7 days;
-<code>bass login</code> renews them.</p>
+is saved to <code>~/.datahelix/tokens.json</code> (encrypted via your system keychain).</p>
+<p>Subsequent <code>datahelix</code> commands use this session automatically. Sessions expire after 7 days;
+<code>datahelix login</code> renews them.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Check who you&#39;re logged in as</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>bass<span class="w"> </span>auth<span class="w"> </span>whoami
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>whoami
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Log out (revokes tokens)</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>bass<span class="w"> </span><span class="nb">logout</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>datahelix<span class="w"> </span><span class="nb">logout</span>
 </code></pre></div>
 <hr />
 <h2 id="roles">Roles<a class="headerlink" href="#roles" title="Permanent link">&para;</a></h2>
@@ -4288,9 +4288,9 @@ belong to their assigned projects. <code>admin</code> users can access all data 
 <p>When an API key is created with <code>--project &lt;name&gt;</code>, it is further restricted to entities
 in that specific project, even if the creating user has access to more projects.</p>
 <p>Project membership is managed by the platform admin via:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>bass<span class="w"> </span>admin<span class="w"> </span>projects<span class="w"> </span>add-member<span class="w"> </span>--project<span class="w"> </span>lab-a<span class="w"> </span>--user<span class="w"> </span>alice@uni.edu<span class="w"> </span>--role<span class="w"> </span>analyst
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>bass<span class="w"> </span>admin<span class="w"> </span>projects<span class="w"> </span>list-members<span class="w"> </span>--project<span class="w"> </span>lab-a
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>bass<span class="w"> </span>admin<span class="w"> </span>projects<span class="w"> </span>remove-member<span class="w"> </span>--project<span class="w"> </span>lab-a<span class="w"> </span>--user<span class="w"> </span>alice@uni.edu
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>datahelix<span class="w"> </span>admin<span class="w"> </span>projects<span class="w"> </span>add-member<span class="w"> </span>--project<span class="w"> </span>lab-a<span class="w"> </span>--user<span class="w"> </span>alice@uni.edu<span class="w"> </span>--role<span class="w"> </span>analyst
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>datahelix<span class="w"> </span>admin<span class="w"> </span>projects<span class="w"> </span>list-members<span class="w"> </span>--project<span class="w"> </span>lab-a
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>datahelix<span class="w"> </span>admin<span class="w"> </span>projects<span class="w"> </span>remove-member<span class="w"> </span>--project<span class="w"> </span>lab-a<span class="w"> </span>--user<span class="w"> </span>alice@uni.edu
 </code></pre></div>
 <hr />
 <h2 id="security-best-practices">Security Best Practices<a class="headerlink" href="#security-best-practices" title="Permanent link">&para;</a></h2>
@@ -4302,7 +4302,7 @@ in that specific project, even if the creating user has access to more projects.
 - Set an expiry date on temporary access keys.</p>
 <p><strong>Secrets management:</strong>
 - Do not commit API keys to version control. Use environment variables or a secrets manager.
-- The <code>bass_live_</code> prefix is public information; the full key is the secret. Keep the
+- The <code>datahelix_live_</code> prefix is public information; the full key is the secret. Keep the
   full key out of logs and error messages.</p>
 <p><strong>Sharing access:</strong>
 - Give team members individual accounts rather than sharing a single API key. Individual

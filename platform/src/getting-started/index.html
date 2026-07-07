@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Bioinformatics Analysis Software System — platform documentation">
+        <meta name="description" content="DataHelix — platform documentation">
       
       
       
@@ -25,7 +25,7 @@
     
     
       
-        <title>Getting Started - BASS Documentation</title>
+        <title>Getting Started - DataHelix Documentation</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#getting-started-with-bass" class="md-skip">
+        <a href="#getting-started-with-datahelix" class="md-skip">
           Skip to content
         </a>
       
@@ -92,7 +92,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="BASS Documentation" class="md-header__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -106,7 +106,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            BASS Documentation
+            DataHelix Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -370,13 +370,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="BASS Documentation" class="md-nav__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    BASS Documentation
+    DataHelix Documentation
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -479,7 +479,7 @@
   <span class="md-ellipsis">
     
   
-    BASS Platform
+    DataHelix Platform
   
 
     
@@ -789,10 +789,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#51-configure-bass" class="md-nav__link">
+  <a href="#51-configure-datahelix" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.1 Configure bass
+        5.1 Configure datahelix
       
     </span>
   </a>
@@ -4410,10 +4410,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#51-configure-bass" class="md-nav__link">
+  <a href="#51-configure-datahelix" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.1 Configure bass
+        5.1 Configure datahelix
       
     </span>
   </a>
@@ -4608,9 +4608,9 @@
 
 
 
-<h1 id="getting-started-with-bass">Getting Started with BASS<a class="headerlink" href="#getting-started-with-bass" title="Permanent link">&para;</a></h1>
+<h1 id="getting-started-with-datahelix">Getting Started with DataHelix<a class="headerlink" href="#getting-started-with-datahelix" title="Permanent link">&para;</a></h1>
 <p><strong>Time:</strong> ~30 minutes
-<strong>Goal:</strong> Install the BASS platform, load sample data, run an RNA-seq artifact resolution, and query the results.</p>
+<strong>Goal:</strong> Install the DataHelix platform, load sample data, run an RNA-seq artifact resolution, and query the results.</p>
 <p>This guide walks through the full platform end-to-end: Hippo (metadata), Canon (artifact resolution), Cappella (ingestion), and Aperture (CLI). You only need to install the components relevant to your workflow — skip sections that don't apply.</p>
 <hr />
 <h2 id="before-you-start">Before You Start<a class="headerlink" href="#before-you-start" title="Permanent link">&para;</a></h2>
@@ -4620,7 +4620,7 @@
 - ~500 MB disk space
 - Internet connection (for reference data download)</p>
 <p><strong>What you'll build:</strong>
-A local BASS deployment with a small RNA-seq study dataset. You'll ingest sample metadata, register file locations, resolve canonical artifact paths, and query results via the CLI.</p>
+A local DataHelix deployment with a small RNA-seq study dataset. You'll ingest sample metadata, register file locations, resolve canonical artifact paths, and query results via the CLI.</p>
 <hr />
 <h2 id="part-1-install">Part 1: Install<a class="headerlink" href="#part-1-install" title="Permanent link">&para;</a></h2>
 <h3 id="11-install-hippo-required">1.1 Install Hippo (required)<a class="headerlink" href="#11-install-hippo-required" title="Permanent link">&para;</a></h3>
@@ -4640,15 +4640,15 @@ A local BASS deployment with a small RNA-seq study dataset. You'll ingest sample
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>pip<span class="w"> </span>install<span class="w"> </span>cappella
 </code></pre></div>
 <h3 id="14-install-aperture-cli">1.4 Install Aperture CLI<a class="headerlink" href="#14-install-aperture-cli" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>pip<span class="w"> </span>install<span class="w"> </span>bass-aperture
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>pip<span class="w"> </span>install<span class="w"> </span>datahelix-aperture
 </code></pre></div>
 <p>Verify:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>bass<span class="w"> </span>--version
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># bass 0.4.0</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>datahelix<span class="w"> </span>--version
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># datahelix 0.4.0</span>
 </code></pre></div>
 <hr />
 <h2 id="part-2-initialize-a-project">Part 2: Initialize a Project<a class="headerlink" href="#part-2-initialize-a-project" title="Permanent link">&para;</a></h2>
-<p>Create a directory for your BASS deployment:</p>
+<p>Create a directory for your DataHelix deployment:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>mkdir<span class="w"> </span>~/my_study<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/my_study
 </code></pre></div>
 <h3 id="21-initialize-hippo">2.1 Initialize Hippo<a class="headerlink" href="#21-initialize-hippo" title="Permanent link">&para;</a></h3>
@@ -4757,11 +4757,11 @@ A local BASS deployment with a small RNA-seq study dataset. You'll ingest sample
 </code></pre></div>
 <hr />
 <h2 id="part-5-query-with-aperture-cli">Part 5: Query with Aperture CLI<a class="headerlink" href="#part-5-query-with-aperture-cli" title="Permanent link">&para;</a></h2>
-<h3 id="51-configure-bass">5.1 Configure <code>bass</code><a class="headerlink" href="#51-configure-bass" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>bass<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>hippo.url<span class="w"> </span>http://localhost:8001
+<h3 id="51-configure-datahelix">5.1 Configure <code>datahelix</code><a class="headerlink" href="#51-configure-datahelix" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>datahelix<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>hippo.url<span class="w"> </span>http://localhost:8001
 </code></pre></div>
 <h3 id="52-list-entities">5.2 List entities<a class="headerlink" href="#52-list-entities" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>bass<span class="w"> </span>list<span class="w"> </span>Subject
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>datahelix<span class="w"> </span>list<span class="w"> </span>Subject
 </code></pre></div>
 <p>Output:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>ID                                    subject_id   species         age_at_collection
@@ -4770,10 +4770,10 @@ A local BASS deployment with a small RNA-seq study dataset. You'll ingest sample
 <a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>7c1d9e34-...                          SUBJ-002     Homo sapiens    38
 </code></pre></div>
 <h3 id="53-filter-entities">5.3 Filter entities<a class="headerlink" href="#53-filter-entities" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>bass<span class="w"> </span>list<span class="w"> </span>Sample<span class="w"> </span>--filter<span class="w"> </span><span class="nv">tissue_type</span><span class="o">=</span><span class="s2">&quot;prefrontal cortex&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>datahelix<span class="w"> </span>list<span class="w"> </span>Sample<span class="w"> </span>--filter<span class="w"> </span><span class="nv">tissue_type</span><span class="o">=</span><span class="s2">&quot;prefrontal cortex&quot;</span>
 </code></pre></div>
 <h3 id="54-get-provenance-for-a-specific-entity">5.4 Get provenance for a specific entity<a class="headerlink" href="#54-get-provenance-for-a-specific-entity" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>bass<span class="w"> </span><span class="nb">history</span><span class="w"> </span>SAMP-001<span class="w"> </span>--entity-type<span class="w"> </span>Sample
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>datahelix<span class="w"> </span><span class="nb">history</span><span class="w"> </span>SAMP-001<span class="w"> </span>--entity-type<span class="w"> </span>Sample
 </code></pre></div>
 <p>Output:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>Version  Actor    Operation  Changed fields        Timestamp
@@ -4812,7 +4812,7 @@ A local BASS deployment with a small RNA-seq study dataset. You'll ingest sample
 </code></pre></div>
 <p>Canon checks whether the file exists at the resolved path and reports its status.</p>
 <h3 id="64-batch-resolve-for-a-collection">6.4 Batch resolve for a collection<a class="headerlink" href="#64-batch-resolve-for-a-collection" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>bass<span class="w"> </span>list<span class="w"> </span>Sample<span class="w"> </span>--format<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>canon<span class="w"> </span>resolve<span class="w"> </span>--rule<span class="w"> </span>aligned_bam<span class="w"> </span>--from-stdin
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>datahelix<span class="w"> </span>list<span class="w"> </span>Sample<span class="w"> </span>--format<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>canon<span class="w"> </span>resolve<span class="w"> </span>--rule<span class="w"> </span>aligned_bam<span class="w"> </span>--from-stdin
 </code></pre></div>
 <p>This resolves artifacts for all samples and reports which are present, missing, or stale.</p>
 <hr />
@@ -4851,7 +4851,7 @@ entities with matching <code>sample_id</code> are updated only if fields changed
 entities are skipped.</p>
 <hr />
 <h2 id="part-8-check-system-status">Part 8: Check System Status<a class="headerlink" href="#part-8-check-system-status" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>bass<span class="w"> </span>status
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>datahelix<span class="w"> </span>status
 </code></pre></div>
 <p>Output:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>Component   Status    URL                      Version
@@ -4889,9 +4889,9 @@ entities are skipped.</p>
 <p><strong><code>hippo serve</code> fails to start:</strong>
 Check that port 8001 is not already in use: <code>lsof -i :8001</code>. Change the port in
 <code>hippo.yaml</code> (<code>server.port: 8002</code>) if needed.</p>
-<p><strong><code>bass list</code> shows "connection refused":</strong>
-Make sure Hippo is running: <code>hippo serve &amp;</code>. Verify the URL in <code>~/.config/bass/aperture.yaml</code>
-or run <code>bass config show</code>.</p>
+<p><strong><code>datahelix list</code> shows "connection refused":</strong>
+Make sure Hippo is running: <code>hippo serve &amp;</code>. Verify the URL in <code>~/.config/datahelix/aperture.yaml</code>
+or run <code>datahelix config show</code>.</p>
 <p><strong>Schema migration fails:</strong>
 If you changed an existing field type, Hippo will refuse the migration to protect data
 integrity. Create a new field and use <code>hippo migrate --allow-column-add</code> for additive

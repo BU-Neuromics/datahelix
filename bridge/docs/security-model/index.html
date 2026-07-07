@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Bioinformatics Analysis Software System — platform documentation">
+        <meta name="description" content="DataHelix — platform documentation">
       
       
       
@@ -25,7 +25,7 @@
     
     
       
-        <title>Security Model - BASS Documentation</title>
+        <title>Security Model - DataHelix Documentation</title>
       
     
     
@@ -92,7 +92,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="BASS Documentation" class="md-header__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -106,7 +106,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            BASS Documentation
+            DataHelix Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -370,13 +370,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="BASS Documentation" class="md-nav__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    BASS Documentation
+    DataHelix Documentation
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -476,7 +476,7 @@
   <span class="md-ellipsis">
     
   
-    BASS Platform
+    DataHelix Platform
   
 
     
@@ -4138,7 +4138,7 @@
 what the audit trail covers.</p>
 <hr />
 <h2 id="what-bridge-protects">What Bridge Protects<a class="headerlink" href="#what-bridge-protects" title="Permanent link">&para;</a></h2>
-<p>Bridge is the authentication and authorization boundary for the BASS platform. After
+<p>Bridge is the authentication and authorization boundary for the DataHelix platform. After
 deployment, <strong>no component API (Hippo, Cappella, Canon) is accessible without a valid
 credential</strong>. Bridge validates every request before it reaches a component.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Internet / Lab network
@@ -4167,7 +4167,7 @@ identity that Bridge injects into each forwarded request.</p>
 <li><strong>Resolve role and project scope</strong> — from JWT claims or API key metadata.</li>
 <li><strong>Enforce RBAC</strong> — check that the role permits the requested operation.</li>
 <li><strong>Enforce project scope</strong> — check that the actor is a member of the target project.</li>
-<li><strong>Inject actor identity</strong> — add <code>X-Bass-Actor</code> and <code>X-Bass-Roles</code> headers.</li>
+<li><strong>Inject actor identity</strong> — add <code>X-DataHelix-Actor</code> and <code>X-DataHelix-Roles</code> headers.</li>
 <li><strong>Forward to component</strong> — component processes the request and returns its response.</li>
 <li><strong>Write audit record</strong> — actor, method, path, response status, latency.</li>
 </ol>
@@ -4250,7 +4250,7 @@ identity that Bridge injects into each forwarded request.</p>
 </tr>
 <tr>
 <td><code>request_id</code></td>
-<td>Unique request ID (matches <code>X-Bass-Request-Id</code> response header)</td>
+<td>Unique request ID (matches <code>X-DataHelix-Request-Id</code> response header)</td>
 </tr>
 <tr>
 <td><code>timestamp</code></td>
@@ -4266,7 +4266,7 @@ identity that Bridge injects into each forwarded request.</p>
 script or notebook (no Bridge, no REST API), there is no credential enforcement. This is
 intentional — local single-user use should be frictionless.</p>
 <p><strong>Bridge-to-component traffic is trusted.</strong> Requests from Bridge to Hippo/Cappella/Canon
-are not re-authenticated. Components accept <code>X-Bass-Actor</code> headers only from Bridge's
+are not re-authenticated. Components accept <code>X-DataHelix-Actor</code> headers only from Bridge's
 known network address. Ensure components are not accessible from outside the trusted
 network.</p>
 <hr />
@@ -4274,7 +4274,7 @@ network.</p>
 <ul>
 <li><strong>Stored as hashes.</strong> Bridge never stores the plaintext key. The full key is shown once
   at creation time and is unrecoverable after that.</li>
-<li><strong>Prefixed for environment detection.</strong> <code>bass_live_</code> keys are for production; <code>bass_test_</code>
+<li><strong>Prefixed for environment detection.</strong> <code>datahelix_live_</code> keys are for production; <code>datahelix_test_</code>
   keys are for staging. The prefix does not change security properties, but it prevents
   accidental cross-environment key use.</li>
 <li><strong>Role ceiling.</strong> A key's role cannot exceed the role of the user who created it.</li>
@@ -4303,7 +4303,7 @@ Full multi-tenancy (isolated schemas or databases per tenant) is on the roadmap 
 future version.</p>
 <hr />
 <h2 id="reporting-security-issues">Reporting Security Issues<a class="headerlink" href="#reporting-security-issues" title="Permanent link">&para;</a></h2>
-<p>Found a security vulnerability in BASS? Please report it directly to the maintainers
+<p>Found a security vulnerability in DataHelix? Please report it directly to the maintainers
 rather than opening a public issue. See <code>SECURITY.md</code> in the repository root for the
 responsible disclosure policy.</p>
 

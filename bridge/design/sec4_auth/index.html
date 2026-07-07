@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Bioinformatics Analysis Software System — platform documentation">
+        <meta name="description" content="DataHelix — platform documentation">
       
       
       
@@ -25,7 +25,7 @@
     
     
       
-        <title>Authentication & Authorization - BASS Documentation</title>
+        <title>Authentication & Authorization - DataHelix Documentation</title>
       
     
     
@@ -92,7 +92,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="BASS Documentation" class="md-header__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -106,7 +106,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            BASS Documentation
+            DataHelix Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -370,13 +370,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="BASS Documentation" class="md-nav__button md-logo" aria-label="BASS Documentation" data-md-component="logo">
+    <a href="../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    BASS Documentation
+    DataHelix Documentation
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -476,7 +476,7 @@
   <span class="md-ellipsis">
     
   
-    BASS Platform
+    DataHelix Platform
   
 
     
@@ -4781,7 +4781,7 @@
 <strong>Feeds into:</strong> Bridge sec2 (architecture), Bridge sec3 (unified API), Aperture sec2 (auth integration), all component deployment docs</p>
 <hr />
 <h3 id="41-design-philosophy">4.1 Design Philosophy<a class="headerlink" href="#41-design-philosophy" title="Permanent link">&para;</a></h3>
-<p>Bridge owns all authentication and authorization for the BASS platform. Individual components
+<p>Bridge owns all authentication and authorization for the DataHelix platform. Individual components
 (Hippo, Cappella) are auth-unaware by design — they accept a validated <code>actor</code> identity from
 their transport layer and trust it unconditionally. Bridge sits in front of component REST APIs
 as the single enforcement point:</p>
@@ -4835,7 +4835,7 @@ format. This combination was chosen because:</p>
 </tr>
 <tr>
 <td>Device Code (RFC 8628)</td>
-<td>CLI tools (Aperture CLI, <code>bass</code> command)</td>
+<td>CLI tools (Aperture CLI, <code>datahelix</code> command)</td>
 <td>Public client (terminal)</td>
 </tr>
 <tr>
@@ -4888,7 +4888,7 @@ itself. Supported IdP configurations:</p>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>                  │  Bridge (signed)  │
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>                  └───────────────────┘
 </code></pre></div>
-<p>After external authentication, Bridge issues its own <strong>signed JWT</strong> with BASS-specific claims.
+<p>After external authentication, Bridge issues its own <strong>signed JWT</strong> with DataHelix-specific claims.
 Components never interact with external IdP tokens directly.</p>
 <h4 id="423-token-structure">4.2.3 Token Structure<a class="headerlink" href="#423-token-structure" title="Permanent link">&para;</a></h4>
 <p>Bridge-issued JWTs contain the following claims:</p>
@@ -4909,12 +4909,12 @@ Components never interact with external IdP tokens directly.</p>
 <tr>
 <td><code>iss</code></td>
 <td>string</td>
-<td><code>bass-bridge</code> (fixed issuer)</td>
+<td><code>datahelix-bridge</code> (fixed issuer)</td>
 </tr>
 <tr>
 <td><code>aud</code></td>
 <td>string</td>
-<td><code>bass-platform</code> (or component-specific audience for scoped tokens)</td>
+<td><code>datahelix-platform</code> (or component-specific audience for scoped tokens)</td>
 </tr>
 <tr>
 <td><code>exp</code></td>
@@ -4932,28 +4932,28 @@ Components never interact with external IdP tokens directly.</p>
 <td>Unique token ID (for revocation checking)</td>
 </tr>
 <tr>
-<td><code>bass:actor</code></td>
+<td><code>datahelix:actor</code></td>
 <td>string</td>
 <td>The actor identity string passed to component <code>actor</code> fields</td>
 </tr>
 <tr>
-<td><code>bass:roles</code></td>
+<td><code>datahelix:roles</code></td>
 <td>string[]</td>
 <td>RBAC roles assigned to this user (see §4.3)</td>
 </tr>
 <tr>
-<td><code>bass:scopes</code></td>
+<td><code>datahelix:scopes</code></td>
 <td>string[]</td>
 <td>OAuth scopes granted in this session</td>
 </tr>
 <tr>
-<td><code>bass:org</code></td>
+<td><code>datahelix:org</code></td>
 <td>string</td>
 <td>Organization/tenant identifier (multi-tenant deployments)</td>
 </tr>
 </tbody>
 </table>
-<p>The <code>bass:actor</code> claim is the canonical link between Bridge auth and Hippo provenance — it
+<p>The <code>datahelix:actor</code> claim is the canonical link between Bridge auth and Hippo provenance — it
 becomes the <code>actor</code> field on all provenance events, ensuring an unbroken audit trail from
 login through every data mutation.</p>
 <hr />
@@ -5000,7 +5000,7 @@ predefined roles:</p>
 <p>Roles are assigned per-user. Project scoping (which projects a user can access) is a separate
 dimension — see §4.3.3.</p>
 <h4 id="432-permission-matrix">4.3.2 Permission Matrix<a class="headerlink" href="#432-permission-matrix" title="Permanent link">&para;</a></h4>
-<p>Permissions map roles to operations on BASS resources:</p>
+<p>Permissions map roles to operations on DataHelix resources:</p>
 <table>
 <thead>
 <tr>
@@ -5147,11 +5147,11 @@ institutional deployments.</p>
 <td>Refresh token</td>
 <td>Opaque string (UUID)</td>
 <td>7 days (configurable)</td>
-<td>Client: <code>~/.bass/tokens.json</code> (encrypted via OS keyring). Bridge: hashed in token store</td>
+<td>Client: <code>~/.datahelix/tokens.json</code> (encrypted via OS keyring). Bridge: hashed in token store</td>
 </tr>
 <tr>
 <td>API key</td>
-<td>Opaque string (prefixed <code>bass_</code>)</td>
+<td>Opaque string (prefixed <code>datahelix_</code>)</td>
 <td>No expiry (revocable)</td>
 <td>Client: environment variable or config file. Bridge: hashed in key store</td>
 </tr>
@@ -5184,14 +5184,14 @@ family and forces re-authentication.</p>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>│  Client   │────▶│  Bridge │────▶│  Hippo REST  │────▶│  Provenance │
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│           │     │         │     │              │     │  Event      │
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│  JWT with │     │ Extract │     │ auth.py uses │     │             │
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│ bass:actor│     │ actor   │     │ actor from   │     │ actor =     │
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│ datahelix:actor│     │ actor   │     │ actor from   │     │ actor =     │
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│           │     │ claim   │     │ request ctx  │     │ &quot;alice@     │
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│           │     │         │     │              │     │  uni.edu&quot;   │
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>└──────────┘     └─────────┘     └──────────────┘     └─────────────┘
 </code></pre></div>
 <ol>
-<li>Bridge extracts the <code>bass:actor</code> claim from the JWT</li>
-<li>Bridge injects the actor identity into the proxied request (via <code>X-Bass-Actor</code> header
+<li>Bridge extracts the <code>datahelix:actor</code> claim from the JWT</li>
+<li>Bridge injects the actor identity into the proxied request (via <code>X-DataHelix-Actor</code> header
    or request body override)</li>
 <li>Hippo's <code>AuthMiddleware</code> implementation (Bridge-aware) reads the injected actor and
    uses it for all provenance events</li>
@@ -5212,10 +5212,10 @@ human actors by the <code>service:</code> prefix convention.</p>
 <p>API keys provide long-lived authentication for non-interactive use cases (scripts, pipeline
 agents, CI/CD integrations).</p>
 <h4 id="461-key-structure">4.6.1 Key Structure<a class="headerlink" href="#461-key-structure" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>bass_live_7f3a8b2c4d5e6f...    (production key)
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>bass_test_9a1b2c3d4e5f6a...    (test/staging key)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>datahelix_live_7f3a8b2c4d5e6f...    (production key)
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>datahelix_test_9a1b2c3d4e5f6a...    (test/staging key)
 </code></pre></div>
-<p>Keys are prefixed with <code>bass_live_</code> or <code>bass_test_</code> to prevent accidental cross-environment
+<p>Keys are prefixed with <code>datahelix_live_</code> or <code>datahelix_test_</code> to prevent accidental cross-environment
 use. The prefix is not secret — it aids in key identification and rotation auditing.</p>
 <h4 id="462-key-lifecycle">4.6.2 Key Lifecycle<a class="headerlink" href="#462-key-lifecycle" title="Permanent link">&para;</a></h4>
 <table>
@@ -5255,7 +5255,7 @@ use. The prefix is not secret — it aids in key identification and rotation aud
 - An assigned <strong>role</strong> (cannot exceed the creating user's role)
 - Optional <strong>project scope</strong> (limits key to specific projects)</p>
 <h4 id="463-key-authentication-flow">4.6.3 Key Authentication Flow<a class="headerlink" href="#463-key-authentication-flow" title="Permanent link">&para;</a></h4>
-<p>When a request arrives with an API key (via <code>Authorization: Bearer bass_live_...</code> or
+<p>When a request arrives with an API key (via <code>Authorization: Bearer datahelix_live_...</code> or
 <code>X-Api-Key</code> header):</p>
 <ol>
 <li>Bridge hashes the key and looks it up in the key store</li>
@@ -5266,7 +5266,7 @@ use. The prefix is not secret — it aids in key identification and rotation aud
 </ol>
 <hr />
 <h3 id="47-service-to-service-authentication">4.7 Service-to-Service Authentication<a class="headerlink" href="#47-service-to-service-authentication" title="Permanent link">&para;</a></h3>
-<p>Internal communication between BASS components (e.g., Cappella calling Hippo to register
+<p>Internal communication between DataHelix components (e.g., Cappella calling Hippo to register
 pipeline outputs) uses the <strong>Client Credentials</strong> OAuth 2.0 flow:</p>
 <h4 id="471-service-registration">4.7.1 Service Registration<a class="headerlink" href="#471-service-registration" title="Permanent link">&para;</a></h4>
 <p>Each component that needs to call other components registers as an OAuth client with Bridge:</p>
@@ -5389,15 +5389,15 @@ manager (e.g., AWS Secrets Manager, Vault, or environment variables for local de
 configuration.</p>
 <hr />
 <h3 id="49-component-auth-integration-points">4.9 Component Auth Integration Points<a class="headerlink" href="#49-component-auth-integration-points" title="Permanent link">&para;</a></h3>
-<p>This section documents how each BASS component integrates with Bridge auth:</p>
+<p>This section documents how each DataHelix component integrates with Bridge auth:</p>
 <h4 id="491-hippo">4.9.1 Hippo<a class="headerlink" href="#491-hippo" title="Permanent link">&para;</a></h4>
 <ul>
 <li><strong>Middleware replacement:</strong> Hippo's <code>AuthMiddleware</code> ABC (defined in <code>hippo/rest/auth.py</code>)
-  receives a Bridge-aware implementation that extracts <code>X-Bass-Actor</code> and <code>X-Bass-Roles</code>
+  receives a Bridge-aware implementation that extracts <code>X-DataHelix-Actor</code> and <code>X-DataHelix-Roles</code>
   headers from proxied requests</li>
-<li><strong><code>authenticate()</code>:</strong> Returns the actor identity from <code>X-Bass-Actor</code> (validated by Bridge
+<li><strong><code>authenticate()</code>:</strong> Returns the actor identity from <code>X-DataHelix-Actor</code> (validated by Bridge
   before the request reaches Hippo)</li>
-<li><strong><code>authorize()</code>:</strong> Checks the operation against the role permissions in <code>X-Bass-Roles</code>.
+<li><strong><code>authorize()</code>:</strong> Checks the operation against the role permissions in <code>X-DataHelix-Roles</code>.
   Because Bridge has already validated the JWT and injected headers, Hippo does not need JWT
   libraries or signing keys</li>
 <li><strong>SDK mode:</strong> No change — <code>HippoClient</code> accepts <code>actor</code> as a string parameter with no
@@ -5412,8 +5412,8 @@ configuration.</p>
 </ul>
 <h4 id="493-aperture">4.9.3 Aperture<a class="headerlink" href="#493-aperture" title="Permanent link">&para;</a></h4>
 <ul>
-<li><strong>CLI:</strong> Uses Device Code flow. On first use, <code>bass login</code> opens a browser for
-  authentication. Tokens stored in <code>~/.bass/tokens.json</code> (encrypted via OS keyring)</li>
+<li><strong>CLI:</strong> Uses Device Code flow. On first use, <code>datahelix login</code> opens a browser for
+  authentication. Tokens stored in <code>~/.datahelix/tokens.json</code> (encrypted via OS keyring)</li>
 <li><strong>Web portal:</strong> Uses Authorization Code + PKCE flow. Session managed by Aperture's BFF
   (backend-for-frontend) server</li>
 <li><strong>Token refresh:</strong> Handled transparently by Aperture's <code>backends/auth.py</code> module (see
@@ -5455,7 +5455,7 @@ configuration.</p>
 </tr>
 <tr>
 <td>Actor identity spoofing</td>
-<td><code>X-Bass-Actor</code> header only accepted from Bridge's internal network; components reject it from external sources</td>
+<td><code>X-DataHelix-Actor</code> header only accepted from Bridge's internal network; components reject it from external sources</td>
 </tr>
 </tbody>
 </table>
