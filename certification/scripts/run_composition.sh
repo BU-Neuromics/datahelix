@@ -63,8 +63,12 @@ until docker compose -f "$COMPOSE" ps hippo | grep -q healthy; do
 done
 
 echo "== seeding bootstrap fixture =="
-run_step seed docker compose -f "$COMPOSE" exec -T hippo \
-  hippo ingest --file /app/seed/seed.yaml --validate-schema /app/schemas \
+# Not `hippo ingest`: the CLI builds a SQLite-default client and never reads
+# /app/hippo.yaml, so it would write to a throwaway SQLite file instead of the
+# postgres deployment `hippo serve` is reading. seed_via_config.py runs the
+# same ingest wired to the booted config.
+run_step seed bash -c \
+  "docker compose -f '$COMPOSE' exec -T hippo python - < '$HERE/seed_via_config.py'" \
   || { result fail "fixture-seed"; exit 1; }
 
 echo "== bringing up aperture SPA =="
