@@ -255,6 +255,22 @@ docker compose up -d hippo
 Always run `hippo migrate` before restarting Hippo after an upgrade. The migration command
 is safe to run on an already-migrated database (it is idempotent).
 
+> **Only deploy certified pairs.** Because components version independently, a pair of
+> versions is safe to run together only if the **certified-frontier ledger** has certified
+> it (platform [ADR-0001](design/decisions/ADR-0001-certified-frontier-composition.md)).
+> Deploy tooling must run the ledger gate as a pre-flight — it refuses any pair (and digest)
+> not present as a passing ledger entry, so an untested version skew can never reach
+> production:
+>
+> ```bash
+> # pre-flight: exits non-zero unless the pinned pair is certified
+> bash certification/scripts/deploy_gate.sh certification/composition.lock.json
+> ```
+>
+> If the pair you need is uncertified, run an on-demand backfill (the "Certify composition"
+> workflow via `workflow_dispatch`) and it joins the ledger. Never re-cut a released version
+> under the same number — the ledger records digests and a rebuilt artifact is refused.
+
 ---
 
 ## Backup

@@ -1,0 +1,142 @@
+name: Certify composition
+
+# Composition certification for the certified-frontier ledger (platform ADR-0001).
+#
+# Triggers:
+#   pull_request (composition.lock.json changed) — certify the proposed pair; the
+#       green/red status is the gate the bump bot's auto-merge waits on.
+#   push to main / release/** (composition.lock.json changed) — re-certify the
+#       merged pair and, on green, APPEND the ledger tag + refresh compatibility.json.
+#   workflow_dispatch — on-demand backfill of an explicit, possibly off-frontier
+#       pair (~10 min); result joins the ledger regardless of branch.
+#
+# Reusable across main and every maintenance branch: the branch owns its
+# composition.lock.json (pins + line) and its fixture version, so the same
+# workflow certifies the frontier and each LTS line without modification.
+
+on:
+  pull_request:
+    paths:
+      - "certification/composition.lock.json"
+      - "certification/fixtures/**"
+      - "certification/scenarios/**"
+      - "certification/compose/**"
+  push:
+    branches: [main, "release/**"]
+    paths:
+      - "certification/composition.lock.json"
+  workflow_dispatch:
+    inputs:
+      hippo_version: { description: "hippo version", required: true }
+      hippo_digest: { description: "hippo artifact digest (sha256:...)", required: true }
+      aperture_version: { description: "aperture version", required: true }
+      aperture_digest: { description: "aperture artifact digest (sha256:...)", required: true }
+      line: { description: "release line (frontier | lts-1 | ...)", required: true, default: "frontier" }
+
+concurrency:
+  group: certify-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write   # to push the ledger tag + compatibility.json on green merge
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20   # hard ceiling above the ~10-min scenario budget
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0        # need full tag history for the ledger
+          fetch-tags: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Resolve pins
+        id: pins
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            python certification/scripts/read_lock.py \
+              --hippo-version '${{ inputs.hippo_version }}' \
+              --hippo-digest  '${{ inputs.hippo_digest }}' \
+              --aperture-version '${{ inputs.aperture_version }}' \
+              --aperture-digest  '${{ inputs.aperture_digest }}' \
+              --line '${{ inputs.line }}'
+          else
+            python certification/scripts/read_lock.py certification/composition.lock.json
+          fi
+
+      - name: Skip if components are unpublished (honest no-op)
+        if: steps.pins.outputs.published != 'true'
+        run: |
+          echo "::notice::Composition pins have no artifact digests yet "
+          echo "(hippo release pipeline / aperture#16 pending). Certification is a "
+          echo "no-op until the pair is published by digest — nothing is added to the "
+          echo "ledger (ADR-0001: never certify an unpublished artifact)."
+
+      - name: Set up Node (for Playwright)
+        if: steps.pins.outputs.published == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Boot composition + run golden-path suite
+        id: run
+        if: steps.pins.outputs.published == 'true'
+        env:
+          HIPPO_IMAGE: ${{ steps.pins.outputs.hippo_ref }}
+          APERTURE_IMAGE: ${{ steps.pins.outputs.aperture_ref }}
+          BUDGET_SECONDS: "600"
+          RESULT_FILE: certification/result.json
+        run: |
+          # Non-fatal: we want to record failures in the ledger too.
+          bash certification/scripts/run_composition.sh || true
+          cat certification/result.json
+
+      # ---- ledger append: only on push (merge) or dispatch, and only when booted ----
+      - name: Append ledger entry
+        if: >-
+          steps.pins.outputs.published == 'true' &&
+          (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        env:
+          GH_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          RESULT=$(python -c "import json;print(json.load(open('certification/result.json'))['result'])")
+          CHECK=$(python -c "import json;print(json.load(open('certification/result.json')).get('failing_check') or '')")
+          git config user.name  "bass-ledger[bot]"
+          git config user.email "bass-ledger@users.noreply.github.com"
+          ARGS=(--component "aperture=${{ steps.pins.outputs.aperture_version }}@${{ steps.pins.outputs.aperture_digest }}"
+                --component "hippo=${{ steps.pins.outputs.hippo_version }}@${{ steps.pins.outputs.hippo_digest }}"
+                --suite-sha "${GITHUB_SHA}"
+                --fixture-version "${{ steps.pins.outputs.fixture_version }}"
+                --line "${{ steps.pins.outputs.line }}"
+                --result "${RESULT}"
+                --ci-run "${GH_RUN_URL}")
+          [ -n "${CHECK}" ] && ARGS+=(--failing-check "${CHECK}")
+          python -m ledger.cli --repo . certify "${ARGS[@]}" --push
+        working-directory: certification
+
+      - name: Refresh compatibility.json
+        if: >-
+          steps.pins.outputs.published == 'true' &&
+          (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        run: |
+          python -m ledger.cli --repo .. assemble --out compatibility.json
+          cd ..
+          if ! git diff --quiet certification/compatibility.json; then
+            git add certification/compatibility.json
+            git commit -m "chore(ledger): refresh compatibility.json [skip ci]"
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi
+        working-directory: certification
+
+      - name: Fail the job if certification was red
+        if: steps.pins.outputs.published == 'true'
+        run: |
+          RESULT=$(python -c "import json;print(json.load(open('certification/result.json'))['result'])")
+          if [ "$RESULT" != "pass" ]; then
+            echo "::error::Certification RED — the bump PR is a cross-team pager, not backlog (ADR-0001)."
+            exit 1
+          fi

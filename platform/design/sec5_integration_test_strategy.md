@@ -18,6 +18,9 @@ This document specifies the **round-trip integration test strategy** for the BAS
 
 This strategy is the authoritative source for what the Phase 1 integration test suite must cover. It does not replace the unit test policies in `TESTING.md`; it extends the Tier 2 (contract) and Tier 3 (platform) layers with the cross-component integration view.
 
+> **Independently-versioned components (aperture, hippo) — see [ADR-0001](decisions/ADR-0001-certified-frontier-composition.md).**
+> The in-process round-trip below covers the in-tree components. For components that ship as their own repos/submodules with independent semver releases, the composition is certified **per exact version pair (with artifact digests)** via the **certified-frontier ledger**, and deployment is gated on it. That infrastructure — the ledger tooling, the versioned bootstrap fixture, the golden-path Playwright suite (one scenario per product loop), the certification workflow, the bump bot, and the deploy gate — lives in [`certification/`](../../certification/). The two strategies are complementary: this section is the in-process integration view; ADR-0001 is the cross-repo composition-certification view.
+
 ---
 
 ## 5.2 Full Round-Trip Scenario

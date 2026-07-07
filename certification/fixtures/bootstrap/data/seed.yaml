@@ -1,0 +1,67 @@
+# BASS certification — seed data bundle (fixture v1.0.0)
+#
+# Tree-root bundle format (hippo ingest --file): top-level keys are pluralized
+# class-name accessors; values are lists of instance dicts; identity is by `id`
+# (re-ingesting an existing id updates it in place, so seeding is idempotent).
+#
+#   hippo ingest --file seed.yaml \
+#     --validate-schema schema/   # validates against portal_schema + control plane
+#
+# Reference slots (`author`, `book`) carry the referenced instance's `id`.
+# Kept small on purpose: enough rows to make browse/filter facets meaningful
+# and to leave a clean slate for the write / atomic-workflow loops (which create
+# their own entities). The control-plane collection (ApertureDocument) is seeded
+# EMPTY — the SPA creates its own saved-views/drafts during the scenario.
+
+authors:
+  - id: author-austen
+    name: Jane Austen
+    bio: English novelist known for social realism and wit.
+  - id: author-leguin
+    name: Ursula K. Le Guin
+    bio: American author of speculative fiction.
+  - id: author-tolkien
+    name: J. R. R. Tolkien
+    bio: English writer and philologist.
+
+books:
+  - id: book-pride
+    title: Pride and Prejudice
+    author: author-austen
+    format: hardcover
+    in_print: true
+    year: 1813
+  - id: book-emma
+    title: Emma
+    author: author-austen
+    format: paperback
+    in_print: true
+    year: 1815
+  - id: book-left-hand
+    title: The Left Hand of Darkness
+    author: author-leguin
+    format: paperback
+    in_print: true
+    year: 1969
+  - id: book-dispossessed
+    title: The Dispossessed
+    author: author-leguin
+    format: ebook
+    in_print: false
+    year: 1974
+  - id: book-hobbit
+    title: The Hobbit
+    author: author-tolkien
+    format: audiobook
+    in_print: true
+    year: 1937
+
+reviews:
+  - id: review-pride-1
+    book: book-pride
+    rating: 5
+    body: A timeless classic.
+  - id: review-left-hand-1
+    book: book-left-hand
+    rating: 4
+    body: A landmark of the genre.
