@@ -64,14 +64,21 @@ Each contract file is named `test_<consumer>_expects_<provider>.py` and contains
 
 **Current contracts:**
 - `test_canon_expects_hippo.py` — behaviors Canon depends on from HippoClient
-- `test_hippo_self_contract.py` — Hippo's own behavioral invariants (entity CRUD, validation, provenance)
 - `test_cappella_expects_hippo.py` — behaviors Cappella depends on from HippoClient (upsert, query_updated_since, provenance shape)
-- `test_cappella_expects_canon.py` — behaviors Cappella depends on from Canon's `resolve()` API *(to write — Phase 1)*
+- `test_cappella_expects_canon.py` — behaviors Cappella depends on from Canon's `resolve()` API
+- `test_entity_loader_contract.py` — Hippo's EntityLoader/IngestPipeline surface (CSV loader, dry-run)
+- `test_storage_adapter_contract.py` — Canon's StorageAdapter ABC behavioral contract (canon v0.2)
 
 **Run:**
 ```bash
 PYTHONPATH=hippo/src:canon/src:cappella/src:aperture/src uv run pytest tests/contracts/ -v
 ```
+
+**CI (restored 2026-07-07, epic P1.7):** the contract tier runs on every PR as two
+parallel seam slices — `contracts-hippo-seam` (canon↔hippo, cappella↔hippo,
+entity-loader) and `contracts-canon-seam` (storage-adapter, cappella↔canon) — in
+`.github/workflows/tests.yml`. The platform tier runs nightly and via
+workflow_dispatch, not per-PR (yet).
 
 **When they fail:**
 1. If the failure is in `test_<consumer>_expects_<provider>`: the *provider* changed its behavior in a breaking way. Add a unit test to the provider pinning the correct behavior, then fix it.
