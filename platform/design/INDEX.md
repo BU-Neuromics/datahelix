@@ -33,6 +33,7 @@ decisions live in each component's own `design/decisions/`.
 | ADR | Decision | Status |
 |---|---|---|
 | [0001](./decisions/ADR-0001-certified-frontier-composition.md) | Certified-frontier ledger — composition certified per exact version pair (+digests); deployment gated on the ledger; patch-auto-merge / minor-major-review; frontier-vs-maintenance failure asymmetry; latest + ≤1 LTS; release immutability. Implemented in [`certification/`](../../certification/). Extends `sec5`. | ✅ Accepted |
+| [0002](./decisions/ADR-0002-datahelix-metapackage-and-extras.md) | `datahelix` metapackage + per-component extras — prefixed dists (`datahelix-<component>`), bare imports (Layout A); bare install pulls the non-optional core; thin metapackage (version matrix + `datahelix` umbrella CLI); removes PyPI-saturation as a naming constraint (see Hippo ADR-0004). Rides ADR-0001 pins. | ✅ Accepted |
 
 ---
 
