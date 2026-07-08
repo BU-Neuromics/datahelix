@@ -82,7 +82,7 @@ run_step aperture docker compose -f "$COMPOSE" up -d aperture || { result fail "
 
 echo "== running golden-path scenarios =="
 # The Playwright suite enforces its own per-run timeout too (playwright.config.ts).
-if run_step scenarios bash -c "cd '$CERT_DIR/scenarios' && npm ci && npx playwright test"; then
+if run_step scenarios bash -c "cd '$CERT_DIR/scenarios' && npm ci && npx playwright install --with-deps chromium && npx playwright test"; then
   result pass ""
   exit 0
 else
