@@ -1,11 +1,41 @@
 {
-  "certified_versions": {},
+  "certified_versions": {
+    "aperture": [
+      "0.2.1"
+    ],
+    "hippo": [
+      "0.10.6"
+    ]
+  },
   "counts": {
     "failing": 0,
-    "passing": 0,
-    "total": 0
+    "passing": 1,
+    "total": 1
   },
-  "entries": [],
+  "entries": [
+    {
+      "ci_run": "https://github.com/BU-Neuromics/datahelix/actions/runs/28916195099",
+      "components": [
+        {
+          "digest": "sha256:f41b0883d951b9abce9f024689ed3e5f7289cd592258edb1a4c14c1c66e290da",
+          "name": "aperture",
+          "version": "0.2.1"
+        },
+        {
+          "digest": "sha256:1cb5152ecc40c9ab88d537868b7519004536ff85428a855728f940c66b8a1631",
+          "name": "hippo",
+          "version": "0.10.6"
+        }
+      ],
+      "failing_check": null,
+      "fixture_version": "1.0.0",
+      "label": "aperture-0.2.1+hippo-0.10.6",
+      "line": "frontier",
+      "result": "pass",
+      "suite_sha": "c304e3b093e4952180ca4ac7909bc01943a7ff76",
+      "timestamp": "2026-07-08T03:53:55Z"
+    }
+  ],
   "generated_from": "certified/* git tags (source of truth)",
   "schema": "datahelix.compatibility/v1"
 }
