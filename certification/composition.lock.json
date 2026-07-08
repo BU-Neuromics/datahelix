@@ -16,15 +16,15 @@
   "fixture_version": "1.0.0",
   "components": {
     "hippo": {
-      "version": "0.10.4",
-      "digest": "sha256:0073d98a2de6a3f25b2b39f2d73ff365edb438d40266167a11aa16bb9adc2cc7",
+      "version": "0.10.5",
+      "digest": "sha256:39965b2eae3df83e19aa5ad5b7ecaaadfd97a8af255ab9c0e2519f9300187f95",
       "image": "ghcr.io/bu-neuromics/hippo",
       "repo": "BU-Neuromics/hippo",
       "status": "published"
     },
     "aperture": {
-      "version": "0.2.0",
-      "digest": "sha256:bf65d1e83d28aedf4baf97bb1897f36b2c3887fcb7fb9f9a4084ee36bb00a2f5",
+      "version": "0.2.1",
+      "digest": "sha256:f41b0883d951b9abce9f024689ed3e5f7289cd592258edb1a4c14c1c66e290da",
       "image": "ghcr.io/bu-neuromics/aperture",
       "repo": "BU-Neuromics/aperture",
       "status": "published"
