@@ -16,8 +16,8 @@
   "fixture_version": "1.0.0",
   "components": {
     "hippo": {
-      "version": "0.10.5",
-      "digest": "sha256:39965b2eae3df83e19aa5ad5b7ecaaadfd97a8af255ab9c0e2519f9300187f95",
+      "version": "0.10.6",
+      "digest": "sha256:1cb5152ecc40c9ab88d537868b7519004536ff85428a855728f940c66b8a1631",
       "image": "ghcr.io/bu-neuromics/hippo",
       "repo": "BU-Neuromics/hippo",
       "status": "published"
