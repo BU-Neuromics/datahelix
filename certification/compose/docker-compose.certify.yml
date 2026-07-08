@@ -45,6 +45,10 @@ services:
       interval: 3s
       timeout: 3s
       retries: 40
+    ports:
+      # The golden-path harness verifies UI journeys at the seam (direct
+      # GraphQL reads/writes from the runner host), so hippo is published.
+      - "8001:8001"
     depends_on:
       postgres:
         condition: service_healthy
@@ -65,6 +69,9 @@ services:
       # Playwright browser on the runner host, and hippo serves neither CORS
       # nor anonymous GraphQL.
       VITE_HIPPO_GRAPHQL_URL: /graphql
+      # The atomic-workflow golden path drives this staged set (runtime-
+      # injected; config-as-data, Aperture ADR-0002/0004).
+      VITE_WORKFLOWS: "[{\"id\": \"catalog-entry\", \"version\": \"1\", \"label\": \"Catalog entry\", \"description\": \"Stage a linked Author, Book, and Review; commit atomically.\", \"steps\": [{\"id\": \"author\", \"label\": \"Author\", \"entityType\": \"Author\"}, {\"id\": \"book\", \"label\": \"Book\", \"entityType\": \"Book\", \"bindings\": [{\"field\": \"author\", \"fromStep\": \"author\"}]}, {\"id\": \"review\", \"label\": \"Review\", \"entityType\": \"Review\", \"bindings\": [{\"field\": \"book\", \"fromStep\": \"book\"}]}]}]"
     volumes:
       - ../compose/aperture-nginx.certify.conf:/etc/nginx/conf.d/default.conf:ro
     ports:

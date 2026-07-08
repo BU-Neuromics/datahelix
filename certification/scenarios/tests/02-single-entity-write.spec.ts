@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../support/fixtures";
 import { newEntityFormUrl, sel, waitForApp, collectionUrl } from "../support/app";
 import { countCollection, gqlContext } from "../support/graphql";
 
@@ -12,7 +12,7 @@ test("create a single Author through the derived form", async ({ page }) => {
   const ctx = await gqlContext();
   const before = await countCollection(ctx, "authors");
 
-  await page.goto(newEntityFormUrl("Author"));
+  await page.goto(newEntityFormUrl("authors"));
   await expect(sel.entityForm(page)).toBeVisible({ timeout: 20_000 });
 
   const unique = `Cert Author ${Date.now()}`;
@@ -21,7 +21,7 @@ test("create a single Author through the derived form", async ({ page }) => {
   await sel.submitButton(page).click();
 
   // UI lands back on the collection and shows the new row.
-  await page.goto(collectionUrl("Author"));
+  await page.goto(collectionUrl("authors"));
   await waitForApp(page);
   await expect(page.getByText(unique)).toBeVisible();
 

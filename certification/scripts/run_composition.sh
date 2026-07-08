@@ -82,7 +82,9 @@ run_step aperture docker compose -f "$COMPOSE" up -d aperture || { result fail "
 
 echo "== running golden-path scenarios =="
 # The Playwright suite enforces its own per-run timeout too (playwright.config.ts).
-if run_step scenarios bash -c "cd '$CERT_DIR/scenarios' && npm ci && npx playwright install --with-deps chromium && npx playwright test"; then
+# HIPPO_TOKEN: hippo 0.10.x requires a bearer on POST /graphql (any non-empty
+# value passes; real verification is Bridge's job, P3.1).
+if run_step scenarios bash -c "cd '$CERT_DIR/scenarios' && npm ci && npx playwright install --with-deps chromium && HIPPO_TOKEN=certify npx playwright test"; then
   result pass ""
   exit 0
 else
