@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../support/fixtures";
 import { workflowUrl, sel } from "../support/app";
 import { countCollection, gqlContext } from "../support/graphql";
 
@@ -43,7 +43,11 @@ test("stage a linked Author→Book→Review set and commit it atomically", async
   // Mid-workflow, NOTHING is committed yet — staging is inert (ADR-0028).
   expect(await countCollection(ctx, "books")).toBe(books0);
 
-  // Whole-set dry-run + atomic commit.
+  // Stage the final step → the review screen (still nothing committed).
+  await sel.workflowNext(page).click();
+  // Whole-set dry-run, then the atomic commit (enabled only by a clean
+  // validation — ADR-0028's review gate).
+  await sel.workflowValidate(page).click();
   await sel.workflowCommit(page).click();
   await expect(sel.workflowSuccess(page)).toBeVisible();
 

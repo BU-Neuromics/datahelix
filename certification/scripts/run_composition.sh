@@ -57,14 +57,24 @@ run_step boot docker compose -f "$COMPOSE" up -d postgres hippo || { result fail
 
 # Wait for hippo health within budget.
 echo "== waiting for hippo health =="
-until docker compose -f "$COMPOSE" ps hippo | grep -q healthy; do
+# "(healthy)" — plain `healthy` also matches "(unhealthy)", which let the
+# first real boot sail past a failing healthcheck (PR #45). An unhealthy
+# verdict fails fast instead of burning the budget.
+until docker compose -f "$COMPOSE" ps hippo | grep -q '(healthy)'; do
+  if docker compose -f "$COMPOSE" ps hippo | grep -q '(unhealthy)'; then
+    result fail "hippo-health"; exit 1
+  fi
   (( $(date +%s) - START >= BUDGET_SECONDS )) && { result fail "hippo-health"; exit 1; }
   sleep 2
 done
 
 echo "== seeding bootstrap fixture =="
-run_step seed docker compose -f "$COMPOSE" exec -T hippo \
-  hippo ingest --file /app/seed/seed.yaml --validate-schema /app/schemas \
+# Not `hippo ingest`: the CLI builds a SQLite-default client and never reads
+# /app/hippo.yaml, so it would write to a throwaway SQLite file instead of the
+# postgres deployment `hippo serve` is reading. seed_via_config.py runs the
+# same ingest wired to the booted config.
+run_step seed bash -c \
+  "docker compose -f '$COMPOSE' exec -T hippo python - < '$HERE/seed_via_config.py'" \
   || { result fail "fixture-seed"; exit 1; }
 
 echo "== bringing up aperture SPA =="
@@ -72,7 +82,9 @@ run_step aperture docker compose -f "$COMPOSE" up -d aperture || { result fail "
 
 echo "== running golden-path scenarios =="
 # The Playwright suite enforces its own per-run timeout too (playwright.config.ts).
-if run_step scenarios bash -c "cd '$CERT_DIR/scenarios' && npm ci && npx playwright test"; then
+# HIPPO_TOKEN: hippo 0.10.x requires a bearer on POST /graphql (any non-empty
+# value passes; real verification is Bridge's job, P3.1).
+if run_step scenarios bash -c "cd '$CERT_DIR/scenarios' && npm ci && npx playwright install --with-deps chromium && HIPPO_TOKEN=certify npx playwright test"; then
   result pass ""
   exit 0
 else

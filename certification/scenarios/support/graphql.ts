@@ -28,14 +28,16 @@ export async function gql<T = any>(
   return body.data as T;
 }
 
-// Count rows in a collection (list field is `<plural>` per Hippo's builder).
+// Count rows in a collection. Hippo's list fields return page envelopes
+// (`<plural>(limit!, offset!) -> <T>Page { items, total }`), so the real
+// total comes straight off the envelope.
 export async function countCollection(
   ctx: APIRequestContext,
   pluralField: string,
 ): Promise<number> {
-  const data = await gql<Record<string, { id: string }[]>>(
+  const data = await gql<Record<string, { total: number }>>(
     ctx,
-    `query CertCount { ${pluralField}(limit: 1000) { id } }`,
+    `query CertCount { ${pluralField}(limit: 1, offset: 0) { total } }`,
   );
-  return (data[pluralField] ?? []).length;
+  return data[pluralField]?.total ?? 0;
 }

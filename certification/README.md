@@ -49,10 +49,14 @@ it does, this suite is the only seam check.**
 
 | Loop | Scenario | Seam |
 |---|---|---|
-| Browse / filter | `scenarios/tests/browse-filter.spec.ts` | introspection + filter SDL |
-| Single-entity write | `scenarios/tests/single-entity-write.spec.ts` | create mutation |
-| Atomic multi-entity workflow | `scenarios/tests/atomic-workflow.spec.ts` | batch unit-of-work |
-| Control-plane saved views / drafts | `scenarios/tests/control-plane.spec.ts` | control-plane document type |
+| Browse / filter | `scenarios/tests/01-browse-filter.spec.ts` | introspection + filter SDL |
+| Single-entity write | `scenarios/tests/02-single-entity-write.spec.ts` | create mutation |
+| Atomic multi-entity workflow | `scenarios/tests/03-atomic-workflow.spec.ts` | batch unit-of-work |
+| Control-plane saved views / drafts | `scenarios/tests/04-control-plane.spec.ts` | control-plane document type |
+
+The numeric prefixes pin Playwright's execution order to the documented 1→4
+sequence: browse/filter asserts the pristine seeded fixture (5 Books), so it
+must run before the write and workflow loops add rows.
 
 Budget is enforced twice: `playwright.config.ts` (`globalTimeout`) and
 `run_composition.sh` (`BUDGET_SECONDS`, which also covers artifact pull + boot +

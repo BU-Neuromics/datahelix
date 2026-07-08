@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, emulateGraphqlProxy } from "../support/fixtures";
 import { collectionUrl, sel, waitForApp } from "../support/app";
 import { gql, gqlContext } from "../support/graphql";
 
@@ -12,16 +12,24 @@ import { gql, gqlContext } from "../support/graphql";
 // server-side assertion below would (correctly) fail.
 
 test("a saved view persists to the control-plane store and survives reload", async ({ page }) => {
-  await page.goto(collectionUrl("Book", { filters: "" , q: "Le Guin" }));
+  await page.goto(collectionUrl("books", { filters: "" , q: "Le Guin" }));
   await waitForApp(page);
 
   // The shell must report the Hippo-backed control plane (not local fallback).
-  await expect(sel.controlPlaneStatus(page)).not.toHaveText(/local storage/i);
+  // Asserted positively — the real footer says "LinkML-on-Hippo document
+  // store" when hippo-backed and "this browser only (…)" on local fallback, so
+  // only a positive match actually proves the recipe was recognized.
+  await expect(sel.controlPlaneStatus(page)).toHaveText(/document store/i);
 
   const viewName = `cert-view-${Date.now()}`;
   await sel.saveViewButton(page).click();
   await page.getByTestId("save-view-name").or(page.getByLabel(/name/i)).first().fill(viewName);
   await page.getByRole("button", { name: /save|confirm/i }).click();
+
+  // The save is asynchronous (list-then-upsert against Hippo); the nav's
+  // saved-views section refreshes only after the put lands. Waiting on it
+  // keeps the server-side check below from racing the write.
+  await expect(sel.savedViewNamed(page, viewName)).toBeVisible();
 
   // Verify server-side: an ApertureDocument of kind=savedView with this name
   // exists and carries a versioned envelope payload. Query is tolerant of the
@@ -36,34 +44,31 @@ test("a saved view persists to the control-plane store and survives reload", asy
 
   // Survives a brand-new browser context (proves it's not browser-local).
   const fresh = await page.context().browser()!.newContext();
+  await emulateGraphqlProxy(fresh); // same nginx-proxy emulation as the fixture page
   const p2 = await fresh.newPage();
-  await p2.goto(collectionUrl("Book"));
+  await p2.goto(collectionUrl("books"));
   await waitForApp(p2);
   await expect(sel.savedViewNamed(p2, viewName)).toBeVisible();
   await fresh.close();
 });
 
-// The control-plane collection's generated plural query name depends on Hippo's
-// pluralizer; try the common forms rather than hard-coding one.
+// Hippo's generated list field returns a page envelope and takes the generic
+// filter list ({field, value} pairs over LinkML slot names).
 async function findSavedView(
   ctx: Awaited<ReturnType<typeof gqlContext>>,
   name: string,
 ): Promise<{ kind: string; name: string; payload: string } | null> {
-  const candidates = ["apertureDocuments", "aperturedocuments", "ApertureDocuments"];
-  for (const field of candidates) {
-    try {
-      const data = await gql<Record<string, any[]>>(
-        ctx,
-        `query CertCP { ${field}(limit: 500) { kind name payload } }`,
-      );
-      const hit = (data[field] ?? []).find(
-        (d) => d.name === name && d.kind === "savedView",
-      );
-      if (hit) return hit;
-      return null; // field resolved but no match
-    } catch {
-      // wrong field name for this deployment — try the next candidate
-    }
-  }
-  return null;
+  const data = await gql<{ apertureDocuments: { items: any[] } }>(
+    ctx,
+    `query CertCP {
+       apertureDocuments(
+         filters: [{ field: "kind", value: "savedView" }]
+         limit: 500
+         offset: 0
+       ) { items { kind name payload } }
+     }`,
+  );
+  return (
+    (data.apertureDocuments?.items ?? []).find((d) => d.name === name) ?? null
+  );
 }

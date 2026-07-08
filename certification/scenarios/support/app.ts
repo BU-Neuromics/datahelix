@@ -52,17 +52,28 @@ export const sel = {
   saveViewButton: (p: Page): Locator =>
     p.getByTestId("save-view").or(p.getByRole("button", { name: /save view/i })),
 
+  // Saved views render as nav BUTTONS in the real 0.2.x DOM (CollectionsNav),
+  // not links.
   savedViewNamed: (p: Page, name: string): Locator =>
-    p.getByTestId(`saved-view-${name}`).or(p.getByRole("link", { name })),
+    p.getByTestId(`saved-view-${name}`).or(p.getByRole("button", { name })),
 
+  // The real footer reads "Control plane: LinkML-on-Hippo document store"
+  // (hippo-backed) or "Control plane: this browser only (…)" (local fallback).
   controlPlaneStatus: (p: Page): Locator =>
-    p.getByTestId("control-plane-status").or(p.getByText(/control plane|local storage/i)).first(),
+    p.getByTestId("control-plane-status").or(p.getByText(/^control plane:/i)).first(),
 
   workflowNext: (p: Page): Locator =>
     p.getByTestId("workflow-next").or(p.getByRole("button", { name: /next|continue/i })),
 
+  // The review screen gates commit behind an explicit whole-set dry-run
+  // (Aperture ADR-0028) — the golden path clicks validate, then commit.
+  workflowValidate: (p: Page): Locator =>
+    p.getByTestId("workflow-validate").or(p.getByRole("button", { name: /validate/i })),
+
+  // Anchored so the stepper's "Review & commit" chip (also a button) never
+  // collides with the commit action.
   workflowCommit: (p: Page): Locator =>
-    p.getByTestId("workflow-commit").or(p.getByRole("button", { name: /commit|finish|create all/i })),
+    p.getByTestId("workflow-commit").or(p.getByRole("button", { name: /^(commit|finish|create all)/i })),
 
   workflowSuccess: (p: Page): Locator =>
     p.getByTestId("workflow-success").or(p.getByText(/committed|created|success/i)).first(),

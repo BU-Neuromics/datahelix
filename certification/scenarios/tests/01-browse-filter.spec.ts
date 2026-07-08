@@ -1,7 +1,8 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../support/fixtures";
 import { collectionUrl, sel, waitForApp } from "../support/app";
 
 // GOLDEN PATH 1 of 4 — BROWSE / FILTER
+// Collection ids are the introspected Query field names (aperture 0.2.0).
 // Seams exercised: introspection enrichment + filter SDL (Aperture ADR-0029/0030).
 // Proves: the SPA introspects the booted Hippo, renders the Book collection,
 // derives facets from the filter input shape (enum `format`, boolean `in_print`,
@@ -12,7 +13,7 @@ import { collectionUrl, sel, waitForApp } from "../support/app";
 // format spans hardcover/paperback/ebook/audiobook.
 
 test("browse the Book collection and narrow it with a facet", async ({ page }) => {
-  await page.goto(collectionUrl("Book"));
+  await page.goto(collectionUrl("books"));
   await waitForApp(page);
 
   // All five seeded Books are listed.
@@ -24,7 +25,9 @@ test("browse the Book collection and narrow it with a facet", async ({ page }) =
   await expect(sel.facetPanel(page)).toBeVisible();
 
   // Narrow by the boolean facet in_print=false → only "The Dispossessed" remains.
-  await sel.facetOption(page, "in_print").first().click();
+  // Facet options are keyed <filter-field>-<value> — the LinkML slot name the
+  // server filters on (in_print), not the humanized column label ("In print").
+  await sel.facetOption(page, "in_print-false").first().click();
   await expect(page.getByText("The Dispossessed")).toBeVisible();
   await expect(page.getByText("Pride and Prejudice")).toBeHidden();
 

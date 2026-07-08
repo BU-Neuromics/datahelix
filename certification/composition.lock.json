@@ -2,32 +2,32 @@
   "_comment": [
     "The certified-frontier pins for THIS branch's line (platform ADR-0001).",
     "The bump bot moves exactly one component's version+digest per PR; the",
-    "certification workflow reads this file, boots that exact pair, and — on",
-    "green merge — appends a ledger tag. A maintenance branch (release/lts-*)",
+    "certification workflow reads this file, boots that exact pair, and \u2014 on",
+    "green merge \u2014 appends a ledger tag. A maintenance branch (release/lts-*)",
     "carries its own frozen copy of this file and its era-appropriate fixture.",
     "",
     "digest is the artifact content address that was (or will be) booted. Until",
     "the components ship digest-addressed artifacts (hippo release pipeline;",
     "aperture#16 + a Dockerfile), digest is null and the certification workflow",
     "skips the boot as an honest no-op rather than certifying an unpublished",
-    "pair. Semver is a claim; the digest is the evidence — the gate requires it."
+    "pair. Semver is a claim; the digest is the evidence \u2014 the gate requires it."
   ],
   "line": "frontier",
   "fixture_version": "1.0.0",
   "components": {
     "hippo": {
-      "version": "0.10.1",
-      "digest": null,
+      "version": "0.10.6",
+      "digest": "sha256:1cb5152ecc40c9ab88d537868b7519004536ff85428a855728f940c66b8a1631",
       "image": "ghcr.io/bu-neuromics/hippo",
       "repo": "BU-Neuromics/hippo",
-      "status": "unpublished"
+      "status": "published"
     },
     "aperture": {
-      "version": "0.1.0",
-      "digest": null,
+      "version": "0.2.1",
+      "digest": "sha256:f41b0883d951b9abce9f024689ed3e5f7289cd592258edb1a4c14c1c66e290da",
       "image": "ghcr.io/bu-neuromics/aperture",
       "repo": "BU-Neuromics/aperture",
-      "status": "unpublished"
+      "status": "published"
     }
   }
 }
