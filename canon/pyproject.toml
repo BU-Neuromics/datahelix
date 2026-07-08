@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "canon"
+name = "datahelix-canon"
 version = "0.1.0"
 description = "Semantic dependency resolver and workflow orchestrator for DataHelix"
 readme = "README.md"
@@ -36,6 +36,9 @@ api = [
 [project.scripts]
 canon = "canon.cli.main:app"
 
+[tool.hatch.build.targets.wheel]
+packages = ["src/canon"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
@@ -44,6 +47,9 @@ markers = [
 ]
 
 [project.entry-points."hippo.reference_loaders"]
+canon = "canon.hippo_reference.loader:CanonReferenceLoader"
+
+[project.entry-points."mosaic.reference_loaders"]
 canon = "canon.hippo_reference.loader:CanonReferenceLoader"
 
 [project.entry-points."canon.executor_adapters"]
