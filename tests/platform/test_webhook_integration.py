@@ -7,7 +7,7 @@ Tests validate the webhook trigger flow:
 4. Deduplication (idempotent webhook delivery)
 
 These tests exercise the Cappella trigger system with a real in-process
-HippoClient. No HTTP server is started — the webhook handler is called
+MosaicClient. No HTTP server is started — the webhook handler is called
 directly.
 """
 

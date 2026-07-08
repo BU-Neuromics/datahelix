@@ -55,7 +55,7 @@ from canon.rules.registry import RuleRegistry
 from canon.types import Entity
 
 # conftest.py in this directory provides: hippo_client, hippo_shim, canon_config,
-# mock_executor, and HippoClientShim.
+# mock_executor, and MosaicClientShim.
 
 
 # ---------------------------------------------------------------------------
@@ -112,7 +112,7 @@ def _make_planner(hippo_shim, rules, executor, tmp_path) -> RecursivePlanner:
 #  that returns one specimen record for SUBJ-001."
 #
 # In this test suite the Cappella adapter sync is simulated by a direct
-# HippoClient.create() call, which is precisely what a Cappella adapter does
+# MosaicClient.create() call, which is precisely what a Cappella adapter does
 # internally after field mapping and vocabulary normalization.
 # ---------------------------------------------------------------------------
 
@@ -152,7 +152,7 @@ def test_stage1_adapter_sync_idempotent(hippo_client, hippo_shim):
 
     Cappella uses upsert-by-external-ID semantics: a second sync with the
     same external source record must result in entities_unchanged, not a new entity.
-    This test verifies the HippoClient side: a second create with the same
+    This test verifies the MosaicClient side: a second create with the same
     data must not duplicate the entity when using query-and-check semantics.
     """
     # First sync
@@ -173,7 +173,7 @@ def test_stage1_adapter_sync_idempotent(hippo_client, hippo_shim):
 # ---------------------------------------------------------------------------
 # Stage 2 — Hippo entity integrity (§5.4 Stage 2)
 #
-# "Action: Direct HippoClient queries after the sync."
+# "Action: Direct MosaicClient queries after the sync."
 # ---------------------------------------------------------------------------
 
 

@@ -5,7 +5,7 @@ from typing import Any, Iterator
 
 import httpx
 
-from hippo.core.loaders.csv import CSVLoader
+from mosaic.core.loaders.csv import CSVLoader
 
 from cappella.exceptions import AdapterFetchError, AdapterTransformError
 from cappella.types import RawRecord, TransformedRecord
@@ -14,7 +14,7 @@ from cappella.types import RawRecord, TransformedRecord
 class CSVAdapter(CSVLoader):
     """Adapter for CSV data sources (file, HTTP URL, or manual upload).
 
-    Subclasses hippo.core.loaders.CSVLoader so that Cappella CSV adapters
+    Subclasses mosaic.core.loaders.CSVLoader so that Cappella CSV adapters
     participate in the unified ingestion framework. field_map, vocabulary_map,
     entity_type, external_id_field, and trust_level are inherited from
     ConfigurableLoader. The fetch/transform overrides use Cappella's richer

@@ -4,12 +4,12 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any
 
-# Hippo's IngestPipeline orchestrates the upsert loop for any EntityLoader.
-# Cappella adapters now subclass Hippo loaders, so a live hippo_client could
-# delegate via: hippo.core.loaders.pipeline.IngestPipeline(client, adapter).run()
+# Mosaic's IngestPipeline orchestrates the upsert loop for any EntityLoader.
+# Cappella adapters now subclass Mosaic loaders, so a live hippo_client could
+# delegate via: mosaic.core.loaders.pipeline.IngestPipeline(client, adapter).run()
 # Full delegation is deferred because Cappella adapters yield typed RawRecord /
-# TransformedRecord dataclasses rather than the plain dicts Hippo expects.
-from hippo.core.loaders.pipeline import IngestPipeline as HippoIngestPipeline  # noqa: F401
+# TransformedRecord dataclasses rather than the plain dicts Mosaic expects.
+from mosaic.core.loaders.pipeline import IngestPipeline as MosaicIngestPipeline  # noqa: F401
 
 from cappella.adapters.base import ExternalSourceAdapter
 from cappella.exceptions import AdapterFetchError, AdapterTransformError, AdapterError

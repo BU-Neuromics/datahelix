@@ -1,9 +1,9 @@
 """Shared pytest configuration for DataHelix contract and platform tests.
 
-After the hippo split (PTS-282), :class:`hippo.core.storage.adapters.sqlite_adapter.SQLiteAdapter`
+After the hippo split (PTS-282), :class:`mosaic.core.storage.adapters.sqlite_adapter.SQLiteAdapter`
 requires a ``schema_registry`` argument. DataHelix-side tests previously called
 the legacy single-arg form; this module provides a shared helper and fixture
-that build a minimal :class:`hippo.linkml_bridge.SchemaRegistry` covering
+that build a minimal :class:`mosaic.linkml_bridge.SchemaRegistry` covering
 every entity type referenced by the contract and platform suites.
 
 Mirrors ``hippo/tests/conftest.py``'s ``_build_minimal_schema_registry``
@@ -28,7 +28,7 @@ for _pkg in ("hippo/src", "canon/src", "cappella/src"):
         sys.path.insert(0, _p)
 
 if TYPE_CHECKING:
-    from hippo.linkml_bridge import SchemaRegistry
+    from mosaic.linkml_bridge import SchemaRegistry
 
 
 # User-domain entity classes referenced by the contract and platform suites.
@@ -128,7 +128,7 @@ def build_test_schema_registry() -> "SchemaRegistry":
     import yaml
     from linkml_runtime.utils.schemaview import SchemaView
 
-    from hippo.linkml_bridge import SchemaRegistry, _bundled_importmap
+    from mosaic.linkml_bridge import SchemaRegistry, _bundled_importmap
 
     overlay = {
         "id": "https://example.org/datahelix/tests_minimal",

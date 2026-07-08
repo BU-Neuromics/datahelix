@@ -25,20 +25,20 @@ for _pkg in ("hippo/src", "canon/src"):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-from hippo.core.client import HippoClient
-from hippo.core.exceptions import EntityNotFoundError
-from hippo.core.loaders.base import ConfigurableLoader, EntityLoader, RawRecord
-from hippo.core.loaders.csv import CSVLoader
-from hippo.core.loaders.pipeline import IngestPipeline
-from hippo.core.storage.adapters.sqlite_adapter import SQLiteAdapter
+from mosaic.core.client import MosaicClient
+from mosaic.core.exceptions import EntityNotFoundError
+from mosaic.core.loaders.base import ConfigurableLoader, EntityLoader, RawRecord
+from mosaic.core.loaders.csv import CSVLoader
+from mosaic.core.loaders.pipeline import IngestPipeline
+from mosaic.core.storage.adapters.sqlite_adapter import SQLiteAdapter
 
 from tests.conftest import build_test_schema_registry
 
 
-def _make_client(tmp_path: Path) -> HippoClient:
+def _make_client(tmp_path: Path) -> MosaicClient:
     registry = build_test_schema_registry()
     storage = SQLiteAdapter(str(tmp_path / "hippo.db"), schema_registry=registry)
-    return HippoClient(storage=storage, registry=registry)
+    return MosaicClient(storage=storage, registry=registry)
 
 
 # ---------------------------------------------------------------------------
@@ -181,7 +181,7 @@ class TestCSVLoaderContract:
 class TestIngestPipelineContract:
     """IngestPipeline must produce correct created/unchanged/updated counts.
 
-    Uses a real HippoClient backed by SQLite so the idempotency logic is
+    Uses a real MosaicClient backed by SQLite so the idempotency logic is
     exercised end-to-end, not mocked away.
     """
 

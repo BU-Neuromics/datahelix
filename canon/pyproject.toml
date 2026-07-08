@@ -47,10 +47,10 @@ markers = [
 ]
 
 [project.entry-points."hippo.reference_loaders"]
-canon = "canon.hippo_reference.loader:CanonReferenceLoader"
+canon = "canon.mosaic_reference.loader:CanonReferenceLoader"
 
 [project.entry-points."mosaic.reference_loaders"]
-canon = "canon.hippo_reference.loader:CanonReferenceLoader"
+canon = "canon.mosaic_reference.loader:CanonReferenceLoader"
 
 [project.entry-points."canon.executor_adapters"]
 cwltool = "canon.executors.cwltool:CwltoolAdapter"

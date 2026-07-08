@@ -5,7 +5,7 @@ from typing import Any, Iterator
 import httpx
 from jsonpath_ng import parse as jsonpath_parse
 
-from hippo.core.loaders.json import JSONLoader
+from mosaic.core.loaders.json import JSONLoader
 
 from cappella.exceptions import AdapterFetchError, AdapterTransformError
 from cappella.types import RawRecord, TransformedRecord
@@ -14,7 +14,7 @@ from cappella.types import RawRecord, TransformedRecord
 class JSONAdapter(JSONLoader):
     """Adapter for JSON data sources.
 
-    Subclasses hippo.core.loaders.JSONLoader so that Cappella JSON adapters
+    Subclasses mosaic.core.loaders.JSONLoader so that Cappella JSON adapters
     participate in the unified ingestion framework. field_map, vocabulary_map,
     entity_type, external_id_field, and trust_level are inherited from
     ConfigurableLoader. The fetch/transform overrides use Cappella's richer

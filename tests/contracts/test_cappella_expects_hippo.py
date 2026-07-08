@@ -1,12 +1,12 @@
-"""Contract tests: Cappella's behavioral expectations of HippoClient.
+"""Contract tests: Cappella's behavioral expectations of MosaicClient.
 
-These tests assert the exact behaviors Cappella depends on from HippoClient.
+These tests assert the exact behaviors Cappella depends on from MosaicClient.
 They are written from Cappella's perspective — the consumer — and run against
-HippoClient directly (no Cappella code involved).
+MosaicClient directly (no Cappella code involved).
 
-A failure here means HippoClient changed a behavioral contract that Cappella
+A failure here means MosaicClient changed a behavioral contract that Cappella
 relies on. Treat it like a breaking API change:
-  1. If the change was unintentional: fix HippoClient.
+  1. If the change was unintentional: fix MosaicClient.
   2. If the change was intentional: update this spec + bump Cappella's version
      to signal it may need adapter changes.
 
@@ -14,7 +14,7 @@ DO NOT add Hippo-internal tests here. This file only asserts what Cappella needs
 
 See TESTING.md for the full failure protocol.
 
-Cappella depends on HippoClient for:
+Cappella depends on MosaicClient for:
   - Entity create/update via the ingest pipeline (IngestPipeline → put/create/update)
   - Schema-driven field validation for harmonized collections
   - schema_references() for EntityTraversal's relationship discovery
@@ -35,18 +35,18 @@ for _pkg in ("hippo/src", "cappella/src"):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-from hippo.core.client import HippoClient
-from hippo.core.exceptions import EntityNotFoundError, ValidationFailure
-from hippo.core.storage.adapters.sqlite_adapter import SQLiteAdapter
+from mosaic.core.client import MosaicClient
+from mosaic.core.exceptions import EntityNotFoundError, ValidationFailure
+from mosaic.core.storage.adapters.sqlite_adapter import SQLiteAdapter
 
 from tests.conftest import build_test_schema_registry
 
 
 @pytest.fixture()
-def client(tmp_path: Path) -> HippoClient:
+def client(tmp_path: Path) -> MosaicClient:
     registry = build_test_schema_registry()
     storage = SQLiteAdapter(str(tmp_path / "hippo.db"), schema_registry=registry)
-    return HippoClient(storage=storage, registry=registry)
+    return MosaicClient(storage=storage, registry=registry)
 
 
 # ---------------------------------------------------------------------------
@@ -256,7 +256,7 @@ class TestProvenanceContract:
 # ---------------------------------------------------------------------------
 
 class TestErrorHandlingContract:
-    """Cappella depends on specific exception types from HippoClient."""
+    """Cappella depends on specific exception types from MosaicClient."""
 
     def test_get_missing_entity_raises_entity_not_found_error(self, client):
         with pytest.raises(EntityNotFoundError):

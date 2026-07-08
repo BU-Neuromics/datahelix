@@ -1,7 +1,7 @@
 """Shared fixtures for platform integration tests.
 
 These tests exercise the real Hippo ↔ Canon contract using an in-process
-HippoClient backed by SQLiteAdapter.  No HTTP server required.
+MosaicClient backed by SQLiteAdapter.  No HTTP server required.
 """
 
 from __future__ import annotations
@@ -21,8 +21,8 @@ for _pkg in ("hippo/src", "canon/src"):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-from hippo.core.client import HippoClient
-from hippo.core.storage.adapters.sqlite_adapter import SQLiteAdapter
+from mosaic.core.client import MosaicClient
+from mosaic.core.storage.adapters.sqlite_adapter import SQLiteAdapter
 from canon.config import CanonConfig
 from canon.executors.base import CWLRunResult
 from canon.types import Entity
@@ -31,19 +31,19 @@ from tests.conftest import build_test_schema_registry
 
 
 # ---------------------------------------------------------------------------
-# HippoClientShim
+# MosaicClientShim
 # ---------------------------------------------------------------------------
 
 
-class HippoClientShim:
-    """Adapter that wraps a real HippoClient to satisfy RecursivePlanner's
+class MosaicClientShim:
+    """Adapter that wraps a real MosaicClient to satisfy RecursivePlanner's
     hippo_client interface (find_entity / ingest_entity / update_entity).
 
     This removes the need for an HTTP server: Canon talks directly to the
-    in-process HippoClient backed by SQLiteAdapter.
+    in-process MosaicClient backed by SQLiteAdapter.
     """
 
-    def __init__(self, hippo_client: HippoClient) -> None:
+    def __init__(self, hippo_client: MosaicClient) -> None:
         self._client = hippo_client
         # Maps entity_id → entity_type for update_entity lookups
         self._entity_type_cache: dict[str, str] = {}
@@ -93,7 +93,7 @@ class HippoClientShim:
         entity_type = self._entity_type_cache.get(entity_id)
         if entity_type is None:
             raise RuntimeError(
-                f"HippoClientShim.update_entity: unknown entity_id {entity_id!r}. "
+                f"MosaicClientShim.update_entity: unknown entity_id {entity_id!r}. "
                 "Call find_entity or ingest_entity first so the type is cached."
             )
         current = self._client.get(entity_type, entity_id)
@@ -107,17 +107,17 @@ class HippoClientShim:
 
 
 @pytest.fixture()
-def hippo_client(tmp_path: Path) -> HippoClient:
-    """Real HippoClient backed by SQLiteAdapter in a temporary directory."""
+def hippo_client(tmp_path: Path) -> MosaicClient:
+    """Real MosaicClient backed by SQLiteAdapter in a temporary directory."""
     registry = build_test_schema_registry()
     storage = SQLiteAdapter(str(tmp_path / "hippo.db"), schema_registry=registry)
-    return HippoClient(storage=storage, registry=registry)
+    return MosaicClient(storage=storage, registry=registry)
 
 
 @pytest.fixture()
-def hippo_shim(hippo_client: HippoClient) -> HippoClientShim:
-    """HippoClientShim wrapping the real HippoClient."""
-    return HippoClientShim(hippo_client)
+def hippo_shim(hippo_client: MosaicClient) -> MosaicClientShim:
+    """MosaicClientShim wrapping the real MosaicClient."""
+    return MosaicClientShim(hippo_client)
 
 
 @pytest.fixture()
@@ -125,7 +125,7 @@ def canon_config(tmp_path: Path) -> CanonConfig:
     """Minimal CanonConfig with a rules_file stub in tmp_path.
 
     hippo_url is a placeholder — platform tests bypass HTTP and use
-    HippoClientShim directly.
+    MosaicClientShim directly.
     """
     rules_file = tmp_path / "canon_rules.yaml"
     rules_file.write_text("rules: []\n")
@@ -177,7 +177,7 @@ def sample_csv_path() -> Path:
 
 
 @pytest.fixture()
-def seed_subject(hippo_client: HippoClient) -> dict:
+def seed_subject(hippo_client: MosaicClient) -> dict:
     """Seed a Subject entity and return it."""
     return hippo_client.create(
         "Subject", {"external_id": "SUBJ-001", "species": "Homo sapiens"}
@@ -185,7 +185,7 @@ def seed_subject(hippo_client: HippoClient) -> dict:
 
 
 @pytest.fixture()
-def seed_sample(hippo_client: HippoClient, seed_subject: dict) -> dict:
+def seed_sample(hippo_client: MosaicClient, seed_subject: dict) -> dict:
     """Seed a Sample entity linked to the seeded Subject and return it."""
     return hippo_client.create(
         "Sample",
@@ -198,7 +198,7 @@ def seed_sample(hippo_client: HippoClient, seed_subject: dict) -> dict:
 
 
 @pytest.fixture()
-def seed_cohort(hippo_client: HippoClient, seed_subject: dict) -> list[dict]:
+def seed_cohort(hippo_client: MosaicClient, seed_subject: dict) -> list[dict]:
     """Seed a cohort of 3 samples for partial-failure testing."""
     samples = []
     for sid, tissue in [("s001", "brain"), ("s002", "liver"), ("s003", "csf")]:

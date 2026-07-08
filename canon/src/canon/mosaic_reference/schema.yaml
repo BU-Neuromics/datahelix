@@ -1,6 +1,7 @@
-# Canon Hippo Reference Schema
+# Canon Mosaic Reference Schema
 # Defines entity types used by Canon for tool tracking and workflow provenance.
-# Loaded into Hippo via CanonReferenceLoader (hippo.reference_loaders entry point).
+# Loaded into Mosaic via CanonReferenceLoader (mosaic.reference_loaders entry point;
+# legacy hippo.reference_loaders group is dual-registered).
 
 schema_version: "1.0"
 namespace: "canon"

@@ -1,12 +1,12 @@
-"""Contract tests: Canon's behavioral expectations of HippoClient.
+"""Contract tests: Canon's behavioral expectations of MosaicClient.
 
-These tests assert the exact behaviors Canon depends on from HippoClient.
+These tests assert the exact behaviors Canon depends on from MosaicClient.
 They are written from Canon's perspective — the consumer — and run against
-HippoClient directly (no Canon code involved).
+MosaicClient directly (no Canon code involved).
 
-A failure here means HippoClient changed a behavioral contract that Canon
+A failure here means MosaicClient changed a behavioral contract that Canon
 relies on. Treat it like a breaking API change:
-  1. If the change was unintentional: fix HippoClient.
+  1. If the change was unintentional: fix MosaicClient.
   2. If the change was intentional: update this spec + bump Canon's version
      to signal it may need adapter changes.
 
@@ -28,18 +28,18 @@ for _pkg in ("hippo/src", "canon/src"):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-from hippo.core.client import HippoClient
-from hippo.core.exceptions import EntityNotFoundError, ValidationFailure
-from hippo.core.storage.adapters.sqlite_adapter import SQLiteAdapter
+from mosaic.core.client import MosaicClient
+from mosaic.core.exceptions import EntityNotFoundError, ValidationFailure
+from mosaic.core.storage.adapters.sqlite_adapter import SQLiteAdapter
 
 from tests.conftest import build_test_schema_registry
 
 
 @pytest.fixture()
-def client(tmp_path: Path) -> HippoClient:
+def client(tmp_path: Path) -> MosaicClient:
     registry = build_test_schema_registry()
     storage = SQLiteAdapter(str(tmp_path / "hippo.db"), schema_registry=registry)
-    return HippoClient(storage=storage, registry=registry)
+    return MosaicClient(storage=storage, registry=registry)
 
 
 # ---------------------------------------------------------------------------
@@ -173,7 +173,7 @@ class TestGetContract:
 # ---------------------------------------------------------------------------
 # CONTRACT: delete() soft-delete semantics
 #
-# Canon does not currently call delete() directly, but the HippoClientShim
+# Canon does not currently call delete() directly, but the MosaicClientShim
 # must behave consistently with these semantics. Documented here so a future
 # Canon version that does use delete() has a stable baseline.
 # ---------------------------------------------------------------------------
