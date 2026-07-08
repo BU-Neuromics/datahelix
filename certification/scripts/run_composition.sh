@@ -57,7 +57,13 @@ run_step boot docker compose -f "$COMPOSE" up -d postgres hippo || { result fail
 
 # Wait for hippo health within budget.
 echo "== waiting for hippo health =="
-until docker compose -f "$COMPOSE" ps hippo | grep -q healthy; do
+# "(healthy)" — plain `healthy` also matches "(unhealthy)", which let the
+# first real boot sail past a failing healthcheck (PR #45). An unhealthy
+# verdict fails fast instead of burning the budget.
+until docker compose -f "$COMPOSE" ps hippo | grep -q '(healthy)'; do
+  if docker compose -f "$COMPOSE" ps hippo | grep -q '(unhealthy)'; then
+    result fail "hippo-health"; exit 1
+  fi
   (( $(date +%s) - START >= BUDGET_SECONDS )) && { result fail "hippo-health"; exit 1; }
   sleep 2
 done

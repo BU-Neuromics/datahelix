@@ -38,7 +38,10 @@ services:
       - ../fixtures/bootstrap/schema:/app/schemas:ro
       - ../fixtures/bootstrap/data:/app/seed:ro
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://localhost:8001/health || exit 1"]
+      # python, not curl — the hippo image is python:3.12-slim and carries no
+      # curl, so a curl-based probe fails forever without ever reaching the
+      # server (first real boot, PR #45).
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8001/health')\" || exit 1"]
       interval: 3s
       timeout: 3s
       retries: 40
@@ -54,9 +57,16 @@ services:
     # builds/pins the image accordingly (aperture#16 + a Dockerfile).
     image: ${APERTURE_IMAGE:?set APERTURE_IMAGE=<image>@<digest>}
     environment:
-      # Consumed at build time; declared here for entrypoints that support
-      # runtime injection and for local `docker compose` overrides.
-      VITE_HIPPO_GRAPHQL_URL: http://hippo:8001/graphql
+      # Injected at container start by the image's runtime-config entrypoint
+      # (aperture#22). Relative URL: the browser talks same-origin to the
+      # nginx /graphql reverse proxy (see aperture-nginx.certify.conf), which
+      # forwards to the hippo service and injects the bearer token — the
+      # compose-internal `hippo` hostname doesn't resolve from the
+      # Playwright browser on the runner host, and hippo serves neither CORS
+      # nor anonymous GraphQL.
+      VITE_HIPPO_GRAPHQL_URL: /graphql
+    volumes:
+      - ../compose/aperture-nginx.certify.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
       - "5173:80"
     depends_on:
