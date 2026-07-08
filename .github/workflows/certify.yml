@@ -21,6 +21,7 @@ on:
       - "certification/fixtures/**"
       - "certification/scenarios/**"
       - "certification/compose/**"
+      - "certification/scripts/**"
   push:
     branches: [main, "release/**"]
     paths:
