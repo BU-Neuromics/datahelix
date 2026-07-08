@@ -21,14 +21,19 @@ class GateError(RuntimeError):
 def _find_pair(
     requested: list[Component], entries: list[LedgerEntry]
 ) -> LedgerEntry | None:
-    want = {c.name: c for c in requested}
     for e in entries:
-        got = {c.name: c for c in e.components}
-        if got.keys() != want.keys():
+        if len(e.components) != len(requested):
             continue
-        if all(
-            got[n].version == want[n].version for n in want
-        ):
+        # component_line (not exact name match) so a request for "mosaic"
+        # is satisfied by an entry recorded under the legacy "hippo" name,
+        # and vice versa (decision 1.7 — one component line, two spellings).
+        matches = True
+        for want in requested:
+            got = e.component_line(want.name)
+            if got is None or got.version != want.version:
+                matches = False
+                break
+        if matches:
             return e
     return None
 
@@ -73,12 +78,12 @@ def check_pair(
             f"pair {entry.label} is certified FAILING "
             f"(failing check: {entry.failing_check}); refusing to deploy."
         )
-    # Version match confirmed; now enforce digests.
-    got = {c.name: c for c in entry.components}
+    # Version match confirmed; now enforce digests (alias-aware lookup).
     mismatches = [
-        f"{c.name}: requested {c.digest} but ledger certified {got[c.name].digest}"
+        f"{c.name}: requested {c.digest} but ledger certified "
+        f"{entry.component_line(c.name).digest}"
         for c in requested
-        if got[c.name].digest != c.digest
+        if entry.component_line(c.name).digest != c.digest
     ]
     if mismatches:
         raise GateError(

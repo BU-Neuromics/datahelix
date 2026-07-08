@@ -54,14 +54,15 @@ ledger-test:
 ledger-assemble:
 	cd certification && python3 -m ledger.cli --repo .. assemble --out compatibility.json
 
-## Query partner versions certified with a line, e.g. ANCHOR=aperture LINE=1.4.* PARTNER=hippo
+## Query partner versions certified with a line, e.g. ANCHOR=aperture LINE=1.4.* PARTNER=mosaic
+## ("mosaic" and the legacy "hippo" name are the same component line — decision 1.7)
 ledger-query:
 	cd certification && python3 -m ledger.cli --repo .. query \
 		--anchor "$(ANCHOR)" --line "$(LINE)" --partner "$(PARTNER)"
 
 ## Boot the pinned composition and run the golden-path suite locally (needs published images)
 certify-local:
-	HIPPO_IMAGE=$${HIPPO_IMAGE:?set to <image>@<digest>} \
+	MOSAIC_IMAGE=$${MOSAIC_IMAGE:?set to <image>@<digest>} \
 	APERTURE_IMAGE=$${APERTURE_IMAGE:?set to <image>@<digest>} \
 	bash certification/scripts/run_composition.sh
 

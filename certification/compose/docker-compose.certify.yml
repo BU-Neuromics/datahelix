@@ -1,12 +1,15 @@
 # Composition-certification stack (platform ADR-0001).
 #
-# Boots ONE exact, digest-pinned pair: hippo serve (REST + GraphQL) over a
-# freshly-seeded fixture schema, plus the Aperture SPA pointed at it. Images are
-# PULLED BY DIGEST — never built from source in DataHelix. The certification
-# workflow resolves ${HIPPO_IMAGE} / ${APERTURE_IMAGE} to <image>@<digest> from
-# composition.lock.json (or workflow_dispatch inputs) before `up`.
+# Boots ONE exact, digest-pinned pair: mosaic serve (REST + GraphQL, ADR-0004 —
+# formerly hippo serve) over a freshly-seeded fixture schema, plus the Aperture
+# SPA pointed at it. Images are PULLED BY DIGEST — never built from source in
+# DataHelix. The certification workflow resolves ${MOSAIC_IMAGE} /
+# ${APERTURE_IMAGE} to <image>@<digest> from composition.lock.json (or
+# workflow_dispatch inputs) before `up`. NOTE: the image path itself is still
+# ghcr.io/bu-neuromics/hippo — the hippo repo's own release pipeline has not
+# been renamed yet (Phase R); only the certification-side naming changes here.
 #
-# Seeding is a separate step (see scripts/run_composition.sh): after hippo is
+# Seeding is a separate step (see scripts/run_composition.sh): after mosaic is
 # healthy, the fixture bundle is ingested; then aperture is brought up. Kept out
 # of the image so one image serves any fixture version.
 
@@ -25,20 +28,20 @@ services:
       retries: 20
     networks: [cert]
 
-  hippo:
-    image: ${HIPPO_IMAGE:?set HIPPO_IMAGE=<image>@<digest>}
+  mosaic:
+    image: ${MOSAIC_IMAGE:?set MOSAIC_IMAGE=<image>@<digest>}
     # Override the image's default CMD (REST only, port 8001) to enable GraphQL
     # and point at the mounted fixture config. GraphQL is the seam Aperture uses.
     command: ["serve", "--host", "0.0.0.0", "--port", "8001", "--graphql",
-              "--config", "/app/hippo.yaml"]
+              "--config", "/app/mosaic.yaml"]
     environment:
-      HIPPO_DATABASE_URL: postgresql://hippo:hippo@postgres:5432/hippo
+      MOSAIC_DATABASE_URL: postgresql://hippo:hippo@postgres:5432/hippo
     volumes:
-      - ../compose/hippo.certify.yaml:/app/hippo.yaml:ro
+      - ../compose/mosaic.certify.yaml:/app/mosaic.yaml:ro
       - ../fixtures/bootstrap/schema:/app/schemas:ro
       - ../fixtures/bootstrap/data:/app/seed:ro
     healthcheck:
-      # python, not curl — the hippo image is python:3.12-slim and carries no
+      # python, not curl — the mosaic image is python:3.12-slim and carries no
       # curl, so a curl-based probe fails forever without ever reaching the
       # server (first real boot, PR #45).
       test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8001/health')\" || exit 1"]
@@ -47,7 +50,7 @@ services:
       retries: 40
     ports:
       # The golden-path harness verifies UI journeys at the seam (direct
-      # GraphQL reads/writes from the runner host), so hippo is published.
+      # GraphQL reads/writes from the runner host), so mosaic is published.
       - "8001:8001"
     depends_on:
       postgres:
@@ -56,17 +59,19 @@ services:
 
   aperture:
     # The SPA. VITE_* endpoint vars are build-time; the pinned image must be
-    # built with VITE_HIPPO_GRAPHQL_URL pointing at the hippo service, OR served
-    # by an entrypoint that injects runtime config. The certification workflow
-    # builds/pins the image accordingly (aperture#16 + a Dockerfile).
+    # built with VITE_HIPPO_GRAPHQL_URL pointing at the mosaic service, OR
+    # served by an entrypoint that injects runtime config. The certification
+    # workflow builds/pins the image accordingly (aperture#16 + a Dockerfile).
+    # (VITE_HIPPO_GRAPHQL_URL is Aperture's own build-time contract name —
+    # renaming it is Aperture's call, out of scope here.)
     image: ${APERTURE_IMAGE:?set APERTURE_IMAGE=<image>@<digest>}
     environment:
       # Injected at container start by the image's runtime-config entrypoint
       # (aperture#22). Relative URL: the browser talks same-origin to the
       # nginx /graphql reverse proxy (see aperture-nginx.certify.conf), which
-      # forwards to the hippo service and injects the bearer token — the
-      # compose-internal `hippo` hostname doesn't resolve from the
-      # Playwright browser on the runner host, and hippo serves neither CORS
+      # forwards to the mosaic service and injects the bearer token — the
+      # compose-internal `mosaic` hostname doesn't resolve from the
+      # Playwright browser on the runner host, and mosaic serves neither CORS
       # nor anonymous GraphQL.
       VITE_HIPPO_GRAPHQL_URL: /graphql
       # The atomic-workflow golden path drives this staged set (runtime-
@@ -77,7 +82,7 @@ services:
     ports:
       - "5173:80"
     depends_on:
-      hippo:
+      mosaic:
         condition: service_healthy
     networks: [cert]
 

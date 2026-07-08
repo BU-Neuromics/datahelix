@@ -19,8 +19,32 @@ from typing import Any
 
 # Tag namespace for ledger records. Repo-global, branch-independent, visibly
 # append-only (git tags survive branch deletion). Example:
-#   certified/aperture-1.4.2+hippo-1.2.4
+#   certified/aperture-1.4.2+hippo-1.2.4 (pre-rename) or
+#   certified/aperture-1.4.2+mosaic-1.2.4 (post-rename) — see COMPONENT_ALIASES.
 TAG_PREFIX = "certified/"
+
+# Component-name aliases (platform ADR-0004 / plan decision 1.7): Hippo was
+# renamed to Mosaic, but the certification ledger is append-only — existing
+# `hippo=` entries and `certified/...+hippo-Y` tags are never rewritten. New
+# entries use the canonical `mosaic` key. Both spellings name the SAME
+# component line, so queries and the deploy gate must resolve either spelling
+# to the same set of ledger entries. This also covers the transition window
+# where the hippo repo's own release pipeline still publishes images tagged
+# `"component": "hippo"` (until the repo itself is renamed, Phase R).
+COMPONENT_ALIASES: dict[str, frozenset[str]] = {
+    "hippo": frozenset({"hippo", "mosaic"}),
+    "mosaic": frozenset({"hippo", "mosaic"}),
+}
+
+
+def component_line_names(name: str) -> frozenset[str]:
+    """All spellings that denote the same component line as ``name``.
+
+    For most component names this is just ``{name}``; for ``hippo``/``mosaic``
+    it is both spellings, so a lookup for either name matches ledger entries
+    recorded under the other (see ``COMPONENT_ALIASES``).
+    """
+    return COMPONENT_ALIASES.get(name, frozenset({name}))
 
 # A digest is the artifact's content address (e.g. an OCI image digest or a
 # package hash). Semver is a *claim*; the digest is the *evidence* (ADR-0001).
@@ -99,6 +123,19 @@ class LedgerEntry:
     def component(self, name: str) -> Component | None:
         for c in self.components:
             if c.name == name:
+                return c
+        return None
+
+    def component_line(self, name: str) -> Component | None:
+        """Like :meth:`component`, but resolving the ``hippo``/``mosaic`` alias.
+
+        Use this for queries/gating so a lookup for ``mosaic`` also matches an
+        entry recorded under the legacy ``hippo`` name (and vice versa) —
+        decision 1.7: the two spellings are one component line.
+        """
+        wanted = component_line_names(name)
+        for c in self.components:
+            if c.name in wanted:
                 return c
         return None
 

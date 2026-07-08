@@ -5,7 +5,8 @@
 # (platform ADR-0001).
 #
 # Required env:
-#   HIPPO_IMAGE      <image>@<digest>   (pull-by-digest; never build from source)
+#   MOSAIC_IMAGE     <image>@<digest>   (pull-by-digest; never build from source;
+#                                        formerly HIPPO_IMAGE — ADR-0004)
 #   APERTURE_IMAGE   <image>@<digest>
 # Optional:
 #   BUDGET_SECONDS   hard wall-clock budget for the whole run (default 600 = ~10m)
@@ -30,7 +31,7 @@ result() {  # result <pass|fail> <failing_check|"">
     "$( [ -n "$check" ] && printf '"%s"' "$check" || printf 'null' )" \
     "$elapsed" "$BUDGET_SECONDS" > "$RESULT_FILE"
   echo "== certification $status (${elapsed}s / ${BUDGET_SECONDS}s budget) =="
-  docker compose -f "$COMPOSE" logs --no-color hippo aperture 2>/dev/null | tail -50 || true
+  docker compose -f "$COMPOSE" logs --no-color mosaic aperture 2>/dev/null | tail -50 || true
   docker compose -f "$COMPOSE" down -v >/dev/null 2>&1 || true
   [ "$status" = "pass" ]
 }
@@ -45,36 +46,36 @@ run_step() {  # run_step <name> <cmd...>
   timeout "${remaining}s" "$@"
 }
 
-: "${HIPPO_IMAGE:?set HIPPO_IMAGE=<image>@<digest>}"
+: "${MOSAIC_IMAGE:?set MOSAIC_IMAGE=<image>@<digest>}"
 : "${APERTURE_IMAGE:?set APERTURE_IMAGE=<image>@<digest>}"
-export HIPPO_IMAGE APERTURE_IMAGE
+export MOSAIC_IMAGE APERTURE_IMAGE
 
 echo "== pulling pinned artifacts by digest =="
-run_step pull docker compose -f "$COMPOSE" pull postgres hippo aperture || { result fail "artifact-pull"; exit 1; }
+run_step pull docker compose -f "$COMPOSE" pull postgres mosaic aperture || { result fail "artifact-pull"; exit 1; }
 
-echo "== booting postgres + hippo (serve --graphql over fixture schema) =="
-run_step boot docker compose -f "$COMPOSE" up -d postgres hippo || { result fail "hippo-boot"; exit 1; }
+echo "== booting postgres + mosaic (serve --graphql over fixture schema) =="
+run_step boot docker compose -f "$COMPOSE" up -d postgres mosaic || { result fail "mosaic-boot"; exit 1; }
 
-# Wait for hippo health within budget.
-echo "== waiting for hippo health =="
+# Wait for mosaic health within budget.
+echo "== waiting for mosaic health =="
 # "(healthy)" — plain `healthy` also matches "(unhealthy)", which let the
 # first real boot sail past a failing healthcheck (PR #45). An unhealthy
 # verdict fails fast instead of burning the budget.
-until docker compose -f "$COMPOSE" ps hippo | grep -q '(healthy)'; do
-  if docker compose -f "$COMPOSE" ps hippo | grep -q '(unhealthy)'; then
-    result fail "hippo-health"; exit 1
+until docker compose -f "$COMPOSE" ps mosaic | grep -q '(healthy)'; do
+  if docker compose -f "$COMPOSE" ps mosaic | grep -q '(unhealthy)'; then
+    result fail "mosaic-health"; exit 1
   fi
-  (( $(date +%s) - START >= BUDGET_SECONDS )) && { result fail "hippo-health"; exit 1; }
+  (( $(date +%s) - START >= BUDGET_SECONDS )) && { result fail "mosaic-health"; exit 1; }
   sleep 2
 done
 
 echo "== seeding bootstrap fixture =="
-# Not `hippo ingest`: the CLI builds a SQLite-default client and never reads
-# /app/hippo.yaml, so it would write to a throwaway SQLite file instead of the
-# postgres deployment `hippo serve` is reading. seed_via_config.py runs the
+# Not `mosaic ingest`: the CLI builds a SQLite-default client and never reads
+# /app/mosaic.yaml, so it would write to a throwaway SQLite file instead of the
+# postgres deployment `mosaic serve` is reading. seed_via_config.py runs the
 # same ingest wired to the booted config.
 run_step seed bash -c \
-  "docker compose -f '$COMPOSE' exec -T hippo python - < '$HERE/seed_via_config.py'" \
+  "docker compose -f '$COMPOSE' exec -T mosaic python - < '$HERE/seed_via_config.py'" \
   || { result fail "fixture-seed"; exit 1; }
 
 echo "== bringing up aperture SPA =="
@@ -82,9 +83,9 @@ run_step aperture docker compose -f "$COMPOSE" up -d aperture || { result fail "
 
 echo "== running golden-path scenarios =="
 # The Playwright suite enforces its own per-run timeout too (playwright.config.ts).
-# HIPPO_TOKEN: hippo 0.10.x requires a bearer on POST /graphql (any non-empty
-# value passes; real verification is Bridge's job, P3.1).
-if run_step scenarios bash -c "cd '$CERT_DIR/scenarios' && npm ci && npx playwright install --with-deps chromium && HIPPO_TOKEN=certify npx playwright test"; then
+# MOSAIC_TOKEN: mosaic 0.10.x (formerly hippo) requires a bearer on POST
+# /graphql (any non-empty value passes; real verification is Bridge's job, P3.1).
+if run_step scenarios bash -c "cd '$CERT_DIR/scenarios' && npm ci && npx playwright install --with-deps chromium && MOSAIC_TOKEN=certify npx playwright test"; then
   result pass ""
   exit 0
 else

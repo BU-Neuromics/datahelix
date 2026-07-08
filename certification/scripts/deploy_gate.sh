@@ -28,7 +28,10 @@ if [ "${PIN_published:-false}" != "true" ]; then
 fi
 
 # Delegate to the ledger gate (reads certified/* tags in the DataHelix repo).
+# "mosaic" is the canonical component key (ADR-0004, formerly "hippo"); the
+# ledger's alias map (decision 1.7) resolves this against historical
+# `hippo=` entries too, so gating works across the rename.
 export PYTHONPATH="$CERT_DIR${PYTHONPATH:+:$PYTHONPATH}"
 exec python3 -m ledger.cli --repo "$REPO_DIR" gate \
   --component "aperture=${PIN_aperture_version}@${PIN_aperture_digest}" \
-  --component "hippo=${PIN_hippo_version}@${PIN_hippo_digest}"
+  --component "mosaic=${PIN_mosaic_version}@${PIN_mosaic_digest}"

@@ -1,0 +1,24 @@
+# Mosaic config for a certification boot (ADR-0004 — formerly Hippo).
+#
+# Mounted into the pinned Mosaic image at /app/mosaic.yaml. Shape must match
+# mosaic's MosaicConfig (src/mosaic/config/models.py) exactly — a flat model
+# with extra="forbid", so only its declared fields may appear here. GraphQL
+# autogenerates from `schema_path` at serve time.
+#
+# schema_path is the directory carrying BOTH fixture schemas (portal +
+# control-plane recipe), bind-mounted from certification/fixtures/bootstrap/
+# schema; mosaic merges every *.yaml in the directory into one schema.
+#
+# Postgres matches the production single-node compose (multivalued reference
+# slots persist as relationships — Hippo ADR-0002 — unlike the v0.1 SQLite
+# adapter). `postgres` is the mosaic.storage_adapters entry-point name (dual-
+# registered under the legacy hippo.storage_adapters spelling too), and
+# ${MOSAIC_DATABASE_URL} is substituted from the container environment by
+# mosaic's config loader.
+#
+# The certification composition talks to Mosaic directly (no Bridge) —
+# Aperture is built/demoed against it per Aperture ADR-0016; auth is out of
+# the seam scope for the golden path.
+schema_path: /app/schemas
+storage_backend: postgres
+database_url: ${MOSAIC_DATABASE_URL}

@@ -4,7 +4,7 @@ import { collectionUrl, sel, waitForApp } from "../support/app";
 // GOLDEN PATH 1 of 4 — BROWSE / FILTER
 // Collection ids are the introspected Query field names (aperture 0.2.0).
 // Seams exercised: introspection enrichment + filter SDL (Aperture ADR-0029/0030).
-// Proves: the SPA introspects the booted Hippo, renders the Book collection,
+// Proves: the SPA introspects the booted Mosaic, renders the Book collection,
 // derives facets from the filter input shape (enum `format`, boolean `in_print`,
 // ref `author`), and a facet selection narrows the result set.
 //
