@@ -3,7 +3,7 @@
 **Time:** ~30 minutes
 **Goal:** Install the DataHelix platform, load sample data, run an RNA-seq artifact resolution, and query the results.
 
-This guide walks through the full platform end-to-end: Hippo (metadata), Canon (artifact resolution), Cappella (ingestion), and Aperture (CLI). You only need to install the components relevant to your workflow — skip sections that don't apply.
+This guide walks through the full platform end-to-end: Mosaic (formerly Hippo, ADR-0004; metadata), Canon (artifact resolution), Cappella (ingestion), and Aperture (CLI). You only need to install the components relevant to your workflow — skip sections that don't apply.
 
 ---
 
@@ -22,21 +22,21 @@ A local DataHelix deployment with a small RNA-seq study dataset. You'll ingest s
 
 ## Part 1: Install
 
-### 1.1 Install Hippo (required)
+### 1.1 Install Mosaic (required)
 
-Hippo is the metadata backbone — install it first.
+Mosaic is the metadata backbone — install it first.
 
 ```bash
-pip install hippo
+pip install mosaic
 # or with uv (faster)
-uv pip install hippo
+uv pip install mosaic
 ```
 
 Verify:
 
 ```bash
-hippo --version
-# hippo 0.4.0
+mosaic --version
+# mosaic 0.4.0
 ```
 
 ### 1.2 Install Canon (if you work with file artifacts)
@@ -74,27 +74,27 @@ Create a directory for your DataHelix deployment:
 mkdir ~/my_study && cd ~/my_study
 ```
 
-### 2.1 Initialize Hippo
+### 2.1 Initialize Mosaic
 
 ```bash
-hippo init --path .
+mosaic init --path .
 ```
 
 This creates:
 ```
 my_study/
-├── hippo.yaml          # Hippo configuration
+├── mosaic.yaml          # Mosaic configuration
 ├── schema.yaml         # Entity type definitions (edit this for your data model)
-└── hippo.db            # SQLite database (created on first start)
+└── mosaic.db            # SQLite database (created on first start)
 ```
 
-### 2.2 Start the Hippo REST API
+### 2.2 Start the Mosaic REST API
 
 ```bash
-hippo serve &
+mosaic serve &
 ```
 
-Hippo starts on `http://localhost:8001` by default. Check it's running:
+Mosaic starts on `http://localhost:8001` by default. Check it's running:
 
 ```bash
 curl http://localhost:8001/health
@@ -160,7 +160,7 @@ entities:
 Apply the schema:
 
 ```bash
-hippo migrate
+mosaic migrate
 # Schema migration complete. 3 entity types created.
 ```
 
@@ -202,13 +202,13 @@ Create `data/datafiles.json`:
 ### 4.2 Ingest via CLI
 
 ```bash
-hippo ingest data/subjects.json --entity-type Subject
+mosaic ingest data/subjects.json --entity-type Subject
 # Ingested 2 Subject entities (2 created, 0 updated, 0 unchanged)
 
-hippo ingest data/samples.json --entity-type Sample
+mosaic ingest data/samples.json --entity-type Sample
 # Ingested 2 Sample entities (2 created, 0 updated, 0 unchanged)
 
-hippo ingest data/datafiles.json --entity-type Datafile
+mosaic ingest data/datafiles.json --entity-type Datafile
 # Ingested 4 Datafile entities (4 created, 0 updated, 0 unchanged)
 ```
 
@@ -219,7 +219,7 @@ hippo ingest data/datafiles.json --entity-type Datafile
 ### 5.1 Configure `datahelix`
 
 ```bash
-datahelix config set hippo.url http://localhost:8001
+datahelix config set mosaic.url http://localhost:8001
 ```
 
 ### 5.2 List entities
@@ -357,7 +357,7 @@ triggers:
 cappella sync manifest
 ```
 
-Cappella reads the CSV, maps fields to Hippo schema, and upserts entities. Existing
+Cappella reads the CSV, maps fields to Mosaic schema, and upserts entities. Existing
 entities with matching `sample_id` are updated only if fields changed; unchanged
 entities are skipped.
 
@@ -374,7 +374,7 @@ Output:
 ```
 Component   Status    URL                      Version
 ──────────  ────────  ───────────────────────  ───────
-hippo       ✓ online  http://localhost:8001    0.4.0
+mosaic       ✓ online  http://localhost:8001    0.4.0
 canon       ✓ online  (SDK mode)              0.3.0
 cappella    ✓ online  http://localhost:8002    0.2.0
 ```
@@ -387,33 +387,33 @@ cappella    ✓ online  http://localhost:8002    0.2.0
   [`platform/deployment.md`](deployment.md) for Docker Compose setup.
 
 - **Reference data:** Load gene annotations and ontology terms with
-  `hippo reference install ensembl` and `hippo reference install fma`.
+  `mosaic reference install ensembl` and `mosaic reference install fma`.
 
 - **Custom schema:** Add more entity types, define relationships, and set up validators.
-  See the [Hippo schema guide](../hippo/docs/schema-guide.md).
+  See the [Mosaic schema guide](../hippo/docs/schema-guide.md).
 
 - **Trigger automation:** Configure Cappella to auto-sync from STARLIMS, REDCap, or
   webhook sources. See the [Cappella user guide](../cappella/docs/user_guide.md).
 
-- **Python SDK:** Use `HippoClient` directly in notebooks for custom analysis.
-  See the [Hippo API reference](../hippo/docs/api-reference.md).
+- **Python SDK:** Use `MosaicClient` directly in notebooks for custom analysis.
+  See the [Mosaic API reference](../hippo/docs/api-reference.md).
 
 ---
 
 ## Troubleshooting
 
-**`hippo serve` fails to start:**
+**`mosaic serve` fails to start:**
 Check that port 8001 is not already in use: `lsof -i :8001`. Change the port in
-`hippo.yaml` (`server.port: 8002`) if needed.
+`mosaic.yaml` (`server.port: 8002`) if needed.
 
 **`datahelix list` shows "connection refused":**
-Make sure Hippo is running: `hippo serve &`. Verify the URL in `~/.config/datahelix/aperture.yaml`
+Make sure Mosaic is running: `mosaic serve &`. Verify the URL in `~/.config/datahelix/aperture.yaml`
 or run `datahelix config show`.
 
 **Schema migration fails:**
-If you changed an existing field type, Hippo will refuse the migration to protect data
-integrity. Create a new field and use `hippo migrate --allow-column-add` for additive
+If you changed an existing field type, Mosaic will refuse the migration to protect data
+integrity. Create a new field and use `mosaic migrate --allow-column-add` for additive
 changes only.
 
 **"entity_type not found" on ingest:**
-Run `hippo migrate` first to apply your schema.yaml changes before ingesting.
+Run `mosaic migrate` first to apply your schema.yaml changes before ingesting.

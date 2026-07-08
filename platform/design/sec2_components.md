@@ -3,7 +3,7 @@
 **Document status:** Draft v0.1
 **Last updated:** 2026-03-31
 **Depends on:** sec1_overview.md
-**Feeds into:** sec3_integration.md, component design specs (Hippo, Cappella, Canon, Aperture, Bridge)
+**Feeds into:** sec3_integration.md, component design specs (Mosaic, Cappella, Canon, Aperture, Bridge)
 
 ---
 
@@ -11,26 +11,26 @@
 
 | Component | Role | Optional? | Dependencies |
 |---|---|---|---|
-| **Hippo** | Structured domain graph (LinkML runtime) | No (platform foundation) | None |
-| **Canon** | File artifact resolver | Yes | Hippo (for provenance write-back) |
-| **Cappella** | Harmonization and pipeline engine | Yes | Hippo (sole storage backend) |
-| **Aperture** | User-facing CLI and web interface | Yes | Hippo, optionally Canon + Cappella |
+| **Mosaic** | Structured domain graph (LinkML runtime) | No (platform foundation) | None |
+| **Canon** | File artifact resolver | Yes | Mosaic (for provenance write-back) |
+| **Cappella** | Harmonization and pipeline engine | Yes | Mosaic (sole storage backend) |
+| **Aperture** | User-facing CLI and web interface | Yes | Mosaic, optionally Canon + Cappella |
 | **Bridge** | Auth gateway and integration middleware | Yes (required for multi-user) | All components |
 
 ---
 
-### 2.2 Hippo — Structured Domain Graph (LinkML Runtime)
+### 2.2 Mosaic (formerly Hippo, ADR-0004) — Structured Domain Graph (LinkML Runtime)
 
-#### What Hippo Owns
+#### What Mosaic Owns
 
 - **Entity schema** — the canonical definition of entity types (Subject, Sample, Datafile, etc.), their fields, relationships, and validation rules. Defined in `schema.yaml` and `validators.yaml`.
 - **Storage backends** — SQLite (development, single-user), PostgreSQL (production, multi-user). Abstracted via `EntityStore` ABC.
 - **Provenance log** — immutable record of every entity mutation: actor, timestamp, changed fields, operation type.
 - **Ingestion layer** — flat-file ingest CLI, `ExternalSourceAdapter` ABC for external system connectors (implementations live in Cappella), reference loader plugin system.
 - **REST API** — HTTP interface to all SDK capabilities. Used by Bridge (proxy) and Aperture (queries).
-- **Python SDK** (`HippoClient`) — the authoritative interface for all reads and writes. REST API and all other components go through this SDK.
+- **Python SDK** (`MosaicClient`) — the authoritative interface for all reads and writes. REST API and all other components go through this SDK.
 
-#### What Hippo Does Not Own
+#### What Mosaic Does Not Own
 
 - External system connector implementations (those live in Cappella)
 - Field mapping and transformation config (Cappella adapter config)
@@ -41,8 +41,8 @@
 
 #### Design Invariant
 
-Hippo is the **single source of truth** for all entity data. No other component maintains
-a parallel copy of entity state. All reads and writes go through Hippo.
+Mosaic is the **single source of truth** for all entity data. No other component maintains
+a parallel copy of entity state. All reads and writes go through Mosaic.
 
 ---
 
@@ -58,16 +58,16 @@ a parallel copy of entity state. All reads and writes go through Hippo.
 
 #### What Canon Does Not Own
 
-- Entity metadata (that is Hippo's domain)
+- Entity metadata (that is Mosaic's domain)
 - File contents or data management (Canon stores paths, not data)
 - Pipeline orchestration or trigger logic (Cappella)
 - User interface (Aperture)
 
 #### Design Invariant
 
-Canon is **stateless** with respect to entity data. It reads entities from Hippo at
+Canon is **stateless** with respect to entity data. It reads entities from Mosaic at
 resolution time and does not cache entity state. Provenance events (artifact resolved,
-artifact produced) are written back to Hippo.
+artifact produced) are written back to Mosaic.
 
 ---
 
@@ -76,16 +76,16 @@ artifact produced) are written back to Hippo.
 #### What Cappella Owns
 
 - **External system adapter implementations** — connectors for STARLIMS, REDCap, HALO, partner systems, CSV flat files.
-- **Field mapping and transformation config** — mapping from source system fields to Hippo canonical fields; vocabulary normalization.
-- **Trigger engine** — webhook server, cron scheduler, Hippo poll loop, internal event bus. Coordinates when adapters run.
-- **Pipeline execution and output ingestion** — invoking CWL-based analysis pipelines (via Canon), capturing outputs and provenance back to Hippo.
-- **Reconciliation** — detecting and surfacing inconsistencies between external systems and Hippo entity state.
-- **Operational audit logs** — structured run logs per trigger execution (MVP: JSON; future: `SyncRun` entities in Hippo).
+- **Field mapping and transformation config** — mapping from source system fields to Mosaic canonical fields; vocabulary normalization.
+- **Trigger engine** — webhook server, cron scheduler, Mosaic poll loop, internal event bus. Coordinates when adapters run.
+- **Pipeline execution and output ingestion** — invoking CWL-based analysis pipelines (via Canon), capturing outputs and provenance back to Mosaic.
+- **Reconciliation** — detecting and surfacing inconsistencies between external systems and Mosaic entity state.
+- **Operational audit logs** — structured run logs per trigger execution (MVP: JSON; future: `SyncRun` entities in Mosaic).
 
 #### What Cappella Does Not Own
 
-- Entity storage (Hippo is Cappella's sole persistent backend — Cappella is stateless)
-- The `ExternalSourceAdapter` ABC (that interface lives in Hippo)
+- Entity storage (Mosaic is Cappella's sole persistent backend — Cappella is stateless)
+- The `ExternalSourceAdapter` ABC (that interface lives in Mosaic)
 - File storage or artifact management (Canon)
 - User interface (Aperture)
 - Authentication (Bridge)
@@ -93,8 +93,8 @@ artifact produced) are written back to Hippo.
 #### Design Invariant
 
 Cappella is **stateless**. All persistent state (entity data, provenance, run history in
-the future) lives in Hippo. A Cappella process restart has no data loss. This is
-intentional: Cappella is a force multiplier on top of Hippo, not a second source of truth.
+the future) lives in Mosaic. A Cappella process restart has no data loss. This is
+intentional: Cappella is a force multiplier on top of Mosaic, not a second source of truth.
 
 ---
 
@@ -109,8 +109,8 @@ intentional: Cappella is a force multiplier on top of Hippo, not a second source
 
 #### What Aperture Does Not Own
 
-- Business logic (reads and writes go through Hippo SDK or REST API via Bridge)
-- Data storage (Hippo)
+- Business logic (reads and writes go through Mosaic SDK or REST API via Bridge)
+- Data storage (Mosaic)
 - Pipeline execution (Cappella / Canon)
 - Authentication enforcement (Bridge)
 
@@ -118,7 +118,7 @@ intentional: Cappella is a force multiplier on top of Hippo, not a second source
 
 Aperture is a **thin client**. It has no persistent state of its own (beyond user config in
 `~/.config/datahelix/` and cached session tokens in `~/.datahelix/tokens.json`). All data operations
-go through the DataHelix REST API (via Bridge in multi-user deployments, directly to Hippo in
+go through the DataHelix REST API (via Bridge in multi-user deployments, directly to Mosaic in
 single-user deployments).
 
 ---
@@ -129,7 +129,7 @@ single-user deployments).
 
 - **Authentication** — API key validation, JWT issuance and verification, token lifecycle, optional OIDC integration.
 - **Authorization** — RBAC role and project-scope enforcement before forwarding requests to components.
-- **Request routing** — single `https://datahelix.your-org.edu/api/v1/` URL namespace that routes to Hippo, Cappella, Canon.
+- **Request routing** — single `https://datahelix.your-org.edu/api/v1/` URL namespace that routes to Mosaic, Cappella, Canon.
 - **Actor identity injection** — inserts validated `X-DataHelix-Actor` header into every forwarded request.
 - **Cross-component sync** — detects and surfaces consistency mismatches between components after pipeline runs.
 - **Observability** — aggregated health checks, request audit logging, Prometheus metrics.
@@ -137,12 +137,12 @@ single-user deployments).
 #### What Bridge Does Not Own
 
 - Business logic (it is a routing and enforcement layer only)
-- Entity data (lives in Hippo)
+- Entity data (lives in Mosaic)
 - Pipeline logic (lives in Cappella / Canon)
 
 #### Design Invariant
 
-Bridge is **optional** for single-user SDK-mode use. A researcher using `HippoClient`
+Bridge is **optional** for single-user SDK-mode use. A researcher using `MosaicClient`
 directly on a laptop needs no Bridge. Bridge becomes necessary for multi-user deployments
 where credential enforcement and a unified URL are required.
 
@@ -153,7 +153,7 @@ work independently if Bridge is removed; the only loss is centralized auth and r
 
 ### 2.7 Component Responsibility Matrix
 
-| Concern | Hippo | Canon | Cappella | Aperture | Bridge |
+| Concern | Mosaic | Canon | Cappella | Aperture | Bridge |
 |---|---|---|---|---|---|
 | Entity CRUD | ✅ owns | | reads | via API | routes |
 | Provenance recording | ✅ owns | writes back | writes back | reads | routes |
@@ -177,7 +177,7 @@ from (or are thin wrappers over) the SDK. This has concrete implications:
 | Implication | Detail |
 |---|---|
 | **Parity** | REST and SDK offer the same capabilities. If you can do it in the SDK, you can do it via REST. If you can't do it in the SDK, you can't do it via REST. |
-| **No server required for local use** | `HippoClient` with SQLite needs no running server. A researcher on a laptop has full capability without `hippo serve`. |
+| **No server required for local use** | `MosaicClient` with SQLite needs no running server. A researcher on a laptop has full capability without `mosaic serve`. |
 | **Test against the SDK** | Unit tests run against the SDK directly, not against a live server. Integration tests add the REST layer. |
 | **Bridge transparency** | Bridge proxies REST, not SDK. From a component's perspective, Bridge calls look identical to any other REST caller. |
 
@@ -188,5 +188,5 @@ from (or are thin wrappers over) the SDK. This has concrete implications:
 | Question | Priority | Status |
 |---|---|---|
 | Should Canon expose a REST API of its own, or only be consumed via Cappella + Aperture? | Medium | Open — currently Canon has a REST API; decide if Bridge should proxy it directly |
-| Cappella `SyncRun` entities in Hippo — schema design and migration from JSON logs | Medium | Deferred to Cappella v0.3 |
+| Cappella `SyncRun` entities in Mosaic — schema design and migration from JSON logs | Medium | Deferred to Cappella v0.3 |
 | Aperture web portal scope for v1.1 — what does the MVP feature set look like? | Low | Open |

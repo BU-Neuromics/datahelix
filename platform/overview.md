@@ -14,7 +14,7 @@ DataHelix is a comprehensive, modular, open-source software ecosystem designed t
 
 ## Core Components
 
-### DataHelix-Hippo: Data Storage Engine
+### DataHelix-Mosaic: Data Storage Engine (formerly Hippo, ADR-0004)
 - Independent data storage and management system
 - Efficient storage solutions for large-scale biological data
 - Support for common bioinformatics file formats
@@ -28,14 +28,14 @@ DataHelix is a comprehensive, modular, open-source software ecosystem designed t
 - Integration with popular bioinformatics tools
 - Reproducible analysis workflows
 - Plugin system for custom tool integration
-- Can use DataHelix-Hippo for storage or other storage backends
+- Can use DataHelix-Mosaic for storage or other storage backends
 
 ### DataHelix-Aperture: Interface Layer
 - Standalone interface toolkit
 - Command-line interface for power users
 - Web-based interface for accessibility
 - REST API client libraries
-- Can connect to either/both Hippo and Cappella
+- Can connect to either/both Mosaic and Cappella
 - Support for third-party storage and workflow systems
 
 ### DataHelix-Bridge: Integration Layer
@@ -49,7 +49,7 @@ DataHelix is a comprehensive, modular, open-source software ecosystem designed t
 ## Getting Started
 
 Each component can be installed and used independently:
-- [DataHelix-Hippo Installation](../installation/hippo.md)
+- [DataHelix-Mosaic Installation](../installation/hippo.md)
 - [DataHelix-Cappella Installation](../installation/cappella.md)
 - [DataHelix-Aperture Installation](../installation/aperture.md)
 - [DataHelix-Bridge Installation](../installation/bridge.md)

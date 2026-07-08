@@ -17,8 +17,9 @@ Install each component you need with `pip`. Components are independent — insta
 your workflow requires.
 
 ```bash
-# Core structured domain graph / LinkML runtime (required for all other components)
-pip install hippo
+# Core structured domain graph / LinkML runtime (Mosaic, formerly Hippo,
+# ADR-0004; required for all other components)
+pip install mosaic
 
 # Artifact resolver (if you use Canon rules + CWL pipelines)
 pip install canon cwltool
@@ -27,12 +28,12 @@ pip install canon cwltool
 pip install cappella
 ```
 
-Initialize Hippo in a local project directory:
+Initialize Mosaic in a local project directory:
 
 ```bash
-hippo init --path ~/DataHelix
+mosaic init --path ~/DataHelix
 cd ~/DataHelix
-hippo serve          # starts REST API on http://localhost:8001
+mosaic serve          # starts REST API on http://localhost:8001
 ```
 
 No Bridge, no auth, no Docker required. This is the correct setup for single-user local
@@ -43,7 +44,7 @@ research.
 ## Tier 2: Single-Node Deployment with Docker Compose
 
 Use this for a shared lab server where multiple team members need authenticated access.
-Provides Hippo + Canon + Cappella + Bridge in a single `docker-compose.yaml`.
+Provides Mosaic + Canon + Cappella + Bridge in a single `docker-compose.yaml`.
 
 ### Prerequisites
 
@@ -57,14 +58,14 @@ Provides Hippo + Canon + Cappella + Bridge in a single `docker-compose.yaml`.
 DataHelix/
 ├── docker-compose.yaml
 ├── config/
-│   ├── hippo.yaml
+│   ├── mosaic.yaml
 │   ├── canon.yaml
 │   ├── cappella.yaml
 │   └── bridge.yaml
 ├── schemas/
-│   └── schema.yaml          # your Hippo schema
+│   └── schema.yaml          # your Mosaic schema
 ├── data/
-│   ├── hippo-db/            # Hippo SQLite (or mount PostgreSQL socket)
+│   ├── mosaic-db/           # Mosaic SQLite (or mount PostgreSQL socket)
 │   └── canon-outputs/       # Canon workflow output files
 └── logs/
 ```
@@ -76,14 +77,14 @@ version: "3.9"
 
 services:
 
-  hippo:
-    image: ghcr.io/datahelix-platform/hippo:0.4
+  mosaic:
+    image: ghcr.io/datahelix-platform/mosaic:0.4
     volumes:
-      - ./config/hippo.yaml:/app/hippo.yaml:ro
+      - ./config/mosaic.yaml:/app/mosaic.yaml:ro
       - ./schemas:/app/schemas:ro
-      - ./data/hippo-db:/data/hippo-db
+      - ./data/mosaic-db:/data/mosaic-db
     environment:
-      HIPPO_DB: /data/hippo-db/hippo.db
+      MOSAIC_DB: /data/mosaic-db/mosaic.db
     ports:
       - "8001:8001"          # internal only; Bridge proxies all external traffic
     restart: unless-stopped
@@ -94,9 +95,9 @@ services:
       - ./config/canon.yaml:/app/canon.yaml:ro
       - ./data/canon-outputs:/data/outputs
     environment:
-      HIPPO_TOKEN: ${CANON_SERVICE_TOKEN}
+      MOSAIC_TOKEN: ${CANON_SERVICE_TOKEN}
     depends_on:
-      - hippo
+      - mosaic
     restart: unless-stopped
 
   cappella:
@@ -104,9 +105,9 @@ services:
     volumes:
       - ./config/cappella.yaml:/app/cappella.yaml:ro
     environment:
-      HIPPO_TOKEN: ${CAPPELLA_SERVICE_TOKEN}
+      MOSAIC_TOKEN: ${CAPPELLA_SERVICE_TOKEN}
     depends_on:
-      - hippo
+      - mosaic
     restart: unless-stopped
 
   bridge:
@@ -119,7 +120,7 @@ services:
     ports:
       - "8080:8080"          # public-facing HTTPS termination (add a reverse proxy)
     depends_on:
-      - hippo
+      - mosaic
       - canon
       - cappella
     restart: unless-stopped
@@ -129,7 +130,7 @@ services:
 
 ```yaml
 components:
-  hippo:    http://hippo:8001
+  mosaic:    http://mosaic:8001
   canon:    http://canon:8002
   cappella: http://cappella:8003
 
@@ -155,12 +156,12 @@ auth:
     connection: /data/bridge/apikeys.db
 ```
 
-### `config/hippo.yaml`
+### `config/mosaic.yaml`
 
 ```yaml
 storage:
   backend: sqlite
-  connection: ${HIPPO_DB}
+  connection: ${MOSAIC_DB}
 
 bridge:
   enabled: true
@@ -201,8 +202,8 @@ docker compose ps
 After the stack is running:
 
 ```bash
-# Install Canon's reference schema into Hippo (run once)
-docker compose exec hippo hippo reference install canon
+# Install Canon's reference schema into Mosaic (run once)
+docker compose exec mosaic mosaic reference install canon
 
 # Create the first API key for your team
 curl -X POST http://localhost:8080/bridge/auth/login \
@@ -225,12 +226,12 @@ Team members set `DATAHELIX_API_KEY=datahelix_live_...` in their environment and
 A Helm chart for multi-node production deployment is planned for Phase 4. Until then, use
 the Docker Compose tier on a well-resourced server for team deployments.
 
-For PostgreSQL-backed Hippo (required for multi-user concurrent write loads):
+For PostgreSQL-backed Mosaic (required for multi-user concurrent write loads):
 
 1. Provision a PostgreSQL instance (managed service or self-hosted).
 2. Set `storage.backend: postgresql` and `storage.connection: <postgres-dsn>` in
-   `hippo.yaml`.
-3. Run `hippo migrate` on first start to initialize the schema.
+   `mosaic.yaml`.
+3. Run `mosaic migrate` on first start to initialize the schema.
 
 PostgreSQL support is the primary enabling technology for the Tier 3 deployment path.
 Once the PostgreSQL storage adapter ships (Phase 4 milestone), the Helm chart will follow.
@@ -243,16 +244,16 @@ Component images are versioned independently. To upgrade a single component:
 
 ```bash
 # Pull the new image
-docker compose pull hippo
+docker compose pull mosaic
 
 # Apply schema migrations (if any) before restarting
-docker compose run --rm hippo hippo migrate
+docker compose run --rm mosaic mosaic migrate
 
 # Restart the service
-docker compose up -d hippo
+docker compose up -d mosaic
 ```
 
-Always run `hippo migrate` before restarting Hippo after an upgrade. The migration command
+Always run `mosaic migrate` before restarting Mosaic after an upgrade. The migration command
 is safe to run on an already-migrated database (it is idempotent).
 
 > **Only deploy certified pairs.** Because components version independently, a pair of
@@ -279,10 +280,10 @@ is safe to run on an already-migrated database (it is idempotent).
 
 ```bash
 # Daily cron backup
-sqlite3 data/hippo-db/hippo.db ".backup '/backups/hippo-$(date +%Y%m%d).db'"
+sqlite3 data/mosaic-db/mosaic.db ".backup '/backups/mosaic-$(date +%Y%m%d).db'"
 ```
 
-The Hippo provenance log is immutable — a daily backup of the SQLite file is sufficient for
+The Mosaic provenance log is immutable — a daily backup of the SQLite file is sufficient for
 disaster recovery.
 
 **PostgreSQL (multi-node):** Use your standard PostgreSQL backup tooling (`pg_dump`,
@@ -296,7 +297,7 @@ Each component exposes a health endpoint:
 
 | Component | Health endpoint |
 |---|---|
-| Hippo | `GET /health` |
+| Mosaic | `GET /health` |
 | Bridge | `GET /bridge/health` |
 | Cappella | `GET /health` |
 

@@ -2,7 +2,7 @@
 
 **Document status:** Draft v0.1
 **Last updated:** 2026-03-31
-**Depends on:** sec2_components.md, Hippo sec4 (REST API), Bridge sec3 (unified API)
+**Depends on:** sec2_components.md, Mosaic sec4 (REST API), Bridge sec3 (unified API)
 **Feeds into:** Platform test strategy (sec5), deployment docs, contract tests
 
 ---
@@ -17,8 +17,8 @@ for each component pair is:
 3. **Failure mode** — what happens when one side of the interface is unavailable
 
 Components do not call each other directly except through published interfaces. There are
-no internal shared modules, shared databases (except Hippo as the canonical store), or
-shared in-process state between components.
+no internal shared modules, shared databases (except Mosaic — formerly Hippo, ADR-0004 —
+as the canonical store), or shared in-process state between components.
 
 ---
 
@@ -34,10 +34,10 @@ shared in-process state between components.
 │  └──────────┬──────────────┬───────────────────┬───────────────┘   │
 │             │              │                   │                     │
 │       ┌─────▼────┐  ┌──────▼──────┐  ┌────────▼───────┐           │
-│       │  Hippo   │  │   Cappella  │  │     Canon      │           │
+│       │  Mosaic   │  │   Cappella  │  │     Canon      │           │
 │       │          │◀─┤             │  │                │           │
 │       │          │──▶  reads /    │  │  resolves via  │           │
-│       │          │  │  writes     │  │  Hippo entities│           │
+│       │          │  │  writes     │  │  Mosaic entities│           │
 │       └──────────┘  └─────────────┘  └────────────────┘           │
 │             ▲                                                        │
 │             │ (all data reads/writes)                                │
@@ -50,15 +50,15 @@ shared in-process state between components.
 
 ---
 
-### 3.3 Hippo ↔ Cappella Interface
+### 3.3 Mosaic ↔ Cappella Interface
 
-This is the most critical integration in the platform. Cappella is Hippo's primary data
-producer; Hippo is Cappella's sole persistent store.
+This is the most critical integration in the platform. Cappella is Mosaic's primary data
+producer; Mosaic is Cappella's sole persistent store.
 
 #### 3.3.1 Read Interface
 
-Cappella reads entity state from Hippo at trigger execution time via `HippoClient` (SDK)
-or Hippo REST API (when running as a separate service).
+Cappella reads entity state from Mosaic at trigger execution time via `MosaicClient` (SDK)
+or Mosaic REST API (when running as a separate service).
 
 | Operation | Interface | Contract |
 |---|---|---|
@@ -69,7 +69,7 @@ or Hippo REST API (when running as a separate service).
 
 #### 3.3.2 Write Interface
 
-Cappella writes all entity data via `HippoClient` with an explicit `actor` parameter.
+Cappella writes all entity data via `MosaicClient` with an explicit `actor` parameter.
 
 | Operation | Interface | Contract |
 |---|---|---|
@@ -89,29 +89,29 @@ This convention ensures provenance records are attributable to the correct sourc
 
 #### 3.3.4 Failure Mode
 
-If Hippo is unavailable, Cappella's write operations fail. Cappella does not buffer writes
+If Mosaic is unavailable, Cappella's write operations fail. Cappella does not buffer writes
 or retry autonomously. Operators should configure Cappella's trigger retry behavior
 (`retry_on_failure: true`, `max_retries: 3`, `backoff: exponential`).
 
 ---
 
-### 3.4 Hippo ↔ Canon Interface
+### 3.4 Mosaic ↔ Canon Interface
 
-Canon resolves file artifact paths from Hippo entity data.
+Canon resolves file artifact paths from Mosaic entity data.
 
 #### 3.4.1 Read Interface
 
-Canon reads entity state from Hippo at resolution time. This is always a fresh read (no
+Canon reads entity state from Mosaic at resolution time. This is always a fresh read (no
 caching of entity state in Canon).
 
 | Operation | Interface | Contract |
 |---|---|---|
-| Entity fetch for resolution | `HippoClient.get(type, entity_id)` | Required fields must be non-null |
-| Batch entity fetch | `HippoClient.batch_get(type, ids)` | Returns in-order list |
+| Entity fetch for resolution | `MosaicClient.get(type, entity_id)` | Required fields must be non-null |
+| Batch entity fetch | `MosaicClient.batch_get(type, ids)` | Returns in-order list |
 
 #### 3.4.2 Write Interface (Provenance Write-Back)
 
-After resolving or producing an artifact, Canon writes a provenance event to Hippo.
+After resolving or producing an artifact, Canon writes a provenance event to Mosaic.
 
 | Operation | Interface | Contract |
 |---|---|---|
@@ -121,26 +121,26 @@ After resolving or producing an artifact, Canon writes a provenance event to Hip
 
 #### 3.4.3 Failure Mode
 
-If Hippo is unavailable, Canon cannot resolve artifacts (it needs entity fields to
+If Mosaic is unavailable, Canon cannot resolve artifacts (it needs entity fields to
 evaluate path templates). Canon returns `503 upstream_unavailable` from its REST API.
 Provenance write-back failures are logged but do not fail the resolution response — the
 file was still found/produced; the audit gap is recovered on next resolution.
 
 ---
 
-### 3.5 Hippo ↔ Aperture Interface
+### 3.5 Mosaic ↔ Aperture Interface
 
-Aperture is a read-heavy client of Hippo.
+Aperture is a read-heavy client of Mosaic.
 
 | Operation | Interface | Contract |
 |---|---|---|
-| Entity list | `GET /hippo/entities/{type}` (via Bridge) or `client.query()` | Paginated; empty list if no matches |
-| Entity get | `GET /hippo/entities/{type}/{id}` | 404 if not found |
-| Entity create/update | `POST/PUT /hippo/entities/{type}/{id}` | Validates schema; returns 422 on validation failure |
-| Provenance history | `GET /hippo/entities/{type}/{id}/history` | Returns event list, newest first |
-| Schema inspection | `GET /hippo/schema` | Returns full schema definition |
+| Entity list | `GET /mosaic/entities/{type}` (via Bridge) or `client.query()` | Paginated; empty list if no matches |
+| Entity get | `GET /mosaic/entities/{type}/{id}` | 404 if not found |
+| Entity create/update | `POST/PUT /mosaic/entities/{type}/{id}` | Validates schema; returns 422 on validation failure |
+| Provenance history | `GET /mosaic/entities/{type}/{id}/history` | Returns event list, newest first |
+| Schema inspection | `GET /mosaic/schema` | Returns full schema definition |
 
-Aperture is always a **client** of Hippo — it never writes directly to Hippo's storage
+Aperture is always a **client** of Mosaic — it never writes directly to Mosaic's storage
 layer. In multi-user deployments, all Aperture requests pass through Bridge for auth
 enforcement.
 
@@ -155,7 +155,7 @@ component is the component's REST API, augmented with injected headers.
 
 | Bridge receives | Bridge sends to |
 |---|---|
-| `GET /api/v1/hippo/*` | Hippo REST API: `GET /*` |
+| `GET /api/v1/mosaic/*` | Mosaic REST API: `GET /*` |
 | `POST /api/v1/cappella/*` | Cappella REST API: `POST /*` |
 | `GET /api/v1/canon/*` | Canon REST API: `GET /*` |
 | `POST/GET /api/v1/bridge/*` | Bridge itself (auth endpoints, health, metrics) |
@@ -205,10 +205,10 @@ failures typically arise from assumption drift, not logic bugs.
 
 | Test file | Contract verified |
 |---|---|
-| `tests/contracts/test_cappella_expects_hippo.py` | Cappella can write entities and read them back via Hippo SDK |
-| `tests/contracts/test_cappella_expects_canon.py` | Cappella can resolve artifacts for entities in Hippo |
-| `tests/contracts/test_entity_loader_contract.py` | `ExternalSourceAdapter` implementations produce entities Hippo accepts |
-| `tests/platform/test_round_trip.py` | Full round-trip: external source → Cappella → Hippo → Canon → provenance write-back |
+| `tests/contracts/test_cappella_expects_hippo.py` | Cappella can write entities and read them back via Mosaic SDK |
+| `tests/contracts/test_cappella_expects_canon.py` | Cappella can resolve artifacts for entities in Mosaic |
+| `tests/contracts/test_entity_loader_contract.py` | `ExternalSourceAdapter` implementations produce entities Mosaic accepts |
+| `tests/platform/test_round_trip.py` | Full round-trip: external source → Cappella → Mosaic → Canon → provenance write-back |
 
 See `platform/design/sec5_integration_test_strategy.md` for the full test strategy.
 
@@ -221,16 +221,16 @@ Full data flow for a Cappella-driven pipeline run:
 ```
 1. External source (STARLIMS) → Cappella (webhook trigger)
 2. Cappella adapter reads source data
-3. Cappella calls HippoClient.put() for each entity (upsert by ExternalID)
-   → Hippo validates schema + validators
-   → Hippo writes entity + provenance event (actor: service:cappella-starlims)
+3. Cappella calls MosaicClient.put() for each entity (upsert by ExternalID)
+   → Mosaic validates schema + validators
+   → Mosaic writes entity + provenance event (actor: service:cappella-starlims)
 4. Cappella trigger engine emits internal event "starlims.sync_complete"
 5. Post-sync trigger fires → Cappella submits CWL pipeline via Canon
-6. Canon resolves input artifacts (reads entity fields from Hippo)
+6. Canon resolves input artifacts (reads entity fields from Mosaic)
 7. Canon invokes cwltool, waits for output
-8. Canon writes provenance event to Hippo (artifact_produced)
-9. Cappella writes pipeline output entities to Hippo (actor: service:cappella-pipeline-<run-id>)
-10. Bridge sync engine detects run completion, verifies outputs present in Hippo
+8. Canon writes provenance event to Mosaic (artifact_produced)
+9. Cappella writes pipeline output entities to Mosaic (actor: service:cappella-pipeline-<run-id>)
+10. Bridge sync engine detects run completion, verifies outputs present in Mosaic
 11. Aperture user queries results: datahelix list Sample --filter cohort=CTE
 ```
 
@@ -242,4 +242,4 @@ Full data flow for a Cappella-driven pipeline run:
 |---|---|---|
 | Should Cappella call Canon via Bridge (for auth), or directly (for performance)? | Medium | Open — for v1.0 single-server deployments, direct is fine; Bridge path needed for multi-server |
 | Event schema versioning — should component events carry a version field for forward compatibility? | Low | Open |
-| Cappella → Hippo write failure recovery — should Cappella persist a retry queue? | High | Open — currently relies on operator-configured retries; more robust solution deferred |
+| Cappella → Mosaic write failure recovery — should Cappella persist a retry queue? | High | Open — currently relies on operator-configured retries; more robust solution deferred |

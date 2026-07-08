@@ -2,7 +2,7 @@
 
 **Document status:** Draft v0.1
 **Last updated:** 2026-03-31
-**Depends on:** Component sec1 docs (Hippo, Cappella, Canon, Aperture, Bridge)
+**Depends on:** Component sec1 docs (Mosaic, Cappella, Canon, Aperture, Bridge)
 **Feeds into:** sec2_components.md, sec3_integration.md, deployment docs, getting-started guide
 
 ---
@@ -33,7 +33,7 @@ inertia.
 #### 1.2.1 Modularity — Use What You Need
 
 DataHelix components are independently installable and usable. A researcher who only needs the
-structured domain graph (e.g. for metadata tracking) can install Hippo alone; a team that additionally needs file artifact
+structured domain graph (e.g. for metadata tracking) can install Mosaic (formerly Hippo, ADR-0004) alone; a team that additionally needs file artifact
 resolution adds Canon; a lab with external LIMS systems adds Cappella for integration; a
 multi-user deployment adds Bridge for auth.
 
@@ -54,8 +54,8 @@ The same codebase runs from a single researcher's laptop to an institutional clo
 
 | Scale | Components | Auth | Storage |
 |---|---|---|---|
-| Individual researcher | Hippo + Canon SDK only | None | SQLite |
-| Small lab | Hippo + Cappella + Aperture CLI | None (or Bridge API keys) | SQLite |
+| Individual researcher | Mosaic + Canon SDK only | None | SQLite |
+| Small lab | Mosaic + Cappella + Aperture CLI | None (or Bridge API keys) | SQLite |
 | Multi-user team | All components + Bridge | Bridge API keys | SQLite or PostgreSQL |
 | Institution | All components + Bridge | Bridge OIDC | PostgreSQL |
 
@@ -64,7 +64,7 @@ tiers.
 
 #### 1.2.4 Provenance by Default
 
-Every data mutation in Hippo records who changed what, when, and via which path. This is
+Every data mutation in Mosaic records who changed what, when, and via which path. This is
 not an add-on — it is fundamental to the data model. Provenance enables:
 
 - Reproducibility: trace the origin of any entity back to its source
@@ -86,8 +86,8 @@ a clinical biobank, or a plant biology consortium — with different configurati
 
 | Capability | Primary Component |
 |---|---|
-| Entity metadata storage and querying | Hippo |
-| Data provenance and audit trail | Hippo |
+| Entity metadata storage and querying | Mosaic |
+| Data provenance and audit trail | Mosaic |
 | File artifact resolution | Canon |
 | External system ingestion (LIMS, REDCap, CSV) | Cappella |
 | Pipeline execution and output ingestion | Cappella |
@@ -115,7 +115,7 @@ It is a **metadata intelligence layer that aggregates and harmonizes data from t
 
 Existing LIMS systems continue to be the system of record for wet-lab operations (sample
 tracking, accessioning, clinical data entry). Cappella pulls from those systems and
-harmonizes the results into Hippo's canonical schema. Researchers query Hippo for analysis
+harmonizes the results into Mosaic's canonical schema. Researchers query Mosaic for analysis
 rather than querying multiple upstream systems directly.
 
 ```
@@ -126,7 +126,7 @@ STARLIMS   REDCap   Clinical DB   Sequencing Core
                      Cappella
                     (harmonize)
                           │
-                        Hippo
+                        Mosaic
                     (canonical store)
                           │
                 Canon + Aperture
@@ -140,7 +140,7 @@ STARLIMS   REDCap   Clinical DB   Sequencing Core
 Platform v1.0 is the first production-ready release of the full component stack.
 
 **v1.0 components:**
-- Hippo v0.4+ (stable structured domain graph / LinkML runtime, REST API, provenance, schema migrations)
+- Mosaic v0.4+ (stable structured domain graph / LinkML runtime, REST API, provenance, schema migrations)
 - Canon v0.3+ (artifact resolution, CWL execution integration, storage adapters)
 - Cappella v0.2+ (trigger engine, external adapters, reconciliation)
 - Aperture v0.1 (CLI: entity CRUD, schema inspection, provenance, auth commands)
@@ -149,7 +149,7 @@ Platform v1.0 is the first production-ready release of the full component stack.
 **v1.0 exit criteria:**
 - A new user can install, configure, and complete the getting-started walkthrough
   using only the documentation
-- Full integration test suite (round-trip: external source → Cappella → Hippo → Canon)
+- Full integration test suite (round-trip: external source → Cappella → Mosaic → Canon)
   passes in CI
 - Docker Compose single-node deployment works from a clean machine
 - All components have tagged releases and documented changelogs

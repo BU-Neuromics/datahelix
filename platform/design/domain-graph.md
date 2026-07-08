@@ -1,7 +1,8 @@
 # DataHelix Platform — The Domain Graph (foundational data model)
 
 **Status:** 🟢 Foundational concept (2026-06-17). Cross-cutting; takes precedence over
-component-local framings where they conflict. Supersedes the "metadata store" framing of Hippo.
+component-local framings where they conflict. Supersedes the "metadata store" framing of Mosaic
+(formerly Hippo, ADR-0004).
 Origin: Aperture design session (see `aperture/design/vision.md`, `.../prefab/data-stories.md`).
 
 ## The reframe: one typed domain graph, not a "metadata store"
@@ -11,12 +12,12 @@ type system is the deployment's **LinkML schema** and whose contents are everyth
 about its biology and its data. "Metadata vs. data" is **not** a property of stored things; it is
 a **role a node plays relative to a query**, assigned at query time. (A toxicology report is the
 *subject* of one query and a *descriptor* in another; a graph has no privileged "fact table.")
-We therefore stop calling Hippo a "metadata store." It is **the structured domain graph**.
+We therefore stop calling Mosaic a "metadata store." It is **the structured domain graph**.
 
 The intrinsic boundary that *is* real is not data/metadata but:
 
 > **structured relational records** (schema-conformant entities + attributes + relationships;
-> low-to-moderate cardinality; queryable as a graph) — served by **Hippo**
+> low-to-moderate cardinality; queryable as a graph) — served by **Mosaic**
 > vs.
 > **bulk opaque payloads** (sequence reads, expression matrices, images; high cardinality;
 > array/columnar) — held as files, mediated by **Canon/Cappella**.
@@ -30,10 +31,10 @@ slice-extraction mechanics differ — and those are hidden from the user.
   edge types, scalar slots = node attributes, ranges/enums/constraints = semantic rules. LinkML
   is graph-native (it compiles to RDF/OWL/SHACL; `class_uri`/`slot_uri` are first-class). A LinkML
   schema *is* a typed property-graph definition.
-- **Hippo is the runtime that reads that schema and *becomes* the graph it describes** —
+- **Mosaic is the runtime that reads that schema and *becomes* the graph it describes** —
   instantiating storage, validation, API, and query semantics from the schema at startup.
 - Therefore "LinkML runtime" names the *mechanism* and "domain graph" names the *artifact*. They
-  are one thing. **Every Hippo query returns a knowledge subgraph whose semantics are exactly the
+  are one thing. **Every Mosaic query returns a knowledge subgraph whose semantics are exactly the
   schema's.** Per-deployment schema ⇒ per-deployment graph semantics. The config-driven
   *relational* storage is an implementation detail of the graph — no more essential than files
   being the substrate for bulk data.
@@ -45,7 +46,7 @@ value` cube is a bundle of typed edges (`Sample —expression{value}→ Gene`); 
 selecting a sub-bundle of edges = **inducing a subgraph**. So:
 
 > A **data-slice request** against bulk storage **induces a subgraph** that **unions** with the
-> records-subgraph Hippo returns, forming one query-result graph. Different physical substrate
+> records-subgraph Mosaic returns, forming one query-result graph. Different physical substrate
 > (relational rows / columnar arrays / HDF5 / zarr / files), **uniform graph semantics at the
 > query surface.**
 
@@ -55,7 +56,7 @@ operations; results lifted back into the graph. In DataHelix terms:
 
 | Layer | OBDA role |
 |---|---|
-| **Hippo relational engine** | mapping for the *structured* substrate (records → subgraph) |
+| **Mosaic relational engine** | mapping for the *structured* substrate (records → subgraph) |
 | **Canon / Cappella** | mappings for the *bulk* substrate (slice request → induced subgraph) |
 | **Aperture capability-negotiated adapter** | client-side reflection: gates which graph operations a substrate can serve |
 
@@ -65,7 +66,7 @@ validated components** — the "no middle scripting layer" discipline applied to
 right, queries and data "behave as we expect" regardless of where bits physically live. This is
 the same place the structured/bulk boundary is crossed *deliberately*: a derived, structured
 *view* of bulk data (a summary, an aggregation tier) is a subgraph promoted into the queryable
-graph when a query earns it — not Hippo becoming a data warehouse.
+graph when a query earns it — not Mosaic becoming a data warehouse.
 
 ## Honest flag: this layer is the platform's deep end
 
@@ -77,8 +78,8 @@ as implying the federated graph is a cheap or free abstraction.
 
 ## Consequences
 
-- **Retire "metadata store" for Hippo**; use "structured domain graph" (catalog / knowledge
-  layer). "Tracks where data lives" is *one role* (file cataloging), not Hippo's essence. *(Done
+- **Retire "metadata store" for Mosaic**; use "structured domain graph" (catalog / knowledge
+  layer). "Tracks where data lives" is *one role* (file cataloging), not Mosaic's essence. *(Done
   2026-06-17: Hippo's self-description (`hippo/CLAUDE.md`, `hippo/design/INDEX.md`, sec1) and the
   rest of the platform docs were brought into line by the reframe consistency pass —
   `proposals/reframe-consistency-pass.md`.)*
@@ -86,5 +87,5 @@ as implying the federated graph is a cheap or free abstraction.
   consume subgraphs; the cohort/selection object should be **grain-agnostic and re-rootable** (a
   position in the graph + predicates), since re-rooting the focal entity is exactly the
   metadata↔data role-swap made operational.
-- **The structured/bulk boundary, not data/metadata, is the architectural line** between Hippo and
+- **The structured/bulk boundary, not data/metadata, is the architectural line** between Mosaic and
   Canon/Cappella — and it is crossed only by promoting derived structured views into the graph.

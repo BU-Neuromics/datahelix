@@ -77,9 +77,9 @@ nav:
           - Integration Patterns: platform/src/design/sec3_integration.md
           - Unified Ingestion: platform/src/design/sec4_unified_ingestion.md
           - Integration Test Strategy: platform/src/design/sec5_integration_test_strategy.md
-  - Hippo:
+  - Mosaic:
       - hippo/index.md
-      - Why Hippo?: hippo/docs/why-hippo.md
+      - Why Mosaic?: hippo/docs/why-mosaic.md
       - User Docs:
           - Introduction: hippo/docs/introduction.md
           - Installation: hippo/docs/installation.md
@@ -160,7 +160,7 @@ nav:
           - Resolution Algorithm: canon/design/sec4_resolution_algorithm.md
           - Executor Adapters: canon/design/sec5_executor_adapters.md
           - Storage Adapters: canon/design/sec5b_storage_adapters.md
-          - Hippo Integration: canon/design/sec6_hippo_integration.md
+          - Mosaic Integration: canon/design/sec6_hippo_integration.md
           - Non-Functional Requirements: canon/design/sec7_nfr.md
           - Dynamic Rules: canon/design/sec8_dynamic_rules.md
           - "Reference: canon.yaml": canon/design/reference_canon_yaml.md

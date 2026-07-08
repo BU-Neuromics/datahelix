@@ -134,7 +134,7 @@ entity_types:
         description: "JSON-serialized CWL input parameters"
       target_entity_type:
         type: string
-        description: "Hippo entity type being produced"
+        description: "Mosaic entity type being produced"
         required: true
       target_params:
         type: string

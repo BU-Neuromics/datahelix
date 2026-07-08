@@ -54,7 +54,7 @@ Pass the key as a `Bearer` token in the `Authorization` header:
 
 ```bash
 curl -H "Authorization: Bearer datahelix_live_7f3a..." \
-     https://datahelix.your-org.edu/api/v1/hippo/entities/sample
+     https://datahelix.your-org.edu/api/v1/mosaic/entities/sample
 ```
 
 Or set it as an environment variable for the CLI and SDK:
@@ -65,9 +65,9 @@ datahelix entities list sample
 ```
 
 ```python
-from hippo import HippoClient
+from mosaic import MosaicClient
 
-client = HippoClient(url="https://datahelix.your-org.edu/api/v1/hippo", api_key="datahelix_live_...")
+client = MosaicClient(url="https://datahelix.your-org.edu/api/v1/mosaic", api_key="datahelix_live_...")
 ```
 
 ### Listing your keys
