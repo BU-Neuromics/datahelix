@@ -17,7 +17,8 @@ ARG APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:f41b0883d951b9abce9f0246
 # Data generator (pinned; carries the global-id-uniqueness fix,
 # BU-Neuromics/linkml-data-gen#3) and the domain schema (pinned).
 ARG DATAGEN_REPO=https://github.com/BU-Neuromics/linkml-data-gen.git
-ARG DATAGEN_REF=7fd512e11f0159c44086cfbc3cd926ee33189f30
+# Pinned to the squashed global-id-uniqueness commit (linkml-data-gen#3).
+ARG DATAGEN_REF=6d1386f75e400f5e659ff5d7c810adb1914b7131
 ARG SCHEMA_REPO=https://github.com/VA-NCPTSDBB-Bioinformatics/brainbank-hippo-schema.git
 ARG SCHEMA_REF=43a93d663796f480a576a27f1c91db71b9f91dd9
 
