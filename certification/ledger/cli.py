@@ -9,9 +9,15 @@ Subcommands:
 Component pins are given as ``name=version@digest`` (repeatable), e.g.
     datahelix-ledger certify \
         --component aperture=1.4.2@sha256:ab...  \
-        --component hippo=1.2.4@sha256:cd...     \
+        --component mosaic=1.2.4@sha256:cd...    \
         --suite-sha $GITHUB_SHA --fixture-version 1.0.0 \
         --result pass --line frontier --timestamp 2026-07-07T00:00:00Z
+
+``mosaic`` is the canonical component key going forward (the Hippo -> Mosaic
+rename, ADR-0004); historical entries recorded under ``hippo=`` remain valid
+and are treated as the same component line by ``query``/``gate`` (see
+``ledger.model.COMPONENT_ALIASES`` — decision 1.7, ledger history is
+append-only and is never rewritten).
 """
 
 from __future__ import annotations

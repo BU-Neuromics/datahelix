@@ -28,8 +28,8 @@ on:
       - "certification/composition.lock.json"
   workflow_dispatch:
     inputs:
-      hippo_version: { description: "hippo version", required: true }
-      hippo_digest: { description: "hippo artifact digest (sha256:...)", required: true }
+      mosaic_version: { description: "mosaic version (formerly hippo, ADR-0004)", required: true }
+      mosaic_digest: { description: "mosaic artifact digest (sha256:...)", required: true }
       aperture_version: { description: "aperture version", required: true }
       aperture_digest: { description: "aperture artifact digest (sha256:...)", required: true }
       line: { description: "release line (frontier | lts-1 | ...)", required: true, default: "frontier" }
@@ -60,8 +60,8 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             python certification/scripts/read_lock.py \
-              --hippo-version '${{ inputs.hippo_version }}' \
-              --hippo-digest  '${{ inputs.hippo_digest }}' \
+              --mosaic-version '${{ inputs.mosaic_version }}' \
+              --mosaic-digest  '${{ inputs.mosaic_digest }}' \
               --aperture-version '${{ inputs.aperture_version }}' \
               --aperture-digest  '${{ inputs.aperture_digest }}' \
               --line '${{ inputs.line }}'
@@ -87,7 +87,7 @@ jobs:
         id: run
         if: steps.pins.outputs.published == 'true'
         env:
-          HIPPO_IMAGE: ${{ steps.pins.outputs.hippo_ref }}
+          MOSAIC_IMAGE: ${{ steps.pins.outputs.mosaic_ref }}
           APERTURE_IMAGE: ${{ steps.pins.outputs.aperture_ref }}
           BUDGET_SECONDS: "600"
           RESULT_FILE: certification/result.json
@@ -110,7 +110,7 @@ jobs:
           git config user.name  "datahelix-ledger[bot]"
           git config user.email "datahelix-ledger@users.noreply.github.com"
           ARGS=(--component "aperture=${{ steps.pins.outputs.aperture_version }}@${{ steps.pins.outputs.aperture_digest }}"
-                --component "hippo=${{ steps.pins.outputs.hippo_version }}@${{ steps.pins.outputs.hippo_digest }}"
+                --component "mosaic=${{ steps.pins.outputs.mosaic_version }}@${{ steps.pins.outputs.mosaic_digest }}"
                 --suite-sha "${GITHUB_SHA}"
                 --fixture-version "${{ steps.pins.outputs.fixture_version }}"
                 --line "${{ steps.pins.outputs.line }}"

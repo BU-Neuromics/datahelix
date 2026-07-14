@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any, Iterator
 
-from hippo.core.loaders import EntityLoader
+from mosaic.core.loaders import EntityLoader
 
 from cappella.types import RawRecord, TransformedRecord
 
@@ -9,7 +9,7 @@ from cappella.types import RawRecord, TransformedRecord
 class ExternalSourceAdapter(EntityLoader):
     """Base class for all Cappella external source adapters.
 
-    Subclasses hippo.core.loaders.EntityLoader so that Cappella adapters
+    Subclasses mosaic.core.loaders.EntityLoader so that Cappella adapters
     participate in the unified ingestion framework. The fetch/transform
     abstract methods use Cappella's richer typed RawRecord / TransformedRecord
     instead of plain dicts, which is fine at runtime because Python does not

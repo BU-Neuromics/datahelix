@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "datahelix"
+version = "1.0.0a1"
+description = "DataHelix platform metapackage - installs the core; extras add components"
+requires-python = ">=3.11"
+dependencies = ["datahelix-mosaic~=0.11"]
+
+[project.optional-dependencies]
+canon    = ["datahelix-canon~=0.1"]
+cappella = ["datahelix-cappella~=0.1"]
+aperture = ["datahelix-aperture~=0.1"]
+all      = ["datahelix[canon,cappella,aperture]"]
+
+[project.scripts]
+datahelix = "datahelix.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/datahelix"]

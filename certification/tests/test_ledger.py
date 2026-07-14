@@ -195,3 +195,71 @@ def test_gate_refuses_certified_failing_pair(repo: Path):
     req = [Component("aperture", "1.4.2", D_AP), Component("hippo", "1.2.3", D_HI)]
     with pytest.raises(GateError, match="FAILING"):
         check_pair(req, repo=repo)
+
+
+# ---- hippo/mosaic alias (ADR-0004 rename, decision 1.7) ---------------------
+#
+# The certification ledger is append-only: a pre-rename entry recorded under
+# `hippo=` and a post-rename entry recorded under `mosaic=` must resolve as
+# the SAME component line for queries and the deploy gate, without ever
+# rewriting the historical `hippo=` entry or its tag.
+
+D_HI2 = "sha256:" + "d" * 64
+
+
+def test_query_resolves_hippo_and_mosaic_as_one_component_line(repo: Path):
+    # Pre-rename entry, recorded the old way.
+    write_entry(_entry(ap="1.4.2", hi="1.2.3"), repo=repo)
+    # Post-rename entry: same pair shape, but the renamed component key.
+    write_entry(
+        LedgerEntry(
+            components=[
+                Component("aperture", "1.5.0", D_AP),
+                Component("mosaic", "1.3.0", D_HI2),
+            ],
+            suite_sha="deadbeef",
+            fixture_version="1.0.0",
+            result="pass",
+            timestamp="2026-07-08T00:00:00Z",
+        ),
+        repo=repo,
+    )
+    # Querying by the legacy name sees both the hippo- and mosaic-keyed entries.
+    assert partners_for_line("aperture", "1.4.*", "hippo", repo=repo) == ["1.2.3"]
+    assert partners_for_line("aperture", "1.5.*", "hippo", repo=repo) == ["1.3.0"]
+    # ...and querying by the new canonical name sees them too, symmetrically.
+    assert partners_for_line("aperture", "1.4.*", "mosaic", repo=repo) == ["1.2.3"]
+    assert partners_for_line("aperture", "1.5.*", "mosaic", repo=repo) == ["1.3.0"]
+
+
+def test_gate_admits_mosaic_request_against_legacy_hippo_entry(repo: Path):
+    # Entry certified before the rename, under the old component key.
+    write_entry(_entry(ap="1.4.2", hi="1.2.3"), repo=repo)
+    # Deploy tooling now asks for the pair using the canonical "mosaic" name.
+    req = [Component("aperture", "1.4.2", D_AP), Component("mosaic", "1.2.3", D_HI)]
+    assert is_certified(req, repo=repo)
+    entry = check_pair(req, repo=repo)
+    assert entry.passed
+    # The entry itself is untouched — it is still recorded under "hippo".
+    assert entry.component("hippo") is not None
+    assert entry.component("mosaic") is None
+
+
+def test_gate_admits_hippo_request_against_new_mosaic_entry(repo: Path):
+    # Entry certified after the rename, under the canonical "mosaic" key.
+    write_entry(
+        LedgerEntry(
+            components=[
+                Component("aperture", "1.6.0", D_AP),
+                Component("mosaic", "2.0.0", D_HI2),
+            ],
+            suite_sha="deadbeef",
+            fixture_version="1.0.0",
+            result="pass",
+            timestamp="2026-07-08T00:00:00Z",
+        ),
+        repo=repo,
+    )
+    # A caller still spelling it the old way is satisfied by the new entry.
+    req = [Component("aperture", "1.6.0", D_AP), Component("hippo", "2.0.0", D_HI2)]
+    assert is_certified(req, repo=repo)

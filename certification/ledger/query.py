@@ -57,8 +57,11 @@ def partners_for_line(
     for e in entries if entries is not None else read_entries(repo):
         if passing_only and not e.passed:
             continue
-        a = e.component(anchor)
-        p = e.component(partner)
+        # component_line (not component) so a query for "mosaic" also matches
+        # entries recorded under the legacy "hippo" name, and vice versa
+        # (decision 1.7 — the two spellings are one component line).
+        a = e.component_line(anchor)
+        p = e.component_line(partner)
         if a is None or p is None:
             continue
         if _matches_line(a.version, line):

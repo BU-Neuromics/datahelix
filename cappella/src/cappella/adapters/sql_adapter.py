@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any, Iterator
 
-from hippo.core.loaders.sql import SQLLoader
+from mosaic.core.loaders.sql import SQLLoader
 
 from cappella.exceptions import AdapterFetchError, AdapterTransformError, ConfigError
 from cappella.types import RawRecord, TransformedRecord
@@ -25,7 +25,7 @@ def _check_query_safety(query: str) -> None:
 class SQLAdapter(SQLLoader):
     """Adapter for SQL database sources.
 
-    Subclasses hippo.core.loaders.SQLLoader so that Cappella SQL adapters
+    Subclasses mosaic.core.loaders.SQLLoader so that Cappella SQL adapters
     participate in the unified ingestion framework. __init__ does not call
     super().__init__() because SQLLoader raises ValueError on forbidden queries
     while Cappella's contract requires ConfigError; all attributes are set

@@ -1,6 +1,6 @@
 """Platform integration tests: real Hippo ↔ Canon cross-cutting contract.
 
-Tests exercise RecursivePlanner talking to a real in-process HippoClient
+Tests exercise RecursivePlanner talking to a real in-process MosaicClient
 backed by SQLiteAdapter.  No HTTP server; no actual CWL execution.
 
 ## Category taxonomy

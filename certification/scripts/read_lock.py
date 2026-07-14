@@ -6,9 +6,17 @@ $GITHUB_OUTPUT. A pin whose digest is null/placeholder marks the composition
 "unpublished" so the workflow skips the boot as an honest no-op (ADR-0001: never
 certify an artifact that isn't published by digest).
 
+The Mosaic component (ADR-0004, formerly Hippo) is emitted under the canonical
+``mosaic_*`` keys. ``composition.lock.json`` itself is ledger/lock data and is
+read as-is (never rewritten by this script): its component key is currently
+"hippo" (matching the hippo repo's release pipeline, which still publishes
+under "component": "hippo" until the repo itself is renamed — Phase R), but a
+future "mosaic" key is tolerated too so this script keeps working once the
+lock file's own bump bot switches spellings.
+
 Usage:
     read_lock.py path/to/composition.lock.json
-    read_lock.py --hippo-version X --hippo-digest D \
+    read_lock.py --mosaic-version X --mosaic-digest D \
                  --aperture-version Y --aperture-digest D2 [--line frontier]
 """
 
@@ -38,8 +46,8 @@ def _is_real_digest(d) -> bool:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("lock", nargs="?", help="composition.lock.json")
-    ap.add_argument("--hippo-version")
-    ap.add_argument("--hippo-digest")
+    ap.add_argument("--mosaic-version")
+    ap.add_argument("--mosaic-digest")
     ap.add_argument("--aperture-version")
     ap.add_argument("--aperture-digest")
     ap.add_argument("--line")
@@ -49,12 +57,17 @@ def main(argv: list[str] | None = None) -> int:
     if args.lock:
         doc = json.loads(Path(args.lock).read_text())
         comps = doc["components"]
+        # Tolerate either spelling in the lock data (decision 1.7 alias):
+        # today's lock files still key the component "hippo" (matching the
+        # not-yet-renamed upstream release pipeline); a future lock file may
+        # key it "mosaic" once that pipeline moves too.
+        mosaic_key = "mosaic" if "mosaic" in comps else "hippo"
         pins = {
             "line": doc.get("line", "frontier"),
             "fixture_version": doc.get("fixture_version", args.fixture_version),
-            "hippo_version": comps["hippo"]["version"],
-            "hippo_digest": comps["hippo"].get("digest") or "",
-            "hippo_image": comps["hippo"].get("image", ""),
+            "mosaic_version": comps[mosaic_key]["version"],
+            "mosaic_digest": comps[mosaic_key].get("digest") or "",
+            "mosaic_image": comps[mosaic_key].get("image", ""),
             "aperture_version": comps["aperture"]["version"],
             "aperture_digest": comps["aperture"].get("digest") or "",
             "aperture_image": comps["aperture"].get("image", ""),
@@ -63,18 +76,20 @@ def main(argv: list[str] | None = None) -> int:
         pins = {
             "line": args.line or "frontier",
             "fixture_version": args.fixture_version,
-            "hippo_version": args.hippo_version or "",
-            "hippo_digest": args.hippo_digest or "",
-            "hippo_image": "ghcr.io/bu-neuromics/hippo",
+            "mosaic_version": args.mosaic_version or "",
+            "mosaic_digest": args.mosaic_digest or "",
+            # Image PATH is unchanged until the GitHub repo itself is renamed
+            # (Phase R) — the hippo release pipeline still publishes here.
+            "mosaic_image": "ghcr.io/bu-neuromics/hippo",
             "aperture_version": args.aperture_version or "",
             "aperture_digest": args.aperture_digest or "",
             "aperture_image": "ghcr.io/bu-neuromics/aperture",
         }
 
-    published = _is_real_digest(pins["hippo_digest"]) and _is_real_digest(pins["aperture_digest"])
+    published = _is_real_digest(pins["mosaic_digest"]) and _is_real_digest(pins["aperture_digest"])
     pins["published"] = "true" if published else "false"
     if published:
-        pins["hippo_ref"] = f"{pins['hippo_image']}@{pins['hippo_digest']}"
+        pins["mosaic_ref"] = f"{pins['mosaic_image']}@{pins['mosaic_digest']}"
         pins["aperture_ref"] = f"{pins['aperture_image']}@{pins['aperture_digest']}"
     _emit(pins)
     return 0

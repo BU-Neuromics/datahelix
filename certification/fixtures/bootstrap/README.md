@@ -11,7 +11,7 @@ for why it exists.
 | Path | What it is |
 |---|---|
 | `VERSION` | Fixture package version — part of every ledger entry's triple (`fixture_version`). |
-| `schema/portal_schema.yaml` | Generic library-catalog domain (Book/Author/Review). Hippo autogenerates GraphQL from it. |
+| `schema/portal_schema.yaml` | Generic library-catalog domain (Book/Author/Review). Mosaic autogenerates GraphQL from it. |
 | `schema/aperture_control_plane.yaml` | `ApertureDocument` recipe — the `{kind,name,payload}` control-plane store (Aperture ADR-0032). |
 | `data/seed.yaml` | Idempotent tree-root bundle (identity by `id`). |
 | `manifest.yaml` | Inventory, seeding commands, and the product-loop → fixture map. |
@@ -19,16 +19,17 @@ for why it exists.
 ## Why a generic domain
 
 Aperture's source carries no domain nouns (Aperture ADR-0002) and derives every
-capability from Hippo's introspection. A neutral catalog domain (mirroring
-Aperture's own `capableSchema()` test fixture) exercises the four seams —
-introspection enrichment, filter SDL, the batch unit-of-work, and the
-control-plane document type — without smuggling in deployment specifics.
+capability from Mosaic's introspection (formerly Hippo, ADR-0004). A neutral
+catalog domain (mirroring Aperture's own `capableSchema()` test fixture)
+exercises the four seams — introspection enrichment, filter SDL, the batch
+unit-of-work, and the control-plane document type — without smuggling in
+deployment specifics.
 
-## Seeding a fresh Hippo
+## Seeding a fresh Mosaic
 
 ```bash
-# from this directory, against a Hippo checkout/serve using these schemas
-hippo ingest --file data/seed.yaml --validate-schema schema/
+# from this directory, against a Mosaic checkout/serve using these schemas
+mosaic ingest --file data/seed.yaml --validate-schema schema/
 ```
 
 REST (`POST /ingest`) and GraphQL (`ingestBatch`) seeding paths are documented

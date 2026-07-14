@@ -40,8 +40,8 @@ for _pkg in ("hippo/src", "canon/src"):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-from hippo.core.client import HippoClient
-from hippo.core.storage.adapters.sqlite_adapter import SQLiteAdapter
+from mosaic.core.client import MosaicClient
+from mosaic.core.storage.adapters.sqlite_adapter import SQLiteAdapter
 
 from tests.conftest import build_test_schema_registry
 from canon.exceptions import (
@@ -58,18 +58,18 @@ from canon.types import Entity
 
 
 # ---------------------------------------------------------------------------
-# Minimal HippoClientShim — maps HippoClient to RecursivePlanner's interface
+# Minimal MosaicClientShim — maps MosaicClient to RecursivePlanner's interface
 # ---------------------------------------------------------------------------
 
 
 class _HippoShim:
-    """Thin adapter between HippoClient and RecursivePlanner's hippo_client interface.
+    """Thin adapter between MosaicClient and RecursivePlanner's hippo_client interface.
 
     RecursivePlanner calls: find_entity, ingest_entity, update_entity.
-    These map directly to HippoClient CRUD operations.
+    These map directly to MosaicClient CRUD operations.
     """
 
-    def __init__(self, client: HippoClient) -> None:
+    def __init__(self, client: MosaicClient) -> None:
         self._client = client
         self._type_cache: dict[str, str] = {}
 
@@ -115,14 +115,14 @@ class _HippoShim:
 
 
 @pytest.fixture()
-def hippo_client(tmp_path: Path) -> HippoClient:
+def hippo_client(tmp_path: Path) -> MosaicClient:
     registry = build_test_schema_registry()
     storage = SQLiteAdapter(str(tmp_path / "hippo.db"), schema_registry=registry)
-    return HippoClient(storage=storage, registry=registry)
+    return MosaicClient(storage=storage, registry=registry)
 
 
 @pytest.fixture()
-def shim(hippo_client: HippoClient) -> _HippoShim:
+def shim(hippo_client: MosaicClient) -> _HippoShim:
     return _HippoShim(hippo_client)
 
 

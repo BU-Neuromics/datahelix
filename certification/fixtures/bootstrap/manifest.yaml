@@ -2,9 +2,10 @@
 #
 # A versioned package consumed by BOTH the DataHelix composition-certification
 # suite AND (once it lands) the component-repo contract checks — notably
-# Aperture's contract file, which runs against a booted `hippo serve` in Hippo's
-# CI (platform ADR-0001). Keeping the seed schema + data + control-plane recipe
-# in ONE versioned place means the two sides certify against the same fixture.
+# Aperture's contract file, which runs against a booted `mosaic serve` in
+# Mosaic's CI (formerly Hippo, ADR-0004; platform ADR-0001). Keeping the seed
+# schema + data + control-plane recipe in ONE versioned place means the two
+# sides certify against the same fixture.
 #
 # The fixture version (VERSION) is part of every ledger entry's triple
 # (fixture_version) — changing the fixture is a suite change and re-certifies.
@@ -15,7 +16,7 @@ schema_min_hippo_core: 0.6.0   # hippo_core version these classes were authored 
 
 provides:
   schema:
-    # Order matters for `hippo ingest --validate-schema` when passed as files;
+    # Order matters for `mosaic ingest --validate-schema` when passed as files;
     # passing the whole `schema/` dir loads both.
     - schema/portal_schema.yaml          # Book / Author / Review domain
     - schema/aperture_control_plane.yaml # ApertureDocument control-plane recipe (ADR-0032)
@@ -31,13 +32,13 @@ provides:
 
 consumers:
   - DataHelix composition-certification suite (certification/scenarios)
-  - Aperture contract file (aperture#16, runs in hippo CI) — once published
+  - Aperture contract file (aperture#16, runs in mosaic CI) — once published
 
-# How the harness seeds a fresh Hippo from this fixture. The bundle path is the
-# documented default; REST/GraphQL paths exist for eras/backends where the CLI
-# bundle path differs.
+# How the harness seeds a fresh Mosaic from this fixture. The bundle path is
+# the documented default; REST/GraphQL paths exist for eras/backends where the
+# CLI bundle path differs.
 seeding:
-  primary: "hippo ingest --file data/seed.yaml --validate-schema schema/"
+  primary: "mosaic ingest --file data/seed.yaml --validate-schema schema/"
   rest: "POST /ingest {entity_type, data} per instance (bearer token)"
   graphql: "ingestBatch(entities, relationships, dryRun:false)"
 

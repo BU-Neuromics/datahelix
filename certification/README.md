@@ -1,10 +1,11 @@
 # Composition certification & the certified-frontier ledger
 
 This directory implements the cross-component **version-compatibility strategy**
-for the DataHelix platform. Components (aperture, hippo) version and ship
-independently; DataHelix certifies that **one exact version pair at a time** boots
-and passes the golden-path scenarios, and records each result in an append-only
-**ledger**. Deployment is gated on that ledger.
+for the DataHelix platform. Components (aperture, mosaic — formerly hippo,
+ADR-0004) version and ship independently; DataHelix certifies that **one exact
+version pair at a time** boots and passes the golden-path scenarios, and
+records each result in an append-only **ledger**. Deployment is gated on that
+ledger.
 
 **The decision of record is [platform ADR-0001](../platform/design/decisions/ADR-0001-certified-frontier-composition.md).**
 This README is the runbook.
@@ -13,7 +14,7 @@ This README is the runbook.
 
 Never test the version matrix — walk a single path through it. Each green
 certification of the current pins appends one immutable fact
-*(aperture X @ digest, hippo Y @ digest, suite S @ sha → pass)* to the ledger.
+*(aperture X @ digest, mosaic Y @ digest, suite S @ sha → pass)* to the ledger.
 Facts are about immutable artifacts, so they never expire and are never
 re-tested. Deploy tooling refuses any pair not present as a passing ledger
 entry. Matrix holes are fine: an off-path pair a deployment needs is filled by a
@@ -25,8 +26,8 @@ lazy, targeted **backfill** (`workflow_dispatch`), never a standing matrix.
 |---|---|
 | `composition.lock.json` | The current pins for this branch's line (versions + digests + fixture). The bump bot moves one component per PR; certification reads this. |
 | `ledger/` | The ledger tooling (`datahelix-ledger`): `certify`, `assemble`, `query`, `gate`. Pure stdlib + git. |
-| `fixtures/bootstrap/` | Versioned seed schema + data + the Aperture control-plane recipe. One source, consumed by DataHelix CI **and** (later) hippo CI for the aperture contract file. |
-| `compose/` | `docker-compose.certify.yml` + `hippo.certify.yaml` — boots the pinned pair (hippo serve --graphql over the fixture + the aperture SPA). |
+| `fixtures/bootstrap/` | Versioned seed schema + data + the Aperture control-plane recipe. One source, consumed by DataHelix CI **and** (later) mosaic CI for the aperture contract file. |
+| `compose/` | `docker-compose.certify.yml` + `mosaic.certify.yaml` — boots the pinned pair (mosaic serve --graphql over the fixture + the aperture SPA). |
 | `scenarios/` | The golden-path Playwright suite — **one scenario per product loop**, under a hard ~10-min budget. |
 | `scripts/` | `read_lock.py` (resolve pins), `run_composition.sh` (boot + seed + run under budget), `deploy_gate.sh` (deploy pre-flight). |
 | `compatibility.json` | CI-assembled view of the ledger tags, for easy querying. Tags are the source of truth. |
@@ -36,7 +37,7 @@ lazy, targeted **backfill** (`workflow_dispatch`), never a standing matrix.
 | Layer | Runs in | Proves |
 |---|---|---|
 | Component CI | each component repo | the component works in isolation |
-| **Contract checks** | the **producer's** CI (aperture's contract file booted against `hippo serve` in hippo's PR CI) | the seam shapes hold, at authorship time |
+| **Contract checks** | the **producer's** CI (aperture's contract file booted against `mosaic serve` in mosaic's PR CI) | the seam shapes hold, at authorship time |
 | **Composition certification** | here, on bump PRs | one exact pair boots and passes the golden path |
 
 The four seams the golden path exercises (isolated in aperture `web/src/data/`):
@@ -92,8 +93,9 @@ the failure-asymmetry rule.
 # ledger tooling tests (runnable anywhere)
 make ledger-test
 
-# which hippos are certified with aperture's LTS line 1.4.*?
-make ledger-query ANCHOR=aperture LINE='1.4.*' PARTNER=hippo
+# which mosaics are certified with aperture's LTS line 1.4.*? ("mosaic" and the
+# legacy "hippo" name are the same component line — decision 1.7)
+make ledger-query ANCHOR=aperture LINE='1.4.*' PARTNER=mosaic
 
 # rebuild compatibility.json from the tags
 make ledger-assemble
@@ -102,7 +104,9 @@ make ledger-assemble
 make deploy-gate
 
 # boot the pinned pair + run the golden path locally (needs published images)
-HIPPO_IMAGE=ghcr.io/bu-neuromics/hippo@sha256:... \
+# NOTE: the image path is still ghcr.io/bu-neuromics/hippo — the hippo repo's
+# own release pipeline has not been renamed yet (Phase R).
+MOSAIC_IMAGE=ghcr.io/bu-neuromics/hippo@sha256:... \
 APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:... \
   make certify-local
 
@@ -113,13 +117,14 @@ APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:... \
 ## Current status (2026-07)
 
 The tooling, fixtures, compose, scenarios, workflow, and gate are in place. The
-components do **not** yet publish digest-addressed artifacts (hippo has no
-release/image pipeline; aperture has no Dockerfile, and its live-`hippo serve`
-GraphQL integration and consumer contract file are unstarted, aperture#15/#16).
-Note the direction of the seam: **Hippo is the GraphQL provider** (`hippo serve
---graphql`); **Aperture is the client/consumer** — its SPA queries Hippo's
-autogenerated transport and the contract file is the consumer's assertions about
-that transport (run in Hippo's CI). Until these land:
+components do **not** yet publish digest-addressed artifacts (mosaic, formerly
+hippo, has no release/image pipeline; aperture has no Dockerfile, and its
+live-`mosaic serve` GraphQL integration and consumer contract file are
+unstarted, aperture#15/#16). Note the direction of the seam: **Mosaic is the
+GraphQL provider** (`mosaic serve --graphql`); **Aperture is the
+client/consumer** — its SPA queries Mosaic's autogenerated transport and the
+contract file is the consumer's assertions about that transport (run in
+Mosaic's CI). Until these land:
 
 - `composition.lock.json` digests are `null` and the certification workflow
   **skips the boot as an honest no-op** — it never certifies an unpublished pair.

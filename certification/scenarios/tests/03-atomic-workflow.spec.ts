@@ -7,7 +7,7 @@ import { countCollection, gqlContext } from "../support/graphql";
 // Proves the load-bearing cross-component contract: a guided workflow STAGES a
 // linked set (Author → Book → Review, the Book/Review referencing the
 // not-yet-committed parents by batch ref), runs a whole-set dry-run, then
-// commits ALL-OR-NOTHING in one Hippo batch. Nothing is visible until commit.
+// commits ALL-OR-NOTHING in one Mosaic batch. Nothing is visible until commit.
 //
 // Requires the SPA to be built with a workflow config that stages this set
 // (VITE_WORKFLOWS); the certification image bakes a "catalog-entry" workflow.

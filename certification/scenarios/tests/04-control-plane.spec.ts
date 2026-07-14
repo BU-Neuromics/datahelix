@@ -52,7 +52,7 @@ test("a saved view persists to the control-plane store and survives reload", asy
   await fresh.close();
 });
 
-// Hippo's generated list field returns a page envelope and takes the generic
+// Mosaic's generated list field returns a page envelope and takes the generic
 // filter list ({field, value} pairs over LinkML slot names).
 async function findSavedView(
   ctx: Awaited<ReturnType<typeof gqlContext>>,

@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "cappella"
+name = "datahelix-cappella"
 version = "0.1.0"
 description = "Harmonization engine for the DataHelix platform"
 requires-python = ">=3.11"
@@ -25,11 +25,11 @@ test = [
     "pytest",
     "pytest-anyio",
     "httpx",
-    "hippo",
+    "datahelix-mosaic",
 ]
 
 [tool.uv.sources]
-hippo = { path = "../hippo", editable = true }
+datahelix-mosaic = { path = "../hippo", editable = true }
 
 [project.scripts]
 cappella = "cappella.cli.main:app"

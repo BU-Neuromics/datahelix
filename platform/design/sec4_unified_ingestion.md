@@ -2,15 +2,15 @@
 
 **Status:** Draft v0.1  
 **Last updated:** 2026-03-27  
-**Scope:** Cross-component (Hippo + Cappella)
+**Scope:** Cross-component (Mosaic, formerly Hippo — ADR-0004 — + Cappella)
 
 ---
 
 ## 4.1 Motivation
 
 Before this change, ingestion logic was split:
-- Hippo had `IngestionPipeline` with hardcoded `ingest_csv/json/jsonl` methods
-- Hippo had `ReferenceLoader` ABC for reference data plugins
+- Mosaic had `IngestionPipeline` with hardcoded `ingest_csv/json/jsonl` methods
+- Mosaic had `ReferenceLoader` ABC for reference data plugins
 - Cappella had its own `CSVAdapter`, `JSONAdapter`, `SQLAdapter`, `ExternalSourceAdapter` ABC
 - Two separate pipeline implementations, two sets of field mapping logic, two error hierarchies
 
@@ -18,38 +18,38 @@ This creates maintenance burden, divergent behavior, and forces plugin authors t
 
 ## 4.2 The Unified Model
 
-A single `EntityLoader` ABC lives in Hippo core. Everything that loads data into Hippo — reference loaders, Cappella adapters, CLI ingest, custom scripts — subclasses this one ABC.
+A single `EntityLoader` ABC lives in Mosaic core. Everything that loads data into Mosaic — reference loaders, Cappella adapters, CLI ingest, custom scripts — subclasses this one ABC.
 
 ```
-EntityLoader (ABC, Hippo core)
+EntityLoader (ABC, Mosaic core)
     │
-    ├── ConfigurableLoader (Abstract, Hippo core)
+    ├── ConfigurableLoader (Abstract, Mosaic core)
     │   │   Config-driven field_map + vocabulary_map
     │   │
-    │   ├── CSVLoader (Concrete, Hippo core)
-    │   ├── JSONLoader (Concrete, Hippo core)
-    │   ├── SQLLoader (Concrete, Hippo core, extras: hippo[loaders-sql])
-    │   └── EntityYAMLLoader (Concrete, Hippo core)
+    │   ├── CSVLoader (Concrete, Mosaic core)
+    │   ├── JSONLoader (Concrete, Mosaic core)
+    │   ├── SQLLoader (Concrete, Mosaic core, extras: mosaic[loaders-sql])
+    │   └── EntityYAMLLoader (Concrete, Mosaic core)
     │       Loads structured entity YAML directly
     │
-    ├── ReferenceLoader subclasses (Hippo plugins)
-    │   │   hippo-reference-ensembl, hippo-reference-bioconda, etc.
+    ├── ReferenceLoader subclasses (Mosaic plugins)
+    │   │   mosaic-reference-ensembl, mosaic-reference-bioconda, etc.
     │   │   May subclass ConfigurableLoader or EntityLoader directly
-    │   └── Discovered via hippo.reference_loaders entry points
+    │   └── Discovered via mosaic.reference_loaders entry points
     │
     └── Cappella adapter subclasses
         │   Complex integrations (STARLIMS API, paginated REST, SFTP)
-        │   Subclass EntityLoader from Hippo
+        │   Subclass EntityLoader from Mosaic
         └── Discovered via cappella.adapters entry points
 ```
 
 ## 4.3 EntityLoader ABC
 
-Lives in `hippo.core.loaders.base`:
+Lives in `mosaic.core.loaders.base`:
 
 ```python
 class EntityLoader(ABC):
-    """Base class for all data loading into Hippo."""
+    """Base class for all data loading into Mosaic."""
 
     name: str                          # identifier, e.g. "csv", "ensembl", "starlims"
     entity_types: list[str]            # what this loader produces
@@ -62,7 +62,7 @@ class EntityLoader(ABC):
 
     @abstractmethod
     def transform(self, record: RawRecord) -> TransformedRecord:
-        """Map source record to Hippo entity schema."""
+        """Map source record to Mosaic entity schema."""
         ...
 
     def validate(self, record: TransformedRecord, client: Any) -> list[str]:
@@ -95,14 +95,14 @@ class ConfigurableLoader(EntityLoader):
         ...
 ```
 
-## 4.5 Built-in Loaders (Hippo Core)
+## 4.5 Built-in Loaders (Mosaic Core)
 
 | Loader | Module | Base install | Notes |
 |--------|--------|-------------|-------|
-| `CSVLoader` | `hippo.core.loaders.csv` | ✅ (stdlib csv) | File, HTTP URL, or stdin/bytes |
-| `JSONLoader` | `hippo.core.loaders.json` | ✅ (stdlib json) | JSONPath for nested records requires `hippo[loaders-json]` |
-| `SQLLoader` | `hippo.core.loaders.sql` | `hippo[loaders-sql]` | SQLAlchemy + read-only query validation |
-| `EntityYAMLLoader` | `hippo.core.loaders.entity_yaml` | ✅ (stdlib yaml) | Structured entity YAML, idempotent via external_id |
+| `CSVLoader` | `mosaic.core.loaders.csv` | ✅ (stdlib csv) | File, HTTP URL, or stdin/bytes |
+| `JSONLoader` | `mosaic.core.loaders.json` | ✅ (stdlib json) | JSONPath for nested records requires `mosaic[loaders-json]` |
+| `SQLLoader` | `mosaic.core.loaders.sql` | `mosaic[loaders-sql]` | SQLAlchemy + read-only query validation |
+| `EntityYAMLLoader` | `mosaic.core.loaders.entity_yaml` | ✅ (stdlib yaml) | Structured entity YAML, idempotent via external_id |
 
 ## 4.6 Dependency Extras (`pyproject.toml`)
 
@@ -115,28 +115,28 @@ loaders-all = ["sqlalchemy>=2.0", "jsonpath-ng>=1.6"]
 
 CSV and EntityYAML have zero additional dependencies. JSON basic parsing needs no extras; JSONPath for nested records is an optional extra.
 
-## 4.7 `hippo ingest` CLI
+## 4.7 `mosaic ingest` CLI
 
 The CLI becomes the manual entry point for the loader framework. No triggers, no automation — just run a loader once.
 
 ```bash
 # Ingest from structured entity YAML
-hippo ingest --file entities.yaml
+mosaic ingest --file entities.yaml
 
 # Ingest from CSV with inline config
-hippo ingest --type csv --file donors.csv \
+mosaic ingest --type csv --file donors.csv \
   --entity-type Donor \
   --external-id-field SUBJECT_ID \
   --field-map SUBJECT_ID=external_id SEX=sex DIAGNOSIS=diagnosis
 
 # Ingest from CSV with a config file
-hippo ingest --type csv --file donors.csv --config donors_mapping.yaml
+mosaic ingest --type csv --file donors.csv --config donors_mapping.yaml
 
-# Ingest from SQL (requires hippo[loaders-sql])
-hippo ingest --type sql --config lims_query.yaml
+# Ingest from SQL (requires mosaic[loaders-sql])
+mosaic ingest --type sql --config lims_query.yaml
 
 # Dry run — show what would be created/updated without writing
-hippo ingest --file entities.yaml --dry-run
+mosaic ingest --file entities.yaml --dry-run
 ```
 
 The config file for CSV/JSON/SQL contains the adapter-specific options:
@@ -160,39 +160,39 @@ vocabulary_map:
 
 All loaders use the same upsert-by-ExternalID logic:
 
-1. For each record, look up by `external_id` in Hippo
+1. For each record, look up by `external_id` in Mosaic
 2. If found and data identical → skip (unchanged)
 3. If found and data differs → update
 4. If not found → create + register external_id
 
 This is the logic we just fixed in `_upsert_records` (catching `EntityNotFoundError` explicitly).
 
-The `IngestPipeline` class (renamed from `IngestionPipeline`) orchestrates this loop for any `EntityLoader`. It moves from `hippo.core.ingestion` to `hippo.core.loaders.pipeline`.
+The `IngestPipeline` class (renamed from `IngestionPipeline`) orchestrates this loop for any `EntityLoader`. It moves from `mosaic.core.ingestion` to `mosaic.core.loaders.pipeline`.
 
-## 4.9 What Changes in Hippo
+## 4.9 What Changes in Mosaic
 
 | Action | File/Module | Notes |
 |--------|-------------|-------|
-| **New** | `hippo/src/hippo/core/loaders/__init__.py` | Package exports |
-| **New** | `hippo/src/hippo/core/loaders/base.py` | `EntityLoader`, `ConfigurableLoader`, `RawRecord`, `TransformedRecord` |
-| **New** | `hippo/src/hippo/core/loaders/csv.py` | `CSVLoader` |
-| **New** | `hippo/src/hippo/core/loaders/json.py` | `JSONLoader` |
-| **New** | `hippo/src/hippo/core/loaders/sql.py` | `SQLLoader` |
-| **New** | `hippo/src/hippo/core/loaders/entity_yaml.py` | `EntityYAMLLoader` |
-| **New** | `hippo/src/hippo/core/loaders/pipeline.py` | `IngestPipeline` (refactored from `IngestionPipeline`) |
+| **New** | `hippo/src/mosaic/core/loaders/__init__.py` | Package exports |
+| **New** | `hippo/src/mosaic/core/loaders/base.py` | `EntityLoader`, `ConfigurableLoader`, `RawRecord`, `TransformedRecord` |
+| **New** | `hippo/src/mosaic/core/loaders/csv.py` | `CSVLoader` |
+| **New** | `hippo/src/mosaic/core/loaders/json.py` | `JSONLoader` |
+| **New** | `hippo/src/mosaic/core/loaders/sql.py` | `SQLLoader` |
+| **New** | `hippo/src/mosaic/core/loaders/entity_yaml.py` | `EntityYAMLLoader` |
+| **New** | `hippo/src/mosaic/core/loaders/pipeline.py` | `IngestPipeline` (refactored from `IngestionPipeline`) |
 | **New** | `hippo/cli/commands/ingest.py` | `ingest_entity_file()`, rewired CLI |
-| **Modify** | `hippo/src/hippo/core/ingestion.py` | Keep `extract_fts_content`, `flatten_dict`; deprecate `IngestionPipeline` |
+| **Modify** | `hippo/src/mosaic/core/ingestion.py` | Keep `extract_fts_content`, `flatten_dict`; deprecate `IngestionPipeline` |
 | **Modify** | `hippo/pyproject.toml` | Add `loaders-sql`, `loaders-json` extras |
-| **Remove** | `hippo/src/hippo/core/data_sources.py` | Replaced by loader config files |
+| **Remove** | `hippo/src/mosaic/core/data_sources.py` | Replaced by loader config files |
 
 ## 4.10 What Changes in Cappella
 
 | Action | Notes |
 |--------|-------|
-| **Modify** `cappella/src/cappella/adapters/base.py` | `ExternalSourceAdapter` subclasses `hippo.core.loaders.base.EntityLoader` instead of its own ABC |
-| **Modify** `cappella/src/cappella/adapters/csv_adapter.py` | Subclass `CSVLoader` from Hippo, add Cappella-specific features (HTTP transport, `manual_upload` source) |
-| **Modify** `cappella/src/cappella/adapters/json_adapter.py` | Subclass `JSONLoader` from Hippo |
-| **Modify** `cappella/src/cappella/adapters/sql_adapter.py` | Subclass `SQLLoader` from Hippo |
+| **Modify** `cappella/src/cappella/adapters/base.py` | `ExternalSourceAdapter` subclasses `mosaic.core.loaders.base.EntityLoader` instead of its own ABC |
+| **Modify** `cappella/src/cappella/adapters/csv_adapter.py` | Subclass `CSVLoader` from Mosaic, add Cappella-specific features (HTTP transport, `manual_upload` source) |
+| **Modify** `cappella/src/cappella/adapters/json_adapter.py` | Subclass `JSONLoader` from Mosaic |
+| **Modify** `cappella/src/cappella/adapters/sql_adapter.py` | Subclass `SQLLoader` from Mosaic |
 | **Remove** duplicate field_map/vocabulary_map logic | Inherited from `ConfigurableLoader` |
 
 ## 4.11 What Does NOT Change
@@ -209,19 +209,19 @@ The `IngestPipeline` class (renamed from `IngestionPipeline`) orchestrates this 
 - Tests idempotency guarantees (create → unchanged → update cycle)
 
 **New platform test:** `tests/platform/test_unified_ingest.py`
-- Tests Cappella adapter using Hippo's `CSVLoader` against real Hippo
-- Tests that field_map and vocabulary_map from Hippo core work when called from Cappella
+- Tests Cappella adapter using Mosaic's `CSVLoader` against real Mosaic
+- Tests that field_map and vocabulary_map from Mosaic core work when called from Cappella
 
-**Updated Hippo unit tests:**
+**Updated Mosaic unit tests:**
 - `hippo/tests/core/test_loaders.py` replaces `test_ingestion.py` (same tests, new module paths)
 - `hippo/tests/cli/test_ingest.py` (already written, tests entity YAML ingest + idempotency)
 
 ## 4.13 Phased Implementation
 
-**Phase 1 (Hippo):** Create `loaders/` package, implement `EntityLoader` → `ConfigurableLoader` → `CSVLoader/JSONLoader/SQLLoader/EntityYAMLLoader` + `IngestPipeline`. Rewrite `hippo ingest` CLI. All Hippo tests green.
+**Phase 1 (Mosaic):** Create `loaders/` package, implement `EntityLoader` → `ConfigurableLoader` → `CSVLoader/JSONLoader/SQLLoader/EntityYAMLLoader` + `IngestPipeline`. Rewrite `mosaic ingest` CLI. All Mosaic tests green.
 
 **Phase 2 (Cross-component contracts):** Write contract tests at monorepo root. RED until Cappella adopts.
 
-**Phase 3 (Cappella):** Refactor adapters to subclass from Hippo. Remove duplicate logic. All platform tests green.
+**Phase 3 (Cappella):** Refactor adapters to subclass from Mosaic. Remove duplicate logic. All platform tests green.
 
-**Phase 4 (Cleanup):** Deprecate `hippo.core.ingestion.IngestionPipeline`. Update docs.
+**Phase 4 (Cleanup):** Deprecate `mosaic.core.ingestion.IngestionPipeline`. Update docs.

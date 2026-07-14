@@ -20,7 +20,7 @@ for _pkg in ("hippo/src", "canon/src"):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-from hippo.core.client import HippoClient
+from mosaic.core.client import MosaicClient
 from canon.resolver.planner import RecursivePlanner
 from canon.rules.models import ExecuteSpec, InputBinding, ProductionRule, ProducesSpec
 from canon.rules.registry import RuleRegistry
@@ -74,7 +74,7 @@ def _align_rule() -> ProductionRule:
 # CLI-equivalent operations: list, get, search
 #
 # These tests simulate what `datahelix list`, `datahelix get`, `datahelix search`, and
-# `datahelix history` do internally — they call the HippoClient SDK directly,
+# `datahelix history` do internally — they call the MosaicClient SDK directly,
 # which is the same code path used by HippoSdkBackend.
 # ---------------------------------------------------------------------------
 

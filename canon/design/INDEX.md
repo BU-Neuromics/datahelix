@@ -109,7 +109,7 @@
 | Convention-based CWL→Hippo output mapping | High | Specified in sec8; CWL record output field names = Hippo entity field names; `from_output` for disambiguation; replaces sidecar requirement for well-typed entities |
 | Array-typed CWL outputs | Medium | Specified in sec8; `array_mode: one_per_item` creates one entity per array element; `resolve_all()` deferred to v0.3 |
 | `resolve_all()` / collection query | Medium | v0.3 — `canon.resolve_all(entity_type, partial_spec)` returns all matching entities; needed for array-output workflows (clustering → N entities). For v0.1/v0.2 Composer queries Hippo directly. |
-| `ProductionRuleDefinition` Hippo entity type | High | v0.2 — dynamic rules stored as Hippo entities with provenance; must be added to Canon reference schema (canon/hippo_reference/schema.yaml) alongside Tool, ToolVersion, WorkflowRun |
+| `ProductionRuleDefinition` Hippo entity type | High | v0.2 — dynamic rules stored as Hippo entities with provenance; must be added to Canon reference schema (canon/mosaic_reference/schema.yaml) alongside Tool, ToolVersion, WorkflowRun |
 | Sidecar format superseded by convention mapping | Medium | sec8 convention (CWL record output names = Hippo field names + `from_output`) replaces sidecar for well-typed single/multi-entity outputs; sidecar still valid for legacy rules but not required for dynamically registered rules |
 | Visual workflow builder | Low | Use existing CWL editors (Rabix Composer, cwl-viewer) for now |
 | DRS URI integration | Medium | Canon outputs get `self` URI from Hippo; DRS server in Hippo v0.2 |
@@ -137,7 +137,7 @@
 | Hippo dependency on Canon schema | Optional — Hippo users who don't use Canon don't install it | Canon schema adds no value to standalone Hippo deployments |
 | Canon dependency on its schema | Required — Canon needs `Tool`, `ToolVersion`, `GenomeBuild`, `GeneAnnotation`, `WorkflowRun` in Hippo | Canon raises `CanonConfigError` at startup if these types are not found in the Hippo schema |
 | Release coupling | Canon package version and its Hippo reference schema are versioned and released together | Schema changes require a new Canon release; no independent schema versioning |
-| Schema location in package | `canon/hippo_reference/` — `loader.py` (ReferenceLoader impl) + `schema.yaml` (entity type definitions) | Discoverable at `canon.hippo_reference.loader:CanonReferenceLoader` via entry point |
+| Schema location in package | `canon/mosaic_reference/` — `loader.py` (ReferenceLoader impl) + `schema.yaml` (entity type definitions) | Discoverable at `canon.mosaic_reference.loader:CanonReferenceLoader` via entry point |
 
 
 ### Canon Workflow Packages

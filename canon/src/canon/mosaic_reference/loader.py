@@ -1,4 +1,4 @@
-"""CanonReferenceLoader: registers Canon's entity schema with Hippo."""
+"""CanonReferenceLoader: registers Canon's entity schema with Mosaic."""
 
 from __future__ import annotations
 
@@ -15,18 +15,19 @@ _SCHEMA_PATH = Path(__file__).parent / "schema.yaml"
 
 class CanonReferenceLoader:
     """
-    Hippo reference loader for Canon's built-in entity schema.
+    Mosaic reference loader for Canon's built-in entity schema.
 
-    Registered as an entry point under 'hippo.reference_loaders':
-        canon = canon.hippo_reference.loader:CanonReferenceLoader
+    Registered as an entry point under 'mosaic.reference_loaders' (and the
+    legacy 'hippo.reference_loaders' group):
+        canon = canon.mosaic_reference.loader:CanonReferenceLoader
 
-    Hippo discovers and invokes this class to load Canon's entity type
+    Mosaic discovers and invokes this class to load Canon's entity type
     definitions (Tool, ToolVersion, GenomeBuild, GeneAnnotation, WorkflowRun).
     """
 
     @property
     def name(self) -> str:
-        """Loader identifier used by Hippo."""
+        """Loader identifier used by Mosaic."""
         return "canon"
 
     def load(self) -> dict[str, Any]:
@@ -43,7 +44,7 @@ class CanonReferenceLoader:
 
     def install(self, hippo_client: Any) -> None:
         """
-        POST the Canon schema to Hippo, registering all entity types.
+        POST the Canon schema to Mosaic, registering all entity types.
 
         Args:
             hippo_client: A HippoQueryClient (or compatible) instance.
