@@ -1,0 +1,2 @@
+# Mosaic's SQLite database lands here (data/mosaic.db). The directory must
+# exist before first boot; the entrypoint also creates it defensively.

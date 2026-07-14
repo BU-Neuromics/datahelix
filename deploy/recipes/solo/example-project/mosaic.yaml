@@ -1,0 +1,6 @@
+# Mosaic configuration — DataHelix solo recipe project.
+# schema_path points at the schemas/ directory: every *.yaml in it is merged
+# into one registry, so you can split your model across files.
+schema_path: schemas
+storage_backend: sqlite
+# SQLite file defaults to data/mosaic.db (relative to this directory).

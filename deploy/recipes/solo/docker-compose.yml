@@ -1,0 +1,33 @@
+# DataHelix solo recipe — single-service compose wrapper.
+#
+#   make init   # scaffold ./project from the example (once)
+#   make gate   # certified-frontier pre-flight (platform ADR-0001)
+#   make up     # build + start
+#   make migrate  # apply schema edits (= restart: pull + migrate + serve)
+#
+# See README.md. The stack is ONE container; this file exists so the run
+# command is a declarative `docker compose up` with the volume and port
+# spelled out.
+
+services:
+  solo:
+    build: .
+    image: datahelix-solo:local
+    ports:
+      - "${SOLO_PORT:-8080}:8080"
+      # Raw Mosaic REST/OpenAPI access (unproxied routes) — uncomment if needed:
+      # - "8001:8001"
+    volumes:
+      - "${PROJECT_DIR:-./project}:/project"
+    environment:
+      # Mode R (remote schema iteration): set SCHEMA_GIT_REMOTE to a repo the
+      # Modeler pushes to and the entrypoint pulls schemas on every (re)start.
+      SCHEMA_GIT_REMOTE: ${SCHEMA_GIT_REMOTE:-}
+      SCHEMA_GIT_REF: ${SCHEMA_GIT_REF:-}
+      SCHEMA_GIT_PATH: ${SCHEMA_GIT_PATH:-}
+      # Aperture runtime config (ADR-0034); defaults to the same-origin seam.
+      VITE_HIPPO_GRAPHQL_URL: ${VITE_HIPPO_GRAPHQL_URL:-}
+      VITE_HIPPO_CONTROL_PLANE_URL: ${VITE_HIPPO_CONTROL_PLANE_URL:-}
+      VITE_WORKFLOWS: ${VITE_WORKFLOWS:-}
+      VITE_NAV: ${VITE_NAV:-}
+    restart: unless-stopped
