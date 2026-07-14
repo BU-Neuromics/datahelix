@@ -34,6 +34,7 @@ decisions live in each component's own `design/decisions/`.
 |---|---|---|
 | [0001](./decisions/ADR-0001-certified-frontier-composition.md) | Certified-frontier ledger — composition certified per exact version pair (+digests); deployment gated on the ledger; patch-auto-merge / minor-major-review; frontier-vs-maintenance failure asymmetry; latest + ≤1 LTS; release immutability. Implemented in [`certification/`](../../certification/). Extends `sec5`. | ✅ Accepted |
 | [0002](./decisions/ADR-0002-datahelix-metapackage-and-extras.md) | `datahelix` metapackage + per-component extras — prefixed dists (`datahelix-<component>`), bare imports (Layout A); bare install pulls the non-optional core; thin metapackage (version matrix + `datahelix` umbrella CLI); removes PyPI-saturation as a naming constraint (see Mosaic ADR-0004). Rides ADR-0001 pins. | ✅ Accepted |
+| [0003](./decisions/ADR-0003-reel-data-story-engine-separate-from-portal.md) | Separate the data-story engine (**Reel**) from the rendering portal (**Aperture**), joined by a renderer-agnostic **View Contract** ([`view-contract.md`](./view-contract.md)) — spec-with-data-attached, so any consumer renders it without knowing its producer. Unblocks the portal MVP; Reel carries the AI-native core on its own cadence. Executed: [`BU-Neuromics/reel`](https://github.com/BU-Neuromics/reel). | ✅ Accepted |
 
 ---
 
