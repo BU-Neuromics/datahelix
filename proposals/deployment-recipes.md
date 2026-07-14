@@ -1,6 +1,6 @@
 # DataHelix deployment recipes — MVP single-container, IDE, and the scale ladder
 
-**Status:** 🟡 **Draft — for discussion.** Nothing here is locked; §1 decisions are proposals with recommended defaults. Written 2026-07-14 from a verified survey of the four repos (datahelix, mosaic, aperture, linkml-modeler-app).
+**Status:** 🟡 **Draft — under discussion.** Written 2026-07-14 from a verified survey of the four repos (datahelix, mosaic, aperture, linkml-modeler-app). Updated same day after owner review: naming (§4.1) and Modeler-in-solo (§4.2) are now **decided**; bundle certification (§4.4) and devcontainer (§4.3) remain open for discussion.
 **Goal:** Define a small family of named, versioned deployment recipes for the platform — starting with a single-container **MVP** (Aperture + Mosaic, optional LinkML Modeler, SQLite, single-user) and an **IDE** recipe that turns the same stack into a schema-iteration development environment with an incorporated `mosaic migrate` loop.
 **Non-goal:** Kubernetes/Helm (Tier 3 in `platform/deployment.md` — stays "Phase 4"); multi-user auth (Bridge is a design + nginx stub, no application layer); replacing the certification stack under `certification/compose/` (it remains the composition-certification harness, not a user-facing recipe).
 
@@ -33,12 +33,12 @@ Two facts shape everything below:
 |---|---|---|---|
 | 1.1 | Where do recipes live? | **`datahelix` repo, new `deploy/recipes/<name>/` directory** | Composition is this repo's charter; the deploy gate, composition ledger, and cross-component pins already live here; a recipe by definition spans components so no component repo is the right home. Component repos keep owning their own single-component images (Aperture already does; Mosaic should after the Dockerfile fix). The scattered root `docker-compose.yml` migrates into `deploy/recipes/platform-full/` in a later phase. |
 | 1.2 | Recipe family & names | **`solo`** (single-container production MVP), **`ide`** (dev environment / schema workbench), **`team`** (compose: postgres + separate services), **`platform-full`** (existing root compose, relocated later) | A named ladder of scale. `solo` and `ide` are this proposal's deliverables; `team` is specified but can trail; `platform-full` is a relocation, not new work. |
-| 1.3 | `solo` shape | **One container, one published port.** nginx front: Aperture SPA at `/`, Modeler at `/modeler/` (optional), reverse-proxy `/graphql` + REST + `/docs` to uvicorn on localhost. `mosaic serve --graphql` on SQLite. | Same-origin proxying sidesteps CORS entirely and means `VITE_HIPPO_GRAPHQL_URL=/graphql` (relative URL — verify once, expected to work since urql accepts relative URLs; fallback is absolute URL injection at start, which ADR-0034 already supports). |
+| 1.3 | `solo` shape | **One container, one published port.** nginx front: Aperture SPA at `/`, Modeler at `/modeler/`, reverse-proxy `/graphql` + REST + `/docs` to uvicorn on localhost. `mosaic serve --graphql` on SQLite. | Same-origin proxying sidesteps CORS entirely and means `VITE_HIPPO_GRAPHQL_URL=/graphql` (relative URL — verify once, expected to work since urql accepts relative URLs; fallback is absolute URL injection at start, which ADR-0034 already supports). |
 | 1.4 | `solo` image composition | **Build `FROM` the published, digest-pinned component images** — python base with `datahelix-mosaic[graphql]` installed (or `FROM` the fixed Mosaic image) + `COPY --from=ghcr.io/bu-neuromics/aperture@sha256:… /usr/share/nginx/html /srv/aperture` + Modeler dist from a pinned build. | Keeps the bundle honest to ADR-0001: the pair inside the bundle is a ledger-certified pair; the bundle Dockerfile is where the digests are pinned. Never build components from source in a production recipe. |
 | 1.5 | `solo` process supervision | **supervisord** (or s6-overlay) running nginx + `mosaic serve`; entrypoint runs the migrate step first (§2.1) | Two processes in one container is a deliberate, documented MVP trade-off; `team` splits them. |
 | 1.6 | Storage & state | **One host "project directory" bind-mounted at `/project`**: `mosaic.yaml`, `schemas/`, `data/mosaic.db`. Container workdir = `/project`. | Matches `mosaic init` output 1:1, makes the deployment a git-versionable folder, and is exactly the directory the Modeler edits via FSAA in the IDE flow. Explicit `--db-path /project/data/mosaic.db` — never rely on cwd-relative defaults inside a container. |
 | 1.7 | Migrate-on-start policy | Entrypoint: if `data/mosaic.db` exists → `mosaic migrate --schema-dir schemas --db-path data/mosaic.db` (fail-fast on breaking changes, i.e. no `--allow-breaking`); if absent → skip (first boot self-initializes). Then `exec` serve. | Encodes the restart-on-migrate model: "restart the container" = "apply additive schema changes." Breaking changes intentionally stop the boot and point at `mosaic schema safe-deploy`. |
-| 1.8 | Modeler inclusion | **Optional in `solo` (build-arg / image variant), on by default in `ide`.** No CORS proxy in `solo`; CORS proxy enabled in `ide` (compose profile) for remote-git workflows. | In a remote `solo` deployment the Modeler can't reach the server's schema dir anyway (§0 fact 2), so it's only decorative there unless the user works git-first. In `ide` on localhost it's the centerpiece. |
+| 1.8 | Modeler inclusion | ✅ **Decided (owner, 2026-07-14): Modeler ships in `solo` by default** — users iterating their own schema is a first-class platform capability, not a dev-only feature. CORS proxy included alongside it (needed for the remote workflow, §2.1a). | Since the Modeler can't reach the server's schema dir (§0 fact 2), including it obligates the recipe to close the schema loop in *both* deployment modes — see the workflow analysis in §2.1a. |
 | 1.9 | `ide` shape | **Compose file, not single container** — services: `mosaic` (from source checkout *or* pinned image; `--reload` optional), `aperture` (published image), `modeler` + `cors-proxy` (profile `modeler`), everything bind-mounted from the project dir. Plus a `make migrate` / `docker compose restart mosaic` documented inner loop. | Dev wants independent restarts, logs, and source-mounting; cramming that into one container fights compose for no benefit. The IDE recipe is *allowed* to build from source (gate does not apply — ADR-0001 governs deployment, not development). |
 | 1.10 | Deploy gate applicability | `solo` and `team` are **production recipes → deploy-gate pre-flight required** (pinned digests must be a certified pair). `ide` is exempt. The bundled `solo` image itself should eventually enter certification as its own artifact. | Directly per platform ADR-0001 / `platform/deployment.md:258`. |
 | 1.11 | Ratification | After discussion, the load-bearing bits (recipe home, image-not-source rule for production recipes, gate applicability) become a **platform ADR** (ADR-0002); this proposal stays as the runbook. | Matches the repo's ADR-first convention. |
@@ -55,7 +55,8 @@ Two facts shape everything below:
 ┌─────────────────────────────── container ───────────────────────────────┐
 │  nginx :80                                                               │
 │   ├── /            → Aperture SPA (static, from pinned aperture image)   │
-│   ├── /modeler/    → LinkML Modeler SPA (static, optional variant)       │
+│   ├── /modeler/    → LinkML Modeler SPA (static, included by default)    │
+│   ├── /cors-proxy/ → proxy → modeler git relay (localhost sidecar)       │
 │   ├── /graphql,/entities,/search,… → proxy → uvicorn 127.0.0.1:8001      │
 │   └── /docs,/openapi.json          → proxy → uvicorn (FastAPI docs)      │
 │  supervisord: nginx + `mosaic serve --graphql --host 127.0.0.1 -p 8001`  │
@@ -68,7 +69,7 @@ Two facts shape everything below:
 
 Contents of the recipe directory:
 
-- `Dockerfile` — multi-stage bundle build (§1.4), digest pins for the aperture image and the `datahelix-mosaic` version at top, `ARG INCLUDE_MODELER=false`.
+- `Dockerfile` — multi-stage bundle build (§1.4), digest pins for the aperture image, the `datahelix-mosaic` version, and the modeler ref at top. Modeler + CORS proxy included by default (§1.8); a `--build-arg INCLUDE_MODELER=false` slim variant remains available.
 - `nginx.conf` — SPA fallbacks for both apps, `no-store` on `config.js`/`index.html` (per Aperture ADR-0034), proxy block for the Mosaic API.
 - `entrypoint.sh` — the §1.7 migrate-then-serve logic + writes Aperture's `/config.js` (reusing its `40-aperture-config.sh` pattern) with `VITE_HIPPO_GRAPHQL_URL=/graphql`.
 - `supervisord.conf`.
@@ -76,7 +77,24 @@ Contents of the recipe directory:
 - `README.md` — quickstart: `mosaic init`-style project scaffold, first boot, backup story (SQLite: stop container, copy `data/`), upgrade story (bump image tag → gate check → restart), the no-auth warning.
 - `Makefile` targets: `init`, `up`, `migrate` (= restart), `backup`, `gate` (runs `certification/scripts/deploy_gate.sh` against the pinned digests).
 
-**Schema iteration in `solo`:** supported but blunt — edit `./project/schemas/*.yaml` on the host by any means, `docker compose restart`. Aperture re-introspects on reload and the UI follows the schema. That is the whole "incorporated `mosaic migrate` process."
+#### 2.1a Schema iteration with the Modeler in `solo` — workflow analysis
+
+The Modeler is client-side only (§0 fact 2), so "edit schema in Modeler → Mosaic migrates" needs an explicit transport from the user's browser to the server's `/project/schemas/`. The transport differs by deployment mode, and the recipe must document both honestly:
+
+**Mode L — browser and container on the same machine** (a lab workstation): the FSAA loop. Open `/modeler/`, use the file picker to open `./project/schemas/` on the host — the very directory bind-mounted into the container. Save on the canvas → YAML lands on host disk → `make migrate` (≡ container restart) → additive DDL applied → Aperture re-introspects. Zero extra moving parts; this is also exactly the `ide` recipe's loop, so the muscle memory transfers.
+
+**Mode R — remote `solo`** (container on a VM, user's browser elsewhere): FSAA is useless (it opens the *user's* disk, not the server's). The loop is **git-first**:
+
+1. `/project/schemas/` is a git repo (or subdirectory of one) with a remote; `mosaic init` docs gain a "put your project dir under git" step — good practice regardless.
+2. The Modeler clones that remote in-browser (isomorphic-git via the bundled `/cors-proxy/`), the user edits on the canvas, commits, and pushes. Auth: a git token pasted at runtime, or the GitHub device-flow if we bake a client ID (§4.5).
+3. The `solo` entrypoint gains an optional **pull-on-boot** step: when `SCHEMA_GIT_REMOTE` (+ optional `SCHEMA_GIT_REF`) is set, it fetches/fast-forwards `/project/schemas` from the remote *before* the migrate step. "Restart the container" then means "pull + migrate + serve" — one motion, consistent with restart-on-migrate.
+4. Failure honesty: a breaking schema diff still fail-fasts the boot (§1.7); the container logs name the offending diff and point at `mosaic schema safe-deploy`. The old DB and old schema checkout remain untouched (pull into a staging dir, swap only after migrate dry-run passes).
+
+Mode R adds two cheap pieces (the CORS proxy sidecar, ~30 lines of entrypoint git logic) and one convention (schemas under git). No new component features are required.
+
+**Rejected/deferred alternatives:** manual download-from-Modeler / scp-to-server (works today, no infra, but error-prone and no history — documented as escape hatch only); a schema-upload REST endpoint on Mosaic (bypasses git history and duplicates what git does); and the long-term direction — the Modeler growing a `PlatformAPI` backend that reads/writes schemas *through* a server API with migrate-as-a-button. That last one aligns with the platform's config-as-data ethos and the Modeler's clean platform abstraction (`packages/core/src/platform/PlatformContext.ts`), but it is real feature work in two repos and explicitly post-MVP; if the git-first loop chafes in practice, that's the successor to design (and worth its own proposal + upstream issues).
+
+**Multi-author caveat (documented, not solved):** `solo` is single-user; nothing prevents two people pushing conflicting schema changes to the remote. Git surfaces the conflict, but schema *semantic* review (breaking-change policy, `safe-deploy` discipline) is process, not tooling, at this tier — `team` is where that gets machinery.
 
 ### 2.2 `deploy/recipes/ide/` — the development environment
 
@@ -122,22 +140,37 @@ Kubernetes/Helm (Tier 3), Cappella/Canon/Bridge recipes (join `platform-full` wh
 
 ---
 
-## 4. Open questions (blocking discussion, not blocking Phase 1 prep)
+## 4. Questions — decided and open
 
-| # | Question | Default if no objection |
+### Decided (owner review, 2026-07-14)
+
+| # | Question | Decision |
 |---|---|---|
-| 4.1 | **hippo → mosaic naming in datahelix**: submodule still points at `BU-Neuromics/hippo`; certification stack, compose, CI all say `hippo`. Do recipes adopt `mosaic` naming now (matching the standalone repo/PyPI name) while the rest of the repo catches up, or stay `hippo`-consistent? | Recipes say **Mosaic** (they're new, user-facing, and the rename is decided per Mosaic ADR-0004); the submodule bump / repo-wide rename is its own proposal |
-| 4.2 | Is the Modeler in the **production** `solo` image at all, given it can't see server schemas remotely? | Ship as opt-in build variant, default off (per §1.8) |
-| 4.3 | Devcontainer wrapping the `ide` recipe? | Stretch goal, Phase 3 |
-| 4.4 | Should the bundled `solo` image itself become a certified artifact in the ledger (new artifact kind), or is "built from a certified pair" enough? | "Built from certified pair" for MVP; ledger extension deferred |
-| 4.5 | GitHub OAuth client ID for the Modeler's git-first flow in `ide` (build-time var) — bake a BU-Neuromics OAuth app ID or leave sign-in hidden? | Leave unset/hidden for MVP; FSAA local flow doesn't need it |
+| 4.1 | hippo → mosaic naming in datahelix | ✅ **Recipes adopt Mosaic now.** The repo-wide catch-up (submodule path/URL, CI, certification stack, compose, docs) is tracked in **[#49](https://github.com/BU-Neuromics/datahelix/issues/49)** to pick up later; historical docs keep the Hippo name per the forward-only convention. |
+| 4.2 | Modeler in the production `solo` image? | ✅ **Yes, by default** — schema self-service is a first-class capability. Workflow consequences worked through in §2.1a (FSAA loop locally, git-first loop remotely, pull-on-boot entrypoint). |
+
+### Open (for discussion)
+
+**4.4 — Should the bundled `solo` image be a certified ledger artifact, or is "built from a certified pair" enough?** The tradeoff:
+
+- *"Built from certified pair" (cheap):* no ledger schema change; the Aperture↔Mosaic semantics inside the bundle were already certified. **But** the bundle materially changes the certified topology — same-origin nginx proxying, a relative GraphQL URL, supervisord, migrate-on-boot, and now pull-on-boot. Pair certification never exercised any of that, so the gate could pass while the artifact users actually run is untested. There's also a digest-identity problem: bundle rebuilds (base-image patches) mint new bundle digests containing the *same* certified pair — the gate has nothing to check the bundle digest against.
+- *Bundle as certified artifact (honest but heavier):* the ledger gains a `bundle` artifact kind recording bundle digest → inner pair digests, and certification scenarios run against the real single-container topology. Gate integrity stays literal: only certified digests deploy. Cost: ledger/tooling work, a second certification stack variant, more CI, and friction while the recipe itself is still churning.
+- *Proposed middle path:* Phase 1 ships with "built from certified pair" **plus** a mandatory datahelix CI smoke job that runs the certification Playwright scenarios (or a subset) against the built `solo` container — designed so that job *is* the future certification run. The `solo` gate check meanwhile verifies the inner pair digests (recorded as image labels) form a certified pair. Once the recipe stabilizes (end of Phase 3), promote the job into the certification harness and extend the ledger with the `bundle` kind. Decision needed: is the interim state acceptable, or must gate integrity be literal from day one?
+
+**4.3 — Devcontainer wrapping the `ide` recipe?** This is really an audience question:
+
+- *What it buys:* one JSON file + docs; VS Code / GitHub Codespaces users get the whole `ide` stack (compose, ports, tasks for `make migrate`) with zero Docker knowledge — strong for onboarding collaborators.
+- *What it doesn't:* the FSAA inner loop **breaks in Codespaces** — the Modeler in the user's browser picks files on the *user's* machine, but the project dir lives in the remote codespace. Codespaces users would edit schema YAML in the VS Code editor (fine, but then the Modeler is peripheral) or use the git-first loop from §2.1a. On a *local* VS Code devcontainer the FSAA loop survives, since host disk and bind mount coincide.
+- *So:* if the `ide` audience is developers already in VS Code, it's a cheap win; if it's browser-only schema curators, it adds little. Proposal: defer to Phase 3, decide after watching who actually uses the `ide` recipe. Low cost to add at any time; nothing in Phases 1–2 depends on it.
+
+**4.5 — GitHub OAuth client ID for the Modeler's git flows** (build-time `VITE_GITHUB_CLIENT_ID`): now *more* relevant since the remote `solo` workflow (§2.1a Mode R) is git-first. Default remains: leave unset for MVP (token-paste works; FSAA local flow needs nothing), revisit when Mode R gets real use. Note the modeler holds tokens in memory only — never persisted.
 
 ---
 
 ## 5. Execution phases
 
-- **Phase 1 — `solo`**: land 3.1–3.3 fixes; build `deploy/recipes/solo/` (no Modeler variant yet); smoke-test: init → up → browse in Aperture → edit schema on host → restart → migrated. Add a datahelix CI job that builds the bundle image and runs that smoke loop headlessly.
-- **Phase 2 — `ide`**: compose + Makefile + Modeler/CORS-proxy profile (needs 3.4); document the four-step inner loop; seed-data convention.
+- **Phase 1 — `solo`**: land 3.1–3.4 fixes; build `deploy/recipes/solo/` with the Modeler + CORS proxy included (§1.8) and the pull-on-boot entrypoint option (§2.1a Mode R); smoke-test: init → up → browse in Aperture → edit schema on host (Mode L loop) → restart → migrated. Add a datahelix CI job that builds the bundle image and runs that smoke loop headlessly (this job is also the §4.4 middle-path seed).
+- **Phase 2 — `ide`**: compose + Makefile + Modeler/CORS-proxy profile (shares the 3.4 image); document the four-step inner loop; seed-data convention.
 - **Phase 3 — polish & ladder**: `team` recipe; relocate root compose to `platform-full`; devcontainer (4.3); update `platform/deployment.md` (3.5); ratify the platform ADR (1.11).
 
 Each phase is independently shippable; Phase 1 alone delivers the production MVP, Phase 2 alone (atop it) delivers the development environment.
