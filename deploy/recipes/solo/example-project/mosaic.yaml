@@ -1,0 +1,12 @@
+# Mosaic configuration — DataHelix solo recipe project.
+# schema_path points at the schemas/ directory: every *.yaml in it is merged
+# into one registry, so you can split your model across files. (If your model
+# spans files with cross-file `imports:`, point this at the tree-root file
+# instead — e.g. schemas/model.yaml — so relative imports resolve.)
+schema_path: schemas
+storage_backend: sqlite
+# Pin the SQLite path explicitly (relative to the /project workdir). Do NOT
+# rely on the version's default filename: pre-rename images default to
+# data/hippo.db, post-rename to data/mosaic.db — pinning it keeps serve and
+# the entrypoint's migrate step pointed at the same file across versions.
+database_url: data/mosaic.db

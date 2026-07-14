@@ -1,0 +1,128 @@
+# Solo recipe smoke: build the single-container bundle from the certified
+# pair and drive the whole loop headlessly — boot, browse, edit schema,
+# migrate-on-restart, verify. This job is the §4.4 middle-path seed: it is
+# designed to be promoted into the certification harness (with a ledger
+# `bundle` artifact kind) once the recipe stabilizes.
+# See proposals/deployment-recipes.md and deploy/recipes/solo/README.md.
+
+name: Solo recipe
+
+on:
+  pull_request:
+    paths:
+      - "deploy/recipes/solo/**"
+      - ".github/workflows/solo-recipe.yml"
+  push:
+    branches: [main]
+    paths:
+      - "deploy/recipes/solo/**"
+      - ".github/workflows/solo-recipe.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read   # checkout only; the smoke job builds and runs locally
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: deploy/recipes/solo
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # ledger gate reads certified/* tag history
+          fetch-tags: true
+
+      - name: Pins match the certified lock (recipe invariant)
+        run: make check-pins
+
+      - name: Certification status (informational — ADR-0001 deploy gate)
+        # The ledger gate is the operator's DEPLOY-time pre-flight; whether
+        # this exact pair is certified right now is ledger state maintained by
+        # the certify workflow, independent of whether the recipe builds and
+        # works. Surface it here without failing the recipe smoke.
+        continue-on-error: true
+        run: make gate
+
+      - name: Scaffold example project
+        run: make init
+
+      - name: Build and start the bundle
+        run: docker compose up -d --build
+
+      - name: Wait for health (nginx -> mosaic seam)
+        run: |
+          timeout 180 sh -c 'until curl -sf http://localhost:8080/health; do
+            sleep 3
+          done'
+          echo
+          docker compose logs solo | grep "solo:"
+
+      - name: "Smoke: SPA shells and runtime config"
+        run: |
+          curl -sf http://localhost:8080/ | grep -qi "<!doctype html>"
+          curl -sf http://localhost:8080/config.js | grep -q '"/graphql"'
+          curl -sf http://localhost:8080/modeler/ | grep -qi "<!doctype html>"
+          echo "aperture + modeler shells served; runtime config injected"
+
+      - name: "Smoke: GraphQL introspection through the same-origin seam"
+        # Deliberately no Authorization header — proves the nginx bearer
+        # injection works, exactly as the browser will call it.
+        run: |
+          curl -sf -X POST http://localhost:8080/graphql \
+            -H 'Content-Type: application/json' \
+            -d '{"query":"{ __schema { types { name } } }"}' \
+          | python3 -c "
+          import json, sys
+          names = [t['name'] for t in json.load(sys.stdin)['data']['__schema']['types']]
+          assert 'Project' in names and 'Note' in names, names
+          print(f'introspection ok: {len(names)} types, Project + Note present')
+          "
+
+      - name: "Schema iteration: add a class, make migrate, verify"
+        # schema_path is a directory — every *.yaml merges into one registry,
+        # so schema iteration can be a dropped-in file (cross-file references
+        # like range: Project resolve across the merge).
+        run: |
+          cat > project/schemas/iteration2.yaml <<'EOF'
+          id: https://example.org/solo-example-iteration2
+          name: solo_example_iteration2
+          prefixes:
+            linkml: https://w3id.org/linkml/
+            solo_example_iteration2: https://example.org/solo-example-iteration2/
+          imports:
+            - linkml:types
+          default_range: string
+
+          classes:
+            Milestone:
+              description: "A dated milestone (added by the smoke test)"
+              attributes:
+                milestone_id:
+                  range: string
+                  required: true
+                  identifier: true
+                project:
+                  range: Project
+                due_date:
+                  range: date
+          EOF
+          make migrate
+          timeout 180 sh -c 'until curl -sf http://localhost:8080/health; do
+            sleep 3
+          done'
+          docker compose logs solo | grep -q "applying schema migrations"
+          curl -sf -X POST http://localhost:8080/graphql \
+            -H 'Content-Type: application/json' \
+            -d '{"query":"{ __schema { types { name } } }"}' \
+          | python3 -c "
+          import json, sys
+          names = [t['name'] for t in json.load(sys.stdin)['data']['__schema']['types']]
+          assert 'Milestone' in names, names
+          print('migrate-on-restart ok: Milestone visible via GraphQL')
+          "
+
+      - name: Logs on failure
+        if: failure()
+        run: docker compose logs solo || true
