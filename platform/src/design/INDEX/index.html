@@ -4240,6 +4240,11 @@ decisions live in each component's own <code>design/decisions/</code>.</p>
 <td><code>datahelix</code> metapackage + per-component extras — prefixed dists (<code>datahelix-&lt;component&gt;</code>), bare imports (Layout A); bare install pulls the non-optional core; thin metapackage (version matrix + <code>datahelix</code> umbrella CLI); removes PyPI-saturation as a naming constraint (see Mosaic ADR-0004). Rides ADR-0001 pins.</td>
 <td>✅ Accepted</td>
 </tr>
+<tr>
+<td><a href="../decisions/ADR-0003-reel-data-story-engine-separate-from-portal/">0003</a></td>
+<td>Separate the data-story engine (<strong>Reel</strong>) from the rendering portal (<strong>Aperture</strong>), joined by a renderer-agnostic <strong>View Contract</strong> (<a href="../view-contract/"><code>view-contract.md</code></a>) — spec-with-data-attached, so any consumer renders it without knowing its producer. Unblocks the portal MVP; Reel carries the AI-native core on its own cadence. Executed: <a href="https://github.com/BU-Neuromics/reel"><code>BU-Neuromics/reel</code></a>.</td>
+<td>✅ Accepted</td>
+</tr>
 </tbody>
 </table>
 <hr />
