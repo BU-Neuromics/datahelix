@@ -1,6 +1,6 @@
 # DataHelix deployment recipes — MVP single-container, IDE, and the scale ladder
 
-**Status:** 🟡 **Draft — under discussion.** Written 2026-07-14 from a verified survey of the four repos (datahelix, mosaic, aperture, linkml-modeler-app). Updated same day after owner review: naming (§4.1) and Modeler-in-solo (§4.2) are now **decided**; bundle certification (§4.4) and devcontainer (§4.3) remain open for discussion.
+**Status:** 🟢 **Settled — ready for Phase 1.** Written 2026-07-14 from a verified survey of the four repos (datahelix, mosaic, aperture, linkml-modeler-app). All §4 questions decided by owner review the same day: Mosaic naming now (catch-up in [#49](https://github.com/BU-Neuromics/datahelix/issues/49)), Modeler first-class in `solo`, bundle certification via the middle path, devcontainer deferred entirely (local development only). Ratification as a platform ADR happens in Phase 3 (§1.11).
 **Goal:** Define a small family of named, versioned deployment recipes for the platform — starting with a single-container **MVP** (Aperture + Mosaic, optional LinkML Modeler, SQLite, single-user) and an **IDE** recipe that turns the same stack into a schema-iteration development environment with an incorporated `mosaic migrate` loop.
 **Non-goal:** Kubernetes/Helm (Tier 3 in `platform/deployment.md` — stays "Phase 4"); multi-user auth (Bridge is a design + nginx stub, no application layer); replacing the certification stack under `certification/compose/` (it remains the composition-certification harness, not a user-facing recipe).
 
@@ -116,7 +116,7 @@ Services (compose, all bind-mounted from the project dir):
 | `modeler` + `cors-proxy` | built from pinned `linkml-modeler-app` ref (profile `modeler`, on by default) | CORS proxy enables in-browser git clone/push of the schema repo for the git-first workflow |
 | `gateway` | nginx | same routing as `solo`, so the two recipes feel identical in the browser |
 
-Also in scope for `ide`: a seed-data convention (`./project/seed/` + a documented `mosaic ingest` invocation), and — as a stretch — a devcontainer that wraps this compose for one-click use from VS Code (open question 4.3).
+Also in scope for `ide`: a seed-data convention (`./project/seed/` + a documented `mosaic ingest` invocation). The `ide` recipe supports **local development only** — browser and containers on the same machine, so the FSAA inner loop always works. Remote dev environments (Codespaces, devcontainers) are deferred entirely (§4.3).
 
 ### 2.3 `deploy/recipes/team/` — small multi-user (specified now, built after `solo`/`ide`)
 
@@ -140,30 +140,15 @@ Kubernetes/Helm (Tier 3), Cappella/Canon/Bridge recipes (join `platform-full` wh
 
 ---
 
-## 4. Questions — decided and open
-
-### Decided (owner review, 2026-07-14)
+## 4. Questions — all decided (owner review, 2026-07-14)
 
 | # | Question | Decision |
 |---|---|---|
 | 4.1 | hippo → mosaic naming in datahelix | ✅ **Recipes adopt Mosaic now.** The repo-wide catch-up (submodule path/URL, CI, certification stack, compose, docs) is tracked in **[#49](https://github.com/BU-Neuromics/datahelix/issues/49)** to pick up later; historical docs keep the Hippo name per the forward-only convention. |
 | 4.2 | Modeler in the production `solo` image? | ✅ **Yes, by default** — schema self-service is a first-class capability. Workflow consequences worked through in §2.1a (FSAA loop locally, git-first loop remotely, pull-on-boot entrypoint). |
-
-### Open (for discussion)
-
-**4.4 — Should the bundled `solo` image be a certified ledger artifact, or is "built from a certified pair" enough?** The tradeoff:
-
-- *"Built from certified pair" (cheap):* no ledger schema change; the Aperture↔Mosaic semantics inside the bundle were already certified. **But** the bundle materially changes the certified topology — same-origin nginx proxying, a relative GraphQL URL, supervisord, migrate-on-boot, and now pull-on-boot. Pair certification never exercised any of that, so the gate could pass while the artifact users actually run is untested. There's also a digest-identity problem: bundle rebuilds (base-image patches) mint new bundle digests containing the *same* certified pair — the gate has nothing to check the bundle digest against.
-- *Bundle as certified artifact (honest but heavier):* the ledger gains a `bundle` artifact kind recording bundle digest → inner pair digests, and certification scenarios run against the real single-container topology. Gate integrity stays literal: only certified digests deploy. Cost: ledger/tooling work, a second certification stack variant, more CI, and friction while the recipe itself is still churning.
-- *Proposed middle path:* Phase 1 ships with "built from certified pair" **plus** a mandatory datahelix CI smoke job that runs the certification Playwright scenarios (or a subset) against the built `solo` container — designed so that job *is* the future certification run. The `solo` gate check meanwhile verifies the inner pair digests (recorded as image labels) form a certified pair. Once the recipe stabilizes (end of Phase 3), promote the job into the certification harness and extend the ledger with the `bundle` kind. Decision needed: is the interim state acceptable, or must gate integrity be literal from day one?
-
-**4.3 — Devcontainer wrapping the `ide` recipe?** This is really an audience question:
-
-- *What it buys:* one JSON file + docs; VS Code / GitHub Codespaces users get the whole `ide` stack (compose, ports, tasks for `make migrate`) with zero Docker knowledge — strong for onboarding collaborators.
-- *What it doesn't:* the FSAA inner loop **breaks in Codespaces** — the Modeler in the user's browser picks files on the *user's* machine, but the project dir lives in the remote codespace. Codespaces users would edit schema YAML in the VS Code editor (fine, but then the Modeler is peripheral) or use the git-first loop from §2.1a. On a *local* VS Code devcontainer the FSAA loop survives, since host disk and bind mount coincide.
-- *So:* if the `ide` audience is developers already in VS Code, it's a cheap win; if it's browser-only schema curators, it adds little. Proposal: defer to Phase 3, decide after watching who actually uses the `ide` recipe. Low cost to add at any time; nothing in Phases 1–2 depends on it.
-
-**4.5 — GitHub OAuth client ID for the Modeler's git flows** (build-time `VITE_GITHUB_CLIENT_ID`): now *more* relevant since the remote `solo` workflow (§2.1a Mode R) is git-first. Default remains: leave unset for MVP (token-paste works; FSAA local flow needs nothing), revisit when Mode R gets real use. Note the modeler holds tokens in memory only — never persisted.
+| 4.4 | Bundled `solo` image: certified ledger artifact, or "built from a certified pair"? | ✅ **Middle path.** Phase 1 ships as "built from certified pair" **plus** a mandatory datahelix CI job running the certification Playwright scenarios (or a subset) against the built `solo` container — designed so that job *is* the future certification run. The `solo` gate check verifies the inner pair digests (recorded as image labels) form a certified pair. Once the recipe stabilizes (end of Phase 3), promote the job into the certification harness and extend the ledger with a `bundle` artifact kind (bundle digest → inner pair digests). Rationale kept for the record: "built from certified pair" alone leaves the bundle's changed topology (same-origin proxying, relative GraphQL URL, supervisord, migrate/pull-on-boot) untested and gives the gate no bundle digest to check; full certification from day one costs ledger/tooling work while the recipe is still churning. |
+| 4.3 | Devcontainer wrapping the `ide` recipe? | ✅ **Deferred entirely — not scheduled in any phase.** The `ide` recipe supports **local development only** (sole developers today; Codespaces value unclear, and the FSAA inner loop breaks there since the browser picks files on the user's machine while the project dir lives in the remote codespace). Revisit only if a concrete need appears — cheap to add at any time; nothing in the recipes depends on it. |
+| 4.5 | GitHub OAuth client ID for the Modeler's git flows (build-time `VITE_GITHUB_CLIENT_ID`) | ✅ **Leave unset for MVP** (default stood, no objection). Token-paste covers the git-first Mode R flow; the FSAA local loop needs nothing. Revisit when Mode R gets real use. The Modeler holds tokens in memory only — never persisted. |
 
 ---
 
@@ -171,6 +156,6 @@ Kubernetes/Helm (Tier 3), Cappella/Canon/Bridge recipes (join `platform-full` wh
 
 - **Phase 1 — `solo`**: land 3.1–3.4 fixes; build `deploy/recipes/solo/` with the Modeler + CORS proxy included (§1.8) and the pull-on-boot entrypoint option (§2.1a Mode R); smoke-test: init → up → browse in Aperture → edit schema on host (Mode L loop) → restart → migrated. Add a datahelix CI job that builds the bundle image and runs that smoke loop headlessly (this job is also the §4.4 middle-path seed).
 - **Phase 2 — `ide`**: compose + Makefile + Modeler/CORS-proxy profile (shares the 3.4 image); document the four-step inner loop; seed-data convention.
-- **Phase 3 — polish & ladder**: `team` recipe; relocate root compose to `platform-full`; devcontainer (4.3); update `platform/deployment.md` (3.5); ratify the platform ADR (1.11).
+- **Phase 3 — polish & ladder**: `team` recipe; relocate root compose to `platform-full`; promote the `solo` CI job into the certification harness + ledger `bundle` kind (§4.4); update `platform/deployment.md` (3.5); ratify the platform ADR (1.11). (Devcontainer intentionally absent — deferred per §4.3.)
 
 Each phase is independently shippable; Phase 1 alone delivers the production MVP, Phase 2 alone (atop it) delivers the development environment.
