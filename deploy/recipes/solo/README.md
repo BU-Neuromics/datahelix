@@ -78,12 +78,20 @@ runtime var (`VITE_HIPPO_GRAPHQL_URL`, `VITE_HIPPO_CONTROL_PLANE_URL`,
 ## Certification (platform ADR-0001)
 
 The bundle is **built from the certified pair**: the Dockerfile pins the
-hippo and aperture images by digest, `check_pins.py` fails CI if they drift
-from `certification/composition.lock.json`, and `make gate` runs the ledger
-gate before deploying. The pins are recorded as OCI labels
-(`org.datahelix.solo.*`) on the bundle image for provenance. Promoting the
-bundle itself to a certified ledger artifact is the Phase-3 follow-on
-(proposal §4.4).
+hippo and aperture images by digest, and `make check-pins` fails if they
+drift from `certification/composition.lock.json` (this is the recipe's own
+invariant, enforced in CI). The pins are recorded as OCI labels
+(`org.datahelix.solo.*`) on the bundle image for provenance.
+
+`make gate` is the **deploy-time pre-flight**: it runs `check-pins` and then
+the ADR-0001 ledger gate (`deploy_gate.sh`), which refuses to proceed unless
+the pinned pair has a passing ledger entry. Run it before deploying to a real
+environment. Note the gate depends on ledger state maintained by the certify
+workflow — a freshly-bumped frontier may need an on-demand certification run
+before it passes; that is expected and separate from whether the recipe
+builds. (The recipe smoke CI therefore treats the gate as informational.)
+Promoting the bundle itself to a certified ledger artifact is the Phase-3
+follow-on (proposal §4.4).
 
 ## Upgrading
 

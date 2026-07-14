@@ -31,7 +31,15 @@ jobs:
           fetch-depth: 0 # ledger gate reads certified/* tag history
           fetch-tags: true
 
-      - name: Gate — pins match the lock AND the pair is certified (ADR-0001)
+      - name: Pins match the certified lock (recipe invariant)
+        run: make check-pins
+
+      - name: Certification status (informational — ADR-0001 deploy gate)
+        # The ledger gate is the operator's DEPLOY-time pre-flight; whether
+        # this exact pair is certified right now is ledger state maintained by
+        # the certify workflow, independent of whether the recipe builds and
+        # works. Surface it here without failing the recipe smoke.
+        continue-on-error: true
         run: make gate
 
       - name: Scaffold example project

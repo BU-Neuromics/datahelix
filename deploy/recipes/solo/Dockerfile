@@ -23,7 +23,9 @@ ARG APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:f41b0883d951b9abce9f0246
 # The Modeler has no published image yet; build its static bundle at a pinned
 # commit (self-contained multi-stage build landed via linkml-modeler-app#149).
 ARG MODELER_REPO=https://github.com/BU-Neuromics/linkml-modeler-app.git
-ARG MODELER_REF=d51b7a05a8d07268f8928348af5edf3700c9fe4b
+# Pinned to the squashed self-contained-Docker commit on the modeler's `dev`
+# (BU-Neuromics/linkml-modeler-app#150).
+ARG MODELER_REF=6a6f4723169d9953d050d3de9cb340a7a8f09c55
 
 FROM ${APERTURE_IMAGE} AS aperture
 
