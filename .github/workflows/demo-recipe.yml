@@ -1,0 +1,71 @@
+# Demo recipe smoke: build the populated bundle (generate + bake the dataset
+# from the real brainbank schema) and assert the data is actually served.
+# Uses a small dataset for CI speed; the shipped default is larger.
+
+name: Demo recipe
+
+on:
+  pull_request:
+    paths:
+      - "deploy/recipes/demo/**"
+      - ".github/workflows/demo-recipe.yml"
+  push:
+    branches: [main]
+    paths:
+      - "deploy/recipes/demo/**"
+      - ".github/workflows/demo-recipe.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: deploy/recipes/demo
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Pins match the certified lock (recipe invariant)
+        run: make check-pins
+
+      - name: Certification status (informational — ADR-0001 deploy gate)
+        continue-on-error: true
+        run: make gate
+
+      - name: Build (small dataset) and start
+        env:
+          DEMO_COUNTS: "donors=25 samples=80 datasets=30 assays=30 processes=20 analyses=10"
+        run: docker compose up -d --build
+
+      - name: Wait for health
+        run: |
+          timeout 180 sh -c 'until curl -sf http://localhost:8080/health; do
+            sleep 3
+          done'
+          echo
+
+      - name: "Smoke: the baked dataset is served through the seam"
+        # No Authorization header — the nginx bearer injection stands in for
+        # the browser. Assert real rows come back, not just that the schema
+        # loaded: a populated demo that serves zero rows is a failed demo.
+        run: |
+          curl -sf -X POST http://localhost:8080/graphql \
+            -H 'Content-Type: application/json' \
+            -d '{"query":"{ donors(limit: 3) { total items { id name } } }"}' \
+          | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)['data']['donors']
+          assert d['total'] >= 25, d
+          assert d['items'] and d['items'][0]['id'], d
+          print(f\"demo ok: {d['total']} donors served; first = {d['items'][0]['id']}\")
+          "
+
+      - name: Logs on failure
+        if: failure()
+        run: docker compose logs demo || true

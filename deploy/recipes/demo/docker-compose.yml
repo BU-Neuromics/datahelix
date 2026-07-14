@@ -1,0 +1,25 @@
+# DataHelix demo recipe — single-service wrapper. The dataset is baked into
+# the image at build time; there is no volume and no project directory.
+#
+#   make check-pins   # Dockerfile digests == certified lock
+#   make up           # build (generates + bakes the dataset) and start
+#   open http://localhost:8080
+#
+# Scale/seed of the baked dataset are build args (rebuild to change them):
+#   DEMO_COUNTS="donors=2000 samples=12000 ..." DEMO_SEED=1 make up
+
+services:
+  demo:
+    build:
+      context: .
+      args:
+        DEMO_SEED: ${DEMO_SEED:-0}
+        DEMO_COUNTS: ${DEMO_COUNTS:-donors=500 samples=3000 datasets=800 assays=800 processes=400 analyses=200}
+    image: datahelix-demo:local
+    ports:
+      - "${DEMO_PORT:-8080}:8080"
+    environment:
+      VITE_HIPPO_GRAPHQL_URL: ${VITE_HIPPO_GRAPHQL_URL:-}
+      VITE_NAV: ${VITE_NAV:-}
+      VITE_WORKFLOWS: ${VITE_WORKFLOWS:-}
+    restart: unless-stopped
