@@ -36,10 +36,16 @@ storage_backend: sqlite
 database_url: data/mosaic.db
 EOF
 
-echo "build-dataset: ingesting into $PROJECT/data/mosaic.db"
-"$MOSAIC_BIN" ingest --file /tmp/bundle.yaml \
-  --validate-schema "$SCHEMA" \
-  --db-path "$PROJECT/data/mosaic.db"
+# Ingest without --db-path: the flag is post-rename only (pre-rename `ingest`
+# rejects it). Run from the project dir so the store lands in the cwd-relative
+# default, then canonicalize to data/mosaic.db — the default filename also
+# differs across the rename (mosaic.db vs hippo.db).
+echo "build-dataset: ingesting (cwd=$PROJECT)"
+cd "$PROJECT"
+"$MOSAIC_BIN" ingest --file /tmp/bundle.yaml --validate-schema "$SCHEMA"
+DB="$(ls -1 data/*.db 2>/dev/null | head -1 || true)"
+[ -n "$DB" ] || { echo "build-dataset: no database produced by ingest" >&2; exit 1; }
+[ "$DB" = "data/mosaic.db" ] || mv "$DB" data/mosaic.db
 
 rm -f /tmp/raw.yaml /tmp/bundle.yaml
-echo "build-dataset: done — $(du -h "$PROJECT/data/mosaic.db" | cut -f1) database baked"
+echo "build-dataset: done — $(du -h data/mosaic.db | cut -f1) database baked"
