@@ -19,6 +19,9 @@ on:
       - ".github/workflows/solo-recipe.yml"
   workflow_dispatch:
 
+permissions:
+  contents: read   # checkout only; the smoke job builds and runs locally
+
 jobs:
   smoke:
     runs-on: ubuntu-latest
