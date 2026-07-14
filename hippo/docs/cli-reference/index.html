@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#hippo-cli-reference" class="md-skip">
+        <a href="#mosaic-cli-reference" class="md-skip">
           Skip to content
         </a>
       
@@ -260,7 +260,7 @@
           
   
   
-  Hippo
+  Mosaic
 
         </a>
       </li>
@@ -874,7 +874,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo
+    Mosaic
   
 
     
@@ -890,7 +890,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Hippo
+    Mosaic
   
 
           </label>
@@ -931,14 +931,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../why-hippo/" class="md-nav__link">
+      <a href="../why-mosaic/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Why Hippo?
+    Why Mosaic?
   
 
     
@@ -4372,7 +4372,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo Integration
+    Mosaic Integration
   
 
     
@@ -5267,8 +5267,8 @@
 
 
 
-<h1 id="hippo-cli-reference">Hippo CLI Reference<a class="headerlink" href="#hippo-cli-reference" title="Permanent link">&para;</a></h1>
-<p>Complete reference for all <code>hippo</code> CLI commands.</p>
+<h1 id="mosaic-cli-reference">Mosaic CLI Reference<a class="headerlink" href="#mosaic-cli-reference" title="Permanent link">&para;</a></h1>
+<p>Complete reference for all <code>mosaic</code> CLI commands.</p>
 <h2 id="global-options">Global Options<a class="headerlink" href="#global-options" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -5284,14 +5284,14 @@
 </tr>
 <tr>
 <td><code>--version</code></td>
-<td>Show Hippo version (if available)</td>
+<td>Show Mosaic version (if available)</td>
 </tr>
 </tbody>
 </table>
 <h2 id="init">init<a class="headerlink" href="#init" title="Permanent link">&para;</a></h2>
-<p>Initialize a new Hippo project with the specified template.</p>
+<p>Initialize a new Mosaic project with the specified template.</p>
 <h3 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>hippo<span class="w"> </span>init<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mosaic<span class="w"> </span>init<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h3>
 <table>
@@ -5326,19 +5326,19 @@
 </table>
 <h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Initialize with default (basic) template</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hippo<span class="w"> </span>init
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>mosaic<span class="w"> </span>init
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Initialize in a specific directory</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>hippo<span class="w"> </span>init<span class="w"> </span>--path<span class="w"> </span>/path/to/project
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>mosaic<span class="w"> </span>init<span class="w"> </span>--path<span class="w"> </span>/path/to/project
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Initialize with full template, overwriting existing</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>hippo<span class="w"> </span>init<span class="w"> </span>--template<span class="w"> </span>full<span class="w"> </span>--force
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>mosaic<span class="w"> </span>init<span class="w"> </span>--template<span class="w"> </span>full<span class="w"> </span>--force
 </code></pre></div>
 <hr />
 <h2 id="serve">serve<a class="headerlink" href="#serve" title="Permanent link">&para;</a></h2>
-<p>Start the Hippo REST API server.</p>
+<p>Start the Mosaic REST API server.</p>
 <h3 id="usage_1">Usage<a class="headerlink" href="#usage_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>hippo<span class="w"> </span>serve<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>mosaic<span class="w"> </span>serve<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="options_1">Options<a class="headerlink" href="#options_1" title="Permanent link">&para;</a></h3>
 <table>
@@ -5385,24 +5385,24 @@
 </table>
 <h3 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Start with default configuration</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>hippo<span class="w"> </span>serve
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>mosaic<span class="w"> </span>serve
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Start on custom port with debug logging</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>hippo<span class="w"> </span>serve<span class="w"> </span>--port<span class="w"> </span><span class="m">9000</span><span class="w"> </span>--log-level<span class="w"> </span>debug
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>mosaic<span class="w"> </span>serve<span class="w"> </span>--port<span class="w"> </span><span class="m">9000</span><span class="w"> </span>--log-level<span class="w"> </span>debug
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Enable auto-reload for development</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>hippo<span class="w"> </span>serve<span class="w"> </span>--reload
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>mosaic<span class="w"> </span>serve<span class="w"> </span>--reload
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Run with multiple workers</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>hippo<span class="w"> </span>serve<span class="w"> </span>--workers<span class="w"> </span><span class="m">4</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>mosaic<span class="w"> </span>serve<span class="w"> </span>--workers<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <hr />
 <h2 id="tui">tui<a class="headerlink" href="#tui" title="Permanent link">&para;</a></h2>
 <p>Launch the interactive terminal browser. Requires the <code>tui</code> extra
-(<code>pip install 'hippo[tui]'</code>). See the <strong><a href="../tui/">TUI guide</a></strong> for screens
+(<code>pip install 'datahelix-mosaic[tui]'</code>). See the <strong><a href="../tui/">TUI guide</a></strong> for screens
 and keyboard shortcuts.</p>
 <h3 id="usage_2">Usage<a class="headerlink" href="#usage_2" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>hippo<span class="w"> </span>tui<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>mosaic<span class="w"> </span>tui<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="options_2">Options<a class="headerlink" href="#options_2" title="Permanent link">&para;</a></h3>
 <table>
@@ -5419,13 +5419,13 @@ and keyboard shortcuts.</p>
 <td><code>--backend</code>, <code>-b</code></td>
 <td><code>string</code></td>
 <td><code>"sdk"</code></td>
-<td>Backend mode: <code>sdk</code> (local database) or <code>rest</code> (remote <code>hippo serve</code>)</td>
+<td>Backend mode: <code>sdk</code> (local database) or <code>rest</code> (remote <code>mosaic serve</code>)</td>
 </tr>
 <tr>
 <td><code>--db</code></td>
 <td><code>string</code></td>
 <td>resolved</td>
-<td>SQLite database path (sdk mode). Falls back to <code>config.json</code>, then <code>data/hippo.db</code>, then <code>hippo.db</code></td>
+<td>SQLite database path (sdk mode). Falls back to <code>config.json</code>, then <code>data/mosaic.db</code>, then <code>mosaic.db</code></td>
 </tr>
 <tr>
 <td><code>--schema</code></td>
@@ -5443,25 +5443,25 @@ and keyboard shortcuts.</p>
 <td><code>--token</code></td>
 <td><code>string</code></td>
 <td>env / <code>dev-token</code></td>
-<td>Bearer token (rest mode). Falls back to <code>HIPPO_TUI_TOKEN</code></td>
+<td>Bearer token (rest mode). Falls back to <code>MOSAIC_TUI_TOKEN</code></td>
 </tr>
 </tbody>
 </table>
 <h3 id="example_2">Example<a class="headerlink" href="#example_2" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Browse the local database in the current project</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>hippo<span class="w"> </span>tui
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>mosaic<span class="w"> </span>tui
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Explicit database + schema</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>hippo<span class="w"> </span>tui<span class="w"> </span>--db<span class="w"> </span>data/hippo.db<span class="w"> </span>--schema<span class="w"> </span>schemas/
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>mosaic<span class="w"> </span>tui<span class="w"> </span>--db<span class="w"> </span>data/mosaic.db<span class="w"> </span>--schema<span class="w"> </span>schemas/
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Connect to a remote hippo serve instance</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>hippo<span class="w"> </span>tui<span class="w"> </span>-b<span class="w"> </span>rest<span class="w"> </span>--url<span class="w"> </span>http://hippo.example.org:8000<span class="w"> </span>--token<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HIPPO_TUI_TOKEN</span><span class="s2">&quot;</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Connect to a remote mosaic serve instance</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>mosaic<span class="w"> </span>tui<span class="w"> </span>-b<span class="w"> </span>rest<span class="w"> </span>--url<span class="w"> </span>http://mosaic.example.org:8000<span class="w"> </span>--token<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$MOSAIC_TUI_TOKEN</span><span class="s2">&quot;</span>
 </code></pre></div>
 <hr />
 <h2 id="migrate">migrate<a class="headerlink" href="#migrate" title="Permanent link">&para;</a></h2>
 <p>Run schema migrations based on YAML schema definitions.</p>
 <h3 id="usage_3">Usage<a class="headerlink" href="#usage_3" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>hippo<span class="w"> </span>migrate<span class="w"> </span><span class="o">[</span>TARGET<span class="o">]</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>mosaic<span class="w"> </span>migrate<span class="w"> </span><span class="o">[</span>TARGET<span class="o">]</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="arguments">Arguments<a class="headerlink" href="#arguments" title="Permanent link">&para;</a></h3>
 <table>
@@ -5506,26 +5506,26 @@ and keyboard shortcuts.</p>
 <tr>
 <td><code>--db-path</code></td>
 <td><code>string</code></td>
-<td><code>"data/hippo.db"</code></td>
+<td><code>"data/mosaic.db"</code></td>
 <td>Path to SQLite database</td>
 </tr>
 </tbody>
 </table>
 <h3 id="example_3">Example<a class="headerlink" href="#example_3" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Run migrations with defaults</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>hippo<span class="w"> </span>migrate
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>mosaic<span class="w"> </span>migrate
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Preview migrations without applying</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>hippo<span class="w"> </span>migrate<span class="w"> </span>--dry-run
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>mosaic<span class="w"> </span>migrate<span class="w"> </span>--dry-run
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># Use custom schema and database paths</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>hippo<span class="w"> </span>migrate<span class="w"> </span>--schema-dir<span class="w"> </span>custom/schemas<span class="w"> </span>--db-path<span class="w"> </span>custom/data/hippo.db
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>mosaic<span class="w"> </span>migrate<span class="w"> </span>--schema-dir<span class="w"> </span>custom/schemas<span class="w"> </span>--db-path<span class="w"> </span>custom/data/mosaic.db
 </code></pre></div>
 <hr />
 <h2 id="validate">validate<a class="headerlink" href="#validate" title="Permanent link">&para;</a></h2>
 <p>Validate a LinkML schema file and/or an instance YAML bundle.</p>
 <h3 id="usage_4">Usage<a class="headerlink" href="#usage_4" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>hippo<span class="w"> </span>validate<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>mosaic<span class="w"> </span>validate<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="options_4">Options<a class="headerlink" href="#options_4" title="Permanent link">&para;</a></h3>
 <table>
@@ -5554,7 +5554,7 @@ and keyboard shortcuts.</p>
 <td><code>--config</code>, <code>-c</code></td>
 <td><code>string</code></td>
 <td><code>None</code></td>
-<td>Path to a Hippo config file to validate</td>
+<td>Path to a Mosaic config file to validate</td>
 </tr>
 <tr>
 <td><code>--verbose</code>, <code>-v</code></td>
@@ -5567,21 +5567,21 @@ and keyboard shortcuts.</p>
 <p><code>--data</code> requires <code>--schema</code>. <code>--config</code> is independent.</p>
 <h3 id="example_4">Example<a class="headerlink" href="#example_4" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Validate a LinkML schema — exits non-zero on any LinkML error</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>hippo<span class="w"> </span>validate<span class="w"> </span>--schema<span class="w"> </span>schemas/brain_study.yaml
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>mosaic<span class="w"> </span>validate<span class="w"> </span>--schema<span class="w"> </span>schemas/brain_study.yaml
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Validate a data bundle against a schema</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>hippo<span class="w"> </span>validate<span class="w"> </span>--schema<span class="w"> </span>schemas/brain_study.yaml<span class="w"> </span>--data<span class="w"> </span>data/samples.yaml
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>mosaic<span class="w"> </span>validate<span class="w"> </span>--schema<span class="w"> </span>schemas/brain_study.yaml<span class="w"> </span>--data<span class="w"> </span>data/samples.yaml
 <a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># Validate a Hippo config file</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>hippo<span class="w"> </span>validate<span class="w"> </span>--config<span class="w"> </span>config/production.yaml
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># Validate a Mosaic config file</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>mosaic<span class="w"> </span>validate<span class="w"> </span>--config<span class="w"> </span>config/production.yaml
 </code></pre></div>
 <hr />
 <h2 id="ingest">ingest<a class="headerlink" href="#ingest" title="Permanent link">&para;</a></h2>
-<p>Ingest a LinkML-native instance YAML bundle into Hippo, or load data via a generic loader.</p>
+<p>Ingest a LinkML-native instance YAML bundle into Mosaic, or load data via a generic loader.</p>
 <p>The default path (<code>--file</code>) accepts a <strong>tree-root bundle</strong>: a YAML mapping whose top-level keys are pluralized class names (<code>samples:</code>, <code>projects:</code>, …) and whose values are lists of instance dicts. Identity is by the <code>id</code> slot on each instance — re-ingesting an existing id updates it in place.</p>
 <p>CSV/JSON/SQL operational data files are not accepted here; pass <code>--type</code> + <code>--config</code> for those.</p>
 <h3 id="usage_5">Usage<a class="headerlink" href="#usage_5" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>hippo<span class="w"> </span>ingest<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mosaic<span class="w"> </span>ingest<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="options_5">Options<a class="headerlink" href="#options_5" title="Permanent link">&para;</a></h3>
 <table>
@@ -5628,24 +5628,24 @@ and keyboard shortcuts.</p>
 </table>
 <h3 id="example_5">Example<a class="headerlink" href="#example_5" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Ingest a bundle, validating it against the schema first</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>hippo<span class="w"> </span>ingest<span class="w"> </span>--file<span class="w"> </span>data/samples.yaml<span class="w"> </span>--validate-schema<span class="w"> </span>schemas/brain_study.yaml
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>mosaic<span class="w"> </span>ingest<span class="w"> </span>--file<span class="w"> </span>data/samples.yaml<span class="w"> </span>--validate-schema<span class="w"> </span>schemas/brain_study.yaml
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
 <a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Dry run — validate and show what would be written</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>hippo<span class="w"> </span>ingest<span class="w"> </span>--file<span class="w"> </span>data/samples.yaml<span class="w"> </span>--validate-schema<span class="w"> </span>schemas/brain_study.yaml<span class="w"> </span>--dry-run
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>mosaic<span class="w"> </span>ingest<span class="w"> </span>--file<span class="w"> </span>data/samples.yaml<span class="w"> </span>--validate-schema<span class="w"> </span>schemas/brain_study.yaml<span class="w"> </span>--dry-run
 <a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
 <a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Generic CSV loader (separate path)</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>hippo<span class="w"> </span>ingest<span class="w"> </span>--type<span class="w"> </span>csv<span class="w"> </span>--file<span class="w"> </span>donors.csv<span class="w"> </span>--config<span class="w"> </span>donors_mapping.yaml
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>mosaic<span class="w"> </span>ingest<span class="w"> </span>--type<span class="w"> </span>csv<span class="w"> </span>--file<span class="w"> </span>donors.csv<span class="w"> </span>--config<span class="w"> </span>donors_mapping.yaml
 </code></pre></div>
 <hr />
 <h2 id="reference">reference<a class="headerlink" href="#reference" title="Permanent link">&para;</a></h2>
 <p>Manage reference data loader packages.</p>
 <h3 id="usage_6">Usage<a class="headerlink" href="#usage_6" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>hippo<span class="w"> </span>reference<span class="w"> </span>&lt;subcommand&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>mosaic<span class="w"> </span>reference<span class="w"> </span>&lt;subcommand&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="subcommands">Subcommands<a class="headerlink" href="#subcommands" title="Permanent link">&para;</a></h3>
 <h4 id="reference-install">reference install<a class="headerlink" href="#reference-install" title="Permanent link">&para;</a></h4>
 <p>Install a reference loader package.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>hippo<span class="w"> </span>reference<span class="w"> </span>install<span class="w"> </span>&lt;PACKAGE&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>mosaic<span class="w"> </span>reference<span class="w"> </span>install<span class="w"> </span>&lt;PACKAGE&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <table>
 <thead>
@@ -5672,21 +5672,21 @@ and keyboard shortcuts.</p>
 </tbody>
 </table>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>hippo<span class="w"> </span>reference<span class="w"> </span>install<span class="w"> </span>my-loader
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>hippo<span class="w"> </span>reference<span class="w"> </span>install<span class="w"> </span>my-loader<span class="w"> </span>--source<span class="w"> </span>https://example.com/loader.tar.gz
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>mosaic<span class="w"> </span>reference<span class="w"> </span>install<span class="w"> </span>my-loader
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>mosaic<span class="w"> </span>reference<span class="w"> </span>install<span class="w"> </span>my-loader<span class="w"> </span>--source<span class="w"> </span>https://example.com/loader.tar.gz
 </code></pre></div>
 <h4 id="reference-list">reference list<a class="headerlink" href="#reference-list" title="Permanent link">&para;</a></h4>
 <p>List installed reference loader packages.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>hippo<span class="w"> </span>reference<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>mosaic<span class="w"> </span>reference<span class="w"> </span>list
 </code></pre></div>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>hippo<span class="w"> </span>reference<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>mosaic<span class="w"> </span>reference<span class="w"> </span>list
 </code></pre></div>
 <hr />
 <h2 id="install-ref">install-ref<a class="headerlink" href="#install-ref" title="Permanent link">&para;</a></h2>
 <p>Install reference data from a source.</p>
 <h3 id="usage_7">Usage<a class="headerlink" href="#usage_7" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>hippo<span class="w"> </span>install-ref<span class="w"> </span>&lt;SOURCE&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>mosaic<span class="w"> </span>install-ref<span class="w"> </span>&lt;SOURCE&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="arguments_1">Arguments<a class="headerlink" href="#arguments_1" title="Permanent link">&para;</a></h3>
 <table>
@@ -5732,19 +5732,19 @@ and keyboard shortcuts.</p>
 </table>
 <h3 id="example_6">Example<a class="headerlink" href="#example_6" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Install from a local path</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>hippo<span class="w"> </span>install-ref<span class="w"> </span>/path/to/reference/data
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>mosaic<span class="w"> </span>install-ref<span class="w"> </span>/path/to/reference/data
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
 <a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Install with a specific name</span>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>hippo<span class="w"> </span>install-ref<span class="w"> </span>/path/to/reference/data<span class="w"> </span>--name<span class="w"> </span>my_reference
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>mosaic<span class="w"> </span>install-ref<span class="w"> </span>/path/to/reference/data<span class="w"> </span>--name<span class="w"> </span>my_reference
 <a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
 <a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># Force reinstall</span>
-<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>hippo<span class="w"> </span>install-ref<span class="w"> </span>/path/to/reference/data<span class="w"> </span>--force
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>mosaic<span class="w"> </span>install-ref<span class="w"> </span>/path/to/reference/data<span class="w"> </span>--force
 </code></pre></div>
 <hr />
 <h2 id="update-ref">update-ref<a class="headerlink" href="#update-ref" title="Permanent link">&para;</a></h2>
 <p>Update an existing reference.</p>
 <h3 id="usage_8">Usage<a class="headerlink" href="#usage_8" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>hippo<span class="w"> </span>update-ref<span class="w"> </span>&lt;NAME&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>mosaic<span class="w"> </span>update-ref<span class="w"> </span>&lt;NAME&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="arguments_2">Arguments<a class="headerlink" href="#arguments_2" title="Permanent link">&para;</a></h3>
 <table>
@@ -5784,16 +5784,16 @@ and keyboard shortcuts.</p>
 </table>
 <h3 id="example_7">Example<a class="headerlink" href="#example_7" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Update a reference</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>hippo<span class="w"> </span>update-ref<span class="w"> </span>my_reference
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>mosaic<span class="w"> </span>update-ref<span class="w"> </span>my_reference
 <a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
 <a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Update with new source</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>hippo<span class="w"> </span>update-ref<span class="w"> </span>my_reference<span class="w"> </span>--source<span class="w"> </span>/new/path/to/data
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>mosaic<span class="w"> </span>update-ref<span class="w"> </span>my_reference<span class="w"> </span>--source<span class="w"> </span>/new/path/to/data
 </code></pre></div>
 <hr />
 <h2 id="list-ref">list-ref<a class="headerlink" href="#list-ref" title="Permanent link">&para;</a></h2>
 <p>List installed reference data.</p>
 <h3 id="usage_9">Usage<a class="headerlink" href="#usage_9" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>hippo<span class="w"> </span>list-ref<span class="w"> </span><span class="o">[</span>NAME<span class="o">]</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>mosaic<span class="w"> </span>list-ref<span class="w"> </span><span class="o">[</span>NAME<span class="o">]</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="arguments_3">Arguments<a class="headerlink" href="#arguments_3" title="Permanent link">&para;</a></h3>
 <table>
@@ -5833,22 +5833,22 @@ and keyboard shortcuts.</p>
 </table>
 <h3 id="example_8">Example<a class="headerlink" href="#example_8" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># List all references in table format</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>hippo<span class="w"> </span>list-ref
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>mosaic<span class="w"> </span>list-ref
 <a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
 <a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1"># List in JSON format</span>
-<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>hippo<span class="w"> </span>list-ref<span class="w"> </span>--format<span class="w"> </span>json
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>mosaic<span class="w"> </span>list-ref<span class="w"> </span>--format<span class="w"> </span>json
 <a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
 <a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="c1"># List in YAML format</span>
-<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>hippo<span class="w"> </span>list-ref<span class="w"> </span>--format<span class="w"> </span>yaml
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>mosaic<span class="w"> </span>list-ref<span class="w"> </span>--format<span class="w"> </span>yaml
 <a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>
 <a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="c1"># Filter by name</span>
-<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>hippo<span class="w"> </span>list-ref<span class="w"> </span>sample_ref
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>mosaic<span class="w"> </span>list-ref<span class="w"> </span>sample_ref
 </code></pre></div>
 <hr />
 <h2 id="validate-schema">validate-schema<a class="headerlink" href="#validate-schema" title="Permanent link">&para;</a></h2>
 <p>Validate a LinkML schema file.</p>
 <h3 id="usage_10">Usage<a class="headerlink" href="#usage_10" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>hippo<span class="w"> </span>validate-schema<span class="w"> </span>&lt;INPUT&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>mosaic<span class="w"> </span>validate-schema<span class="w"> </span>&lt;INPUT&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="arguments_4">Arguments<a class="headerlink" href="#arguments_4" title="Permanent link">&para;</a></h3>
 <table>
@@ -5888,16 +5888,16 @@ and keyboard shortcuts.</p>
 </table>
 <h3 id="example_9">Example<a class="headerlink" href="#example_9" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Validate a LinkML schema</span>
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>hippo<span class="w"> </span>validate-schema<span class="w"> </span>schema.yaml
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>mosaic<span class="w"> </span>validate-schema<span class="w"> </span>schema.yaml
 <a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
 <a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># Validate a JSON-format schema</span>
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>hippo<span class="w"> </span>validate-schema<span class="w"> </span>schema.json<span class="w"> </span>--format<span class="w"> </span>json
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>mosaic<span class="w"> </span>validate-schema<span class="w"> </span>schema.json<span class="w"> </span>--format<span class="w"> </span>json
 </code></pre></div>
 <hr />
 <h2 id="schema-diff">schema-diff<a class="headerlink" href="#schema-diff" title="Permanent link">&para;</a></h2>
 <p>Compare two schema files and show differences.</p>
 <h3 id="usage_11">Usage<a class="headerlink" href="#usage_11" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>hippo<span class="w"> </span>schema-diff<span class="w"> </span>&lt;FILE1&gt;<span class="w"> </span>&lt;FILE2&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>mosaic<span class="w"> </span>schema-diff<span class="w"> </span>&lt;FILE1&gt;<span class="w"> </span>&lt;FILE2&gt;
 </code></pre></div>
 <h3 id="arguments_5">Arguments<a class="headerlink" href="#arguments_5" title="Permanent link">&para;</a></h3>
 <table>
@@ -5923,7 +5923,7 @@ and keyboard shortcuts.</p>
 </table>
 <h3 id="example_10">Example<a class="headerlink" href="#example_10" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Compare two schema versions</span>
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>hippo<span class="w"> </span>schema-diff<span class="w"> </span>schemas/v1.yaml<span class="w"> </span>schemas/v2.yaml
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>mosaic<span class="w"> </span>schema-diff<span class="w"> </span>schemas/v1.yaml<span class="w"> </span>schemas/v2.yaml
 </code></pre></div>
 
 

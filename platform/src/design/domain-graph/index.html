@@ -254,7 +254,7 @@
           
   
   
-  Hippo
+  Mosaic
 
         </a>
       </li>
@@ -865,7 +865,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo
+    Mosaic
   
 
     
@@ -881,7 +881,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Hippo
+    Mosaic
   
 
           </label>
@@ -922,14 +922,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../hippo/docs/why-hippo/" class="md-nav__link">
+      <a href="../../../../hippo/docs/why-mosaic/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Why Hippo?
+    Why Mosaic?
   
 
     
@@ -3627,7 +3627,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo Integration
+    Mosaic Integration
   
 
     
@@ -3896,7 +3896,8 @@
 
 <h1 id="datahelix-platform-the-domain-graph-foundational-data-model">DataHelix Platform — The Domain Graph (foundational data model)<a class="headerlink" href="#datahelix-platform-the-domain-graph-foundational-data-model" title="Permanent link">&para;</a></h1>
 <p><strong>Status:</strong> 🟢 Foundational concept (2026-06-17). Cross-cutting; takes precedence over
-component-local framings where they conflict. Supersedes the "metadata store" framing of Hippo.
+component-local framings where they conflict. Supersedes the "metadata store" framing of Mosaic
+(formerly Hippo, ADR-0004).
 Origin: Aperture design session (see <code>aperture/design/vision.md</code>, <code>.../prefab/data-stories.md</code>).</p>
 <h2 id="the-reframe-one-typed-domain-graph-not-a-metadata-store">The reframe: one typed domain graph, not a "metadata store"<a class="headerlink" href="#the-reframe-one-typed-domain-graph-not-a-metadata-store" title="Permanent link">&para;</a></h2>
 <p>A DataHelix deployment is, conceptually, <strong>one typed knowledge graph</strong> — the <em>domain graph</em> — whose
@@ -3904,11 +3905,11 @@ type system is the deployment's <strong>LinkML schema</strong> and whose content
 about its biology and its data. "Metadata vs. data" is <strong>not</strong> a property of stored things; it is
 a <strong>role a node plays relative to a query</strong>, assigned at query time. (A toxicology report is the
 <em>subject</em> of one query and a <em>descriptor</em> in another; a graph has no privileged "fact table.")
-We therefore stop calling Hippo a "metadata store." It is <strong>the structured domain graph</strong>.</p>
+We therefore stop calling Mosaic a "metadata store." It is <strong>the structured domain graph</strong>.</p>
 <p>The intrinsic boundary that <em>is</em> real is not data/metadata but:</p>
 <blockquote>
 <p><strong>structured relational records</strong> (schema-conformant entities + attributes + relationships;
-low-to-moderate cardinality; queryable as a graph) — served by <strong>Hippo</strong>
+low-to-moderate cardinality; queryable as a graph) — served by <strong>Mosaic</strong>
 vs.
 <strong>bulk opaque payloads</strong> (sequence reads, expression matrices, images; high cardinality;
 array/columnar) — held as files, mediated by <strong>Canon/Cappella</strong>.</p>
@@ -3921,10 +3922,10 @@ slice-extraction mechanics differ — and those are hidden from the user.</p>
   edge types, scalar slots = node attributes, ranges/enums/constraints = semantic rules. LinkML
   is graph-native (it compiles to RDF/OWL/SHACL; <code>class_uri</code>/<code>slot_uri</code> are first-class). A LinkML
   schema <em>is</em> a typed property-graph definition.</li>
-<li><strong>Hippo is the runtime that reads that schema and <em>becomes</em> the graph it describes</strong> —
+<li><strong>Mosaic is the runtime that reads that schema and <em>becomes</em> the graph it describes</strong> —
   instantiating storage, validation, API, and query semantics from the schema at startup.</li>
 <li>Therefore "LinkML runtime" names the <em>mechanism</em> and "domain graph" names the <em>artifact</em>. They
-  are one thing. <strong>Every Hippo query returns a knowledge subgraph whose semantics are exactly the
+  are one thing. <strong>Every Mosaic query returns a knowledge subgraph whose semantics are exactly the
   schema's.</strong> Per-deployment schema ⇒ per-deployment graph semantics. The config-driven
   <em>relational</em> storage is an implementation detail of the graph — no more essential than files
   being the substrate for bulk data.</li>
@@ -3935,7 +3936,7 @@ value</code> cube is a bundle of typed edges (<code>Sample —expression{value}�
 selecting a sub-bundle of edges = <strong>inducing a subgraph</strong>. So:</p>
 <blockquote>
 <p>A <strong>data-slice request</strong> against bulk storage <strong>induces a subgraph</strong> that <strong>unions</strong> with the
-records-subgraph Hippo returns, forming one query-result graph. Different physical substrate
+records-subgraph Mosaic returns, forming one query-result graph. Different physical substrate
 (relational rows / columnar arrays / HDF5 / zarr / files), <strong>uniform graph semantics at the
 query surface.</strong></p>
 </blockquote>
@@ -3951,7 +3952,7 @@ operations; results lifted back into the graph. In DataHelix terms:</p>
 </thead>
 <tbody>
 <tr>
-<td><strong>Hippo relational engine</strong></td>
+<td><strong>Mosaic relational engine</strong></td>
 <td>mapping for the <em>structured</em> substrate (records → subgraph)</td>
 </tr>
 <tr>
@@ -3970,7 +3971,7 @@ validated components</strong> — the "no middle scripting layer" discipline app
 right, queries and data "behave as we expect" regardless of where bits physically live. This is
 the same place the structured/bulk boundary is crossed <em>deliberately</em>: a derived, structured
 <em>view</em> of bulk data (a summary, an aggregation tier) is a subgraph promoted into the queryable
-graph when a query earns it — not Hippo becoming a data warehouse.</p>
+graph when a query earns it — not Mosaic becoming a data warehouse.</p>
 <h2 id="honest-flag-this-layer-is-the-platforms-deep-end">Honest flag: this layer is the platform's deep end<a class="headerlink" href="#honest-flag-this-layer-is-the-platforms-deep-end" title="Permanent link">&para;</a></h2>
 <p>The model is sound and is the right north star. But <strong>OBDA/VKG query rewriting and efficient
 federated slice extraction is the single hardest thing in the platform</strong> — query planning across
@@ -3979,8 +3980,8 @@ it is hard. It is correctly <strong>deferred</strong> (Canon/Cappella, post-MVP)
 as implying the federated graph is a cheap or free abstraction.</p>
 <h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Retire "metadata store" for Hippo</strong>; use "structured domain graph" (catalog / knowledge
-  layer). "Tracks where data lives" is <em>one role</em> (file cataloging), not Hippo's essence. <em>(Done
+<li><strong>Retire "metadata store" for Mosaic</strong>; use "structured domain graph" (catalog / knowledge
+  layer). "Tracks where data lives" is <em>one role</em> (file cataloging), not Mosaic's essence. <em>(Done
   2026-06-17: Hippo's self-description (<code>hippo/CLAUDE.md</code>, <code>hippo/design/INDEX.md</code>, sec1) and the
   rest of the platform docs were brought into line by the reframe consistency pass —
   <code>proposals/reframe-consistency-pass.md</code>.)</em></li>
@@ -3988,7 +3989,7 @@ as implying the federated graph is a cheap or free abstraction.</p>
   consume subgraphs; the cohort/selection object should be <strong>grain-agnostic and re-rootable</strong> (a
   position in the graph + predicates), since re-rooting the focal entity is exactly the
   metadata↔data role-swap made operational.</li>
-<li><strong>The structured/bulk boundary, not data/metadata, is the architectural line</strong> between Hippo and
+<li><strong>The structured/bulk boundary, not data/metadata, is the architectural line</strong> between Mosaic and
   Canon/Cappella — and it is crossed only by promoting derived structured views into the graph.</li>
 </ul>
 

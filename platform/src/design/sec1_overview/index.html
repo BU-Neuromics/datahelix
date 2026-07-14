@@ -260,7 +260,7 @@
           
   
   
-  Hippo
+  Mosaic
 
         </a>
       </li>
@@ -1092,7 +1092,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo
+    Mosaic
   
 
     
@@ -1108,7 +1108,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Hippo
+    Mosaic
   
 
           </label>
@@ -1149,14 +1149,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../hippo/docs/why-hippo/" class="md-nav__link">
+      <a href="../../../../hippo/docs/why-mosaic/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Why Hippo?
+    Why Mosaic?
   
 
     
@@ -3854,7 +3854,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo Integration
+    Mosaic Integration
   
 
     
@@ -4241,7 +4241,7 @@
 <h2 id="1-platform-overview-vision">1. Platform Overview &amp; Vision<a class="headerlink" href="#1-platform-overview-vision" title="Permanent link">&para;</a></h2>
 <p><strong>Document status:</strong> Draft v0.1
 <strong>Last updated:</strong> 2026-03-31
-<strong>Depends on:</strong> Component sec1 docs (Hippo, Cappella, Canon, Aperture, Bridge)
+<strong>Depends on:</strong> Component sec1 docs (Mosaic, Cappella, Canon, Aperture, Bridge)
 <strong>Feeds into:</strong> sec2_components.md, sec3_integration.md, deployment docs, getting-started guide</p>
 <hr />
 <h3 id="11-what-datahelix-is">1.1 What DataHelix Is<a class="headerlink" href="#11-what-datahelix-is" title="Permanent link">&para;</a></h3>
@@ -4265,7 +4265,7 @@ inertia.</p>
 <h3 id="12-design-principles">1.2 Design Principles<a class="headerlink" href="#12-design-principles" title="Permanent link">&para;</a></h3>
 <h4 id="121-modularity-use-what-you-need">1.2.1 Modularity — Use What You Need<a class="headerlink" href="#121-modularity-use-what-you-need" title="Permanent link">&para;</a></h4>
 <p>DataHelix components are independently installable and usable. A researcher who only needs the
-structured domain graph (e.g. for metadata tracking) can install Hippo alone; a team that additionally needs file artifact
+structured domain graph (e.g. for metadata tracking) can install Mosaic (formerly Hippo, ADR-0004) alone; a team that additionally needs file artifact
 resolution adds Canon; a lab with external LIMS systems adds Cappella for integration; a
 multi-user deployment adds Bridge for auth.</p>
 <p>No component requires another as a runtime dependency. Integration is opt-in.</p>
@@ -4291,13 +4291,13 @@ wrappers over the same SDK logic. This means:</p>
 <tbody>
 <tr>
 <td>Individual researcher</td>
-<td>Hippo + Canon SDK only</td>
+<td>Mosaic + Canon SDK only</td>
 <td>None</td>
 <td>SQLite</td>
 </tr>
 <tr>
 <td>Small lab</td>
-<td>Hippo + Cappella + Aperture CLI</td>
+<td>Mosaic + Cappella + Aperture CLI</td>
 <td>None (or Bridge API keys)</td>
 <td>SQLite</td>
 </tr>
@@ -4318,7 +4318,7 @@ wrappers over the same SDK logic. This means:</p>
 <p>Scale is controlled entirely by configuration. No code changes required to move between
 tiers.</p>
 <h4 id="124-provenance-by-default">1.2.4 Provenance by Default<a class="headerlink" href="#124-provenance-by-default" title="Permanent link">&para;</a></h4>
-<p>Every data mutation in Hippo records who changed what, when, and via which path. This is
+<p>Every data mutation in Mosaic records who changed what, when, and via which path. This is
 not an add-on — it is fundamental to the data model. Provenance enables:</p>
 <ul>
 <li>Reproducibility: trace the origin of any entity back to its source</li>
@@ -4343,11 +4343,11 @@ a clinical biobank, or a plant biology consortium — with different configurati
 <tbody>
 <tr>
 <td>Entity metadata storage and querying</td>
-<td>Hippo</td>
+<td>Mosaic</td>
 </tr>
 <tr>
 <td>Data provenance and audit trail</td>
-<td>Hippo</td>
+<td>Mosaic</td>
 </tr>
 <tr>
 <td>File artifact resolution</td>
@@ -4423,7 +4423,7 @@ a clinical biobank, or a plant biology consortium — with different configurati
 It is a <strong>metadata intelligence layer that aggregates and harmonizes data from those systems</strong>.</p>
 <p>Existing LIMS systems continue to be the system of record for wet-lab operations (sample
 tracking, accessioning, clinical data entry). Cappella pulls from those systems and
-harmonizes the results into Hippo's canonical schema. Researchers query Hippo for analysis
+harmonizes the results into Mosaic's canonical schema. Researchers query Mosaic for analysis
 rather than querying multiple upstream systems directly.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>STARLIMS   REDCap   Clinical DB   Sequencing Core
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    │          │          │              │
@@ -4432,7 +4432,7 @@ rather than querying multiple upstream systems directly.</p>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>                     Cappella
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>                    (harmonize)
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>                          │
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>                        Hippo
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>                        Mosaic
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>                    (canonical store)
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>                          │
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>                Canon + Aperture
@@ -4442,7 +4442,7 @@ rather than querying multiple upstream systems directly.</p>
 <h3 id="15-v10-scope-and-release-criteria">1.5 v1.0 Scope and Release Criteria<a class="headerlink" href="#15-v10-scope-and-release-criteria" title="Permanent link">&para;</a></h3>
 <p>Platform v1.0 is the first production-ready release of the full component stack.</p>
 <p><strong>v1.0 components:</strong>
-- Hippo v0.4+ (stable structured domain graph / LinkML runtime, REST API, provenance, schema migrations)
+- Mosaic v0.4+ (stable structured domain graph / LinkML runtime, REST API, provenance, schema migrations)
 - Canon v0.3+ (artifact resolution, CWL execution integration, storage adapters)
 - Cappella v0.2+ (trigger engine, external adapters, reconciliation)
 - Aperture v0.1 (CLI: entity CRUD, schema inspection, provenance, auth commands)
@@ -4450,7 +4450,7 @@ rather than querying multiple upstream systems directly.</p>
 <p><strong>v1.0 exit criteria:</strong>
 - A new user can install, configure, and complete the getting-started walkthrough
   using only the documentation
-- Full integration test suite (round-trip: external source → Cappella → Hippo → Canon)
+- Full integration test suite (round-trip: external source → Cappella → Mosaic → Canon)
   passes in CI
 - Docker Compose single-node deployment works from a clean machine
 - All components have tagged releases and documented changelogs</p>

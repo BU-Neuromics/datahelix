@@ -260,7 +260,7 @@
           
   
   
-  Hippo
+  Mosaic
 
         </a>
       </li>
@@ -885,10 +885,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#45-built-in-loaders-hippo-core" class="md-nav__link">
+  <a href="#45-built-in-loaders-mosaic-core" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.5 Built-in Loaders (Hippo Core)
+        4.5 Built-in Loaders (Mosaic Core)
       
     </span>
   </a>
@@ -907,10 +907,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#47-hippo-ingest-cli" class="md-nav__link">
+  <a href="#47-mosaic-ingest-cli" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.7 hippo ingest CLI
+        4.7 mosaic ingest CLI
       
     </span>
   </a>
@@ -929,10 +929,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#49-what-changes-in-hippo" class="md-nav__link">
+  <a href="#49-what-changes-in-mosaic" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.9 What Changes in Hippo
+        4.9 What Changes in Mosaic
       
     </span>
   </a>
@@ -1067,7 +1067,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo
+    Mosaic
   
 
     
@@ -1083,7 +1083,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Hippo
+    Mosaic
   
 
           </label>
@@ -1124,14 +1124,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../hippo/docs/why-hippo/" class="md-nav__link">
+      <a href="../../../../hippo/docs/why-mosaic/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Why Hippo?
+    Why Mosaic?
   
 
     
@@ -3829,7 +3829,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo Integration
+    Mosaic Integration
   
 
     
@@ -4069,10 +4069,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#45-built-in-loaders-hippo-core" class="md-nav__link">
+  <a href="#45-built-in-loaders-mosaic-core" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.5 Built-in Loaders (Hippo Core)
+        4.5 Built-in Loaders (Mosaic Core)
       
     </span>
   </a>
@@ -4091,10 +4091,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#47-hippo-ingest-cli" class="md-nav__link">
+  <a href="#47-mosaic-ingest-cli" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.7 hippo ingest CLI
+        4.7 mosaic ingest CLI
       
     </span>
   </a>
@@ -4113,10 +4113,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#49-what-changes-in-hippo" class="md-nav__link">
+  <a href="#49-what-changes-in-mosaic" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.9 What Changes in Hippo
+        4.9 What Changes in Mosaic
       
     </span>
   </a>
@@ -4187,42 +4187,42 @@
 <h1 id="section-4-unified-ingestion-framework">Section 4: Unified Ingestion Framework<a class="headerlink" href="#section-4-unified-ingestion-framework" title="Permanent link">&para;</a></h1>
 <p><strong>Status:</strong> Draft v0.1<br />
 <strong>Last updated:</strong> 2026-03-27<br />
-<strong>Scope:</strong> Cross-component (Hippo + Cappella)</p>
+<strong>Scope:</strong> Cross-component (Mosaic, formerly Hippo — ADR-0004 — + Cappella)</p>
 <hr />
 <h2 id="41-motivation">4.1 Motivation<a class="headerlink" href="#41-motivation" title="Permanent link">&para;</a></h2>
 <p>Before this change, ingestion logic was split:
-- Hippo had <code>IngestionPipeline</code> with hardcoded <code>ingest_csv/json/jsonl</code> methods
-- Hippo had <code>ReferenceLoader</code> ABC for reference data plugins
+- Mosaic had <code>IngestionPipeline</code> with hardcoded <code>ingest_csv/json/jsonl</code> methods
+- Mosaic had <code>ReferenceLoader</code> ABC for reference data plugins
 - Cappella had its own <code>CSVAdapter</code>, <code>JSONAdapter</code>, <code>SQLAdapter</code>, <code>ExternalSourceAdapter</code> ABC
 - Two separate pipeline implementations, two sets of field mapping logic, two error hierarchies</p>
 <p>This creates maintenance burden, divergent behavior, and forces plugin authors to learn two different ABCs depending on whether they're writing a reference loader vs. an operational adapter.</p>
 <h2 id="42-the-unified-model">4.2 The Unified Model<a class="headerlink" href="#42-the-unified-model" title="Permanent link">&para;</a></h2>
-<p>A single <code>EntityLoader</code> ABC lives in Hippo core. Everything that loads data into Hippo — reference loaders, Cappella adapters, CLI ingest, custom scripts — subclasses this one ABC.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>EntityLoader (ABC, Hippo core)
+<p>A single <code>EntityLoader</code> ABC lives in Mosaic core. Everything that loads data into Mosaic — reference loaders, Cappella adapters, CLI ingest, custom scripts — subclasses this one ABC.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>EntityLoader (ABC, Mosaic core)
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    │
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    ├── ConfigurableLoader (Abstract, Hippo core)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    ├── ConfigurableLoader (Abstract, Mosaic core)
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    │   │   Config-driven field_map + vocabulary_map
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    │   │
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    │   ├── CSVLoader (Concrete, Hippo core)
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    │   ├── JSONLoader (Concrete, Hippo core)
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    │   ├── SQLLoader (Concrete, Hippo core, extras: hippo[loaders-sql])
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    │   └── EntityYAMLLoader (Concrete, Hippo core)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    │   ├── CSVLoader (Concrete, Mosaic core)
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    │   ├── JSONLoader (Concrete, Mosaic core)
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    │   ├── SQLLoader (Concrete, Mosaic core, extras: mosaic[loaders-sql])
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    │   └── EntityYAMLLoader (Concrete, Mosaic core)
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    │       Loads structured entity YAML directly
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    │
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    ├── ReferenceLoader subclasses (Hippo plugins)
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    │   │   hippo-reference-ensembl, hippo-reference-bioconda, etc.
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    ├── ReferenceLoader subclasses (Mosaic plugins)
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    │   │   mosaic-reference-ensembl, mosaic-reference-bioconda, etc.
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    │   │   May subclass ConfigurableLoader or EntityLoader directly
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    │   └── Discovered via hippo.reference_loaders entry points
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    │   └── Discovered via mosaic.reference_loaders entry points
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    │
 <a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    └── Cappella adapter subclasses
 <a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>        │   Complex integrations (STARLIMS API, paginated REST, SFTP)
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>        │   Subclass EntityLoader from Hippo
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>        │   Subclass EntityLoader from Mosaic
 <a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>        └── Discovered via cappella.adapters entry points
 </code></pre></div>
 <h2 id="43-entityloader-abc">4.3 EntityLoader ABC<a class="headerlink" href="#43-entityloader-abc" title="Permanent link">&para;</a></h2>
-<p>Lives in <code>hippo.core.loaders.base</code>:</p>
+<p>Lives in <code>mosaic.core.loaders.base</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">EntityLoader</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all data loading into Hippo.&quot;&quot;&quot;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all data loading into Mosaic.&quot;&quot;&quot;</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>                          <span class="c1"># identifier, e.g. &quot;csv&quot;, &quot;ensembl&quot;, &quot;starlims&quot;</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">entity_types</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>            <span class="c1"># what this loader produces</span>
@@ -4235,7 +4235,7 @@
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    <span class="nd">@abstractmethod</span>
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="n">RawRecord</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TransformedRecord</span><span class="p">:</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Map source record to Hippo entity schema.&quot;&quot;&quot;</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Map source record to Mosaic entity schema.&quot;&quot;&quot;</span>
 <a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        <span class="o">...</span>
 <a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
 <a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="n">TransformedRecord</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -4263,7 +4263,7 @@
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>        <span class="c1"># Generic implementation: rename fields, normalize vocab</span>
 <a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>        <span class="o">...</span>
 </code></pre></div>
-<h2 id="45-built-in-loaders-hippo-core">4.5 Built-in Loaders (Hippo Core)<a class="headerlink" href="#45-built-in-loaders-hippo-core" title="Permanent link">&para;</a></h2>
+<h2 id="45-built-in-loaders-mosaic-core">4.5 Built-in Loaders (Mosaic Core)<a class="headerlink" href="#45-built-in-loaders-mosaic-core" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -4276,25 +4276,25 @@
 <tbody>
 <tr>
 <td><code>CSVLoader</code></td>
-<td><code>hippo.core.loaders.csv</code></td>
+<td><code>mosaic.core.loaders.csv</code></td>
 <td>✅ (stdlib csv)</td>
 <td>File, HTTP URL, or stdin/bytes</td>
 </tr>
 <tr>
 <td><code>JSONLoader</code></td>
-<td><code>hippo.core.loaders.json</code></td>
+<td><code>mosaic.core.loaders.json</code></td>
 <td>✅ (stdlib json)</td>
-<td>JSONPath for nested records requires <code>hippo[loaders-json]</code></td>
+<td>JSONPath for nested records requires <code>mosaic[loaders-json]</code></td>
 </tr>
 <tr>
 <td><code>SQLLoader</code></td>
-<td><code>hippo.core.loaders.sql</code></td>
-<td><code>hippo[loaders-sql]</code></td>
+<td><code>mosaic.core.loaders.sql</code></td>
+<td><code>mosaic[loaders-sql]</code></td>
 <td>SQLAlchemy + read-only query validation</td>
 </tr>
 <tr>
 <td><code>EntityYAMLLoader</code></td>
-<td><code>hippo.core.loaders.entity_yaml</code></td>
+<td><code>mosaic.core.loaders.entity_yaml</code></td>
 <td>✅ (stdlib yaml)</td>
 <td>Structured entity YAML, idempotent via external_id</td>
 </tr>
@@ -4307,25 +4307,25 @@
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">loaders-all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;sqlalchemy&gt;=2.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;jsonpath-ng&gt;=1.6&quot;</span><span class="p">]</span>
 </code></pre></div>
 <p>CSV and EntityYAML have zero additional dependencies. JSON basic parsing needs no extras; JSONPath for nested records is an optional extra.</p>
-<h2 id="47-hippo-ingest-cli">4.7 <code>hippo ingest</code> CLI<a class="headerlink" href="#47-hippo-ingest-cli" title="Permanent link">&para;</a></h2>
+<h2 id="47-mosaic-ingest-cli">4.7 <code>mosaic ingest</code> CLI<a class="headerlink" href="#47-mosaic-ingest-cli" title="Permanent link">&para;</a></h2>
 <p>The CLI becomes the manual entry point for the loader framework. No triggers, no automation — just run a loader once.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Ingest from structured entity YAML</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>hippo<span class="w"> </span>ingest<span class="w"> </span>--file<span class="w"> </span>entities.yaml
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>mosaic<span class="w"> </span>ingest<span class="w"> </span>--file<span class="w"> </span>entities.yaml
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Ingest from CSV with inline config</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>hippo<span class="w"> </span>ingest<span class="w"> </span>--type<span class="w"> </span>csv<span class="w"> </span>--file<span class="w"> </span>donors.csv<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>mosaic<span class="w"> </span>ingest<span class="w"> </span>--type<span class="w"> </span>csv<span class="w"> </span>--file<span class="w"> </span>donors.csv<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span>--entity-type<span class="w"> </span>Donor<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span>--external-id-field<span class="w"> </span>SUBJECT_ID<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span>--field-map<span class="w"> </span><span class="nv">SUBJECT_ID</span><span class="o">=</span>external_id<span class="w"> </span><span class="nv">SEX</span><span class="o">=</span>sex<span class="w"> </span><span class="nv">DIAGNOSIS</span><span class="o">=</span>diagnosis
 <a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1"># Ingest from CSV with a config file</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>hippo<span class="w"> </span>ingest<span class="w"> </span>--type<span class="w"> </span>csv<span class="w"> </span>--file<span class="w"> </span>donors.csv<span class="w"> </span>--config<span class="w"> </span>donors_mapping.yaml
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>mosaic<span class="w"> </span>ingest<span class="w"> </span>--type<span class="w"> </span>csv<span class="w"> </span>--file<span class="w"> </span>donors.csv<span class="w"> </span>--config<span class="w"> </span>donors_mapping.yaml
 <a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1"># Ingest from SQL (requires hippo[loaders-sql])</span>
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>hippo<span class="w"> </span>ingest<span class="w"> </span>--type<span class="w"> </span>sql<span class="w"> </span>--config<span class="w"> </span>lims_query.yaml
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1"># Ingest from SQL (requires mosaic[loaders-sql])</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>mosaic<span class="w"> </span>ingest<span class="w"> </span>--type<span class="w"> </span>sql<span class="w"> </span>--config<span class="w"> </span>lims_query.yaml
 <a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
 <a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="c1"># Dry run — show what would be created/updated without writing</span>
-<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>hippo<span class="w"> </span>ingest<span class="w"> </span>--file<span class="w"> </span>entities.yaml<span class="w"> </span>--dry-run
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>mosaic<span class="w"> </span>ingest<span class="w"> </span>--file<span class="w"> </span>entities.yaml<span class="w"> </span>--dry-run
 </code></pre></div>
 <p>The config file for CSV/JSON/SQL contains the adapter-specific options:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># donors_mapping.yaml</span>
@@ -4344,14 +4344,14 @@
 <h2 id="48-idempotency">4.8 Idempotency<a class="headerlink" href="#48-idempotency" title="Permanent link">&para;</a></h2>
 <p>All loaders use the same upsert-by-ExternalID logic:</p>
 <ol>
-<li>For each record, look up by <code>external_id</code> in Hippo</li>
+<li>For each record, look up by <code>external_id</code> in Mosaic</li>
 <li>If found and data identical → skip (unchanged)</li>
 <li>If found and data differs → update</li>
 <li>If not found → create + register external_id</li>
 </ol>
 <p>This is the logic we just fixed in <code>_upsert_records</code> (catching <code>EntityNotFoundError</code> explicitly).</p>
-<p>The <code>IngestPipeline</code> class (renamed from <code>IngestionPipeline</code>) orchestrates this loop for any <code>EntityLoader</code>. It moves from <code>hippo.core.ingestion</code> to <code>hippo.core.loaders.pipeline</code>.</p>
-<h2 id="49-what-changes-in-hippo">4.9 What Changes in Hippo<a class="headerlink" href="#49-what-changes-in-hippo" title="Permanent link">&para;</a></h2>
+<p>The <code>IngestPipeline</code> class (renamed from <code>IngestionPipeline</code>) orchestrates this loop for any <code>EntityLoader</code>. It moves from <code>mosaic.core.ingestion</code> to <code>mosaic.core.loaders.pipeline</code>.</p>
+<h2 id="49-what-changes-in-mosaic">4.9 What Changes in Mosaic<a class="headerlink" href="#49-what-changes-in-mosaic" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -4363,37 +4363,37 @@
 <tbody>
 <tr>
 <td><strong>New</strong></td>
-<td><code>hippo/src/hippo/core/loaders/__init__.py</code></td>
+<td><code>hippo/src/mosaic/core/loaders/__init__.py</code></td>
 <td>Package exports</td>
 </tr>
 <tr>
 <td><strong>New</strong></td>
-<td><code>hippo/src/hippo/core/loaders/base.py</code></td>
+<td><code>hippo/src/mosaic/core/loaders/base.py</code></td>
 <td><code>EntityLoader</code>, <code>ConfigurableLoader</code>, <code>RawRecord</code>, <code>TransformedRecord</code></td>
 </tr>
 <tr>
 <td><strong>New</strong></td>
-<td><code>hippo/src/hippo/core/loaders/csv.py</code></td>
+<td><code>hippo/src/mosaic/core/loaders/csv.py</code></td>
 <td><code>CSVLoader</code></td>
 </tr>
 <tr>
 <td><strong>New</strong></td>
-<td><code>hippo/src/hippo/core/loaders/json.py</code></td>
+<td><code>hippo/src/mosaic/core/loaders/json.py</code></td>
 <td><code>JSONLoader</code></td>
 </tr>
 <tr>
 <td><strong>New</strong></td>
-<td><code>hippo/src/hippo/core/loaders/sql.py</code></td>
+<td><code>hippo/src/mosaic/core/loaders/sql.py</code></td>
 <td><code>SQLLoader</code></td>
 </tr>
 <tr>
 <td><strong>New</strong></td>
-<td><code>hippo/src/hippo/core/loaders/entity_yaml.py</code></td>
+<td><code>hippo/src/mosaic/core/loaders/entity_yaml.py</code></td>
 <td><code>EntityYAMLLoader</code></td>
 </tr>
 <tr>
 <td><strong>New</strong></td>
-<td><code>hippo/src/hippo/core/loaders/pipeline.py</code></td>
+<td><code>hippo/src/mosaic/core/loaders/pipeline.py</code></td>
 <td><code>IngestPipeline</code> (refactored from <code>IngestionPipeline</code>)</td>
 </tr>
 <tr>
@@ -4403,7 +4403,7 @@
 </tr>
 <tr>
 <td><strong>Modify</strong></td>
-<td><code>hippo/src/hippo/core/ingestion.py</code></td>
+<td><code>hippo/src/mosaic/core/ingestion.py</code></td>
 <td>Keep <code>extract_fts_content</code>, <code>flatten_dict</code>; deprecate <code>IngestionPipeline</code></td>
 </tr>
 <tr>
@@ -4413,7 +4413,7 @@
 </tr>
 <tr>
 <td><strong>Remove</strong></td>
-<td><code>hippo/src/hippo/core/data_sources.py</code></td>
+<td><code>hippo/src/mosaic/core/data_sources.py</code></td>
 <td>Replaced by loader config files</td>
 </tr>
 </tbody>
@@ -4429,19 +4429,19 @@
 <tbody>
 <tr>
 <td><strong>Modify</strong> <code>cappella/src/cappella/adapters/base.py</code></td>
-<td><code>ExternalSourceAdapter</code> subclasses <code>hippo.core.loaders.base.EntityLoader</code> instead of its own ABC</td>
+<td><code>ExternalSourceAdapter</code> subclasses <code>mosaic.core.loaders.base.EntityLoader</code> instead of its own ABC</td>
 </tr>
 <tr>
 <td><strong>Modify</strong> <code>cappella/src/cappella/adapters/csv_adapter.py</code></td>
-<td>Subclass <code>CSVLoader</code> from Hippo, add Cappella-specific features (HTTP transport, <code>manual_upload</code> source)</td>
+<td>Subclass <code>CSVLoader</code> from Mosaic, add Cappella-specific features (HTTP transport, <code>manual_upload</code> source)</td>
 </tr>
 <tr>
 <td><strong>Modify</strong> <code>cappella/src/cappella/adapters/json_adapter.py</code></td>
-<td>Subclass <code>JSONLoader</code> from Hippo</td>
+<td>Subclass <code>JSONLoader</code> from Mosaic</td>
 </tr>
 <tr>
 <td><strong>Modify</strong> <code>cappella/src/cappella/adapters/sql_adapter.py</code></td>
-<td>Subclass <code>SQLLoader</code> from Hippo</td>
+<td>Subclass <code>SQLLoader</code> from Mosaic</td>
 </tr>
 <tr>
 <td><strong>Remove</strong> duplicate field_map/vocabulary_map logic</td>
@@ -4461,16 +4461,16 @@
 - Tests <code>CSVLoader</code>, <code>JSONLoader</code> against the contract
 - Tests idempotency guarantees (create → unchanged → update cycle)</p>
 <p><strong>New platform test:</strong> <code>tests/platform/test_unified_ingest.py</code>
-- Tests Cappella adapter using Hippo's <code>CSVLoader</code> against real Hippo
-- Tests that field_map and vocabulary_map from Hippo core work when called from Cappella</p>
-<p><strong>Updated Hippo unit tests:</strong>
+- Tests Cappella adapter using Mosaic's <code>CSVLoader</code> against real Mosaic
+- Tests that field_map and vocabulary_map from Mosaic core work when called from Cappella</p>
+<p><strong>Updated Mosaic unit tests:</strong>
 - <code>hippo/tests/core/test_loaders.py</code> replaces <code>test_ingestion.py</code> (same tests, new module paths)
 - <code>hippo/tests/cli/test_ingest.py</code> (already written, tests entity YAML ingest + idempotency)</p>
 <h2 id="413-phased-implementation">4.13 Phased Implementation<a class="headerlink" href="#413-phased-implementation" title="Permanent link">&para;</a></h2>
-<p><strong>Phase 1 (Hippo):</strong> Create <code>loaders/</code> package, implement <code>EntityLoader</code> → <code>ConfigurableLoader</code> → <code>CSVLoader/JSONLoader/SQLLoader/EntityYAMLLoader</code> + <code>IngestPipeline</code>. Rewrite <code>hippo ingest</code> CLI. All Hippo tests green.</p>
+<p><strong>Phase 1 (Mosaic):</strong> Create <code>loaders/</code> package, implement <code>EntityLoader</code> → <code>ConfigurableLoader</code> → <code>CSVLoader/JSONLoader/SQLLoader/EntityYAMLLoader</code> + <code>IngestPipeline</code>. Rewrite <code>mosaic ingest</code> CLI. All Mosaic tests green.</p>
 <p><strong>Phase 2 (Cross-component contracts):</strong> Write contract tests at monorepo root. RED until Cappella adopts.</p>
-<p><strong>Phase 3 (Cappella):</strong> Refactor adapters to subclass from Hippo. Remove duplicate logic. All platform tests green.</p>
-<p><strong>Phase 4 (Cleanup):</strong> Deprecate <code>hippo.core.ingestion.IngestionPipeline</code>. Update docs.</p>
+<p><strong>Phase 3 (Cappella):</strong> Refactor adapters to subclass from Mosaic. Remove duplicate logic. All platform tests green.</p>
+<p><strong>Phase 4 (Cleanup):</strong> Deprecate <code>mosaic.core.ingestion.IngestionPipeline</code>. Update docs.</p>
 
 
 

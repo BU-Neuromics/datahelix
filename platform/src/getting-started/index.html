@@ -260,7 +260,7 @@
           
   
   
-  Hippo
+  Mosaic
 
         </a>
       </li>
@@ -639,10 +639,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#11-install-hippo-required" class="md-nav__link">
+  <a href="#11-install-mosaic-required" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1.1 Install Hippo (required)
+        1.1 Install Mosaic (required)
       
     </span>
   </a>
@@ -700,10 +700,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#21-initialize-hippo" class="md-nav__link">
+  <a href="#21-initialize-mosaic" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2.1 Initialize Hippo
+        2.1 Initialize Mosaic
       
     </span>
   </a>
@@ -711,10 +711,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#22-start-the-hippo-rest-api" class="md-nav__link">
+  <a href="#22-start-the-mosaic-rest-api" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2.2 Start the Hippo REST API
+        2.2 Start the Mosaic REST API
       
     </span>
   </a>
@@ -1279,7 +1279,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo
+    Mosaic
   
 
     
@@ -1295,7 +1295,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Hippo
+    Mosaic
   
 
           </label>
@@ -1336,14 +1336,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/docs/why-hippo/" class="md-nav__link">
+      <a href="../../../hippo/docs/why-mosaic/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Why Hippo?
+    Why Mosaic?
   
 
     
@@ -4041,7 +4041,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo Integration
+    Mosaic Integration
   
 
     
@@ -4260,10 +4260,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#11-install-hippo-required" class="md-nav__link">
+  <a href="#11-install-mosaic-required" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1.1 Install Hippo (required)
+        1.1 Install Mosaic (required)
       
     </span>
   </a>
@@ -4321,10 +4321,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#21-initialize-hippo" class="md-nav__link">
+  <a href="#21-initialize-mosaic" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2.1 Initialize Hippo
+        2.1 Initialize Mosaic
       
     </span>
   </a>
@@ -4332,10 +4332,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#22-start-the-hippo-rest-api" class="md-nav__link">
+  <a href="#22-start-the-mosaic-rest-api" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2.2 Start the Hippo REST API
+        2.2 Start the Mosaic REST API
       
     </span>
   </a>
@@ -4611,7 +4611,7 @@
 <h1 id="getting-started-with-datahelix">Getting Started with DataHelix<a class="headerlink" href="#getting-started-with-datahelix" title="Permanent link">&para;</a></h1>
 <p><strong>Time:</strong> ~30 minutes
 <strong>Goal:</strong> Install the DataHelix platform, load sample data, run an RNA-seq artifact resolution, and query the results.</p>
-<p>This guide walks through the full platform end-to-end: Hippo (metadata), Canon (artifact resolution), Cappella (ingestion), and Aperture (CLI). You only need to install the components relevant to your workflow — skip sections that don't apply.</p>
+<p>This guide walks through the full platform end-to-end: Mosaic (formerly Hippo, ADR-0004; metadata), Canon (artifact resolution), Cappella (ingestion), and Aperture (CLI). You only need to install the components relevant to your workflow — skip sections that don't apply.</p>
 <hr />
 <h2 id="before-you-start">Before You Start<a class="headerlink" href="#before-you-start" title="Permanent link">&para;</a></h2>
 <p><strong>Prerequisites:</strong>
@@ -4623,15 +4623,15 @@
 A local DataHelix deployment with a small RNA-seq study dataset. You'll ingest sample metadata, register file locations, resolve canonical artifact paths, and query results via the CLI.</p>
 <hr />
 <h2 id="part-1-install">Part 1: Install<a class="headerlink" href="#part-1-install" title="Permanent link">&para;</a></h2>
-<h3 id="11-install-hippo-required">1.1 Install Hippo (required)<a class="headerlink" href="#11-install-hippo-required" title="Permanent link">&para;</a></h3>
-<p>Hippo is the metadata backbone — install it first.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>hippo
+<h3 id="11-install-mosaic-required">1.1 Install Mosaic (required)<a class="headerlink" href="#11-install-mosaic-required" title="Permanent link">&para;</a></h3>
+<p>Mosaic is the metadata backbone — install it first.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>mosaic
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># or with uv (faster)</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>hippo
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>mosaic
 </code></pre></div>
 <p>Verify:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>hippo<span class="w"> </span>--version
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># hippo 0.4.0</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mosaic<span class="w"> </span>--version
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># mosaic 0.4.0</span>
 </code></pre></div>
 <h3 id="12-install-canon-if-you-work-with-file-artifacts">1.2 Install Canon (if you work with file artifacts)<a class="headerlink" href="#12-install-canon-if-you-work-with-file-artifacts" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pip<span class="w"> </span>install<span class="w"> </span>canon
@@ -4651,19 +4651,19 @@ A local DataHelix deployment with a small RNA-seq study dataset. You'll ingest s
 <p>Create a directory for your DataHelix deployment:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>mkdir<span class="w"> </span>~/my_study<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/my_study
 </code></pre></div>
-<h3 id="21-initialize-hippo">2.1 Initialize Hippo<a class="headerlink" href="#21-initialize-hippo" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>hippo<span class="w"> </span>init<span class="w"> </span>--path<span class="w"> </span>.
+<h3 id="21-initialize-mosaic">2.1 Initialize Mosaic<a class="headerlink" href="#21-initialize-mosaic" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>mosaic<span class="w"> </span>init<span class="w"> </span>--path<span class="w"> </span>.
 </code></pre></div>
 <p>This creates:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>my_study/
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>├── hippo.yaml          # Hippo configuration
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>├── mosaic.yaml          # Mosaic configuration
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>├── schema.yaml         # Entity type definitions (edit this for your data model)
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>└── hippo.db            # SQLite database (created on first start)
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>└── mosaic.db            # SQLite database (created on first start)
 </code></pre></div></p>
-<h3 id="22-start-the-hippo-rest-api">2.2 Start the Hippo REST API<a class="headerlink" href="#22-start-the-hippo-rest-api" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>hippo<span class="w"> </span>serve<span class="w"> </span><span class="p">&amp;</span>
+<h3 id="22-start-the-mosaic-rest-api">2.2 Start the Mosaic REST API<a class="headerlink" href="#22-start-the-mosaic-rest-api" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>mosaic<span class="w"> </span>serve<span class="w"> </span><span class="p">&amp;</span>
 </code></pre></div>
-<p>Hippo starts on <code>http://localhost:8001</code> by default. Check it's running:</p>
+<p>Mosaic starts on <code>http://localhost:8001</code> by default. Check it's running:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>curl<span class="w"> </span>http://localhost:8001/health
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1"># {&quot;status&quot;: &quot;healthy&quot;, &quot;version&quot;: &quot;0.4.0&quot;}</span>
 </code></pre></div>
@@ -4719,7 +4719,7 @@ A local DataHelix deployment with a small RNA-seq study dataset. You'll ingest s
 <a id="__codelineno-11-47" name="__codelineno-11-47" href="#__codelineno-11-47"></a><span class="w">        </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sample</span>
 </code></pre></div>
 <p>Apply the schema:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>hippo<span class="w"> </span>migrate
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>mosaic<span class="w"> </span>migrate
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1"># Schema migration complete. 3 entity types created.</span>
 </code></pre></div>
 <hr />
@@ -4746,19 +4746,19 @@ A local DataHelix deployment with a small RNA-seq study dataset. You'll ingest s
 <a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="p">]</span>
 </code></pre></div>
 <h3 id="42-ingest-via-cli">4.2 Ingest via CLI<a class="headerlink" href="#42-ingest-via-cli" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>hippo<span class="w"> </span>ingest<span class="w"> </span>data/subjects.json<span class="w"> </span>--entity-type<span class="w"> </span>Subject
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>mosaic<span class="w"> </span>ingest<span class="w"> </span>data/subjects.json<span class="w"> </span>--entity-type<span class="w"> </span>Subject
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="c1"># Ingested 2 Subject entities (2 created, 0 updated, 0 unchanged)</span>
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>hippo<span class="w"> </span>ingest<span class="w"> </span>data/samples.json<span class="w"> </span>--entity-type<span class="w"> </span>Sample
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>mosaic<span class="w"> </span>ingest<span class="w"> </span>data/samples.json<span class="w"> </span>--entity-type<span class="w"> </span>Sample
 <a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="c1"># Ingested 2 Sample entities (2 created, 0 updated, 0 unchanged)</span>
 <a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
-<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>hippo<span class="w"> </span>ingest<span class="w"> </span>data/datafiles.json<span class="w"> </span>--entity-type<span class="w"> </span>Datafile
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>mosaic<span class="w"> </span>ingest<span class="w"> </span>data/datafiles.json<span class="w"> </span>--entity-type<span class="w"> </span>Datafile
 <a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="c1"># Ingested 4 Datafile entities (4 created, 0 updated, 0 unchanged)</span>
 </code></pre></div>
 <hr />
 <h2 id="part-5-query-with-aperture-cli">Part 5: Query with Aperture CLI<a class="headerlink" href="#part-5-query-with-aperture-cli" title="Permanent link">&para;</a></h2>
 <h3 id="51-configure-datahelix">5.1 Configure <code>datahelix</code><a class="headerlink" href="#51-configure-datahelix" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>datahelix<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>hippo.url<span class="w"> </span>http://localhost:8001
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>datahelix<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>mosaic.url<span class="w"> </span>http://localhost:8001
 </code></pre></div>
 <h3 id="52-list-entities">5.2 List entities<a class="headerlink" href="#52-list-entities" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>datahelix<span class="w"> </span>list<span class="w"> </span>Subject
@@ -4846,7 +4846,7 @@ A local DataHelix deployment with a small RNA-seq study dataset. You'll ingest s
 <h3 id="72-run-the-ingestion-manually">7.2 Run the ingestion manually<a class="headerlink" href="#72-run-the-ingestion-manually" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>cappella<span class="w"> </span>sync<span class="w"> </span>manifest
 </code></pre></div>
-<p>Cappella reads the CSV, maps fields to Hippo schema, and upserts entities. Existing
+<p>Cappella reads the CSV, maps fields to Mosaic schema, and upserts entities. Existing
 entities with matching <code>sample_id</code> are updated only if fields changed; unchanged
 entities are skipped.</p>
 <hr />
@@ -4856,7 +4856,7 @@ entities are skipped.</p>
 <p>Output:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>Component   Status    URL                      Version
 <a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>──────────  ────────  ───────────────────────  ───────
-<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>hippo       ✓ online  http://localhost:8001    0.4.0
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>mosaic       ✓ online  http://localhost:8001    0.4.0
 <a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>canon       ✓ online  (SDK mode)              0.3.0
 <a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>cappella    ✓ online  http://localhost:8002    0.2.0
 </code></pre></div>
@@ -4869,35 +4869,35 @@ entities are skipped.</p>
 </li>
 <li>
 <p><strong>Reference data:</strong> Load gene annotations and ontology terms with
-  <code>hippo reference install ensembl</code> and <code>hippo reference install fma</code>.</p>
+  <code>mosaic reference install ensembl</code> and <code>mosaic reference install fma</code>.</p>
 </li>
 <li>
 <p><strong>Custom schema:</strong> Add more entity types, define relationships, and set up validators.
-  See the <a href="../hippo/docs/schema-guide.md">Hippo schema guide</a>.</p>
+  See the <a href="../hippo/docs/schema-guide.md">Mosaic schema guide</a>.</p>
 </li>
 <li>
 <p><strong>Trigger automation:</strong> Configure Cappella to auto-sync from STARLIMS, REDCap, or
   webhook sources. See the <a href="../cappella/docs/user_guide.md">Cappella user guide</a>.</p>
 </li>
 <li>
-<p><strong>Python SDK:</strong> Use <code>HippoClient</code> directly in notebooks for custom analysis.
-  See the <a href="../hippo/docs/api-reference.md">Hippo API reference</a>.</p>
+<p><strong>Python SDK:</strong> Use <code>MosaicClient</code> directly in notebooks for custom analysis.
+  See the <a href="../hippo/docs/api-reference.md">Mosaic API reference</a>.</p>
 </li>
 </ul>
 <hr />
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<p><strong><code>hippo serve</code> fails to start:</strong>
+<p><strong><code>mosaic serve</code> fails to start:</strong>
 Check that port 8001 is not already in use: <code>lsof -i :8001</code>. Change the port in
-<code>hippo.yaml</code> (<code>server.port: 8002</code>) if needed.</p>
+<code>mosaic.yaml</code> (<code>server.port: 8002</code>) if needed.</p>
 <p><strong><code>datahelix list</code> shows "connection refused":</strong>
-Make sure Hippo is running: <code>hippo serve &amp;</code>. Verify the URL in <code>~/.config/datahelix/aperture.yaml</code>
+Make sure Mosaic is running: <code>mosaic serve &amp;</code>. Verify the URL in <code>~/.config/datahelix/aperture.yaml</code>
 or run <code>datahelix config show</code>.</p>
 <p><strong>Schema migration fails:</strong>
-If you changed an existing field type, Hippo will refuse the migration to protect data
-integrity. Create a new field and use <code>hippo migrate --allow-column-add</code> for additive
+If you changed an existing field type, Mosaic will refuse the migration to protect data
+integrity. Create a new field and use <code>mosaic migrate --allow-column-add</code> for additive
 changes only.</p>
 <p><strong>"entity_type not found" on ingest:</strong>
-Run <code>hippo migrate</code> first to apply your schema.yaml changes before ingesting.</p>
+Run <code>mosaic migrate</code> first to apply your schema.yaml changes before ingesting.</p>
 
 
 

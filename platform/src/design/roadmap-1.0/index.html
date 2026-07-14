@@ -254,7 +254,7 @@
           
   
   
-  Hippo
+  Mosaic
 
         </a>
       </li>
@@ -865,7 +865,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo
+    Mosaic
   
 
     
@@ -881,7 +881,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Hippo
+    Mosaic
   
 
           </label>
@@ -922,14 +922,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../hippo/docs/why-hippo/" class="md-nav__link">
+      <a href="../../../../hippo/docs/why-mosaic/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Why Hippo?
+    Why Mosaic?
   
 
     
@@ -3627,7 +3627,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo Integration
+    Mosaic Integration
   
 
     
@@ -3990,7 +3990,7 @@ Escalate to humans: deploys touching PHI, open design questions marked
 </thead>
 <tbody>
 <tr>
-<td><strong>Hippo</strong> v0.10.1</td>
+<td><strong>Mosaic</strong> (formerly Hippo, ADR-0004) v0.10.1</td>
 <td>sec1–sec11 drafted (sec10/11 pending promotion)</td>
 <td>mature, high velocity (~1 minor/2wks)</td>
 <td>Wave-1 LinkML-core OpenSpec cluster untracked-vs-shipped; Postgres lags SQLite (xref/multivalued/polymorphic); <strong>no tags, no release pipeline</strong>; auth designed (sec8) but only pass-through in code</td>
@@ -4017,7 +4017,7 @@ Escalate to humans: deploys touching PHI, open design questions marked
 <td><strong>Bridge</strong></td>
 <td>sec1–sec6 v0.1 complete</td>
 <td><strong>zero code</strong></td>
-<td>Now the platform's sole PEP/PDP; PDP engine + Hippo <code>IN</code>-filter are tracked open work</td>
+<td>Now the platform's sole PEP/PDP; PDP engine + Mosaic <code>IN</code>-filter are tracked open work</td>
 </tr>
 <tr>
 <td><strong>Platform</strong></td>
@@ -4029,7 +4029,7 @@ Escalate to humans: deploys touching PHI, open design questions marked
 </table>
 <p><strong>The two structural unlocks everything else waits on:</strong>
 1. <strong>Aperture #15</strong> (live integration) — validates four assumed GraphQL seams; unblocks #16 (contract file), #17 (control-plane recipe), #19 (write-loop).
-2. <strong>Hippo release engineering</strong> — tags + PyPI + digest-addressed images. Until artifacts exist, the certified-frontier ledger idles and no composed pair is deployable evidence.</p>
+2. <strong>Mosaic release engineering</strong> — tags + PyPI + digest-addressed images. Until artifacts exist, the certified-frontier ledger idles and no composed pair is deployable evidence.</p>
 <hr />
 <h2 id="1-phase-plan">1. Phase plan<a class="headerlink" href="#1-phase-plan" title="Permanent link">&para;</a></h2>
 <h3 id="phase-1-make-it-real-wks-16-jul-7-aug-17">Phase 1 — "Make it real" (wks 1–6, Jul 7 → Aug 17)<a class="headerlink" href="#phase-1-make-it-real-wks-16-jul-7-aug-17" title="Permanent link">&para;</a></h3>
@@ -4046,7 +4046,7 @@ Escalate to humans: deploys touching PHI, open design questions marked
 </thead>
 <tbody>
 <tr>
-<td><strong>P1.1 Hippo release pipeline</strong> — tag convention, PyPI publish workflow, Docker build+push with digest; retro-tag v0.10.x</td>
+<td><strong>P1.1 Mosaic release pipeline</strong> — tag convention, PyPI publish workflow, Docker build+push with digest; retro-tag v0.10.x</td>
 <td>hippo</td>
 <td>M</td>
 <td>—</td>
@@ -4085,7 +4085,7 @@ Escalate to humans: deploys touching PHI, open design questions marked
 <td>DataHelix</td>
 <td>M</td>
 <td>P1.1, P1.3, P1.4</td>
-<td><code>certified/aperture-*+hippo-*</code> tag exists with <code>result: pass</code>; deploy gate admits the pair</td>
+<td><code>certified/aperture-*+mosaic-*</code> tag exists with <code>result: pass</code>; deploy gate admits the pair</td>
 </tr>
 <tr>
 <td><strong>P1.7 Re-enable contract CI (slice 1)</strong> — restore <code>tests/contracts/</code> per-component for the stable seams (canon↔hippo, cappella↔hippo); prune stale assertions</td>
@@ -4125,7 +4125,7 @@ Escalate to humans: deploys touching PHI, open design questions marked
 </thead>
 <tbody>
 <tr>
-<td><strong>P2.1 Aperture→Hippo contract file (aperture#16)</strong> — portable introspection assertions + golden pairs; hippo CI job runs it against booted <code>hippo serve</code>; aperture CI runs it against its stub; DataHelix fixture consumes it</td>
+<td><strong>P2.1 Aperture→Mosaic contract file (aperture#16)</strong> — portable introspection assertions + golden pairs; hippo CI job runs it against booted <code>hippo serve</code>; aperture CI runs it against its stub; DataHelix fixture consumes it</td>
 <td>aperture + hippo + DataHelix</td>
 <td>M</td>
 <td>P1.3</td>
@@ -4153,7 +4153,7 @@ Escalate to humans: deploys touching PHI, open design questions marked
 <td>per issue #19 acceptance</td>
 </tr>
 <tr>
-<td><strong>P2.5 Hippo Postgres parity</strong> — per-class-table migration; xref reverse lookup, multivalued refs (ADR-0002), polymorphic ingest (ADR-0003); ratify both ADRs; publish parity matrix</td>
+<td><strong>P2.5 Mosaic Postgres parity</strong> — per-class-table migration; xref reverse lookup, multivalued refs (ADR-0002), polymorphic ingest (ADR-0003); ratify both ADRs; publish parity matrix</td>
 <td>hippo</td>
 <td>L</td>
 <td>P1.2</td>
@@ -4167,7 +4167,7 @@ Escalate to humans: deploys touching PHI, open design questions marked
 <td>one ingest path; <code>test_entity_loader_contract.py</code> re-enabled and green; breaking change lands before any API freeze</td>
 </tr>
 <tr>
-<td><strong>P2.7 Hippo transport v0.5 slice</strong> — REST <code>PUT</code>, bulk availability, OR filters, cursor pagination + GraphQL parity, exception→HTTP map (#62), DRS router mount (#55), status introspection (#61), <code>query_updated_since</code> (#63, needed by Cappella poll triggers)</td>
+<td><strong>P2.7 Mosaic transport v0.5 slice</strong> — REST <code>PUT</code>, bulk availability, OR filters, cursor pagination + GraphQL parity, exception→HTTP map (#62), DRS router mount (#55), status introspection (#61), <code>query_updated_since</code> (#63, needed by Cappella poll triggers)</td>
 <td>hippo</td>
 <td>M/L</td>
 <td>P1.2</td>
@@ -4181,7 +4181,7 @@ Escalate to humans: deploys touching PHI, open design questions marked
 <td>authenticated REST proxying to hippo works in compose; Bridge has its own test suite + CI job</td>
 </tr>
 <tr>
-<td><strong>P2.9 Hippo <code>IN</code>-filter</strong> — set-membership filter (predicate-pushdown prerequisite, sec6 §6.8)</td>
+<td><strong>P2.9 Mosaic <code>IN</code>-filter</strong> — set-membership filter (predicate-pushdown prerequisite, sec6 §6.8)</td>
 <td>hippo</td>
 <td>S/M</td>
 <td>—</td>
@@ -4275,7 +4275,7 @@ Escalate to humans: deploys touching PHI, open design questions marked
 <td>breaking-change budget spent; freeze documented; both artifacts published by digest</td>
 </tr>
 <tr>
-<td><strong>P4.2 The 1.0 certified composition</strong> — bump PRs → golden path green → <code>certified/aperture-1.0.0+hippo-1.0.0</code>; cut <code>release/lts-1</code> maintenance branches per ADR-0001 (frontier + 1 LTS policy starts)</td>
+<td><strong>P4.2 The 1.0 certified composition</strong> — bump PRs → golden path green → <code>certified/aperture-1.0.0+mosaic-1.0.0</code>; cut <code>release/lts-1</code> maintenance branches per ADR-0001 (frontier + 1 LTS policy starts)</td>
 <td>DataHelix</td>
 <td>S/M</td>
 <td>P4.1</td>
@@ -4354,7 +4354,7 @@ atomic multi-entity workflow in the portal as an authenticated user whose access
 Bridge visibly scopes; connect a coding agent over MCP and have it perform a
 dry-run-validated config change under that user's authority; and verify all of
 it is provenance-tracked, benchmarked against published NFR baselines, and
-recorded as <code>certified/aperture-1.0.0+hippo-1.0.0</code> in the ledger that gates the
+recorded as <code>certified/aperture-1.0.0+mosaic-1.0.0</code> in the ledger that gates the
 deployment it just performed.</p>
 
 

@@ -260,7 +260,7 @@
           
   
   
-  Hippo
+  Mosaic
 
         </a>
       </li>
@@ -992,10 +992,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#stage-2-hippo-entity-integrity" class="md-nav__link">
+  <a href="#stage-2-mosaic-entity-integrity" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Stage 2 — Hippo entity integrity
+        Stage 2 — Mosaic entity integrity
       
     </span>
   </a>
@@ -1140,7 +1140,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo
+    Mosaic
   
 
     
@@ -1156,7 +1156,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Hippo
+    Mosaic
   
 
           </label>
@@ -1197,14 +1197,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../hippo/docs/why-hippo/" class="md-nav__link">
+      <a href="../../../../hippo/docs/why-mosaic/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Why Hippo?
+    Why Mosaic?
   
 
     
@@ -3902,7 +3902,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo Integration
+    Mosaic Integration
   
 
     
@@ -4221,10 +4221,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#stage-2-hippo-entity-integrity" class="md-nav__link">
+  <a href="#stage-2-mosaic-entity-integrity" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Stage 2 — Hippo entity integrity
+        Stage 2 — Mosaic entity integrity
       
     </span>
   </a>
@@ -4339,14 +4339,14 @@
 <h2 id="51-purpose-and-scope">5.1 Purpose and Scope<a class="headerlink" href="#51-purpose-and-scope" title="Permanent link">&para;</a></h2>
 <p>This document specifies the <strong>round-trip integration test strategy</strong> for the DataHelix platform. It covers:</p>
 <ol>
-<li>The full end-to-end scenario: external source → Cappella → Hippo → Canon → Hippo (provenance write-back)</li>
+<li>The full end-to-end scenario: external source → Cappella → Mosaic (formerly Hippo, ADR-0004) → Canon → Mosaic (provenance write-back)</li>
 <li>Test data setup requirements</li>
 <li>Assertions at each stage</li>
 <li>Contract test coverage matrix</li>
 </ol>
 <p>This strategy is the authoritative source for what the Phase 1 integration test suite must cover. It does not replace the unit test policies in <code>TESTING.md</code>; it extends the Tier 2 (contract) and Tier 3 (platform) layers with the cross-component integration view.</p>
 <blockquote>
-<p><strong>Independently-versioned components (aperture, hippo) — see <a href="../decisions/ADR-0001-certified-frontier-composition/">ADR-0001</a>.</strong>
+<p><strong>Independently-versioned components (aperture, mosaic) — see <a href="../decisions/ADR-0001-certified-frontier-composition/">ADR-0001</a>.</strong>
 The in-process round-trip below covers the in-tree components. For components that ship as their own repos/submodules with independent semver releases, the composition is certified <strong>per exact version pair (with artifact digests)</strong> via the <strong>certified-frontier ledger</strong>, and deployment is gated on it. That infrastructure — the ledger tooling, the versioned bootstrap fixture, the golden-path Playwright suite (one scenario per product loop), the certification workflow, the bump bot, and the deploy gate — lives in <a href="../../certification/"><code>certification/</code></a>. The two strategies are complementary: this section is the in-process integration view; ADR-0001 is the cross-repo composition-certification view.</p>
 </blockquote>
 <hr />
@@ -4356,17 +4356,17 @@ The in-process round-trip below covers the in-tree components. For components th
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>External source
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    │  (1) adapter sync — Cappella ingests specimen record
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    ▼
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Hippo
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Mosaic
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    │  (2) entity created: Sample{subject_id, tissue_type, ...}
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    ▼
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Canon (via Cappella resolve)
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    │  (3) resolve(AlignedDatafile, {sample_id: &lt;uuid&gt;, ...})
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    │      → REUSE if alignment exists; BUILD if not
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    ▼
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Hippo
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Mosaic
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    │  (4) provenance write-back: WorkflowRun entity, AlignedDatafile entity
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    ▼
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>Hippo (query)
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>Mosaic (query)
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    │  (5) Canon result URI retrievable; provenance queryable
 </code></pre></div>
 <p>Each arrow is a testable assertion boundary. The test must verify both the happy path (full success) and partial-failure behavior (Canon REUSE vs BUILD, unresolved items).</p>
@@ -4374,7 +4374,7 @@ The in-process round-trip below covers the in-tree components. For components th
 <p>This integration test does <strong>not</strong> invoke a real CWL executor. The Canon BUILD path is tested using a mock CWL executor that produces a deterministic output file URI. The integration test validates that:</p>
 <ul>
 <li>Cappella wires inputs correctly to Canon's <code>resolve()</code> call</li>
-<li>Canon writes a <code>WorkflowRun</code> entity and an output entity to Hippo</li>
+<li>Canon writes a <code>WorkflowRun</code> entity and an output entity to Mosaic</li>
 <li>The provenance chain from input <code>Sample</code> through <code>WorkflowRun</code> to output <code>AlignedDatafile</code> is queryable</li>
 </ul>
 <p>Real CWL execution is validated in Canon's own unit tests, not in the platform round-trip.</p>
@@ -4426,7 +4426,7 @@ The in-process round-trip below covers the in-tree components. For components th
 <a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">        </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aligned_bam</span>
 </code></pre></div>
 <h3 id="533-seed-data">5.3.3 Seed data<a class="headerlink" href="#533-seed-data" title="Permanent link">&para;</a></h3>
-<p>The test fixture creates the following entities in Hippo before the round-trip begins:</p>
+<p>The test fixture creates the following entities in Mosaic before the round-trip begins:</p>
 <table>
 <thead>
 <tr>
@@ -4463,44 +4463,44 @@ The in-process round-trip below covers the in-tree components. For components th
 <h3 id="stage-1-cappella-adapter-sync">Stage 1 — Cappella adapter sync<a class="headerlink" href="#stage-1-cappella-adapter-sync" title="Permanent link">&para;</a></h3>
 <p><strong>Action:</strong> Run the test adapter's <code>sync()</code> against a mocked external source that returns one specimen record for <code>SUBJ-001</code>.</p>
 <p><strong>Assertions:</strong>
-- <code>HippoClient.query(Sample)</code> returns exactly one entity
+- <code>MosaicClient.query(Sample)</code> returns exactly one entity
 - The returned entity has <code>tissue_type == "brain"</code> and <code>subject_id</code> pointing to the seeded <code>Subject</code>
 - A <code>SyncRun</code> log entry exists with <code>entities_created == 1</code>, <code>entities_updated == 0</code>, <code>entities_unchanged == 0</code>, <code>errors == []</code>
 - Re-running the same sync is idempotent: <code>entities_unchanged == 1</code>, no new <code>Sample</code> created</p>
 <p><strong>Failure signal:</strong> Cappella adapter wrote a duplicate entity, or <code>subject_id</code> ref was not resolved to the canonical UUID.</p>
 <hr />
-<h3 id="stage-2-hippo-entity-integrity">Stage 2 — Hippo entity integrity<a class="headerlink" href="#stage-2-hippo-entity-integrity" title="Permanent link">&para;</a></h3>
-<p><strong>Action:</strong> Direct <code>HippoClient</code> queries after the sync.</p>
+<h3 id="stage-2-mosaic-entity-integrity">Stage 2 — Mosaic entity integrity<a class="headerlink" href="#stage-2-mosaic-entity-integrity" title="Permanent link">&para;</a></h3>
+<p><strong>Action:</strong> Direct <code>MosaicClient</code> queries after the sync.</p>
 <p><strong>Assertions:</strong>
 - <code>client.get(Sample, &lt;sample_uuid&gt;)</code> returns the full entity with all required fields
 - <code>client.history(&lt;sample_uuid&gt;)</code> contains one provenance event with <code>actor == "cappella:adapter:test_adapter"</code> and <code>operation == "create"</code>
 - <code>client.query(Sample, limit=100)</code> returns the entity in results (availability filter: available only)</p>
 <hr />
 <h3 id="stage-3-canon-resolve-reuse-path">Stage 3 — Canon resolve (REUSE path)<a class="headerlink" href="#stage-3-canon-resolve-reuse-path" title="Permanent link">&para;</a></h3>
-<p><strong>Precondition:</strong> An <code>AlignedDatafile</code> entity already exists in Hippo for the seeded <code>Sample</code>, seeded directly.</p>
+<p><strong>Precondition:</strong> An <code>AlignedDatafile</code> entity already exists in Mosaic for the seeded <code>Sample</code>, seeded directly.</p>
 <p><strong>Action:</strong> Call <code>canon.resolve(AlignedDatafile, {sample_id: &lt;uuid&gt;, aligner: "hisat2", aligner_version: "2.2.1"})</code>.</p>
 <p><strong>Assertions:</strong>
 - Return value is a non-empty URI string
 - The URI matches <code>hippo://AlignedDatafile/&lt;existing_uuid&gt;</code>
-- No <code>WorkflowRun</code> entity was created in Hippo (REUSE does not write)
+- No <code>WorkflowRun</code> entity was created in Mosaic (REUSE does not write)
 - <code>canon plan(...)</code> output shows <code>REUSE</code> decision for this spec</p>
 <hr />
 <h3 id="stage-4-canon-resolve-build-path">Stage 4 — Canon resolve (BUILD path)<a class="headerlink" href="#stage-4-canon-resolve-build-path" title="Permanent link">&para;</a></h3>
-<p><strong>Precondition:</strong> No <code>AlignedDatafile</code> exists for the seeded <code>Sample</code> (fresh Hippo state).</p>
+<p><strong>Precondition:</strong> No <code>AlignedDatafile</code> exists for the seeded <code>Sample</code> (fresh Mosaic state).</p>
 <p><strong>Action:</strong> Call <code>canon.resolve(AlignedDatafile, {sample_id: &lt;uuid&gt;, aligner: "hisat2", aligner_version: "2.2.1"})</code> with mock CWL executor returning a deterministic URI.</p>
 <p><strong>Assertions:</strong>
 - Return value is a non-empty URI string for the newly created entity
-- A <code>WorkflowRun</code> entity exists in Hippo with:
+- A <code>WorkflowRun</code> entity exists in Mosaic with:
   - <code>status == "completed"</code>
   - <code>rule == "align_sample"</code>
   - <code>input_entities</code> contains <code>&lt;sample_uuid&gt;</code>
   - <code>cwl_workflow_sha256</code> is a non-empty string
-- An <code>AlignedDatafile</code> entity exists in Hippo with <code>uri == &lt;mock_output_uri&gt;</code> and <code>sample_id == &lt;sample_uuid&gt;</code>
+- An <code>AlignedDatafile</code> entity exists in Mosaic with <code>uri == &lt;mock_output_uri&gt;</code> and <code>sample_id == &lt;sample_uuid&gt;</code>
 - <code>canon plan(...)</code> output shows <code>BUILD</code> decision before execution, <code>REUSE</code> after</p>
-<p><strong>Failure signal:</strong> <code>WorkflowRun</code> entity missing; <code>AlignedDatafile</code> not written to Hippo; provenance chain broken.</p>
+<p><strong>Failure signal:</strong> <code>WorkflowRun</code> entity missing; <code>AlignedDatafile</code> not written to Mosaic; provenance chain broken.</p>
 <hr />
 <h3 id="stage-5-provenance-write-back-verification">Stage 5 — Provenance write-back verification<a class="headerlink" href="#stage-5-provenance-write-back-verification" title="Permanent link">&para;</a></h3>
-<p><strong>Action:</strong> Query Hippo for the full provenance chain after a BUILD.</p>
+<p><strong>Action:</strong> Query Mosaic for the full provenance chain after a BUILD.</p>
 <p><strong>Assertions:</strong>
 - <code>client.history(&lt;aligned_datafile_uuid&gt;)</code> contains a <code>create</code> event with actor <code>"canon:align_sample"</code>
 - The <code>WorkflowRun</code> entity's <code>input_entities</code> contains <code>&lt;sample_uuid&gt;</code>
@@ -4529,8 +4529,8 @@ The in-process round-trip below covers the in-tree components. For components th
 <p><strong>Assertions:</strong>
 - <code>len(result.resolved) == 2</code>
 - <code>len(result.unresolved) == 1</code>
-- <code>unresolved[0].reason</code> is one of the documented reason codes: <code>NO_RULE</code>, <code>RESOLUTION_ERROR</code>, <code>EXECUTOR_ERROR</code>, <code>HIPPO_ERROR</code>
-- The resolved entities are in Hippo and queryable
+- <code>unresolved[0].reason</code> is one of the documented reason codes: <code>NO_RULE</code>, <code>RESOLUTION_ERROR</code>, <code>EXECUTOR_ERROR</code>, <code>MOSAIC_ERROR</code>
+- The resolved entities are in Mosaic and queryable
 - The run did not abort — a <code>SyncRun</code> log entry exists with <code>status == "partial_success"</code></p>
 <hr />
 <h2 id="56-contract-test-coverage-matrix">5.6 Contract Test Coverage Matrix<a class="headerlink" href="#56-contract-test-coverage-matrix" title="Permanent link">&para;</a></h2>
@@ -4546,13 +4546,13 @@ The in-process round-trip below covers the in-tree components. For components th
 </thead>
 <tbody>
 <tr>
-<td>Canon expects Hippo</td>
+<td>Canon expects Mosaic</td>
 <td><code>tests/contracts/test_canon_expects_hippo.py</code></td>
 <td>Exists</td>
 <td><code>query()</code>, <code>create()</code>, <code>get()</code>, availability filtering, <code>update()</code></td>
 </tr>
 <tr>
-<td>Cappella expects Hippo</td>
+<td>Cappella expects Mosaic</td>
 <td><code>tests/contracts/test_cappella_expects_hippo.py</code></td>
 <td>Exists (commit a5900b2)</td>
 <td>Upsert-by-ExternalID, <code>query_updated_since()</code>, provenance event shape</td>
@@ -4586,7 +4586,7 @@ The in-process round-trip below covers the in-tree components. For components th
 <a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>│   ├── integration_rules.yaml              # minimal Canon rules (§5.3.2)
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>│   └── align.cwl                           # mock CWL workflow stub
 <a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>└── platform/
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    ├── conftest.py                          # HippoClientShim, mock CWL executor
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    ├── conftest.py                          # MosaicClientShim, mock CWL executor
 <a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    ├── test_canon_platform.py               # existing
 <a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    ├── test_hippo_canon.py                  # existing
 <a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    └── test_round_trip.py                   # ✅ written (Phase 1, commit 59cd0ef) — §5.4 scenarios
@@ -4609,12 +4609,12 @@ The in-process round-trip below covers the in-tree components. For components th
 <tr>
 <td>Single <code>client.get()</code> (warm)</td>
 <td>&lt; 10ms</td>
-<td>2× Hippo p99 target — allows test overhead</td>
+<td>2× Mosaic p99 target — allows test overhead</td>
 </tr>
 <tr>
 <td>Adapter sync (1 record)</td>
 <td>&lt; 5s</td>
-<td>Wall clock; includes Hippo write + ExternalID lookup</td>
+<td>Wall clock; includes Mosaic write + ExternalID lookup</td>
 </tr>
 <tr>
 <td>Canon resolve (REUSE, 1 sample)</td>

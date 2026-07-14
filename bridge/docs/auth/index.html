@@ -258,7 +258,7 @@
           
   
   
-  Hippo
+  Mosaic
 
         </a>
       </li>
@@ -871,7 +871,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo
+    Mosaic
   
 
     
@@ -887,7 +887,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Hippo
+    Mosaic
   
 
           </label>
@@ -928,14 +928,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hippo/docs/why-hippo/" class="md-nav__link">
+      <a href="../../../hippo/docs/why-mosaic/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Why Hippo?
+    Why Mosaic?
   
 
     
@@ -3816,7 +3816,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo Integration
+    Mosaic Integration
   
 
     
@@ -4210,15 +4210,15 @@ decides whether to forward the request to the appropriate component.</p>
 <h3 id="using-an-api-key">Using an API key<a class="headerlink" href="#using-an-api-key" title="Permanent link">&para;</a></h3>
 <p>Pass the key as a <code>Bearer</code> token in the <code>Authorization</code> header:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer datahelix_live_7f3a...&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">     </span>https://datahelix.your-org.edu/api/v1/hippo/entities/sample
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">     </span>https://datahelix.your-org.edu/api/v1/mosaic/entities/sample
 </code></pre></div>
 <p>Or set it as an environment variable for the CLI and SDK:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">DATAHELIX_API_KEY</span><span class="o">=</span>datahelix_live_7f3a...
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>datahelix<span class="w"> </span>entities<span class="w"> </span>list<span class="w"> </span>sample
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hippo</span><span class="w"> </span><span class="kn">import</span> <span class="n">HippoClient</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mosaic</span><span class="w"> </span><span class="kn">import</span> <span class="n">MosaicClient</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">client</span> <span class="o">=</span> <span class="n">HippoClient</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://datahelix.your-org.edu/api/v1/hippo&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;datahelix_live_...&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">client</span> <span class="o">=</span> <span class="n">MosaicClient</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://datahelix.your-org.edu/api/v1/mosaic&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;datahelix_live_...&quot;</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="listing-your-keys">Listing your keys<a class="headerlink" href="#listing-your-keys" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>list-keys

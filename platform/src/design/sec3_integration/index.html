@@ -260,7 +260,7 @@
           
   
   
-  Hippo
+  Mosaic
 
         </a>
       </li>
@@ -843,15 +843,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#33-hippo-cappella-interface" class="md-nav__link">
+  <a href="#33-mosaic-cappella-interface" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.3 Hippo ↔ Cappella Interface
+        3.3 Mosaic ↔ Cappella Interface
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3.3 Hippo ↔ Cappella Interface">
+    <nav class="md-nav" aria-label="3.3 Mosaic ↔ Cappella Interface">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -904,15 +904,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#34-hippo-canon-interface" class="md-nav__link">
+  <a href="#34-mosaic-canon-interface" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.4 Hippo ↔ Canon Interface
+        3.4 Mosaic ↔ Canon Interface
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3.4 Hippo ↔ Canon Interface">
+    <nav class="md-nav" aria-label="3.4 Mosaic ↔ Canon Interface">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -954,10 +954,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#35-hippo-aperture-interface" class="md-nav__link">
+  <a href="#35-mosaic-aperture-interface" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.5 Hippo ↔ Aperture Interface
+        3.5 Mosaic ↔ Aperture Interface
       
     </span>
   </a>
@@ -1175,7 +1175,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo
+    Mosaic
   
 
     
@@ -1191,7 +1191,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Hippo
+    Mosaic
   
 
           </label>
@@ -1232,14 +1232,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../hippo/docs/why-hippo/" class="md-nav__link">
+      <a href="../../../../hippo/docs/why-mosaic/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Why Hippo?
+    Why Mosaic?
   
 
     
@@ -3937,7 +3937,7 @@
   <span class="md-ellipsis">
     
   
-    Hippo Integration
+    Mosaic Integration
   
 
     
@@ -4165,15 +4165,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#33-hippo-cappella-interface" class="md-nav__link">
+  <a href="#33-mosaic-cappella-interface" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.3 Hippo ↔ Cappella Interface
+        3.3 Mosaic ↔ Cappella Interface
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3.3 Hippo ↔ Cappella Interface">
+    <nav class="md-nav" aria-label="3.3 Mosaic ↔ Cappella Interface">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -4226,15 +4226,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#34-hippo-canon-interface" class="md-nav__link">
+  <a href="#34-mosaic-canon-interface" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.4 Hippo ↔ Canon Interface
+        3.4 Mosaic ↔ Canon Interface
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3.4 Hippo ↔ Canon Interface">
+    <nav class="md-nav" aria-label="3.4 Mosaic ↔ Canon Interface">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -4276,10 +4276,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#35-hippo-aperture-interface" class="md-nav__link">
+  <a href="#35-mosaic-aperture-interface" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.5 Hippo ↔ Aperture Interface
+        3.5 Mosaic ↔ Aperture Interface
       
     </span>
   </a>
@@ -4407,7 +4407,7 @@
 <h2 id="3-inter-component-interfaces-and-contracts">3. Inter-Component Interfaces and Contracts<a class="headerlink" href="#3-inter-component-interfaces-and-contracts" title="Permanent link">&para;</a></h2>
 <p><strong>Document status:</strong> Draft v0.1
 <strong>Last updated:</strong> 2026-03-31
-<strong>Depends on:</strong> sec2_components.md, Hippo sec4 (REST API), Bridge sec3 (unified API)
+<strong>Depends on:</strong> sec2_components.md, Mosaic sec4 (REST API), Bridge sec3 (unified API)
 <strong>Feeds into:</strong> Platform test strategy (sec5), deployment docs, contract tests</p>
 <hr />
 <h3 id="31-integration-philosophy">3.1 Integration Philosophy<a class="headerlink" href="#31-integration-philosophy" title="Permanent link">&para;</a></h3>
@@ -4419,8 +4419,8 @@ for each component pair is:</p>
 <li><strong>Failure mode</strong> — what happens when one side of the interface is unavailable</li>
 </ol>
 <p>Components do not call each other directly except through published interfaces. There are
-no internal shared modules, shared databases (except Hippo as the canonical store), or
-shared in-process state between components.</p>
+no internal shared modules, shared databases (except Mosaic — formerly Hippo, ADR-0004 —
+as the canonical store), or shared in-process state between components.</p>
 <hr />
 <h3 id="32-integration-map">3.2 Integration Map<a class="headerlink" href="#32-integration-map" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────────────────────────────────────────────────────────────┐
@@ -4432,10 +4432,10 @@ shared in-process state between components.</p>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│  └──────────┬──────────────┬───────────────────┬───────────────┘   │
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│             │              │                   │                     │
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│       ┌─────▼────┐  ┌──────▼──────┐  ┌────────▼───────┐           │
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│       │  Hippo   │  │   Cappella  │  │     Canon      │           │
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│       │  Mosaic   │  │   Cappella  │  │     Canon      │           │
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│       │          │◀─┤             │  │                │           │
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│       │          │──▶  reads /    │  │  resolves via  │           │
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│       │          │  │  writes     │  │  Hippo entities│           │
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│       │          │  │  writes     │  │  Mosaic entities│           │
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│       └──────────┘  └─────────────┘  └────────────────┘           │
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│             ▲                                                        │
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│             │ (all data reads/writes)                                │
@@ -4446,12 +4446,12 @@ shared in-process state between components.</p>
 <a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>└─────────────────────────────────────────────────────────────────────┘
 </code></pre></div>
 <hr />
-<h3 id="33-hippo-cappella-interface">3.3 Hippo ↔ Cappella Interface<a class="headerlink" href="#33-hippo-cappella-interface" title="Permanent link">&para;</a></h3>
-<p>This is the most critical integration in the platform. Cappella is Hippo's primary data
-producer; Hippo is Cappella's sole persistent store.</p>
+<h3 id="33-mosaic-cappella-interface">3.3 Mosaic ↔ Cappella Interface<a class="headerlink" href="#33-mosaic-cappella-interface" title="Permanent link">&para;</a></h3>
+<p>This is the most critical integration in the platform. Cappella is Mosaic's primary data
+producer; Mosaic is Cappella's sole persistent store.</p>
 <h4 id="331-read-interface">3.3.1 Read Interface<a class="headerlink" href="#331-read-interface" title="Permanent link">&para;</a></h4>
-<p>Cappella reads entity state from Hippo at trigger execution time via <code>HippoClient</code> (SDK)
-or Hippo REST API (when running as a separate service).</p>
+<p>Cappella reads entity state from Mosaic at trigger execution time via <code>MosaicClient</code> (SDK)
+or Mosaic REST API (when running as a separate service).</p>
 <table>
 <thead>
 <tr>
@@ -4484,7 +4484,7 @@ or Hippo REST API (when running as a separate service).</p>
 </tbody>
 </table>
 <h4 id="332-write-interface">3.3.2 Write Interface<a class="headerlink" href="#332-write-interface" title="Permanent link">&para;</a></h4>
-<p>Cappella writes all entity data via <code>HippoClient</code> with an explicit <code>actor</code> parameter.</p>
+<p>Cappella writes all entity data via <code>MosaicClient</code> with an explicit <code>actor</code> parameter.</p>
 <table>
 <thead>
 <tr>
@@ -4523,14 +4523,14 @@ or Hippo REST API (when running as a separate service).</p>
 - Pipeline output ingestion: <code>service:cappella-pipeline-&lt;run-id&gt;</code></p>
 <p>This convention ensures provenance records are attributable to the correct source.</p>
 <h4 id="334-failure-mode">3.3.4 Failure Mode<a class="headerlink" href="#334-failure-mode" title="Permanent link">&para;</a></h4>
-<p>If Hippo is unavailable, Cappella's write operations fail. Cappella does not buffer writes
+<p>If Mosaic is unavailable, Cappella's write operations fail. Cappella does not buffer writes
 or retry autonomously. Operators should configure Cappella's trigger retry behavior
 (<code>retry_on_failure: true</code>, <code>max_retries: 3</code>, <code>backoff: exponential</code>).</p>
 <hr />
-<h3 id="34-hippo-canon-interface">3.4 Hippo ↔ Canon Interface<a class="headerlink" href="#34-hippo-canon-interface" title="Permanent link">&para;</a></h3>
-<p>Canon resolves file artifact paths from Hippo entity data.</p>
+<h3 id="34-mosaic-canon-interface">3.4 Mosaic ↔ Canon Interface<a class="headerlink" href="#34-mosaic-canon-interface" title="Permanent link">&para;</a></h3>
+<p>Canon resolves file artifact paths from Mosaic entity data.</p>
 <h4 id="341-read-interface">3.4.1 Read Interface<a class="headerlink" href="#341-read-interface" title="Permanent link">&para;</a></h4>
-<p>Canon reads entity state from Hippo at resolution time. This is always a fresh read (no
+<p>Canon reads entity state from Mosaic at resolution time. This is always a fresh read (no
 caching of entity state in Canon).</p>
 <table>
 <thead>
@@ -4543,18 +4543,18 @@ caching of entity state in Canon).</p>
 <tbody>
 <tr>
 <td>Entity fetch for resolution</td>
-<td><code>HippoClient.get(type, entity_id)</code></td>
+<td><code>MosaicClient.get(type, entity_id)</code></td>
 <td>Required fields must be non-null</td>
 </tr>
 <tr>
 <td>Batch entity fetch</td>
-<td><code>HippoClient.batch_get(type, ids)</code></td>
+<td><code>MosaicClient.batch_get(type, ids)</code></td>
 <td>Returns in-order list</td>
 </tr>
 </tbody>
 </table>
 <h4 id="342-write-interface-provenance-write-back">3.4.2 Write Interface (Provenance Write-Back)<a class="headerlink" href="#342-write-interface-provenance-write-back" title="Permanent link">&para;</a></h4>
-<p>After resolving or producing an artifact, Canon writes a provenance event to Hippo.</p>
+<p>After resolving or producing an artifact, Canon writes a provenance event to Mosaic.</p>
 <table>
 <thead>
 <tr>
@@ -4582,13 +4582,13 @@ caching of entity state in Canon).</p>
 </tbody>
 </table>
 <h4 id="343-failure-mode">3.4.3 Failure Mode<a class="headerlink" href="#343-failure-mode" title="Permanent link">&para;</a></h4>
-<p>If Hippo is unavailable, Canon cannot resolve artifacts (it needs entity fields to
+<p>If Mosaic is unavailable, Canon cannot resolve artifacts (it needs entity fields to
 evaluate path templates). Canon returns <code>503 upstream_unavailable</code> from its REST API.
 Provenance write-back failures are logged but do not fail the resolution response — the
 file was still found/produced; the audit gap is recovered on next resolution.</p>
 <hr />
-<h3 id="35-hippo-aperture-interface">3.5 Hippo ↔ Aperture Interface<a class="headerlink" href="#35-hippo-aperture-interface" title="Permanent link">&para;</a></h3>
-<p>Aperture is a read-heavy client of Hippo.</p>
+<h3 id="35-mosaic-aperture-interface">3.5 Mosaic ↔ Aperture Interface<a class="headerlink" href="#35-mosaic-aperture-interface" title="Permanent link">&para;</a></h3>
+<p>Aperture is a read-heavy client of Mosaic.</p>
 <table>
 <thead>
 <tr>
@@ -4600,32 +4600,32 @@ file was still found/produced; the audit gap is recovered on next resolution.</p
 <tbody>
 <tr>
 <td>Entity list</td>
-<td><code>GET /hippo/entities/{type}</code> (via Bridge) or <code>client.query()</code></td>
+<td><code>GET /mosaic/entities/{type}</code> (via Bridge) or <code>client.query()</code></td>
 <td>Paginated; empty list if no matches</td>
 </tr>
 <tr>
 <td>Entity get</td>
-<td><code>GET /hippo/entities/{type}/{id}</code></td>
+<td><code>GET /mosaic/entities/{type}/{id}</code></td>
 <td>404 if not found</td>
 </tr>
 <tr>
 <td>Entity create/update</td>
-<td><code>POST/PUT /hippo/entities/{type}/{id}</code></td>
+<td><code>POST/PUT /mosaic/entities/{type}/{id}</code></td>
 <td>Validates schema; returns 422 on validation failure</td>
 </tr>
 <tr>
 <td>Provenance history</td>
-<td><code>GET /hippo/entities/{type}/{id}/history</code></td>
+<td><code>GET /mosaic/entities/{type}/{id}/history</code></td>
 <td>Returns event list, newest first</td>
 </tr>
 <tr>
 <td>Schema inspection</td>
-<td><code>GET /hippo/schema</code></td>
+<td><code>GET /mosaic/schema</code></td>
 <td>Returns full schema definition</td>
 </tr>
 </tbody>
 </table>
-<p>Aperture is always a <strong>client</strong> of Hippo — it never writes directly to Hippo's storage
+<p>Aperture is always a <strong>client</strong> of Mosaic — it never writes directly to Mosaic's storage
 layer. In multi-user deployments, all Aperture requests pass through Bridge for auth
 enforcement.</p>
 <hr />
@@ -4642,8 +4642,8 @@ component is the component's REST API, augmented with injected headers.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>GET /api/v1/hippo/*</code></td>
-<td>Hippo REST API: <code>GET /*</code></td>
+<td><code>GET /api/v1/mosaic/*</code></td>
+<td>Mosaic REST API: <code>GET /*</code></td>
 </tr>
 <tr>
 <td><code>POST /api/v1/cappella/*</code></td>
@@ -4720,19 +4720,19 @@ failures typically arise from assumption drift, not logic bugs.</p>
 <tbody>
 <tr>
 <td><code>tests/contracts/test_cappella_expects_hippo.py</code></td>
-<td>Cappella can write entities and read them back via Hippo SDK</td>
+<td>Cappella can write entities and read them back via Mosaic SDK</td>
 </tr>
 <tr>
 <td><code>tests/contracts/test_cappella_expects_canon.py</code></td>
-<td>Cappella can resolve artifacts for entities in Hippo</td>
+<td>Cappella can resolve artifacts for entities in Mosaic</td>
 </tr>
 <tr>
 <td><code>tests/contracts/test_entity_loader_contract.py</code></td>
-<td><code>ExternalSourceAdapter</code> implementations produce entities Hippo accepts</td>
+<td><code>ExternalSourceAdapter</code> implementations produce entities Mosaic accepts</td>
 </tr>
 <tr>
 <td><code>tests/platform/test_round_trip.py</code></td>
-<td>Full round-trip: external source → Cappella → Hippo → Canon → provenance write-back</td>
+<td>Full round-trip: external source → Cappella → Mosaic → Canon → provenance write-back</td>
 </tr>
 </tbody>
 </table>
@@ -4742,16 +4742,16 @@ failures typically arise from assumption drift, not logic bugs.</p>
 <p>Full data flow for a Cappella-driven pipeline run:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>1. External source (STARLIMS) → Cappella (webhook trigger)
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>2. Cappella adapter reads source data
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>3. Cappella calls HippoClient.put() for each entity (upsert by ExternalID)
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>   → Hippo validates schema + validators
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>   → Hippo writes entity + provenance event (actor: service:cappella-starlims)
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>3. Cappella calls MosaicClient.put() for each entity (upsert by ExternalID)
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>   → Mosaic validates schema + validators
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>   → Mosaic writes entity + provenance event (actor: service:cappella-starlims)
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>4. Cappella trigger engine emits internal event &quot;starlims.sync_complete&quot;
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>5. Post-sync trigger fires → Cappella submits CWL pipeline via Canon
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>6. Canon resolves input artifacts (reads entity fields from Hippo)
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>6. Canon resolves input artifacts (reads entity fields from Mosaic)
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>7. Canon invokes cwltool, waits for output
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>8. Canon writes provenance event to Hippo (artifact_produced)
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>9. Cappella writes pipeline output entities to Hippo (actor: service:cappella-pipeline-&lt;run-id&gt;)
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>10. Bridge sync engine detects run completion, verifies outputs present in Hippo
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>8. Canon writes provenance event to Mosaic (artifact_produced)
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>9. Cappella writes pipeline output entities to Mosaic (actor: service:cappella-pipeline-&lt;run-id&gt;)
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>10. Bridge sync engine detects run completion, verifies outputs present in Mosaic
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>11. Aperture user queries results: datahelix list Sample --filter cohort=CTE
 </code></pre></div>
 <hr />
@@ -4776,7 +4776,7 @@ failures typically arise from assumption drift, not logic bugs.</p>
 <td>Open</td>
 </tr>
 <tr>
-<td>Cappella → Hippo write failure recovery — should Cappella persist a retry queue?</td>
+<td>Cappella → Mosaic write failure recovery — should Cappella persist a retry queue?</td>
 <td>High</td>
 <td>Open — currently relies on operator-configured retries; more robust solution deferred</td>
 </tr>
