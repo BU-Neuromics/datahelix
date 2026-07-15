@@ -1,6 +1,0 @@
-# Cappella configuration — Docker Compose deployment
-
-hippo:
-  url: http://hippo:8001
-
-log_level: INFO
