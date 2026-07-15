@@ -70,33 +70,11 @@ certify-local:
 deploy-gate:
 	bash certification/scripts/deploy_gate.sh certification/composition.lock.json
 
-## ── Docker targets ──────────────────────────────────────────
-
-## Build all Docker images
-build:
-	docker compose build
-
-## Start the full stack (detached)
-up:
-	docker compose up -d
-
-## Stop and remove containers
-down:
-	docker compose down
-
-## Tail logs from all services
-logs:
-	docker compose logs -f
-
-## Run tests inside containers
-docker-test:
-	docker compose run --rm hippo hippo --help
-	docker compose run --rm canon python -c "import canon; print('canon OK')"
-	docker compose run --rm cappella python -c "import cappella; print('cappella OK')"
-
-## Show status of all services
-ps:
-	docker compose ps
+## ── Container deployment ────────────────────────────────────
+## The hand-rolled root docker-compose stack was removed — single-node
+## container deployment is now a packaged recipe. See deploy/recipes/solo/
+## (its own Makefile: make init / up / migrate / down), boot-tested by the
+## `Solo recipe` CI workflow.
 
 help:
 	@grep -E '^##' Makefile | sed 's/## //'

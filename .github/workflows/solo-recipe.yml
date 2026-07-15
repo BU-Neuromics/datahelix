@@ -17,6 +17,12 @@ on:
     paths:
       - "deploy/recipes/solo/**"
       - ".github/workflows/solo-recipe.yml"
+  # Nightly boot smoke so config/runtime drift is caught even when no recipe
+  # file changed (e.g. a Mosaic submodule bump or a component config-contract
+  # change). The legacy root docker-compose tier rotted precisely because
+  # nothing booted it; the packaged recipe that replaced it does not get to.
+  schedule:
+    - cron: "0 5 * * *"
   workflow_dispatch:
 
 permissions:
