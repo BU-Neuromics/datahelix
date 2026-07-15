@@ -16,7 +16,7 @@ This is the **platform integration repository** for the **DataHelix** platform. 
 └── src/        # Component source (in-tree) — or this dir IS a submodule (hippo)
 platform/       # Cross-cutting platform docs (architecture, glossary, deployment)
 tests/
-├── contracts/  # Consumer-expectation contract tests (e.g. test_canon_expects_hippo.py)
+├── contracts/  # Consumer-expectation contract tests (e.g. test_canon_expects_mosaic.py)
 └── platform/   # Cross-component integration tests (real Mosaic + Canon in-process)
 ```
 

@@ -10,7 +10,7 @@ relies on. Treat it like a breaking API change:
   2. If the change was intentional: update this spec + bump Canon's version
      to signal it may need adapter changes.
 
-DO NOT add Hippo-internal tests here. This file only asserts what Canon needs.
+DO NOT add Mosaic-internal tests here. This file only asserts what Canon needs.
 
 See TESTING.md for the full failure protocol.
 """
@@ -38,7 +38,7 @@ from tests.conftest import build_test_schema_registry
 @pytest.fixture()
 def client(tmp_path: Path) -> MosaicClient:
     registry = build_test_schema_registry()
-    storage = SQLiteAdapter(str(tmp_path / "hippo.db"), schema_registry=registry)
+    storage = SQLiteAdapter(str(tmp_path / "mosaic.db"), schema_registry=registry)
     return MosaicClient(storage=storage, registry=registry)
 
 

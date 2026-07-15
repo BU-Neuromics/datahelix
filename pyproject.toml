@@ -12,6 +12,6 @@ docs = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = [
-    "platform: marks tests as platform integration tests (real Hippo + Canon in-process)",
+    "platform: marks tests as platform integration tests (real Mosaic + Canon in-process)",
     "contract: marks tests as contract/behavioral-spec tests (consumer-driven API assertions)",
 ]
