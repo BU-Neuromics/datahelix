@@ -6,7 +6,7 @@ DataHelix is a modular, open-source platform for managing bioinformatics metadat
 
 | Component | Role | Description |
 |-----------|------|-------------|
-| **[Hippo](hippo/index.md)** | Structured Domain Graph | LinkML runtime that becomes the typed knowledge graph its schema describes — entities, fields, and relationships; metadata tracking (*where data lives* / *what it describes*) is one application |
+| **[Mosaic](mosaic/index.md)** | Structured Domain Graph | LinkML runtime that becomes the typed knowledge graph its schema describes — entities, fields, and relationships; metadata tracking (*where data lives* / *what it describes*) is one application |
 | **[Cappella](cappella/index.md)** | Workflow Engine | Harmonization engine that ingests data from multiple sources into a consistent, provenance-rich picture |
 | **[Canon](canon/index.md)** | Data Standards | Artifact resolver — determines whether a computational result exists and how to produce it |
 | **[Aperture](aperture/index.md)** | Interface Layer | AI-native data & workflow explorer over the domain graph; the config-driven portal is its substrate |

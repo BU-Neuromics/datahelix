@@ -6,13 +6,13 @@
 
 This repository hosts the DataHelix platform: documentation, cross-component integration tests, and submodules pointing at each component's standalone repository.
 
-> ℹ️ **Mosaic (formerly Hippo, ADR-0004) and Aperture live in their own repos** ([BU-Neuromics/hippo](https://github.com/BU-Neuromics/hippo), [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture)) and are mounted here as git submodules. Clone with `git clone --recurse-submodules`, or run `git submodule update --init` after a plain clone. Other components are expected to follow the same pattern over time.
+> ℹ️ **Mosaic (formerly Hippo, ADR-0004) and Aperture live in their own repos** ([BU-Neuromics/mosaic](https://github.com/BU-Neuromics/mosaic), [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture)) and are mounted here as git submodules. Clone with `git clone --recurse-submodules`, or run `git submodule update --init` after a plain clone. Other components are expected to follow the same pattern over time.
 
 ## Components
 
 | Component | Description | Source | Design Spec | User Docs |
 |---|---|---|---|---|
-| **Mosaic** | LinkML runtime — the platform's structured domain graph (metadata tracking is one application) | [BU-Neuromics/hippo](https://github.com/BU-Neuromics/hippo) (submodule) | [design/](hippo/design/INDEX.md) | [docs/](hippo/docs/introduction.md) |
+| **Mosaic** | LinkML runtime — the platform's structured domain graph (metadata tracking is one application) | [BU-Neuromics/mosaic](https://github.com/BU-Neuromics/mosaic) (submodule) | [design/](mosaic/design/INDEX.md) | [docs/](mosaic/docs/introduction.md) |
 | **Cappella** | Workflow engine | in-tree | [design/](cappella/design/INDEX.md) | [docs/](cappella/docs/introduction.md) |
 | **Aperture** | AI-native data & workflow explorer (config-driven portal = substrate) | [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture) (submodule) | [design/](aperture/design/INDEX.md) | — |
 | **Bridge** | Integration middleware | in-tree | [design/](bridge/design/INDEX.md) | [docs/](bridge/docs/introduction.md) |

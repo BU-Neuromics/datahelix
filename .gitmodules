@@ -1,6 +1,6 @@
-[submodule "hippo"]
-	path = hippo
-	url = https://github.com/BU-Neuromics/hippo.git
+[submodule "mosaic"]
+	path = mosaic
+	url = https://github.com/BU-Neuromics/mosaic.git
 [submodule "aperture"]
 	path = aperture
 	url = https://github.com/BU-Neuromics/aperture.git

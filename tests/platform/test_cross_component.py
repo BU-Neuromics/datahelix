@@ -26,7 +26,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 _root = Path(__file__).parent.parent.parent
-for _pkg in ("hippo/src", "canon/src", "cappella/src", "aperture/src"):
+for _pkg in ("mosaic/src", "canon/src", "cappella/src", "aperture/src"):
     _p = str(_root / _pkg)
     if _p not in sys.path:
         sys.path.insert(0, _p)

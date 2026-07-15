@@ -31,7 +31,7 @@ import yaml
 
 # Ensure packages importable regardless of how pytest is invoked
 _root = Path(__file__).parent.parent.parent
-for _pkg in ("hippo/src", "canon/src"):
+for _pkg in ("mosaic/src", "canon/src"):
     _p = str(_root / _pkg)
     if _p not in sys.path:
         sys.path.insert(0, _p)

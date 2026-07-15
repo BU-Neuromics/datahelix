@@ -4,7 +4,7 @@
 .PHONY: test test-unit test-contracts test-platform test-all help \
         ledger-test ledger-assemble ledger-query certify-local deploy-gate
 
-PYTHONPATH := hippo/src:canon/src:cappella/src:aperture/src
+PYTHONPATH := mosaic/src:canon/src:cappella/src:aperture/src
 export PYTHONPATH
 
 ## Run all tiers in order (fails fast at each stage)
@@ -15,7 +15,7 @@ test: test-unit test-contracts test-platform
 ## Tier 1: Component unit tests
 test-unit:
 	@echo "── Tier 1: Mosaic unit tests ─────────────────────────────────"
-	cd hippo && uv run pytest tests/ -v --tb=short -q
+	cd mosaic && uv run pytest tests/ -v --tb=short -q
 	@echo "── Tier 1: Canon unit tests ──────────────────────────────────"
 	cd canon && uv run pytest tests/ -v --tb=short -q
 
@@ -32,7 +32,7 @@ test-platform:
 ## Run all tiers without stopping on failure (full report)
 test-all:
 	@echo "── Tier 1: Mosaic unit tests ─────────────────────────────────"
-	-cd hippo && uv run pytest tests/ -v --tb=short -q
+	-cd mosaic && uv run pytest tests/ -v --tb=short -q
 	@echo "── Tier 1: Canon unit tests ──────────────────────────────────"
 	-cd canon && uv run pytest tests/ -v --tb=short -q
 	@echo "── Tier 2: Contract tests ────────────────────────────────────"

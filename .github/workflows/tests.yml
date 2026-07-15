@@ -114,7 +114,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install components
-        run: uv pip install --system -e "./hippo[dev]" -e "./canon[dev]" pytest-asyncio
+        run: uv pip install --system -e "./mosaic[dev]" -e "./canon[dev]" pytest-asyncio
 
       - name: Run Mosaic-provider contracts (canon↔mosaic, cappella↔mosaic, entity-loader)
         run: |
@@ -139,7 +139,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install components
-        run: uv pip install --system -e "./hippo[dev]" -e "./canon[dev]" pytest-asyncio
+        run: uv pip install --system -e "./mosaic[dev]" -e "./canon[dev]" pytest-asyncio
 
       - name: Run canon-provider contracts (storage-adapter, cappella↔canon)
         run: |
@@ -164,7 +164,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install components
-        run: uv pip install --system -e "./hippo[dev]" -e "./canon[dev]" -e ./cappella pytest-asyncio pytest-anyio
+        run: uv pip install --system -e "./mosaic[dev]" -e "./canon[dev]" -e ./cappella pytest-asyncio pytest-anyio
 
       - name: Run platform tier
         run: pytest tests/platform/ --tb=short -q

@@ -2,7 +2,7 @@
 
 **Document status:** Draft v0.1
 **Last updated:** 2026-03-31
-**Depends on:** `platform/design/INDEX.md`, `hippo/design/sec7_nfr.md`, `cappella/design/sec6_nfr.md`
+**Depends on:** `platform/design/INDEX.md`, `mosaic/design/sec7_nfr.md`, `cappella/design/sec6_nfr.md`
 **Feeds into:** Phase 1 Epic 1.1 — implementation of `tests/contracts/` and `tests/platform/`
 
 ---

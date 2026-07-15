@@ -78,37 +78,37 @@ nav:
           - Unified Ingestion: platform/src/design/sec4_unified_ingestion.md
           - Integration Test Strategy: platform/src/design/sec5_integration_test_strategy.md
   - Mosaic:
-      - hippo/index.md
-      - Why Mosaic?: hippo/docs/why-mosaic.md
+      - mosaic/index.md
+      - Why Mosaic?: mosaic/docs/why-mosaic.md
       - User Docs:
-          - Introduction: hippo/docs/introduction.md
-          - Installation: hippo/docs/installation.md
-          - Quick Start: hippo/docs/quickstart.md
-          - Schema Guide: hippo/docs/schema-guide.md
-          - Data Model: hippo/docs/data-model.md
-          - Configuration: hippo/docs/configuration.md
-          - CLI Reference: hippo/docs/cli-reference.md
-          - API Reference: hippo/docs/api-reference.md
-          - Reference Loaders: hippo/docs/reference-loaders.md
-          - Writing a Reference Loader: hippo/docs/writing-a-reference-loader.md
-          - Writing a Recipe: hippo/docs/writing-a-recipe.md
-          - Installing Recipes: hippo/docs/installing-recipes.md
-          - Recipe Reference: hippo/docs/recipe-reference.md
+          - Introduction: mosaic/docs/introduction.md
+          - Installation: mosaic/docs/installation.md
+          - Quick Start: mosaic/docs/quickstart.md
+          - Schema Guide: mosaic/docs/schema-guide.md
+          - Data Model: mosaic/docs/data-model.md
+          - Configuration: mosaic/docs/configuration.md
+          - CLI Reference: mosaic/docs/cli-reference.md
+          - API Reference: mosaic/docs/api-reference.md
+          - Reference Loaders: mosaic/docs/reference-loaders.md
+          - Writing a Reference Loader: mosaic/docs/writing-a-reference-loader.md
+          - Writing a Recipe: mosaic/docs/writing-a-recipe.md
+          - Installing Recipes: mosaic/docs/installing-recipes.md
+          - Recipe Reference: mosaic/docs/recipe-reference.md
       - Design Spec:
-          - Overview & Scope: hippo/design/sec1_overview.md
-          - Architecture: hippo/design/sec2_architecture.md
-          - Data Model: hippo/design/sec3_data_model.md
-          - Relational Storage: hippo/design/sec3b_relational_storage.md
-          - API Layer: hippo/design/sec4_api_layer.md
-          - Ingestion & Integration: hippo/design/sec5_ingestion.md
-          - Provenance & Audit: hippo/design/sec6_provenance.md
-          - Non-Functional Requirements: hippo/design/sec7_nfr.md
-          - Auth Integration: hippo/design/sec8_auth_integration.md
-          - "Appendix A: Example Schema": hippo/design/appendix_a_example_schema_omics.md
-          - "Appendix B: Implementation Guide": hippo/design/appendix_b_implementation_guide.md
-          - "Reference: hippo.yaml": hippo/design/reference_hippo_yaml.md
-          - "Reference: validators.yaml": hippo/design/reference_validators_yaml.md
-          - "Reference: CEL Context": hippo/design/reference_cel_context.md
+          - Overview & Scope: mosaic/design/sec1_overview.md
+          - Architecture: mosaic/design/sec2_architecture.md
+          - Data Model: mosaic/design/sec3_data_model.md
+          - Relational Storage: mosaic/design/sec3b_relational_storage.md
+          - API Layer: mosaic/design/sec4_api_layer.md
+          - Ingestion & Integration: mosaic/design/sec5_ingestion.md
+          - Provenance & Audit: mosaic/design/sec6_provenance.md
+          - Non-Functional Requirements: mosaic/design/sec7_nfr.md
+          - Auth Integration: mosaic/design/sec8_auth_integration.md
+          - "Appendix A: Example Schema": mosaic/design/appendix_a_example_schema_omics.md
+          - "Appendix B: Implementation Guide": mosaic/design/appendix_b_implementation_guide.md
+          - "Reference: hippo.yaml": mosaic/design/reference_hippo_yaml.md
+          - "Reference: validators.yaml": mosaic/design/reference_validators_yaml.md
+          - "Reference: CEL Context": mosaic/design/reference_cel_context.md
   - Cappella:
       - cappella/index.md
       - User Docs:

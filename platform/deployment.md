@@ -156,4 +156,4 @@ Bridge's health endpoint aggregates the health of all downstream components and 
 summary suitable for monitoring systems.
 
 For observability beyond health checks, see the NFR sections in each component's design spec
-(`hippo/design/sec7_nfr.md`, `bridge/design/sec6_nfr.md`).
+(`mosaic/design/sec7_nfr.md`, `bridge/design/sec6_nfr.md`).

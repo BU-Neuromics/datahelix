@@ -3,7 +3,7 @@
 - **Status:** Accepted
 - **Date:** 2026-07-07
 - **Deciders:** labadorf, aperture dev agent, DataHelix dev agent (DataHelix integration-testing design handoff)
-- **Related:** platform `sec5_integration_test_strategy.md` (extends it to independently-versioned submodules), `TESTING.md` (three-tier model); Aperture ADR-0028 (workflow atomicity → `batch_put` seam), ADR-0032 (control-plane document store seam), ADR-0030 (frontend stack — the SPA under test); Hippo [#84](https://github.com/BU-Neuromics/hippo/issues/84) (batch unit-of-work), Hippo ADR-0001 (graph-level as-of)
+- **Related:** platform `sec5_integration_test_strategy.md` (extends it to independently-versioned submodules), `TESTING.md` (three-tier model); Aperture ADR-0028 (workflow atomicity → `batch_put` seam), ADR-0032 (control-plane document store seam), ADR-0030 (frontend stack — the SPA under test); Hippo [#84](https://github.com/BU-Neuromics/mosaic/issues/84) (batch unit-of-work), Hippo ADR-0001 (graph-level as-of)
 
 ## Context
 
