@@ -29,7 +29,7 @@ test = [
 ]
 
 [tool.uv.sources]
-datahelix-mosaic = { path = "../hippo", editable = true }
+datahelix-mosaic = { path = "../mosaic", editable = true }
 
 [project.scripts]
 cappella = "cappella.cli.main:app"

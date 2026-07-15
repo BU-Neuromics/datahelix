@@ -70,7 +70,7 @@ See the **[Quick Start guide](docs/quickstart.md)** for a complete walkthrough �
 
 ## Related Components
 
-- [Hippo](../hippo/index.md) — Cappella's sole persistent store; all harmonized data is written to Hippo
+- [Mosaic](../mosaic/index.md) — Cappella's sole persistent store; all harmonized data is written to Hippo
 - [Canon](../canon/index.md) — Cappella calls `canon.resolve()` for artifact resolution during collection assembly
 - [Aperture](../aperture/index.md) — Users request collections and trigger ingestion via Aperture
 - [Bridge](../bridge/index.md) — Provides authentication for multi-user Cappella deployments

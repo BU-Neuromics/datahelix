@@ -9,7 +9,7 @@ They cover:
 - CSVLoader fetch + transform
 - IngestPipeline create / unchanged / update cycle, partial failure, and dry_run
 
-Run with: PYTHONPATH=hippo/src:canon/src uv run pytest tests/contracts/test_entity_loader_contract.py -v --tb=short
+Run with: PYTHONPATH=mosaic/src:canon/src uv run pytest tests/contracts/test_entity_loader_contract.py -v --tb=short
 """
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ from typing import Any, Iterator
 import pytest
 
 _root = Path(__file__).parent.parent.parent
-for _pkg in ("hippo/src", "canon/src"):
+for _pkg in ("mosaic/src", "canon/src"):
     _p = str(_root / _pkg)
     if _p not in sys.path:
         sys.path.insert(0, _p)

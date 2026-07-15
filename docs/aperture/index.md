@@ -8,7 +8,7 @@
 
 Aperture is the **interface layer** of the DataHelix platform: an **AI-native data & workflow
 explorer** — an LLM-native interaction layer over the DataHelix **domain graph** (one typed knowledge
-graph whose runtime is [Hippo](../hippo/index.md), the platform's LinkML runtime, exposed over
+graph whose runtime is [Mosaic](../mosaic/index.md), the platform's LinkML runtime, exposed over
 GraphQL + REST). Its differentiator is the *interaction paradigm*: exploring and transforming
 scientific data through natural language. The **config-driven portal is Aperture's substrate and
 MVP, not the product** — browsing, faceted search, view construction/export, and visualization are
@@ -54,7 +54,7 @@ contract, and the visualization catalog) is built on top of this foundation.
 
 ## Related Components
 
-- [Hippo](../hippo/index.md) — the LinkML data + config store Aperture renders over
+- [Mosaic](../mosaic/index.md) — the LinkML data + config store Aperture renders over
 - [Cappella](../cappella/index.md) — workflow engine (later integration)
 - [Canon](../canon/index.md) — artifact resolution (later integration)
 - [Bridge](../bridge/index.md) — authentication delegation for multi-user deployments

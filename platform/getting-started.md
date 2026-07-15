@@ -390,13 +390,13 @@ cappella    ✓ online  http://localhost:8002    0.2.0
   `mosaic reference install ensembl` and `mosaic reference install fma`.
 
 - **Custom schema:** Add more entity types, define relationships, and set up validators.
-  See the [Mosaic schema guide](../hippo/docs/schema-guide.md).
+  See the [Mosaic schema guide](../mosaic/docs/schema-guide.md).
 
 - **Trigger automation:** Configure Cappella to auto-sync from STARLIMS, REDCap, or
   webhook sources. See the [Cappella user guide](../cappella/docs/user_guide.md).
 
 - **Python SDK:** Use `MosaicClient` directly in notebooks for custom analysis.
-  See the [Mosaic API reference](../hippo/docs/api-reference.md).
+  See the [Mosaic API reference](../mosaic/docs/api-reference.md).
 
 ---
 

@@ -62,7 +62,7 @@ See the **[Authentication guide](docs/auth.md)** for setting up API keys, roles,
 
 ## Related Components
 
-- [Hippo](../hippo/index.md) — Bridge routes and authenticates requests to Hippo's REST API
+- [Mosaic](../mosaic/index.md) — Bridge routes and authenticates requests to Hippo's REST API
 - [Cappella](../cappella/index.md) — Bridge coordinates cross-component sync with Cappella
 - [Aperture](../aperture/index.md) — Aperture delegates auth to Bridge when deployed
 - [Canon](../canon/index.md) — Bridge routes artifact resolution requests to Canon

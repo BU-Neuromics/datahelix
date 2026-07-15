@@ -75,7 +75,7 @@ See the **[Quick Start guide](docs/quickstart.md)** for a complete walkthrough �
 
 ## Related Components
 
-- [Hippo](../hippo/index.md) — Canon resolves entity metadata from Hippo to parameterize artifact rules
+- [Mosaic](../mosaic/index.md) — Canon resolves entity metadata from Hippo to parameterize artifact rules
 - [Cappella](../cappella/index.md) — Calls `canon.resolve()` during collection assembly
 - [Aperture](../aperture/index.md) — Users can inspect artifact status via the CLI
 - [Bridge](../bridge/index.md) — Authentication for multi-user Canon deployments

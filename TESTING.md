@@ -16,7 +16,7 @@ The DataHelix platform uses a three-tier testing model. Each tier has a distinct
 │  Component tested in isolation against explicit behavior claims  │
 │  Run after tier 1 passes                                         │
 ├──────────────────────────────────────────────────────────────────┤
-│  Tier 1: Unit Tests       hippo/tests/  canon/tests/             │
+│  Tier 1: Unit Tests       mosaic/tests/  canon/tests/             │
 │  "Does this component work correctly in isolation?"              │
 │  Mocked dependencies, fast, run on every commit                  │
 └──────────────────────────────────────────────────────────────────┘
@@ -35,13 +35,13 @@ The DataHelix platform uses a three-tier testing model. Each tier has a distinct
 
 ## Tier 1 — Unit Tests
 
-**Location:** `hippo/tests/`, `canon/tests/`
+**Location:** `mosaic/tests/`, `canon/tests/`
 
 **What they cover:** Internal logic, edge cases, error paths. Dependencies are mocked.
 
 **Run:**
 ```bash
-cd hippo && uv run pytest tests/ -v
+cd mosaic && uv run pytest tests/ -v
 cd canon && uv run pytest tests/ -v
 ```
 
@@ -71,7 +71,7 @@ Each contract file is named `test_<consumer>_expects_<provider>.py` and contains
 
 **Run:**
 ```bash
-PYTHONPATH=hippo/src:canon/src:cappella/src:aperture/src uv run pytest tests/contracts/ -v
+PYTHONPATH=mosaic/src:canon/src:cappella/src:aperture/src uv run pytest tests/contracts/ -v
 ```
 
 **CI (restored 2026-07-07, epic P1.7):** the contract tier runs on every PR as two
@@ -111,7 +111,7 @@ A failing contract test is a **breaking change signal**. Treat it like a failed 
 
 **Run:**
 ```bash
-PYTHONPATH=hippo/src:canon/src:cappella/src:aperture/src uv run pytest tests/platform/ -v
+PYTHONPATH=mosaic/src:canon/src:cappella/src:aperture/src uv run pytest tests/platform/ -v
 ```
 
 **Test files:**
@@ -165,7 +165,7 @@ These are the behaviors Canon depends on. Any change to these is a breaking chan
 | `delete(entity_type, id)` | Returns `True`. Entity excluded from `query()` results and raises on `get()` by default. |
 
 **Gaps being addressed via TDD (currently xfail):**
-- `get()` availability filtering — in progress, see `hippo/tests/core/test_client_availability.py`
+- `get()` availability filtering — in progress, see `mosaic/tests/core/test_client_availability.py`
 - `update()` existence check — in progress, same file
 
 ### HippoQueryClient — Canon's HTTP shim
@@ -230,7 +230,7 @@ Calling `resolve()` twice with the same `entity_type` and parameters must return
 **When a contract or platform test fails (or is marked `xfail`), the fix MUST follow this TDD sequence:**
 
 ```
-1. RED   — Write unit tests in the affected component (hippo/tests/ or canon/tests/)
+1. RED   — Write unit tests in the affected component (mosaic/tests/ or canon/tests/)
             that assert the desired behavior. Run make test — new tests fail,
             everything else passes.
 
@@ -253,7 +253,7 @@ Calling `resolve()` twice with the same `entity_type` and parameters must return
 - Documentation or comment updates
 - Test-only changes (adding more test cases to an existing passing test)
 
-**The test to add lives in the component whose code changes.** If Hippo's `client.py` changes, add tests to `hippo/tests/`. If Canon's `planner.py` changes, add tests to `canon/tests/`. Contract and platform tests are the early warning system; unit tests are where the fix is pinned.
+**The test to add lives in the component whose code changes.** If Hippo's `client.py` changes, add tests to `mosaic/tests/`. If Canon's `planner.py` changes, add tests to `canon/tests/`. Contract and platform tests are the early warning system; unit tests are where the fix is pinned.
 
 ---
 
@@ -282,21 +282,21 @@ When a platform test reveals a behavioral gap (something that *should* work but 
 
 ```bash
 # Tier 1 only
-cd hippo && uv run pytest tests/ -v
+cd mosaic && uv run pytest tests/ -v
 cd canon && uv run pytest tests/ -v
 
 # Tier 2 only
-PYTHONPATH=hippo/src:canon/src:cappella/src:aperture/src uv run pytest tests/contracts/ -v
+PYTHONPATH=mosaic/src:canon/src:cappella/src:aperture/src uv run pytest tests/contracts/ -v
 
 # Tier 3 only
-PYTHONPATH=hippo/src:canon/src:cappella/src:aperture/src uv run pytest tests/platform/ -v
+PYTHONPATH=mosaic/src:canon/src:cappella/src:aperture/src uv run pytest tests/platform/ -v
 
 # All tiers
 make test
 
 # Just the cross-cutting platform tests
-PYTHONPATH=hippo/src:canon/src:cappella/src:aperture/src uv run pytest tests/platform/test_hippo_canon.py -v
+PYTHONPATH=mosaic/src:canon/src:cappella/src:aperture/src uv run pytest tests/platform/test_hippo_canon.py -v
 
 # Only xfail tests (to check if gaps have been closed)
-PYTHONPATH=hippo/src:canon/src:cappella/src:aperture/src uv run pytest tests/platform/ -v -m "xfail"
+PYTHONPATH=mosaic/src:canon/src:cappella/src:aperture/src uv run pytest tests/platform/ -v -m "xfail"
 ```

@@ -6,7 +6,7 @@ the legacy single-arg form; this module provides a shared helper and fixture
 that build a minimal :class:`mosaic.linkml_bridge.SchemaRegistry` covering
 every entity type referenced by the contract and platform suites.
 
-Mirrors ``hippo/tests/conftest.py``'s ``_build_minimal_schema_registry``
+Mirrors ``mosaic/tests/conftest.py``'s ``_build_minimal_schema_registry``
 helper but extends it with cross-component user-domain classes
 (``Subject``, ``AlignedDatafile``, ``GenomeBuild``, etc.) used by DataHelix
 integration tests.
@@ -22,7 +22,7 @@ import pytest
 
 # Ensure component packages are importable regardless of how pytest is invoked.
 _repo_root = Path(__file__).parent.parent
-for _pkg in ("hippo/src", "canon/src", "cappella/src"):
+for _pkg in ("mosaic/src", "canon/src", "cappella/src"):
     _p = str(_repo_root / _pkg)
     if _p not in sys.path:
         sys.path.insert(0, _p)

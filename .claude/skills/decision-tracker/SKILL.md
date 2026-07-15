@@ -39,15 +39,15 @@ Decision Log in that component's `design/INDEX.md`.
 | Scope | GitHub owner/name | Submodule mount | Decision record lives in |
 |---|---|---|---|
 | Platform (DataHelix) | `BU-Neuromics/datahelix` | — (this repo) | cross-component ADRs in `platform/design/decisions/ADR-NNNN-*.md`, indexed by `platform/design/INDEX.md` |
-| Mosaic (formerly Hippo, ADR-0004) | `BU-Neuromics/hippo` | `hippo/` | ADR files in `design/decisions/` + Key Decisions Log in `design/INDEX.md` — **forward-only**, no mass backfill |
+| Mosaic (formerly Hippo, ADR-0004) | `BU-Neuromics/mosaic` | `mosaic/` | ADR files in `design/decisions/` + Key Decisions Log in `design/INDEX.md` — **forward-only**, no mass backfill |
 | Aperture | `BU-Neuromics/aperture` | `aperture/` | ADR files in `design/decisions/ADR-NNNN-*.md` + Decision Log in `design/INDEX.md` (the reference implementation) |
 | Reel | `BU-Neuromics/reel` | (not mounted) | ADR files in `design/decisions/ADR-NNNN-*.md` + `design/INDEX.md` |
 
 In-tree components (Canon, Cappella, Bridge) live in the DataHelix repo under their own
 `<component>/design/decisions/`. Notes:
 
-- The Mosaic **component** was renamed from Hippo (ADR-0004); the **repo** is still
-  `BU-Neuromics/hippo` and mounts at `hippo/` until the repo-rename step (Phase R).
+- The Mosaic **component** was renamed from Hippo (ADR-0004); the repo is now
+  `BU-Neuromics/mosaic` and mounts at `mosaic/`.
 - Mosaic is a mature component on forward-only ADRs — record *new* decisions as ADRs; don't
   backfill historical ones.
 

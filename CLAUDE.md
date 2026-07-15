@@ -13,16 +13,16 @@ This is the **platform integration repository** for the **DataHelix** platform. 
 ├── design/     # Engineering specification (internal, structured sections)
 │   └── INDEX.md
 ├── docs/       # User-facing documentation
-└── src/        # Component source (in-tree) — or this dir IS a submodule (hippo)
+└── src/        # Component source (in-tree) — or this dir IS a submodule (mosaic)
 platform/       # Cross-cutting platform docs (architecture, glossary, deployment)
 tests/
 ├── contracts/  # Consumer-expectation contract tests (e.g. test_canon_expects_mosaic.py)
 └── platform/   # Cross-component integration tests (real Mosaic + Canon in-process)
 ```
 
-**Components:** Mosaic (formerly Hippo, ADR-0004; LinkML runtime — the platform's structured domain graph; metadata tracking is one application — submodule at [BU-Neuromics/hippo](https://github.com/BU-Neuromics/hippo)), Cappella (workflow engine), Aperture (interface layer — AI-native data & workflow explorer; the config-driven portal is its substrate — submodule at [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture)), Bridge (integration middleware / auth gateway — the platform's sole PEP/PDP). Hippo was split out 2026-05-25 (see `proposals/hippo-split.md`); Aperture was split out 2026-06-13 as a fresh start carrying only the Hippo backend protocol + portal design (see `proposals/aperture-split.md`). The remaining in-tree components are expected to follow the same pattern.
+**Components:** Mosaic (formerly Hippo, ADR-0004; LinkML runtime — the platform's structured domain graph; metadata tracking is one application — submodule at [BU-Neuromics/mosaic](https://github.com/BU-Neuromics/mosaic)), Cappella (workflow engine), Aperture (interface layer — AI-native data & workflow explorer; the config-driven portal is its substrate — submodule at [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture)), Bridge (integration middleware / auth gateway — the platform's sole PEP/PDP). Hippo was split out 2026-05-25 (see `proposals/hippo-split.md`); Aperture was split out 2026-06-13 as a fresh start carrying only the Hippo backend protocol + portal design (see `proposals/aperture-split.md`). The remaining in-tree components are expected to follow the same pattern.
 
-**Working with submodules:** Clone with `git clone --recurse-submodules`. To bump a submodule's pinned version: `git submodule update --remote <hippo|aperture>`, verify, then commit the submodule pointer change.
+**Working with submodules:** Clone with `git clone --recurse-submodules`. To bump a submodule's pinned version: `git submodule update --remote <mosaic|aperture>`, verify, then commit the submodule pointer change.
 
 ## Key Conventions
 

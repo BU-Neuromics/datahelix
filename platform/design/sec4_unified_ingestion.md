@@ -173,17 +173,17 @@ The `IngestPipeline` class (renamed from `IngestionPipeline`) orchestrates this 
 
 | Action | File/Module | Notes |
 |--------|-------------|-------|
-| **New** | `hippo/src/mosaic/core/loaders/__init__.py` | Package exports |
-| **New** | `hippo/src/mosaic/core/loaders/base.py` | `EntityLoader`, `ConfigurableLoader`, `RawRecord`, `TransformedRecord` |
-| **New** | `hippo/src/mosaic/core/loaders/csv.py` | `CSVLoader` |
-| **New** | `hippo/src/mosaic/core/loaders/json.py` | `JSONLoader` |
-| **New** | `hippo/src/mosaic/core/loaders/sql.py` | `SQLLoader` |
-| **New** | `hippo/src/mosaic/core/loaders/entity_yaml.py` | `EntityYAMLLoader` |
-| **New** | `hippo/src/mosaic/core/loaders/pipeline.py` | `IngestPipeline` (refactored from `IngestionPipeline`) |
-| **New** | `hippo/cli/commands/ingest.py` | `ingest_entity_file()`, rewired CLI |
-| **Modify** | `hippo/src/mosaic/core/ingestion.py` | Keep `extract_fts_content`, `flatten_dict`; deprecate `IngestionPipeline` |
-| **Modify** | `hippo/pyproject.toml` | Add `loaders-sql`, `loaders-json` extras |
-| **Remove** | `hippo/src/mosaic/core/data_sources.py` | Replaced by loader config files |
+| **New** | `mosaic/src/mosaic/core/loaders/__init__.py` | Package exports |
+| **New** | `mosaic/src/mosaic/core/loaders/base.py` | `EntityLoader`, `ConfigurableLoader`, `RawRecord`, `TransformedRecord` |
+| **New** | `mosaic/src/mosaic/core/loaders/csv.py` | `CSVLoader` |
+| **New** | `mosaic/src/mosaic/core/loaders/json.py` | `JSONLoader` |
+| **New** | `mosaic/src/mosaic/core/loaders/sql.py` | `SQLLoader` |
+| **New** | `mosaic/src/mosaic/core/loaders/entity_yaml.py` | `EntityYAMLLoader` |
+| **New** | `mosaic/src/mosaic/core/loaders/pipeline.py` | `IngestPipeline` (refactored from `IngestionPipeline`) |
+| **New** | `mosaic/cli/commands/ingest.py` | `ingest_entity_file()`, rewired CLI |
+| **Modify** | `mosaic/src/mosaic/core/ingestion.py` | Keep `extract_fts_content`, `flatten_dict`; deprecate `IngestionPipeline` |
+| **Modify** | `mosaic/pyproject.toml` | Add `loaders-sql`, `loaders-json` extras |
+| **Remove** | `mosaic/src/mosaic/core/data_sources.py` | Replaced by loader config files |
 
 ## 4.10 What Changes in Cappella
 
@@ -213,8 +213,8 @@ The `IngestPipeline` class (renamed from `IngestionPipeline`) orchestrates this 
 - Tests that field_map and vocabulary_map from Mosaic core work when called from Cappella
 
 **Updated Mosaic unit tests:**
-- `hippo/tests/core/test_loaders.py` replaces `test_ingestion.py` (same tests, new module paths)
-- `hippo/tests/cli/test_ingest.py` (already written, tests entity YAML ingest + idempotency)
+- `mosaic/tests/core/test_loaders.py` replaces `test_ingestion.py` (same tests, new module paths)
+- `mosaic/tests/cli/test_ingest.py` (already written, tests entity YAML ingest + idempotency)
 
 ## 4.13 Phased Implementation
 

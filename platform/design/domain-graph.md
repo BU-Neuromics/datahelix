@@ -80,7 +80,7 @@ as implying the federated graph is a cheap or free abstraction.
 
 - **Retire "metadata store" for Mosaic**; use "structured domain graph" (catalog / knowledge
   layer). "Tracks where data lives" is *one role* (file cataloging), not Mosaic's essence. *(Done
-  2026-06-17: Hippo's self-description (`hippo/CLAUDE.md`, `hippo/design/INDEX.md`, sec1) and the
+  2026-06-17: Hippo's self-description (`mosaic/CLAUDE.md`, `mosaic/design/INDEX.md`, sec1) and the
   rest of the platform docs were brought into line by the reframe consistency pass —
   `proposals/reframe-consistency-pass.md`.)*
 - **Query results are knowledge subgraphs.** Downstream surfaces (Aperture views, data stories)

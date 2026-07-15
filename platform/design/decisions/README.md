@@ -48,7 +48,7 @@ new ───►│ Proposed│ ────────► │ Accepted │ ─
 ## Where ADRs live
 
 - **Component-specific decisions** → `<component>/design/decisions/` (e.g.
-  `aperture/design/decisions/`, `hippo/design/decisions/`). Numbering is per-component.
+  `aperture/design/decisions/`, `mosaic/design/decisions/`). Numbering is per-component.
 - **Platform-wide / cross-component decisions** → `platform/design/decisions/` (this directory).
 - Each component keeps the canonical process *here* and may keep a local
   `decisions/README.md` (a short pointer back to this doc) and a local copy of `_template.md`
@@ -58,7 +58,7 @@ new ───►│ Proposed│ ────────► │ Accepted │ ─
 
 Components with a large body of already-settled, shipped decisions adopt ADRs **forward-only**:
 new, non-trivial, or still-in-flux decisions get an ADR; an existing decisions log (e.g. Hippo's
-**Key Decisions Log** in `hippo/design/INDEX.md`) remains the scannable index and is backfilled
+**Key Decisions Log** in `mosaic/design/INDEX.md`) remains the scannable index and is backfilled
 only **opportunistically** (when a settled decision is revisited and its alternatives are worth
 capturing) — never as a mass migration. Components designed ADR-first (Aperture) record
 essentially all load-bearing decisions as ADRs.

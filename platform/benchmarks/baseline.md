@@ -2,7 +2,7 @@
 
 **Status:** Draft v0.1
 **Last updated:** 2026-03-31
-**Source specs:** `hippo/design/sec7_nfr.md`, `canon/design/sec7_nfr.md`, `cappella/design/sec6_nfr.md`
+**Source specs:** `mosaic/design/sec7_nfr.md`, `canon/design/sec7_nfr.md`, `cappella/design/sec6_nfr.md`
 
 This document collates the non-functional performance targets from all three core components into a single platform-level reference. These are the targets against which Phase 1 benchmarking results will be evaluated.
 
@@ -24,7 +24,7 @@ Phase 1 targets Tier 1 and Tier 2. Tier 3 is out of scope for Phase 1 benchmarki
 
 ## Hippo — Storage & Query (SQLite adapter, Tier 1/2)
 
-Source: `hippo/design/sec7_nfr.md §7.1`
+Source: `mosaic/design/sec7_nfr.md §7.1`
 
 | Operation | Target (p99) | Notes |
 |---|---|---|
