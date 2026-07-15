@@ -35,7 +35,7 @@ jobs:
   # `if:` the platform tier uses) while PR gating focuses on the mosaic↔aperture
   # seam — that composition is certified by the `certify` workflow — plus the
   # fast ledger tooling above. The canon/cappella component suites and the
-  # canon/cappella/hippo contract seams assert interfaces that are not the
+  # canon/cappella/mosaic contract seams assert interfaces that are not the
   # current integration focus (and the canon seam dominates PR wall-clock). Flip
   # each `if:` off to return a job to the PR gate as its component is developed.
   cappella:
@@ -90,7 +90,7 @@ jobs:
   # Cross-component tiers. The contract tier (tier 2) and platform tier (tier 3)
   # both run nightly / on-demand only — NOT as PR gates. PR gating focuses on the
   # mosaic↔aperture seam (the `certify` workflow) plus the ledger tooling above;
-  # the canon/cappella/hippo contract seams here are not the current integration
+  # the canon/cappella/mosaic contract seams here are not the current integration
   # focus, and the canon seam in particular dominated PR wall-clock (~16 min of
   # LinkML schema processing). Restore a seam to the PR gate by removing its
   # `if:` guard as those components return to active development.
@@ -98,7 +98,7 @@ jobs:
   # nightly to refocus PR CI on mosaic↔aperture. Tier 3 has been nightly since.)
   # ---------------------------------------------------------------------------
 
-  contracts-hippo-seam:
+  contracts-mosaic-seam:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 40
@@ -116,11 +116,11 @@ jobs:
       - name: Install components
         run: uv pip install --system -e "./hippo[dev]" -e "./canon[dev]" pytest-asyncio
 
-      - name: Run hippo-provider contracts (canon↔hippo, cappella↔hippo, entity-loader)
+      - name: Run Mosaic-provider contracts (canon↔mosaic, cappella↔mosaic, entity-loader)
         run: |
           pytest --tb=short -q \
-            tests/contracts/test_canon_expects_hippo.py \
-            tests/contracts/test_cappella_expects_hippo.py \
+            tests/contracts/test_canon_expects_mosaic.py \
+            tests/contracts/test_cappella_expects_mosaic.py \
             tests/contracts/test_entity_loader_contract.py
 
   contracts-canon-seam:

@@ -63,8 +63,8 @@ Contract tests differ from unit tests in that they:
 Each contract file is named `test_<consumer>_expects_<provider>.py` and contains only assertions about the provider's public interface.
 
 **Current contracts:**
-- `test_canon_expects_hippo.py` — behaviors Canon depends on from HippoClient
-- `test_cappella_expects_hippo.py` — behaviors Cappella depends on from HippoClient (upsert, query_updated_since, provenance shape)
+- `test_canon_expects_mosaic.py` — behaviors Canon depends on from MosaicClient
+- `test_cappella_expects_mosaic.py` — behaviors Cappella depends on from MosaicClient (upsert, query_updated_since, provenance shape)
 - `test_cappella_expects_canon.py` — behaviors Cappella depends on from Canon's `resolve()` API
 - `test_entity_loader_contract.py` — Hippo's EntityLoader/IngestPipeline surface (CSV loader, dry-run)
 - `test_storage_adapter_contract.py` — Canon's StorageAdapter ABC behavioral contract (canon v0.2)
@@ -75,7 +75,7 @@ PYTHONPATH=hippo/src:canon/src:cappella/src:aperture/src uv run pytest tests/con
 ```
 
 **CI (restored 2026-07-07, epic P1.7):** the contract tier runs on every PR as two
-parallel seam slices — `contracts-hippo-seam` (canon↔hippo, cappella↔hippo,
+parallel seam slices — `contracts-mosaic-seam` (canon↔mosaic, cappella↔mosaic,
 entity-loader) and `contracts-canon-seam` (storage-adapter, cappella↔canon) — in
 `.github/workflows/tests.yml`. The platform tier runs nightly and via
 workflow_dispatch, not per-PR (yet).
@@ -90,7 +90,7 @@ workflow_dispatch, not per-PR (yet).
 When you add a new cross-component dependency, add a contract immediately:
 
 ```python
-# tests/contracts/test_canon_expects_hippo.py
+# tests/contracts/test_canon_expects_mosaic.py
 class TestHippoQueryContract:
     """Canon depends on HippoClient.query() behaving exactly like this."""
 

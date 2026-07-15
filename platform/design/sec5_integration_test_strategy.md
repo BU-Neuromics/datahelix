@@ -240,8 +240,8 @@ The following table maps cross-component contracts to their test files. All must
 
 | Contract | Test file | Status | Key assertions |
 |---|---|---|---|
-| Canon expects Mosaic | `tests/contracts/test_canon_expects_hippo.py` | Exists | `query()`, `create()`, `get()`, availability filtering, `update()` |
-| Cappella expects Mosaic | `tests/contracts/test_cappella_expects_hippo.py` | Exists (commit a5900b2) | Upsert-by-ExternalID, `query_updated_since()`, provenance event shape |
+| Canon expects Mosaic | `tests/contracts/test_canon_expects_mosaic.py` | Exists | `query()`, `create()`, `get()`, availability filtering, `update()` |
+| Cappella expects Mosaic | `tests/contracts/test_cappella_expects_mosaic.py` | Exists (commit a5900b2) | Upsert-by-ExternalID, `query_updated_since()`, provenance event shape |
 | Cappella expects Canon | `tests/contracts/test_cappella_expects_canon.py` | ✅ Written (commit 59cd0ef) | `resolve()` URI format, REUSE/BUILD idempotency, `resolve_with_decision()` decision field, CanonNoRuleError/CanonExecutorError/CanonRuleValidationError hierarchy |
 | Entity loader contract | `tests/contracts/test_entity_loader_contract.py` | In repo — review needed | Flat-file ingestion behavioral guarantees |
 
@@ -256,8 +256,8 @@ All integration test artifacts live in the following locations:
 ```
 tests/
 ├── contracts/
-│   ├── test_canon_expects_hippo.py          # existing
-│   ├── test_cappella_expects_hippo.py       # existing
+│   ├── test_canon_expects_mosaic.py          # existing
+│   ├── test_cappella_expects_mosaic.py       # existing
 │   ├── test_cappella_expects_canon.py       # ✅ written (Phase 1, commit 59cd0ef)
 │   └── test_entity_loader_contract.py       # existing, review needed
 ├── fixtures/

@@ -205,7 +205,7 @@ failures typically arise from assumption drift, not logic bugs.
 
 | Test file | Contract verified |
 |---|---|
-| `tests/contracts/test_cappella_expects_hippo.py` | Cappella can write entities and read them back via Mosaic SDK |
+| `tests/contracts/test_cappella_expects_mosaic.py` | Cappella can write entities and read them back via Mosaic SDK |
 | `tests/contracts/test_cappella_expects_canon.py` | Cappella can resolve artifacts for entities in Mosaic |
 | `tests/contracts/test_entity_loader_contract.py` | `ExternalSourceAdapter` implementations produce entities Mosaic accepts |
 | `tests/platform/test_round_trip.py` | Full round-trip: external source → Cappella → Mosaic → Canon → provenance write-back |

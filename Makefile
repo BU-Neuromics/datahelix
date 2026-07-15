@@ -14,7 +14,7 @@ test: test-unit test-contracts test-platform
 
 ## Tier 1: Component unit tests
 test-unit:
-	@echo "── Tier 1: Hippo unit tests ──────────────────────────────────"
+	@echo "── Tier 1: Mosaic unit tests ─────────────────────────────────"
 	cd hippo && uv run pytest tests/ -v --tb=short -q
 	@echo "── Tier 1: Canon unit tests ──────────────────────────────────"
 	cd canon && uv run pytest tests/ -v --tb=short -q
@@ -24,14 +24,14 @@ test-contracts:
 	@echo "── Tier 2: Contract tests ────────────────────────────────────"
 	uv run pytest tests/contracts/ -v --tb=short
 
-## Tier 3: Platform integration tests (real Hippo + Canon in-process)
+## Tier 3: Platform integration tests (real Mosaic + Canon in-process)
 test-platform:
 	@echo "── Tier 3: Platform tests ────────────────────────────────────"
 	uv run pytest tests/platform/ -v --tb=short
 
 ## Run all tiers without stopping on failure (full report)
 test-all:
-	@echo "── Tier 1: Hippo unit tests ──────────────────────────────────"
+	@echo "── Tier 1: Mosaic unit tests ─────────────────────────────────"
 	-cd hippo && uv run pytest tests/ -v --tb=short -q
 	@echo "── Tier 1: Canon unit tests ──────────────────────────────────"
 	-cd canon && uv run pytest tests/ -v --tb=short -q
