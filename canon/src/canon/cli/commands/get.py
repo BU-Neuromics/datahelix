@@ -25,7 +25,7 @@ def _parse_params(param_list: list[str]) -> dict[str, str]:
 
 @app.command()
 def get(
-    entity_type: Annotated[str, typer.Argument(help="Hippo entity type to resolve")],
+    entity_type: Annotated[str, typer.Argument(help="Mosaic entity type to resolve")],
     param: Annotated[
         list[str],
         typer.Option("--param", "-p", help="Identity parameter as key=value (repeatable)"),
@@ -39,7 +39,7 @@ def get(
     from canon.config import CanonConfig
     from canon.executors.cwltool import CwltoolAdapter
     from canon.resolver.entity_ref import EntityRefResolver
-    from canon.resolver.hippo_client import HippoQueryClient
+    from canon.resolver.hippo_client import MosaicQueryClient
     from canon.resolver.planner import RecursivePlanner
     from canon.rules.loader import RulesLoader
     from canon.rules.registry import RuleRegistry
@@ -53,7 +53,7 @@ def get(
     params = _parse_params(param)
 
     try:
-        hippo = HippoQueryClient(cfg)
+        hippo = MosaicQueryClient(cfg)
         loader = RulesLoader(cfg.resolve_rules_file(cfg._config_dir or __import__("pathlib").Path.cwd()))
         rules = loader.load()
         registry = RuleRegistry(rules)

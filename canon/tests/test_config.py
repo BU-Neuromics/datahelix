@@ -16,28 +16,28 @@ def _write(tmp_path, content: str):
 
 def test_valid_config_loads(tmp_canon_yaml):
     config = CanonConfig.load(tmp_canon_yaml)
-    assert config.hippo_url == "http://localhost:8000"
-    assert config.hippo_token == "testtoken"
+    assert config.mosaic_url == "http://localhost:8000"
+    assert config.mosaic_token == "testtoken"
     assert config.executor == "cwltool"
     assert config.output_storage.type == "local"
     assert config.output_storage.base_path == "/tmp/canon-outputs"
 
 
-def test_missing_hippo_url_raises(tmp_path):
+def test_missing_mosaic_url_raises(tmp_path):
     p = _write(
         tmp_path,
-        "hippo_token: tok\nexecutor: cwltool\noutput_storage:\n  type: local\n  base_path: /x\n",
+        "mosaic_token: tok\nexecutor: cwltool\noutput_storage:\n  type: local\n  base_path: /x\n",
     )
-    with pytest.raises(CanonConfigError, match="hippo_url"):
+    with pytest.raises(CanonConfigError, match="mosaic_url"):
         CanonConfig.load(p)
 
 
-def test_missing_hippo_token_raises(tmp_path):
+def test_missing_mosaic_token_raises(tmp_path):
     p = _write(
         tmp_path,
-        "hippo_url: http://localhost:8000\nexecutor: cwltool\noutput_storage:\n  type: local\n  base_path: /x\n",
+        "mosaic_url: http://localhost:8000\nexecutor: cwltool\noutput_storage:\n  type: local\n  base_path: /x\n",
     )
-    with pytest.raises(CanonConfigError, match="hippo_token"):
+    with pytest.raises(CanonConfigError, match="mosaic_token"):
         CanonConfig.load(p)
 
 
@@ -45,8 +45,8 @@ def test_invalid_log_level_raises(tmp_path):
     p = _write(
         tmp_path,
         (
-            "hippo_url: http://localhost:8000\n"
-            "hippo_token: tok\n"
+            "mosaic_url: http://localhost:8000\n"
+            "mosaic_token: tok\n"
             "executor: cwltool\n"
             "log_level: VERBOSE\n"
             "output_storage:\n  type: local\n  base_path: /x\n"
@@ -59,33 +59,33 @@ def test_invalid_log_level_raises(tmp_path):
 def test_missing_output_storage_raises(tmp_path):
     p = _write(
         tmp_path,
-        "hippo_url: http://localhost:8000\nhippo_token: tok\nexecutor: cwltool\n",
+        "mosaic_url: http://localhost:8000\nmosaic_token: tok\nexecutor: cwltool\n",
     )
     with pytest.raises(CanonConfigError, match="output_storage"):
         CanonConfig.load(p)
 
 
 def test_env_var_substitution(tmp_path, monkeypatch):
-    monkeypatch.setenv("MY_HIPPO_TOKEN", "secrettoken")
+    monkeypatch.setenv("MY_MOSAIC_TOKEN", "secrettoken")
     p = _write(
         tmp_path,
         (
-            "hippo_url: http://localhost:8000\n"
-            "hippo_token: ${MY_HIPPO_TOKEN}\n"
+            "mosaic_url: http://localhost:8000\n"
+            "mosaic_token: ${MY_MOSAIC_TOKEN}\n"
             "executor: cwltool\n"
             "output_storage:\n  type: local\n  base_path: /x\n"
         ),
     )
     config = CanonConfig.load(p)
-    assert config.hippo_token == "secrettoken"
+    assert config.mosaic_token == "secrettoken"
 
 
 def test_missing_env_var_raises(tmp_path):
     p = _write(
         tmp_path,
         (
-            "hippo_url: http://localhost:8000\n"
-            "hippo_token: ${CANON_TEST_MISSING_VAR_XYZ}\n"
+            "mosaic_url: http://localhost:8000\n"
+            "mosaic_token: ${CANON_TEST_MISSING_VAR_XYZ}\n"
             "executor: cwltool\n"
             "output_storage:\n  type: local\n  base_path: /x\n"
         ),
@@ -104,8 +104,8 @@ def test_unknown_fields_ignored(tmp_path):
     p = _write(
         tmp_path,
         (
-            "hippo_url: http://localhost:8000\n"
-            "hippo_token: tok\n"
+            "mosaic_url: http://localhost:8000\n"
+            "mosaic_token: tok\n"
             "executor: cwltool\n"
             "output_storage:\n  type: local\n  base_path: /x\n"
             "totally_unknown_field: some_value\n"
@@ -114,4 +114,4 @@ def test_unknown_fields_ignored(tmp_path):
     )
     # Pydantic extra='ignore' — must not raise
     config = CanonConfig.load(p)
-    assert config.hippo_url == "http://localhost:8000"
+    assert config.mosaic_url == "http://localhost:8000"

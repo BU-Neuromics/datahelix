@@ -134,10 +134,10 @@ Canon inherits Hippo's security model for all data access.
 
 **Requirements:**
 
-- The `hippo_token` in `canon.yaml` must have read+write access to all entity types
+- The `mosaic_token` in `canon.yaml` must have read+write access to all entity types
   used by Canon rules — Canon does not perform partial-permission graceful degradation
 - `canon.yaml` should not be committed to version control if it contains credentials —
-  use environment variable substitution: `hippo_token: "${HIPPO_TOKEN}"`
+  use environment variable substitution: `mosaic_token: "${MOSAIC_TOKEN}"`
 - Canon does not execute arbitrary code from canon_rules.yaml — rules are data, not
   code; wildcard values are never evaluated as expressions
 - CWL `ExpressionTool` (JavaScript) is supported but discouraged — JavaScript execution
@@ -145,7 +145,7 @@ Canon inherits Hippo's security model for all data access.
   ["--disable-ext"]` if needed
 - Staging directory (`work_dir/staging`) should be on a filesystem inaccessible to
   other users if input data is sensitive
-- Canon does not implement authentication beyond forwarding `hippo_token` — access
+- Canon does not implement authentication beyond forwarding `mosaic_token` — access
   control for produced artifacts is Hippo's responsibility
 
 ---

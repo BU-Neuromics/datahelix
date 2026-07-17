@@ -1,12 +1,12 @@
 # Canon — Quickstart
 
-This guide walks you through installing Canon, connecting it to a running Hippo instance, and
+This guide walks you through installing Canon, connecting it to a running Mosaic instance, and
 resolving your first artifact in around 10 minutes.
 
 ## Prerequisites
 
 - Python 3.11 or later
-- A running Hippo instance (see [Hippo quickstart](../../hippo/docs/quickstart.md) if you
+- A running Mosaic instance (see [Mosaic quickstart](../../mosaic/docs/quickstart.md) if you
   need one)
 - `cwltool` installed for local execution: `pip install cwltool`
 
@@ -30,8 +30,8 @@ Create a `canon.yaml` in your working directory:
 ```yaml
 # canon.yaml
 
-hippo_url: "http://localhost:8001"
-hippo_token: "${HIPPO_TOKEN}"   # set HIPPO_TOKEN in your environment
+mosaic_url: "http://localhost:8001"
+mosaic_token: "${MOSAIC_TOKEN}"   # set MOSAIC_TOKEN in your environment
 
 executor: cwltool               # local execution via cwltool
 
@@ -46,22 +46,22 @@ output_storage:
 log_level: INFO
 ```
 
-Export your Hippo token (from `hippo token create --label canon-local`):
+Export your Mosaic token (from `hippo token create --label canon-local`):
 
 ```bash
-export HIPPO_TOKEN=<your-hippo-api-token>
+export MOSAIC_TOKEN=<your-mosaic-api-token>
 ```
 
 ## 3. Install Canon's Reference Schema
 
-Canon needs a set of base entity types in Hippo (`Tool`, `ToolVersion`, `GenomeBuild`,
+Canon needs a set of base entity types in Mosaic (`Tool`, `ToolVersion`, `GenomeBuild`,
 `GeneAnnotation`, `WorkflowRun`). Install them once:
 
 ```bash
 hippo reference install canon
 ```
 
-This adds Canon's entity types to your Hippo schema without affecting any existing types.
+This adds Canon's entity types to your Mosaic schema without affecting any existing types.
 
 ## 4. Write a Simple Rule
 
@@ -131,10 +131,10 @@ canon get CountMatrix \
 ```
 
 Canon will:
-1. Confirm the artifact does not exist in Hippo
-2. Resolve all required inputs from Hippo
+1. Confirm the artifact does not exist in Mosaic
+2. Resolve all required inputs from Mosaic
 3. Submit the CWL workflow to `cwltool`
-4. Ingest the output `CountMatrix` entity into Hippo
+4. Ingest the output `CountMatrix` entity into Mosaic
 5. Record a `WorkflowRun` provenance entity
 
 On completion:
@@ -164,7 +164,7 @@ canon get CountMatrix \
   URI:     file:///data/canon-outputs/AD001_GRCh38_GENCODE_v44_STAR2711a/counts.tsv
 ```
 
-No workflow was submitted. Canon found the existing entity in Hippo and returned its URI.
+No workflow was submitted. Canon found the existing entity in Mosaic and returned its URI.
 
 ## 8. View Recent Runs
 
@@ -181,6 +181,6 @@ Recent WorkflowRuns (last 10):
 ## Next Steps
 
 - [User Guide](user-guide.md) — complete RNA-seq analysis from raw FASTQs to differential
-  expression, with real CWL workflows and Hippo entity setup.
+  expression, with real CWL workflows and Mosaic entity setup.
 - For multi-sample batch runs, see the
   [Cappella documentation](../../cappella/docs/quickstart.md).

@@ -62,7 +62,7 @@ def _get_planner() -> Any:
     from canon.rules.registry import RuleRegistry
 
     config = CanonConfig.load()
-    hippo = HippoHttpClient(config.hippo_url, config.hippo_token)
+    hippo = HippoHttpClient(config.mosaic_url, config.mosaic_token)
     rules_path = config.resolve_rules_file(
         config._config_dir or __import__("pathlib").Path.cwd()
     )

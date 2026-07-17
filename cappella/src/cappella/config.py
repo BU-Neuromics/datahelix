@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 from cappella.exceptions import ConfigError
 
 
-class HippoConfig(BaseModel):
+class MosaicConfig(BaseModel):
     url: str = "http://localhost:8001"
     token: str = ""
 
@@ -91,7 +91,7 @@ class LoggingConfig(BaseModel):
 
 
 class CappellaConfig(BaseModel):
-    hippo: HippoConfig = Field(default_factory=HippoConfig)
+    hippo: MosaicConfig = Field(default_factory=MosaicConfig)
     canon: CanonConfig = Field(default_factory=CanonConfig)
     server: ServerConfig = Field(default_factory=ServerConfig)
     resolution: ResolutionConfig = Field(default_factory=ResolutionConfig)

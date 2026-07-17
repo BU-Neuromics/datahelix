@@ -160,7 +160,7 @@ nav:
           - Resolution Algorithm: canon/design/sec4_resolution_algorithm.md
           - Executor Adapters: canon/design/sec5_executor_adapters.md
           - Storage Adapters: canon/design/sec5b_storage_adapters.md
-          - Mosaic Integration: canon/design/sec6_hippo_integration.md
+          - Mosaic Integration: canon/design/sec6_mosaic_integration.md
           - Non-Functional Requirements: canon/design/sec7_nfr.md
           - Dynamic Rules: canon/design/sec8_dynamic_rules.md
           - "Reference: canon.yaml": canon/design/reference_canon_yaml.md

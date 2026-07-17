@@ -72,8 +72,8 @@ class OutputStorageConfig(BaseModel):
 class CanonConfig(BaseModel):
     """Canon configuration loaded from canon.yaml."""
 
-    hippo_url: str
-    hippo_token: str
+    mosaic_url: str
+    mosaic_token: str
     executor: str
     rules_file: str = "canon_rules.yaml"
     work_dir: str = ".canon/work"
@@ -84,18 +84,18 @@ class CanonConfig(BaseModel):
     # Internal: config file directory (not in yaml, set after load)
     _config_dir: Path | None = None
 
-    @field_validator("hippo_url")
+    @field_validator("mosaic_url")
     @classmethod
-    def validate_hippo_url(cls, v: str) -> str:
+    def validate_mosaic_url(cls, v: str) -> str:
         if not (v.startswith("http://") or v.startswith("https://")):
-            raise ValueError("canon.yaml: hippo_url must be an http or https URI")
+            raise ValueError("canon.yaml: mosaic_url must be an http or https URI")
         return v.rstrip("/")
 
-    @field_validator("hippo_token")
+    @field_validator("mosaic_token")
     @classmethod
-    def validate_hippo_token(cls, v: str) -> str:
+    def validate_mosaic_token(cls, v: str) -> str:
         if not v:
-            raise ValueError("canon.yaml: hippo_token is required")
+            raise ValueError("canon.yaml: mosaic_token is required")
         return v
 
     @field_validator("log_level")
@@ -165,7 +165,7 @@ class CanonConfig(BaseModel):
             raise CanonConfigError("canon.yaml: must be a YAML mapping")
 
         # Validate required fields before env var substitution to give better errors
-        for required in ("hippo_url", "hippo_token", "executor", "output_storage"):
+        for required in ("mosaic_url", "mosaic_token", "executor", "output_storage"):
             if required not in raw:
                 raise CanonConfigError(f"canon.yaml: {required} is required")
 

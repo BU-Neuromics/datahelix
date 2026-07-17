@@ -26,8 +26,8 @@ The example is self-contained: it shows the `canon.yaml` config, the required Hi
 ```yaml
 # canon.yaml
 
-hippo_url: "https://hippo.lab.example.org"
-hippo_token: "${HIPPO_TOKEN}"
+mosaic_url: "https://hippo.lab.example.org"
+mosaic_token: "${MOSAIC_TOKEN}"
 executor: cwltool
 rules_file: canon_rules.yaml
 

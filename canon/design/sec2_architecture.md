@@ -27,7 +27,7 @@ a clean interface to the layers around it.
 │  │                                                               │   │
 │  │  CanonResolver — the core engine                              │   │
 │  │    ├── EntityRefResolver: ref:T{...} → Hippo UUID             │   │
-│  │    ├── HippoQueryClient: does this entity exist?              │   │
+│  │    ├── MosaicQueryClient: does this entity exist?              │   │
 │  │    ├── RecursivePlanner: resolve requires[], detect cycles    │   │
 │  │    └── Decision: REUSE (found) or BUILD (not found)           │   │
 │  └──────────────────────────┬────────────────────────────────────┘   │
@@ -120,7 +120,7 @@ difference between REUSE and BUILD.
 the entity registry. Dot notation traverses reference fields. Exact match required;
 multiple matches or zero matches both raise `CanonResolutionError`.
 
-**`HippoQueryClient`** wraps the Hippo REST API for Canon's two read operations:
+**`MosaicQueryClient`** wraps the Hippo REST API for Canon's two read operations:
 - `find_entity(entity_type, params) → Entity | None` — does this artifact exist?
 - `get_entity(entity_id) → Entity` — fetch by UUID
 
@@ -233,7 +233,7 @@ canon/
 │
 ├── resolver/
 │   ├── entity_ref.py          # EntityRefResolver: ref:T{...} → Hippo UUID
-│   ├── hippo_client.py        # HippoQueryClient: find_entity, get_entity, ingest_entity
+│   ├── hippo_client.py        # MosaicQueryClient: find_entity, get_entity, ingest_entity
 │   └── planner.py             # RecursivePlanner: resolve(), cycle detection
 │
 ├── executors/
@@ -269,7 +269,7 @@ User: canon get AlignmentFile \
    aligner      → uuid:toolv-456
    sample       → uuid:sample-789
 
-2. HippoQueryClient queries Hippo:
+2. MosaicQueryClient queries Hippo:
    GET /entities?entity_type=AlignmentFile
      &genome_build=gbuild-123&aligner=toolv-456&sample=sample-789
 
@@ -292,7 +292,7 @@ User: canon get AlignmentFile \
 
 1. EntityRefResolver resolves refs → UUIDs (as above)
 
-2. HippoQueryClient queries Hippo → Not found
+2. MosaicQueryClient queries Hippo → Not found
 
 3. RuleRegistry.find_rule("AlignmentFile", {...}) → align_reads rule
 
@@ -365,7 +365,7 @@ Hippo's single-inheritance polymorphism means `client.query("Tool")` returns bot
 and `ToolVersion` entities. Canon always queries `ToolVersion` directly — exact version
 matching is always required.
 
-See `sec6_hippo_integration.md` for the full field-level schema of each Canon entity type.
+See `sec6_mosaic_integration.md` for the full field-level schema of each Canon entity type.
 
 ---
 
@@ -375,8 +375,8 @@ Canon is configured via `canon.yaml` in the project directory:
 
 ```yaml
 # Minimum required configuration
-hippo_url: "http://127.0.0.1:8000"
-hippo_token: "dev-token"
+mosaic_url: "http://127.0.0.1:8000"
+mosaic_token: "dev-token"
 executor: cwltool
 rules_file: canon_rules.yaml
 

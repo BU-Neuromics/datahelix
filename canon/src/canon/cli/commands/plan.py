@@ -46,7 +46,7 @@ def _render_node(node: PlanNode, tree: Tree) -> None:
 
 @app.command()
 def plan(
-    entity_type: Annotated[str, typer.Argument(help="Hippo entity type to plan")],
+    entity_type: Annotated[str, typer.Argument(help="Mosaic entity type to plan")],
     param: Annotated[
         list[str],
         typer.Option("--param", "-p", help="Identity parameter as key=value (repeatable)"),
@@ -59,7 +59,7 @@ def plan(
     """Show the resolution plan (REUSE/BUILD) without executing anything."""
     from canon.config import CanonConfig
     from canon.resolver.entity_ref import EntityRefResolver
-    from canon.resolver.hippo_client import HippoQueryClient
+    from canon.resolver.hippo_client import MosaicQueryClient
     from canon.resolver.planner import RecursivePlanner
     from canon.rules.loader import RulesLoader
     from canon.rules.registry import RuleRegistry
@@ -73,7 +73,7 @@ def plan(
     params = _parse_params(param)
 
     try:
-        hippo = HippoQueryClient(cfg)
+        hippo = MosaicQueryClient(cfg)
         import pathlib
         rules_path = cfg.resolve_rules_file(cfg._config_dir or pathlib.Path.cwd())
         loader = RulesLoader(rules_path)

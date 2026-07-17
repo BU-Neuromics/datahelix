@@ -17,7 +17,7 @@ in-process — no Hippo HTTP server, no real CWL execution.
 
 ### Pending
 - CwltoolAdapter subprocess contract (requires cwltool on PATH; covered by test_cwltool.py)
-- EntityRefResolver with real Hippo shim (covered by test_entity_ref.py + test_hippo_canon.py)
+- EntityRefResolver with real Hippo shim (covered by test_entity_ref.py + test_mosaic_canon.py)
 """
 
 from __future__ import annotations

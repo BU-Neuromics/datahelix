@@ -19,8 +19,8 @@ def tmp_canon_yaml(tmp_path):
     """Create a minimal valid canon.yaml in tmp_path."""
     config_path = tmp_path / "canon.yaml"
     config_path.write_text(
-        "hippo_url: http://localhost:8000\n"
-        "hippo_token: testtoken\n"
+        "mosaic_url: http://localhost:8000\n"
+        "mosaic_token: testtoken\n"
         "executor: cwltool\n"
         "output_storage:\n"
         "  type: local\n"

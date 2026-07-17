@@ -267,7 +267,7 @@ tests/
 └── platform/
     ├── conftest.py                          # MosaicClientShim, mock CWL executor
     ├── test_canon_platform.py               # existing
-    ├── test_hippo_canon.py                  # existing
+    ├── test_mosaic_canon.py                  # existing
     └── test_round_trip.py                   # ✅ written (Phase 1, commit 59cd0ef) — §5.4 scenarios
 platform/
 └── benchmarks/

@@ -5,7 +5,7 @@ from cappella.config import (
     AdapterConfig,
     CappellaConfig,
     CanonConfig,
-    HippoConfig,
+    MosaicConfig,
     LoggingConfig,
     ResolutionConfig,
     ServerConfig,
@@ -77,14 +77,14 @@ class TestLoadConfig:
             load_config(p)
 
 
-class TestHippoConfig:
+class TestMosaicConfig:
     def test_defaults(self):
-        cfg = HippoConfig()
+        cfg = MosaicConfig()
         assert cfg.url == "http://localhost:8001"
         assert cfg.token == ""
 
     def test_custom_values(self):
-        cfg = HippoConfig(url="http://custom:9000", token="abc")
+        cfg = MosaicConfig(url="http://custom:9000", token="abc")
         assert cfg.url == "http://custom:9000"
         assert cfg.token == "abc"
 
@@ -139,7 +139,7 @@ class TestLoggingConfig:
 class TestCappellaConfig:
     def test_all_defaults(self):
         cfg = CappellaConfig()
-        assert isinstance(cfg.hippo, HippoConfig)
+        assert isinstance(cfg.hippo, MosaicConfig)
         assert isinstance(cfg.canon, CanonConfig)
         assert isinstance(cfg.server, ServerConfig)
         assert isinstance(cfg.resolution, ResolutionConfig)

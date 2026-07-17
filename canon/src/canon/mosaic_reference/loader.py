@@ -47,7 +47,7 @@ class CanonReferenceLoader:
         POST the Canon schema to Mosaic, registering all entity types.
 
         Args:
-            hippo_client: A HippoQueryClient (or compatible) instance.
+            hippo_client: A MosaicQueryClient (or compatible) instance.
         """
         schema = self.load()
         entity_types = schema.get("entity_types", {})
