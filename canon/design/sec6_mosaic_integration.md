@@ -1,4 +1,4 @@
-## 6. Hippo Integration
+## 6. Mosaic Integration
 
 **Document status:** Draft v0.1  
 **Depends on:** sec2_architecture.md, sec3_rules_dsl.md, sec4_resolution_algorithm.md
@@ -7,26 +7,26 @@
 
 ### 6.1 Overview
 
-Canon interacts with Hippo in three ways:
+Canon interacts with Mosaic in three ways:
 
 1. **Read** — query the entity registry (does this artifact exist?)
-2. **Write** — ingest produced artifacts as Hippo entities
+2. **Write** — ingest produced artifacts as Mosaic entities
 3. **Provenance** — record `WorkflowRun` entities for every BUILD execution
 
-All Hippo interaction is via the REST API using the configured `hippo_url` and
-`hippo_token`. Canon does not use the Hippo Python SDK directly — it calls the API over
-HTTP so that Canon can work against any Hippo deployment (local or remote).
+All Mosaic interaction is via the REST API using the configured `mosaic_url` and
+`mosaic_token`. Canon does not use the Mosaic Python SDK directly — it calls the API over
+HTTP so that Canon can work against any Mosaic deployment (local or remote).
 
 ---
 
-### 6.2 HippoQueryClient
+### 6.2 MosaicQueryClient
 
-Canon's thin HTTP client for Hippo. Uses `httpx` for async-capable requests.
+Canon's thin HTTP client for Mosaic. Uses `httpx` for async-capable requests.
 
 **Methods used by Canon:**
 
 ```python
-class HippoQueryClient:
+class MosaicQueryClient:
 
     def find_entity(
         self,
@@ -34,7 +34,7 @@ class HippoQueryClient:
         filters: dict[str, Any]
     ) -> Entity | None:
         """
-        Query Hippo for one entity matching all filters exactly.
+        Query Mosaic for one entity matching all filters exactly.
         Returns None if no match. Raises CanonResolutionError if multiple match.
         GET /entities?entity_type=X&field=val&...
         """
@@ -45,7 +45,7 @@ class HippoQueryClient:
         filters: dict[str, Any]
     ) -> list[Entity]:
         """
-        Query Hippo for all entities matching filters.
+        Query Mosaic for all entities matching filters.
         Used by EntityRefResolver for ref: expressions (must return exactly 1).
         GET /entities?entity_type=X&field=val&...&limit=10
         """
@@ -62,7 +62,7 @@ class HippoQueryClient:
         data: dict[str, Any]
     ) -> Entity:
         """
-        Create a new entity in Hippo.
+        Create a new entity in Mosaic.
         POST /ingest  body: {"entity_type": X, "data": {...}}
         Returns the created entity with its assigned UUID.
         """
@@ -81,7 +81,7 @@ class HippoQueryClient:
 
 **Query filter encoding:**
 
-Hippo entity reference fields (stored as UUIDs) are queried by UUID value directly.
+Mosaic entity reference fields (stored as UUIDs) are queried by UUID value directly.
 Scalar fields are queried by exact string match. All filter values are passed as query
 parameters to `GET /entities`.
 
@@ -90,7 +90,7 @@ parameters to `GET /entities`.
 ### 6.3 Output Ingestion Pipeline
 
 After a successful CWL execution, `OutputIngestionPipeline` ingests the produced artifacts
-into Hippo.
+into Mosaic.
 
 **Steps:**
 
@@ -100,7 +100,7 @@ into Hippo.
 3. For each output declared in the sidecar:
    a. Evaluate hippo_fields expressions against CWL output + rule inputs
    b. Relocate output file to configured output_storage (if needed)
-   c. POST /ingest → create Hippo entity
+   c. POST /ingest → create Mosaic entity
    d. Record returned UUID for WorkflowRun linkage
 4. Create WorkflowRun entity (§6.4)
 ```
@@ -108,7 +108,7 @@ into Hippo.
 **Output file relocation:**
 
 cwltool writes output files to the CWL work directory with `file://` URIs. Before
-ingesting into Hippo, Canon relocates files to the configured `output_storage`:
+ingesting into Mosaic, Canon relocates files to the configured `output_storage`:
 
 ```yaml
 # canon.yaml
@@ -122,7 +122,7 @@ output_storage:
   prefix: outputs/{entity_type}/{date}/{run_id}/
 ```
 
-The relocated URI is what gets stored as the `uri` field on the Hippo entity. The CWL
+The relocated URI is what gets stored as the `uri` field on the Mosaic entity. The CWL
 work directory is retained for `--keep-workdir` runs; otherwise it is cleaned up after
 successful ingestion.
 
@@ -147,14 +147,14 @@ Expression evaluation supports:
 - `{outputs.<name>.location}` → file URI after relocation
 - `{outputs.<name>.checksum}` → SHA1 checksum from CWL output object
 - `{outputs.<name>.size}` → file size in bytes
-- `{inputs.<name>}` → value from CWL inputs (Hippo UUID for entity ref fields)
+- `{inputs.<name>}` → value from CWL inputs (Mosaic UUID for entity ref fields)
 - Literal string/numeric values
 
 ---
 
 ### 6.4 WorkflowRun Entity
 
-Canon creates a `WorkflowRun` entity in Hippo for every BUILD execution. This entity
+Canon creates a `WorkflowRun` entity in Mosaic for every BUILD execution. This entity
 serves as the complete provenance record for the produced artifact.
 
 **Schema:**
@@ -172,17 +172,17 @@ fields:
   cwl_runner_version:  string, required      # e.g. "3.1.20240112164112"
   execution_environment: dict, required      # see §6.4.1
 
-  # Inputs (Hippo UUIDs of all resolved input entities)
-  input_entities:      list[string]          # list of Hippo UUIDs
+  # Inputs (Mosaic UUIDs of all resolved input entities)
+  input_entities:      list[string]          # list of Mosaic UUIDs
 
   # Output entity
-  output_entity_id:    string               # Hippo UUID of the produced artifact
+  output_entity_id:    string               # Mosaic UUID of the produced artifact
 
   # Timing and status
   started_at:          datetime, required
   completed_at:        datetime
   status:              enum[running, completed, failed], required
-  exit_code:           integer
+  exit_code:            integer
   error_message:       string               # populated on failure
 ```
 
@@ -254,7 +254,7 @@ canon_get() called
 
 ### 6.5 Canon Reference Schema
 
-The Canon Hippo reference schema defines the entity types that Canon relies on.
+The Canon Mosaic reference schema defines the entity types that Canon relies on.
 It is bundled in the `canon` package and applied via `hippo reference install canon`.
 
 #### Tool
@@ -273,7 +273,7 @@ fields:
 
 #### ToolVersion
 
-Extends `Tool` via Hippo's `base:` inheritance.
+Extends `Tool` via Mosaic's `base:` inheritance.
 
 ```yaml
 entity_type: ToolVersion
@@ -285,7 +285,7 @@ fields:
   changelog_url:  uri
 ```
 
-`client.query("Tool")` returns both `Tool` and `ToolVersion` entities (Hippo polymorphism).
+`client.query("Tool")` returns both `Tool` and `ToolVersion` entities (Mosaic polymorphism).
 `client.query("ToolVersion")` returns only `ToolVersion` entities. Canon always uses
 `ToolVersion` for resolution — `Tool` alone is never a valid Canon rule parameter.
 
@@ -324,16 +324,16 @@ Defined in §6.4 above.
 
 ---
 
-### 6.6 Hippo Configuration Requirements
+### 6.6 Mosaic Configuration Requirements
 
-Canon requires the following Hippo configuration to function correctly:
+Canon requires the following Mosaic configuration to function correctly:
 
 **Authentication:** Canon uses bearer token authentication. The token is configured in
-`canon.yaml` as `hippo_token`. The token must have read+write access to all entity types
+`canon.yaml` as `mosaic_token`. The token must have read+write access to all entity types
 used by Canon rules.
 
-**Hippo version:** Canon requires Hippo v0.1.0 or later. The `HippoQueryClient` checks
-the Hippo version at startup via `GET /health` and raises `CanonConfigError` if the
+**Mosaic version:** Canon requires Mosaic v0.1.0 or later. The `MosaicQueryClient` checks
+the Mosaic version at startup via `GET /health` and raises `CanonConfigError` if the
 version is incompatible.
 
 **Schema:** The Canon reference schema must be applied before use:
@@ -342,5 +342,5 @@ hippo reference install canon
 ```
 
 Canon validates at startup that `Tool`, `ToolVersion`, `GenomeBuild`, `GeneAnnotation`,
-and `WorkflowRun` entity types are present in the Hippo schema. Missing types raise
+and `WorkflowRun` entity types are present in the Mosaic schema. Missing types raise
 `CanonConfigError` with instructions to run `hippo reference install canon`.

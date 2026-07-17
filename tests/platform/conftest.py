@@ -124,15 +124,15 @@ def hippo_shim(hippo_client: MosaicClient) -> MosaicClientShim:
 def canon_config(tmp_path: Path) -> CanonConfig:
     """Minimal CanonConfig with a rules_file stub in tmp_path.
 
-    hippo_url is a placeholder — platform tests bypass HTTP and use
+    mosaic_url is a placeholder — platform tests bypass HTTP and use
     MosaicClientShim directly.
     """
     rules_file = tmp_path / "canon_rules.yaml"
     rules_file.write_text("rules: []\n")
     return CanonConfig.model_validate(
         {
-            "hippo_url": "http://localhost:58080",
-            "hippo_token": "test-token",
+            "mosaic_url": "http://localhost:58080",
+            "mosaic_token": "test-token",
             "executor": "cwltool",
             "rules_file": str(rules_file),
             "work_dir": str(tmp_path / "work"),

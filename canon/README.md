@@ -50,8 +50,8 @@ Requires Python ≥ 3.11.
 
 ```yaml
 # canon.yaml
-hippo_url: http://hippo.internal:8000
-hippo_token: your-bearer-token          # omit if unauthenticated
+mosaic_url: http://hippo.internal:8000
+mosaic_token: your-bearer-token          # omit if unauthenticated
 
 executor: local                         # 'local' or 'container'
 rules_file: canon_rules.yaml

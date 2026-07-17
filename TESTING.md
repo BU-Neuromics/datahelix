@@ -8,7 +8,7 @@ The DataHelix platform uses a three-tier testing model. Each tier has a distinct
 ┌──────────────────────────────────────────────────────────────────┐
 │  Tier 3: Platform Tests   tests/platform/                        │
 │  "Do components work correctly together?"                        │
-│  Real Hippo + Canon in-process, mocked CWL executor             │
+│  Real Mosaic + Canon in-process, mocked CWL executor             │
 │  Run after tiers 1 & 2 both pass                                 │
 ├──────────────────────────────────────────────────────────────────┤
 │  Tier 2: Contract Tests   tests/contracts/                       │
@@ -22,7 +22,7 @@ The DataHelix platform uses a three-tier testing model. Each tier has a distinct
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-> **Independently-versioned components (aperture, hippo).** The three tiers above
+> **Independently-versioned components (aperture, mosaic).** The three tiers above
 > assume components installed in-process from the same tree. Components that ship
 > as their own repos with independent semver releases are additionally certified
 > **per exact version pair** through the **certified-frontier ledger** (platform
@@ -53,7 +53,7 @@ cd canon && uv run pytest tests/ -v
 
 **Location:** `tests/contracts/`
 
-**What they cover:** Explicit behavioral specifications for each component's *public interface*, written from the perspective of its consumers. This is the formal answer to "what does Canon need Hippo to do?"
+**What they cover:** Explicit behavioral specifications for each component's *public interface*, written from the perspective of its consumers. This is the formal answer to "what does Canon need Mosaic to do?"
 
 Contract tests differ from unit tests in that they:
 - Are written from the *consumer's perspective*, not the provider's
@@ -66,7 +66,7 @@ Each contract file is named `test_<consumer>_expects_<provider>.py` and contains
 - `test_canon_expects_mosaic.py` — behaviors Canon depends on from MosaicClient
 - `test_cappella_expects_mosaic.py` — behaviors Cappella depends on from MosaicClient (upsert, query_updated_since, provenance shape)
 - `test_cappella_expects_canon.py` — behaviors Cappella depends on from Canon's `resolve()` API
-- `test_entity_loader_contract.py` — Hippo's EntityLoader/IngestPipeline surface (CSV loader, dry-run)
+- `test_entity_loader_contract.py` — Mosaic's EntityLoader/IngestPipeline surface (CSV loader, dry-run)
 - `test_storage_adapter_contract.py` — Canon's StorageAdapter ABC behavioral contract (canon v0.2)
 
 **Run:**
@@ -91,8 +91,8 @@ When you add a new cross-component dependency, add a contract immediately:
 
 ```python
 # tests/contracts/test_canon_expects_mosaic.py
-class TestHippoQueryContract:
-    """Canon depends on HippoClient.query() behaving exactly like this."""
+class TestMosaicQueryContract:
+    """Canon depends on MosaicClient.query() behaving exactly like this."""
 
     def test_query_returns_paginated_result_with_items(self, hippo_client):
         """Canon iterates result.items — must be a PaginatedResult."""
@@ -107,7 +107,7 @@ A failing contract test is a **breaking change signal**. Treat it like a failed 
 
 **Location:** `tests/platform/`
 
-**What they cover:** End-to-end scenarios using real in-process components. Canon talks to a real HippoClient via `HippoClientShim` (no HTTP server). CWL execution is mocked.
+**What they cover:** End-to-end scenarios using real in-process components. Canon talks to a real MosaicClient via `MosaicClientShim` (no HTTP server). CWL execution is mocked.
 
 **Run:**
 ```bash
@@ -116,10 +116,10 @@ PYTHONPATH=mosaic/src:canon/src:cappella/src:aperture/src uv run pytest tests/pl
 
 **Test files:**
 - `test_canon_platform.py` — Canon-only: rules DSL, entity ref parsing, planner decisions, sidecar, ingestion
-- `test_hippo_canon.py` — Cross-cutting: Canon resolving against real Hippo, full bioinformatics chain, idempotency
-- `test_round_trip.py` — Full round-trip: external source → Hippo → Canon → Hippo (sec5 §5.2–§5.5)
-- `test_cross_component.py` — Cross-component: CSV ingest via Cappella → Hippo → Canon resolution, entity relationships, provenance chain
-- `test_webhook_integration.py` — Webhook triggers: HMAC-SHA256 verification, payload mapping → Hippo entity creation, deduplication
+- `test_mosaic_canon.py` — Cross-cutting: Canon resolving against real Mosaic, full bioinformatics chain, idempotency
+- `test_round_trip.py` — Full round-trip: external source → Mosaic → Canon → Mosaic (sec5 §5.2–§5.5)
+- `test_cross_component.py` — Cross-component: CSV ingest via Cappella → Mosaic → Canon resolution, entity relationships, provenance chain
+- `test_webhook_integration.py` — Webhook triggers: HMAC-SHA256 verification, payload mapping → Mosaic entity creation, deduplication
 - `test_cli_integration.py` — CLI integration: `datahelix list`, `datahelix get`, `datahelix search`, `datahelix history` against pipeline-created entities
 
 **When they fail:**
@@ -148,7 +148,7 @@ This runs all three tiers in order, failing fast at each stage.
 
 ## Contract Specification: Component Interfaces
 
-### HippoClient — Canon's View
+### MosaicClient — Canon's View
 
 These are the behaviors Canon depends on. Any change to these is a breaking change for Canon.
 
@@ -168,9 +168,9 @@ These are the behaviors Canon depends on. Any change to these is a breaking chan
 - `get()` availability filtering — in progress, see `mosaic/tests/core/test_client_availability.py`
 - `update()` existence check — in progress, same file
 
-### HippoQueryClient — Canon's HTTP shim
+### MosaicQueryClient — Canon's HTTP shim
 
-Canon's `HippoQueryClient` wraps the HTTP API. The `HippoClientShim` in `tests/platform/conftest.py` is the in-process equivalent. When the HTTP API changes, update both.
+Canon's `MosaicQueryClient` wraps the HTTP API. The `MosaicClientShim` in `tests/platform/conftest.py` is the in-process equivalent. When the HTTP API changes, update both.
 
 ---
 
@@ -182,9 +182,9 @@ These are the behaviors Cappella depends on from Canon's `resolve()` API. Any ch
 
 | Field | Type | Guarantee |
 |-------|------|-----------|
-| `uri` | `str` | Non-empty. Hippo entity URI in the form `hippo://<EntityType>/<uuid>` |
+| `uri` | `str` | Non-empty. Mosaic entity URI in the form `hippo://<EntityType>/<uuid>` |
 | `decision` | `Literal["REUSE", "BUILD"]` | Always present. `REUSE` means an existing entity was found; `BUILD` means Canon executed a workflow and created a new entity. |
-| `entity_id` | `str` | UUID of the resolved entity in Hippo. Must be retrievable via `HippoClient.get()` immediately after `resolve()` returns. |
+| `entity_id` | `str` | UUID of the resolved entity in Mosaic. Must be retrievable via `MosaicClient.get()` immediately after `resolve()` returns. |
 | `entity_type` | `str` | Matches the requested `entity_type` argument. |
 | `rule` | `str | None` | `None` on REUSE. Name of the rule that produced the result on BUILD. |
 
@@ -202,7 +202,7 @@ Cappella never catches `Exception` broadly. Only the three documented typed exce
 
 **URI structure guarantee:**
 
-Canon-produced URIs follow the pattern `hippo://<EntityType>/<uuid>`. Cappella extracts the UUID component for Hippo queries. The UUID is always a valid UUID4 string.
+Canon-produced URIs follow the pattern `hippo://<EntityType>/<uuid>`. Cappella extracts the UUID component for Mosaic queries. The UUID is always a valid UUID4 string.
 
 ```python
 # Cappella's expected URI parsing
@@ -253,7 +253,7 @@ Calling `resolve()` twice with the same `entity_type` and parameters must return
 - Documentation or comment updates
 - Test-only changes (adding more test cases to an existing passing test)
 
-**The test to add lives in the component whose code changes.** If Hippo's `client.py` changes, add tests to `mosaic/tests/`. If Canon's `planner.py` changes, add tests to `canon/tests/`. Contract and platform tests are the early warning system; unit tests are where the fix is pinned.
+**The test to add lives in the component whose code changes.** If Mosaic's `client.py` changes, add tests to `mosaic/tests/`. If Canon's `planner.py` changes, add tests to `canon/tests/`. Contract and platform tests are the early warning system; unit tests are where the fix is pinned.
 
 ---
 
@@ -295,7 +295,7 @@ PYTHONPATH=mosaic/src:canon/src:cappella/src:aperture/src uv run pytest tests/pl
 make test
 
 # Just the cross-cutting platform tests
-PYTHONPATH=mosaic/src:canon/src:cappella/src:aperture/src uv run pytest tests/platform/test_hippo_canon.py -v
+PYTHONPATH=mosaic/src:canon/src:cappella/src:aperture/src uv run pytest tests/platform/test_mosaic_canon.py -v
 
 # Only xfail tests (to check if gaps have been closed)
 PYTHONPATH=mosaic/src:canon/src:cappella/src:aperture/src uv run pytest tests/platform/ -v -m "xfail"

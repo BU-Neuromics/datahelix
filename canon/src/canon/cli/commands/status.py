@@ -11,7 +11,7 @@ from rich.table import Table
 
 from canon.exceptions import CanonError
 
-app = typer.Typer(help="Show recent Canon workflow runs from Hippo.")
+app = typer.Typer(help="Show recent Canon workflow runs from Mosaic.")
 console = Console()
 
 _STATUS_COLORS = {
@@ -32,9 +32,9 @@ def status(
         typer.Option("--limit", "-n", help="Maximum number of runs to show"),
     ] = 20,
 ) -> None:
-    """Show recent WorkflowRun entities from Hippo."""
+    """Show recent WorkflowRun entities from Mosaic."""
     from canon.config import CanonConfig
-    from canon.resolver.hippo_client import HippoQueryClient
+    from canon.resolver.hippo_client import MosaicQueryClient
 
     try:
         cfg = CanonConfig.load(config)
@@ -43,7 +43,7 @@ def status(
         sys.exit(1)
 
     try:
-        hippo = HippoQueryClient(cfg)
+        hippo = MosaicQueryClient(cfg)
         runs = hippo.find_entities("WorkflowRun", {})
     except CanonError as e:
         typer.echo(f"Error: {e}", err=True)

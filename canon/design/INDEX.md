@@ -18,7 +18,7 @@
 | `sec4_resolution_algorithm.md` | 4. Resolution Algorithm | ✅ Draft complete | |
 | `sec5_executor_adapters.md` | 5. Executor Adapters | ✅ Draft complete | |
 | `sec5b_storage_adapters.md` | 5b. Storage Adapters | ✅ Draft complete | v0.2 target; plugin architecture for local/S3/GCS/OSF/iRODS |
-| `sec6_hippo_integration.md` | 6. Hippo Integration | ✅ Draft complete | |
+| `sec6_mosaic_integration.md` | 6. Mosaic Integration | ✅ Draft complete | |
 | `sec7_nfr.md` | 7. Non-Functional Requirements | ✅ Draft complete | |
 | `sec8_dynamic_rules.md` | 8. Dynamic Rule Registration & Convention Output Mapping | ✅ Draft complete | v0.2/v0.3 target |
 | `reference_canon_yaml.md` | Reference: canon.yaml schema | ✅ Draft complete | |

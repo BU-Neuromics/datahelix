@@ -37,7 +37,7 @@ def resolve(*, entity_type: str, params: dict[str, Any]) -> dict[str, Any]:
     from canon.resolver.hippo_client import HippoHttpClient
     from canon.resolver.entity_ref import EntityRefResolver
 
-    hippo = HippoHttpClient(config.hippo_url, config.hippo_token)
+    hippo = HippoHttpClient(config.mosaic_url, config.mosaic_token)
     rules = load_rules(config.resolve_rules_file(config._config_dir or __import__("pathlib").Path.cwd()))
     registry = RuleRegistry(rules)
     ref_resolver = EntityRefResolver(hippo)

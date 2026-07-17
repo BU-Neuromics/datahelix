@@ -82,8 +82,8 @@ So the following is **real, tested, and load-bearing** — treat it as the stabl
 - Hippo SDK (`HippoClient`): entity CRUD, query, search, upsert-by-ExternalID, provenance recording; SQLite adapter; FastAPI REST surface; CLI; tiered write-path validation.
 - Canon: rules DSL parsing, entity-reference resolution, recursive planner with cycle detection, cwltool executor, WorkflowRun provenance write-back.
 - Cappella: generic config-driven adapters (CSV/JSON/XML/SQL), trigger engine framework, idempotent upsert.
-- **Cross-component contracts**, each a consumer-driven behavioral spec: `test_canon_expects_hippo.py`, `test_cappella_expects_hippo.py`, `test_cappella_expects_canon.py`, plus `test_entity_loader_contract.py` and `test_storage_adapter_contract.py`.
-- **Platform round-trips**: `test_round_trip.py`, `test_cross_component.py`, `test_hippo_canon.py`, `test_canon_platform.py`, `test_cli_integration.py`, `test_webhook_integration.py`.
+- **Cross-component contracts**, each a consumer-driven behavioral spec: `test_canon_expects_mosaic.py`, `test_cappella_expects_mosaic.py`, `test_cappella_expects_canon.py`, plus `test_entity_loader_contract.py` and `test_storage_adapter_contract.py`.
+- **Platform round-trips**: `test_round_trip.py`, `test_cross_component.py`, `test_mosaic_canon.py`, `test_canon_platform.py`, `test_cli_integration.py`, `test_webhook_integration.py`.
 
 **Designed but not built** (your green field, roughly in dependency order):
 - Hippo **LinkML-native redesign** — approved, partially landed; sec9 OpenSpec waves still in flight (ext-vocabulary, core-schema, typed-client, generated-rest-surface, provenance-as-linkml-class, id-registry/UUID strategy, computed temporal fields).

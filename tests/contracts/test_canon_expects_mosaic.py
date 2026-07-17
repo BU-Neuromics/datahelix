@@ -145,7 +145,7 @@ class TestCreateContract:
 # ---------------------------------------------------------------------------
 # CONTRACT: get() behavior
 #
-# Canon's HippoQueryClient calls get() to fetch entities by id.
+# Canon's MosaicQueryClient calls get() to fetch entities by id.
 # Not-found must raise EntityNotFoundError (not return None) so Canon
 # can distinguish "missing" from "exists but empty".
 # ---------------------------------------------------------------------------

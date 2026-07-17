@@ -1,4 +1,4 @@
-"""Platform integration tests: real Hippo ↔ Canon cross-cutting contract.
+"""Platform integration tests: real Mosaic ↔ Canon cross-cutting contract.
 
 Tests exercise RecursivePlanner talking to a real in-process MosaicClient
 backed by SQLiteAdapter.  No HTTP server; no actual CWL execution.
@@ -6,20 +6,20 @@ backed by SQLiteAdapter.  No HTTP server; no actual CWL execution.
 ## Category taxonomy
 
 ### Implemented
-1. REUSE path (entity already in Hippo → executor not called)
-2. BUILD path (entity absent → executor called → entity ingested into Hippo)
+1. REUSE path (entity already in Mosaic → executor not called)
+2. BUILD path (entity absent → executor called → entity ingested into Mosaic)
 3. Cycle detection — 2-node mutual dependency
 4. Multi-level dependency chain — executor called N× bottom-up
-5. Entity built by Canon is queryable in Hippo with URI populated
+5. Entity built by Canon is queryable in Mosaic with URI populated
 6. Re-resolution idempotency — resolve() twice, executor called once
-7. Failure recovery — partial chain failure leaves Hippo consistent
+7. Failure recovery — partial chain failure leaves Mosaic consistent
 8. Three-node cycle detection (A→B→C→A)
-9. plan() dry-run uses real Hippo state for REUSE/BUILD decisions
+9. plan() dry-run uses real Mosaic state for REUSE/BUILD decisions
 10. No-rule error — CanonNoRuleError when no rule matches unknown entity
 11. Full bioinformatics 4-step chain (Sample→RawReads→TrimmedReads→AlignedReads)
 
 ### Pending
-- WorkflowRun provenance entity written to Hippo (ingestion_pipeline not None)
+- WorkflowRun provenance entity written to Mosaic (ingestion_pipeline not None)
 - Schema-rules consistency via real schema loaded from YAML
 - hippo-reference-canon entry point wiring (requires CLI plumbing)
 """
@@ -97,7 +97,7 @@ def _make_planner_with_storage(
 
 @pytest.mark.platform
 def test_reuse_existing_entity(hippo_client, hippo_shim, mock_executor, tmp_path):
-    """When RawReads already exists in Hippo, executor must not be called."""
+    """When RawReads already exists in Mosaic, executor must not be called."""
     hippo_client.create(
         "RawReads",
         {
@@ -118,13 +118,13 @@ def test_reuse_existing_entity(hippo_client, hippo_shim, mock_executor, tmp_path
 
 
 # ---------------------------------------------------------------------------
-# Test 2: BUILD path — executor called once, entity stored in Hippo
+# Test 2: BUILD path — executor called once, entity stored in Mosaic
 # ---------------------------------------------------------------------------
 
 
 @pytest.mark.platform
 def test_build_missing_entity(hippo_client, hippo_shim, mock_executor, tmp_path):
-    """When RawReads is absent, executor runs once and entity is stored in Hippo."""
+    """When RawReads is absent, executor runs once and entity is stored in Mosaic."""
     # Prerequisite: Sample exists; RawReads does not
     hippo_client.create("Sample", {"sample_id": "s001"})
 
@@ -157,7 +157,7 @@ def test_build_missing_entity(hippo_client, hippo_shim, mock_executor, tmp_path)
     assert mock_executor.run.call_count == 1
     assert mock_executor.run.call_args[0][0] == "workflows/build_raw_reads.cwl"
 
-    # RawReads entity now queryable from real Hippo
+    # RawReads entity now queryable from real Mosaic
     raw_reads_result = hippo_client.query("RawReads")
     matching = [
         item
@@ -217,16 +217,16 @@ def test_cycle_detection_raises(hippo_shim, mock_executor, tmp_path):
 
 
 # ---------------------------------------------------------------------------
-# Test 4: 3-level dependency chain — executor called 3×, all entities in Hippo
+# Test 4: 3-level dependency chain — executor called 3×, all entities in Mosaic
 # ---------------------------------------------------------------------------
 
 
 @pytest.mark.platform
 def test_dependency_chain_inserts_all(hippo_client, hippo_shim, mock_executor, tmp_path):
     """3-level chain (rule_c→rule_b→rule_a): executor called 3× bottom-up,
-    all intermediate entities queryable from real Hippo afterward."""
+    all intermediate entities queryable from real Mosaic afterward."""
 
-    # Only Sample exists in Hippo; nothing else pre-exists
+    # Only Sample exists in Mosaic; nothing else pre-exists
     hippo_client.create("Sample", {"sample_id": "s001"})
 
     # rule_a: Sample (REUSE) → build RawReads
@@ -297,7 +297,7 @@ def test_dependency_chain_inserts_all(hippo_client, hippo_shim, mock_executor, t
     cwl_paths = [call[0][0] for call in mock_executor.run.call_args_list]
     assert cwl_paths == ["a.cwl", "b.cwl", "c.cwl"]
 
-    # All 3 intermediate entities are now queryable from real Hippo
+    # All 3 intermediate entities are now queryable from real Mosaic
     for entity_type in ("RawReads", "TrimmedReads", "AlignedReads"):
         result = hippo_client.query(entity_type)
         matching = [
@@ -305,21 +305,21 @@ def test_dependency_chain_inserts_all(hippo_client, hippo_shim, mock_executor, t
             for item in result.items
             if item["data"].get("sample_id") == "s001"
         ]
-        assert len(matching) == 1, f"{entity_type} not found in Hippo after chain execution"
+        assert len(matching) == 1, f"{entity_type} not found in Mosaic after chain execution"
 
     assert uri.startswith("hippo://alignedreads/")
 
 
 # ---------------------------------------------------------------------------
-# Category 5: Entity built by Canon has URI populated in Hippo data
+# Category 5: Entity built by Canon has URI populated in Mosaic data
 # ---------------------------------------------------------------------------
 
 
 @pytest.mark.platform
-def test_entity_built_by_canon_has_uri_in_hippo_data(
+def test_entity_built_by_canon_has_uri_in_mosaic_data(
     hippo_client, hippo_shim, mock_executor, tmp_path
 ):
-    """After BUILD, the entity stored in Hippo contains the uri field in its data."""
+    """After BUILD, the entity stored in Mosaic contains the uri field in its data."""
     hippo_client.create("Sample", {"sample_id": "s001"})
 
     rule = ProductionRule(
@@ -343,7 +343,7 @@ def test_entity_built_by_canon_has_uri_in_hippo_data(
 
     uri = planner.resolve("RawReads", {"sample_id": "s001"})
 
-    # The entity in Hippo must carry the uri field in its data dict
+    # The entity in Mosaic must carry the uri field in its data dict
     result = hippo_client.query("RawReads")
     items = [
         item
@@ -365,7 +365,7 @@ def test_resolve_idempotent_second_call_is_reuse(
 ):
     """Resolve the same entity twice: executor called exactly once.
 
-    After the first BUILD, the entity exists in Hippo.  The second resolve()
+    After the first BUILD, the entity exists in Mosaic.  The second resolve()
     follows the REUSE path and must not re-invoke the executor.
     """
     hippo_client.create("Sample", {"sample_id": "s001"})
@@ -402,12 +402,12 @@ def test_resolve_idempotent_second_call_is_reuse(
 
 
 @pytest.mark.platform
-def test_failure_recovery_prerequisites_persist_in_hippo(
+def test_failure_recovery_prerequisites_persist_in_mosaic(
     hippo_client, hippo_shim, tmp_path
 ):
-    """When the executor fails on the second step, the first entity is still in Hippo.
+    """When the executor fails on the second step, the first entity is still in Mosaic.
 
-    The contract: Hippo is always left in a consistent, additive state — prior
+    The contract: Mosaic is always left in a consistent, additive state — prior
     successful ingestions are not rolled back when a later step fails.
     """
     from canon.exceptions import CanonExecutorError
@@ -521,18 +521,18 @@ def test_three_node_cycle_detection_raises(hippo_shim, mock_executor, tmp_path):
 
 
 # ---------------------------------------------------------------------------
-# Category 9: plan() dry-run uses real Hippo state
+# Category 9: plan() dry-run uses real Mosaic state
 # ---------------------------------------------------------------------------
 
 
 @pytest.mark.platform
-def test_plan_dry_run_reflects_real_hippo_state(
+def test_plan_dry_run_reflects_real_mosaic_state(
     hippo_client, hippo_shim, mock_executor, tmp_path
 ):
-    """plan() reads real Hippo state to decide REUSE vs BUILD for each node."""
+    """plan() reads real Mosaic state to decide REUSE vs BUILD for each node."""
     from canon.resolver.planner import PlanNode
 
-    # RawReads exists in Hippo; TrimmedReads does not
+    # RawReads exists in Mosaic; TrimmedReads does not
     hippo_client.create(
         "RawReads",
         {"sample_id": "s001", "uri": "hippo://rawreads/s001"},
@@ -603,9 +603,9 @@ def test_full_bioinformatics_chain_sample_to_aligned(
 ):
     """Complete 4-step bioinformatics chain: Sample→RawReads→TrimmedReads→AlignedReads.
 
-    - Sample pre-exists in Hippo (REUSE, no executor call)
+    - Sample pre-exists in Mosaic (REUSE, no executor call)
     - RawReads, TrimmedReads, AlignedReads are built in bottom-up order (3 executor calls)
-    - All 3 produced entities are queryable from Hippo afterward
+    - All 3 produced entities are queryable from Mosaic afterward
     """
     hippo_client.create("Sample", {"sample_id": "s001"})
 
@@ -669,11 +669,11 @@ def test_full_bioinformatics_chain_sample_to_aligned(
     cwl_paths = [c[0][0] for c in mock_executor.run.call_args_list]
     assert cwl_paths == ["raw.cwl", "trim.cwl", "align.cwl"]
 
-    # All 3 produced entity types present in real Hippo
+    # All 3 produced entity types present in real Mosaic
     for etype in ("RawReads", "TrimmedReads", "AlignedReads"):
         result = hippo_client.query(etype)
         hits = [i for i in result.items if i["data"].get("sample_id") == "s001"]
-        assert len(hits) == 1, f"{etype} missing from Hippo after chain"
+        assert len(hits) == 1, f"{etype} missing from Mosaic after chain"
 
     assert uri.startswith("hippo://alignedreads/")
 
@@ -685,7 +685,7 @@ def test_full_bioinformatics_chain_sample_to_aligned(
 
 @pytest.mark.platform
 def test_fetch_materializes_entity_and_sets_uri(hippo_client, hippo_shim, tmp_path):
-    """FETCH path: HTTP download materializes file, entity uri set in real Hippo."""
+    """FETCH path: HTTP download materializes file, entity uri set in real Mosaic."""
     hippo_client.create(
         "GenomeBuild",
         {

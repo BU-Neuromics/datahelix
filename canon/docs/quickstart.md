@@ -30,8 +30,8 @@ Create a `canon.yaml` in your working directory:
 ```yaml
 # canon.yaml
 
-hippo_url: "http://localhost:8001"
-hippo_token: "${HIPPO_TOKEN}"   # set HIPPO_TOKEN in your environment
+mosaic_url: "http://localhost:8001"
+mosaic_token: "${MOSAIC_TOKEN}"   # set MOSAIC_TOKEN in your environment
 
 executor: cwltool               # local execution via cwltool
 

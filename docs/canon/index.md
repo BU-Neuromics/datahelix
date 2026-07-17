@@ -95,7 +95,7 @@ See the **[Quick Start guide](docs/quickstart.md)** for a complete walkthrough â
 - [Resolution Algorithm](design/sec4_resolution_algorithm.md)
 - [Executor Adapters](design/sec5_executor_adapters.md)
 - [Storage Adapters](design/sec5b_storage_adapters.md)
-- [Hippo Integration](design/sec6_hippo_integration.md)
+- [Mosaic Integration](design/sec6_mosaic_integration.md)
 - [Non-Functional Requirements](design/sec7_nfr.md)
 - [Dynamic Rules](design/sec8_dynamic_rules.md)
 - [Appendix A: RNA-seq Example](design/appendix_a_rnaseq_example.md)

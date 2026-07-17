@@ -1,4 +1,4 @@
-"""HippoQueryClient: Canon's HTTP client for the Hippo entity registry."""
+"""MosaicQueryClient: Canon's HTTP client for the Mosaic entity registry."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 def _entity_from_response(data: dict) -> Entity:
-    """Construct an Entity from a Hippo API response dict."""
+    """Construct an Entity from a Mosaic API response dict."""
     entity_id = data.get("id") or data.get("uuid") or data.get("entity_id", "")
     entity_type = data.get("entity_type", "")
     entity_data = data.get("data") or data.get("fields") or data
@@ -23,16 +23,16 @@ def _entity_from_response(data: dict) -> Entity:
     return Entity(id=str(entity_id), entity_type=entity_type, data=entity_data, uri=uri)
 
 
-class HippoQueryClient:
+class MosaicQueryClient:
     """
-    Thin HTTP client for Canon's interactions with the Hippo entity registry.
+    Thin HTTP client for Canon's interactions with the Mosaic entity registry.
 
     All calls are synchronous (httpx sync). Canon does not require async in v0.1.
     """
 
     def __init__(self, config: CanonConfig) -> None:
-        self._base_url = config.hippo_url.rstrip("/")
-        self._token = config.hippo_token
+        self._base_url = config.mosaic_url.rstrip("/")
+        self._token = config.mosaic_token
         self._client = httpx.Client(
             base_url=self._base_url,
             headers={"Authorization": f"Bearer {self._token}"},
@@ -43,7 +43,7 @@ class HippoQueryClient:
         """Close the underlying HTTP client."""
         self._client.close()
 
-    def __enter__(self) -> "HippoQueryClient":
+    def __enter__(self) -> "MosaicQueryClient":
         return self
 
     def __exit__(self, *args: Any) -> None:
@@ -58,12 +58,12 @@ class HippoQueryClient:
             return response.json()
         except httpx.HTTPStatusError as e:
             raise CanonResolutionError(
-                f"Hippo API error {e.response.status_code} for GET {path}: "
+                f"Mosaic API error {e.response.status_code} for GET {path}: "
                 f"{e.response.text}"
             ) from e
         except httpx.RequestError as e:
             raise CanonConfigError(
-                f"Cannot reach Hippo at {self._base_url}: {e}"
+                f"Cannot reach Mosaic at {self._base_url}: {e}"
             ) from e
 
     def _post(self, path: str, body: dict) -> Any:
@@ -75,12 +75,12 @@ class HippoQueryClient:
             return response.json()
         except httpx.HTTPStatusError as e:
             raise CanonIngestionError(
-                f"Hippo API error {e.response.status_code} for POST {path}: "
+                f"Mosaic API error {e.response.status_code} for POST {path}: "
                 f"{e.response.text}"
             ) from e
         except httpx.RequestError as e:
             raise CanonConfigError(
-                f"Cannot reach Hippo at {self._base_url}: {e}"
+                f"Cannot reach Mosaic at {self._base_url}: {e}"
             ) from e
 
     def _put(self, path: str, body: dict) -> Any:
@@ -92,12 +92,12 @@ class HippoQueryClient:
             return response.json()
         except httpx.HTTPStatusError as e:
             raise CanonIngestionError(
-                f"Hippo API error {e.response.status_code} for PUT {path}: "
+                f"Mosaic API error {e.response.status_code} for PUT {path}: "
                 f"{e.response.text}"
             ) from e
         except httpx.RequestError as e:
             raise CanonConfigError(
-                f"Cannot reach Hippo at {self._base_url}: {e}"
+                f"Cannot reach Mosaic at {self._base_url}: {e}"
             ) from e
 
     def find_entity(
@@ -106,7 +106,7 @@ class HippoQueryClient:
         filters: dict[str, Any],
     ) -> Entity | None:
         """
-        Query Hippo for exactly one entity matching all filters.
+        Query Mosaic for exactly one entity matching all filters.
 
         Returns None if no match. Raises CanonResolutionError if multiple match.
 
@@ -141,7 +141,7 @@ class HippoQueryClient:
         filters: dict[str, Any],
     ) -> list[Entity]:
         """
-        Query Hippo for all entities matching filters.
+        Query Mosaic for all entities matching filters.
 
         Used by EntityRefResolver for ref: expressions.
 
@@ -181,7 +181,7 @@ class HippoQueryClient:
         data: dict[str, Any],
     ) -> Entity:
         """
-        Create a new entity in Hippo.
+        Create a new entity in Mosaic.
 
         POST /ingest  body: {"entity_type": X, "data": {...}}
         Returns the created entity with its assigned UUID.
@@ -238,7 +238,7 @@ class HippoQueryClient:
 
     def check_health(self) -> dict:
         """
-        GET /health — verify Hippo is reachable and return version info.
+        GET /health — verify Mosaic is reachable and return version info.
 
         Raises CanonConfigError if unreachable.
         """
@@ -246,5 +246,5 @@ class HippoQueryClient:
             return self._get("/health")
         except CanonResolutionError as e:
             raise CanonConfigError(
-                f"canon.yaml: cannot reach Hippo at {self._base_url}/health — {e}"
+                f"canon.yaml: cannot reach Mosaic at {self._base_url}/health — {e}"
             ) from e
