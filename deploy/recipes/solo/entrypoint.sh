@@ -16,20 +16,16 @@ set -eu
 
 PROJECT=/project
 
-# The certified frontier may pin a pre-rename (ADR-0004) component whose CLI
-# is `hippo`; prefer `mosaic`, fall back.
-MOSAIC_BIN="$(command -v mosaic || command -v hippo)"
-[ -n "$MOSAIC_BIN" ] || { echo "solo: no mosaic/hippo CLI found" >&2; exit 1; }
+# The certified frontier now pins Mosaic ≥0.11.0 (ADR-0004 rename shipped),
+# so the CLI is `mosaic`.
+MOSAIC_BIN=mosaic
 export MOSAIC_BIN
 
-# Resolve the config file explicitly and hand it to serve via --config: config
-# auto-discovery differs by version (pre-rename images look for hippo.yaml,
-# post-rename for mosaic.yaml), and relying on it silently falls back to the
-# default bundled schema. Prefer mosaic.yaml, accept a legacy hippo.yaml.
+# Resolve the config file explicitly and hand it to serve via --config:
+# relying on auto-discovery silently falls back to the default bundled schema
+# when no config is found, so we fail loudly instead if the project has none.
 if [ -f "$PROJECT/mosaic.yaml" ]; then
   MOSAIC_CONFIG="$PROJECT/mosaic.yaml"
-elif [ -f "$PROJECT/hippo.yaml" ]; then
-  MOSAIC_CONFIG="$PROJECT/hippo.yaml"
 else
   echo "solo: /project has no mosaic.yaml — bind-mount a project directory" >&2
   echo "solo: (see the recipe README; 'make init' scaffolds one)" >&2

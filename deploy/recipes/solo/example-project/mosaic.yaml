@@ -5,8 +5,7 @@
 # instead — e.g. schemas/model.yaml — so relative imports resolve.)
 schema_path: schemas
 storage_backend: sqlite
-# Pin the SQLite path explicitly (relative to the /project workdir). Do NOT
-# rely on the version's default filename: pre-rename images default to
-# data/hippo.db, post-rename to data/mosaic.db — pinning it keeps serve and
-# the entrypoint's migrate step pointed at the same file across versions.
+# Pin the SQLite path explicitly (relative to the /project workdir) so serve
+# and the entrypoint's migrate step always target the same file, rather than
+# relying on the runtime's default filename.
 database_url: data/mosaic.db

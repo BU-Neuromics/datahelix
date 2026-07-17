@@ -12,12 +12,12 @@
 # and the digests are recorded as OCI labels so a deploy gate can verify the
 # bundle's provenance. Never build components from source in this recipe.
 #
-# NOTE (ADR-0004 rename): the certified frontier currently pins hippo 0.10.6,
-# a pre-rename release whose CLI is `hippo`. The entrypoint resolves
-# `mosaic`-then-`hippo`, so the recipe survives the frontier advancing past
-# the rename without edits.
+# NOTE (ADR-0004 rename): the certified frontier pins Mosaic 0.11.0 (the
+# rename release). The image name and ledger key keep the `hippo` spelling by
+# design until the coordinated repo rename; the CLI inside the image is
+# `mosaic`.
 
-ARG HIPPO_IMAGE=ghcr.io/bu-neuromics/hippo@sha256:1cb5152ecc40c9ab88d537868b7519004536ff85428a855728f940c66b8a1631
+ARG HIPPO_IMAGE=ghcr.io/bu-neuromics/hippo@sha256:b101dfcc226d26396c2c63860cc47eb3df45b94d0e440861f6f48b9fec25f170
 ARG APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:f41b0883d951b9abce9f024689ed3e5f7289cd592258edb1a4c14c1c66e290da
 
 # The Modeler has no published image yet; build its static bundle at a pinned
