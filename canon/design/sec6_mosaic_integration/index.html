@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#6-hippo-integration" class="md-skip">
+        <a href="#6-mosaic-integration" class="md-skip">
           Skip to content
         </a>
       
@@ -3691,15 +3691,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#6-hippo-integration" class="md-nav__link">
+  <a href="#6-mosaic-integration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Hippo Integration
+        6. Mosaic Integration
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="6. Hippo Integration">
+    <nav class="md-nav" aria-label="6. Mosaic Integration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -3714,10 +3714,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#62-hippoqueryclient" class="md-nav__link">
+  <a href="#62-mosaicqueryclient" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6.2 HippoQueryClient
+        6.2 MosaicQueryClient
       
     </span>
   </a>
@@ -3847,10 +3847,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#66-hippo-configuration-requirements" class="md-nav__link">
+  <a href="#66-mosaic-configuration-requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6.6 Hippo Configuration Requirements
+        6.6 Mosaic Configuration Requirements
       
     </span>
   </a>
@@ -4051,15 +4051,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#6-hippo-integration" class="md-nav__link">
+  <a href="#6-mosaic-integration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Hippo Integration
+        6. Mosaic Integration
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="6. Hippo Integration">
+    <nav class="md-nav" aria-label="6. Mosaic Integration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -4074,10 +4074,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#62-hippoqueryclient" class="md-nav__link">
+  <a href="#62-mosaicqueryclient" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6.2 HippoQueryClient
+        6.2 MosaicQueryClient
       
     </span>
   </a>
@@ -4207,10 +4207,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#66-hippo-configuration-requirements" class="md-nav__link">
+  <a href="#66-mosaic-configuration-requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6.6 Hippo Configuration Requirements
+        6.6 Mosaic Configuration Requirements
       
     </span>
   </a>
@@ -4241,25 +4241,25 @@
 
   <h1>Mosaic Integration</h1>
 
-<h2 id="6-hippo-integration">6. Hippo Integration<a class="headerlink" href="#6-hippo-integration" title="Permanent link">&para;</a></h2>
+<h2 id="6-mosaic-integration">6. Mosaic Integration<a class="headerlink" href="#6-mosaic-integration" title="Permanent link">&para;</a></h2>
 <p><strong>Document status:</strong> Draft v0.1<br />
 <strong>Depends on:</strong> sec2_architecture.md, sec3_rules_dsl.md, sec4_resolution_algorithm.md</p>
 <hr />
 <h3 id="61-overview">6.1 Overview<a class="headerlink" href="#61-overview" title="Permanent link">&para;</a></h3>
-<p>Canon interacts with Hippo in three ways:</p>
+<p>Canon interacts with Mosaic in three ways:</p>
 <ol>
 <li><strong>Read</strong> — query the entity registry (does this artifact exist?)</li>
-<li><strong>Write</strong> — ingest produced artifacts as Hippo entities</li>
+<li><strong>Write</strong> — ingest produced artifacts as Mosaic entities</li>
 <li><strong>Provenance</strong> — record <code>WorkflowRun</code> entities for every BUILD execution</li>
 </ol>
-<p>All Hippo interaction is via the REST API using the configured <code>hippo_url</code> and
-<code>hippo_token</code>. Canon does not use the Hippo Python SDK directly — it calls the API over
-HTTP so that Canon can work against any Hippo deployment (local or remote).</p>
+<p>All Mosaic interaction is via the REST API using the configured <code>mosaic_url</code> and
+<code>mosaic_token</code>. Canon does not use the Mosaic Python SDK directly — it calls the API over
+HTTP so that Canon can work against any Mosaic deployment (local or remote).</p>
 <hr />
-<h3 id="62-hippoqueryclient">6.2 HippoQueryClient<a class="headerlink" href="#62-hippoqueryclient" title="Permanent link">&para;</a></h3>
-<p>Canon's thin HTTP client for Hippo. Uses <code>httpx</code> for async-capable requests.</p>
+<h3 id="62-mosaicqueryclient">6.2 MosaicQueryClient<a class="headerlink" href="#62-mosaicqueryclient" title="Permanent link">&para;</a></h3>
+<p>Canon's thin HTTP client for Mosaic. Uses <code>httpx</code> for async-capable requests.</p>
 <p><strong>Methods used by Canon:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">HippoQueryClient</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">MosaicQueryClient</span><span class="p">:</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">find_entity</span><span class="p">(</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        <span class="bp">self</span><span class="p">,</span>
@@ -4267,7 +4267,7 @@ HTTP so that Canon can work against any Hippo deployment (local or remote).</p>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        <span class="n">filters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Entity</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="sd">        Query Hippo for one entity matching all filters exactly.</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="sd">        Query Mosaic for one entity matching all filters exactly.</span>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="sd">        Returns None if no match. Raises CanonResolutionError if multiple match.</span>
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="sd">        GET /entities?entity_type=X&amp;field=val&amp;...</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="sd">        &quot;&quot;&quot;</span>
@@ -4278,7 +4278,7 @@ HTTP so that Canon can work against any Hippo deployment (local or remote).</p>
 <a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>        <span class="n">filters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 <a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Entity</span><span class="p">]:</span>
 <a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="sd">        Query Hippo for all entities matching filters.</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="sd">        Query Mosaic for all entities matching filters.</span>
 <a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="sd">        Used by EntityRefResolver for ref: expressions (must return exactly 1).</span>
 <a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="sd">        GET /entities?entity_type=X&amp;field=val&amp;...&amp;limit=10</span>
 <a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="sd">        &quot;&quot;&quot;</span>
@@ -4295,7 +4295,7 @@ HTTP so that Canon can work against any Hippo deployment (local or remote).</p>
 <a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>        <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 <a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Entity</span><span class="p">:</span>
 <a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="sd">        Create a new entity in Hippo.</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="sd">        Create a new entity in Mosaic.</span>
 <a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="sd">        POST /ingest  body: {&quot;entity_type&quot;: X, &quot;data&quot;: {...}}</span>
 <a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="sd">        Returns the created entity with its assigned UUID.</span>
 <a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="sd">        &quot;&quot;&quot;</span>
@@ -4312,26 +4312,26 @@ HTTP so that Canon can work against any Hippo deployment (local or remote).</p>
 <a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a><span class="sd">        &quot;&quot;&quot;</span>
 </code></pre></div>
 <p><strong>Query filter encoding:</strong></p>
-<p>Hippo entity reference fields (stored as UUIDs) are queried by UUID value directly.
+<p>Mosaic entity reference fields (stored as UUIDs) are queried by UUID value directly.
 Scalar fields are queried by exact string match. All filter values are passed as query
 parameters to <code>GET /entities</code>.</p>
 <hr />
 <h3 id="63-output-ingestion-pipeline">6.3 Output Ingestion Pipeline<a class="headerlink" href="#63-output-ingestion-pipeline" title="Permanent link">&para;</a></h3>
 <p>After a successful CWL execution, <code>OutputIngestionPipeline</code> ingests the produced artifacts
-into Hippo.</p>
+into Mosaic.</p>
 <p><strong>Steps:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>1. Parse CWL output JSON (cwltool stdout)
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>2. Load .canon.yaml sidecar for the executed workflow
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>3. For each output declared in the sidecar:
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>   a. Evaluate hippo_fields expressions against CWL output + rule inputs
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>   b. Relocate output file to configured output_storage (if needed)
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>   c. POST /ingest → create Hippo entity
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>   c. POST /ingest → create Mosaic entity
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>   d. Record returned UUID for WorkflowRun linkage
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>4. Create WorkflowRun entity (§6.4)
 </code></pre></div>
 <p><strong>Output file relocation:</strong></p>
 <p>cwltool writes output files to the CWL work directory with <code>file://</code> URIs. Before
-ingesting into Hippo, Canon relocates files to the configured <code>output_storage</code>:</p>
+ingesting into Mosaic, Canon relocates files to the configured <code>output_storage</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># canon.yaml</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">output_storage</span><span class="p">:</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
@@ -4342,7 +4342,7 @@ ingesting into Hippo, Canon relocates files to the configured <code>output_stora
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lab-data</span>
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="nt">prefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">outputs/{entity_type}/{date}/{run_id}/</span>
 </code></pre></div>
-<p>The relocated URI is what gets stored as the <code>uri</code> field on the Hippo entity. The CWL
+<p>The relocated URI is what gets stored as the <code>uri</code> field on the Mosaic entity. The CWL
 work directory is retained for <code>--keep-workdir</code> runs; otherwise it is cleaned up after
 successful ingestion.</p>
 <p><strong>Entity field assembly:</strong></p>
@@ -4362,11 +4362,11 @@ successful ingestion.</p>
 - <code>{outputs.&lt;name&gt;.location}</code> → file URI after relocation
 - <code>{outputs.&lt;name&gt;.checksum}</code> → SHA1 checksum from CWL output object
 - <code>{outputs.&lt;name&gt;.size}</code> → file size in bytes
-- <code>{inputs.&lt;name&gt;}</code> → value from CWL inputs (Hippo UUID for entity ref fields)
+- <code>{inputs.&lt;name&gt;}</code> → value from CWL inputs (Mosaic UUID for entity ref fields)
 - Literal string/numeric values</p>
 <hr />
 <h3 id="64-workflowrun-entity">6.4 WorkflowRun Entity<a class="headerlink" href="#64-workflowrun-entity" title="Permanent link">&para;</a></h3>
-<p>Canon creates a <code>WorkflowRun</code> entity in Hippo for every BUILD execution. This entity
+<p>Canon creates a <code>WorkflowRun</code> entity in Mosaic for every BUILD execution. This entity
 serves as the complete provenance record for the produced artifact.</p>
 <p><strong>Schema:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">entity_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WorkflowRun</span>
@@ -4381,17 +4381,17 @@ serves as the complete provenance record for the produced artifact.</p>
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">  </span><span class="nt">cwl_runner_version</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">string, required</span><span class="w">      </span><span class="c1"># e.g. &quot;3.1.20240112164112&quot;</span>
 <a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">  </span><span class="nt">execution_environment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dict, required</span><span class="w">      </span><span class="c1"># see §6.4.1</span>
 <a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">  </span><span class="c1"># Inputs (Hippo UUIDs of all resolved input entities)</span>
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">  </span><span class="nt">input_entities</span><span class="p">:</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">list[string]</span><span class="w">          </span><span class="c1"># list of Hippo UUIDs</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">  </span><span class="c1"># Inputs (Mosaic UUIDs of all resolved input entities)</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">  </span><span class="nt">input_entities</span><span class="p">:</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">list[string]</span><span class="w">          </span><span class="c1"># list of Mosaic UUIDs</span>
 <a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
 <a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">  </span><span class="c1"># Output entity</span>
-<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">  </span><span class="nt">output_entity_id</span><span class="p">:</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w">               </span><span class="c1"># Hippo UUID of the produced artifact</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">  </span><span class="nt">output_entity_id</span><span class="p">:</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w">               </span><span class="c1"># Mosaic UUID of the produced artifact</span>
 <a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
 <a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">  </span><span class="c1"># Timing and status</span>
 <a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">  </span><span class="nt">started_at</span><span class="p">:</span><span class="w">          </span><span class="l l-Scalar l-Scalar-Plain">datetime, required</span>
 <a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">  </span><span class="nt">completed_at</span><span class="p">:</span><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">datetime</span>
 <a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">  </span><span class="nt">status</span><span class="p">:</span><span class="w">              </span><span class="l l-Scalar l-Scalar-Plain">enum[running, completed, failed], required</span>
-<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">  </span><span class="nt">exit_code</span><span class="p">:</span><span class="w">           </span><span class="l l-Scalar l-Scalar-Plain">integer</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">  </span><span class="nt">exit_code</span><span class="p">:</span><span class="w">            </span><span class="l l-Scalar l-Scalar-Plain">integer</span>
 <a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">  </span><span class="nt">error_message</span><span class="p">:</span><span class="w">       </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w">               </span><span class="c1"># populated on failure</span>
 </code></pre></div>
 <h4 id="641-execution_environment">6.4.1 execution_environment<a class="headerlink" href="#641-execution_environment" title="Permanent link">&para;</a></h4>
@@ -4447,7 +4447,7 @@ runtime used. Canon records whatever the CWL runner captured.</p>
 </code></pre></div>
 <hr />
 <h3 id="65-canon-reference-schema">6.5 Canon Reference Schema<a class="headerlink" href="#65-canon-reference-schema" title="Permanent link">&para;</a></h3>
-<p>The Canon Hippo reference schema defines the entity types that Canon relies on.
+<p>The Canon Mosaic reference schema defines the entity types that Canon relies on.
 It is bundled in the <code>canon</code> package and applied via <code>hippo reference install canon</code>.</p>
 <h4 id="tool">Tool<a class="headerlink" href="#tool" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">entity_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tool</span>
@@ -4461,7 +4461,7 @@ It is bundled in the <code>canon</code> package and applied via <code>hippo refe
 <a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">  </span><span class="nt">bioconda_name</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">string, indexed</span><span class="w">              </span><span class="c1"># Bioconda package name</span>
 </code></pre></div>
 <h4 id="toolversion">ToolVersion<a class="headerlink" href="#toolversion" title="Permanent link">&para;</a></h4>
-<p>Extends <code>Tool</code> via Hippo's <code>base:</code> inheritance.</p>
+<p>Extends <code>Tool</code> via Mosaic's <code>base:</code> inheritance.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">entity_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ToolVersion</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nt">base</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tool</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="nt">fields</span><span class="p">:</span>
@@ -4470,7 +4470,7 @@ It is bundled in the <code>canon</code> package and applied via <code>hippo refe
 <a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">  </span><span class="nt">bioconda_build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w">                       </span><span class="c1"># full Bioconda build string</span>
 <a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">  </span><span class="nt">changelog_url</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">uri</span>
 </code></pre></div>
-<p><code>client.query("Tool")</code> returns both <code>Tool</code> and <code>ToolVersion</code> entities (Hippo polymorphism).
+<p><code>client.query("Tool")</code> returns both <code>Tool</code> and <code>ToolVersion</code> entities (Mosaic polymorphism).
 <code>client.query("ToolVersion")</code> returns only <code>ToolVersion</code> entities. Canon always uses
 <code>ToolVersion</code> for resolution — <code>Tool</code> alone is never a valid Canon rule parameter.</p>
 <h4 id="genomebuild">GenomeBuild<a class="headerlink" href="#genomebuild" title="Permanent link">&para;</a></h4>
@@ -4499,19 +4499,19 @@ It is bundled in the <code>canon</code> package and applied via <code>hippo refe
 <h4 id="workflowrun">WorkflowRun<a class="headerlink" href="#workflowrun" title="Permanent link">&para;</a></h4>
 <p>Defined in §6.4 above.</p>
 <hr />
-<h3 id="66-hippo-configuration-requirements">6.6 Hippo Configuration Requirements<a class="headerlink" href="#66-hippo-configuration-requirements" title="Permanent link">&para;</a></h3>
-<p>Canon requires the following Hippo configuration to function correctly:</p>
+<h3 id="66-mosaic-configuration-requirements">6.6 Mosaic Configuration Requirements<a class="headerlink" href="#66-mosaic-configuration-requirements" title="Permanent link">&para;</a></h3>
+<p>Canon requires the following Mosaic configuration to function correctly:</p>
 <p><strong>Authentication:</strong> Canon uses bearer token authentication. The token is configured in
-<code>canon.yaml</code> as <code>hippo_token</code>. The token must have read+write access to all entity types
+<code>canon.yaml</code> as <code>mosaic_token</code>. The token must have read+write access to all entity types
 used by Canon rules.</p>
-<p><strong>Hippo version:</strong> Canon requires Hippo v0.1.0 or later. The <code>HippoQueryClient</code> checks
-the Hippo version at startup via <code>GET /health</code> and raises <code>CanonConfigError</code> if the
+<p><strong>Mosaic version:</strong> Canon requires Mosaic v0.1.0 or later. The <code>MosaicQueryClient</code> checks
+the Mosaic version at startup via <code>GET /health</code> and raises <code>CanonConfigError</code> if the
 version is incompatible.</p>
 <p><strong>Schema:</strong> The Canon reference schema must be applied before use:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>hippo<span class="w"> </span>reference<span class="w"> </span>install<span class="w"> </span>canon
 </code></pre></div></p>
 <p>Canon validates at startup that <code>Tool</code>, <code>ToolVersion</code>, <code>GenomeBuild</code>, <code>GeneAnnotation</code>,
-and <code>WorkflowRun</code> entity types are present in the Hippo schema. Missing types raise
+and <code>WorkflowRun</code> entity types are present in the Mosaic schema. Missing types raise
 <code>CanonConfigError</code> with instructions to run <code>hippo reference install canon</code>.</p>
 
 

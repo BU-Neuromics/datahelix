@@ -3792,7 +3792,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../design/sec6_hippo_integration/" class="md-nav__link">
+      <a href="../../design/sec6_mosaic_integration/" class="md-nav__link">
         
   
   
@@ -4122,12 +4122,12 @@
 
 
 <h1 id="canon-quickstart">Canon — Quickstart<a class="headerlink" href="#canon-quickstart" title="Permanent link">&para;</a></h1>
-<p>This guide walks you through installing Canon, connecting it to a running Hippo instance, and
+<p>This guide walks you through installing Canon, connecting it to a running Mosaic instance, and
 resolving your first artifact in around 10 minutes.</p>
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Python 3.11 or later</li>
-<li>A running Hippo instance (see <a href="../../hippo/docs/quickstart.md">Hippo quickstart</a> if you
+<li>A running Mosaic instance (see <a href="../../../mosaic/docs/quickstart/">Mosaic quickstart</a> if you
   need one)</li>
 <li><code>cwltool</code> installed for local execution: <code>pip install cwltool</code></li>
 </ul>
@@ -4142,8 +4142,8 @@ resolving your first artifact in around 10 minutes.</p>
 <p>Create a <code>canon.yaml</code> in your working directory:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># canon.yaml</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nt">hippo_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://localhost:8001&quot;</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nt">hippo_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${HIPPO_TOKEN}&quot;</span><span class="w">   </span><span class="c1"># set HIPPO_TOKEN in your environment</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://localhost:8001&quot;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${MOSAIC_TOKEN}&quot;</span><span class="w">   </span><span class="c1"># set MOSAIC_TOKEN in your environment</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="nt">executor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cwltool</span><span class="w">               </span><span class="c1"># local execution via cwltool</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
@@ -4157,15 +4157,15 @@ resolving your first artifact in around 10 minutes.</p>
 <a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
 <a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="nt">log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">INFO</span>
 </code></pre></div>
-<p>Export your Hippo token (from <code>hippo token create --label canon-local</code>):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">HIPPO_TOKEN</span><span class="o">=</span>&lt;your-hippo-api-token&gt;
+<p>Export your Mosaic token (from <code>hippo token create --label canon-local</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">MOSAIC_TOKEN</span><span class="o">=</span>&lt;your-mosaic-api-token&gt;
 </code></pre></div>
 <h2 id="3-install-canons-reference-schema">3. Install Canon's Reference Schema<a class="headerlink" href="#3-install-canons-reference-schema" title="Permanent link">&para;</a></h2>
-<p>Canon needs a set of base entity types in Hippo (<code>Tool</code>, <code>ToolVersion</code>, <code>GenomeBuild</code>,
+<p>Canon needs a set of base entity types in Mosaic (<code>Tool</code>, <code>ToolVersion</code>, <code>GenomeBuild</code>,
 <code>GeneAnnotation</code>, <code>WorkflowRun</code>). Install them once:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>hippo<span class="w"> </span>reference<span class="w"> </span>install<span class="w"> </span>canon
 </code></pre></div>
-<p>This adds Canon's entity types to your Hippo schema without affecting any existing types.</p>
+<p>This adds Canon's entity types to your Mosaic schema without affecting any existing types.</p>
 <h2 id="4-write-a-simple-rule">4. Write a Simple Rule<a class="headerlink" href="#4-write-a-simple-rule" title="Permanent link">&para;</a></h2>
 <p>Create <code>canon_rules.yaml</code> with a minimal rule. This example produces a <code>CountMatrix</code> from a
 <code>FastqFile</code>:</p>
@@ -4218,10 +4218,10 @@ resolving your first artifact in around 10 minutes.</p>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nv">aligner_version</span><span class="o">=</span>ref:ToolVersion<span class="o">{</span><span class="nv">tool</span><span class="o">=</span>STAR,version<span class="o">=</span><span class="m">2</span>.7.11a<span class="o">}</span>
 </code></pre></div>
 <p>Canon will:
-1. Confirm the artifact does not exist in Hippo
-2. Resolve all required inputs from Hippo
+1. Confirm the artifact does not exist in Mosaic
+2. Resolve all required inputs from Mosaic
 3. Submit the CWL workflow to <code>cwltool</code>
-4. Ingest the output <code>CountMatrix</code> entity into Hippo
+4. Ingest the output <code>CountMatrix</code> entity into Mosaic
 5. Record a <code>WorkflowRun</code> provenance entity</p>
 <p>On completion:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>✓ CountMatrix resolved
@@ -4241,7 +4241,7 @@ resolving your first artifact in around 10 minutes.</p>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>  Entity:  CountMatrix/5e6f7a8b-...
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>  URI:     file:///data/canon-outputs/AD001_GRCh38_GENCODE_v44_STAR2711a/counts.tsv
 </code></pre></div>
-<p>No workflow was submitted. Canon found the existing entity in Hippo and returned its URI.</p>
+<p>No workflow was submitted. Canon found the existing entity in Mosaic and returned its URI.</p>
 <h2 id="8-view-recent-runs">8. View Recent Runs<a class="headerlink" href="#8-view-recent-runs" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>canon<span class="w"> </span>status
 </code></pre></div>
@@ -4252,7 +4252,7 @@ resolving your first artifact in around 10 minutes.</p>
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../user-guide/">User Guide</a> — complete RNA-seq analysis from raw FASTQs to differential
-  expression, with real CWL workflows and Hippo entity setup.</li>
+  expression, with real CWL workflows and Mosaic entity setup.</li>
 <li>For multi-sample batch runs, see the
   <a href="../../../cappella/docs/quickstart/">Cappella documentation</a>.</li>
 </ul>

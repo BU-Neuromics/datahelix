@@ -11,7 +11,7 @@
       
       
       
-        <link rel="prev" href="../sec6_hippo_integration/">
+        <link rel="prev" href="../sec6_mosaic_integration/">
       
       
         <link rel="next" href="../sec8_dynamic_rules/">
@@ -3635,7 +3635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec6_hippo_integration/" class="md-nav__link">
+      <a href="../sec6_mosaic_integration/" class="md-nav__link">
         
   
   
@@ -4266,10 +4266,10 @@ overhead is negligible compared to CWL execution time.</p>
 <p>Canon inherits Hippo's security model for all data access.</p>
 <p><strong>Requirements:</strong></p>
 <ul>
-<li>The <code>hippo_token</code> in <code>canon.yaml</code> must have read+write access to all entity types
+<li>The <code>mosaic_token</code> in <code>canon.yaml</code> must have read+write access to all entity types
   used by Canon rules — Canon does not perform partial-permission graceful degradation</li>
 <li><code>canon.yaml</code> should not be committed to version control if it contains credentials —
-  use environment variable substitution: <code>hippo_token: "${HIPPO_TOKEN}"</code></li>
+  use environment variable substitution: <code>mosaic_token: "${MOSAIC_TOKEN}"</code></li>
 <li>Canon does not execute arbitrary code from canon_rules.yaml — rules are data, not
   code; wildcard values are never evaluated as expressions</li>
 <li>CWL <code>ExpressionTool</code> (JavaScript) is supported but discouraged — JavaScript execution
@@ -4277,7 +4277,7 @@ overhead is negligible compared to CWL execution time.</p>
   ["--disable-ext"]</code> if needed</li>
 <li>Staging directory (<code>work_dir/staging</code>) should be on a filesystem inaccessible to
   other users if input data is sensitive</li>
-<li>Canon does not implement authentication beyond forwarding <code>hippo_token</code> — access
+<li>Canon does not implement authentication beyond forwarding <code>mosaic_token</code> — access
   control for produced artifacts is Hippo's responsibility</li>
 </ul>
 <hr />

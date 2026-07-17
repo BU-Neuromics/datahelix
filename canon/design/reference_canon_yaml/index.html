@@ -3635,7 +3635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec6_hippo_integration/" class="md-nav__link">
+      <a href="../sec6_mosaic_integration/" class="md-nav__link">
         
   
   
@@ -3802,10 +3802,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#hippo_url" class="md-nav__link">
+  <a href="#mosaic_url" class="md-nav__link">
     <span class="md-ellipsis">
       
-        hippo_url
+        mosaic_url
       
     </span>
   </a>
@@ -3813,10 +3813,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#hippo_token" class="md-nav__link">
+  <a href="#mosaic_token" class="md-nav__link">
     <span class="md-ellipsis">
       
-        hippo_token
+        mosaic_token
       
     </span>
   </a>
@@ -4074,10 +4074,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#hippo_url" class="md-nav__link">
+  <a href="#mosaic_url" class="md-nav__link">
     <span class="md-ellipsis">
       
-        hippo_url
+        mosaic_url
       
     </span>
   </a>
@@ -4085,10 +4085,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#hippo_token" class="md-nav__link">
+  <a href="#mosaic_token" class="md-nav__link">
     <span class="md-ellipsis">
       
-        hippo_token
+        mosaic_token
       
     </span>
   </a>
@@ -4235,23 +4235,23 @@
 
 <h1 id="canon-configuration-reference-canonyaml">Canon Configuration Reference: <code>canon.yaml</code><a class="headerlink" href="#canon-configuration-reference-canonyaml" title="Permanent link">&para;</a></h1>
 <p><strong>Document status:</strong> Draft v0.1
-<strong>Depends on:</strong> sec2_architecture.md, sec5_executor_adapters.md, sec6_hippo_integration.md</p>
+<strong>Depends on:</strong> sec2_architecture.md, sec5_executor_adapters.md, sec6_mosaic_integration.md</p>
 <hr />
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p><code>canon.yaml</code> is Canon's project-level configuration file. It lives in the working directory from which <code>canon</code> commands are run and is loaded at startup before any operation.</p>
 <p>Canon raises <code>CanonConfigError</code> at startup if the file is missing, unparseable, or contains invalid values. All validation errors are reported together before any resolution or execution begins.</p>
 <p><strong>Minimum viable configuration:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">hippo_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://127.0.0.1:8000&quot;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">hippo_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${HIPPO_TOKEN}&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://127.0.0.1:8000&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${MOSAIC_TOKEN}&quot;</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nt">executor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cwltool</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nt">output_storage</span><span class="p">:</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nt">base_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/data/canon-outputs</span>
 </code></pre></div>
-<p><strong>Security note:</strong> <code>canon.yaml</code> may be committed to version control provided <code>hippo_token</code> uses environment variable substitution (see below). Never commit a literal token value.</p>
+<p><strong>Security note:</strong> <code>canon.yaml</code> may be committed to version control provided <code>mosaic_token</code> uses environment variable substitution (see below). Never commit a literal token value.</p>
 <hr />
 <h2 id="field-reference">Field Reference<a class="headerlink" href="#field-reference" title="Permanent link">&para;</a></h2>
-<h3 id="hippo_url"><code>hippo_url</code><a class="headerlink" href="#hippo_url" title="Permanent link">&para;</a></h3>
+<h3 id="mosaic_url"><code>mosaic_url</code><a class="headerlink" href="#mosaic_url" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -4274,18 +4274,18 @@
 </tr>
 </tbody>
 </table>
-<p>URL of the Hippo instance that Canon reads artifact metadata from and writes results to. Must be reachable from the machine running Canon.</p>
+<p>URL of the Mosaic instance that Canon reads artifact metadata from and writes results to. Must be reachable from the machine running Canon.</p>
 <p><strong>Examples:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">hippo_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://127.0.0.1:8000&quot;</span><span class="w">           </span><span class="c1"># local development</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">hippo_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://hippo.lab.example.org&quot;</span><span class="w">   </span><span class="c1"># remote deployment</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nt">hippo_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://hippo-service:8000&quot;</span><span class="w">        </span><span class="c1"># Kubernetes service</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://127.0.0.1:8000&quot;</span><span class="w">           </span><span class="c1"># local development</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://mosaic.lab.example.org&quot;</span><span class="w">   </span><span class="c1"># remote deployment</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://mosaic-service:8000&quot;</span><span class="w">        </span><span class="c1"># Kubernetes service</span>
 </code></pre></div>
 <p><strong>Validation:</strong>
 - Must be a valid HTTP or HTTPS URI
 - Schema (<code>http://</code> or <code>https://</code>) is required — bare hostnames are rejected
-- Canon tests connectivity to <code>{hippo_url}/health</code> at startup; raises <code>CanonConfigError</code> if unreachable or if the Hippo version is incompatible</p>
+- Canon tests connectivity to <code>{mosaic_url}/health</code> at startup; raises <code>CanonConfigError</code> if unreachable or if the Mosaic version is incompatible</p>
 <hr />
-<h3 id="hippo_token"><code>hippo_token</code><a class="headerlink" href="#hippo_token" title="Permanent link">&para;</a></h3>
+<h3 id="mosaic_token"><code>mosaic_token</code><a class="headerlink" href="#mosaic_token" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -4308,15 +4308,15 @@
 </tr>
 </tbody>
 </table>
-<p>Bearer token for authenticating to the Hippo REST API. The token must have read and write access to all entity types used by Canon rules (including <code>Tool</code>, <code>ToolVersion</code>, <code>GenomeBuild</code>, <code>GeneAnnotation</code>, <code>WorkflowRun</code>, and all domain entity types declared in rules).</p>
+<p>Bearer token for authenticating to the Mosaic REST API. The token must have read and write access to all entity types used by Canon rules (including <code>Tool</code>, <code>ToolVersion</code>, <code>GenomeBuild</code>, <code>GeneAnnotation</code>, <code>WorkflowRun</code>, and all domain entity types declared in rules).</p>
 <p><strong>Environment variable substitution</strong> — any value matching <code>${VAR_NAME}</code> is replaced with the value of that environment variable at load time:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">hippo_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${HIPPO_TOKEN}&quot;</span><span class="w">         </span><span class="c1"># recommended — token stays out of the file</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">hippo_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;dev-token-abc123&quot;</span><span class="w">       </span><span class="c1"># literal — safe only for local dev instances</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${MOSAIC_TOKEN}&quot;</span><span class="w">         </span><span class="c1"># recommended — token stays out of the file</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;dev-token-abc123&quot;</span><span class="w">       </span><span class="c1"># literal — safe only for local dev instances</span>
 </code></pre></div>
-<p>If a <code>${VAR_NAME}</code> expression is used and the environment variable is not set, Canon raises <code>CanonConfigError: environment variable HIPPO_TOKEN is not set</code>.</p>
+<p>If a <code>${VAR_NAME}</code> expression is used and the environment variable is not set, Canon raises <code>CanonConfigError: environment variable MOSAIC_TOKEN is not set</code>.</p>
 <p><strong>Validation:</strong>
 - Must be a non-empty string after environment variable substitution
-- Canon does not validate token format — an invalid token produces a <code>401 Unauthorized</code> from Hippo at first use, which Canon surfaces as <code>CanonConfigError</code></p>
+- Canon does not validate token format — an invalid token produces a <code>401 Unauthorized</code> from Mosaic at first use, which Canon surfaces as <code>CanonConfigError</code></p>
 <hr />
 <h3 id="executor"><code>executor</code><a class="headerlink" href="#executor" title="Permanent link">&para;</a></h3>
 <table>
@@ -4488,7 +4488,7 @@
 </tr>
 </tbody>
 </table>
-<p>Configures where Canon stores output files produced by CWL workflows. After a workflow completes, Canon moves output files from the CWL work directory to this storage location before ingesting the final URI into Hippo.</p>
+<p>Configures where Canon stores output files produced by CWL workflows. After a workflow completes, Canon moves output files from the CWL work directory to this storage location before ingesting the final URI into Mosaic.</p>
 <p>The <code>output_storage</code> mapping must contain a <code>type</code> field. Additional fields depend on the type.</p>
 <h4 id="output_storagetype-local"><code>output_storage.type: local</code><a class="headerlink" href="#output_storagetype-local" title="Permanent link">&para;</a></h4>
 <p>Stores outputs on the local filesystem.</p>
@@ -4566,7 +4566,7 @@
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">prefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">canon-outputs/</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
 </code></pre></div>
-<p>Output files are stored at <code>s3://{bucket}/{prefix}{entity_type}/{date}/{run_id}/{filename}</code>. The <code>s3://</code> URI is what gets stored on the Hippo entity.</p>
+<p>Output files are stored at <code>s3://{bucket}/{prefix}{entity_type}/{date}/{run_id}/{filename}</code>. The <code>s3://</code> URI is what gets stored on the Mosaic entity.</p>
 <p><strong>Authentication:</strong> uses standard AWS credential chain (<code>~/.aws/credentials</code>, <code>AWS_ACCESS_KEY_ID</code>/<code>AWS_SECRET_ACCESS_KEY</code> environment variables, or IAM role). Canon does not accept explicit credentials in <code>canon.yaml</code>.</p>
 <p><strong>Validation:</strong> Canon verifies <code>s3://{bucket}/{prefix}</code> is writable at startup by attempting a small probe write. Raises <code>CanonConfigError</code> if the bucket is inaccessible or permissions are insufficient.</p>
 <hr />
@@ -4684,7 +4684,7 @@
 <tbody>
 <tr>
 <td><code>DEBUG</code></td>
-<td>Everything: Hippo queries + response times, entity ref resolutions, wildcard bindings, rule matching decisions, all HTTP requests</td>
+<td>Everything: Mosaic queries + response times, entity ref resolutions, wildcard bindings, rule matching decisions, all HTTP requests</td>
 </tr>
 <tr>
 <td><code>INFO</code></td>
@@ -4712,8 +4712,8 @@
 <p>Minimal local development configuration:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># canon.yaml — local development</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="nt">hippo_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://127.0.0.1:8000&quot;</span>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="nt">hippo_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${HIPPO_TOKEN}&quot;</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://127.0.0.1:8000&quot;</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${MOSAIC_TOKEN}&quot;</span>
 <a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="nt">executor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cwltool</span>
 <a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="nt">rules_file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">canon_rules.yaml</span>
 <a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>
@@ -4729,8 +4729,8 @@
 <p>HPC production configuration (Singularity + S3):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># canon.yaml — HPC cluster with Singularity and S3 storage</span>
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="nt">hippo_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://hippo.lab.example.org&quot;</span>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nt">hippo_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${HIPPO_TOKEN}&quot;</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://mosaic.lab.example.org&quot;</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${MOSAIC_TOKEN}&quot;</span>
 <a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="nt">executor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cwltool</span>
 <a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="nt">rules_file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">canon_rules.yaml</span>
 <a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
@@ -4753,8 +4753,8 @@
 <p>Toil/Slurm configuration (plugin adapter):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># canon.yaml — Slurm cluster via Toil</span>
 <a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="nt">hippo_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://hippo.lab.example.org&quot;</span>
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="nt">hippo_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${HIPPO_TOKEN}&quot;</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://mosaic.lab.example.org&quot;</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${MOSAIC_TOKEN}&quot;</span>
 <a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="nt">executor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">toil</span>
 <a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
 <a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="nt">output_storage</span><span class="p">:</span>
@@ -4779,31 +4779,31 @@
 </thead>
 <tbody>
 <tr>
-<td><code>hippo_url</code> missing</td>
-<td><code>canon.yaml: hippo_url is required</code></td>
+<td><code>mosaic_url</code> missing</td>
+<td><code>canon.yaml: mosaic_url is required</code></td>
 </tr>
 <tr>
-<td><code>hippo_url</code> not a valid URI</td>
-<td><code>canon.yaml: hippo_url must be an http or https URI</code></td>
+<td><code>mosaic_url</code> not a valid URI</td>
+<td><code>canon.yaml: mosaic_url must be an http or https URI</code></td>
 </tr>
 <tr>
-<td>Hippo unreachable at startup</td>
-<td><code>canon.yaml: cannot reach Hippo at {hippo_url}/health — {detail}</code></td>
+<td>Mosaic unreachable at startup</td>
+<td><code>canon.yaml: cannot reach Mosaic at {mosaic_url}/health — {detail}</code></td>
 </tr>
 <tr>
-<td>Incompatible Hippo version</td>
-<td><code>canon.yaml: Hippo version {v} is not supported (requires ≥ 0.1.0)</code></td>
+<td>Incompatible Mosaic version</td>
+<td><code>canon.yaml: Mosaic version {v} is not supported (requires ≥ 0.1.0)</code></td>
 </tr>
 <tr>
-<td>Canon entity types missing from Hippo</td>
-<td><code>canon.yaml: Canon entity types not found in Hippo schema. Run: hippo reference install canon</code></td>
+<td>Canon entity types missing from Mosaic</td>
+<td><code>canon.yaml: Canon entity types not found in Mosaic schema. Run: hippo reference install canon</code></td>
 </tr>
 <tr>
-<td><code>hippo_token</code> missing</td>
-<td><code>canon.yaml: hippo_token is required</code></td>
+<td><code>mosaic_token</code> missing</td>
+<td><code>canon.yaml: mosaic_token is required</code></td>
 </tr>
 <tr>
-<td><code>hippo_token</code> env var not set</td>
+<td><code>mosaic_token</code> env var not set</td>
 <td><code>canon.yaml: environment variable {VAR} is not set</code></td>
 </tr>
 <tr>
