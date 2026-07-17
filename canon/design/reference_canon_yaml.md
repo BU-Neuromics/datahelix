@@ -36,20 +36,20 @@ output_storage:
 | **Required** | Yes |
 | **Default** | — |
 
-URL of the Hippo instance that Canon reads artifact metadata from and writes results to. Must be reachable from the machine running Canon.
+URL of the Mosaic instance that Canon reads artifact metadata from and writes results to. Must be reachable from the machine running Canon.
 
 **Examples:**
 
 ```yaml
 mosaic_url: "http://127.0.0.1:8000"           # local development
-mosaic_url: "https://hippo.lab.example.org"   # remote deployment
-mosaic_url: "http://hippo-service:8000"        # Kubernetes service
+mosaic_url: "https://mosaic.lab.example.org"   # remote deployment
+mosaic_url: "http://mosaic-service:8000"        # Kubernetes service
 ```
 
 **Validation:**
 - Must be a valid HTTP or HTTPS URI
 - Schema (`http://` or `https://`) is required — bare hostnames are rejected
-- Canon tests connectivity to `{mosaic_url}/health` at startup; raises `CanonConfigError` if unreachable or if the Hippo version is incompatible
+- Canon tests connectivity to `{mosaic_url}/health` at startup; raises `CanonConfigError` if unreachable or if the Mosaic version is incompatible
 
 ---
 
@@ -61,7 +61,7 @@ mosaic_url: "http://hippo-service:8000"        # Kubernetes service
 | **Required** | Yes |
 | **Default** | — |
 
-Bearer token for authenticating to the Hippo REST API. The token must have read and write access to all entity types used by Canon rules (including `Tool`, `ToolVersion`, `GenomeBuild`, `GeneAnnotation`, `WorkflowRun`, and all domain entity types declared in rules).
+Bearer token for authenticating to the Mosaic REST API. The token must have read and write access to all entity types used by Canon rules (including `Tool`, `ToolVersion`, `GenomeBuild`, `GeneAnnotation`, `WorkflowRun`, and all domain entity types declared in rules).
 
 **Environment variable substitution** — any value matching `${VAR_NAME}` is replaced with the value of that environment variable at load time:
 
@@ -70,11 +70,11 @@ mosaic_token: "${MOSAIC_TOKEN}"         # recommended — token stays out of the
 mosaic_token: "dev-token-abc123"       # literal — safe only for local dev instances
 ```
 
-If a `${VAR_NAME}` expression is used and the environment variable is not set, Canon raises `CanonConfigError: environment variable HIPPO_TOKEN is not set`.
+If a `${VAR_NAME}` expression is used and the environment variable is not set, Canon raises `CanonConfigError: environment variable MOSAIC_TOKEN is not set`.
 
 **Validation:**
 - Must be a non-empty string after environment variable substitution
-- Canon does not validate token format — an invalid token produces a `401 Unauthorized` from Hippo at first use, which Canon surfaces as `CanonConfigError`
+- Canon does not validate token format — an invalid token produces a `401 Unauthorized` from Mosaic at first use, which Canon surfaces as `CanonConfigError`
 
 ---
 
@@ -184,7 +184,7 @@ Canon creates `work_dir` and subdirectories automatically. Parent directories mu
 | **Required** | Yes |
 | **Default** | — |
 
-Configures where Canon stores output files produced by CWL workflows. After a workflow completes, Canon moves output files from the CWL work directory to this storage location before ingesting the final URI into Hippo.
+Configures where Canon stores output files produced by CWL workflows. After a workflow completes, Canon moves output files from the CWL work directory to this storage location before ingesting the final URI into Mosaic.
 
 The `output_storage` mapping must contain a `type` field. Additional fields depend on the type.
 
@@ -226,7 +226,7 @@ output_storage:
   region: us-east-1
 ```
 
-Output files are stored at `s3://{bucket}/{prefix}{entity_type}/{date}/{run_id}/{filename}`. The `s3://` URI is what gets stored on the Hippo entity.
+Output files are stored at `s3://{bucket}/{prefix}{entity_type}/{date}/{run_id}/{filename}`. The `s3://` URI is what gets stored on the Mosaic entity.
 
 **Authentication:** uses standard AWS credential chain (`~/.aws/credentials`, `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY` environment variables, or IAM role). Canon does not accept explicit credentials in `canon.yaml`.
 
@@ -300,7 +300,7 @@ Controls the verbosity of Canon's own log output to stderr. Does not affect cwlt
 
 | Value | What is logged |
 |---|---|
-| `DEBUG` | Everything: Hippo queries + response times, entity ref resolutions, wildcard bindings, rule matching decisions, all HTTP requests |
+| `DEBUG` | Everything: Mosaic queries + response times, entity ref resolutions, wildcard bindings, rule matching decisions, all HTTP requests |
 | `INFO` | Normal operations: REUSE/BUILD decisions, CWL execution start/end, ingestion confirmations, startup summary |
 | `WARNING` | Non-fatal anomalies: retry attempts, deprecated config fields, missing optional outputs |
 | `ERROR` | Fatal errors only (these also raise exceptions and abort the operation) |
@@ -344,7 +344,7 @@ HPC production configuration (Singularity + S3):
 ```yaml
 # canon.yaml — HPC cluster with Singularity and S3 storage
 
-mosaic_url: "https://hippo.lab.example.org"
+mosaic_url: "https://mosaic.lab.example.org"
 mosaic_token: "${MOSAIC_TOKEN}"
 executor: cwltool
 rules_file: canon_rules.yaml
@@ -371,7 +371,7 @@ Toil/Slurm configuration (plugin adapter):
 ```yaml
 # canon.yaml — Slurm cluster via Toil
 
-mosaic_url: "https://hippo.lab.example.org"
+mosaic_url: "https://mosaic.lab.example.org"
 mosaic_token: "${MOSAIC_TOKEN}"
 executor: toil
 
@@ -396,8 +396,8 @@ All `CanonConfigError` conditions raised during config loading:
 | `mosaic_url` missing | `canon.yaml: mosaic_url is required` |
 | `mosaic_url` not a valid URI | `canon.yaml: mosaic_url must be an http or https URI` |
 | Mosaic unreachable at startup | `canon.yaml: cannot reach Mosaic at {mosaic_url}/health — {detail}` |
-| Incompatible Hippo version | `canon.yaml: Hippo version {v} is not supported (requires ≥ 0.1.0)` |
-| Canon entity types missing from Hippo | `canon.yaml: Canon entity types not found in Hippo schema. Run: hippo reference install canon` |
+| Incompatible Mosaic version | `canon.yaml: Mosaic version {v} is not supported (requires ≥ 0.1.0)` |
+| Canon entity types missing from Mosaic | `canon.yaml: Canon entity types not found in Mosaic schema. Run: hippo reference install canon` |
 | `mosaic_token` missing | `canon.yaml: mosaic_token is required` |
 | `mosaic_token` env var not set | `canon.yaml: environment variable {VAR} is not set` |
 | `executor` missing | `canon.yaml: executor is required` |
