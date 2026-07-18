@@ -52,10 +52,15 @@ export const sel = {
   saveViewButton: (p: Page): Locator =>
     p.getByTestId("save-view").or(p.getByRole("button", { name: /save view/i })),
 
-  // Saved views render as nav BUTTONS in the real 0.2.x DOM (CollectionsNav),
-  // not links.
+  // Saved views render as nav BUTTONS in the real DOM (CollectionsNav), not
+  // links. The `saved-view-<name>` testid is the stable contract and is unique;
+  // the role fallback must be `exact` so it does not also match the sibling
+  // "Remove saved view \"<name>\"" button aperture 0.3.0 added (#41) — whose
+  // accessible name contains <name> — which would trip Playwright strict mode.
   savedViewNamed: (p: Page, name: string): Locator =>
-    p.getByTestId(`saved-view-${name}`).or(p.getByRole("button", { name })),
+    p.getByTestId(`saved-view-${name}`).or(
+      p.getByRole("button", { name, exact: true }),
+    ),
 
   // The real footer reads "Control plane: LinkML-on-Hippo document store"
   // (hippo-backed) or "Control plane: this browser only (…)" (local fallback).
