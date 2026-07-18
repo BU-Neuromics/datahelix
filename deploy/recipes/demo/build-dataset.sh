@@ -33,7 +33,7 @@ storage_backend: sqlite
 database_url: data/mosaic.db
 EOF
 
-# Ingest straight into the canonical SQLite path. Mosaic 0.11.0's ingest
+# Ingest straight into the canonical SQLite path. Mosaic 0.12.0's ingest
 # takes --db-path and defers foreign-key checks to commit (mosaic #95), so the
 # brain-bank reference cycles (Container.parent, Location.parent_location,
 # AnatomicalStructure.part_of) load atomically. Run from the project dir so
