@@ -16,7 +16,7 @@ set -eu
 
 PROJECT=/project
 
-# The certified frontier now pins Mosaic ≥0.11.0 (ADR-0004 rename shipped),
+# The certified frontier now pins Mosaic ≥0.12.0 (ADR-0004 rename shipped),
 # so the CLI is `mosaic`.
 MOSAIC_BIN=mosaic
 export MOSAIC_BIN

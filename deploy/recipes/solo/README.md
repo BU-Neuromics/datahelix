@@ -112,7 +112,7 @@ follow-on (proposal §4.4).
   in `team`.
 - Migrations are additive-only; breaking changes are a manual
   `schema safe-deploy` operation.
-- The certified frontier pins Mosaic 0.11.0; the component image name and
+- The certified frontier pins Mosaic 0.12.0; the component image name and
   ledger key keep the `hippo` spelling by design until the coordinated repo
   rename, and data-contract identifiers stay `hippo` permanently (Mosaic
   ADR-0004).

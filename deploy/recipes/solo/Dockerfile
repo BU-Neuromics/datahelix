@@ -12,13 +12,13 @@
 # and the digests are recorded as OCI labels so a deploy gate can verify the
 # bundle's provenance. Never build components from source in this recipe.
 #
-# NOTE (ADR-0004 rename): the certified frontier pins Mosaic 0.11.0 (the
+# NOTE (ADR-0004 rename): the certified frontier pins Mosaic 0.12.0 (the
 # rename release). The image name and ledger key keep the `hippo` spelling by
 # design until the coordinated repo rename; the CLI inside the image is
 # `mosaic`.
 
-ARG HIPPO_IMAGE=ghcr.io/bu-neuromics/hippo@sha256:b101dfcc226d26396c2c63860cc47eb3df45b94d0e440861f6f48b9fec25f170
-ARG APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:f41b0883d951b9abce9f024689ed3e5f7289cd592258edb1a4c14c1c66e290da
+ARG HIPPO_IMAGE=ghcr.io/bu-neuromics/hippo@sha256:f84d1ae35da52378dc821b2e5a1cfa2e2aae30bf61d1d4bef1a173a9adb95ee5
+ARG APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:5c2dea43a17f8f0a2cf51345e59b59a3e3eddaec2c588e09f3c3bb393b2a9f2d
 
 # The Modeler has no published image yet; build its static bundle at a pinned
 # commit (self-contained multi-stage build landed via linkml-modeler-app#149).
