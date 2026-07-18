@@ -22,7 +22,7 @@ Phase 1 targets Tier 1 and Tier 2. Tier 3 is out of scope for Phase 1 benchmarki
 
 ---
 
-## Hippo — Storage & Query (SQLite adapter, Tier 1/2)
+## Mosaic — Storage & Query (SQLite adapter, Tier 1/2)
 
 Source: `mosaic/design/sec7_nfr.md §7.1`
 
@@ -55,13 +55,13 @@ Canon's primary NFRs are qualitative (reproducibility, correctness, idempotency)
 
 | Metric | Target | Notes |
 |---|---|---|
-| `resolve()` latency — REUSE path | < 1.5s | Hippo query overhead only; no CWL invoked |
+| `resolve()` latency — REUSE path | < 1.5s | Mosaic query overhead only; no CWL invoked |
 | `resolve()` latency — BUILD path overhead | ≤ CWL execution time + 500ms | Canon overhead is at most 500ms on top of actual execution |
-| `canon plan` dry-run | < 2s | Hippo queries for REUSE check; no execution |
-| `canon status` query (20 recent runs) | < 500ms | Backed by indexed `WorkflowRun` Hippo query |
+| `canon plan` dry-run | < 2s | Mosaic queries for REUSE check; no execution |
+| `canon status` query (20 recent runs) | < 500ms | Backed by indexed `WorkflowRun` Mosaic query |
 
 **Correctness requirements (non-negotiable — not subject to version trade-offs):**
-- Every field comparison in Hippo queries is exact match — no fuzzy matching in `resolve()`
+- Every field comparison in Mosaic queries is exact match — no fuzzy matching in `resolve()`
 - `CanonResolutionError` on zero or multiple matches — never silently picks from many
 - Tool version is always required in rules — no silent version resolution
 - Unpropagated wildcard validation at startup prevents silent provenance loss
@@ -75,8 +75,8 @@ Source: `cappella/design/sec6_nfr.md §6.1`
 
 | Metric | Target | Notes |
 |---|---|---|
-| Adapter sync throughput | ≥ 500 records/min | Batch adapter syncs; SQLite Hippo backend |
-| Resolution latency — all REUSE (≤10 samples) | ≤ 2s | Hippo queries only; Canon not invoked |
+| Adapter sync throughput | ≥ 500 records/min | Batch adapter syncs; SQLite Mosaic backend |
+| Resolution latency — all REUSE (≤10 samples) | ≤ 2s | Mosaic queries only; Canon not invoked |
 | Resolution latency — BUILD path (≤10 samples) | ≤ Canon execution time + 500ms | Cappella overhead ≤ 500ms |
 | Async resolution startup (`POST /resolve` → `202`) | ≤ 200ms | Returns `run_id` immediately |
 | Health endpoint (`GET /health`) | ≤ 100ms | Cached adapter health check |
@@ -92,10 +92,10 @@ These are the integrated targets for the full pipeline, derived from component t
 
 | Scenario | Target | Notes |
 |---|---|---|
-| Adapter sync: 1 new record to Hippo | < 5s wall clock | Includes ExternalID lookup + Hippo write |
-| Canon resolve: REUSE, 1 sample | < 5s wall clock | Hippo query + contract overhead |
-| Canon resolve: BUILD, 1 sample (mock CWL) | < 15s wall clock | Mock CWL returns immediately; Canon + Hippo provenance write |
-| Full round-trip: 10 samples all REUSE | < 20s wall clock | Cappella resolution run against live Hippo |
+| Adapter sync: 1 new record to Mosaic | < 5s wall clock | Includes ExternalID lookup + Mosaic write |
+| Canon resolve: REUSE, 1 sample | < 5s wall clock | Mosaic query + contract overhead |
+| Canon resolve: BUILD, 1 sample (mock CWL) | < 15s wall clock | Mock CWL returns immediately; Canon + Mosaic provenance write |
+| Full round-trip: 10 samples all REUSE | < 20s wall clock | Cappella resolution run against live Mosaic |
 | Full round-trip: 10 samples all BUILD (mock CWL) | < 45s wall clock | Includes WorkflowRun + output entity writes per sample |
 
 ---
@@ -111,10 +111,10 @@ When Phase 1 benchmarking runs occur, record actual measurements in the table be
 
 | Component | Operation | Date | Git ref | Environment | Actual p99 | Pass/Fail |
 |---|---|---|---|---|---|---|
-| Hippo | `client.get` | — | — | — | — | — |
-| Hippo | Filtered query (100) | — | — | — | — | — |
-| Hippo | Single write | — | — | — | — | — |
-| Hippo | Batch ingest (1,000) | — | — | — | — | — |
+| Mosaic | `client.get` | — | — | — | — | — |
+| Mosaic | Filtered query (100) | — | — | — | — | — |
+| Mosaic | Single write | — | — | — | — | — |
+| Mosaic | Batch ingest (1,000) | — | — | — | — | — |
 | Canon | `resolve()` REUSE | — | — | — | — | — |
 | Cappella | Adapter sync (500/min) | — | — | — | — | — |
 | Cappella | Resolution (10 REUSE) | — | — | — | — | — |
