@@ -3834,10 +3834,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#hippo-storage-query-sqlite-adapter-tier-12" class="md-nav__link">
+  <a href="#mosaic-storage-query-sqlite-adapter-tier-12" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hippo — Storage &amp; Query (SQLite adapter, Tier 1/2)
+        Mosaic — Storage &amp; Query (SQLite adapter, Tier 1/2)
       
     </span>
   </a>
@@ -3949,7 +3949,7 @@
 </table>
 <p>Phase 1 targets Tier 1 and Tier 2. Tier 3 is out of scope for Phase 1 benchmarking.</p>
 <hr />
-<h2 id="hippo-storage-query-sqlite-adapter-tier-12">Hippo — Storage &amp; Query (SQLite adapter, Tier 1/2)<a class="headerlink" href="#hippo-storage-query-sqlite-adapter-tier-12" title="Permanent link">&para;</a></h2>
+<h2 id="mosaic-storage-query-sqlite-adapter-tier-12">Mosaic — Storage &amp; Query (SQLite adapter, Tier 1/2)<a class="headerlink" href="#mosaic-storage-query-sqlite-adapter-tier-12" title="Permanent link">&para;</a></h2>
 <p>Source: <code>mosaic/design/sec7_nfr.md §7.1</code></p>
 <table>
 <thead>
@@ -4037,7 +4037,7 @@
 <tr>
 <td><code>resolve()</code> latency — REUSE path</td>
 <td>&lt; 1.5s</td>
-<td>Hippo query overhead only; no CWL invoked</td>
+<td>Mosaic query overhead only; no CWL invoked</td>
 </tr>
 <tr>
 <td><code>resolve()</code> latency — BUILD path overhead</td>
@@ -4047,17 +4047,17 @@
 <tr>
 <td><code>canon plan</code> dry-run</td>
 <td>&lt; 2s</td>
-<td>Hippo queries for REUSE check; no execution</td>
+<td>Mosaic queries for REUSE check; no execution</td>
 </tr>
 <tr>
 <td><code>canon status</code> query (20 recent runs)</td>
 <td>&lt; 500ms</td>
-<td>Backed by indexed <code>WorkflowRun</code> Hippo query</td>
+<td>Backed by indexed <code>WorkflowRun</code> Mosaic query</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Correctness requirements (non-negotiable — not subject to version trade-offs):</strong>
-- Every field comparison in Hippo queries is exact match — no fuzzy matching in <code>resolve()</code>
+- Every field comparison in Mosaic queries is exact match — no fuzzy matching in <code>resolve()</code>
 - <code>CanonResolutionError</code> on zero or multiple matches — never silently picks from many
 - Tool version is always required in rules — no silent version resolution
 - Unpropagated wildcard validation at startup prevents silent provenance loss
@@ -4077,12 +4077,12 @@
 <tr>
 <td>Adapter sync throughput</td>
 <td>≥ 500 records/min</td>
-<td>Batch adapter syncs; SQLite Hippo backend</td>
+<td>Batch adapter syncs; SQLite Mosaic backend</td>
 </tr>
 <tr>
 <td>Resolution latency — all REUSE (≤10 samples)</td>
 <td>≤ 2s</td>
-<td>Hippo queries only; Canon not invoked</td>
+<td>Mosaic queries only; Canon not invoked</td>
 </tr>
 <tr>
 <td>Resolution latency — BUILD path (≤10 samples)</td>
@@ -4120,24 +4120,24 @@
 </thead>
 <tbody>
 <tr>
-<td>Adapter sync: 1 new record to Hippo</td>
+<td>Adapter sync: 1 new record to Mosaic</td>
 <td>&lt; 5s wall clock</td>
-<td>Includes ExternalID lookup + Hippo write</td>
+<td>Includes ExternalID lookup + Mosaic write</td>
 </tr>
 <tr>
 <td>Canon resolve: REUSE, 1 sample</td>
 <td>&lt; 5s wall clock</td>
-<td>Hippo query + contract overhead</td>
+<td>Mosaic query + contract overhead</td>
 </tr>
 <tr>
 <td>Canon resolve: BUILD, 1 sample (mock CWL)</td>
 <td>&lt; 15s wall clock</td>
-<td>Mock CWL returns immediately; Canon + Hippo provenance write</td>
+<td>Mock CWL returns immediately; Canon + Mosaic provenance write</td>
 </tr>
 <tr>
 <td>Full round-trip: 10 samples all REUSE</td>
 <td>&lt; 20s wall clock</td>
-<td>Cappella resolution run against live Hippo</td>
+<td>Cappella resolution run against live Mosaic</td>
 </tr>
 <tr>
 <td>Full round-trip: 10 samples all BUILD (mock CWL)</td>
@@ -4168,7 +4168,7 @@
 </thead>
 <tbody>
 <tr>
-<td>Hippo</td>
+<td>Mosaic</td>
 <td><code>client.get</code></td>
 <td>—</td>
 <td>—</td>
@@ -4177,7 +4177,7 @@
 <td>—</td>
 </tr>
 <tr>
-<td>Hippo</td>
+<td>Mosaic</td>
 <td>Filtered query (100)</td>
 <td>—</td>
 <td>—</td>
@@ -4186,7 +4186,7 @@
 <td>—</td>
 </tr>
 <tr>
-<td>Hippo</td>
+<td>Mosaic</td>
 <td>Single write</td>
 <td>—</td>
 <td>—</td>
@@ -4195,7 +4195,7 @@
 <td>—</td>
 </tr>
 <tr>
-<td>Hippo</td>
+<td>Mosaic</td>
 <td>Batch ingest (1,000)</td>
 <td>—</td>
 <td>—</td>
