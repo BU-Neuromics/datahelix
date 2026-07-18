@@ -1,19 +1,21 @@
 {
   "certified_versions": {
     "aperture": [
-      "0.2.1"
+      "0.2.1",
+      "0.3.0"
     ],
     "hippo": [
       "0.10.6"
     ],
     "mosaic": [
-      "0.11.0"
+      "0.11.0",
+      "0.12.0"
     ]
   },
   "counts": {
     "failing": 0,
-    "passing": 2,
-    "total": 2
+    "passing": 3,
+    "total": 3
   },
   "entries": [
     {
@@ -59,6 +61,28 @@
       "result": "pass",
       "suite_sha": "fd197c3b483322b6b6ca09fad471e5a0f18736cd",
       "timestamp": "2026-07-17T16:20:56Z"
+    },
+    {
+      "ci_run": "https://github.com/BU-Neuromics/datahelix/actions/runs/29644822937",
+      "components": [
+        {
+          "digest": "sha256:5c2dea43a17f8f0a2cf51345e59b59a3e3eddaec2c588e09f3c3bb393b2a9f2d",
+          "name": "aperture",
+          "version": "0.3.0"
+        },
+        {
+          "digest": "sha256:f84d1ae35da52378dc821b2e5a1cfa2e2aae30bf61d1d4bef1a173a9adb95ee5",
+          "name": "mosaic",
+          "version": "0.12.0"
+        }
+      ],
+      "failing_check": null,
+      "fixture_version": "1.0.0",
+      "label": "aperture-0.3.0+mosaic-0.12.0",
+      "line": "frontier",
+      "result": "pass",
+      "suite_sha": "a3716f9808b67d3462c52058e52d6049f957dede",
+      "timestamp": "2026-07-18T12:44:05Z"
     }
   ],
   "generated_from": "certified/* git tags (source of truth)",
