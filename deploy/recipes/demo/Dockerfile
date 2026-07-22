@@ -11,7 +11,7 @@
 # meaning) and the data is immutable — there is no schema-iteration loop and no
 # auth (see the solo recipe's banner; run on localhost / trusted network).
 
-ARG HIPPO_IMAGE=ghcr.io/bu-neuromics/hippo@sha256:f84d1ae35da52378dc821b2e5a1cfa2e2aae30bf61d1d4bef1a173a9adb95ee5
+ARG MOSAIC_IMAGE=ghcr.io/bu-neuromics/mosaic@sha256:2ac3e3c10f86bbbb9d98ea770e46be641c1465f24d051cf6f799ff9bda1b884b
 ARG APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:5c2dea43a17f8f0a2cf51345e59b59a3e3eddaec2c588e09f3c3bb393b2a9f2d
 
 # Data generator (pinned; carries the global-id-uniqueness fix,
@@ -25,7 +25,7 @@ ARG SCHEMA_REF=43a93d663796f480a576a27f1c91db71b9f91dd9
 FROM ${APERTURE_IMAGE} AS aperture
 
 # ── Data-build stage: generate + ingest inside the pinned runtime ───────────
-FROM ${HIPPO_IMAGE} AS data
+FROM ${MOSAIC_IMAGE} AS data
 USER root
 ARG DATAGEN_REPO
 ARG DATAGEN_REF
@@ -48,8 +48,8 @@ RUN chmod +x build-dataset.sh \
     && DEMO_SEED="${DEMO_SEED}" DEMO_COUNTS="${DEMO_COUNTS}" ./build-dataset.sh
 
 # ── Final stage: solo runtime, dataset baked in ─────────────────────────────
-FROM ${HIPPO_IMAGE}
-ARG HIPPO_IMAGE
+FROM ${MOSAIC_IMAGE}
+ARG MOSAIC_IMAGE
 ARG APERTURE_IMAGE
 ARG SCHEMA_REF
 ARG VERSION=dev
@@ -60,7 +60,7 @@ LABEL org.opencontainers.image.title="datahelix-demo" \
       org.opencontainers.image.source="https://github.com/BU-Neuromics/datahelix" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.revision="${REVISION}" \
-      org.datahelix.solo.hippo-image="${HIPPO_IMAGE}" \
+      org.datahelix.solo.mosaic-image="${MOSAIC_IMAGE}" \
       org.datahelix.solo.aperture-image="${APERTURE_IMAGE}" \
       org.datahelix.demo.schema-ref="${SCHEMA_REF}"
 

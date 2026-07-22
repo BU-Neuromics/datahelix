@@ -12,12 +12,11 @@
 # and the digests are recorded as OCI labels so a deploy gate can verify the
 # bundle's provenance. Never build components from source in this recipe.
 #
-# NOTE (ADR-0004 rename): the certified frontier pins Mosaic 0.12.0 (the
-# rename release). The image name and ledger key keep the `hippo` spelling by
-# design until the coordinated repo rename; the CLI inside the image is
-# `mosaic`.
+# NOTE (ADR-0004 Phase R done): the certified frontier pins Mosaic 0.12.1,
+# published as ghcr.io/bu-neuromics/mosaic; the ledger key is now `mosaic`.
+# The CLI inside the image is `mosaic`.
 
-ARG HIPPO_IMAGE=ghcr.io/bu-neuromics/hippo@sha256:f84d1ae35da52378dc821b2e5a1cfa2e2aae30bf61d1d4bef1a173a9adb95ee5
+ARG MOSAIC_IMAGE=ghcr.io/bu-neuromics/mosaic@sha256:2ac3e3c10f86bbbb9d98ea770e46be641c1465f24d051cf6f799ff9bda1b884b
 ARG APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:5c2dea43a17f8f0a2cf51345e59b59a3e3eddaec2c588e09f3c3bb393b2a9f2d
 
 # The Modeler has no published image yet; build its static bundle at a pinned
@@ -53,9 +52,9 @@ RUN cd packages/proxy && npm install --omit=dev
 FROM node:20-slim AS node-runtime
 
 # ── Final stage: the bundle ─────────────────────────────────────────────────
-FROM ${HIPPO_IMAGE}
+FROM ${MOSAIC_IMAGE}
 
-ARG HIPPO_IMAGE
+ARG MOSAIC_IMAGE
 ARG APERTURE_IMAGE
 ARG MODELER_REF
 ARG VERSION=dev
@@ -68,7 +67,7 @@ LABEL org.opencontainers.image.title="datahelix-solo" \
       org.opencontainers.image.source="https://github.com/BU-Neuromics/datahelix" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.revision="${REVISION}" \
-      org.datahelix.solo.hippo-image="${HIPPO_IMAGE}" \
+      org.datahelix.solo.mosaic-image="${MOSAIC_IMAGE}" \
       org.datahelix.solo.aperture-image="${APERTURE_IMAGE}" \
       org.datahelix.solo.modeler-ref="${MODELER_REF}"
 

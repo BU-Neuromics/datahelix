@@ -78,9 +78,9 @@ def main(argv: list[str] | None = None) -> int:
             "fixture_version": args.fixture_version,
             "mosaic_version": args.mosaic_version or "",
             "mosaic_digest": args.mosaic_digest or "",
-            # Image PATH is unchanged until the GitHub repo itself is renamed
-            # (Phase R) — the hippo release pipeline still publishes here.
-            "mosaic_image": "ghcr.io/bu-neuromics/hippo",
+            # The mosaic release pipeline publishes here (ADR-0004 Phase R
+            # complete). Lock-file path reads `image` from the lock directly.
+            "mosaic_image": "ghcr.io/bu-neuromics/mosaic",
             "aperture_version": args.aperture_version or "",
             "aperture_digest": args.aperture_digest or "",
             "aperture_image": "ghcr.io/bu-neuromics/aperture",

@@ -31,12 +31,12 @@ def main() -> int:
 
     text = dockerfile.read_text()
     args = dict(
-        re.findall(r"^ARG\s+(HIPPO_IMAGE|APERTURE_IMAGE)=(\S+)", text, re.MULTILINE)
+        re.findall(r"^ARG\s+(MOSAIC_IMAGE|APERTURE_IMAGE)=(\S+)", text, re.MULTILINE)
     )
     lock = json.loads(lockfile.read_text())["components"]
 
     ok = True
-    for component, arg in (("hippo", "HIPPO_IMAGE"), ("aperture", "APERTURE_IMAGE")):
+    for component, arg in (("mosaic", "MOSAIC_IMAGE"), ("aperture", "APERTURE_IMAGE")):
         pinned = args.get(arg)
         certified = f"{lock[component]['image']}@{lock[component]['digest']}"
         if pinned != certified:
