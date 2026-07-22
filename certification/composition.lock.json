@@ -15,11 +15,11 @@
   "line": "frontier",
   "fixture_version": "1.0.0",
   "components": {
-    "hippo": {
-      "version": "0.12.0",
-      "digest": "sha256:f84d1ae35da52378dc821b2e5a1cfa2e2aae30bf61d1d4bef1a173a9adb95ee5",
-      "image": "ghcr.io/bu-neuromics/hippo",
-      "repo": "BU-Neuromics/hippo",
+    "mosaic": {
+      "version": "0.12.1",
+      "digest": "sha256:2ac3e3c10f86bbbb9d98ea770e46be641c1465f24d051cf6f799ff9bda1b884b",
+      "image": "ghcr.io/bu-neuromics/mosaic",
+      "repo": "BU-Neuromics/mosaic",
       "status": "published"
     },
     "aperture": {
