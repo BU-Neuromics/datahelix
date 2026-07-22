@@ -12,7 +12,7 @@
 # auth (see the solo recipe's banner; run on localhost / trusted network).
 
 ARG MOSAIC_IMAGE=ghcr.io/bu-neuromics/mosaic@sha256:2ac3e3c10f86bbbb9d98ea770e46be641c1465f24d051cf6f799ff9bda1b884b
-ARG APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:5c2dea43a17f8f0a2cf51345e59b59a3e3eddaec2c588e09f3c3bb393b2a9f2d
+ARG APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:e240dc8a63c7f85fb5af3bddae4377a9d4aee282160a701c7d1a9611bda39af0
 
 # Data generator (pinned; carries the global-id-uniqueness fix,
 # BU-Neuromics/linkml-data-gen#3) and the domain schema (pinned).
