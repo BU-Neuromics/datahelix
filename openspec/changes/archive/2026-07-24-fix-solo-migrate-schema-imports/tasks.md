@@ -12,7 +12,7 @@
 
 ## 2. Documentation
 
-- [ ] 2.1 Add a note to `deploy/recipes/solo/README.md`: if your schema
+- [x] 2.1 Add a note to `deploy/recipes/solo/README.md`: if your schema
       splits across files with local `imports:`, set `mosaic.yaml`'s
       `schema_path` to the tree-root file (e.g. `schemas/brainbank.yaml`),
       not just the `schemas/` directory — required for `mosaic serve` to
@@ -21,6 +21,10 @@
 
 ## 3. Regression coverage
 
-- [ ] 3.1 Add a smoke-test case: a project whose schema splits across
+- [x] 3.1 Add a smoke-test case: a project whose schema splits across
       multiple files with local `imports:` (mirroring the pattern above);
-      assert migrate succeeds and the container serves real rows.
+      assert migrate succeeds and the container serves real rows. Added as
+      a new step in `.github/workflows/solo-recipe.yml` plus fixture files
+      under `deploy/recipes/solo/.ci-fixtures/multi-file-imports/`; verified
+      locally against both first-boot and existing-db-migrate paths before
+      committing.

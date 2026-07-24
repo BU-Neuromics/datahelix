@@ -129,6 +129,54 @@ jobs:
           print('migrate-on-restart ok: Milestone visible via GraphQL')
           "
 
+      - name: "Regression: migrate resolves local cross-file schema imports"
+        # Covers the bug fixed in fix-solo-migrate-schema-imports: mosaic
+        # migrate resolves a schema's relative sibling `imports:` against
+        # process cwd, not --schema-dir. The default example project (above)
+        # has no local cross-file imports, so it can't catch this — this
+        # fixture's tree-root file (main.yaml) imports a sibling (extra.yaml)
+        # in the same schemas/ directory, exactly like a real project
+        # (e.g. a LinkML schema split across files) would.
+        run: |
+          docker compose down
+          FIXTURE="$(pwd)/.ci-fixtures/multi-file-imports"
+          rm -f "$FIXTURE"/data/mosaic.db*
+
+          # First boot: no db yet, self-initializes via `mosaic serve`.
+          PROJECT_DIR="$FIXTURE" docker compose up -d --build
+          timeout 120 sh -c 'until curl -sf http://localhost:8080/health; do
+            sleep 3
+          done'
+          curl -sf -X POST http://localhost:8080/graphql \
+            -H 'Content-Type: application/json' \
+            -d '{"query":"{ __schema { types { name } } }"}' \
+          | python3 -c "
+          import json, sys
+          names = [t['name'] for t in json.load(sys.stdin)['data']['__schema']['types']]
+          assert 'Widget' in names and 'Gadget' in names, names
+          print('first boot ok: Widget + Gadget present (cross-file imports resolved)')
+          "
+
+          # Second boot: db now exists, exercises the migrate path the fix
+          # addresses. Before the fix this crash-looped with a
+          # FileNotFoundError instead of reaching "applying schema migrations".
+          PROJECT_DIR="$FIXTURE" docker compose up -d
+          timeout 120 sh -c 'until curl -sf http://localhost:8080/health; do
+            sleep 3
+          done'
+          docker compose logs solo | grep -q "applying schema migrations"
+          curl -sf -X POST http://localhost:8080/graphql \
+            -H 'Content-Type: application/json' \
+            -d '{"query":"{ __schema { types { name } } }"}' \
+          | python3 -c "
+          import json, sys
+          names = [t['name'] for t in json.load(sys.stdin)['data']['__schema']['types']]
+          assert 'Widget' in names and 'Gadget' in names, names
+          print('second boot ok: Widget + Gadget still present after migrate')
+          "
+          docker compose down
+          rm -f "$FIXTURE"/data/mosaic.db*
+
       - name: Logs on failure
         if: failure()
         run: docker compose logs solo || true

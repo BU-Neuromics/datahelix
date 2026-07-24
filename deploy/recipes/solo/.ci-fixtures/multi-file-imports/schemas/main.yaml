@@ -1,0 +1,24 @@
+# Regression fixture for the solo recipe's migrate/schema-dir cwd bug
+# (see openspec/changes/fix-solo-migrate-schema-imports/). This tree-root
+# file imports a sibling file in the same schemas/ directory — the standard
+# LinkML pattern that broke `mosaic migrate` before the fix.
+id: https://example.org/solo-ci-multi-file-imports
+name: solo_ci_multi_file_imports
+prefixes:
+  linkml: https://w3id.org/linkml/
+  solo_ci_multi_file_imports: https://example.org/solo-ci-multi-file-imports/
+imports:
+  - linkml:types
+  - extra
+default_range: string
+
+classes:
+  Widget:
+    description: "Tree-root class"
+    attributes:
+      widget_id:
+        range: string
+        required: true
+        identifier: true
+      gadget:
+        range: Gadget
