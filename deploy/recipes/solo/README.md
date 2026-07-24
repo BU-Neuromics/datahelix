@@ -26,6 +26,18 @@ The **project directory** is the whole deployment state: `mosaic.yaml`,
 `schemas/*.yaml`, `data/mosaic.db`. Put it under git; back it up with
 `make backup`. Point `PROJECT_DIR` at any path to run a different project.
 
+**Loading an existing Mosaic project:** point `PROJECT_DIR` at the project
+*root* (not `schemas/` itself); the layout above is the only requirement —
+rename your config to `mosaic.yaml`, put your schema file(s) under
+`schemas/`, and your database at `data/mosaic.db` if they aren't already
+named that way. If your schema splits across files with local `imports:`
+(sibling files in the same `schemas/` directory importing one another), set
+`schema_path` in `mosaic.yaml` to the tree-root file itself (e.g.
+`schema_path: schemas/brainbank.yaml`), not just the directory — `mosaic
+serve` needs this to resolve the imports correctly. `mosaic migrate` is
+unaffected by `schema_path` (it always scans the whole `schemas/`
+directory).
+
 ## Iterating your schema
 
 Additive changes (new classes, attributes, enums) are a restart away

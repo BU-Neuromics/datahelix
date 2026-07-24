@@ -68,7 +68,10 @@ fi
 # ── 2. Migrate-if-db-exists ─────────────────────────────────────────────────
 if [ -f "$DB" ]; then
   echo "solo: existing database found — applying schema migrations"
-  "$MOSAIC_BIN" migrate --schema-dir "$PROJECT/schemas" --db-path "$DB"
+  # migrate resolves a schema's relative sibling `imports:` against the
+  # process cwd, not against --schema-dir — run it from inside schemas/ so
+  # multi-file schemas with local cross-file imports resolve correctly.
+  (cd "$PROJECT/schemas" && "$MOSAIC_BIN" migrate --schema-dir . --db-path "$DB")
 else
   echo "solo: first boot — database will be initialized by mosaic serve"
 fi
