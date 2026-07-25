@@ -32,6 +32,15 @@ Additive changes (new classes, attributes, enums) are a restart away
 (restart-on-migrate, Mosaic v0.1 model). Removals/renames are **not**
 auto-applied — plan those with `mosaic schema safe-deploy` first.
 
+If your schema splits across multiple files using local cross-file
+`imports:` (a tree-root file importing sibling files in the same
+`schemas/` directory), point `mosaic.yaml`'s `schema_path` at the
+tree-root file itself (e.g. `schemas/model.yaml`), not just the
+`schemas/` directory — required for `mosaic serve`, and also relevant
+when debugging a `migrate` failure, since the entrypoint's migrate step
+runs with its working directory set to `schemas/` so those relative
+imports resolve.
+
 **Mode L — browser and container on the same machine.** Open the Modeler,
 use *Open* to pick `./project/schemas/` on your disk (the very directory the
 container mounts), edit on the canvas, save, then:
