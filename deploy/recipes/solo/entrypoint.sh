@@ -52,8 +52,11 @@ if [ -n "${SCHEMA_GIT_REMOTE:-}" ]; then
   fi
   # Dry-run against the staged checkout BEFORE replacing the live schemas:
   # a failure leaves both the database and the old schema dir untouched.
+  # Run with cwd = the schema dir itself so schemas using local cross-file
+  # `imports:` (sibling files in the same dir) resolve — migrate resolves
+  # relative imports against the process cwd, not --schema-dir.
   if [ -f "$DB" ]; then
-    if ! "$MOSAIC_BIN" migrate --dry-run --schema-dir "$SRC" --db-path "$DB"; then
+    if ! (cd "$SRC" && "$MOSAIC_BIN" migrate --dry-run --schema-dir . --db-path "$DB"); then
       echo "solo: ABORT — staged schemas fail migration planning; live schemas untouched." >&2
       echo "solo: inspect with '$MOSAIC_BIN schema safe-deploy' against the remote checkout." >&2
       exit 1
@@ -68,7 +71,10 @@ fi
 # ── 2. Migrate-if-db-exists ─────────────────────────────────────────────────
 if [ -f "$DB" ]; then
   echo "solo: existing database found — applying schema migrations"
-  "$MOSAIC_BIN" migrate --schema-dir "$PROJECT/schemas" --db-path "$DB"
+  # cwd = schemas/ itself, not /project: a schema whose tree-root file uses
+  # local cross-file `imports:` (sibling files in the same schemas/ dir)
+  # resolves those imports relative to the process cwd, not --schema-dir.
+  (cd "$PROJECT/schemas" && "$MOSAIC_BIN" migrate --schema-dir . --db-path "$DB")
 else
   echo "solo: first boot — database will be initialized by mosaic serve"
 fi
