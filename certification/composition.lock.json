@@ -16,8 +16,8 @@
   "fixture_version": "1.0.0",
   "components": {
     "mosaic": {
-      "version": "0.12.1",
-      "digest": "sha256:2ac3e3c10f86bbbb9d98ea770e46be641c1465f24d051cf6f799ff9bda1b884b",
+      "version": "0.13.0",
+      "digest": "sha256:ded29427e210253505fe42a9d58205418bc9df8e609a960fb34c30300ea8d278",
       "image": "ghcr.io/bu-neuromics/mosaic",
       "repo": "BU-Neuromics/mosaic",
       "status": "published"

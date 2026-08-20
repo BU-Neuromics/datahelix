@@ -11,7 +11,7 @@
 # meaning) and the data is immutable — there is no schema-iteration loop and no
 # auth (see the solo recipe's banner; run on localhost / trusted network).
 
-ARG MOSAIC_IMAGE=ghcr.io/bu-neuromics/mosaic@sha256:2ac3e3c10f86bbbb9d98ea770e46be641c1465f24d051cf6f799ff9bda1b884b
+ARG MOSAIC_IMAGE=ghcr.io/bu-neuromics/mosaic@sha256:ded29427e210253505fe42a9d58205418bc9df8e609a960fb34c30300ea8d278
 ARG APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:0f710fa7b886089eb932e3b6c82ed62e87efb06d3252ff1fa2d48e1ad29ca083
 
 # Data generator (pinned; carries the global-id-uniqueness fix,
