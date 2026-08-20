@@ -4745,7 +4745,7 @@ field in the Hippo config file — no code changes required to switch backends.<
 <a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
 <a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>    <span class="nd">@abstractmethod</span>
 <a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">search_capabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span> <span class="o">...</span>
-<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>    <span class="c1"># Returns supported search modes e.g. {&quot;fts&quot;, &quot;embedding&quot;, &quot;synonym&quot;}</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>    <span class="c1"># Returns supported search modes e.g. {"fts", "embedding", "synonym"}</span>
 <a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>    <span class="c1"># Hippo validates at startup that all schema-declared search modes are in this set.</span>
 </code></pre></div>
 <p><code>ScoredMatch</code> is a core SDK type (adapter-agnostic):</p>
@@ -4756,7 +4756,7 @@ field in the Hippo config file — no code changes required to switch backends.<
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">field</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">value</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">score</span><span class="p">:</span> <span class="nb">float</span>          <span class="c1"># 0.0–1.0</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">match_mode</span><span class="p">:</span> <span class="nb">str</span>       <span class="c1"># &quot;fts&quot; | &quot;embedding&quot; | &quot;synonym&quot; | &quot;exact&quot;</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">match_mode</span><span class="p">:</span> <span class="nb">str</span>       <span class="c1"># "fts" | "embedding" | "synonym" | "exact"</span>
 </code></pre></div>
 <p><strong>ExternalSourceAdapter ABC</strong> (external ingestion adapters must implement — implementations
 live in Cappella, not Hippo; this ABC defines the contract only):</p>
@@ -4838,14 +4838,14 @@ packages without forking Hippo or contributing to the core repository.</p>
 </tbody>
 </table>
 <p><strong>Declaring plugins</strong> (in the third-party package's <code>pyproject.toml</code>):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">[project.entry-points.</span><span class="s2">&quot;hippo.storage_adapters&quot;</span><span class="k">]</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">myadapter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mypkg.adapters.storage:MyStorageAdapter&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">[project.entry-points.</span><span class="s2">"hippo.storage_adapters"</span><span class="k">]</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">myadapter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"mypkg.adapters.storage:MyStorageAdapter"</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">[project.entry-points.</span><span class="s2">&quot;hippo.write_validators&quot;</span><span class="k">]</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">my_rules</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mypkg.validators:MyBusinessRuleValidator&quot;</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">[project.entry-points.</span><span class="s2">"hippo.write_validators"</span><span class="k">]</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">my_rules</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"mypkg.validators:MyBusinessRuleValidator"</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="k">[project.entry-points.</span><span class="s2">&quot;hippo.reference_loaders&quot;</span><span class="k">]</span>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">my_ontology</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mypkg.reference:MyOntologyLoader&quot;</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="k">[project.entry-points.</span><span class="s2">"hippo.reference_loaders"</span><span class="k">]</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">my_ontology</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"mypkg.reference:MyOntologyLoader"</span>
 </code></pre></div>
 <p>Once the package is <code>pip install</code>ed alongside Hippo, its contributions are available with no
 other registration step:</p>
@@ -4906,15 +4906,15 @@ injected into route handlers via FastAPI's dependency system:</p>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="k">return</span> <span class="n">_client</span>  <span class="c1"># module-level singleton initialized at startup</span>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
 <a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1"># hippo/rest/routers/entities.py</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/</span><span class="si">{entity_type}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/</span><span class="si">{entity_type}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">list_entities</span><span class="p">(</span><span class="n">entity_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">HippoClient</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_client</span><span class="p">)):</span>
 <a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">entity_type</span><span class="p">,</span> <span class="o">**</span><span class="n">filters</span><span class="p">)</span>
 </code></pre></div>
 <p>For local SDK usage, the caller instantiates <code>HippoClient</code> directly:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hippo</span><span class="w"> </span><span class="kn">import</span> <span class="n">HippoClient</span><span class="p">,</span> <span class="n">HippoConfig</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">client</span> <span class="o">=</span> <span class="n">HippoClient</span><span class="p">(</span><span class="n">HippoConfig</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s2">&quot;hippo.yaml&quot;</span><span class="p">))</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">results</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;Item&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="s2">&quot;task&quot;</span><span class="p">,</span> <span class="n">completion_state</span><span class="o">=</span><span class="s2">&quot;pending&quot;</span><span class="p">)</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">client</span> <span class="o">=</span> <span class="n">HippoClient</span><span class="p">(</span><span class="n">HippoConfig</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s2">"hippo.yaml"</span><span class="p">))</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">results</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">"Item"</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="s2">"task"</span><span class="p">,</span> <span class="n">completion_state</span><span class="o">=</span><span class="s2">"pending"</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="26-transport-layer">2.6 Transport Layer<a class="headerlink" href="#26-transport-layer" title="Permanent link">&para;</a></h3>
 <h4 id="rest-api">REST API<a class="headerlink" href="#rest-api" title="Permanent link">&para;</a></h4>
@@ -4926,7 +4926,7 @@ primary artifact — <code>hippo serve</code> is a thin CLI wrapper that runs it
 <p>Embedding in a larger application is a first-class use case:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Future workflow executor or data portal:</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hippo.rest.app</span><span class="w"> </span><span class="kn">import</span> <span class="n">app</span> <span class="k">as</span> <span class="n">hippo_app</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="n">platform_app</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s2">&quot;/hippo&quot;</span><span class="p">,</span> <span class="n">hippo_app</span><span class="p">)</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="n">platform_app</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s2">"/hippo"</span><span class="p">,</span> <span class="n">hippo_app</span><span class="p">)</span>
 </code></pre></div>
 <p>The REST API exposes an OpenAPI schema automatically via FastAPI at <code>/docs</code> and <code>/openapi.json</code>.</p>
 <h4 id="graphql">GraphQL<a class="headerlink" href="#graphql" title="Permanent link">&para;</a></h4>
@@ -5011,13 +5011,13 @@ runs the full namespace graph validation pass:</p>
 </ol>
 <p>Each error identifies the unresolved FQN or circular dependency path and the file where it
 originates:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>SchemaValidationError: Unresolved FQN reference &#39;ghost.Entity&#39; in field &#39;sample.ghost_id&#39;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>SchemaValidationError: Unresolved FQN reference 'ghost.Entity' in field 'sample.ghost_id'
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>  declared in: schemas/tissue.yaml
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>SchemaValidationError: Circular namespace dependency detected: tissue → omics → tissue
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>  first reference: schemas/omics.yaml field &#39;datafile.sample_id&#39; (references tissue.Sample)
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>  first reference: schemas/omics.yaml field 'datafile.sample_id' (references tissue.Sample)
 <a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>SchemaValidationError: Duplicate entity &#39;Sample&#39; in namespace &#39;tissue&#39;
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>SchemaValidationError: Duplicate entity 'Sample' in namespace 'tissue'
 <a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>  first declared in: schemas/tissue.yaml
 <a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>  also declared in: schemas/tissue_legacy.yaml
 </code></pre></div>
@@ -5100,15 +5100,15 @@ writes and moderate concurrent reads from pipelines.</p>
 <a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>│   └── RuleValidationError       # Failed a write validator rule (carries validator name)
 <a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>├── IngestError               # Batch ingestion failure (with row context)
 <a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>├── AdapterError              # Storage backend error (wraps underlying exception)
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>├── SearchCapabilityError     # Schema declares a search mode the active adapter doesn&#39;t support
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>├── SearchCapabilityError     # Schema declares a search mode the active adapter doesn't support
 <a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>└── ConfigError               # Invalid or missing configuration
 </code></pre></div>
 <p>The SDK raises typed <code>HippoError</code> subclasses. The REST layer catches these and maps them to
 appropriate HTTP status codes (404, 422, 500, etc.) with a consistent JSON error body:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">{</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EntityNotFoundError&quot;</span><span class="p">,</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sample &#39;abc-123&#39; not found&quot;</span><span class="p">,</span>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">  </span><span class="nt">&quot;detail&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EntityNotFoundError"</span><span class="p">,</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sample 'abc-123' not found"</span><span class="p">,</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">  </span><span class="nt">"detail"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
 <a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="p">}</span>
 </code></pre></div>
 <p>Raw adapter exceptions (e.g., SQLite errors) are always wrapped in <code>AdapterError</code> before
@@ -5228,10 +5228,10 @@ skipped entirely.</p>
 <a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">field_name</span>
 <a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">field_name.child</span>
 <a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">field_name[].child_field</span><span class="w">        </span><span class="c1"># [] = iterate over relationship collection</span>
-<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="w">    </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;&lt;CEL</span><span class="nv"> </span><span class="s">expression&gt;&#39;</span><span class="w">            </span><span class="c1"># skip this validator if false</span>
-<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="w">    </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;&lt;CEL</span><span class="nv"> </span><span class="s">expression&gt;&#39;</span><span class="w">       </span><span class="c1"># must be true to pass</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="w">    </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="s">'&lt;CEL</span><span class="nv"> </span><span class="s">expression&gt;'</span><span class="w">            </span><span class="c1"># skip this validator if false</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="w">    </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="s">'&lt;CEL</span><span class="nv"> </span><span class="s">expression&gt;'</span><span class="w">       </span><span class="c1"># must be true to pass</span>
 <a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="w">    </span><span class="nt">requires</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">field_a</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">field_b</span><span class="p p-Indicator">]</span><span class="w">        </span><span class="c1"># shorthand: fields must be non-null</span>
-<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="w">    </span><span class="nt">error</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;message</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">{entity.field}</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">{existing.field}</span><span class="nv"> </span><span class="s">substitutions&quot;</span>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="w">    </span><span class="nt">error</span><span class="p">:</span><span class="w"> </span><span class="s">"message</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">{entity.field}</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">{existing.field}</span><span class="nv"> </span><span class="s">substitutions"</span>
 <a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="w">    </span><span class="nt">max_expand_list_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">200</span><span class="w">           </span><span class="c1"># default 200, hard cap 1000</span>
 </code></pre></div>
 <p><strong>CEL evaluation context:</strong></p>
@@ -5281,7 +5281,7 @@ is written.</p>
 <a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>
 <a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="nd">@dataclass</span>
 <a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="k">class</span><span class="w"> </span><span class="nc">WriteOperation</span><span class="p">:</span>
-<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>    <span class="n">kind</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;create&quot;</span><span class="p">,</span> <span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="s2">&quot;availability_change&quot;</span><span class="p">,</span> <span class="s2">&quot;relationship&quot;</span><span class="p">]</span>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>    <span class="n">kind</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"create"</span><span class="p">,</span> <span class="s2">"update"</span><span class="p">,</span> <span class="s2">"availability_change"</span><span class="p">,</span> <span class="s2">"relationship"</span><span class="p">]</span>
 <a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>    <span class="n">entity_type</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>    <span class="n">entity_id</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a>    <span class="n">proposed</span><span class="p">:</span> <span class="nb">dict</span>
@@ -5351,7 +5351,7 @@ downstream <code>hippo-reference-*</code> package has shipped against v1. Decisi
 <a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">typer</span>
 <a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
 <a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">ReferenceLoader</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>           <span class="c1"># e.g. &quot;fma&quot;, &quot;ensembl&quot;, &quot;go&quot; — must match entry point key</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>           <span class="c1"># e.g. "fma", "ensembl", "go" — must match entry point key</span>
 <a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>
 <a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>    <span class="c1"># Optional: Typer app mounted as `hippo reference &lt;name&gt; &lt;subcmd&gt; ...`</span>
@@ -5365,7 +5365,7 @@ downstream <code>hippo-reference-*</code> package has shipped against v1. Decisi
 <a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a>    <span class="nd">@abstractmethod</span>
 <a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">versions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span> <span class="o">...</span>
 <a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a>    <span class="c1"># Available version slugs. Format is loader-defined and opaque to Hippo.</span>
-<a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a>    <span class="c1"># Loaders SHOULD include &quot;test&quot; as a pseudo-version (see §2.14.7).</span>
+<a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a>    <span class="c1"># Loaders SHOULD include "test" as a pseudo-version (see §2.14.7).</span>
 <a id="__codelineno-20-21" name="__codelineno-20-21" href="#__codelineno-20-21"></a>
 <a id="__codelineno-20-22" name="__codelineno-20-22" href="#__codelineno-20-22"></a>    <span class="nd">@abstractmethod</span>
 <a id="__codelineno-20-23" name="__codelineno-20-23" href="#__codelineno-20-23"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">entity_types</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span> <span class="o">...</span>
@@ -5373,7 +5373,7 @@ downstream <code>hippo-reference-*</code> package has shipped against v1. Decisi
 <a id="__codelineno-20-25" name="__codelineno-20-25" href="#__codelineno-20-25"></a>
 <a id="__codelineno-20-26" name="__codelineno-20-26" href="#__codelineno-20-26"></a>    <span class="nd">@abstractmethod</span>
 <a id="__codelineno-20-27" name="__codelineno-20-27" href="#__codelineno-20-27"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">schema_fragment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span> <span class="o">...</span>
-<a id="__codelineno-20-28" name="__codelineno-20-28" href="#__codelineno-20-28"></a>    <span class="c1"># LinkML fragment defining this loader&#39;s entity types and relationships.</span>
+<a id="__codelineno-20-28" name="__codelineno-20-28" href="#__codelineno-20-28"></a>    <span class="c1"># LinkML fragment defining this loader's entity types and relationships.</span>
 <a id="__codelineno-20-29" name="__codelineno-20-29" href="#__codelineno-20-29"></a>    <span class="c1"># Must declare default_prefix: matching the loader name (see §2.14.5).</span>
 <a id="__codelineno-20-30" name="__codelineno-20-30" href="#__codelineno-20-30"></a>
 <a id="__codelineno-20-31" name="__codelineno-20-31" href="#__codelineno-20-31"></a>    <span class="nd">@abstractmethod</span>
@@ -5389,17 +5389,17 @@ downstream <code>hippo-reference-*</code> package has shipped against v1. Decisi
 <a id="__codelineno-20-41" name="__codelineno-20-41" href="#__codelineno-20-41"></a>
 <a id="__codelineno-20-42" name="__codelineno-20-42" href="#__codelineno-20-42"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_artifact</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValidationResult</span><span class="p">:</span>
 <a id="__codelineno-20-43" name="__codelineno-20-43" href="#__codelineno-20-43"></a>        <span class="c1"># Recommended, not required. Validate a user-supplied artifact against this</span>
-<a id="__codelineno-20-44" name="__codelineno-20-44" href="#__codelineno-20-44"></a>        <span class="c1"># loader&#39;s schema. Default raises NotImplementedError; the CLI surfaces a</span>
-<a id="__codelineno-20-45" name="__codelineno-20-45" href="#__codelineno-20-45"></a>        <span class="c1"># &quot;this loader doesn&#39;t expose a validator&quot; message in that case.</span>
-<a id="__codelineno-20-46" name="__codelineno-20-46" href="#__codelineno-20-46"></a>        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> does not implement validate()&quot;</span><span class="p">)</span>
+<a id="__codelineno-20-44" name="__codelineno-20-44" href="#__codelineno-20-44"></a>        <span class="c1"># loader's schema. Default raises NotImplementedError; the CLI surfaces a</span>
+<a id="__codelineno-20-45" name="__codelineno-20-45" href="#__codelineno-20-45"></a>        <span class="c1"># "this loader doesn't expose a validator" message in that case.</span>
+<a id="__codelineno-20-46" name="__codelineno-20-46" href="#__codelineno-20-46"></a>        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> does not implement validate()"</span><span class="p">)</span>
 </code></pre></div>
 <p><strong>Entry points</strong> (in the loader package's <code>pyproject.toml</code>):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">[project.entry-points.</span><span class="s2">&quot;hippo.reference_loaders&quot;</span><span class="k">]</span>
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="n">ensembl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;hippo_reference_ensembl.loader:EnsemblLoader&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">[project.entry-points.</span><span class="s2">"hippo.reference_loaders"</span><span class="k">]</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="n">ensembl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"hippo_reference_ensembl.loader:EnsemblLoader"</span>
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
 <a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Optional — only needed if the loader exposes subcommands:</span>
-<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="k">[project.entry-points.</span><span class="s2">&quot;hippo.reference_loader_cli&quot;</span><span class="k">]</span>
-<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="n">ensembl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;hippo_reference_ensembl.cli:app&quot;</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="k">[project.entry-points.</span><span class="s2">"hippo.reference_loader_cli"</span><span class="k">]</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="n">ensembl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"hippo_reference_ensembl.cli:app"</span>
 </code></pre></div>
 <p><strong>Install lifecycle (<code>hippo reference install &lt;name&gt; [--version &lt;v&gt;]</code>):</strong>
 1. Resolve loader from <code>hippo.reference_loaders</code> entry points
@@ -5453,9 +5453,9 @@ explicitly with <code>hippo reference upgrade</code>.</p>
 <h4 id="2142-load-parameters">2.14.2 Load Parameters<a class="headerlink" href="#2142-load-parameters" title="Permanent link">&para;</a></h4>
 <p>Loaders that accept runtime parameters (e.g., organism, gene-biotype filter) declare them via:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">EnsemblParams</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>    <span class="n">organism</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;homo_sapiens&quot;</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>    <span class="n">organism</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"homo_sapiens"</span>
 <a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>    <span class="n">release</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>    <span class="n">gene_biotypes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;protein_coding&quot;</span><span class="p">]</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>    <span class="n">gene_biotypes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"protein_coding"</span><span class="p">]</span>
 <a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>
 <a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">EnsemblLoader</span><span class="p">(</span><span class="n">ReferenceLoader</span><span class="p">):</span>
 <a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>    <span class="n">load_params_schema</span> <span class="o">=</span> <span class="n">EnsemblParams</span>
@@ -5542,10 +5542,10 @@ declaring the same prefix → <code>ConfigError</code> at install.</p>
 <p>v1 does <strong>not</strong> validate cross-loader foreign keys and does <strong>not</strong> transitively pull in
 loader dependencies via <code>requires:</code>.</p>
 <p>Loaders that reference entity types from another loader SHOULD annotate their fragment:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># In the loader&#39;s schema_fragment() return value</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># In the loader's schema_fragment() return value</span>
 <a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="nt">annotations</span><span class="p">:</span>
 <a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">  </span><span class="nt">loader_depends_on</span><span class="p">:</span>
-<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fma&quot;</span><span class="w">   </span><span class="c1"># or a comma-separated list: &quot;fma,go&quot;</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"fma"</span><span class="w">   </span><span class="c1"># or a comma-separated list: "fma,go"</span>
 </code></pre></div>
 <p>At install/validate time, Hippo emits a <strong>warning</strong> (not an error) if a declared
 <code>loader_depends_on</code> loader is not installed. This warns the developer without blocking the
@@ -5556,7 +5556,7 @@ warrants it. This is a known v1 limitation.</p>
 <h4 id="2147-test-fixtures">2.14.7 Test Fixtures<a class="headerlink" href="#2147-test-fixtures" title="Permanent link">&para;</a></h4>
 <p>Loaders SHOULD implement a <code>"test"</code> pseudo-version:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">versions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;mus_musculus.GRCm39.115&quot;</span><span class="p">,</span> <span class="s2">&quot;homo_sapiens.GRCh38.110&quot;</span><span class="p">]</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>    <span class="k">return</span> <span class="p">[</span><span class="s2">"test"</span><span class="p">,</span> <span class="s2">"mus_musculus.GRCm39.115"</span><span class="p">,</span> <span class="s2">"homo_sapiens.GRCh38.110"</span><span class="p">]</span>
 </code></pre></div>
 <p>The <code>"test"</code> version SHOULD:
 - Return a deterministic, network-free subset bundled in the package (e.g.,
@@ -5580,33 +5580,33 @@ fields are unchanged — they answer "what happened," while <code>entities</code
 <a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
 <a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">EntityRef</span><span class="p">:</span>
-<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Lightweight (id, type) handle to a written entity.</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="w">    </span><span class="sd">"""Lightweight (id, type) handle to a written entity.</span>
 <a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>
 <a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a><span class="sd">    Returned by Hippo helpers that surface a written entity to a loader,</span>
 <a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a><span class="sd">    and accumulated into ``LoadResult.entities`` so multi-class loaders</span>
 <a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="sd">    can report heterogeneous writes without an iterable return type.</span>
-<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="sd">    """</span>
 <a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a>    <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-28-14" name="__codelineno-28-14" href="#__codelineno-28-14"></a>
 <a id="__codelineno-28-15" name="__codelineno-28-15" href="#__codelineno-28-15"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-28-16" name="__codelineno-28-16" href="#__codelineno-28-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">from_put_result</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">rec</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;EntityRef&quot;</span><span class="p">:</span>
-<a id="__codelineno-28-17" name="__codelineno-28-17" href="#__codelineno-28-17"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Bridge from the dict returned by ``HippoClient.put`` to an</span>
+<a id="__codelineno-28-16" name="__codelineno-28-16" href="#__codelineno-28-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">from_put_result</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">rec</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"EntityRef"</span><span class="p">:</span>
+<a id="__codelineno-28-17" name="__codelineno-28-17" href="#__codelineno-28-17"></a><span class="w">        </span><span class="sd">"""Bridge from the dict returned by ``HippoClient.put`` to an</span>
 <a id="__codelineno-28-18" name="__codelineno-28-18" href="#__codelineno-28-18"></a><span class="sd">        ``EntityRef``. Use inside ``load()`` when assembling</span>
-<a id="__codelineno-28-19" name="__codelineno-28-19" href="#__codelineno-28-19"></a><span class="sd">        ``LoadResult.entities`` for the advisory inspection list.&quot;&quot;&quot;</span>
-<a id="__codelineno-28-20" name="__codelineno-28-20" href="#__codelineno-28-20"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">rec</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="n">rec</span><span class="p">[</span><span class="s2">&quot;entity_type&quot;</span><span class="p">])</span>
+<a id="__codelineno-28-19" name="__codelineno-28-19" href="#__codelineno-28-19"></a><span class="sd">        ``LoadResult.entities`` for the advisory inspection list."""</span>
+<a id="__codelineno-28-20" name="__codelineno-28-20" href="#__codelineno-28-20"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">rec</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="n">rec</span><span class="p">[</span><span class="s2">"entity_type"</span><span class="p">])</span>
 </code></pre></div>
 <p><strong><code>LoadResult</code> v2:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="nd">@dataclass</span>
 <a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">LoadResult</span><span class="p">:</span>
-<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>    <span class="c1"># Counters — authoritative for &quot;what happened&quot; (D2.14.K-2).</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>    <span class="c1"># Counters — authoritative for "what happened" (D2.14.K-2).</span>
 <a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>    <span class="n">created</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>    <span class="n">updated</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>    <span class="n">unchanged</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>    <span class="n">errors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>    <span class="n">error_messages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
 <a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>
-<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>    <span class="c1"># Advisory inspection list — see &quot;Advisory contract&quot; below.</span>
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>    <span class="c1"># Advisory inspection list — see "Advisory contract" below.</span>
 <a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>    <span class="n">entities</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">EntityRef</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
 </code></pre></div>
 <p><strong>Advisory contract for <code>entities</code>.</strong> <code>LoadResult.entities</code> is <strong>advisory only</strong>. Loaders MAY
@@ -5626,7 +5626,7 @@ any operation. In particular:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>    <span class="n">entities</span> <span class="o">=</span> <span class="p">[]</span>
 <a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">parse_fixture</span><span class="p">():</span>
-<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>        <span class="n">entities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">EntityRef</span><span class="o">.</span><span class="n">from_put_result</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;FakeTerm&quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">)))</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>        <span class="n">entities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">EntityRef</span><span class="o">.</span><span class="n">from_put_result</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"FakeTerm"</span><span class="p">,</span> <span class="n">row</span><span class="p">)))</span>
 <a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>    <span class="k">return</span> <span class="n">LoadResult</span><span class="p">(</span><span class="n">created</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">entities</span><span class="p">),</span> <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span>
 </code></pre></div>
 <p>Large loaders (~10⁵+ entities) skip the in-memory accumulation. The write log captures every
@@ -5634,8 +5634,8 @@ write transparently:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>    <span class="n">counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>  <span class="c1"># only what the loader needs for its own reporting</span>
 <a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">parse_gtf</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
-<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>        <span class="n">client</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Gene&quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
-<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>        <span class="n">counts</span><span class="p">[</span><span class="s2">&quot;Gene&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>        <span class="n">client</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"Gene"</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>        <span class="n">counts</span><span class="p">[</span><span class="s2">"Gene"</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
 <a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>    <span class="c1"># No EntityRef accumulation; write log is authoritative for prune.</span>
 <a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>    <span class="k">return</span> <span class="n">LoadResult</span><span class="p">(</span><span class="n">created</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
 </code></pre></div>

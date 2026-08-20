@@ -3914,13 +3914,13 @@ cheap to integrate.</p>
 </ul>
 <hr />
 <h2 id="the-prompt-paste-into-claude-design">The prompt (paste into Claude Design)<a class="headerlink" href="#the-prompt-paste-into-claude-design" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>You are helping design the UI skeleton for &quot;Aperture&quot; — a generic, config-driven
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>You are helping design the UI skeleton for "Aperture" — a generic, config-driven
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>data-exploration portal over a scientific knowledge graph. It is NOT domain-specific:
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>the same UI works over any schema. This brief uses a brain-bank/genomics dataset as
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>realistic sample content, but nothing in the design should hardcode that domain.
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>GOAL
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Design the MVP &quot;walking skeleton&quot;: an app shell + a schema-derived collection browser
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Design the MVP "walking skeleton": an app shell + a schema-derived collection browser
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>(a navigable list of entity types on the left, a data table in the main area). Also
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>produce a small LIBRARY of shell layouts that share one slot contract, so we can see
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>the reusable structure. Deliver a clean, reusable design system alongside the screens.
@@ -3931,36 +3931,36 @@ cheap to integrate.</p>
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>Light mode primary; please also provide a dark variant. Accessible contrast.
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
 <a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>═══════════════════════════════════════════════════════════════════
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>PART 1 — THE PRIMARY SCREEN: &quot;headerNavMain&quot; layout
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>PART 1 — THE PRIMARY SCREEN: "headerNavMain" layout
 <a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>═══════════════════════════════════════════════════════════════════
 <a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>A three-region app shell:
 <a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>• HEADER (top bar): product name &quot;Aperture&quot;, a global search field (placeholder only,
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>• HEADER (top bar): product name "Aperture", a global search field (placeholder only,
 <a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>  non-functional), and a right-side slot for user/account + settings icons.
 <a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>• PRIMARY NAV (left sidebar): a hand-curated list of &quot;collections&quot; (entity types),
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>• PRIMARY NAV (left sidebar): a hand-curated list of "collections" (entity types),
 <a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>  each with an icon, a human label, and a selected/active state. For the sample data:
 <a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>    Donors, Samples, Brain Samples, Datafiles, Datasets, Workflows
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>  Note: labels differ from underlying type names (e.g. &quot;Donors&quot; → type &quot;Subject&quot;).
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>  Note: labels differ from underlying type names (e.g. "Donors" → type "Subject").
 <a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>  Collapsible sidebar is a plus.
 <a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>
-<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>• MAIN (content area): the selected collection&#39;s TABLE view. For &quot;Donors&quot; show columns:
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>• MAIN (content area): the selected collection's TABLE view. For "Donors" show columns:
 <a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>    external_id · species · biological_sex · age_at_collection · diagnosis · # samples
 <a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>  Populate ~12 realistic rows. Design cells by data type:
 <a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>    - enum (species, biological_sex, diagnosis) → subtle chips/labels
 <a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>    - number (age_at_collection) → right-aligned formatted number
-<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>    - text/id (external_id) → monospace-ish, the row&#39;s primary link
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>    - text/id (external_id) → monospace-ish, the row's primary link
 <a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>    - relationship count (# samples) → a small count badge
-<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>  Include, above the table: the collection title + a total count (&quot;1,243 donors&quot;),
-<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>  and (design-only) a &quot;Columns&quot; and &quot;Export&quot; affordance. Sortable column headers.
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>  Include, above the table: the collection title + a total count ("1,243 donors"),
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>  and (design-only) a "Columns" and "Export" affordance. Sortable column headers.
 <a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>  Pagination control (page size + prev/next or numbered) at the bottom.
 <a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>
 <a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>  Design ALL THREE table states as separate frames:
 <a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>    1. Loaded (the populated table above)
 <a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>    2. Loading (skeleton rows)
-<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>    3. Empty (&quot;No matching donors&quot;) and Error (&quot;Couldn&#39;t load donors — retry&quot;)
+<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>    3. Empty ("No matching donors") and Error ("Couldn't load donors — retry")
 <a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>
-<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>RESERVE (show as a labeled, empty region, don&#39;t build yet): an optional right-side
+<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>RESERVE (show as a labeled, empty region, don't build yet): an optional right-side
 <a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>INSPECTOR/aside panel — future home for a record detail and a facet/filter panel.
 <a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>
 <a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>═══════════════════════════════════════════════════════════════════
@@ -3970,10 +3970,10 @@ cheap to integrate.</p>
 <a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a>SAME named slots: {header, primaryNav, main, footer?, inspector?}. Design two more
 <a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a>layouts reusing the same header/nav/data:
 <a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a>
-<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a>• &quot;masterDetail&quot;: primaryNav + a narrower main LIST + a persistent right INSPECTOR
-<a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a>  showing one selected record&#39;s details (key–value fields).
+<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a>• "masterDetail": primaryNav + a narrower main LIST + a persistent right INSPECTOR
+<a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a>  showing one selected record's details (key–value fields).
 <a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a>
-<a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a>• &quot;dashboard&quot;: a landing layout where MAIN is a grid of summary cards/blocks
+<a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a>• "dashboard": a landing layout where MAIN is a grid of summary cards/blocks
 <a id="__codelineno-0-61" name="__codelineno-0-61" href="#__codelineno-0-61"></a>  (counts per collection, a couple of simple charts as placeholders) instead of a table.
 <a id="__codelineno-0-62" name="__codelineno-0-62" href="#__codelineno-0-62"></a>
 <a id="__codelineno-0-63" name="__codelineno-0-63" href="#__codelineno-0-63"></a>Present them so the shared structure is obvious (a layout switcher, or side-by-side).

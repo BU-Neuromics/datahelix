@@ -4241,8 +4241,8 @@
 <p><code>canon.yaml</code> is Canon's project-level configuration file. It lives in the working directory from which <code>canon</code> commands are run and is loaded at startup before any operation.</p>
 <p>Canon raises <code>CanonConfigError</code> at startup if the file is missing, unparseable, or contains invalid values. All validation errors are reported together before any resolution or execution begins.</p>
 <p><strong>Minimum viable configuration:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://127.0.0.1:8000&quot;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${MOSAIC_TOKEN}&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">"http://127.0.0.1:8000"</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">"${MOSAIC_TOKEN}"</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nt">executor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cwltool</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nt">output_storage</span><span class="p">:</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
@@ -4276,9 +4276,9 @@
 </table>
 <p>URL of the Mosaic instance that Canon reads artifact metadata from and writes results to. Must be reachable from the machine running Canon.</p>
 <p><strong>Examples:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://127.0.0.1:8000&quot;</span><span class="w">           </span><span class="c1"># local development</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://mosaic.lab.example.org&quot;</span><span class="w">   </span><span class="c1"># remote deployment</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://mosaic-service:8000&quot;</span><span class="w">        </span><span class="c1"># Kubernetes service</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">"http://127.0.0.1:8000"</span><span class="w">           </span><span class="c1"># local development</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">"https://mosaic.lab.example.org"</span><span class="w">   </span><span class="c1"># remote deployment</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">"http://mosaic-service:8000"</span><span class="w">        </span><span class="c1"># Kubernetes service</span>
 </code></pre></div>
 <p><strong>Validation:</strong>
 - Must be a valid HTTP or HTTPS URI
@@ -4310,8 +4310,8 @@
 </table>
 <p>Bearer token for authenticating to the Mosaic REST API. The token must have read and write access to all entity types used by Canon rules (including <code>Tool</code>, <code>ToolVersion</code>, <code>GenomeBuild</code>, <code>GeneAnnotation</code>, <code>WorkflowRun</code>, and all domain entity types declared in rules).</p>
 <p><strong>Environment variable substitution</strong> — any value matching <code>${VAR_NAME}</code> is replaced with the value of that environment variable at load time:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${MOSAIC_TOKEN}&quot;</span><span class="w">         </span><span class="c1"># recommended — token stays out of the file</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;dev-token-abc123&quot;</span><span class="w">       </span><span class="c1"># literal — safe only for local dev instances</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">"${MOSAIC_TOKEN}"</span><span class="w">         </span><span class="c1"># recommended — token stays out of the file</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">"dev-token-abc123"</span><span class="w">       </span><span class="c1"># literal — safe only for local dev instances</span>
 </code></pre></div>
 <p>If a <code>${VAR_NAME}</code> expression is used and the environment variable is not set, Canon raises <code>CanonConfigError: environment variable MOSAIC_TOKEN is not set</code>.</p>
 <p><strong>Validation:</strong>
@@ -4599,21 +4599,21 @@
 </table>
 <p>A list of additional command-line flags passed verbatim to <code>cwltool</code> on every invocation. If <code>executor</code> is not <code>cwltool</code>, this field is silently ignored.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">cwltool_options</span><span class="p">:</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--no-container&quot;</span><span class="w">        </span><span class="c1"># run with local PATH binaries, no Docker</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"--no-container"</span><span class="w">        </span><span class="c1"># run with local PATH binaries, no Docker</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">cwltool_options</span><span class="p">:</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--singularity&quot;</span><span class="w">         </span><span class="c1"># use Singularity instead of Docker</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"--singularity"</span><span class="w">         </span><span class="c1"># use Singularity instead of Docker</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">cwltool_options</span><span class="p">:</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--parallel&quot;</span><span class="w">            </span><span class="c1"># run workflow steps in parallel where possible</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--provenance&quot;</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;.canon/provenance/{run_id}&quot;</span><span class="w">   </span><span class="c1"># write W3C PROV bundle</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"--parallel"</span><span class="w">            </span><span class="c1"># run workflow steps in parallel where possible</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"--provenance"</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">".canon/provenance/{run_id}"</span><span class="w">   </span><span class="c1"># write W3C PROV bundle</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">cwltool_options</span><span class="p">:</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--debug&quot;</span><span class="w">               </span><span class="c1"># verbose cwltool logging (useful for troubleshooting)</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"--debug"</span><span class="w">               </span><span class="c1"># verbose cwltool logging (useful for troubleshooting)</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">cwltool_options</span><span class="p">:</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--disable-ext&quot;</span><span class="w">         </span><span class="c1"># disallow ExpressionTool (JavaScript) — security hardening</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"--disable-ext"</span><span class="w">         </span><span class="c1"># disallow ExpressionTool (JavaScript) — security hardening</span>
 </code></pre></div>
 <p><strong>Common combinations:</strong></p>
 <table>
@@ -4700,7 +4700,7 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nt">log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">INFO</span><span class="w">      </span><span class="c1"># default — shows what&#39;s happening without being noisy</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nt">log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">INFO</span><span class="w">      </span><span class="c1"># default — shows what's happening without being noisy</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nt">log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span><span class="w">     </span><span class="c1"># full trace — useful when diagnosing resolution failures</span>
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="nt">log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WARNING</span><span class="w">   </span><span class="c1"># quiet — good for scripted/batch use via Cappella</span>
 </code></pre></div>
@@ -4712,8 +4712,8 @@
 <p>Minimal local development configuration:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># canon.yaml — local development</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://127.0.0.1:8000&quot;</span>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${MOSAIC_TOKEN}&quot;</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">"http://127.0.0.1:8000"</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">"${MOSAIC_TOKEN}"</span>
 <a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="nt">executor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cwltool</span>
 <a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="nt">rules_file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">canon_rules.yaml</span>
 <a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>
@@ -4722,15 +4722,15 @@
 <a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">  </span><span class="nt">base_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/data/canon-outputs</span>
 <a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>
 <a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="nt">cwltool_options</span><span class="p">:</span>
-<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--no-container&quot;</span>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"--no-container"</span>
 <a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>
 <a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="nt">log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">INFO</span>
 </code></pre></div>
 <p>HPC production configuration (Singularity + S3):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># canon.yaml — HPC cluster with Singularity and S3 storage</span>
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://mosaic.lab.example.org&quot;</span>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${MOSAIC_TOKEN}&quot;</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">"https://mosaic.lab.example.org"</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">"${MOSAIC_TOKEN}"</span>
 <a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="nt">executor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cwltool</span>
 <a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="nt">rules_file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">canon_rules.yaml</span>
 <a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
@@ -4743,18 +4743,18 @@
 <a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
 <a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>
 <a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="nt">cwltool_options</span><span class="p">:</span>
-<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--singularity&quot;</span>
-<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--parallel&quot;</span>
-<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--provenance&quot;</span>
-<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/scratch/$USER/canon-provenance/{run_id}&quot;</span>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"--singularity"</span>
+<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"--parallel"</span>
+<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"--provenance"</span>
+<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"/scratch/$USER/canon-provenance/{run_id}"</span>
 <a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>
 <a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a><span class="nt">log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">INFO</span>
 </code></pre></div>
 <p>Toil/Slurm configuration (plugin adapter):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># canon.yaml — Slurm cluster via Toil</span>
 <a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://mosaic.lab.example.org&quot;</span>
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${MOSAIC_TOKEN}&quot;</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="nt">mosaic_url</span><span class="p">:</span><span class="w"> </span><span class="s">"https://mosaic.lab.example.org"</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="nt">mosaic_token</span><span class="p">:</span><span class="w"> </span><span class="s">"${MOSAIC_TOKEN}"</span>
 <a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="nt">executor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">toil</span>
 <a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
 <a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="nt">output_storage</span><span class="p">:</span>

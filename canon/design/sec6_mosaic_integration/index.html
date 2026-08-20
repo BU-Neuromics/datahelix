@@ -4266,39 +4266,39 @@ HTTP so that Canon can work against any Mosaic deployment (local or remote).</p>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        <span class="n">entity_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        <span class="n">filters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Entity</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="sd">"""</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="sd">        Query Mosaic for one entity matching all filters exactly.</span>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="sd">        Returns None if no match. Raises CanonResolutionError if multiple match.</span>
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="sd">        GET /entities?entity_type=X&amp;field=val&amp;...</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="sd">        """</span>
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">find_entities</span><span class="p">(</span>
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>        <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>        <span class="n">entity_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>        <span class="n">filters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 <a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Entity</span><span class="p">]:</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">        </span><span class="sd">"""</span>
 <a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="sd">        Query Mosaic for all entities matching filters.</span>
 <a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="sd">        Used by EntityRefResolver for ref: expressions (must return exactly 1).</span>
 <a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="sd">        GET /entities?entity_type=X&amp;field=val&amp;...&amp;limit=10</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="sd">        """</span>
 <a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>
 <a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_entity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Entity</span><span class="p">:</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">        </span><span class="sd">"""</span>
 <a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="sd">        Fetch a single entity by UUID.</span>
 <a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="sd">        GET /entities/{entity_id}</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="sd">        """</span>
 <a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>
 <a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">ingest_entity</span><span class="p">(</span>
 <a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>        <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>        <span class="n">entity_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>        <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 <a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Entity</span><span class="p">:</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="w">        </span><span class="sd">"""</span>
 <a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="sd">        Create a new entity in Mosaic.</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="sd">        POST /ingest  body: {&quot;entity_type&quot;: X, &quot;data&quot;: {...}}</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="sd">        POST /ingest  body: {"entity_type": X, "data": {...}}</span>
 <a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="sd">        Returns the created entity with its assigned UUID.</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="sd">        """</span>
 <a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>
 <a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">find_workflow_run</span><span class="p">(</span>
 <a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>        <span class="bp">self</span><span class="p">,</span>
@@ -4306,10 +4306,10 @@ HTTP so that Canon can work against any Mosaic deployment (local or remote).</p>
 <a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>        <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
 <a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>        <span class="n">status</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Entity</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a><span class="w">        </span><span class="sd">"""</span>
 <a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a><span class="sd">        Check for an in-progress or failed WorkflowRun for this artifact spec.</span>
 <a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a><span class="sd">        Used to prevent duplicate execution.</span>
-<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a><span class="sd">        """</span>
 </code></pre></div>
 <p><strong>Query filter encoding:</strong></p>
 <p>Mosaic entity reference fields (stored as UUIDs) are queried by UUID value directly.
@@ -4377,8 +4377,8 @@ serves as the complete provenance record for the produced artifact.</p>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="nt">cwl_workflow_hash</span><span class="p">:</span><span class="w">   </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w">                </span><span class="c1"># SHA256 of the CWL file at execution time</span>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="c1"># Runner provenance</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="nt">cwl_runner</span><span class="p">:</span><span class="w">          </span><span class="l l-Scalar l-Scalar-Plain">string, required</span><span class="w">      </span><span class="c1"># e.g. &quot;cwltool&quot;</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">  </span><span class="nt">cwl_runner_version</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">string, required</span><span class="w">      </span><span class="c1"># e.g. &quot;3.1.20240112164112&quot;</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="nt">cwl_runner</span><span class="p">:</span><span class="w">          </span><span class="l l-Scalar l-Scalar-Plain">string, required</span><span class="w">      </span><span class="c1"># e.g. "cwltool"</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">  </span><span class="nt">cwl_runner_version</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">string, required</span><span class="w">      </span><span class="c1"># e.g. "3.1.20240112164112"</span>
 <a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">  </span><span class="nt">execution_environment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dict, required</span><span class="w">      </span><span class="c1"># see §6.4.1</span>
 <a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
 <a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">  </span><span class="c1"># Inputs (Mosaic UUIDs of all resolved input entities)</span>
@@ -4399,31 +4399,31 @@ serves as the complete provenance record for the produced artifact.</p>
 runtime used. Canon records whatever the CWL runner captured.</p>
 <p><strong>Docker:</strong>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;docker&quot;</span><span class="p">,</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;quay.io/biocontainers/star:2.7.11a--h9ee0642_0&quot;</span><span class="p">,</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">&quot;digest&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256:abc123...&quot;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"docker"</span><span class="p">,</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">"image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"quay.io/biocontainers/star:2.7.11a--h9ee0642_0"</span><span class="p">,</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">"digest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sha256:abc123..."</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">}</span>
 </code></pre></div></p>
 <p><strong>Singularity:</strong>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;singularity&quot;</span><span class="p">,</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">&quot;image_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/refs/containers/star_2.7.11a.sif&quot;</span><span class="p">,</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">&quot;image_hash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256:def456...&quot;</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"singularity"</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">"image_path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/refs/containers/star_2.7.11a.sif"</span><span class="p">,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">"image_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sha256:def456..."</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">}</span>
 </code></pre></div></p>
 <p><strong>Conda:</strong>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;conda&quot;</span><span class="p">,</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">&quot;env_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;star-2.7.11a&quot;</span><span class="p">,</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="nt">&quot;env_hash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256:789abc...&quot;</span><span class="p">,</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="nt">&quot;env_yaml&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;envs/star-2.7.11a.yaml&quot;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"conda"</span><span class="p">,</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">"env_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"star-2.7.11a"</span><span class="p">,</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="nt">"env_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sha256:789abc..."</span><span class="p">,</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="nt">"env_yaml"</span><span class="p">:</span><span class="w"> </span><span class="s2">"envs/star-2.7.11a.yaml"</span>
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="p">}</span>
 </code></pre></div></p>
 <p><strong>Local (no container):</strong>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;local&quot;</span><span class="p">,</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">&quot;tool_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/usr/bin/STAR&quot;</span><span class="p">,</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">&quot;tool_version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.7.11a&quot;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"local"</span><span class="p">,</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">"tool_path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/usr/bin/STAR"</span><span class="p">,</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">"tool_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.7.11a"</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="p">}</span>
 </code></pre></div></p>
 <h4 id="642-workflowrun-lifecycle">6.4.2 WorkflowRun lifecycle<a class="headerlink" href="#642-workflowrun-lifecycle" title="Permanent link">&para;</a></h4>
@@ -4442,7 +4442,7 @@ runtime used. Canon records whatever the CWL runner captured.</p>
 <a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>    │
 <a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>    └─── failure:
 <a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>            PUT /entities/run-xyz {status=failed, completed_at=now,
-<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>                                   error_message=&quot;...&quot;, exit_code=1}
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>                                   error_message="...", exit_code=1}
 <a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>            raise CanonExecutorError(...)
 </code></pre></div>
 <hr />
@@ -4452,7 +4452,7 @@ It is bundled in the <code>canon</code> package and applied via <code>hippo refe
 <h4 id="tool">Tool<a class="headerlink" href="#tool" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">entity_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tool</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nt">fields</span><span class="p">:</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w">           </span><span class="l l-Scalar l-Scalar-Plain">string, required, indexed</span><span class="w">    </span><span class="c1"># e.g. &quot;STAR&quot;, &quot;cutadapt&quot;</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w">           </span><span class="l l-Scalar l-Scalar-Plain">string, required, indexed</span><span class="w">    </span><span class="c1"># e.g. "STAR", "cutadapt"</span>
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">category</span><span class="p">:</span><span class="w">       </span><span class="l l-Scalar l-Scalar-Plain">enum, required</span><span class="w">               </span><span class="c1"># aligner | trimmer | counter |</span>
 <a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">                                               </span><span class="c1"># indexer | caller | quantifier | other</span>
 <a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">string</span>
@@ -4476,11 +4476,11 @@ It is bundled in the <code>canon</code> package and applied via <code>hippo refe
 <h4 id="genomebuild">GenomeBuild<a class="headerlink" href="#genomebuild" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">entity_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GenomeBuild</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nt">fields</span><span class="p">:</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w">           </span><span class="l l-Scalar l-Scalar-Plain">string, required, indexed</span><span class="w">    </span><span class="c1"># e.g. &quot;GRCh38&quot;, &quot;GRCm39&quot;</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="nt">patch</span><span class="p">:</span><span class="w">          </span><span class="l l-Scalar l-Scalar-Plain">string, indexed</span><span class="w">              </span><span class="c1"># e.g. &quot;p14&quot;</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">  </span><span class="nt">species</span><span class="p">:</span><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">string, required, indexed</span><span class="w">    </span><span class="c1"># e.g. &quot;Homo sapiens&quot;</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span><span class="nt">ucsc_name</span><span class="p">:</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">string, indexed</span><span class="w">              </span><span class="c1"># e.g. &quot;hg38&quot;</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span><span class="nt">ncbi_accession</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string, indexed</span><span class="w">              </span><span class="c1"># e.g. &quot;GCA_000001405.15&quot;</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w">           </span><span class="l l-Scalar l-Scalar-Plain">string, required, indexed</span><span class="w">    </span><span class="c1"># e.g. "GRCh38", "GRCm39"</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="nt">patch</span><span class="p">:</span><span class="w">          </span><span class="l l-Scalar l-Scalar-Plain">string, indexed</span><span class="w">              </span><span class="c1"># e.g. "p14"</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">  </span><span class="nt">species</span><span class="p">:</span><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">string, required, indexed</span><span class="w">    </span><span class="c1"># e.g. "Homo sapiens"</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span><span class="nt">ucsc_name</span><span class="p">:</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">string, indexed</span><span class="w">              </span><span class="c1"># e.g. "hg38"</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span><span class="nt">ncbi_accession</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string, indexed</span><span class="w">              </span><span class="c1"># e.g. "GCA_000001405.15"</span>
 <a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">  </span><span class="nt">release_date</span><span class="p">:</span><span class="w">   </span><span class="l l-Scalar l-Scalar-Plain">date</span>
 <a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">  </span><span class="nt">fasta_uri</span><span class="p">:</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">uri</span><span class="w">                          </span><span class="c1"># canonical FASTA location</span>
 <a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">  </span><span class="nt">fai_uri</span><span class="p">:</span><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">uri</span><span class="w">                          </span><span class="c1"># FASTA index</span>
@@ -4489,7 +4489,7 @@ It is bundled in the <code>canon</code> package and applied via <code>hippo refe
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">entity_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GeneAnnotation</span>
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nt">fields</span><span class="p">:</span>
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="nt">source</span><span class="p">:</span><span class="w">         </span><span class="l l-Scalar l-Scalar-Plain">enum, required, indexed</span><span class="w">      </span><span class="c1"># GENCODE | Ensembl | RefSeq | custom</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">string, required, indexed</span><span class="w">    </span><span class="c1"># e.g. &quot;43&quot; (GENCODE), &quot;111&quot; (Ensembl)</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">string, required, indexed</span><span class="w">    </span><span class="c1"># e.g. "43" (GENCODE), "111" (Ensembl)</span>
 <a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span><span class="nt">genome_build</span><span class="p">:</span><span class="w">   </span><span class="l l-Scalar l-Scalar-Plain">ref:GenomeBuild, required, indexed</span>
 <a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">  </span><span class="nt">release_date</span><span class="p">:</span><span class="w">   </span><span class="l l-Scalar l-Scalar-Plain">date</span>
 <a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">  </span><span class="nt">gtf_uri</span><span class="p">:</span><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">uri</span><span class="w">                          </span><span class="c1"># canonical GTF location</span>

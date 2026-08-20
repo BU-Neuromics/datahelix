@@ -4468,7 +4468,7 @@ validation, and provenance recording apply uniformly regardless of ingestion sou
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>hippo<span class="w"> </span>ingest<span class="w"> </span>Sample<span class="w"> </span>samples.csv<span class="w"> </span>--dry-run
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># Supply provenance context</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>hippo<span class="w"> </span>ingest<span class="w"> </span>Sample<span class="w"> </span>samples.csv<span class="w"> </span>--actor<span class="w"> </span><span class="s2">&quot;data-team&quot;</span><span class="w"> </span>--context<span class="w"> </span><span class="s1">&#39;{&quot;notes&quot;: &quot;batch load Q4 2024&quot;}&#39;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>hippo<span class="w"> </span>ingest<span class="w"> </span>Sample<span class="w"> </span>samples.csv<span class="w"> </span>--actor<span class="w"> </span><span class="s2">"data-team"</span><span class="w"> </span>--context<span class="w"> </span><span class="s1">'{"notes": "batch load Q4 2024"}'</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># Fail on first error (default: continue and report all errors at end)</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>hippo<span class="w"> </span>ingest<span class="w"> </span>Sample<span class="w"> </span>samples.csv<span class="w"> </span>--fail-fast
@@ -4478,19 +4478,19 @@ validation, and provenance recording apply uniformly regardless of ingestion sou
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">pipeline</span> <span class="o">=</span> <span class="n">IngestionPipeline</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">ingest_file</span><span class="p">(</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">entity_type</span><span class="o">=</span><span class="s2">&quot;Sample&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">path</span><span class="o">=</span><span class="s2">&quot;samples.csv&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">entity_type</span><span class="o">=</span><span class="s2">"Sample"</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">path</span><span class="o">=</span><span class="s2">"samples.csv"</span><span class="p">,</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">options</span><span class="o">=</span><span class="n">IngestOptions</span><span class="p">(</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        <span class="n">actor</span><span class="o">=</span><span class="s2">&quot;data-team&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        <span class="n">provenance_context</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="s2">&quot;batch load Q4 2024&quot;</span><span class="p">},</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        <span class="n">actor</span><span class="o">=</span><span class="s2">"data-team"</span><span class="p">,</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        <span class="n">provenance_context</span><span class="o">=</span><span class="p">{</span><span class="s2">"notes"</span><span class="p">:</span> <span class="s2">"batch load Q4 2024"</span><span class="p">},</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        <span class="n">fail_fast</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        <span class="n">upsert</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>          <span class="c1"># default True — see §5.4</span>
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    <span class="p">)</span>
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="p">)</span>
 <a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">created</span><span class="si">}</span><span class="s2">, Updated: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">updated</span><span class="si">}</span><span class="s2">, &quot;</span>
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>      <span class="sa">f</span><span class="s2">&quot;Unchanged: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">unchanged</span><span class="si">}</span><span class="s2">, Errors: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">errors</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Created: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">created</span><span class="si">}</span><span class="s2">, Updated: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">updated</span><span class="si">}</span><span class="s2">, "</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>      <span class="sa">f</span><span class="s2">"Unchanged: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">unchanged</span><span class="si">}</span><span class="s2">, Errors: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">errors</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div>
 <h4 id="field-mapping">Field mapping<a class="headerlink" href="#field-mapping" title="Permanent link">&para;</a></h4>
 <p>Fields in the input file are matched to schema-declared fields by name. Unrecognised field
@@ -4544,11 +4544,11 @@ sec2 §2.14 for the <code>ReferenceLoader</code> ABC and plugin system.</p>
 an upsert — existing reference entities are updated if the ontology data changed in the new
 version, unchanged entities produce no write (and no provenance event). See §5.4.</p>
 <p><strong>Version tracking:</strong> The installed version of each reference loader is stored in <code>hippo_meta</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// hippo_meta key: &quot;reference_versions&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// hippo_meta key: "reference_versions"</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">{</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">&quot;hippo-reference-fma&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;3.3&quot;</span><span class="p">,</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">&quot;hippo-reference-ensembl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GRCh38.109&quot;</span><span class="p">,</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="nt">&quot;hippo-reference-go&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-01&quot;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">"hippo-reference-fma"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.3"</span><span class="p">,</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">"hippo-reference-ensembl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GRCh38.109"</span><span class="p">,</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="nt">"hippo-reference-go"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-01-01"</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="p">}</span>
 </code></pre></div>
 <p><code>hippo reference list</code> reads this and compares against available versions from each loader.</p>
@@ -4613,11 +4613,11 @@ field naming convention, or created explicitly via the SDK.</p>
 entity must already exist in Hippo; if not found, the row fails with an <code>EntityNotFoundError</code>.</p>
 <h4 id="sdk-relationship-write">SDK relationship write<a class="headerlink" href="#sdk-relationship-write" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">client</span><span class="o">.</span><span class="n">relate</span><span class="p">(</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">relationship</span><span class="o">=</span><span class="s2">&quot;donated&quot;</span><span class="p">,</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">from_type</span><span class="o">=</span><span class="s2">&quot;Subject&quot;</span><span class="p">,</span> <span class="n">from_id</span><span class="o">=</span><span class="s2">&quot;subject-abc&quot;</span><span class="p">,</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">to_type</span><span class="o">=</span><span class="s2">&quot;Sample&quot;</span><span class="p">,</span>   <span class="n">to_id</span><span class="o">=</span><span class="s2">&quot;sample-001&quot;</span><span class="p">,</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="n">actor</span><span class="o">=</span><span class="s2">&quot;data-team&quot;</span><span class="p">,</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="n">properties</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;surgical biopsy&quot;</span><span class="p">}</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">relationship</span><span class="o">=</span><span class="s2">"donated"</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">from_type</span><span class="o">=</span><span class="s2">"Subject"</span><span class="p">,</span> <span class="n">from_id</span><span class="o">=</span><span class="s2">"subject-abc"</span><span class="p">,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">to_type</span><span class="o">=</span><span class="s2">"Sample"</span><span class="p">,</span>   <span class="n">to_id</span><span class="o">=</span><span class="s2">"sample-001"</span><span class="p">,</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="n">actor</span><span class="o">=</span><span class="s2">"data-team"</span><span class="p">,</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="n">properties</span><span class="o">=</span><span class="p">{</span><span class="s2">"method"</span><span class="p">:</span> <span class="s2">"surgical biopsy"</span><span class="p">}</span>
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="p">)</span>
 </code></pre></div>
 <hr />
@@ -4625,9 +4625,9 @@ entity must already exist in Hippo; if not found, the row fails with an <code>En
 <p>When an input record contains <code>external_system</code> and <code>external_id</code> fields, the pipeline
 automatically registers them as ExternalID records for the entity. Multiple ExternalID
 registrations per record are supported via a list:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>{&quot;tissue_type&quot;: &quot;brain&quot;, &quot;external_ids&quot;: [
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    {&quot;system&quot;: &quot;starlims&quot;, &quot;id&quot;: &quot;SL-12345&quot;},
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    {&quot;system&quot;: &quot;halo&quot;, &quot;id&quot;: &quot;HALO-998&quot;}
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>{"tissue_type": "brain", "external_ids": [
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    {"system": "starlims", "id": "SL-12345"},
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    {"system": "halo", "id": "HALO-998"}
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>]}
 </code></pre></div>
 <p>If an ExternalID for the given <code>(entity_id, system)</code> pair already exists with the same value,

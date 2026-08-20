@@ -4758,7 +4758,7 @@ the audit log, and performing key rotation and maintenance procedures.</p>
 <h3 id="2-create-the-first-admin-key">2. Create the first admin key<a class="headerlink" href="#2-create-the-first-admin-key" title="Permanent link">&para;</a></h3>
 <p>On a fresh deployment, create the initial admin API key directly on the server (before
 Bridge is accessible externally):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>datahelix-mgr<span class="w"> </span>bridge<span class="w"> </span>api-keys<span class="w"> </span>create-admin<span class="w"> </span>--label<span class="w"> </span><span class="s2">&quot;Initial admin key&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>datahelix-mgr<span class="w"> </span>bridge<span class="w"> </span>api-keys<span class="w"> </span>create-admin<span class="w"> </span>--label<span class="w"> </span><span class="s2">"Initial admin key"</span>
 </code></pre></div>
 <p>This prints a <code>datahelix_live_</code> key. Store it securely. Use it to bootstrap subsequent admin
 operations.</p>
@@ -4770,10 +4770,10 @@ operations.</p>
 <hr />
 <h2 id="user-and-key-management">User and Key Management<a class="headerlink" href="#user-and-key-management" title="Permanent link">&para;</a></h2>
 <h3 id="list-all-api-keys">List all API keys<a class="headerlink" href="#list-all-api-keys" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>list-keys<span class="w"> </span>--all<span class="w">          </span><span class="c1"># Admin: shows all users&#39; keys</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>list-keys<span class="w"> </span>--all<span class="w">          </span><span class="c1"># Admin: shows all users' keys</span>
 </code></pre></div>
 <h3 id="revoke-a-specific-key">Revoke a specific key<a class="headerlink" href="#revoke-a-specific-key" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>revoke-key<span class="w"> </span>&lt;key-id&gt;<span class="w"> </span>--reason<span class="w"> </span><span class="s2">&quot;Key exposed in repo&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>revoke-key<span class="w"> </span>&lt;key-id&gt;<span class="w"> </span>--reason<span class="w"> </span><span class="s2">"Key exposed in repo"</span>
 </code></pre></div>
 <p>Revocation is immediate. The key stops working on the next request.</p>
 <h3 id="revoke-all-keys-for-a-user">Revoke all keys for a user<a class="headerlink" href="#revoke-all-keys-for-a-user" title="Permanent link">&para;</a></h3>
@@ -4789,9 +4789,9 @@ expiry (if set). Plaintext key is never shown after creation.</p>
 <h2 id="project-management">Project Management<a class="headerlink" href="#project-management" title="Permanent link">&para;</a></h2>
 <h3 id="create-a-project">Create a project<a class="headerlink" href="#create-a-project" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>datahelix<span class="w"> </span>admin<span class="w"> </span>projects<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>--name<span class="w"> </span><span class="s2">&quot;lab-a&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>--display-name<span class="w"> </span><span class="s2">&quot;Genomics Lab A&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span>--description<span class="w"> </span><span class="s2">&quot;CTE DLPFC cohort&quot;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>--name<span class="w"> </span><span class="s2">"lab-a"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>--display-name<span class="w"> </span><span class="s2">"Genomics Lab A"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span>--description<span class="w"> </span><span class="s2">"CTE DLPFC cohort"</span>
 </code></pre></div>
 <h3 id="add-a-member">Add a member<a class="headerlink" href="#add-a-member" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>datahelix<span class="w"> </span>admin<span class="w"> </span>projects<span class="w"> </span>add-member<span class="w"> </span><span class="se">\</span>
@@ -4853,7 +4853,7 @@ Configure in <code>bridge.yaml</code>:</p>
 <h3 id="rotate-an-api-key">Rotate an API key<a class="headerlink" href="#rotate-an-api-key" title="Permanent link">&para;</a></h3>
 <p>Rotating a key issues a new key and revokes the old one. The old key stops working
 immediately. Notify the key owner to update their environment variables or secrets manager.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Admin rotating another user&#39;s key</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Admin rotating another user's key</span>
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>rotate-key<span class="w"> </span>&lt;key-id&gt;
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
 <a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Output:</span>
@@ -4897,7 +4897,7 @@ Hippo. Review and resolve these regularly.</p>
 <p>Output includes: run ID, missing entities, actor, timestamp, recommended repair strategy.</p>
 <h3 id="resolve-a-mismatch">Resolve a mismatch<a class="headerlink" href="#resolve-a-mismatch" title="Permanent link">&para;</a></h3>
 <p>If the mismatch is expected (e.g., a run was deliberately cancelled):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>datahelix<span class="w"> </span>admin<span class="w"> </span>sync<span class="w"> </span>mismatches<span class="w"> </span>resolve<span class="w"> </span>&lt;event-id&gt;<span class="w"> </span>--note<span class="w"> </span><span class="s2">&quot;Run cancelled by user; no repair needed&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>datahelix<span class="w"> </span>admin<span class="w"> </span>sync<span class="w"> </span>mismatches<span class="w"> </span>resolve<span class="w"> </span>&lt;event-id&gt;<span class="w"> </span>--note<span class="w"> </span><span class="s2">"Run cancelled by user; no repair needed"</span>
 </code></pre></div>
 <p>If the run should be resubmitted:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>datahelix<span class="w"> </span>admin<span class="w"> </span>sync<span class="w"> </span>resubmit<span class="w"> </span>&lt;run-id&gt;

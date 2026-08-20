@@ -4106,11 +4106,11 @@ Additional adapters are installed as Python packages and discovered via the
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nd">@dataclass</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="k">class</span><span class="w"> </span><span class="nc">CWLRunResult</span><span class="p">:</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Result of a CWL workflow execution.&quot;&quot;&quot;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="sd">"""Result of a CWL workflow execution."""</span>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">outputs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>      <span class="c1"># CWL output object (file locations, scalars, etc.)</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">runner_name</span><span class="p">:</span> <span class="nb">str</span>             <span class="c1"># e.g. &quot;cwltool&quot;</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">runner_version</span><span class="p">:</span> <span class="nb">str</span>          <span class="c1"># e.g. &quot;3.1.20240112164112&quot;</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">execution_environment</span><span class="p">:</span> <span class="nb">dict</span>  <span class="c1"># {&quot;type&quot;: &quot;docker&quot;, &quot;image&quot;: &quot;...&quot;, &quot;digest&quot;: &quot;...&quot;}</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">runner_name</span><span class="p">:</span> <span class="nb">str</span>             <span class="c1"># e.g. "cwltool"</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">runner_version</span><span class="p">:</span> <span class="nb">str</span>          <span class="c1"># e.g. "3.1.20240112164112"</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">execution_environment</span><span class="p">:</span> <span class="nb">dict</span>  <span class="c1"># {"type": "docker", "image": "...", "digest": "..."}</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="n">work_dir</span><span class="p">:</span> <span class="n">Path</span>               <span class="c1"># where CWL wrote its outputs</span>
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="n">stdout</span><span class="p">:</span> <span class="nb">str</span>                  <span class="c1"># captured stdout for debugging</span>
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="n">stderr</span><span class="p">:</span> <span class="nb">str</span>                  <span class="c1"># captured stderr for debugging</span>
@@ -4118,7 +4118,7 @@ Additional adapters are installed as Python packages and discovered via the
 <a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
 <a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
 <a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="k">class</span><span class="w"> </span><span class="nc">CWLExecutorAdapter</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for CWL workflow execution backends.&quot;&quot;&quot;</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="sd">"""Abstract base class for CWL workflow execution backends."""</span>
 <a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
 <a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>           <span class="c1"># adapter identifier, matches canon.yaml executor value</span>
 <a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>    <span class="n">requires_staging</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># whether remote URIs must be staged to local paths</span>
@@ -4130,13 +4130,13 @@ Additional adapters are installed as Python packages and discovered via the
 <a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>        <span class="n">inputs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
 <a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>        <span class="n">work_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
 <a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CWLRunResult</span><span class="p">:</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="w">        </span><span class="sd">"""</span>
 <a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="sd">        Execute a CWL workflow.</span>
 <a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>
 <a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="sd">        Args:</span>
 <a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="sd">            cwl_path: Absolute path to the .cwl workflow file.</span>
 <a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="sd">            inputs: Resolved inputs dict (all entity refs replaced with concrete values;</span>
-<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="sd">                    File objects as {&quot;class&quot;: &quot;File&quot;, &quot;location&quot;: &quot;...&quot;}).</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="sd">                    File objects as {"class": "File", "location": "..."}).</span>
 <a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="sd">            work_dir: Directory for CWL to write outputs and intermediate files.</span>
 <a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>
 <a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a><span class="sd">        Returns:</span>
@@ -4144,17 +4144,17 @@ Additional adapters are installed as Python packages and discovered via the
 <a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>
 <a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a><span class="sd">        Raises:</span>
 <a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a><span class="sd">            CanonExecutorError: if the workflow fails or the runner is unavailable.</span>
-<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a><span class="sd">        """</span>
 <a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>
 <a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>    <span class="nd">@abstractmethod</span>
 <a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the CWL runner version string.&quot;&quot;&quot;</span>
+<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a><span class="w">        </span><span class="sd">"""Return the CWL runner version string."""</span>
 <a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a>
 <a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">validate_available</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a><span class="w">        </span><span class="sd">"""</span>
 <a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a><span class="sd">        Check that the underlying runner is installed and accessible.</span>
 <a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a><span class="sd">        Called at Canon startup. Raises CanonConfigError if not available.</span>
-<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a><span class="sd">        """</span>
 <a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a>        <span class="k">pass</span>
 </code></pre></div>
 <hr />
@@ -4164,13 +4164,13 @@ Additional adapters are installed as Python packages and discovered via the
 <p><strong>Configuration in <code>canon.yaml</code>:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">executor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cwltool</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">cwltool_options</span><span class="p">:</span><span class="w">             </span><span class="c1"># optional — passed directly to cwltool CLI</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--no-container&quot;</span><span class="w">         </span><span class="c1"># run without Docker (use PATH binaries)</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="c1"># - &quot;--singularity&quot;        # use Singularity instead of Docker</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="c1"># - &quot;--provenance&quot;         # write W3C PROV provenance bundle</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="c1"># - &quot;--provenance-dir&quot;</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="c1"># - &quot;.canon/provenance/{run_id}&quot;</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="c1"># - &quot;--parallel&quot;           # run workflow steps in parallel where possible</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="c1"># - &quot;--debug&quot;              # verbose cwltool logging</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"--no-container"</span><span class="w">         </span><span class="c1"># run without Docker (use PATH binaries)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="c1"># - "--singularity"        # use Singularity instead of Docker</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="c1"># - "--provenance"         # write W3C PROV provenance bundle</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="c1"># - "--provenance-dir"</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="c1"># - ".canon/provenance/{run_id}"</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="c1"># - "--parallel"           # run workflow steps in parallel where possible</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="c1"># - "--debug"              # verbose cwltool logging</span>
 </code></pre></div>
 <p><strong>Execution flow:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>1. Write inputs dict to {work_dir}/inputs.json
@@ -4178,7 +4178,7 @@ Additional adapters are installed as Python packages and discovered via the
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>   stdout → JSON output object
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>   stderr → cwltool logs
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>3. Parse stdout JSON → CWLRunResult.outputs
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>4. Detect execution environment from cwltool&#39;s provenance output or Docker API
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>4. Detect execution environment from cwltool's provenance output or Docker API
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>5. Return CWLRunResult
 </code></pre></div>
 <p><strong>Environment detection:</strong></p>
@@ -4200,21 +4200,21 @@ the URI before storing it in Hippo (see sec6 §6.3).</p>
 remote input files to the local filesystem before constructing <code>inputs.json</code>.</p>
 <p><strong>Staging logic:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">stage_inputs</span><span class="p">(</span><span class="n">inputs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">work_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Stage remote URIs to local paths for executors that require local files.&quot;&quot;&quot;</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">staging_dir</span> <span class="o">=</span> <span class="n">work_dir</span> <span class="o">/</span> <span class="s2">&quot;staging&quot;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="sd">"""Stage remote URIs to local paths for executors that require local files."""</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">staging_dir</span> <span class="o">=</span> <span class="n">work_dir</span> <span class="o">/</span> <span class="s2">"staging"</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">staging_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">staged</span> <span class="o">=</span> <span class="p">{}</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">inputs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;class&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;File&quot;</span><span class="p">,</span> <span class="s2">&quot;Directory&quot;</span><span class="p">):</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>            <span class="n">location</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>            <span class="k">if</span> <span class="n">location</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;s3://&quot;</span><span class="p">):</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"class"</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"File"</span><span class="p">,</span> <span class="s2">"Directory"</span><span class="p">):</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>            <span class="n">location</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="s2">"location"</span><span class="p">]</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>            <span class="k">if</span> <span class="n">location</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"s3://"</span><span class="p">):</span>
 <a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>                <span class="n">local_path</span> <span class="o">=</span> <span class="n">stage_from_s3</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="n">staging_dir</span><span class="p">)</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>                <span class="n">staged</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;file://</span><span class="si">{</span><span class="n">local_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>            <span class="k">elif</span> <span class="n">location</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;drs://&quot;</span><span class="p">):</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>                <span class="n">staged</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">value</span><span class="p">,</span> <span class="s2">"location"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"file://</span><span class="si">{</span><span class="n">local_path</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>            <span class="k">elif</span> <span class="n">location</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"drs://"</span><span class="p">):</span>
 <a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>                <span class="n">access_url</span> <span class="o">=</span> <span class="n">resolve_drs_access_url</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
 <a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>                <span class="n">local_path</span> <span class="o">=</span> <span class="n">stage_from_url</span><span class="p">(</span><span class="n">access_url</span><span class="p">,</span> <span class="n">staging_dir</span><span class="p">)</span>
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>                <span class="n">staged</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;file://</span><span class="si">{</span><span class="n">local_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>                <span class="n">staged</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">value</span><span class="p">,</span> <span class="s2">"location"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"file://</span><span class="si">{</span><span class="n">local_path</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
 <a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>            <span class="k">else</span><span class="p">:</span>
 <a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>                <span class="n">staged</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>  <span class="c1"># already local</span>
 <a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>        <span class="k">else</span><span class="p">:</span>
@@ -4238,11 +4238,11 @@ Submits CWL workflows to Toil for execution on HPC clusters or cloud.</p>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nt">toil_options</span><span class="p">:</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">batch_system</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">slurm</span><span class="w">              </span><span class="c1"># slurm | lsf | kubernetes | aws_batch | local</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">default_cores</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">default_memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;32G&quot;</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="nt">default_disk</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;100G&quot;</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span><span class="nt">job_store</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;file:./toil-jobstore&quot;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">default_memory</span><span class="p">:</span><span class="w"> </span><span class="s">"32G"</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="nt">default_disk</span><span class="p">:</span><span class="w"> </span><span class="s">"100G"</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span><span class="nt">job_store</span><span class="p">:</span><span class="w"> </span><span class="s">"file:./toil-jobstore"</span>
 <a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span><span class="c1"># or:</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">  </span><span class="nt">job_store</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;aws:us-east-1:my-toil-bucket&quot;</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">  </span><span class="nt">job_store</span><span class="p">:</span><span class="w"> </span><span class="s">"aws:us-east-1:my-toil-bucket"</span>
 <a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">  </span><span class="nt">workdir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/scratch/toil-work</span>
 <a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">  </span><span class="nt">log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">INFO</span>
 <a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">  </span><span class="nt">pre_job_script</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w">               </span><span class="c1"># optional: run before each job (module loads, etc.)</span>
@@ -4254,9 +4254,9 @@ handles S3 file staging natively.</p>
 <h3 id="56-plugin-adapters">5.6 Plugin Adapters<a class="headerlink" href="#56-plugin-adapters" title="Permanent link">&para;</a></h3>
 <p>Community or institutional adapters are installed as Python packages and discovered via
 the <code>canon.executor_adapters</code> entry point group:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># In the adapter package&#39;s pyproject.toml:</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">[project.entry-points.</span><span class="s2">&quot;canon.executor_adapters&quot;</span><span class="k">]</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">nextflow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;canon_executor_nextflow:NextflowCWLAdapter&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># In the adapter package's pyproject.toml:</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">[project.entry-points.</span><span class="s2">"canon.executor_adapters"</span><span class="k">]</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">nextflow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"canon_executor_nextflow:NextflowCWLAdapter"</span>
 </code></pre></div>
 <p>Canon discovers all registered adapters at startup. The <code>executor:</code> value in <code>canon.yaml</code>
 selects which one to use.</p>
@@ -4265,7 +4265,7 @@ selects which one to use.</p>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">discover_adapters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">[</span><span class="n">CWLExecutorAdapter</span><span class="p">]]:</span>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">adapters</span> <span class="o">=</span> <span class="p">{}</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;canon.executor_adapters&quot;</span><span class="p">):</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">"canon.executor_adapters"</span><span class="p">):</span>
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>        <span class="n">adapters</span><span class="p">[</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="k">return</span> <span class="n">adapters</span>
 </code></pre></div></p>
@@ -4287,7 +4287,7 @@ The adapter is responsible for making those files accessible to its execution ba
 3. Calls <code>adapter.validate_available()</code> — verifies the runner binary is on PATH, credentials
    are valid, etc.
 4. Raises <code>CanonConfigError</code> with a clear message if the selected adapter is unavailable</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>CanonConfigError: Executor &#39;toil&#39; is configured but not installed.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>CanonConfigError: Executor 'toil' is configured but not installed.
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Install with: pip install canon-executor-toil
 </code></pre></div>
 

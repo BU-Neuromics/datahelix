@@ -4542,64 +4542,64 @@ responsibilities, key invariants, and test strategy.</p>
 <p>All Hippo exceptions inherit from <code>HippoError</code>. Callers should catch the most specific
 subclass available; catch <code>HippoError</code> only as a last resort.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">HippoError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all Hippo errors.&quot;&quot;&quot;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="sd">"""Base class for all Hippo errors."""</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># ── Configuration errors (startup time) ──────────────────────────────────────</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">ConfigError</span><span class="p">(</span><span class="n">HippoError</span><span class="p">):</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Invalid or missing configuration. Raised at startup.&quot;&quot;&quot;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="sd">"""Invalid or missing configuration. Raised at startup."""</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">SchemaError</span><span class="p">(</span><span class="n">HippoError</span><span class="p">):</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema file is invalid, references unknown types, or contains cycles.&quot;&quot;&quot;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="sd">"""Schema file is invalid, references unknown types, or contains cycles."""</span>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="k">class</span><span class="w"> </span><span class="nc">MigrationError</span><span class="p">(</span><span class="n">HippoError</span><span class="p">):</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Migration cannot be applied (e.g. destructive change attempted).&quot;&quot;&quot;</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="sd">"""Migration cannot be applied (e.g. destructive change attempted)."""</span>
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
 <a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="k">class</span><span class="w"> </span><span class="nc">SearchCapabilityError</span><span class="p">(</span><span class="n">HippoError</span><span class="p">):</span>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema declares a search mode not supported by the active adapter.&quot;&quot;&quot;</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="sd">"""Schema declares a search mode not supported by the active adapter."""</span>
 <a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
 <a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="c1"># ── Runtime errors (request time) ────────────────────────────────────────────</span>
 <a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
 <a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="k">class</span><span class="w"> </span><span class="nc">ValidationError</span><span class="p">(</span><span class="n">HippoError</span><span class="p">):</span>
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Write was rejected by a validator. HTTP 422.&quot;&quot;&quot;</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="sd">"""Write was rejected by a validator. HTTP 422."""</span>
 <a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>    <span class="n">validator</span><span class="p">:</span> <span class="nb">str</span>          <span class="c1"># name of the validator that rejected the write</span>
 <a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>    <span class="n">entity_type</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>    <span class="n">entity_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>   <span class="c1"># None for creates before ID assignment</span>
 <a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>    <span class="n">detail</span><span class="p">:</span> <span class="nb">dict</span>            <span class="c1"># validator-specific detail</span>
 <a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
 <a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="k">class</span><span class="w"> </span><span class="nc">EntityNotFoundError</span><span class="p">(</span><span class="n">HippoError</span><span class="p">):</span>
-<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Entity does not exist or is unavailable. HTTP 404.&quot;&quot;&quot;</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">    </span><span class="sd">"""Entity does not exist or is unavailable. HTTP 404."""</span>
 <a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>    <span class="n">entity_type</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>    <span class="n">entity_id</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>
 <a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="k">class</span><span class="w"> </span><span class="nc">RelationshipNotFoundError</span><span class="p">(</span><span class="n">HippoError</span><span class="p">):</span>
-<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Relationship edge does not exist. HTTP 404.&quot;&quot;&quot;</span>
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="w">    </span><span class="sd">"""Relationship edge does not exist. HTTP 404."""</span>
 <a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>    <span class="n">relationship_id</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>
 <a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="k">class</span><span class="w"> </span><span class="nc">ExternalIdNotFoundError</span><span class="p">(</span><span class="n">HippoError</span><span class="p">):</span>
-<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;No entity found for the given (system, external_id) pair. HTTP 404.&quot;&quot;&quot;</span>
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="w">    </span><span class="sd">"""No entity found for the given (system, external_id) pair. HTTP 404."""</span>
 <a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>    <span class="n">system</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>    <span class="n">external_id</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>
 <a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="k">class</span><span class="w"> </span><span class="nc">ExternalIdConflictError</span><span class="p">(</span><span class="n">HippoError</span><span class="p">):</span>
-<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;ExternalID is already registered to a different entity. HTTP 409.&quot;&quot;&quot;</span>
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="w">    </span><span class="sd">"""ExternalID is already registered to a different entity. HTTP 409."""</span>
 <a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>    <span class="n">system</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>    <span class="n">external_id</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>    <span class="n">existing_entity_id</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>
 <a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="k">class</span><span class="w"> </span><span class="nc">SchemaVersionMismatchError</span><span class="p">(</span><span class="n">HippoError</span><span class="p">):</span>
-<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Instance schema version differs from storage schema version (future v0.2). HTTP 503.&quot;&quot;&quot;</span>
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a><span class="w">    </span><span class="sd">"""Instance schema version differs from storage schema version (future v0.2). HTTP 503."""</span>
 <a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>    <span class="n">instance_version</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>    <span class="n">storage_version</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>
 <a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a><span class="c1"># ── Adapter errors (infrastructure) ──────────────────────────────────────────</span>
 <a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>
 <a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a><span class="k">class</span><span class="w"> </span><span class="nc">AdapterError</span><span class="p">(</span><span class="n">HippoError</span><span class="p">):</span>
-<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Storage backend failure. Always wraps the underlying exception. HTTP 500.&quot;&quot;&quot;</span>
+<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a><span class="w">    </span><span class="sd">"""Storage backend failure. Always wraps the underlying exception. HTTP 500."""</span>
 <a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a>    <span class="n">cause</span><span class="p">:</span> <span class="ne">Exception</span>
 <a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>
 <a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a><span class="k">class</span><span class="w"> </span><span class="nc">AdapterNotFoundError</span><span class="p">(</span><span class="n">ConfigError</span><span class="p">):</span>
-<a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;No adapter registered for the configured adapter type.&quot;&quot;&quot;</span>
+<a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a><span class="w">    </span><span class="sd">"""No adapter registered for the configured adapter type."""</span>
 <a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a>    <span class="n">adapter_type</span><span class="p">:</span> <span class="nb">str</span>
 </code></pre></div>
 <p><strong>Wrapping rule:</strong> Adapters must catch all backend-specific exceptions
@@ -4774,7 +4774,7 @@ modes are deferred; stubs only.</p>
   correct fields.</li>
 </ul>
 <p><strong>Standard test schema (minimal, used in unit tests):</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.0&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">"1.0"</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">entities</span><span class="p">:</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">Thing</span><span class="p">:</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">fields</span><span class="p">:</span>
@@ -4865,14 +4865,14 @@ query.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hippo.core.loaders.reference</span><span class="w"> </span><span class="kn">import</span> <span class="n">EntityRef</span><span class="p">,</span> <span class="n">LoadResult</span><span class="p">,</span> <span class="n">ReferenceLoader</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">FakeTermLoader</span><span class="p">(</span><span class="n">ReferenceLoader</span><span class="p">):</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;fake_terms&quot;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">"fake_terms"</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="o">...</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>        <span class="n">entities</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">EntityRef</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rows_for</span><span class="p">(</span><span class="n">version</span><span class="p">):</span>
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>            <span class="n">entities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>                <span class="n">EntityRef</span><span class="o">.</span><span class="n">from_put_result</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;FakeTerm&quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">))</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>                <span class="n">EntityRef</span><span class="o">.</span><span class="n">from_put_result</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"FakeTerm"</span><span class="p">,</span> <span class="n">row</span><span class="p">))</span>
 <a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>            <span class="p">)</span>
 <a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>        <span class="k">return</span> <span class="n">LoadResult</span><span class="p">(</span><span class="n">created</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">entities</span><span class="p">),</span> <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span>
 </code></pre></div>
@@ -4885,14 +4885,14 @@ every <code>client.put()</code> made inside the lifecycle <code>load_context</co
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hippo.core.loaders.reference</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadResult</span><span class="p">,</span> <span class="n">ReferenceLoader</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">EnsemblGeneLoader</span><span class="p">(</span><span class="n">ReferenceLoader</span><span class="p">):</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ensembl_genes&quot;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">"ensembl_genes"</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="o">...</span>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="n">counts</span><span class="p">:</span> <span class="n">Counter</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">parse_gtf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fetch</span><span class="p">(</span><span class="n">version</span><span class="p">)):</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>            <span class="n">client</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Gene&quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>            <span class="n">counts</span><span class="p">[</span><span class="s2">&quot;Gene&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>            <span class="n">client</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"Gene"</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>            <span class="n">counts</span><span class="p">[</span><span class="s2">"Gene"</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
 <a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>        <span class="c1"># No EntityRef accumulation; the write log is authoritative for prune.</span>
 <a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>        <span class="k">return</span> <span class="n">LoadResult</span><span class="p">(</span><span class="n">created</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
 </code></pre></div>

@@ -4155,7 +4155,7 @@ under the same number — the ledger records digests and a rebuilt artifact is r
 <h2 id="backup">Backup<a class="headerlink" href="#backup" title="Permanent link">&para;</a></h2>
 <p><strong>SQLite (single-node):</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Daily cron backup</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>sqlite3<span class="w"> </span>data/mosaic-db/mosaic.db<span class="w"> </span><span class="s2">&quot;.backup &#39;/backups/mosaic-</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span><span class="s2">.db&#39;&quot;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>sqlite3<span class="w"> </span>data/mosaic-db/mosaic.db<span class="w"> </span><span class="s2">".backup '/backups/mosaic-</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span><span class="s2">.db'"</span>
 </code></pre></div>
 <p>The Mosaic provenance log is immutable — a daily backup of the SQLite file is sufficient for
 disaster recovery.</p>

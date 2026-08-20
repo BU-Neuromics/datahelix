@@ -4189,13 +4189,13 @@ decides whether to forward the request to the appropriate component.</p>
 <h2 id="api-keys">API Keys<a class="headerlink" href="#api-keys" title="Permanent link">&para;</a></h2>
 <h3 id="creating-an-api-key">Creating an API key<a class="headerlink" href="#creating-an-api-key" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Create a key with analyst role</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>create-key<span class="w"> </span>--label<span class="w"> </span><span class="s2">&quot;My notebook key&quot;</span><span class="w"> </span>--role<span class="w"> </span>analyst
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>create-key<span class="w"> </span>--label<span class="w"> </span><span class="s2">"My notebook key"</span><span class="w"> </span>--role<span class="w"> </span>analyst
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Create a project-scoped key (can only access Lab A)</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>create-key<span class="w"> </span>--label<span class="w"> </span><span class="s2">&quot;Lab A pipeline&quot;</span><span class="w"> </span>--role<span class="w"> </span>analyst<span class="w"> </span>--project<span class="w"> </span>lab-a
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>create-key<span class="w"> </span>--label<span class="w"> </span><span class="s2">"Lab A pipeline"</span><span class="w"> </span>--role<span class="w"> </span>analyst<span class="w"> </span>--project<span class="w"> </span>lab-a
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Create a key with an expiry date</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>create-key<span class="w"> </span>--label<span class="w"> </span><span class="s2">&quot;Temp access&quot;</span><span class="w"> </span>--role<span class="w"> </span>viewer<span class="w"> </span>--expires<span class="w"> </span><span class="m">2026</span>-12-31
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>create-key<span class="w"> </span>--label<span class="w"> </span><span class="s2">"Temp access"</span><span class="w"> </span>--role<span class="w"> </span>viewer<span class="w"> </span>--expires<span class="w"> </span><span class="m">2026</span>-12-31
 </code></pre></div>
 <p>The key is printed <strong>once</strong> and cannot be retrieved again. Store it securely.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>API key created successfully.
@@ -4209,7 +4209,7 @@ decides whether to forward the request to the appropriate component.</p>
 </code></pre></div>
 <h3 id="using-an-api-key">Using an API key<a class="headerlink" href="#using-an-api-key" title="Permanent link">&para;</a></h3>
 <p>Pass the key as a <code>Bearer</code> token in the <code>Authorization</code> header:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer datahelix_live_7f3a...&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer datahelix_live_7f3a..."</span><span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">     </span>https://datahelix.your-org.edu/api/v1/mosaic/entities/sample
 </code></pre></div>
 <p>Or set it as an environment variable for the CLI and SDK:</p>
@@ -4218,7 +4218,7 @@ decides whether to forward the request to the appropriate component.</p>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mosaic</span><span class="w"> </span><span class="kn">import</span> <span class="n">MosaicClient</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">client</span> <span class="o">=</span> <span class="n">MosaicClient</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://datahelix.your-org.edu/api/v1/mosaic&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;datahelix_live_...&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">client</span> <span class="o">=</span> <span class="n">MosaicClient</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">"https://datahelix.your-org.edu/api/v1/mosaic"</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">"datahelix_live_..."</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="listing-your-keys">Listing your keys<a class="headerlink" href="#listing-your-keys" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>list-keys
@@ -4240,7 +4240,7 @@ immediately.</p>
 is saved to <code>~/.datahelix/tokens.json</code> (encrypted via your system keychain).</p>
 <p>Subsequent <code>datahelix</code> commands use this session automatically. Sessions expire after 7 days;
 <code>datahelix login</code> renews them.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Check who you&#39;re logged in as</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Check who you're logged in as</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>datahelix<span class="w"> </span>auth<span class="w"> </span>whoami
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Log out (revokes tokens)</span>

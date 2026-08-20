@@ -4240,23 +4240,23 @@ CEL types:</p>
 with the full resolved entity map (for single refs) or a list of full entity maps
 (for list refs).</p>
 <p><strong>Before expansion</strong> — <code>entity.subject</code> is a ref string:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>&quot;Subject:abc-123-def-456&quot;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>"Subject:abc-123-def-456"
 </code></pre></div></p>
 <p><strong>After <code>expand: [{path: subject}]</code></strong> — <code>entity.subject</code> is a full entity map:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>{
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  &quot;id&quot;: &quot;abc-123-def-456&quot;,
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  &quot;__type__&quot;: &quot;Subject&quot;,
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  &quot;is_available&quot;: true,
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  &quot;external_id&quot;: &quot;SL-999&quot;,
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  &quot;species&quot;: &quot;Homo sapiens&quot;,
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  &quot;diagnosis&quot;: &quot;Huntington&#39;s disease&quot;,
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  "id": "abc-123-def-456",
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  "__type__": "Subject",
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  "is_available": true,
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  "external_id": "SL-999",
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  "species": "Homo sapiens",
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  "diagnosis": "Huntington's disease",
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>  ...
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>}
 </code></pre></div></p>
 <p><strong>After <code>expand: [{path: samples[]}]</code></strong> — <code>entity.samples</code> is a list of entity maps:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>[
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  {&quot;id&quot;: &quot;...&quot;, &quot;__type__&quot;: &quot;Sample&quot;, &quot;tissue_type&quot;: &quot;brain&quot;, ...},
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  {&quot;id&quot;: &quot;...&quot;, &quot;__type__&quot;: &quot;BrainSample&quot;, &quot;tissue_type&quot;: &quot;brain&quot;, &quot;brain_region&quot;: &quot;hippocampus&quot;, ...}
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  {"id": "...", "__type__": "Sample", "tissue_type": "brain", ...},
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  {"id": "...", "__type__": "BrainSample", "tissue_type": "brain", "brain_region": "hippocampus", ...}
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>]
 </code></pre></div></p>
 <p><strong>Null ref handling:</strong> If a <code>ref</code> field is <code>null</code> (not set), it remains <code>null</code> after
@@ -4277,22 +4277,22 @@ with their current values. <code>existing</code> is never expanded — it always
 strings, not entity maps.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a># For an update that changes only tissue_type:
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>existing = {
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  &quot;id&quot;: &quot;...&quot;,
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  &quot;__type__&quot;: &quot;Sample&quot;,
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>  &quot;is_available&quot;: true,
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>  &quot;external_id&quot;: &quot;SL-123&quot;,
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>  &quot;tissue_type&quot;: &quot;liver&quot;,      # ← the value being changed
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>  &quot;subject&quot;: &quot;Subject:abc-123&quot; # ← raw ref string, not expanded
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  "id": "...",
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  "__type__": "Sample",
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>  "is_available": true,
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>  "external_id": "SL-123",
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>  "tissue_type": "liver",      # ← the value being changed
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>  "subject": "Subject:abc-123" # ← raw ref string, not expanded
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>  ...
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>}
 <a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
 <a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>entity = {
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>  &quot;id&quot;: &quot;...&quot;,
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>  &quot;__type__&quot;: &quot;Sample&quot;,
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>  &quot;is_available&quot;: true,
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>  &quot;external_id&quot;: &quot;SL-123&quot;,
-<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>  &quot;tissue_type&quot;: &quot;brain&quot;,      # ← the proposed new value
-<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>  &quot;subject&quot;: &quot;Subject:abc-123&quot; # ← raw ref string; or expanded map if declared in expand:
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>  "id": "...",
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>  "__type__": "Sample",
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>  "is_available": true,
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>  "external_id": "SL-123",
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>  "tissue_type": "brain",      # ← the proposed new value
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>  "subject": "Subject:abc-123" # ← raw ref string; or expanded map if declared in expand:
 <a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>  ...
 <a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>}
 </code></pre></div>
@@ -4337,32 +4337,32 @@ functions are available:</p>
 <hr />
 <h3 id="common-patterns">Common Patterns<a class="headerlink" href="#common-patterns" title="Permanent link">&para;</a></h3>
 <p><strong>Check a field is set:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>entity.tissue_type != null &amp;&amp; entity.tissue_type != &quot;&quot;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">entity</span><span class="p">.</span><span class="n">tissue_type</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">entity</span><span class="p">.</span><span class="n">tissue_type</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">""</span>
 </code></pre></div></p>
 <p><strong>Check enum value:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>entity.execution_state in [&quot;pending&quot;, &quot;running&quot;]
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">entity</span><span class="p">.</span><span class="n">execution_state</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="p">[</span><span class="s">"pending"</span><span class="p">,</span><span class="w"> </span><span class="s">"running"</span><span class="p">]</span>
 </code></pre></div></p>
 <p><strong>Conditional on operation type:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>operation == &quot;create&quot; ? entity.external_id != null : true
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">operation</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"create"</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">entity</span><span class="p">.</span><span class="n">external_id</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 </code></pre></div></p>
 <p><strong>Use existing value in update check (immutable field):</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>existing == null || existing.external_id == null || entity.external_id == existing.external_id
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">existing</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">existing</span><span class="p">.</span><span class="n">external_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">entity</span><span class="p">.</span><span class="n">external_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">existing</span><span class="p">.</span><span class="n">external_id</span>
 </code></pre></div></p>
 <p><strong>Expanded ref navigation:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>entity.subject != null &amp;&amp; entity.subject.is_available == true &amp;&amp; entity.subject.species == &quot;Homo sapiens&quot;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">entity</span><span class="p">.</span><span class="n">subject</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">entity</span><span class="p">.</span><span class="n">subject</span><span class="p">.</span><span class="n">is_available</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">entity</span><span class="p">.</span><span class="n">subject</span><span class="p">.</span><span class="n">species</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"Homo sapiens"</span>
 </code></pre></div></p>
 <p><strong>Expanded list — check all elements:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>entity.samples.all(s, s.tissue_type == &quot;brain&quot;)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">entity</span><span class="p">.</span><span class="n">samples</span><span class="p">.</span><span class="n">all</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">tissue_type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"brain"</span><span class="p">)</span>
 </code></pre></div></p>
 <p><strong>Expanded list — check count:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>entity.samples.size() &gt;= 1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">entity</span><span class="p">.</span><span class="n">samples</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span>
 </code></pre></div></p>
 <p><strong>Expanded list — check any element:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>entity.samples.exists(s, s.is_available == true)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">entity</span><span class="p">.</span><span class="n">samples</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">is_available</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
 </code></pre></div></p>
 <p><strong>Subtype check:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>hippo.matches_type(entity, &quot;Sample&quot;)   # true for Sample and BrainSample, CellLine, etc.
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>entity.__type__ == &quot;BrainSample&quot;        # exact type check
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">hippo</span><span class="p">.</span><span class="n">matches_type</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span><span class="w"> </span><span class="s">"Sample"</span><span class="p">)</span><span class="w">   </span><span class="err">#</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="kr">for</span><span class="w"> </span><span class="n">Sample</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">BrainSample</span><span class="p">,</span><span class="w"> </span><span class="n">CellLine</span><span class="p">,</span><span class="w"> </span><span class="n">etc</span><span class="p">.</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">entity</span><span class="p">.</span><span class="n">__type__</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"BrainSample"</span><span class="w">        </span><span class="err">#</span><span class="w"> </span><span class="n">exact</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">check</span>
 </code></pre></div></p>
 <hr />
 <h3 id="cel-type-coercion-notes">CEL Type Coercion Notes<a class="headerlink" href="#cel-type-coercion-notes" title="Permanent link">&para;</a></h3>

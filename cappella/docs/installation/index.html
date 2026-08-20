@@ -4078,8 +4078,8 @@
 <h2 id="configure">Configure<a class="headerlink" href="#configure" title="Permanent link">&para;</a></h2>
 <p>Create a <code>cappella.yaml</code> configuration file. At minimum you need a Hippo connection:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">hippo</span><span class="p">:</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://localhost:8001&quot;</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${HIPPO_TOKEN}&quot;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">"http://localhost:8001"</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="s">"${HIPPO_TOKEN}"</span>
 </code></pre></div>
 <p>See the <a href="../quickstart/">Quick Start</a> for a minimal working example, or the <a href="../user_guide/">User Guide</a> for the full configuration reference.</p>
 <h2 id="run-as-a-service">Run as a Service<a class="headerlink" href="#run-as-a-service" title="Permanent link">&para;</a></h2>
@@ -4089,7 +4089,7 @@
 <h2 id="run-as-a-cli-tool">Run as a CLI Tool<a class="headerlink" href="#run-as-a-cli-tool" title="Permanent link">&para;</a></h2>
 <p>All Cappella operations are also available as CLI commands without starting a server:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>cappella<span class="w"> </span>ingest<span class="w"> </span>&lt;adapter_name&gt;<span class="w"> </span>--config<span class="w"> </span>cappella.yaml
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>cappella<span class="w"> </span>resolve<span class="w"> </span>--entity-type<span class="w"> </span>GeneCounts<span class="w"> </span>--criteria<span class="w"> </span><span class="s2">&quot;donor.diagnosis=CTE&quot;</span><span class="w"> </span>--config<span class="w"> </span>cappella.yaml
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>cappella<span class="w"> </span>resolve<span class="w"> </span>--entity-type<span class="w"> </span>GeneCounts<span class="w"> </span>--criteria<span class="w"> </span><span class="s2">"donor.diagnosis=CTE"</span><span class="w"> </span>--config<span class="w"> </span>cappella.yaml
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>cappella<span class="w"> </span>status<span class="w"> </span>--config<span class="w"> </span>cappella.yaml
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>cappella<span class="w"> </span>--help
 </code></pre></div>
@@ -4098,10 +4098,10 @@
 </code></pre></div>
 <p>Expected output:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">&quot;cappella_version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.1.0&quot;</span><span class="p">,</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">&quot;hippo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ok&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.3.1&quot;</span><span class="p">},</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">&quot;canon&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ok&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.2.0&quot;</span><span class="p">},</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">&quot;adapters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">"cappella_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.1.0"</span><span class="p">,</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">"hippo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w"> </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.3.1"</span><span class="p">},</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">"canon"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w"> </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.2.0"</span><span class="p">},</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">"adapters"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
 <a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="p">}</span>
 </code></pre></div></p>
 
