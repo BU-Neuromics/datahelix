@@ -16,7 +16,7 @@
 # published as ghcr.io/bu-neuromics/mosaic; the ledger key is now `mosaic`.
 # The CLI inside the image is `mosaic`.
 
-ARG MOSAIC_IMAGE=ghcr.io/bu-neuromics/mosaic@sha256:2ac3e3c10f86bbbb9d98ea770e46be641c1465f24d051cf6f799ff9bda1b884b
+ARG MOSAIC_IMAGE=ghcr.io/bu-neuromics/mosaic@sha256:ded29427e210253505fe42a9d58205418bc9df8e609a960fb34c30300ea8d278
 ARG APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:0f710fa7b886089eb932e3b6c82ed62e87efb06d3252ff1fa2d48e1ad29ca083
 
 # The Modeler has no published image yet; build its static bundle at a pinned
