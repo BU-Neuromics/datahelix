@@ -1,0 +1,45 @@
+# Example LinkML schema for the DataHelix solo recipe.
+# Edit this (by hand or in the Modeler at /modeler/), then `make migrate` —
+# additive changes (new classes, new attributes) apply as DDL on restart and
+# appear in Aperture immediately.
+id: https://example.org/solo-example
+name: solo_example
+prefixes:
+  linkml: https://w3id.org/linkml/
+  solo_example: https://example.org/solo-example/
+imports:
+  - linkml:types
+default_range: string
+
+classes:
+  Project:
+    description: "A tracked project"
+    attributes:
+      project_id:
+        range: string
+        required: true
+        identifier: true
+      title:
+        range: string
+        required: true
+      status:
+        range: ProjectStatus
+
+  Note:
+    description: "A note attached to a project"
+    attributes:
+      note_id:
+        range: string
+        required: true
+        identifier: true
+      project:
+        range: Project
+      body:
+        range: string
+
+enums:
+  ProjectStatus:
+    permissible_values:
+      planned:
+      active:
+      done:
