@@ -1,0 +1,32 @@
+# Seed data for the ide recipe's example schema — `make seed` ingests every
+# *.yaml in this directory.
+#
+# Top-level keys are Mosaic's *ingest accessors*, not class names: snake_case
+# of the class plus "s" (Project -> projects, Note -> notes). Irregular plurals
+# need a `hippo_accessor` annotation on the class; see the demo recipe's
+# remap_accessors.py for the general case.
+#
+# Ingest is idempotent on identifiers, so re-running `make seed` updates these
+# rows rather than duplicating them.
+
+projects:
+  - id: PRJ-001
+    title: Cortical transcriptomics pilot
+    status: active
+  - id: PRJ-002
+    title: Methylation array reprocessing
+    status: planned
+  - id: PRJ-003
+    title: Legacy cohort curation
+    status: done
+
+notes:
+  - id: NOTE-001
+    project: PRJ-001
+    body: Batch 3 arrived; QC pending.
+  - id: NOTE-002
+    project: PRJ-001
+    body: Two samples failed RIN threshold and were excluded.
+  - id: NOTE-003
+    project: PRJ-002
+    body: Waiting on array manifest before reprocessing.

@@ -1,0 +1,147 @@
+# DataHelix `ide` recipe — the development environment (platform ADR-0004).
+#
+# Multi-service compose (not a single container, per deployment-recipes.md
+# decision 1.9): independent restarts, independent logs, and either component
+# swappable to a live source checkout.
+#
+#   make up        # both from pinned images (known-good baseline)
+#   make dev       # both from source, both live
+#   make dev-web   # Aperture from source (HMR), Mosaic from image
+#   make dev-api   # Mosaic from source, Aperture from image
+#
+# Profiles come in mutually exclusive pairs — <component>-image or
+# <component>-source. The Makefile sets COMPOSE_PROFILES for you; running a
+# raw `docker compose up` with no profile starts only the gateway, which is
+# almost never what you want.
+#
+# NOT a deployment. `ide` is exempt from the ADR-0001 deploy gate precisely
+# because it builds from source; nothing it produces is a certified artifact,
+# and it must never serve real data. Use `solo` for that.
+
+name: datahelix-ide
+
+services:
+  # ── Gateway: the single origin ─────────────────────────────────────────────
+  # Routes exactly as `solo` does so browser muscle memory transfers, and so
+  # the SPA keeps a *relative* /graphql endpoint — the same-origin seam means
+  # no CORS configuration exists anywhere in the stack, in dev or in prod.
+  gateway:
+    image: nginx:1.27-alpine
+    ports:
+      - "${IDE_PORT:-8080}:8080"
+    volumes:
+      - ./gateway/default.conf.template:/etc/nginx/templates/default.conf.template:ro
+    environment:
+      # Which upstream serves the app and the data plane. The Makefile sets
+      # these to match the selected profiles; the template resolves them at
+      # request time (see the resolver note in the template) so the gateway
+      # starts even when only one pair is running.
+      APERTURE_UPSTREAM: ${APERTURE_UPSTREAM:-aperture:80}
+      MOSAIC_UPSTREAM: ${MOSAIC_UPSTREAM:-mosaic:8001}
+      # Mosaic's bearer guard is a placeholder that only requires a non-empty
+      # value (verification is Bridge's job later). Injected here so the
+      # browser never handles a token.
+      MOSAIC_TOKEN: ${MOSAIC_TOKEN:-ide}
+    restart: unless-stopped
+
+  # ── Mosaic: pinned image (default baseline) ────────────────────────────────
+  mosaic:
+    profiles: [mosaic-image]
+    image: ghcr.io/bu-neuromics/mosaic:${MOSAIC_VERSION:-0.13.0}
+    # The image's `mosaic` user is uid 999 with HOME=/project, but /project is a
+    # bind mount owned by the host user — so it cannot write the SQLite file,
+    # and PyStow (a transitive dep) fails at import trying to create its home.
+    # `solo` sidesteps this by running as root; a dev recipe should not, or it
+    # litters your checkout with root-owned files. Run as the invoking user
+    # instead (the Makefile passes it) and give HOME a writable scratch path.
+    user: "${DOCKER_UID:-1000}:${DOCKER_GID:-1000}"
+    # --config explicitly: auto-discovery silently falls back to the bundled
+    # default schema when it finds no config, which looks like "my schema
+    # vanished" rather than an error.
+    command:
+      ["serve", "--graphql", "--host", "0.0.0.0", "--port", "8001",
+       "--config", "/project/mosaic.yaml"]
+    environment:
+      HOME: /tmp
+    volumes:
+      - "${PROJECT_DIR:-./project}:/project"
+    restart: unless-stopped
+
+  # ── Mosaic: live from source ───────────────────────────────────────────────
+  # Same image (so every runtime dependency is already installed), with the
+  # source checkout mounted and PYTHONPATH shadowing the installed package.
+  # Verified: `import mosaic` resolves to /src/mosaic/__init__.py, not the
+  # image's site-packages.
+  #
+  # NOTE: `--reload` is deliberately NOT passed. `mosaic serve` builds the app
+  # object and hands it to `uvicorn.run(app, reload=...)`, but uvicorn requires
+  # an import string for reload and calls sys.exit(1) instead — so the flag
+  # exits the process on every start. Reported upstream; until it is fixed the
+  # loop is `make reload-api` (a ~1s container restart), which still needs no
+  # rebuild. Re-add the flag here once Mosaic passes a factory import string.
+  mosaic-dev:
+    profiles: [mosaic-source]
+    image: ghcr.io/bu-neuromics/mosaic:${MOSAIC_VERSION:-0.13.0}
+    user: "${DOCKER_UID:-1000}:${DOCKER_GID:-1000}"
+    command:
+      ["serve", "--graphql", "--host", "0.0.0.0", "--port", "8001",
+       "--config", "/project/mosaic.yaml"]
+    environment:
+      PYTHONPATH: /src
+      # See the note on the `mosaic` service above.
+      HOME: /tmp
+    volumes:
+      - "${PROJECT_DIR:-./project}:/project"
+      - "${MOSAIC_SRC:-../../../mosaic/src}:/src:ro"
+    restart: unless-stopped
+
+  # ── Aperture: published image (default baseline) ───────────────────────────
+  # The image injects its runtime config at start from VITE_* env (ADR-0034).
+  aperture:
+    profiles: [aperture-image]
+    image: ghcr.io/bu-neuromics/aperture:${APERTURE_VERSION:-0.4.0}
+    environment:
+      VITE_HIPPO_GRAPHQL_URL: ${VITE_HIPPO_GRAPHQL_URL:-/graphql}
+      VITE_HIPPO_CONTROL_PLANE_URL: ${VITE_HIPPO_CONTROL_PLANE_URL:-}
+      VITE_WORKFLOWS: ${VITE_WORKFLOWS:-}
+      VITE_NAV: ${VITE_NAV:-}
+    restart: unless-stopped
+
+  # ── Aperture: live from source, Vite dev server with HMR ───────────────────
+  # This service is the substance of ADR-0004's amendment to decision 1.9,
+  # which had Aperture as a published image only.
+  #
+  # Vite listens on IDE_PORT — the same port the browser talks to — so its HMR
+  # client's default port assumption matches the public origin and no
+  # `hmr.clientPort` override is needed. Change IDE_PORT and both follow.
+  #
+  # node_modules lives in a named volume rather than coming from the host, so
+  # no host Node toolchain is involved at all. That is deliberate: an
+  # unpinned host toolchain is what produced the incident behind ADR-0004.
+  aperture-dev:
+    profiles: [aperture-source]
+    image: node:${NODE_VERSION:-26}
+    working_dir: /app
+    command:
+      - sh
+      - -lc
+      - |
+        if [ ! -x node_modules/.bin/vite ]; then
+          echo "ide: installing dependencies (first run; cached in a named volume)"
+          npm ci --no-audit --no-fund
+        fi
+        exec node_modules/.bin/vite --host 0.0.0.0 --port "${IDE_PORT:-8080}"
+    environment:
+      # Relative endpoint: the browser resolves it against the gateway origin,
+      # so dev exercises the production same-origin arrangement.
+      VITE_HIPPO_GRAPHQL_URL: ${VITE_HIPPO_GRAPHQL_URL:-/graphql}
+      IDE_PORT: ${IDE_PORT:-8080}
+    volumes:
+      - "${APERTURE_WEB:-../../../aperture/web}:/app"
+      - aperture-node-modules:/app/node_modules
+    restart: unless-stopped
+
+volumes:
+  # Kept out of the bind mount so container installs never collide with a
+  # host-side node_modules (different libc, different Node).
+  aperture-node-modules:
