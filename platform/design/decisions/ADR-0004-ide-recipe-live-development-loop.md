@@ -3,6 +3,7 @@
 - **Status:** Accepted
 - **Date:** 2026-08-21
 - **Deciders:** labadorf, design session
+- **Tracking issue:** [#74](https://github.com/BU-Neuromics/datahelix/issues/74) (deliberation; closed at ratification — implementation tracked in [#75](https://github.com/BU-Neuromics/datahelix/issues/75))
 - **Related:** [`proposals/deployment-recipes.md`](../../../proposals/deployment-recipes.md) decisions 1.9 / 1.10 / §2.2 / §4.3 (this ADR **amends 1.9**); [ADR-0001](./ADR-0001-certified-frontier-composition.md) (deploy gate — `ide` is exempt); Aperture ADR-0034 (runtime endpoint injection); [BU-Neuromics/aperture#54](https://github.com/BU-Neuromics/aperture/pull/54) (Node 26 toolchain pin)
 
 ## Context
