@@ -1,0 +1,216 @@
+# IDE recipe smoke (platform ADR-0004).
+#
+# Two jobs, mirroring the two things the recipe promises:
+#   baseline — both components from pinned images; the schema + seed loops work
+#   live     — both components from source; HMR actually works end to end
+#
+# The `live` job's websocket assertion is the point of this workflow, not a
+# nicety. A broken HMR proxy still serves the page perfectly and still returns
+# HTTP 200 on every path — it just silently stops updating. That invisible
+# failure is what ADR-0004 exists to remove, so it has to be asserted
+# explicitly or the recipe can regress without anyone noticing.
+#
+# No deploy gate here: `ide` is exempt (deployment-recipes.md decision 1.10).
+
+name: IDE recipe
+
+on:
+  pull_request:
+    paths:
+      - "deploy/recipes/ide/**"
+      - ".github/workflows/ide-recipe.yml"
+  push:
+    branches: [main]
+    paths:
+      - "deploy/recipes/ide/**"
+      - ".github/workflows/ide-recipe.yml"
+  # Nightly, like the solo recipe: the source profiles build against the
+  # submodule pins, so component drift can break this even when no recipe
+  # file changed.
+  schedule:
+    - cron: "30 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  # ── Pinned images: the schema and seed loops ───────────────────────────────
+  baseline:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: deploy/recipes/ide
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start both components from pinned images
+        run: make up
+
+      - name: Wait for health (gateway -> mosaic seam)
+        run: |
+          timeout 180 sh -c 'until curl -sf http://localhost:8080/health; do
+            sleep 3
+          done'
+          echo
+
+      - name: "Smoke: the image profile serves a built bundle, not a dev server"
+        run: |
+          curl -sf http://localhost:8080/ | grep -qi "<!doctype html>"
+          if curl -sf http://localhost:8080/ | grep -q '@vite/client'; then
+            echo "expected a built bundle from the image profile, got a dev server" >&2
+            exit 1
+          fi
+          curl -sf http://localhost:8080/config.js | grep -q '"/graphql"'
+          echo "built bundle served; runtime config injected"
+
+      - name: "Smoke: GraphQL through the same-origin seam"
+        # No Authorization header, deliberately: this proves the gateway's
+        # bearer injection works, exactly as the browser will call it.
+        run: |
+          curl -sf -X POST http://localhost:8080/graphql \
+            -H 'Content-Type: application/json' \
+            -d '{"query":"{ __schema { types { name } } }"}' \
+          | python3 -c "
+          import json, sys
+          names = [t['name'] for t in json.load(sys.stdin)['data']['__schema']['types']]
+          assert 'Project' in names and 'Note' in names, names
+          print(f'introspection ok: {len(names)} types, Project + Note present')
+          "
+
+      - name: "Seed loop: make seed ingests and is idempotent"
+        run: |
+          make seed | tee /tmp/seed1.log
+          grep -q "created=6" /tmp/seed1.log
+          curl -sf -X POST http://localhost:8080/graphql \
+            -H 'Content-Type: application/json' \
+            -d '{"query":"{ projects(limit:5){ total items{ id title } } }"}' \
+          | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)['data']['projects']
+          assert d['total'] == 3, d
+          assert d['items'][0]['id'].startswith('PRJ-'), d
+          print(f\"seed ok: {d['total']} projects; first = {d['items'][0]['id']}\")
+          "
+          # Re-ingesting must update rather than duplicate.
+          make seed | tee /tmp/seed2.log
+          grep -q "created=0" /tmp/seed2.log
+          grep -q "updated=6" /tmp/seed2.log
+          echo "seed is idempotent"
+
+      - name: "Schema loop: add a class, make migrate, verify"
+        run: |
+          cat > project/schemas/iteration2.yaml <<'EOF'
+          id: https://example.org/ide-example-iteration2
+          name: ide_example_iteration2
+          prefixes:
+            linkml: https://w3id.org/linkml/
+            ide_example_iteration2: https://example.org/ide-example-iteration2/
+          imports:
+            - linkml:types
+          default_range: string
+
+          classes:
+            Milestone:
+              description: "A dated milestone (added by the smoke test)"
+              attributes:
+                id:
+                  range: string
+                  required: true
+                  identifier: true
+                project:
+                  range: Project
+                due_date:
+                  range: date
+          EOF
+          make migrate
+          timeout 180 sh -c 'until curl -sf http://localhost:8080/health; do
+            sleep 3
+          done'
+          curl -sf -X POST http://localhost:8080/graphql \
+            -H 'Content-Type: application/json' \
+            -d '{"query":"{ __schema { types { name } } }"}' \
+          | python3 -c "
+          import json, sys
+          names = [t['name'] for t in json.load(sys.stdin)['data']['__schema']['types']]
+          assert 'Milestone' in names, names
+          print('migrate ok: Milestone visible via GraphQL')
+          "
+
+      - name: Logs on failure
+        if: failure()
+        run: docker compose logs || true
+
+  # ── Source profiles: the live loop ─────────────────────────────────────────
+  live:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: deploy/recipes/ide
+    steps:
+      # The source profiles bind-mount aperture/web and mosaic/src, so the
+      # submodules must actually be checked out.
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Start both components from source
+        run: make dev
+
+      - name: Wait for the dev server (first run installs node_modules)
+        run: |
+          timeout 420 sh -c 'until curl -sf http://localhost:8080/health >/dev/null \
+            && curl -sf http://localhost:8080/ >/dev/null; do sleep 5; done'
+          docker compose logs aperture-dev | grep -E "ready in|Local:"
+
+      - name: "Smoke: Vite is serving the app through the gateway"
+        run: |
+          curl -sf http://localhost:8080/ | grep -q '@vite/client'
+          echo "dev server served through the gateway"
+
+      - name: "Smoke: Mosaic is running from the mounted source"
+        # PYTHONPATH must shadow the image's installed package, or the source
+        # profile silently runs the image's code and the whole point is lost.
+        run: |
+          docker compose exec -T mosaic-dev python -c "
+          import mosaic
+          assert mosaic.__file__.startswith('/src'), mosaic.__file__
+          print('source profile ok:', mosaic.__file__)
+          "
+
+      - name: "HMR: the websocket upgrades through the gateway"
+        # THE load-bearing assertion. HTTP 200 on / proves nothing about HMR;
+        # only a 101 does. See the header comment.
+        run: |
+          status=$(curl -s -i -N --max-time 10 \
+            -H 'Connection: Upgrade' -H 'Upgrade: websocket' \
+            -H 'Sec-WebSocket-Version: 13' \
+            -H "Sec-WebSocket-Key: $(head -c16 /dev/urandom | base64)" \
+            -H 'Sec-WebSocket-Protocol: vite-hmr' \
+            http://localhost:8080/ | head -1)
+          echo "upgrade response: $status"
+          echo "$status" | grep -q '101' || {
+            echo "HMR websocket did not upgrade — the page would still load, but nothing would ever hot-update" >&2
+            exit 1
+          }
+
+      - name: "HMR: a source edit propagates without a restart"
+        run: |
+          before=$(docker compose logs aperture-dev | grep -c 'hmr update' || true)
+          printf '\n// ide-recipe ci hmr probe\n' >> ../../../aperture/web/src/App.tsx
+          timeout 60 sh -c "until [ \"\$(docker compose logs aperture-dev | grep -c 'hmr update' || true)\" -gt $before ]; do sleep 2; done"
+          docker compose logs aperture-dev | grep 'hmr update' | tail -2
+          git -C ../../../aperture checkout -- web/src/App.tsx
+          echo "edit propagated over the bind mount with no restart"
+
+      - name: "Smoke: GraphQL through the gateway on the source profile"
+        run: |
+          curl -sf -X POST http://localhost:8080/graphql \
+            -H 'Content-Type: application/json' \
+            -d '{"query":"{ __schema { queryType { name } } }"}' \
+          | grep -q 'queryType'
+          echo "data plane reachable on the source profile"
+
+      - name: Logs on failure
+        if: failure()
+        run: docker compose logs || true

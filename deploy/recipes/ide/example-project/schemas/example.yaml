@@ -1,12 +1,17 @@
-# Example LinkML schema for the DataHelix solo recipe.
-# Edit this (by hand or in the Modeler at /modeler/), then `make migrate` —
-# additive changes (new classes, new attributes) apply as DDL on restart and
-# appear in Aperture immediately.
-id: https://example.org/solo-example
-name: solo_example
+# Example LinkML schema for the DataHelix ide recipe.
+# Edit this, then `make migrate` — additive changes (new classes, new
+# attributes) apply as DDL on restart and appear in Aperture immediately.
+#
+# NOTE: the identifier slot is named `id` deliberately. `mosaic ingest` writes
+# identity to an `id` column rather than to the schema's declared identifier
+# slot, so a schema whose identifier is e.g. `project_id` browses fine but
+# cannot be seeded ("table Project has no column named id"). Reported upstream;
+# until it is fixed, name identifiers `id` if you intend to use `make seed`.
+id: https://example.org/ide-example
+name: ide_example
 prefixes:
   linkml: https://w3id.org/linkml/
-  solo_example: https://example.org/solo-example/
+  ide_example: https://example.org/ide-example/
 imports:
   - linkml:types
 default_range: string
@@ -15,7 +20,7 @@ classes:
   Project:
     description: "A tracked project"
     attributes:
-      project_id:
+      id:
         range: string
         required: true
         identifier: true
@@ -28,7 +33,7 @@ classes:
   Note:
     description: "A note attached to a project"
     attributes:
-      note_id:
+      id:
         range: string
         required: true
         identifier: true

@@ -42,7 +42,7 @@ All four serve the same URLs, so nothing in the browser changes when you switch:
 `make down` stops everything. `make clean` also drops the `node_modules`
 volume, forcing a clean reinstall.
 
-## The three inner loops
+## The inner loops
 
 **Front-end.** Edit anything under `aperture/web/src/` and the browser updates
 without a reload — Vite HMR, sub-second. No build, no restart, no bind-mounted
@@ -78,8 +78,56 @@ restart-on-migrate. Removals and renames are not auto-applied; plan those with
 `mosaic schema safe-deploy` first. `make migrate` finds whichever mosaic
 service is running, so it works in every mode.
 
+**Seed data.** Drop LinkML-native instance bundles into `project/seed/`, then:
+
+```bash
+make seed         # ingests every *.yaml there; idempotent on `id`
+```
+
+Top-level keys are Mosaic's *ingest accessors* — snake_case of the class plus
+"s" (`Project` → `projects`). Irregular plurals need a `hippo_accessor`
+annotation on the class; the `demo` recipe's `remap_accessors.py` shows the
+general case.
+
+Two sharp edges worth knowing, both of which cost time to find:
+
+- **`ingest --config` is not the deployment config.** It means *loader* config
+  (CSV/SQL column mappings). The schema comes from `--validate-schema`; without
+  it, ingest validates against the bundled default schema and rejects your
+  bundle with "Additional properties are not allowed". `make seed` passes it
+  for you.
+- **`ingest` writes identity to an `id` column**, not to the schema's declared
+  identifier slot. A schema whose identifier is `project_id` browses fine but
+  cannot be seeded ("table Project has no column named id"). Hence the example
+  schema names its identifiers `id`. Reported upstream.
+
 To edit schemas on a canvas instead of by hand, run the LinkML Modeler
 separately for now — it is not yet part of this recipe (see *Not included*).
+
+## Verifying the production bundle
+
+HMR is for iterating. It is not what ships: the dev server has different module
+semantics, no minification, and no `tsc` gate. Before trusting a change, check
+the real artifact:
+
+```bash
+cd ../../../aperture/web
+docker run --rm -v "$PWD":/app -w /app node:26 npx vite build   # or npm run build
+cd -
+make up            # serves the published image...
+```
+
+...or build the Aperture image itself and point the recipe at it:
+
+```bash
+docker build -t aperture:local ../../../aperture/web
+APERTURE_VERSION=local make up   # with the image retagged accordingly
+```
+
+These are two distinct jobs — iterate with `make dev`, verify with a real
+build — and conflating them is what made the pre-`ide` loop unreliable: a
+bind-mounted `dist/` looked like the production bundle but silently served
+whatever was last built, by whatever toolchain happened to be on the host.
 
 ## Why the endpoint is relative
 
@@ -136,12 +184,17 @@ Two details worth knowing if you edit the gateway config:
   and the page still loads perfectly while HMR silently does nothing — which is
   exactly the class of invisible failure ADR-0004 exists to remove.
 
+## CI
+
+`.github/workflows/ide-recipe.yml` boots both jobs on every change to this
+directory, plus nightly. The `live` job asserts the **HMR websocket upgrades
+(101)** and that a source edit actually propagates — not merely that pages
+return 200. A broken HMR proxy serves every path perfectly and just stops
+updating, so only the websocket assertion catches it.
+
 ## Not included
 
 - **LinkML Modeler** — `solo` ships it; here it is deferred to its own task, so
   `/modeler/` is not routed yet.
-- **Seed data** — the project scaffold is an empty example schema. Whether
-  `ide` should seed from the `demo` recipe's generator or a `project/seed/`
-  convention is still open.
 - **Deploy gate** — deliberately absent (decision 1.10). There is no
   `make gate` and no `check_pins.py` here by design.

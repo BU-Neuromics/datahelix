@@ -28,7 +28,7 @@ WEB_SOURCE  = APERTURE_UPSTREAM=aperture-dev:$(IDE_PORT)
 API_IMAGE   = MOSAIC_UPSTREAM=mosaic:8001
 API_SOURCE  = MOSAIC_UPSTREAM=mosaic-dev:8001
 
-.PHONY: init up dev dev-web dev-api down logs logs-web migrate reload-api ps clean help
+.PHONY: init up dev dev-web dev-api down logs logs-web migrate seed reload-api ps clean help
 
 ## Scaffold a project directory from the bundled example (no-op if it exists).
 init:
@@ -82,6 +82,23 @@ migrate:
 	docker compose exec -w /project/schemas "$$svc" \
 		mosaic migrate --schema-dir . --db-path /project/data/mosaic.db; \
 	docker compose restart "$$svc"
+
+## Ingest every *.yaml in the project's seed/ directory (idempotent on `id`).
+## --validate-schema is what selects the schema: ingest's --config means
+## *loader* config (csv/sql mappings), not the deployment config.
+seed:
+	@svc=$$(docker compose ps --services --status running | grep -E '^mosaic(-dev)?$$' | head -1); \
+	if [ -z "$$svc" ]; then echo "no mosaic service running — 'make up' or 'make dev' first" >&2; exit 1; fi; \
+	found=0; \
+	for f in $(PROJECT_DIR)/seed/*.yaml; do \
+		[ -e "$$f" ] || continue; found=1; \
+		echo "ide: ingesting $$(basename $$f)"; \
+		docker compose exec -T "$$svc" mosaic ingest \
+			--file "/project/seed/$$(basename $$f)" \
+			--validate-schema /project/schemas \
+			--db-path /project/data/mosaic.db; \
+	done; \
+	if [ $$found -eq 0 ]; then echo "no *.yaml in $(PROJECT_DIR)/seed/ — nothing to ingest"; fi
 
 ## Pick up Mosaic source changes (~1s). Stands in for `mosaic serve --reload`,
 ## which exits the process as shipped — see the note in docker-compose.yml.
