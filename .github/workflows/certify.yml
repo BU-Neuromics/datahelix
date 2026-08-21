@@ -81,7 +81,7 @@ jobs:
         if: steps.pins.outputs.published == 'true'
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "26"
 
       - name: Boot composition + run golden-path suite
         id: run
