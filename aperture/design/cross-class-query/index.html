@@ -21,7 +21,7 @@
     
     
       
-        <title>Gen3 — Deep Comparison to DataHelix / Aperture - DataHelix Documentation</title>
+        <title>Cross-Class Query & Heterogeneous Results — Design Exploration - DataHelix Documentation</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#gen3-deep-comparison-to-datahelix-aperture" class="md-skip">
+        <a href="#cross-class-query-heterogeneous-results-design-exploration" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Gen3 — Deep Comparison to DataHelix / Aperture
+              Cross-Class Query &amp; Heterogeneous Results — Design Exploration
             
           </span>
         </div>
@@ -3823,10 +3823,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-gen3-is" class="md-nav__link">
+  <a href="#1-problem" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What Gen3 is
+        1. Problem
       
     </span>
   </a>
@@ -3834,10 +3834,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#service-by-service-map-to-datahelix" class="md-nav__link">
+  <a href="#2-constraint-envelope-what-any-design-must-satisfy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Service-by-service map to DataHelix
+        2. Constraint envelope (what any design must satisfy)
       
     </span>
   </a>
@@ -3845,10 +3845,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-explorerconfig-our-core-loop-config-near-11" class="md-nav__link">
+  <a href="#3-what-the-endpoint-executes-corrected-against-mosaic-source-v0121" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The explorerConfig ≈ our core-loop config (near 1:1)
+        3. What the endpoint executes — corrected against Mosaic source (v0.12.1)
       
     </span>
   </a>
@@ -3856,10 +3856,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-single-biggest-lesson-a-two-tier-data-architecture-solves-our-aggregation-gap" class="md-nav__link">
+  <a href="#4-prior-art-external-survey-2026-08-18" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The single biggest lesson: a two-tier data architecture solves our aggregation gap
+        4. Prior art (external survey, 2026-08-18)
       
     </span>
   </a>
@@ -3867,10 +3867,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#where-aperture-is-more-ambitious-than-gen3" class="md-nav__link">
+  <a href="#5-the-queryspec-noun-unchanged-by-co-design-thats-the-point" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Where Aperture is more ambitious than Gen3
+        5. The QuerySpec noun (unchanged by co-design — that's the point)
       
     </span>
   </a>
@@ -3878,10 +3878,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-to-steal-prototype-against" class="md-nav__link">
+  <a href="#6-ux-three-on-ramps-one-artifact" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What to steal / prototype against
+        6. UX — three on-ramps, one artifact
       
     </span>
   </a>
@@ -3889,10 +3889,38 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#caveats" class="md-nav__link">
+  <a href="#7-mosaic-co-design-the-priced-capability-menu" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Caveats
+        7. Mosaic co-design — the priced capability menu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Mosaic co-design — the priced capability menu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-wire-contract-decision-typed-filter-inputs-not-cel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The wire-contract decision: typed filter inputs, not CEL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-results-presentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Results presentation
       
     </span>
   </a>
@@ -3900,10 +3928,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sources" class="md-nav__link">
+  <a href="#9-risks-and-open-questions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sources
+        9. Risks and open questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-recommended-path-adr-slate-two-sided" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Recommended path &amp; ADR slate (two-sided)
       
     </span>
   </a>
@@ -3927,219 +3966,561 @@
 
 
 
-<h1 id="gen3-deep-comparison-to-datahelix-aperture">Gen3 — Deep Comparison to DataHelix / Aperture<a class="headerlink" href="#gen3-deep-comparison-to-datahelix-aperture" title="Permanent link">&para;</a></h1>
-<p><strong>Status:</strong> 🟢 Research findings (2026-06-16, primary sources). Companion to
-<a href="../prior-art/"><code>prior-art.md</code></a>, which named Gen3 the strongest faceted-portal match. This
-goes deeper: <strong>Gen3 is the closest production analog to the <em>whole DataHelix platform</em>, not just to
-Aperture</strong> — and its architecture answers our sharpest open capability question.</p>
-<h2 id="what-gen3-is">What Gen3 is<a class="headerlink" href="#what-gen3-is" title="Permanent link">&para;</a></h2>
-<p>Gen3 (Center for Translational Data Science, U. Chicago / <code>uc-cdis</code>) is an open-source platform
-for building <strong>data commons</strong> — it powers NIH commons like MIDRC, AnVIL, BioData Catalyst,
-HEAL. It is a stack of microservices around a <strong>config-driven data model (the Data Dictionary)</strong>
-and a <strong>config-driven faceted Data Explorer</strong>. Many independent commons run the <em>same</em> codebase
-differentiated by dictionary + portal config — the same "generic engine, per-instance config"
-thesis as DataHelix/Aperture.</p>
-<h2 id="service-by-service-map-to-datahelix">Service-by-service map to DataHelix<a class="headerlink" href="#service-by-service-map-to-datahelix" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Gen3 service</th>
-<th>Role</th>
-<th>DataHelix analog</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Data Dictionary</strong> (YAML, one JSON-Schema file per node; nodes + typed properties + links w/ backref, multiplicity, semantic label; Program = graph root)</td>
-<td>Config-driven data model</td>
-<td><strong>Hippo LinkML schema</strong> (entities + slots + relationships). LinkML is more expressive/standardized than Gen3's per-node JSON-Schema.</td>
-</tr>
-<tr>
-<td><strong>Sheepdog</strong></td>
-<td>Submission/write into the Postgres graph; validates against the dictionary (rejects <code>INVALID_LINK</code>)</td>
-<td>Hippo write path + validation</td>
-</tr>
-<tr>
-<td><strong>Peregrine</strong></td>
-<td><strong>GraphQL over the normalized Postgres graph</strong> (traversal, lineage)</td>
-<td><strong>Hippo's autogenerated GraphQL</strong> (graph-shaped, normalized)</td>
-</tr>
-<tr>
-<td><strong>Tube (ETL)</strong></td>
-<td>Flattens the graph → <strong>Elasticsearch</strong> documents; re-runs on new submissions</td>
-<td><em>(no Hippo equivalent today)</em></td>
-</tr>
-<tr>
-<td><strong>Guppy</strong></td>
-<td><strong>GraphQL over Elasticsearch</strong> — faceted search, <strong>aggregations, counts, histograms</strong>, tiered access</td>
-<td><em>(no Hippo equivalent — this is the gap, see below)</em></td>
-</tr>
-<tr>
-<td><strong>Indexd</strong></td>
-<td>GUID → physical file location index</td>
-<td>Hippo "where data lives" / Canon</td>
-</tr>
-<tr>
-<td><strong>Fence</strong></td>
-<td>AuthN — OIDC/OAuth identity provider; issues tokens carrying arborist policies</td>
-<td><strong>Bridge</strong> (authn half)</td>
-</tr>
-<tr>
-<td><strong>Arborist</strong></td>
-<td>AuthZ — RBAC <strong>policy engine</strong>; fence embeds its policies in tokens</td>
-<td><strong>Bridge</strong> (PEP/PDP half)</td>
-</tr>
-<tr>
-<td><strong>Data-portal (Windmill)</strong></td>
-<td>React frontend; the <strong>Data Explorer is driven by <code>gitops.json</code>/<code>explorerConfig</code></strong> (config-as-data)</td>
-<td><strong>Aperture</strong></td>
-</tr>
-<tr>
-<td>Hatchery / MDS / Pelican / Sower / WTS</td>
-<td>Workspaces, metadata svc, PFB export, batch jobs, tokens</td>
-<td>(various: Cappella / platform)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>fence + arborist = Bridge.</strong> Gen3 independently arrived at exactly Bridge's split: a central
-OIDC identity provider plus a <em>separate</em> policy engine whose decisions ride in the token. Strong
-external validation of the Bridge PEP/PDP design (ADR-0016, platform <code>sec6</code>).</p>
-<h2 id="the-explorerconfig-our-core-loop-config-near-11">The explorerConfig ≈ our core-loop config (near 1:1)<a class="headerlink" href="#the-explorerconfig-our-core-loop-config-near-11" title="Permanent link">&para;</a></h2>
-<p>Gen3's <code>gitops.json</code> <code>explorerConfig</code> is config-as-data that drives the faceted explorer —
-strikingly close to what our prefab core-loop config will look like:</p>
-<table>
-<thead>
-<tr>
-<th>explorerConfig block</th>
-<th>Concrete shape</th>
-<th>Maps to</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>filters.tabs[].fields[]</code></td>
-<td>facet fields grouped into titled tabs</td>
-<td><strong>PF-3</strong> facet panel (grouped facets)</td>
-</tr>
-<tr>
-<td><code>charts{field: {chartType: count\|pie\|fullPie\|bar, title}}</code></td>
-<td>charts as data, keyed by field</td>
-<td><strong>PF-6</strong> charts bound to query</td>
-</tr>
-<tr>
-<td><code>table{enabled, fields[], linkFields[]}</code></td>
-<td>table columns as data</td>
-<td><strong>PF-2</strong> collection table</td>
-</tr>
-<tr>
-<td><code>buttons[]{type: data-csv\|manifest\|export-to-pfb, title, fileName}</code></td>
-<td>export actions as data</td>
-<td><strong>PF-7</strong> export</td>
-</tr>
-<tr>
-<td><code>guppyConfig{dataType, fieldMapping[], manifestMapping{...}}</code></td>
-<td>binds the tab to a Guppy ES index + field renames + cohort→file join</td>
-<td><strong>binding</strong> (which collection; relationship/file join)</td>
-</tr>
-</tbody>
-</table>
-<p>And the validation discipline matches our composition+binding split: <strong>only properties present
-in <code>etlMapping.yaml</code> may appear in <code>gitops.json</code></strong>, and it's validated against the Data
-Dictionary + ETL mapping (via <code>gen3utils</code> CI). This <em>is</em> config-as-data with schema-derived
-binding — proven across many commons.</p>
-<h2 id="the-single-biggest-lesson-a-two-tier-data-architecture-solves-our-aggregation-gap">The single biggest lesson: a two-tier data architecture solves our aggregation gap<a class="headerlink" href="#the-single-biggest-lesson-a-two-tier-data-architecture-solves-our-aggregation-gap" title="Permanent link">&para;</a></h2>
-<p>The capability gaps we hit in core-loop Steps 2–3 (no sort, <strong>no counts, no aggregation/facet
-counts</strong> over Hippo's thin GraphQL) are exactly what Gen3 solved — by running <strong>two</strong> query
-surfaces over <strong>two</strong> stores:</p>
-<ul>
-<li><strong>Peregrine / Postgres graph</strong> — normalized; great for traversal, lineage, submission
-  validation. <em>(≈ Hippo's GraphQL today.)</em></li>
-<li><strong>Guppy / Elasticsearch</strong> — a <strong>denormalized, indexed, aggregation-optimized</strong> copy, kept in
-  sync by the <strong>Tube ETL</strong>. Purpose-built for fast faceted search, <strong>counts, and histograms</strong>.</li>
-</ul>
-<blockquote>
-<p><strong>Hippo's current GraphQL is the Peregrine analog. Aperture's faceted explorer needs the
-Guppy analog — and Hippo has none yet.</strong> This is the decisive architectural question for the
-core loop:
-- <strong>(b) server-side index layer:</strong> give Hippo (or a sidecar) a Guppy-equivalent — ETL/flatten
-  to an aggregation store (ES / DuckDB / OLAP) with a faceting+aggregation GraphQL surface.
-  This is Gen3's <em>production</em> answer.
-- <strong>(c) adapter compensation:</strong> Aperture's Layer-D adapter computes aggregation client-side
-  (DuckDB-WASM) when the source can't — viable at small scale, breaks on large cohorts.</p>
-<p>Gen3's experience says facet counts at real scale want the index layer (b). This likely
-warrants a Hippo design issue.</p>
-</blockquote>
-<p>Also worth stealing: <strong>Guppy's tiered access</strong> (private / regular / libre) lets users see
-<strong>aggregate counts with a minimum-count threshold over data they cannot access row-level</strong> — a
-real biomedical-privacy pattern for Bridge's field-mask/predicate model (aggregate-with-min-count
-prevents re-identification).</p>
-<h2 id="where-aperture-is-more-ambitious-than-gen3">Where Aperture is <em>more</em> ambitious than Gen3<a class="headerlink" href="#where-aperture-is-more-ambitious-than-gen3" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Dimension</th>
-<th>Gen3</th>
-<th>Aperture</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Generic over backends</td>
-<td>Its own stack only</td>
-<td>Any LinkML+GraphQL endpoint</td>
-</tr>
-<tr>
-<td>Config form</td>
-<td>JSON in a gitops repo, <strong>CI-validated</strong>, portal redeploy</td>
-<td>Serializable <strong>LinkML data in the backend</strong>, structurally validated, versioned/provenance-tracked</td>
-</tr>
-<tr>
-<td>New visualization / behavior</td>
-<td><strong>Code a React component</strong> in <code>data-portal</code> (bespoke)</td>
-<td><strong>Typed sandboxed component</strong> emitting a view-description, hot-reloaded (ADR-0009/0011)</td>
-</tr>
-<tr>
-<td>Authoring</td>
-<td>Humans edit <code>gitops.json</code> + redeploy</td>
-<td>Humans <strong>and LLM agents</strong> edit config (MCP/API, dry-run, ADR-0018/0021)</td>
-</tr>
-<tr>
-<td>View vocabulary</td>
-<td>Fixed chart set baked into Windmill</td>
-<td>Growable typed <strong>noun-catalog</strong> (Vega-Lite-style, ADR-0010)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="what-to-steal-prototype-against">What to steal / prototype against<a class="headerlink" href="#what-to-steal-prototype-against" title="Permanent link">&para;</a></h2>
+<h1 id="cross-class-query-heterogeneous-results-design-exploration">Cross-Class Query &amp; Heterogeneous Results — Design Exploration<a class="headerlink" href="#cross-class-query-heterogeneous-results-design-exploration" title="Permanent link">&para;</a></h1>
+<p><strong>Status:</strong> 🟠 Working — research + candidate design, feeding a Proposed ADR slate (0035+)
+<strong>Date:</strong> 2026-08-18 · <strong>Rev 2</strong> (same day): Mosaic is now in scope for changes — the execution
+design is co-designed with the Mosaic query surface, priced against Mosaic source
+(<code>BU-Neuromics/mosaic</code> @ <code>502991c</code>, v0.12.1) rather than treating the server as fixed.
+<strong>Rev 3 note (2026-08-19, status only — exploration text below unchanged):</strong> the Mosaic side of
+§10 has landed as design artifacts (mosaic PR #159: doc-drift fixes, <strong>Mosaic ADR-0006/0007</strong>
+Proposed — mosaic#153/#154 — and OpenSpec changes <code>typed-filter-inputs</code>/<code>aggregation-and-
+ordering</code>/<code>search-composition</code>/<code>heterogeneous-roots</code>, mosaic#155–#158). The Aperture side is
+promoted to <strong><a href="../decisions/ADR-0035-cross-class-queries-typed-queryspec/">ADR-0035</a></strong>
+(<strong>Accepted</strong> 2026-08-19, aperture#46); the X-tracker entry §10 names "X3" landed as <strong>X5</strong> in
+<code>portal-requirements.md</code>, since X3a/X3b were already taken by the schema-editing requirements.
+<strong>Problem owner:</strong> Aperture (portal query capability, Level-2 binding); instruction-path
+composition stays with Reel; server capabilities land in Mosaic via its ADR/OpenSpec process.</p>
+<hr />
+<h2 id="1-problem">1. Problem<a class="headerlink" href="#1-problem" title="Permanent link">&para;</a></h2>
+<p>The portal's default surface is a nav list of every derived collection. That is honest but not
+useful: the first question a researcher brings is rarely "show me all X" — it is a <em>criteria</em>
+question that spans classes ("donors over 60 with samples of type X processed after date Y").
+Today Aperture cannot express that at all. The gap has three parts:</p>
 <ol>
-<li><strong>The explorerConfig schema</strong> as the concrete template for our core-loop config
-   (facets-as-tabs, charts-by-field, table fields, export buttons, dataType binding).</li>
-<li><strong>The validation model</strong> (<code>gitops.json</code> validated against dictionary + ETL mapping) — but
-   make ours <strong>structural/live</strong> (LinkML-in-Hippo) rather than CI-time tooling.</li>
-<li><strong>The two-tier graph+index architecture</strong> as the reference answer to faceting/aggregation at
-   scale (the Guppy/Tube pattern).</li>
-<li><strong>manifestMapping</strong> (cohort → file-manifest join) for PF-7 export.</li>
-<li><strong>Tiered aggregate access + min-count</strong> for Bridge's privacy model.</li>
+<li><strong>Query expression.</strong> A user-friendly way to build potentially complex criteria that traverse
+   reference edges between classes, driven entirely by the introspected GraphQL schema.</li>
+<li><strong>Tabular results + CSV export.</strong> A joined, SQL-like flat table as the workhorse presentation
+   and the export format.</li>
+<li><strong>Heterogeneous result exploration.</strong> Optionally, a graph view over result sets that mix
+   classes, explorable by expanding neighbors.</li>
 </ol>
-<h2 id="caveats">Caveats<a class="headerlink" href="#caveats" title="Permanent link">&para;</a></h2>
+<p>This doc records (§2) the constraint envelope from our ADRs, (§3) what the endpoint actually
+executes today — corrected against Mosaic source, (§4) external prior art, (§5–§6) the QuerySpec
+artifact and its UX, (§7) the <strong>Mosaic co-design</strong> — a priced menu of server capabilities and
+the one big wire-contract decision, (§8–§9) results presentation and risks, and (§10) the
+recommended path and ADR slate on both sides.</p>
+<h2 id="2-constraint-envelope-what-any-design-must-satisfy">2. Constraint envelope (what any design must satisfy)<a class="headerlink" href="#2-constraint-envelope-what-any-design-must-satisfy" title="Permanent link">&para;</a></h2>
+<p>Hard constraints from Accepted ADRs:</p>
 <ul>
-<li>Gen3 is <strong>domain-specific</strong> (NIH biomedical data commons) and <strong>heavyweight</strong> (a dozen+
-  microservices); not adoptable wholesale.</li>
-<li>Its portal is <strong>bespoke React (Windmill)</strong> — not generic, not sandboxed, not agent-editable.
-  The config drives a hand-built app; it is <em>not</em> the generic config-driven engine we're after.</li>
-<li>Refines <code>prior-art.md</code>'s shorthand ("not an introspectable GraphQL transport"): Gen3 <strong>does</strong>
-  use GraphQL (Peregrine over the graph, Guppy over ES), but its <em>portal binding is
-  config-mapped to ES indices</em>, not auto-derived from schema introspection — so the
-  derived-binding bet remains ours to prove.</li>
+<li><strong>Derived, never enumerated</strong> (ADR-0002). Every class, edge, operator, and traversal offered
+  must come from introspection. No hardcoded join lists, no domain nouns.</li>
+<li><strong>No middle scripting layer</strong> (ADR-0004). The query cannot be an expression box or a DSL the
+  user types. It must be a <em>closed, typed, declarative artifact</em> — a noun. ADR-0004 explicitly
+  assigns "relationship joins" to Level-2 binding territory, which is where this feature lives.</li>
+<li><strong>Capability-honest</strong> (ADR-0029). Every operator/traversal/aggregate must map to a declared
+  capability and visibly gate off otherwise. Client-side compensation is allowed only at small
+  scale, itself behind the gate, never silent.</li>
+<li><strong>One endpoint</strong> (ADR-0017 amendment). Cross-<em>class</em>, never cross-<em>source</em>.</li>
+<li><strong>New views are nouns</strong> (ADR-0009/0010). A graph view enters the primitive catalog as a typed,
+  parameterized primitive emitting a serializable, headlessly-validatable view description.</li>
+<li><strong>Persistence rides the control plane</strong> (ADR-0032). A saved query is a <code>{kind, name, payload}</code>
+  versioned-envelope document.</li>
 </ul>
-<h2 id="sources">Sources<a class="headerlink" href="#sources" title="Permanent link">&para;</a></h2>
+<p>Recorded prior decisions to build <em>with</em>, not around:</p>
 <ul>
-<li><code>github.com/uc-cdis/guppy</code> (Guppy: GraphQL-over-ES, aggregations/counts/histograms, tiered access, arborist authz)</li>
-<li><code>docs.gen3.org</code> (glossary, customize-search, data-svcs), <code>gen3.org/resources/developer/microservice/</code></li>
-<li><code>gen3.org/resources/user/dictionary/</code>, <code>github.com/uc-cdis/datadictionary</code> (dictionary: YAML/JSON-Schema nodes + links)</li>
-<li><code>github.com/uc-cdis/data-portal</code> <code>docs/portal_config.md</code> (explorerConfig blocks)</li>
-<li><code>github.com/uc-cdis/arborist</code> (policy engine)</li>
+<li><strong>ADR-0022</strong> (relocated to Reel ADR-0001) already defines the sanctioned op vocabulary:
+  <code>filter · exists-related-filter · distinct-values · group-by+count · pivot-grain · set-op ·
+  render-as-primitive</code>, over intensional subgraph <strong>states</strong> viewed through a <strong>focal lens</strong>
+  (focal type + selection). Heterogeneous multi-type op semantics are its named open problem.</li>
+<li><strong>ADR-0024</strong> (→ Reel ADR-0003) <strong>rejects arbitrary join semantics</strong>; grain-typed set-ops and
+  grain pivots are the sanctioned convergence mechanisms.</li>
+<li><strong>The Reel boundary.</strong> The instruction-path/data-story engine is Reel's. Per
+  <code>prefab/README.md</code>: <em>"the portal's core-loop cohort/query-state remains the foundation Reel's
+  stories build on."</em> Aperture's job is the <strong>single query state</strong> — one anchored, criteria-bound
+  subgraph selection — not paths, versions, or story composition.</li>
 </ul>
+<p>The vision doc supplies the through-line: push computation into the query/binding layer; keep
+the view vocabulary a noun catalog; every artifact typed and dry-run-validatable so an LLM can
+drive it (<code>vision.md:50-62</code>). A cross-class query artifact is not just compatible with the
+AI-native framing — it is the substrate the agentic probe ladder (<code>vision.md:98-108</code>, rung 2)
+requires. And with Mosaic in scope, the same through-line applies server-side: the <em>GraphQL
+schema itself</em> should be the query-capability contract, so that "what can I ask here?" is
+answerable by introspection alone — by the builder UI and by an agent equally (ADR-0005's
+"the schema is the agent's primary context").</p>
+<h2 id="3-what-the-endpoint-executes-corrected-against-mosaic-source-v0121">3. What the endpoint executes — corrected against Mosaic source (v0.12.1)<a class="headerlink" href="#3-what-the-endpoint-executes-corrected-against-mosaic-source-v0121" title="Permanent link">&para;</a></h2>
+<p>Aperture's picture of the endpoint comes from a <strong>hippo 0.10.3</strong> introspection capture
+(<code>web/src/data/testing/realIntrospection.json</code>) plus design-doc claims — and both are stale.
+Audit of Mosaic source (<code>src/mosaic/graphql/</code>, <code>src/mosaic/core/</code>) corrects the record:</p>
+<p><strong>Believed missing but actually shipped:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Reality</th>
+<th>Evidence (mosaic repo)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>in</code> operator</td>
+<td><code>FilterInput</code> has <code>op: FilterOp = EQ</code> with <code>EQ</code>/<code>IN</code> since v0.12.0 (#102)</td>
+<td><code>graphql/resolvers.py:53-72</code>; <code>sqlite_adapter.py:2772-2780</code></td>
+</tr>
+<tr>
+<td><code>totalCount</code> under filter</td>
+<td><code>Page.total</code> is a true filtered count already</td>
+<td><code>schema_builder.py:641</code>, <code>query_service.py:270</code></td>
+</tr>
+<tr>
+<td>Multivalued slots persisting</td>
+<td>fixed v0.10.0 (#79/ADR-0002); PG parity v0.11.0</td>
+<td><code>sqlite_adapter.py:1422-1526</code>; CHANGELOG v0.10.0</td>
+</tr>
+<tr>
+<td>Filter-error honesty</td>
+<td>unknown/unfilterable fields raise <strong>coded <code>GraphQLError</code>s</strong> (<code>UNKNOWN_FILTER_FIELD</code>, <code>UNFILTERABLE_FIELD</code>) listing the valid set</td>
+<td><code>resolvers.py:405-444</code> (#149)</td>
+</tr>
+<tr>
+<td>Filtering a to-one edge by its edge name</td>
+<td><code>resolve_filter_field</code> accepts slot name, camelCase, or the resolved edge name (<code>donor</code> → <code>donor_id</code>)</td>
+<td><code>schema_builder.py:214-235</code></td>
+</tr>
+</tbody>
+</table>
+<p>Mosaic's own docs lag the same way (<code>sec4_api_layer.md:732-734</code>, <code>docs/graphql.md:188</code> still say
+"equality only / multivalued slots don't persist"). <strong>First action item regardless of design:
+refresh our introspection capture against mosaic ≥ v0.12.1 and fix the stale docs on both
+sides.</strong></p>
+<p><strong>Available and UNUSED by Aperture — free capability:</strong></p>
+<ul>
+<li><code>FilterMode { AND, OR }</code> — derived (<code>schemaModel.ts:682-685</code>) but the client hardcodes <code>'AND'</code>
+  (<code>hippoSource.ts:170</code>).</li>
+<li><code>asOf: String</code> on every list field — zero hits in <code>web/src</code>. (Server-side it is list-only:
+  not on singular gets, search twins, or nested traversal fields, and the DataLoader cache key
+  omits it — Mosaic ADR-0001's §6.8.5 remainder.)</li>
+<li><code>findByXref(system, value)</code> and <code>relatedTo(id, relationshipType)</code> — the endpoint's two
+  cross-class root fields, both unused.</li>
+</ul>
+<p><strong>Genuinely missing (the real gap, confirmed in source):</strong> comparison operators
+(<code>gt/lt/ne/contains/isNull</code> <strong>raise</strong> by design — #129 made unsupported ops fail loud,
+<code>core/storage/__init__.py:50-106</code>), relationship/nested predicates (multivalued refs are
+explicitly walled off from filtering, <code>resolvers.py:435-442</code>; no EXISTS/join machinery exists in
+the SQL builders), facet counts / group-by / min-max on slots, <code>order_by</code> (the only ordering is
+a hardcoded Python-side <code>created_at</code> sort, <code>query_service.py:268</code>), search composed with filters
+(the twin path is also unranked, N+1, envelope-less, and has an <code>offset &gt;= limit → []</code> slice
+bug, <code>resolvers.py:491-499</code>), and any heterogeneous root (no GraphQL interface/union anywhere;
+<code>Entity</code> is deliberately excluded from the schema).</p>
+<p>Two structural facts that drive all server pricing (§7): <strong>limit/offset are applied in Python,
+not SQL</strong> (<code>query_service.py:184-188</code> builds the storage <code>Query</code> without them — every matching
+row is materialized), and the <strong>two adapters diverge physically</strong> (SQLite: per-class tables with
+typed columns; Postgres: one JSONB table — every range/sort feature costs a per-type cast on the
+PG side, and the repo has a strict parity discipline).</p>
+<p>Also load-bearing for the client: Mosaic filters key on LinkML <strong>slot names</strong>, not camelCase
+renames (<code>schemaModel.ts:280-287</code>) — any query IR must store slot names; and ref selections
+currently fetch only the target id (<code>hippoSource.ts:83-92</code>), so column traversal needs widened
+selection sets regardless of server work.</p>
+<h2 id="4-prior-art-external-survey-2026-08-18">4. Prior art (external survey, 2026-08-18)<a class="headerlink" href="#4-prior-art-external-survey-2026-08-18" title="Permanent link">&para;</a></h2>
+<p>Full trail in the survey run for this doc; the distilled findings:</p>
+<p><strong>Filter builders over typed schemas.</strong> The industry atom is <em>field / operator / value</em> rows in
+shallow AND/OR groups. Airtable and Notion both cap nesting at depth 3 — a deliberate ceiling
+worth copying. <code>react-querybuilder</code> (MIT, very active) is the strongest React substrate: its
+serializable rule-group JSON doubles as an IR, and a custom <code>ruleGroupProcessor</code> can emit any
+wire format — but it has <strong>no native concept of relationships</strong>; that part is ours to design.
+(react-awesome-query-builder is inactive; jQuery QueryBuilder is the wrong substrate.)</p>
+<p><strong>Related-entity conditions.</strong> Two proven idioms, both needed:</p>
+<ul>
+<li><strong>Implicit traversal in the field picker</strong> (Metabase): related classes' fields appear nested
+  under the reference edge (<code>sample → processing.date</code>), so single-valued (to-one) hops never
+  look like joins. Metabase's open wound: no semi/anti-join in the GUI — exactly the "donors
+  <em>having</em> samples…" semantics — so users hit a wall.</li>
+<li><strong>Explicit quantified relationship criteria</strong> (Hasura <code>_bool_exp</code> nesting, Directus
+  <code>_some</code>/<code>_none</code>, Airtable conditional rollups, Kibana's nested-document syntax): "having ≥1 /
+  exactly 0 [Samples] where […]", with the sub-conditions constrained to hold on the <em>same</em>
+  related record. This maps 1:1 onto ADR-0022's <code>exists-related-filter</code>.</li>
+</ul>
+<p><strong>Cohort builders (the scientist-facing gold standard).</strong> OHDSI Atlas and i2b2 converge on:
+pick an anchor population, stack inclusion criteria of the form "having at least N [events]
+where [attributes]", express exclusion as "exactly 0 of…" (eliminates a whole class of
+confusion), and — the single biggest trust-builder — show <strong>live counts/attrition per
+criterion</strong>. Sobering datum: only ~51% of real trial criteria were fully expressible in Atlas
+(Nature s41598-023-49560-w) → any structured builder needs a curated escape hatch, not a
+scripting one.</p>
+<p><strong>Graph query UIs.</strong> Canvas-style "draw the pattern" builders (TigerGraph, Kineviz, Neo4j Labs
+visual-cypher-builder) remain prototypes/niche. What works for non-experts: <strong>Neo4j Bloom's</strong>
+schema-token autocomplete over near-natural-language patterns, plus admin-curated
+<strong>parameterized saved queries</strong> ("search phrases"); and <strong>Linkurious's</strong> linear block stacks
+(node block → edge block → node block). Lesson: linear beats canvas.</p>
+<p><strong>GraphQL-native.</strong> GraphiQL-class explorers solve <em>field selection</em> (checkbox trees — steal
+for column/export pickers) but leave filters as raw input. Nobody ships a friendly generic
+builder over GraphQL filter conventions — genuinely open space. Hasura/Directus define the
+state-of-the-art <em>wire</em> conventions: per-type <code>&lt;Type&gt;_bool_exp</code> input objects, <code>_and/_or/_not</code>,
+per-scalar operator objects, relationship predicates by nesting the related type's bool_exp
+under the edge name (array relationships ≙ <code>_some</code>).</p>
+<p><strong>Flat export of one-to-many.</strong> Three shapes seen in the wild: row explosion (Metabase/SQL),
+long format with instance columns (REDCap — analysts hate reshaping it; a whole ecosystem of
+un-reshaping tools exists), aggregate/rollup columns (Airtable). Strongest synthesis: <strong>anchor
+semantics</strong> — one row per anchor entity by default; traversing a to-many path in the column set
+forces an explicit per-column choice between <em>aggregate</em> (count/concat/min/max) and <em>explode</em>
+(grain change), with predicted row counts shown. Visible caps beat opaque limits (ADR-0029
+already mandates this and <code>export.ts</code> implements it).</p>
+<p><strong>Graph visualization libraries.</strong> Shortlist for a React SPA at 100–5k nodes:
+<strong>Cytoscape.js</strong> (MIT, best-maintained, richest interactions: expand-collapse, compound nodes,
+CSS-like declarative stylesheets that mesh with view-descriptions-not-DOM) as primary;
+<strong>sigma.js + graphology</strong> (MIT, WebGL, official React bindings) if result sets grow past ~5k.</p>
+<p><strong>NL-to-query.</strong> The converged pattern (Metabase Metabot → MBQL, Neo4j text2cypher tools):
+the LLM emits the <em>same serializable structure the visual builder edits</em> — never opaque query
+text — validated against the schema, landing in the builder for review and correction. This is
+exactly our ADR-0005/0009 posture: one typed artifact, equally accessible to humans and LLMs.</p>
+<h2 id="5-the-queryspec-noun-unchanged-by-co-design-thats-the-point">5. The QuerySpec noun (unchanged by co-design — that's the point)<a class="headerlink" href="#5-the-queryspec-noun-unchanged-by-co-design-thats-the-point" title="Permanent link">&para;</a></h2>
+<p>The centerpiece is a typed, serializable, introspection-validated query artifact. Working name
+<strong>QuerySpec</strong>; in ADR-0022 terms it is an intensional subgraph State restricted to a single
+focal lens — the "cohort/query-state foundation" Reel builds on.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">QuerySpec</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">anchor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;typeName&gt;</span><span class="w">            </span><span class="c1"># focal type: defines what a result row IS</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">asOf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;timestamp&gt;?</span><span class="w">            </span><span class="c1"># graph-level as-of</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">criteria</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CriteriaGroup</span><span class="w">       </span><span class="c1"># what qualifies an anchor entity</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">columns</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">ColumnSpec</span><span class="p p-Indicator">]</span><span class="w">         </span><span class="c1"># what each row shows / exports</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nt">sort</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[{</span><span class="nv">path</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">dir</span><span class="p p-Indicator">}]</span><span class="err">?</span><span class="w">          </span><span class="c1"># gated on server order_by (§7 M2)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="nt">CriteriaGroup</span><span class="p">:</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AND | OR</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="nt">items</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">FieldCondition | RelatedCondition | CriteriaGroup</span><span class="p p-Indicator">]</span><span class="w">   </span><span class="c1"># nesting capped at depth 3</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="nt">FieldCondition</span><span class="p">:</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="nt">slot</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;LinkML slot name&gt;</span><span class="w">      </span><span class="c1"># never the camelCase rename</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">  </span><span class="nt">op</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">eq | neq | in | gt | gte | lt | lte | contains | isNull</span><span class="w">  </span><span class="c1"># each op capability-gated</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;JSON&gt;</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="nt">RelatedCondition</span><span class="p">:</span><span class="w">               </span><span class="c1"># ≙ ADR-0022 exists-related-filter</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">  </span><span class="nt">edge</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;ref | refList field&gt;</span><span class="w">   </span><span class="c1"># a derived reference edge on the enclosing class</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">  </span><span class="nt">quantifier</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">some | none</span><span class="w">       </span><span class="c1"># "having ≥1 …" / "having exactly 0 …"; count&gt;=N later, gated</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">  </span><span class="nt">criteria</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CriteriaGroup</span><span class="w">       </span><span class="c1"># conditions holding on the SAME related record</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="nt">ColumnSpec</span><span class="p">:</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">  </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">&lt;edge&gt;…</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">&lt;slot&gt;</span><span class="p p-Indicator">]</span><span class="w">       </span><span class="c1"># anchor slot, or a to-one traversal path</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">  </span><span class="c1"># to-many paths additionally require ONE of:</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">  </span><span class="nt">aggregate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">count | joinIds | min | max</span><span class="w">   </span><span class="c1"># keeps anchor grain (default)</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">  </span><span class="nt">explode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">                            </span><span class="c1"># changes grain — ≙ pivot-grain; must be explicit</span>
+</code></pre></div>
+<p>Why this shape:</p>
+<ul>
+<li><strong>Closed and typed</strong> — a noun catalog of criteria, not an expression language (ADR-0004).
+  Every legal value of <code>anchor</code>, <code>edge</code>, <code>slot</code>, and <code>op</code> is enumerable from introspection, so
+  a dry-run validator is total (ADR-0005/0009 posture).</li>
+<li><strong>Anchor semantics answer the export question</strong> before it's asked: a result row is an anchor
+  entity; grain changes are explicit <code>explode</code> decisions, mirroring ADR-0024's grain-typed
+  discipline. No arbitrary joins — traversal is always along schema-derived reference edges.</li>
+<li><strong>Quantifiers, not joins.</strong> <code>some</code>/<code>none</code> gives semi/anti-join expressiveness (the thing
+  Metabase never shipped and Atlas proves scientists need) without join semantics.</li>
+<li><strong>LLM-emittable.</strong> An agent emits QuerySpec JSON, the validator gates it, the builder renders
+  it for review — the exact Metabot/text2cypher pattern, and rung 2 of the vision's probe
+  ladder.</li>
+<li><strong>One artifact, three transports:</strong> URL (nuqs, shareable), control plane (saved, versioned
+  envelope), and agent I/O.</li>
+<li><strong>Server-independence is the payoff of IR-first design:</strong> the co-design in §7 changes <em>how</em>
+  a QuerySpec executes (which parts compile to server args vs. gate off), but never the
+  artifact. Saved queries, URLs, and NL tooling survive every server upgrade; only the planner
+  moves.</li>
+</ul>
+<h2 id="6-ux-three-on-ramps-one-artifact">6. UX — three on-ramps, one artifact<a class="headerlink" href="#6-ux-three-on-ramps-one-artifact" title="Permanent link">&para;</a></h2>
+<p><strong>(a) The facet panel stays</strong> and becomes a <em>degenerate QuerySpec</em> (anchor = current collection,
+flat AND FieldConditions). No regression; the certification-contract test-ids
+(<code>FacetPanel.tsx:35-37</code>) are untouched.</p>
+<p><strong>(b) The builder</strong> (progressive disclosure from the facet panel — "Advanced…", the
+Notion simple→advanced escalation):</p>
+<ul>
+<li>Anchor picker ("Rows are: Donors") — this replaces "which collection am I in" as the query's
+  frame.</li>
+<li>Criteria rows: field/op/value, with the <strong>field picker showing to-one refs' fields nested
+  under the edge</strong> (Metabase implicit traversal) — one-hop to-one conditions never look like
+  joins. Offered operators per slot are read off the introspected filter input types (§7 M1),
+  not a hardcoded table (ADR-0002).</li>
+<li><strong>Relationship criterion rows</strong> for to-many edges, rendered in the Atlas idiom:
+  <em>"having </em><em>at least one</em><em> / </em><em>no</em><em> Samples where …"</em> with an indented sub-group whose
+  conditions hold on the same sample. Sub-groups can nest one more level (cap 3 total).</li>
+<li><strong>Live counts per criterion</strong> (attrition-style) once facet/count aggregation lands (§7 M2);
+  until then the result total is the only number shown — never a client-computed count over a
+  partial page (ADR-0029).</li>
+<li>Column/export picker: checkbox tree over anchor slots + traversal paths (the
+  GraphiQL-explorer pattern); picking a to-many path prompts the aggregate-vs-explode choice
+  inline, with a predicted row count when counts are available.</li>
+<li><strong>Legible errors:</strong> Mosaic's coded filter errors (<code>UNKNOWN_FILTER_FIELD</code> with the valid-field
+  list) surface verbatim in the builder — and feed the NL loop below, since an agent can
+  self-correct from them.</li>
+</ul>
+<p><strong>(c) NL box + global search</strong> (the "default isn't useful" fix):</p>
+<ul>
+<li><strong>Global search as the landing surface.</strong> One search box; heterogeneous hits grouped by
+  class; each group links into its collection with the search applied; the full hit set can
+  seed the graph view (§8). Served by Mosaic <code>searchAll</code> when available (§7 M4), degrading to
+  client fan-out over the per-class search twins + <code>findByXref</code> on older endpoints.</li>
+<li><strong>NL → QuerySpec.</strong> The agent path: prompt → QuerySpec JSON → dry-run validation against
+  introspection → populated builder for review → run. Never generated query text. The
+  literate-path prerequisite is that the schema carries its own documentation — see §7 M0:
+  LinkML slot/class descriptions must propagate into GraphQL SDL descriptions so both the
+  builder's tooltips and the agent's context come from one source (ADR-0005).</li>
+<li><strong>Curated escape hatch:</strong> parameterized saved QuerySpecs (a saved spec with typed parameter
+  slots) — Bloom "search phrases" — covering the tail Atlas's ~51% datum warns about, without
+  ever opening a scripting layer.</li>
+</ul>
+<p>Shell-wise this is content bound into <code>main</code> (+ builder in <code>inspector</code>) under the existing
+<code>headerNavMain</code> layout, or a second registered layout if the builder needs real estate
+(ADR-0031 either way).</p>
+<h2 id="7-mosaic-co-design-the-priced-capability-menu">7. Mosaic co-design — the priced capability menu<a class="headerlink" href="#7-mosaic-co-design-the-priced-capability-menu" title="Permanent link">&para;</a></h2>
+<p>With Mosaic changeable, the right architecture is <strong>server-first with honest degradation</strong>,
+not compensation-first: Aperture's planner compiles QuerySpec to whatever the introspected
+surface advertises, and the client-side semijoin machinery from Rev 1 shrinks to a thin
+fallback for version-skewed deployments (or is dropped if deployments track Mosaic releases —
+capability gating handles skew either way).</p>
+<p>The menu below is priced from Mosaic source. Shared context: the operator plumbing already
+exists end-to-end for <code>IN</code> (enum → <code>normalize_filter</code> → both adapters), so extending it is
+proven ground; the taxes are (i) Postgres JSONB casts for every typed comparison, (ii) the
+Python-side limit/offset (pushdown pays off once and benefits M2 and cursor pagination alike),
+and (iii) as-of code paths that must mirror every filter feature (<code>_matches_filters</code> exists in
+four places).</p>
+<p><strong>M0 — Hygiene &amp; literacy (cheap, do first, mostly docs):</strong>
+refresh Aperture's introspection capture to ≥ v0.12.1; fix stale Mosaic docs
+(<code>sec4_api_layer.md:732-734</code>, <code>docs/graphql.md:188</code>, decision-log index drift); verify/ensure
+<strong>LinkML <code>description</code>/<code>comments</code> propagate into GraphQL SDL descriptions</strong> for types, fields,
+enums, and the new filter inputs — this is what makes the builder self-documenting and the NL
+path literate, per ADR-0005's "schema is the agent's primary context". Aperture side: adopt the
+native <code>in</code> op, send <code>filterMode: OR</code> for OR groups, claim <code>asOf</code> on list queries.</p>
+<p><strong>M1 — Typed per-class filter inputs with operators</strong> <em>(Mosaic: cheap→moderate; the keystone)</em>:
+generate <code>&lt;Type&gt;Filter</code> input objects — per-slot operator objects <code>{eq, neq, in, gt, gte, lt,
+lte, contains, isNull}</code> selected by slot kind/range, plus <code>and/or/not</code> — as a <code>where:</code> arg
+beside (initially) the flat <code>filters:</code> arg. Lands at the three existing chokepoints
+(<code>VALID_FILTER_OPS</code>/<code>normalize_filter</code>, the two adapters' clause builders, a new
+<code>_build_filter_input_types</code> pass copying the <code>CreateInput</code> pattern). SQLite's typed per-class
+columns make comparisons trivial; the real work is PG JSONB casts driven by the slot's LinkML
+range, and mirroring the as-of <code>_matches_filters</code>. <code>isNull</code> needs a semantics decision (the
+read layer already treats null slightly ambiguously).
+<strong>Why keystone:</strong> the <em>introspected input types become the capability contract</em>. Aperture
+derives every operator it offers, per slot, from <code>__schema</code> — no capability side-channel, no
+hardcoded operator tables (ADR-0002), and ADR-0029's gating reduces to "offer exactly what the
+schema advertises." Dry-run validation becomes GraphQL validation itself.</p>
+<p><strong>M2 — Aggregation + order_by, shipped together</strong> <em>(Mosaic: moderate; ≙ our X1 / hippo#96)</em>:
+<code>COUNT(*)</code>-mode queries (cheap <code>total</code> — the field exists, it just costs a full scan), facet
+value counts (<code>facetCounts(field, where)</code> — the <code>entity_counts()</code> GROUP BY precedent exists on
+both adapters), min/max for range facets, and <code>order_by</code> (generated per-type enum). These share
+the limit/offset/order pushdown into the storage <code>Query</code>, which is why they ship together.
+Two recorded traps: the existing <code>entity_counts()</code> <strong>includes unavailable entities</strong> while list
+queries filter <code>is_available = 1</code> — a new aggregation surface must not inherit that
+inconsistency; and <code>createdAt</code>/<code>updatedAt</code> are provenance-derived, not stored, so temporal
+sort/filter needs the provenance-summary path, not a column sort.
+<strong>Unlocks in Aperture:</strong> live per-criterion attrition counts (the Atlas trust-builder), facet
+counts on the existing panel, range facets, predicted explode sizes, honest sort.</p>
+<p><strong>M3 — Search that composes</strong> <em>(Mosaic: moderate — a small rewrite, not a patch)</em>:
+make search return a page envelope and accept <code>where:</code>/<code>filters:</code>. Implementation is an id-set
+composition: ranked FTS ids (the good bm25 path already exists in the SQLite adapter) fed as an
+<code>id IN (…)</code> filter into <code>find()</code> alongside the user's filters. Fixes three existing defects in
+one move: the per-hit N+1, the missing <code>total</code> on search twins, and the <code>offset &gt;= limit → []</code>
+slice bug. Needs one semantics decision: bm25 rank order vs. <code>order_by</code> when both are present.
+<strong>Unlocks in Aperture:</strong> FTS as just another criterion — search and facets stop being mutually
+exclusive.</p>
+<p><strong>M4 — Heterogeneous roots: <code>searchAll</code> + <code>neighbors</code></strong> <em>(Mosaic: cheap→moderate in the
+JSON-envelope form)</em>: both follow the established house pattern (<code>XrefMatch</code>, <code>RelatedEntity</code> —
+<code>{entityId, entityType, data: JSON, …}</code> envelopes with typed follow-up via per-type queries).
+<code>searchAll(q, limit)</code> fans across per-class FTS with merged ranking; <code>neighbors(id, depth,
+asOf) { nodes { entityId entityType data } edges { source target type } }</code> wraps the existing
+depth-bounded BFS <code>traverse()</code> — which already has a full as-of variant replaying edge liveness
+from provenance. <strong>One sharp hidden cost to design for:</strong> <code>traverse()</code> walks the link table
+only, so single-valued (column-stored) references are invisible to it — a naive neighbors
+endpoint returns an incomplete graph. Union column edges into the traversal, or say so loudly.
+Node materialization must batch by type (the DataLoader trick) rather than get-per-node.
+<strong>Unlocks in Aperture:</strong> the global-search landing surface in one request, and the graph view's
+seed + expand-on-click primitive with time-travel for free.</p>
+<p><strong>M5 — Relationship predicates (<code>some</code>/<code>none</code> sub-filters on edges)</strong> <em>(Mosaic: expensive; the
+headline capability)</em>: correlated <code>EXISTS</code> against per-class tables (to-one, via the FK column)
+and against the <code>relationships</code> link table (to-many). This is the one genuinely new code path —
+the SQL builders have no join/subquery machinery today, multivalued refs are deliberately
+walled off from filtering, and the as-of path declares relationship-existence filters out of
+scope (mosaic <code>sqlite_adapter.py:2674</code>, hippo#71). Phase it:
+- <strong>M5a — to-one nested predicates</strong> (moderate): <code>where: { donor: { age: { gt: 60 } } }</code> — a
+  single correlated subquery on an FK column, no link table. This alone powers the builder's
+  Metabase-style implicit traversal.
+- <strong>M5b — to-many quantified predicates</strong> (expensive): <code>where: { samples: { some: {…} } }</code> —
+  link-table EXISTS, recursive input types (the two-pass cyclic-type trick already exists in
+  the schema builder), filter-nesting depth cap (the existing <code>QueryDepthLimiter</code> guards output
+  nesting, not filter nesting), and an explicit documented hole or restriction for
+  <code>asOf × relationship predicates</code> until the temporal join is designed.
+Until M5 lands, Aperture's planner covers RelatedCondition by <strong>server-assisted semijoin</strong> —
+now materially cheaper than Rev 1 assumed, since the native <code>in</code> operator (shipped) replaces
+the OR-mode hack: query the related class with sub-criteria, collect linking ids, filter the
+anchor with one <code>in</code>. Capped, visibly gated, honest (<code>relationshipFilter: 'compensated'</code> →
+<code>'server'</code> when M5 introspects).</p>
+<h3 id="the-wire-contract-decision-typed-filter-inputs-not-cel">The wire-contract decision: typed filter inputs, not CEL<a class="headerlink" href="#the-wire-contract-decision-typed-filter-inputs-not-cel" title="Permanent link">&para;</a></h3>
+<p>Mosaic's docs name <strong>CEL-over-GraphQL</strong> as the future for richer predicates (REST-side spec
+only, Low priority, unimplemented). For the <em>Aperture-facing GraphQL contract</em> this exploration
+recommends <strong>against</strong> CEL and <strong>for</strong> the typed nested input objects (M1/M5), on constitutional
+grounds:</p>
+<ol>
+<li><strong>Introspectability.</strong> A <code>filter: String</code> CEL arg is opaque — introspection can't tell the
+   builder or an agent which predicates the server supports, so ADR-0002's derive-everything
+   rule and ADR-0029's capability gating would need a side-channel contract anyway. Typed
+   inputs <em>are</em> the contract.</li>
+<li><strong>ADR-0004.</strong> CEL on the wire is an expression language one temptation away from becoming a
+   user-facing scripting layer. Typed inputs are a closed noun vocabulary end to end.</li>
+<li><strong>Validation.</strong> Bad typed input fails GraphQL validation with a precise error before
+   execution — the dry-run property both ADR-0005 and the NL loop depend on. Bad CEL fails at
+   runtime, in a second grammar, with a second error vocabulary.</li>
+<li><strong>Pushdown honesty.</strong> Mosaic's own CEL sketch is "translate common patterns to SQL, fall
+   back to in-memory" — an invisible performance cliff, which is a capability lie in ADR-0029
+   terms. Typed inputs make everything advertised pushdown-able by construction.</li>
+</ol>
+<p>CEL keeps its existing Mosaic role (validator conditions), and may serve <em>internally</em> as an
+adapter IR if Mosaic wishes — the recommendation is only that the <strong>GraphQL contract Aperture
+derives from be typed input objects</strong> (the Hasura/Directus-proven shape).</p>
+<h2 id="8-results-presentation">8. Results presentation<a class="headerlink" href="#8-results-presentation" title="Permanent link">&para;</a></h2>
+<p><strong>Table (workhorse).</strong> Anchor-grain rows in the existing TanStack table; traversal columns
+labeled by path ("Sample → Processing date"); to-many columns show the aggregate or, when
+exploded, the table states its grain change ("1 row per Donor × Sample — 342 rows from 128
+donors"). CSV export reuses the page-through exporter (cap + <code>truncated</code>, ADR-0029);
+one-row-per-anchor with aggregates is the default export, explode is opt-in per path — the
+REDCap lesson (neither pure long nor pure wide satisfies everyone; make it a visible choice).
+M2's count pushdown makes predicted explode sizes and honest totals cheap; M3 makes "search
+within a cohort" exportable.</p>
+<p><strong>Graph view (new primitive, contingent on ADR-0010).</strong> A <code>graph</code> noun in the view catalog:</p>
+<ul>
+<li><strong>View description, not DOM:</strong> a serializable <code>{nodes: [{type, id, label}], edges: [{source,
+  target, edge}], style: derived-per-class}</code> document. Node/edge sets, type coverage, and style
+  bindings are checkable headlessly (ADR-0009's forcing function holds: correctness is
+  set-membership, not pixels).</li>
+<li><strong>Runtime realization: Cytoscape.js</strong> (MIT, active, compound nodes + expand-collapse
+  ecosystem, declarative stylesheets). sigma.js/WebGL is the named fallback past ~5k nodes; the
+  view description is renderer-agnostic either way.</li>
+<li><strong>Data source: Mosaic <code>neighbors</code> (M4).</strong> Seed from a QuerySpec result or a <code>searchAll</code> hit
+  set; expand-on-click = <code>neighbors(id, depth: 1)</code>; <code>asOf</code> rides along, giving a
+  <strong>time-traveling graph explorer</strong> almost for free (the server-side edge replay already
+  exists). Fallback on older endpoints: per-entity detail queries, one hop, honestly slower.</li>
+<li><strong>Honesty at scale:</strong> node budget with visible truncation; cluster-by-class (compound nodes)
+  before dropping data; the M4 single-valued-edge gap must be closed server-side or disclosed
+  in the legend ("column edges not shown").</li>
+</ul>
+<p>This is deliberately the <em>second</em> result surface: never required to answer what the table can
+answer; earns its place for supersession chains, provenance neighborhoods, and "what's
+connected to this cohort."</p>
+<h2 id="9-risks-and-open-questions">9. Risks and open questions<a class="headerlink" href="#9-risks-and-open-questions" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Payload/URL widening.</strong> <code>SavedViewState.filters</code> and <code>urlState.validateFilters</code> both
+   enforce the flat <code>Record&lt;string, string|boolean&gt;</code> shape; <code>openPayload</code> rejects mismatched
+   envelope versions outright (<code>store.ts:44</code>). Decide explicitly: new document kind
+   (<code>querySpec</code>) vs <code>savedView</code> v2 with a migration read-path. Leaning <strong>new kind</strong> — saved
+   views keep working untouched.</li>
+<li><strong>Version skew.</strong> With co-design, Aperture will meet endpoints spanning Mosaic versions.
+   The M1 principle absorbs this: capabilities are read off the introspected schema (presence
+   of <code>where:</code>, of <code>facetCounts</code>, of <code>searchAll</code>), so gating is automatic — but the planner
+   needs one fallback tier (native <code>in</code> semijoin) for pre-M5 endpoints, and the stale-capture
+   lesson (§3) says our test fixtures must be re-captured per supported Mosaic version.</li>
+<li><strong>as-of × relationship predicates.</strong> Mosaic's temporal path filters in Python over
+   reconstructed state and declares relationship-existence out of scope (hippo#71). M5 must
+   either restrict (reject <code>asOf</code> + RelatedCondition with a coded error) or fund the temporal
+   join. An undocumented wrong answer is the one forbidden outcome (ADR-0029).</li>
+<li><strong>Aggregation availability semantics.</strong> Mosaic's existing <code>entity_counts()</code> counts
+   unavailable entities; list queries don't. M2 must pin "aggregates see exactly what list
+   queries see" or Aperture's attrition counts will lie.</li>
+<li><strong>Polymorphic <code>is_a</code></strong> (<code>prefab/core-loop.md</code> Q1.1) — "is BrainSample a collection or a
+   saved filter over Samples?" — becomes acute once QuerySpecs exist (a saved parameterized
+   QuerySpec <em>is</em> the "saved filter over the parent" answer), and doubly so if M4's
+   heterogeneous roots ever grow real GraphQL interfaces (Mosaic deliberately exposes no
+   <code>Entity</code> interface today; ADR-0005 flags union/interface polymorphism as future work). Fold
+   into the ADR pair.</li>
+<li><strong>Slot-name discipline.</strong> The IR stores LinkML slot names; UI labels go through the rename
+   mapping. Mosaic's <code>resolve_filter_field</code> now accepts three spellings — convenient, but the
+   IR should stay canonical (slot names) so saved artifacts don't fork by spelling.</li>
+<li><strong>Certification contracts.</strong> Facet panel and table <code>data-testid</code>s are golden-path pinned;
+   the builder is additive UI, and the planner must emit today's exact query shapes when a
+   QuerySpec contains no RelatedCondition/OR group/operator beyond <code>eq</code>.</li>
+<li><strong>Reel boundary.</strong> QuerySpec is one query state. Sequencing, forking, watermark pinning
+   per-version, set-ops <em>between</em> states — Reel. The clean seam: Aperture owns the noun and its
+   execution; Reel composes instances of it. Cross-reference Reel ADR-0001/0003.</li>
+<li><strong>Mosaic delivery reality.</strong> Mosaic is Beta, weekly-release, two-adapter with a parity
+   discipline — healthy, but every M-item above is roughly double-priced by PG parity, and the
+   <code>[Unreleased]</code> queue is nonempty. The staging in §10 assumes M-items land as separate
+   OpenSpec changes, each independently valuable.</li>
+</ol>
+<h2 id="10-recommended-path-adr-slate-two-sided">10. Recommended path &amp; ADR slate (two-sided)<a class="headerlink" href="#10-recommended-path-adr-slate-two-sided" title="Permanent link">&para;</a></h2>
+<p>Sequenced so each step is independently valuable and nothing waits on the expensive item:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Delivers</th>
+<th>Side</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. M0 hygiene: re-capture introspection, adopt <code>in</code>/OR/<code>asOf</code>, doc fixes, SDL descriptions</td>
+<td>corrected ground truth; literate schema</td>
+<td>both</td>
+</tr>
+<tr>
+<td>2. Global search landing (client fan-out first)</td>
+<td>first cross-class surface; fixes the useless default</td>
+<td>Aperture</td>
+</tr>
+<tr>
+<td>3. QuerySpec IR + validator + URL/control-plane transport</td>
+<td>the noun everything rides</td>
+<td>Aperture</td>
+</tr>
+<tr>
+<td>4. <strong>M1 typed filter inputs</strong></td>
+<td>operators; introspection-as-capability-contract</td>
+<td>Mosaic</td>
+</tr>
+<tr>
+<td>5. Builder v1 over M1 (anchor, conditions, OR groups) + semijoin RelatedCondition via native <code>in</code></td>
+<td>"donors having samples where…" ships</td>
+<td>Aperture</td>
+</tr>
+<tr>
+<td>6. <strong>M2 aggregation + order_by</strong></td>
+<td>attrition counts, facet counts, ranges, sort</td>
+<td>Mosaic</td>
+</tr>
+<tr>
+<td>7. <strong>M3 search composition</strong>; <strong>M4 <code>searchAll</code> + <code>neighbors</code></strong></td>
+<td>search-as-criterion; server global search; graph data</td>
+<td>Mosaic</td>
+</tr>
+<tr>
+<td>8. Column traversal + aggregate/explode export; graph view primitive</td>
+<td>the joined table + CSV story; exploration surface</td>
+<td>Aperture</td>
+</tr>
+<tr>
+<td>9. <strong>M5a → M5b relationship predicates</strong></td>
+<td>planner flips semijoin → server EXISTS; no artifact changes</td>
+<td>Mosaic</td>
+</tr>
+<tr>
+<td>10. NL → QuerySpec</td>
+<td>the AI-native on-ramp; probe-ladder rung 2</td>
+<td>Aperture</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Aperture ADRs</strong> (next free number: 0035):</p>
+<ul>
+<li><strong>ADR-0035 — Cross-class queries are a typed QuerySpec artifact</strong> (anchor/focal semantics,
+  criteria vocabulary incl. quantified relationship conditions, planner with server-first
+  execution + declared semijoin compensation tier, persistence &amp; URL transport). Cross-refs:
+  ADR-0002/0004/0005/0009/0015/0017/0029/0032, Reel ADR-0001/0003, Mosaic ADR-0006/0007.</li>
+<li><strong>ADR-0036 — Global search is a heterogeneous fan-out surface</strong> (server <code>searchAll</code> with
+  client fan-out degradation; seeds table/graph views).</li>
+<li><strong>ADR-0037 — <code>graph</code> view primitive</strong> (serializable graph description; Cytoscape.js
+  realization; <code>neighbors</code>-fed; node budgets and class clustering) — sequenced behind ADR-0010.</li>
+</ul>
+<p><strong>Mosaic ADRs</strong> (next free number there: 0006; conventions per its <code>design/decisions/README.md</code>
++ OpenSpec changes with tracking issues; note its decision-log index has drifted — 0005 missing,
+0001 status stale — fix in the same PR):</p>
+<ul>
+<li><strong>Mosaic ADR-0006 — The GraphQL filter contract is typed per-class input objects</strong> (M1 + M5
+  semantics incl. quantifiers, the CEL-not-on-the-wire decision, <code>isNull</code> semantics, PG cast
+  strategy, as-of restriction). <code>Related:</code> Aperture ADR-0035 + <code>portal-requirements.md</code> X3
+  (new), mirroring the existing ADR-0001 ↔ Aperture ADR-0023 convention.</li>
+<li><strong>Mosaic ADR-0007 — Aggregation &amp; ordering surface</strong> (M2: count mode, facetCounts, min/max,
+  order_by; availability-consistency rule; temporal-field ordering). <code>Related:</code> Aperture
+  ADR-0035 + X1 (hippo#96).</li>
+<li>M3/M4 likely ride as OpenSpec changes under 0006/0007 rather than their own ADRs, unless the
+  heterogeneous-root work grows real interfaces — that would be its own ADR (it inverts the
+  deliberate <code>Entity</code> exclusion).</li>
+</ul>
+<p><strong>Aperture X-tracker updates</strong> (<code>portal-requirements.md:321-328</code>): promote <strong>X1</strong> with a
+pointer to Mosaic ADR-0007; file <strong>X3 — typed operator + relationship-predicate filter contract</strong>
+pointing at Mosaic ADR-0006; note X2 (server bulk export) is eased but not solved by M2.</p>
 
 
 

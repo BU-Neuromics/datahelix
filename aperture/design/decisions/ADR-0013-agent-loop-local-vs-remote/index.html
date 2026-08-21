@@ -3902,7 +3902,7 @@ avoids building both.</p>
   capability-scoped client (ADR-0008) resolves "current viewer" identically in both.</li>
 <li>"Edit files in a repo" would reintroduce a second source of truth that must sync with the
   canonical Hippo instance — exactly the drift ADR-0003/ADR-0005 forbid.</li>
-<li>Matches the kept <code>backends/</code> protocol (<code>HippoSdkBackend</code> local / <code>HippoRestBackend</code> remote
+<li>Matches the kept <code>backends/</code> protocol (<code>MosaicSdkBackend</code> local / <code>MosaicRestBackend</code> remote
   behind one interface) — and should extend to a GraphQL backend.</li>
 </ul>
 <p><strong>One honest carve-out:</strong> Type-B <strong>component source code</strong> is code and wants VCS + review.

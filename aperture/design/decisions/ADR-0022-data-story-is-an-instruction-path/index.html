@@ -3896,11 +3896,19 @@
 
 <h1 id="adr-0022-a-data-story-is-an-instruction-path-producing-typed-subgraph-states-artifacts">ADR-0022: A data story is an instruction path producing typed subgraph states + artifacts<a class="headerlink" href="#adr-0022-a-data-story-is-an-instruction-path-producing-typed-subgraph-states-artifacts" title="Permanent link">&para;</a></h1>
 <ul>
-<li><strong>Status:</strong> Proposed  — ⛔ <strong>Deferred from MVP</strong> (ADR-0026)</li>
+<li><strong>Status:</strong> Superseded by Reel ADR-0001 (2026-06-22 data-story-engine split)</li>
 <li><strong>Date:</strong> 2026-06-17</li>
 <li><strong>Deciders:</strong> labadorf, design session</li>
 <li><strong>Related:</strong> ADR-0003 (config-as-LinkML-in-Hippo), ADR-0009 (view-descriptions + headless validation), ADR-0010 (typed noun-catalog, keystone), ADR-0020 (conversations/actions are provenance events), ADR-0002 (generic, no domain nouns); <code>instruction-path-model.md</code>; <code>prefab/data-stories.md</code></li>
 </ul>
+<blockquote>
+<p><strong>⤳ Superseded — moved to Reel (2026-06-22).</strong> This decision moved to the <strong>Reel</strong> component
+when the AI-native data-story engine was split out of Aperture (boundary:
+<code>drylims:platform/design/decisions/ADR-0001</code>; runbook <code>drylims:proposals/reel-split.md</code>). Its
+canonical home is now <strong>Reel <a href="https://github.com/BU-Neuromics/reel/blob/main/design/decisions/ADR-0001-data-story-is-an-instruction-path.md">ADR-0001</a></strong>
+(renumbered from this ADR). Kept here as a tombstone per the never-delete convention — <strong>do not
+edit; edit the Reel ADR.</strong> The body below is the original Aperture text, preserved for history.</p>
+</blockquote>
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
 <p>The AI-native explorer (<code>vision.md</code>) and the keystone MVP (<code>prefab/data-stories.md</code>) both
 center on a "data story." We surveyed five UI prototypes (conversational notebook, transcript +

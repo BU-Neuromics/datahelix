@@ -3978,7 +3978,7 @@ components rather than hand-writing them.</p>
 management is admin-only). Upstream of the data plane (ADR-0017) but a first-class Aperture
 capability, not just a precondition.</p>
 <h3 id="6-boundary-bridge-permissions-owner">6. (Boundary) Bridge / permissions owner<a class="headerlink" href="#6-boundary-bridge-permissions-owner" title="Permanent link">&para;</a></h3>
-<p>Where roles, user→role mapping, and enforcement live — <strong>not</strong> Aperture or Hippo (ADR-0008,
+<p>Where roles, user→role mapping, and enforcement live — <strong>not</strong> Aperture or Mosaic (ADR-0008,
 ADR-0016; platform <code>sec6_security_model.md</code>). Deferred (ADR-0016); local deployments give the
 local user maximum permissions.</p>
 <h2 id="two-credentials-never-conflated">Two credentials, never conflated<a class="headerlink" href="#two-credentials-never-conflated" title="Permanent link">&para;</a></h2>
@@ -3994,7 +3994,7 @@ local user maximum permissions.</p>
 </thead>
 <tbody>
 <tr>
-<td><strong>BASS user session</strong></td>
+<td><strong>DataHelix user session</strong></td>
 <td>per-viewer, Bridge-enforced</td>
 <td>the user</td>
 <td>the agent's <em>hands</em> — every effect rides it</td>
@@ -4008,7 +4008,7 @@ local user maximum permissions.</p>
 </tbody>
 </table>
 <p>The agent reasons on the provider key and <em>acts</em> on the user session. The provider key
-confers <strong>no</strong> BASS authority; it is never an enforcement backdoor.</p>
+confers <strong>no</strong> DataHelix authority; it is never an enforcement backdoor.</p>
 <h2 id="decisions-that-formalize-the-actor-tensions">Decisions that formalize the actor tensions<a class="headerlink" href="#decisions-that-formalize-the-actor-tensions" title="Permanent link">&para;</a></h2>
 <table>
 <thead>

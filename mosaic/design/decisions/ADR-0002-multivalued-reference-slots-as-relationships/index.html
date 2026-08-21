@@ -3953,6 +3953,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#update-issue-81-postgresql-parity-shipped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update (issue #81): PostgreSQL parity shipped
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -4170,6 +4187,33 @@ must cause DDL generation (adapter startup) or the write to <strong>raise</stron
 <p><strong>PostgreSQL parity is a follow-up</strong> (the adapter in
 <code>src/hippo/core/storage/adapters/postgres_adapter.py</code> needs the same materialize/hydrate
 hooks), mirroring how ADR-0001 sequenced SQLite then PostgreSQL increments.</p>
+<h3 id="update-issue-81-postgresql-parity-shipped">Update (issue #81): PostgreSQL parity shipped<a class="headerlink" href="#update-issue-81-postgresql-parity-shipped" title="Permanent link">&para;</a></h3>
+<p><code>PostgresAdapter</code> (now <code>src/mosaic/core/storage/adapters/postgres_adapter.py</code>) has no
+per-class typed table — every entity is one row in a generic <code>entities</code> table with a JSONB
+<code>data</code> document — so there was no column for a multivalued reference slot to be dropped
+<em>from</em>; instead the whole submitted dict, edges included, was stored verbatim in <code>data</code>.
+That is not silent data loss in the literal sense, but it is a representation gap from this
+ADR's design intent: the slot's values lived only as a plain JSON array, invisible to
+<code>find_relationships</code>/<code>traverse</code> and to <code>relationship_add</code>/<code>relationship_remove</code>-driven as-of
+edge replay (ADR-0001) — exactly the gap §2/§3 close for SQLite.</p>
+<p>Parity now ships: <code>PostgresAdapter._materialize_multivalued_refs</code> /
+<code>_hydrate_multivalued_refs_batch</code> mirror the SQLite methods of the same name, called from
+<code>create</code>/<code>update_data</code> and from <code>read</code>/<code>read_any</code>/<code>find</code>/<code>delete</code> respectively. Because
+Postgres has one row per entity rather than per-class columns, the slot keys are stripped
+from the stored JSONB document (the relationships table becomes the sole current-state
+source, matching SQLite's column omission) while the unstripped dict is still recorded in
+the <code>ProvenanceRecord.patch</code>, so <code>get_state_at</code>/as-of reconstruction is unaffected — as
+already noted above, it never touches the relationships table. A <code>seq BIGSERIAL</code> column was
+added to the <code>relationships</code> table to preserve edge insertion order on hydration (Postgres
+has no SQLite-style implicit <code>rowid</code>), and <code>find()</code>'s batched hydration groups by entity
+type since a single Postgres query can span multiple types, unlike SQLite's one-type-at-a-time
+per-class table scan. <code>PostgresDDLGenerator</code> (<code>src/mosaic/core/storage/pg_ddl_generator.py</code>
+— a separate per-class-table migration generator not currently wired into the CRUD path) was
+also updated to exclude multivalued reference slots from generated tables and collapse
+multivalued non-reference slots to a single TEXT column, for consistency with <code>DDLGenerator</code>.
+Tests ported to <code>tests/integration/test_postgres_multivalued_refs.py</code>. Status stays
+<strong>Proposed</strong> per the original decision — this update documents implementation, not
+ratification.</p>
 <h2 id="notes-open-sub-questions">Notes / open sub-questions<a class="headerlink" href="#notes-open-sub-questions" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Reconciliation granularity:</strong> replace-all (soft-delete every slot-named edge from the

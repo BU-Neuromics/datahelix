@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#aperture-ai-native-data-workflow-explorer" class="md-skip">
+        <a href="#aperture-config-driven-rendering-portal" class="md-skip">
           Skip to content
         </a>
       
@@ -4096,19 +4096,19 @@
 
 
 
-<h1 id="aperture-ai-native-data-workflow-explorer">Aperture — AI-Native Data &amp; Workflow Explorer<a class="headerlink" href="#aperture-ai-native-data-workflow-explorer" title="Permanent link">&para;</a></h1>
+<h1 id="aperture-config-driven-rendering-portal">Aperture — Config-Driven Rendering Portal<a class="headerlink" href="#aperture-config-driven-rendering-portal" title="Permanent link">&para;</a></h1>
 <h2 id="design-index">Design Index<a class="headerlink" href="#design-index" title="Permanent link">&para;</a></h2>
 <p><strong>Codename:</strong> Aperture
-<strong>Component:</strong> Interface Layer — AI-native data &amp; workflow explorer over the BASS domain graph
+<strong>Component:</strong> Interface Layer — AI-native data &amp; workflow explorer over the DataHelix domain graph
 (the config-driven portal is its substrate / MVP, not the product). See
 <a href="../vision/"><code>vision.md</code></a>.
 <strong>Version:</strong> 0.1 — Portal substrate fresh start</p>
 <hr />
-<p>This repository is a <strong>fresh start</strong> extracted from the <code>drylims</code> monorepo (2026-06).
+<p>This repository is a <strong>fresh start</strong> extracted from the <code>DataHelix</code> monorepo (2026-06).
 It carries forward the reusable Hippo backend protocol (<code>src/aperture/backends/</code>) and the
 config-driven <strong>portal</strong> design — now framed as the <strong>substrate</strong> for the AI-native explorer
 (<a href="../vision/"><code>vision.md</code></a>), not the product itself. The earlier CLI-first v0.1 specification
-(<code>sec1</code>–<code>sec6</code>) and its implementation were intentionally left behind in <code>drylims</code> history and
+(<code>sec1</code>–<code>sec6</code>) and its implementation were intentionally left behind in <code>DataHelix</code> history and
 are <strong>not</strong> reproduced here.</p>
 <blockquote>
 <p><strong>New here (or handing off)?</strong> Start with <a href="../ONBOARDING.md"><code>../ONBOARDING.md</code></a> — the repo entry
@@ -4159,7 +4159,7 @@ point: status, how to run <code>web/</code>, the roadmap (as GitHub issues), and
 <td><code>gen3-comparison.md</code></td>
 <td>Gen3 deep comparison</td>
 <td>🟢 Research</td>
-<td>Service-by-service map of Gen3 to the whole BASS platform (fence+arborist=Bridge, Peregrine=Hippo GraphQL, dictionary=LinkML); explorerConfig ≈ our core-loop config; the two-tier graph+index lesson that answers our aggregation gap.</td>
+<td>Service-by-service map of Gen3 to the whole DataHelix platform (fence+arborist=Bridge, Peregrine=Hippo GraphQL, dictionary=LinkML); explorerConfig ≈ our core-loop config; the two-tier graph+index lesson that answers our aggregation gap.</td>
 </tr>
 <tr>
 <td><code>library-survey.md</code></td>
@@ -4214,6 +4214,12 @@ point: status, how to run <code>web/</code>, the roadmap (as GitHub issues), and
 <td>Portal §9 working notes</td>
 <td>🟡 Working notes</td>
 <td>Proposed resolutions to the §9 open questions, carried into the corresponding Proposed ADRs as their recommended Decision + rationale.</td>
+</tr>
+<tr>
+<td><code>cross-class-query.md</code></td>
+<td>Cross-class query &amp; heterogeneous results exploration</td>
+<td>🟠 Working</td>
+<td>Research + candidate design for criteria queries spanning classes, joined anchor-grain table/CSV, and graph exploration; co-designed with the Mosaic query surface (Mosaic ADR-0006/0007). Distilled into ADR-0035 (Accepted) and Proposed ADR-0036/0037.</td>
 </tr>
 </tbody>
 </table>
@@ -4422,15 +4428,56 @@ a status flip to <code>Accepted</code>, not a new document. Decisions are never 
 <td>✅ Accepted</td>
 <td>layout design session</td>
 </tr>
+<tr>
+<td><a href="../decisions/ADR-0032-control-plane-document-store/">0032</a></td>
+<td>Control-plane state = versioned <code>{kind,name,payload}</code> documents on a structurally-recognized Hippo collection; honest local fallback; retire-not-delete</td>
+<td>✅ Accepted</td>
+<td>Phase 4 (PR #14); refines ADR-0017</td>
+</tr>
+<tr>
+<td><a href="../decisions/ADR-0033-workflow-config-and-engine/">0033</a></td>
+<td>Workflow config = steps-as-data interpreted by a pure reducer engine; the draft is the serialized run state</td>
+<td>✅ Accepted</td>
+<td>Phase 3 (PR #13); implements ADR-0028 W4.6/W4.8</td>
+</tr>
+<tr>
+<td><a href="../decisions/ADR-0034-spa-image-runtime-config/">0034</a></td>
+<td>SPA image is deployment-agnostic: one digest-addressed artifact, <code>VITE_*</code> config injected into <code>config.js</code> at container start</td>
+<td>✅ Accepted</td>
+<td>issue #22 (DataHelix P1.4); DataHelix ADR-0001</td>
+</tr>
+<tr>
+<td><a href="../decisions/ADR-0035-cross-class-queries-typed-queryspec/">0035</a></td>
+<td>Cross-class queries are a typed <strong>QuerySpec</strong> artifact — anchor grain, capability-gated operators, quantified relationship criteria, server-first planner with declared semijoin compensation</td>
+<td>✅ Accepted</td>
+<td><code>cross-class-query.md</code> §5–§10; Mosaic ADR-0006/0007; portal req X1/X5; issue #46</td>
+</tr>
+<tr>
+<td><a href="../decisions/ADR-0036-global-search-heterogeneous-fanout/">0036</a></td>
+<td>Global search is a heterogeneous fan-out surface (server <code>searchAll</code> → client fan-out degradation)</td>
+<td>🟡 Proposed</td>
+<td><code>cross-class-query.md</code> §6(c)/§7 M4; mosaic#158</td>
+</tr>
+<tr>
+<td><a href="../decisions/ADR-0037-graph-view-primitive/">0037</a></td>
+<td>Graph exploration view — Cytoscape; <code>neighbors</code>-fed with an honest client one-hop fallback; catalog promotion after ADR-0010</td>
+<td>🟡 Proposed</td>
+<td><code>cross-class-query.md</code> §8; mosaic#158</td>
+</tr>
 </tbody>
 </table>
 <h2 id="decision-queue-open-resolve-in-dependency-order">Decision Queue (open — resolve in dependency order)<a class="headerlink" href="#decision-queue-open-resolve-in-dependency-order" title="Permanent link">&para;</a></h2>
 <p>Per <code>portal-open-questions.md</code>, resolve <strong>ADR-0010 → 0011 → 0012 → 0013</strong>; ADR-0014 follows
 0011 (the runtime/Pyodide weight changes the SSR-vs-SPA tradeoff), and ADR-0015 follows
-0010/0014. The keystone is <strong>ADR-0010</strong>: its survival-curve probe (can a KM-curve be
-expressed as catalog primitives + a stratifying query, or does it need escape-hatch
-rendering?) validates or breaks the whole chain.</p>
-<p><strong>Next session — first action:</strong> run the ADR-0010 survival-curve probe.</p>
+0010/0014. ADR-0010 (the typed view vocabulary) is what the platform <strong>View Contract</strong>
+(<code>drylims:platform/design/view-contract.md</code>) now absorbs as a shared rendering standard.</p>
+<blockquote>
+<p><strong>Relocated to Reel (2026-06-22 split).</strong> The agentic <strong>keystone probe</strong> — <em>"can an LLM drive a
+typed declarative artifact through a validator to a correct change?"</em> — and its survival-curve
+exemplar now belong to <strong>Reel</strong> (<code>drylims:platform/design/decisions/ADR-0001</code>); they are no
+longer Aperture's gating "next action." Aperture's queue is the portal-rendering decisions
+above.</p>
+</blockquote>
 <h2 id="building-against-hippo-current-surface">Building against Hippo (current surface)<a class="headerlink" href="#building-against-hippo-current-surface" title="Permanent link">&para;</a></h2>
 <p>Aperture targets Hippo's autogenerated <strong>GraphQL transport</strong> (sec4 §4.7), rendered from the
 shared <code>schema_typing</code> type model — same class set as the typed SDK. Design around today's
@@ -4439,12 +4486,12 @@ multivalued slots don't persist in the v0.1 SQLite adapter (resolved lists retur
 <code>isAvailable</code> always <code>true</code> on reads, and no schema-versioning of the GraphQL surface
 (additive-only tolerance). Internal cross-links come from resolved relationship fields;
 external hrefs from <code>ExternalReference</code> + <code>hippo_external_xref</code> reverse lookup (issue #48).</p>
-<p>The kept <code>src/aperture/backends/</code> protocol has <code>HippoSdkBackend</code> (in-process) and
-<code>HippoRestBackend</code> (REST); a <strong>GraphQL backend is not yet implemented</strong> and is the natural
+<p>The kept <code>src/aperture/backends/</code> protocol has <code>MosaicSdkBackend</code> (in-process) and
+<code>MosaicRestBackend</code> (REST); a <strong>GraphQL backend is not yet implemented</strong> and is the natural
 next code artifact once the runtime/architecture ADRs settle.</p>
 <h2 id="security-bridge-deferred-see-adr-0016">Security &amp; Bridge (deferred — see ADR-0016)<a class="headerlink" href="#security-bridge-deferred-see-adr-0016" title="Permanent link">&para;</a></h2>
 <p>Authorization lives in <strong>Bridge</strong> (PEP/PDP), not Aperture or Hippo — full model in the
-platform spec (<code>drylims/platform/design/sec6_security_model.md</code>). Aperture is built and demoed
+platform spec (<code>DataHelix/platform/design/sec6_security_model.md</code>). Aperture is built and demoed
 <strong>directly against Hippo</strong> for now (ADR-0016); Bridge implementation is deferred. The
 capability-scoped client (ADR-0008) is the seam that makes this free: present from day one as
 a no-op/full-access pass-through locally, swapped for Bridge's enforcing client later with no

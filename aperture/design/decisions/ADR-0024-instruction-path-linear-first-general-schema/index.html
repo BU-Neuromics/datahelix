@@ -3896,11 +3896,19 @@
 
 <h1 id="adr-0024-instruction-path-topology-general-schema-now-linear-only-validator-in-v1">ADR-0024: Instruction-path topology — general schema now, linear-only validator in v1<a class="headerlink" href="#adr-0024-instruction-path-topology-general-schema-now-linear-only-validator-in-v1" title="Permanent link">&para;</a></h1>
 <ul>
-<li><strong>Status:</strong> Proposed  — ⛔ <strong>Deferred from MVP</strong> (ADR-0026)</li>
+<li><strong>Status:</strong> Superseded by Reel ADR-0003 (2026-06-22 data-story-engine split)</li>
 <li><strong>Date:</strong> 2026-06-17</li>
 <li><strong>Deciders:</strong> labadorf, design session</li>
 <li><strong>Related:</strong> ADR-0022 (instruction-path model), ADR-0009 (dry-run validation), ADR-0021 (defer in-app chat; linear MVP first); <code>instruction-path-model.md</code> §4, §7</li>
 </ul>
+<blockquote>
+<p><strong>⤳ Superseded — moved to Reel (2026-06-22).</strong> This decision moved to the <strong>Reel</strong> component
+when the AI-native data-story engine was split out of Aperture (boundary:
+<code>drylims:platform/design/decisions/ADR-0001</code>; runbook <code>drylims:proposals/reel-split.md</code>). Its
+canonical home is now <strong>Reel <a href="https://github.com/BU-Neuromics/reel/blob/main/design/decisions/ADR-0003-instruction-path-linear-first-general-schema.md">ADR-0003</a></strong>
+(renumbered from this ADR). Kept here as a tombstone per the never-delete convention — <strong>do not
+edit; edit the Reel ADR.</strong> The body below is the original Aperture text, preserved for history.</p>
+</blockquote>
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
 <p>The instruction-path model (ADR-0022) gives each <code>Instruction</code> a reference to its parent
 state(s). Topology then falls out of arity: <strong>linear</strong> (≤1 parent, ≤1 child), <strong>tree</strong> (≤1

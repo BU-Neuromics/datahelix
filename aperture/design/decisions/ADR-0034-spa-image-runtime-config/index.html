@@ -16,19 +16,19 @@
         
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Gen3 — Deep Comparison to DataHelix / Aperture - DataHelix Documentation</title>
+        <title>ADR-0034: SPA image is deployment-agnostic — endpoint config injected at container start - DataHelix Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -47,9 +47,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../stylesheets/custom.css">
+      <link rel="stylesheet" href="../../../../stylesheets/custom.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#gen3-deep-comparison-to-datahelix-aperture" class="md-skip">
+        <a href="#adr-0034-spa-image-is-deployment-agnostic-endpoint-config-injected-at-container-start" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Gen3 — Deep Comparison to DataHelix / Aperture
+              ADR-0034: SPA image is deployment-agnostic — endpoint config injected at container start
             
           </span>
         </div>
@@ -209,7 +209,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../../../.." class="md-tabs__link">
         
   
   
@@ -230,7 +230,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../platform/" class="md-tabs__link">
+        <a href="../../../../platform/" class="md-tabs__link">
           
   
   
@@ -250,7 +250,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../mosaic/" class="md-tabs__link">
+        <a href="../../../../mosaic/" class="md-tabs__link">
           
   
   
@@ -270,7 +270,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../cappella/" class="md-tabs__link">
+        <a href="../../../../cappella/" class="md-tabs__link">
           
   
   
@@ -290,7 +290,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../" class="md-tabs__link">
+        <a href="../../../" class="md-tabs__link">
           
   
   
@@ -310,7 +310,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../bridge/" class="md-tabs__link">
+        <a href="../../../../bridge/" class="md-tabs__link">
           
   
   
@@ -330,7 +330,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../canon/" class="md-tabs__link">
+        <a href="../../../../canon/" class="md-tabs__link">
           
   
   
@@ -364,7 +364,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -382,7 +382,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   
@@ -463,7 +463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/" class="md-nav__link">
+      <a href="../../../../platform/" class="md-nav__link">
         
   
   
@@ -491,7 +491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/overview/" class="md-nav__link">
+      <a href="../../../../platform/src/overview/" class="md-nav__link">
         
   
   
@@ -519,7 +519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/architecture/" class="md-nav__link">
+      <a href="../../../../platform/src/architecture/" class="md-nav__link">
         
   
   
@@ -547,7 +547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/getting-started/" class="md-nav__link">
+      <a href="../../../../platform/src/getting-started/" class="md-nav__link">
         
   
   
@@ -575,7 +575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/deployment/" class="md-nav__link">
+      <a href="../../../../platform/src/deployment/" class="md-nav__link">
         
   
   
@@ -603,7 +603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/glossary/" class="md-nav__link">
+      <a href="../../../../platform/src/glossary/" class="md-nav__link">
         
   
   
@@ -685,7 +685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -713,7 +713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec2_components/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec2_components/" class="md-nav__link">
         
   
   
@@ -741,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec3_integration/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec3_integration/" class="md-nav__link">
         
   
   
@@ -769,7 +769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
         
   
   
@@ -797,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
         
   
   
@@ -894,7 +894,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/" class="md-nav__link">
+      <a href="../../../../mosaic/" class="md-nav__link">
         
   
   
@@ -922,7 +922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/why-mosaic/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/why-mosaic/" class="md-nav__link">
         
   
   
@@ -1004,7 +1004,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/introduction/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/introduction/" class="md-nav__link">
         
   
   
@@ -1032,7 +1032,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/installation/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/installation/" class="md-nav__link">
         
   
   
@@ -1060,7 +1060,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -1088,7 +1088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/schema-guide/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/schema-guide/" class="md-nav__link">
         
   
   
@@ -1116,7 +1116,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/data-model/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/data-model/" class="md-nav__link">
         
   
   
@@ -1144,7 +1144,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/configuration/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/configuration/" class="md-nav__link">
         
   
   
@@ -1172,7 +1172,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/cli-reference/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/cli-reference/" class="md-nav__link">
         
   
   
@@ -1200,7 +1200,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/api-reference/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/api-reference/" class="md-nav__link">
         
   
   
@@ -1228,7 +1228,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/reference-loaders/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/reference-loaders/" class="md-nav__link">
         
   
   
@@ -1256,7 +1256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/writing-a-reference-loader/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/writing-a-reference-loader/" class="md-nav__link">
         
   
   
@@ -1284,7 +1284,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/writing-a-recipe/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/writing-a-recipe/" class="md-nav__link">
         
   
   
@@ -1312,7 +1312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/installing-recipes/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/installing-recipes/" class="md-nav__link">
         
   
   
@@ -1340,7 +1340,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/recipe-reference/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/recipe-reference/" class="md-nav__link">
         
   
   
@@ -1430,7 +1430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -1458,7 +1458,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -1486,7 +1486,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec3_data_model/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec3_data_model/" class="md-nav__link">
         
   
   
@@ -1514,7 +1514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec3b_relational_storage/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec3b_relational_storage/" class="md-nav__link">
         
   
   
@@ -1542,7 +1542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec4_api_layer/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec4_api_layer/" class="md-nav__link">
         
   
   
@@ -1570,7 +1570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec5_ingestion/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec5_ingestion/" class="md-nav__link">
         
   
   
@@ -1598,7 +1598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec6_provenance/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec6_provenance/" class="md-nav__link">
         
   
   
@@ -1626,7 +1626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec7_nfr/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec7_nfr/" class="md-nav__link">
         
   
   
@@ -1654,7 +1654,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec8_auth_integration/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec8_auth_integration/" class="md-nav__link">
         
   
   
@@ -1682,7 +1682,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/appendix_a_example_schema_omics/" class="md-nav__link">
+      <a href="../../../../mosaic/design/appendix_a_example_schema_omics/" class="md-nav__link">
         
   
   
@@ -1710,7 +1710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/appendix_b_implementation_guide/" class="md-nav__link">
+      <a href="../../../../mosaic/design/appendix_b_implementation_guide/" class="md-nav__link">
         
   
   
@@ -1738,7 +1738,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/reference_hippo_yaml/" class="md-nav__link">
+      <a href="../../../../mosaic/design/reference_hippo_yaml/" class="md-nav__link">
         
   
   
@@ -1766,7 +1766,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/reference_validators_yaml/" class="md-nav__link">
+      <a href="../../../../mosaic/design/reference_validators_yaml/" class="md-nav__link">
         
   
   
@@ -1794,7 +1794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/reference_cel_context/" class="md-nav__link">
+      <a href="../../../../mosaic/design/reference_cel_context/" class="md-nav__link">
         
   
   
@@ -1891,7 +1891,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/" class="md-nav__link">
+      <a href="../../../../cappella/" class="md-nav__link">
         
   
   
@@ -1973,7 +1973,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/introduction/" class="md-nav__link">
+      <a href="../../../../cappella/docs/introduction/" class="md-nav__link">
         
   
   
@@ -2001,7 +2001,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/installation/" class="md-nav__link">
+      <a href="../../../../cappella/docs/installation/" class="md-nav__link">
         
   
   
@@ -2029,7 +2029,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/overview/" class="md-nav__link">
+      <a href="../../../../cappella/docs/overview/" class="md-nav__link">
         
   
   
@@ -2057,7 +2057,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../cappella/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -2085,7 +2085,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/user_guide/" class="md-nav__link">
+      <a href="../../../../cappella/docs/user_guide/" class="md-nav__link">
         
   
   
@@ -2113,7 +2113,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/workflows/" class="md-nav__link">
+      <a href="../../../../cappella/docs/workflows/" class="md-nav__link">
         
   
   
@@ -2203,7 +2203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -2231,7 +2231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -2259,7 +2259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec3_adapters/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec3_adapters/" class="md-nav__link">
         
   
   
@@ -2287,7 +2287,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec4_audit/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec4_audit/" class="md-nav__link">
         
   
   
@@ -2315,7 +2315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec5_workflows/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec5_workflows/" class="md-nav__link">
         
   
   
@@ -2343,7 +2343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec6_nfr/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec6_nfr/" class="md-nav__link">
         
   
   
@@ -2371,7 +2371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec7_testing/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec7_testing/" class="md-nav__link">
         
   
   
@@ -2468,7 +2468,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../" class="md-nav__link">
+      <a href="../../../" class="md-nav__link">
         
   
   
@@ -2550,7 +2550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../INDEX/" class="md-nav__link">
+      <a href="../../INDEX/" class="md-nav__link">
         
   
   
@@ -2578,7 +2578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../portal-vision-handoff/" class="md-nav__link">
+      <a href="../../portal-vision-handoff/" class="md-nav__link">
         
   
   
@@ -2606,7 +2606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../portal-open-questions/" class="md-nav__link">
+      <a href="../../portal-open-questions/" class="md-nav__link">
         
   
   
@@ -2703,7 +2703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/" class="md-nav__link">
+      <a href="../../../../bridge/" class="md-nav__link">
         
   
   
@@ -2785,7 +2785,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/introduction/" class="md-nav__link">
+      <a href="../../../../bridge/docs/introduction/" class="md-nav__link">
         
   
   
@@ -2813,7 +2813,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/auth/" class="md-nav__link">
+      <a href="../../../../bridge/docs/auth/" class="md-nav__link">
         
   
   
@@ -2841,7 +2841,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/security-model/" class="md-nav__link">
+      <a href="../../../../bridge/docs/security-model/" class="md-nav__link">
         
   
   
@@ -2869,7 +2869,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/admin-guide/" class="md-nav__link">
+      <a href="../../../../bridge/docs/admin-guide/" class="md-nav__link">
         
   
   
@@ -2959,7 +2959,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -2987,7 +2987,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -3015,7 +3015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec3_api_unification/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec3_api_unification/" class="md-nav__link">
         
   
   
@@ -3043,7 +3043,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec4_auth/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec4_auth/" class="md-nav__link">
         
   
   
@@ -3071,7 +3071,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec5_sync/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec5_sync/" class="md-nav__link">
         
   
   
@@ -3099,7 +3099,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec6_nfr/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec6_nfr/" class="md-nav__link">
         
   
   
@@ -3196,7 +3196,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/" class="md-nav__link">
+      <a href="../../../../canon/" class="md-nav__link">
         
   
   
@@ -3278,7 +3278,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/introduction/" class="md-nav__link">
+      <a href="../../../../canon/docs/introduction/" class="md-nav__link">
         
   
   
@@ -3306,7 +3306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../canon/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -3334,7 +3334,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/user-guide/" class="md-nav__link">
+      <a href="../../../../canon/docs/user-guide/" class="md-nav__link">
         
   
   
@@ -3424,7 +3424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../canon/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -3452,7 +3452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../canon/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -3480,7 +3480,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
+      <a href="../../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
         
   
   
@@ -3508,7 +3508,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
+      <a href="../../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
         
   
   
@@ -3536,7 +3536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
+      <a href="../../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
         
   
   
@@ -3564,7 +3564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
+      <a href="../../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
         
   
   
@@ -3592,7 +3592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
+      <a href="../../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
         
   
   
@@ -3620,7 +3620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec6_mosaic_integration/" class="md-nav__link">
+      <a href="../../../../canon/design/sec6_mosaic_integration/" class="md-nav__link">
         
   
   
@@ -3648,7 +3648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec7_nfr/" class="md-nav__link">
+      <a href="../../../../canon/design/sec7_nfr/" class="md-nav__link">
         
   
   
@@ -3676,7 +3676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
+      <a href="../../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
         
   
   
@@ -3704,7 +3704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/reference_canon_yaml/" class="md-nav__link">
+      <a href="../../../../canon/design/reference_canon_yaml/" class="md-nav__link">
         
   
   
@@ -3732,7 +3732,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
+      <a href="../../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
         
   
   
@@ -3760,7 +3760,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
+      <a href="../../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
         
   
   
@@ -3823,10 +3823,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-gen3-is" class="md-nav__link">
+  <a href="#context" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What Gen3 is
+        Context
       
     </span>
   </a>
@@ -3834,10 +3834,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#service-by-service-map-to-datahelix" class="md-nav__link">
+  <a href="#decision" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Service-by-service map to DataHelix
+        Decision
       
     </span>
   </a>
@@ -3845,10 +3845,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-explorerconfig-our-core-loop-config-near-11" class="md-nav__link">
+  <a href="#consequences" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The explorerConfig ≈ our core-loop config (near 1:1)
+        Consequences
       
     </span>
   </a>
@@ -3856,54 +3856,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-single-biggest-lesson-a-two-tier-data-architecture-solves-our-aggregation-gap" class="md-nav__link">
+  <a href="#alternatives-considered" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The single biggest lesson: a two-tier data architecture solves our aggregation gap
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#where-aperture-is-more-ambitious-than-gen3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Where Aperture is more ambitious than Gen3
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-to-steal-prototype-against" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What to steal / prototype against
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#caveats" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Caveats
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sources" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sources
+        Alternatives considered
       
     </span>
   </a>
@@ -3927,218 +3883,46 @@
 
 
 
-<h1 id="gen3-deep-comparison-to-datahelix-aperture">Gen3 — Deep Comparison to DataHelix / Aperture<a class="headerlink" href="#gen3-deep-comparison-to-datahelix-aperture" title="Permanent link">&para;</a></h1>
-<p><strong>Status:</strong> 🟢 Research findings (2026-06-16, primary sources). Companion to
-<a href="../prior-art/"><code>prior-art.md</code></a>, which named Gen3 the strongest faceted-portal match. This
-goes deeper: <strong>Gen3 is the closest production analog to the <em>whole DataHelix platform</em>, not just to
-Aperture</strong> — and its architecture answers our sharpest open capability question.</p>
-<h2 id="what-gen3-is">What Gen3 is<a class="headerlink" href="#what-gen3-is" title="Permanent link">&para;</a></h2>
-<p>Gen3 (Center for Translational Data Science, U. Chicago / <code>uc-cdis</code>) is an open-source platform
-for building <strong>data commons</strong> — it powers NIH commons like MIDRC, AnVIL, BioData Catalyst,
-HEAL. It is a stack of microservices around a <strong>config-driven data model (the Data Dictionary)</strong>
-and a <strong>config-driven faceted Data Explorer</strong>. Many independent commons run the <em>same</em> codebase
-differentiated by dictionary + portal config — the same "generic engine, per-instance config"
-thesis as DataHelix/Aperture.</p>
-<h2 id="service-by-service-map-to-datahelix">Service-by-service map to DataHelix<a class="headerlink" href="#service-by-service-map-to-datahelix" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Gen3 service</th>
-<th>Role</th>
-<th>DataHelix analog</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Data Dictionary</strong> (YAML, one JSON-Schema file per node; nodes + typed properties + links w/ backref, multiplicity, semantic label; Program = graph root)</td>
-<td>Config-driven data model</td>
-<td><strong>Hippo LinkML schema</strong> (entities + slots + relationships). LinkML is more expressive/standardized than Gen3's per-node JSON-Schema.</td>
-</tr>
-<tr>
-<td><strong>Sheepdog</strong></td>
-<td>Submission/write into the Postgres graph; validates against the dictionary (rejects <code>INVALID_LINK</code>)</td>
-<td>Hippo write path + validation</td>
-</tr>
-<tr>
-<td><strong>Peregrine</strong></td>
-<td><strong>GraphQL over the normalized Postgres graph</strong> (traversal, lineage)</td>
-<td><strong>Hippo's autogenerated GraphQL</strong> (graph-shaped, normalized)</td>
-</tr>
-<tr>
-<td><strong>Tube (ETL)</strong></td>
-<td>Flattens the graph → <strong>Elasticsearch</strong> documents; re-runs on new submissions</td>
-<td><em>(no Hippo equivalent today)</em></td>
-</tr>
-<tr>
-<td><strong>Guppy</strong></td>
-<td><strong>GraphQL over Elasticsearch</strong> — faceted search, <strong>aggregations, counts, histograms</strong>, tiered access</td>
-<td><em>(no Hippo equivalent — this is the gap, see below)</em></td>
-</tr>
-<tr>
-<td><strong>Indexd</strong></td>
-<td>GUID → physical file location index</td>
-<td>Hippo "where data lives" / Canon</td>
-</tr>
-<tr>
-<td><strong>Fence</strong></td>
-<td>AuthN — OIDC/OAuth identity provider; issues tokens carrying arborist policies</td>
-<td><strong>Bridge</strong> (authn half)</td>
-</tr>
-<tr>
-<td><strong>Arborist</strong></td>
-<td>AuthZ — RBAC <strong>policy engine</strong>; fence embeds its policies in tokens</td>
-<td><strong>Bridge</strong> (PEP/PDP half)</td>
-</tr>
-<tr>
-<td><strong>Data-portal (Windmill)</strong></td>
-<td>React frontend; the <strong>Data Explorer is driven by <code>gitops.json</code>/<code>explorerConfig</code></strong> (config-as-data)</td>
-<td><strong>Aperture</strong></td>
-</tr>
-<tr>
-<td>Hatchery / MDS / Pelican / Sower / WTS</td>
-<td>Workspaces, metadata svc, PFB export, batch jobs, tokens</td>
-<td>(various: Cappella / platform)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>fence + arborist = Bridge.</strong> Gen3 independently arrived at exactly Bridge's split: a central
-OIDC identity provider plus a <em>separate</em> policy engine whose decisions ride in the token. Strong
-external validation of the Bridge PEP/PDP design (ADR-0016, platform <code>sec6</code>).</p>
-<h2 id="the-explorerconfig-our-core-loop-config-near-11">The explorerConfig ≈ our core-loop config (near 1:1)<a class="headerlink" href="#the-explorerconfig-our-core-loop-config-near-11" title="Permanent link">&para;</a></h2>
-<p>Gen3's <code>gitops.json</code> <code>explorerConfig</code> is config-as-data that drives the faceted explorer —
-strikingly close to what our prefab core-loop config will look like:</p>
-<table>
-<thead>
-<tr>
-<th>explorerConfig block</th>
-<th>Concrete shape</th>
-<th>Maps to</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>filters.tabs[].fields[]</code></td>
-<td>facet fields grouped into titled tabs</td>
-<td><strong>PF-3</strong> facet panel (grouped facets)</td>
-</tr>
-<tr>
-<td><code>charts{field: {chartType: count\|pie\|fullPie\|bar, title}}</code></td>
-<td>charts as data, keyed by field</td>
-<td><strong>PF-6</strong> charts bound to query</td>
-</tr>
-<tr>
-<td><code>table{enabled, fields[], linkFields[]}</code></td>
-<td>table columns as data</td>
-<td><strong>PF-2</strong> collection table</td>
-</tr>
-<tr>
-<td><code>buttons[]{type: data-csv\|manifest\|export-to-pfb, title, fileName}</code></td>
-<td>export actions as data</td>
-<td><strong>PF-7</strong> export</td>
-</tr>
-<tr>
-<td><code>guppyConfig{dataType, fieldMapping[], manifestMapping{...}}</code></td>
-<td>binds the tab to a Guppy ES index + field renames + cohort→file join</td>
-<td><strong>binding</strong> (which collection; relationship/file join)</td>
-</tr>
-</tbody>
-</table>
-<p>And the validation discipline matches our composition+binding split: <strong>only properties present
-in <code>etlMapping.yaml</code> may appear in <code>gitops.json</code></strong>, and it's validated against the Data
-Dictionary + ETL mapping (via <code>gen3utils</code> CI). This <em>is</em> config-as-data with schema-derived
-binding — proven across many commons.</p>
-<h2 id="the-single-biggest-lesson-a-two-tier-data-architecture-solves-our-aggregation-gap">The single biggest lesson: a two-tier data architecture solves our aggregation gap<a class="headerlink" href="#the-single-biggest-lesson-a-two-tier-data-architecture-solves-our-aggregation-gap" title="Permanent link">&para;</a></h2>
-<p>The capability gaps we hit in core-loop Steps 2–3 (no sort, <strong>no counts, no aggregation/facet
-counts</strong> over Hippo's thin GraphQL) are exactly what Gen3 solved — by running <strong>two</strong> query
-surfaces over <strong>two</strong> stores:</p>
+<h1 id="adr-0034-spa-image-is-deployment-agnostic-endpoint-config-injected-at-container-start">ADR-0034: SPA image is deployment-agnostic — endpoint config injected at container start<a class="headerlink" href="#adr-0034-spa-image-is-deployment-agnostic-endpoint-config-injected-at-container-start" title="Permanent link">&para;</a></h1>
 <ul>
-<li><strong>Peregrine / Postgres graph</strong> — normalized; great for traversal, lineage, submission
-  validation. <em>(≈ Hippo's GraphQL today.)</em></li>
-<li><strong>Guppy / Elasticsearch</strong> — a <strong>denormalized, indexed, aggregation-optimized</strong> copy, kept in
-  sync by the <strong>Tube ETL</strong>. Purpose-built for fast faceted search, <strong>counts, and histograms</strong>.</li>
+<li><strong>Status:</strong> Accepted</li>
+<li><strong>Date:</strong> 2026-07-07</li>
+<li><strong>Deciders:</strong> epic implementation (issue #22, DataHelix 1.0 P1.4)</li>
+<li><strong>Related:</strong> ADR-0017 (endpoint as config), ADR-0029 (honest degradation); DataHelix ADR-0001 (certified frontier)</li>
 </ul>
-<blockquote>
-<p><strong>Hippo's current GraphQL is the Peregrine analog. Aperture's faceted explorer needs the
-Guppy analog — and Hippo has none yet.</strong> This is the decisive architectural question for the
-core loop:
-- <strong>(b) server-side index layer:</strong> give Hippo (or a sidecar) a Guppy-equivalent — ETL/flatten
-  to an aggregation store (ES / DuckDB / OLAP) with a faceting+aggregation GraphQL surface.
-  This is Gen3's <em>production</em> answer.
-- <strong>(c) adapter compensation:</strong> Aperture's Layer-D adapter computes aggregation client-side
-  (DuckDB-WASM) when the source can't — viable at small scale, breaks on large cohorts.</p>
-<p>Gen3's experience says facet counts at real scale want the index layer (b). This likely
-warrants a Hippo design issue.</p>
-</blockquote>
-<p>Also worth stealing: <strong>Guppy's tiered access</strong> (private / regular / libre) lets users see
-<strong>aggregate counts with a minimum-count threshold over data they cannot access row-level</strong> — a
-real biomedical-privacy pattern for Bridge's field-mask/predicate model (aggregate-with-min-count
-prevents re-identification).</p>
-<h2 id="where-aperture-is-more-ambitious-than-gen3">Where Aperture is <em>more</em> ambitious than Gen3<a class="headerlink" href="#where-aperture-is-more-ambitious-than-gen3" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Dimension</th>
-<th>Gen3</th>
-<th>Aperture</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Generic over backends</td>
-<td>Its own stack only</td>
-<td>Any LinkML+GraphQL endpoint</td>
-</tr>
-<tr>
-<td>Config form</td>
-<td>JSON in a gitops repo, <strong>CI-validated</strong>, portal redeploy</td>
-<td>Serializable <strong>LinkML data in the backend</strong>, structurally validated, versioned/provenance-tracked</td>
-</tr>
-<tr>
-<td>New visualization / behavior</td>
-<td><strong>Code a React component</strong> in <code>data-portal</code> (bespoke)</td>
-<td><strong>Typed sandboxed component</strong> emitting a view-description, hot-reloaded (ADR-0009/0011)</td>
-</tr>
-<tr>
-<td>Authoring</td>
-<td>Humans edit <code>gitops.json</code> + redeploy</td>
-<td>Humans <strong>and LLM agents</strong> edit config (MCP/API, dry-run, ADR-0018/0021)</td>
-</tr>
-<tr>
-<td>View vocabulary</td>
-<td>Fixed chart set baked into Windmill</td>
-<td>Growable typed <strong>noun-catalog</strong> (Vega-Lite-style, ADR-0010)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="what-to-steal-prototype-against">What to steal / prototype against<a class="headerlink" href="#what-to-steal-prototype-against" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>The explorerConfig schema</strong> as the concrete template for our core-loop config
-   (facets-as-tabs, charts-by-field, table fields, export buttons, dataType binding).</li>
-<li><strong>The validation model</strong> (<code>gitops.json</code> validated against dictionary + ETL mapping) — but
-   make ours <strong>structural/live</strong> (LinkML-in-Hippo) rather than CI-time tooling.</li>
-<li><strong>The two-tier graph+index architecture</strong> as the reference answer to faceting/aggregation at
-   scale (the Guppy/Tube pattern).</li>
-<li><strong>manifestMapping</strong> (cohort → file-manifest join) for PF-7 export.</li>
-<li><strong>Tiered aggregate access + min-count</strong> for Bridge's privacy model.</li>
-</ol>
-<h2 id="caveats">Caveats<a class="headerlink" href="#caveats" title="Permanent link">&para;</a></h2>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<p>The certified-frontier ledger (DataHelix ADR-0001) pins components by <strong>image digest</strong> — one
+exact artifact is the evidence a composition was certified against. But Vite bakes <code>VITE_*</code>
+env vars into the static bundle at build time. If the endpoint URL is baked, every deployment
+(and the certification stack itself, which points Aperture at a compose-network hostname)
+needs its own image — and a digest-pinned image can't be retargeted at all. Issue #22 posed
+the fork: documented build-args, or runtime injection into <code>dist/</code>.</p>
+<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
+<p>Aperture publishes <strong>one deployment-agnostic image</strong> per release. The nginx entrypoint
+(<code>web/docker/40-aperture-config.sh</code>) writes recognized <code>VITE_*</code> env vars into <code>config.js</code> at
+container start; <code>index.html</code> loads it before the bundle and <code>src/config/runtime.ts</code> overlays
+it on <code>import.meta.env</code> (runtime wins). Dev and plain static hosting serve a no-op
+<code>public/config.js</code>. The runtime vocabulary is the same <code>VITE_*</code> names as build time — one set
+of names, two arrival times.</p>
+<h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Gen3 is <strong>domain-specific</strong> (NIH biomedical data commons) and <strong>heavyweight</strong> (a dozen+
-  microservices); not adoptable wholesale.</li>
-<li>Its portal is <strong>bespoke React (Windmill)</strong> — not generic, not sandboxed, not agent-editable.
-  The config drives a hand-built app; it is <em>not</em> the generic config-driven engine we're after.</li>
-<li>Refines <code>prior-art.md</code>'s shorthand ("not an introspectable GraphQL transport"): Gen3 <strong>does</strong>
-  use GraphQL (Peregrine over the graph, Guppy over ES), but its <em>portal binding is
-  config-mapped to ES indices</em>, not auto-derived from schema introspection — so the
-  derived-binding bet remains ours to prove.</li>
+<li><code>ghcr.io/bu-neuromics/aperture@sha256:…</code> is a single certifiable artifact; the certify
+  compose configures it with plain container env (<code>VITE_HIPPO_GRAPHQL_URL</code>), as its comments
+  already assumed.</li>
+<li>Every env read must go through <code>runtimeEnv()</code> — a new <code>VITE_*</code> read site that defaults to
+  bare <code>import.meta.env</code> silently ignores runtime config. (Current sites: endpoint,
+  control-plane URL, workflows, nav.)</li>
+<li><code>config.js</code> must never be cached (<code>Cache-Control: no-store</code> in the nginx config), or a
+  retargeted container serves a stale endpoint.</li>
 </ul>
-<h2 id="sources">Sources<a class="headerlink" href="#sources" title="Permanent link">&para;</a></h2>
+<h2 id="alternatives-considered">Alternatives considered<a class="headerlink" href="#alternatives-considered" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>github.com/uc-cdis/guppy</code> (Guppy: GraphQL-over-ES, aggregations/counts/histograms, tiered access, arborist authz)</li>
-<li><code>docs.gen3.org</code> (glossary, customize-search, data-svcs), <code>gen3.org/resources/developer/microservice/</code></li>
-<li><code>gen3.org/resources/user/dictionary/</code>, <code>github.com/uc-cdis/datadictionary</code> (dictionary: YAML/JSON-Schema nodes + links)</li>
-<li><code>github.com/uc-cdis/data-portal</code> <code>docs/portal_config.md</code> (explorerConfig blocks)</li>
-<li><code>github.com/uc-cdis/arborist</code> (policy engine)</li>
+<li><strong>Bake <code>VITE_HIPPO_GRAPHQL_URL</code> at build (documented build-args):</strong> rejected — couples the
+  artifact to one deployment, multiplies images per environment, and breaks the
+  digest-pinning model (a retarget forces a rebuild, which changes the digest and voids the
+  certification).</li>
+<li><strong>Server-side templating of <code>index.html</code>:</strong> rejected — same effect as <code>config.js</code> but
+  mutates the HTML shell, which is harder to reason about with hashed-asset caching.</li>
 </ul>
 
 
@@ -4195,10 +3979,10 @@ prevents re-identification).</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -4199,7 +4199,7 @@ This doc is the working surface where requirements are drafted and locked step b
 <hr />
 <h2 id="step-1-scope-framing-locked-2026-06-25">Step 1 — Scope &amp; Framing  <em>(locked 2026-06-25)</em><a class="headerlink" href="#step-1-scope-framing-locked-2026-06-25" title="Permanent link">&para;</a></h2>
 <h3 id="what-aperture-is-current-track">What Aperture is (current track)<a class="headerlink" href="#what-aperture-is-current-track" title="Permanent link">&para;</a></h3>
-<p>A generic, config-driven <strong>data portal</strong> over the BASS domain graph. Its first and primary
+<p>A generic, config-driven <strong>data portal</strong> over the DataHelix domain graph. Its first and primary
 backend is <strong>Hippo</strong> (via GraphQL); <strong>Bridge</strong> provides auth/authorization when present. The
 source endpoint is <strong>pluggable</strong> (one active at a time, L2). The portal supports both <strong>reading</strong>
 (browse/search/detail) and <strong>writing</strong> (data entry / guided workflows), with validation enforced
@@ -4715,14 +4715,14 @@ two-sided-dependency rule.</p>
 <tr>
 <td>X1</td>
 <td>Hippo</td>
-<td><strong>Aggregation primitive</strong> — facet/group-by counts, <code>totalCount</code>, range filters, <code>order_by</code> on the GraphQL list surface. Enables real faceted browse (R3.3r–R3.6).</td>
+<td><strong>Aggregation primitive</strong> — facet/group-by counts, <code>totalCount</code>, range filters, <code>order_by</code> on the GraphQL list surface. Enables real faceted browse (R3.3r–R3.6). <strong>✅ Promoted</strong> — designed as <strong>Mosaic ADR-0007</strong> (<a href="https://github.com/BU-Neuromics/mosaic/issues/154">mosaic#154</a>, Accepted; implementation staged as OpenSpec <code>aggregation-and-ordering</code>, <a href="https://github.com/BU-Neuromics/mosaic/issues/156">mosaic#156</a>), with the availability-consistency rule pinned (aggregates see exactly what list queries see). Was tracked as hippo#96.</td>
 <td>L7</td>
 <td><strong>High</strong> — top ask; unblocks v1.x faceting</td>
 </tr>
 <tr>
 <td>X2</td>
 <td>Hippo</td>
-<td><strong>Server-side bulk/streamed export</strong> — full-cohort export beyond client page-through.</td>
+<td><strong>Server-side bulk/streamed export</strong> — full-cohort export beyond client page-through. <em>Eased but not solved</em> by Mosaic ADR-0007 (cheap counts make capped page-through honest); a streamed export remains unfiled.</td>
 <td>L8</td>
 <td>Low — deferred to v1.x</td>
 </tr>
@@ -4746,6 +4746,13 @@ two-sided-dependency rule.</p>
 <td><strong>Overlay / breaking-change schema mode</strong> — modify/rename/remove existing elements (3-way merge + conflict resolution) + data migration. Hippo's own deferred <strong>v2</strong> item (sec10 §10.9).</td>
 <td>L13</td>
 <td><strong>Deferred (post-MVP)</strong> — unlocks full (non-additive) editing; <a href="https://github.com/BU-Neuromics/aperture/issues/2">aperture#2</a>.</td>
+</tr>
+<tr>
+<td>X5</td>
+<td>Hippo</td>
+<td><strong>Typed operator + relationship-predicate filter contract</strong> — generated per-class <code>&lt;Type&gt;Filter</code> input objects (per-slot operator objects <code>eq/neq/in/gt/gte/lt/lte/contains/isNull</code> by slot kind/range, <code>and/or/not</code>, <code>where:</code> arg) with phased relationship predicates (to-one nesting, then to-many <code>some</code>/<code>none</code> quantifiers); explicitly <strong>not</strong> CEL on the wire, so the introspected schema is the capability contract. Designed as <strong>Mosaic ADR-0006</strong> (<a href="https://github.com/BU-Neuromics/mosaic/issues/153">mosaic#153</a>, Accepted; implementation staged as OpenSpec <code>typed-filter-inputs</code>, <a href="https://github.com/BU-Neuromics/mosaic/issues/155">mosaic#155</a>; search composition and heterogeneous roots ride alongside as <a href="https://github.com/BU-Neuromics/mosaic/issues/157">mosaic#157</a>/<a href="https://github.com/BU-Neuromics/mosaic/issues/158">mosaic#158</a>). Driven by <a href="../decisions/ADR-0035-cross-class-queries-typed-queryspec/">ADR-0035</a> (<code>cross-class-query.md</code> §7 names this "X3"; filed as X5 since X3a/X3b were taken).</td>
+<td>ADR-0035</td>
+<td><strong>High</strong> — keystone for cross-class criteria queries</td>
 </tr>
 </tbody>
 </table>

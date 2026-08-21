@@ -4245,6 +4245,11 @@ decisions live in each component's own <code>design/decisions/</code>.</p>
 <td>Separate the data-story engine (<strong>Reel</strong>) from the rendering portal (<strong>Aperture</strong>), joined by a renderer-agnostic <strong>View Contract</strong> (<a href="../view-contract/"><code>view-contract.md</code></a>) — spec-with-data-attached, so any consumer renders it without knowing its producer. Unblocks the portal MVP; Reel carries the AI-native core on its own cadence. Executed: <a href="https://github.com/BU-Neuromics/reel"><code>BU-Neuromics/reel</code></a>.</td>
 <td>✅ Accepted</td>
 </tr>
+<tr>
+<td><a href="../decisions/ADR-0004-ide-recipe-live-development-loop/">0004</a></td>
+<td>The <code>ide</code> recipe develops <strong>Aperture and Mosaic live behind one nginx gateway</strong> — new <code>dev-aperture</code> profile proxies <code>/</code> to a Vite dev server (HMR, websocket proxied by the gateway) alongside the existing <code>dev-mosaic</code> source profile; relative <code>VITE_HIPPO_GRAPHQL_URL=/graphql</code> keeps dev on the same same-origin seam as <code>solo</code>. <strong>Amends</strong> <a href="../../../proposals/deployment-recipes.md"><code>deployment-recipes.md</code></a> decision 1.9, which specified Aperture as a published image. Stays exempt from the ADR-0001 deploy gate.</td>
+<td>✅ Accepted</td>
+</tr>
 </tbody>
 </table>
 <hr />

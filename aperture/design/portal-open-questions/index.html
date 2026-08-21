@@ -4126,7 +4126,7 @@ the layers are the ones the design already implies, not a new four-tier inventio
   capability-scoped client (§2.7) resolves "current viewer" identically in both.</li>
 <li>"Edit files in a repo" reintroduces a second source of truth that must sync with the
   canonical hippo instance — exactly the drift §2.4 forbids.</li>
-<li>Matches the kept <code>backends/</code> protocol (<code>HippoSdkBackend</code> local / <code>HippoRestBackend</code>
+<li>Matches the kept <code>backends/</code> protocol (<code>MosaicSdkBackend</code> local / <code>MosaicRestBackend</code>
   remote behind one interface).</li>
 <li><strong>One honest carve-out:</strong> Type-B <strong>component source code</strong> is code and wants VCS +
   review. Precise rule: <em>config (Levels 1 &amp; 2) travels by API into hippo; component

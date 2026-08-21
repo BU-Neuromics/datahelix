@@ -3893,7 +3893,7 @@
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
 <p>ADR-0014 ratified the MVP as a <strong>client-side SPA</strong> talking to the active endpoint's GraphQL
 directly (Hippo now), with Bridge as the deferred BFF (ADR-0016). The repo today is <strong>Python</strong>
-(<code>src/aperture/</code> — the <code>HippoBackend</code> protocol + config, carried from the CLI era), but the SPA is
+(<code>src/aperture/</code> — the <code>MosaicBackend</code> protocol + config, carried from the CLI era), but the SPA is
 a TypeScript app. <code>library-survey.md</code> evaluated the component libraries and flagged the concrete
 framework/client selection as warranting its own ADR. This ADR locks the stack so the walking
 skeleton can begin.</p>
@@ -3910,7 +3910,7 @@ package, that talks to Hippo's GraphQL <strong>directly</strong> via the Layer-D
 <li><strong>Data grid:</strong> <strong>TanStack Table</strong> (headless, framework-agnostic) — <code>library-survey.md</code>.</li>
 <li><strong>URL / query-state:</strong> <strong>nuqs</strong> — shareable query state (R3.9) — <code>library-survey.md</code>.</li>
 </ul>
-<p>The Python <code>src/aperture/</code> (<code>HippoBackend</code> protocol + config) is <strong>retained as a separate,
+<p>The Python <code>src/aperture/</code> (<code>MosaicBackend</code> protocol + config) is <strong>retained as a separate,
 optional Python client</strong> for programmatic/SDK use; it is <strong>not on the SPA's data path</strong> (the SPA
 talks to Hippo directly). No Python BFF for MVP — the BFF role is Bridge (ADR-0016, deferred).</p>
 <h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
@@ -3932,7 +3932,7 @@ talks to Hippo directly). No Python BFF for MVP — the BFF role is Bridge (ADR-
   generic-over-any-endpoint. Rejected for MVP; reconsider if urql's cache proves limiting.</li>
 <li><strong>Solid / Svelte / Vue.</strong> Lighter or ergonomic, but nuqs/JSONForms/RJSF are React-first → more
   custom work for the write loop. Rejected on ecosystem fit.</li>
-<li><strong>Thin Python BFF reusing <code>HippoBackend</code>.</strong> Adds a service to run and contradicts ADR-0016
+<li><strong>Thin Python BFF reusing <code>MosaicBackend</code>.</strong> Adds a service to run and contradicts ADR-0016
   (BFF = Bridge). Rejected; the Python client stays for programmatic use only.</li>
 <li><strong>Separate frontend repo.</strong> Splits code from the design docs and adds cross-repo overhead.
   Rejected for MVP; revisit if the app and the Python client need independent release cadences.</li>

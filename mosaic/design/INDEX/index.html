@@ -4704,7 +4704,7 @@ out of scope for v0.1 and documented here for tracking.</p>
 <td>GA4GH DRS server (read-only)</td>
 <td>sec4</td>
 <td>High</td>
-<td>v0.4.0 target — <code>GET /ga4gh/drs/v1/objects/{entity_id}</code> resolves entity UUID → access_methods (s3/https/file). Thin read-only router over existing entity storage. No new data model; entity URI is the download target. Checksums from provenance if available. Enables external tools (Terra, Galaxy, other Canon instances) to resolve <code>drs://</code> URIs. Canon DRS client for consuming external DRS URIs deferred to Canon v0.3.</td>
+<td><strong>✅ Implemented &amp; mounted</strong> — <code>GET /ga4gh/drs/v1/objects/{entity_id}</code> resolves entity UUID → access_methods (s3/https/file). Thin read-only router over existing entity storage. No new data model; entity URI is the download target. Checksums from provenance if available. Mounted in the default <code>mosaic serve</code> app (the router shipped earlier but was unmounted). Enables external tools (Terra, Galaxy, other Canon instances) to resolve <code>drs://</code> URIs. Canon DRS client for consuming external DRS URIs deferred to Canon v0.3.</td>
 </tr>
 <tr>
 <td>Whole-<code>upgrade()</code> multi-entity transaction atomicity</td>
@@ -4734,13 +4734,37 @@ out of scope for v0.1 and documented here for tracking.</p>
 <td>Multivalued reference slots silently dropped on ingest</td>
 <td>sec3b</td>
 <td>High</td>
-<td><strong>🟡 Proposed (<a href="../decisions/ADR-0002-multivalued-reference-slots-as-relationships/">ADR-0002</a>; <a href="https://github.com/BU-Neuromics/hippo/issues/79">issue #79</a>).</strong> Multivalued slots get no column and no junction table (linktables filtered in <code>ddl_generator</code>), so <code>put</code> drops them with no error. Fix: materialize multivalued <em>reference</em> slots as relationships keyed by slot name (in-transaction, forward-ref tolerant), hydrate back on read; store non-reference multivalued slots inline as JSON TEXT; raise rather than drop when neither applies.</td>
+<td><strong>🟡 Proposed (<a href="../decisions/ADR-0002-multivalued-reference-slots-as-relationships/">ADR-0002</a>; <a href="https://github.com/BU-Neuromics/hippo/issues/79">issue #79</a>).</strong> Multivalued slots get no column and no junction table (linktables filtered in <code>ddl_generator</code>), so <code>put</code> drops them with no error. Fix: materialize multivalued <em>reference</em> slots as relationships keyed by slot name (in-transaction, forward-ref tolerant), hydrate back on read; store non-reference multivalued slots inline as JSON TEXT; raise rather than drop when neither applies. <strong>PostgreSQL parity shipped (<a href="https://github.com/BU-Neuromics/hippo/issues/81">issue #81</a>)</strong> — <code>PostgresAdapter</code> now materializes/hydrates the same way (stripped from the JSONB document, sole current-state source is the relationships table); ADR still Proposed.</td>
 </tr>
 <tr>
 <td>Polymorphic tree-root collections not ingestable</td>
 <td>sec9 §9.8</td>
 <td>High</td>
 <td><strong>🟡 Proposed (<a href="../decisions/ADR-0003-polymorphic-tree-root-ingest/">ADR-0003</a>; <a href="https://github.com/BU-Neuromics/hippo/issues/80">issue #80</a>).</strong> Synthesized bundle skipped abstract bases (abstract-base collection → no accessor → hard fail) and ignored <code>designates_type</code>, so a base accessor silently downcast subtype instances. Fix: an abstract base declaring a <code>designates_type</code> slot gets a base-ranged accessor, and ingest dispatches each instance to the concrete subclass its discriminator names (stored as that subclass). Synthesized <code>_HippoInstanceBundle</code> stays the wire contract; user <code>tree_root</code> not reinterpreted (Option A).</td>
+</tr>
+<tr>
+<td>GraphQL reference emission: raw scalar + resolved edge (dual) vs. edge-only</td>
+<td>sec3, sec4 §4.7</td>
+<td>High</td>
+<td><strong>🟢 Accepted 2026-07-17 (<a href="../decisions/ADR-0005-graphql-reference-emission-edge-only/">ADR-0005</a>; <a href="https://github.com/BU-Neuromics/mosaic/issues/131">issue #131</a>). ✅ Implemented in v0.12.0 ("BREAKING: edge-only GraphQL references").</strong> A reference slot emits both a type-erased raw <code>*_id</code> scalar and a resolved edge (<code>_slot_spec</code>); the scalar drops the target class (misleads generic consumers like Aperture) and hard-codes a storage detail (would leak a future int surrogate key). Decision: <strong>edge-only</strong> — emit only the resolved relationship, remove the raw scalar, and adopt the <em>logical-identity boundary</em> invariant (physical/surrogate keys never cross the API). Clean break; references always resolve (collisions are build-time errors); multivalued cardinality is resolve-to-count by default, plus a cheap <code>count_relationship</code>/<code>&lt;field&gt;Count</code> primitive for the case that needs cardinality only (<strong>✅ implemented</strong>, <a href="https://github.com/BU-Neuromics/mosaic/issues/132">#132</a>). Breaking change — sequenced ahead of the Aperture reference-rendering fixes.</td>
+</tr>
+<tr>
+<td>Rich GraphQL filtering: typed per-class input objects vs. CEL on the wire</td>
+<td>sec4 §4.3/§4.7</td>
+<td>High</td>
+<td><strong>🟢 Accepted 2026-08-19 (<a href="../decisions/ADR-0006-graphql-typed-filter-contract/">ADR-0006</a>; <a href="https://github.com/BU-Neuromics/mosaic/issues/153">issue #153</a>). </strong>All four increments implemented<strong> (comparison operators; generated <code>&lt;Type&gt;Filter</code> + <code>where:</code>; M5a to-one relationship predicates; M5b some/none quantifiers) — the typed filter contract is complete (comparison operators on the flat path; generated <code>&lt;Type&gt;Filter</code> + <code>where:</code> with and/or/not trees).</strong> Generated <code>&lt;Type&gt;Filter</code> input objects — per-slot operator objects (<code>eq</code>/<code>neq</code>/<code>in</code>/<code>gt</code>/<code>gte</code>/<code>lt</code>/<code>lte</code>/<code>contains</code>/<code>isNull</code> selected by slot kind/range) plus <code>and</code>/<code>or</code>/<code>not</code> — as a <code>where:</code> arg beside the flat <code>filters:</code>. Relationship predicates phase in: to-one nesting (correlated EXISTS on the FK column) before to-many <code>some</code>/<code>none</code> quantifiers against the relationships link table. <strong>CEL explicitly not on the GraphQL wire</strong> (opaque to introspection; stays for validator conditions) — supersedes/narrows the sec4 §4.3 CEL sketch for the GraphQL transport. <code>asOf</code> + relationship predicates rejected with a coded error until the temporal join is designed. Driven by Aperture cross-class queries (aperture <code>design/cross-class-query.md</code> §7; Aperture ADR-0035, Proposed). Implementation: OpenSpec <code>typed-filter-inputs</code> (<a href="https://github.com/BU-Neuromics/mosaic/issues/155">issue #155</a>).</td>
+</tr>
+<tr>
+<td>Aggregation &amp; ordering on the list surface (counts, facets, min/max, order_by)</td>
+<td>sec4 §4.7, sec6</td>
+<td>High</td>
+<td><strong>🟢 Accepted 2026-08-19 (<a href="../decisions/ADR-0007-aggregation-and-ordering-surface/">ADR-0007</a>; <a href="https://github.com/BU-Neuromics/mosaic/issues/154">issue #154</a>).</strong> Count-mode queries (cheap filtered <code>total</code>), <code>facetCounts(field, where)</code>, min/max per slot, and a generated per-type <code>order_by</code> enum — shipped together because they share the limit/offset/order pushdown into the storage <code>Query</code> on both adapters. Pinned rules: <strong>aggregates see exactly what list queries see</strong> (<code>is_available = 1</code>; the include-unavailable <code>entity_counts()</code> precedent is not the model), and provenance-computed <code>created_at</code>/<code>updated_at</code> are never column sorts. Fills Aperture portal requirement X1 (previously hippo#96, zero footprint here). Implementation: OpenSpec <code>aggregation-and-ordering</code> (<a href="https://github.com/BU-Neuromics/mosaic/issues/156">issue #156</a>) — <strong>implemented</strong> (all increments: pushdown + count mode, facet counts + min/max, generated <code>&lt;Type&gt;OrderField</code> ordering; gate decisions honored — <code>orderBy</code>+<code>asOf</code> coded error, facet/range roots current-state only).</td>
+</tr>
+<tr>
+<td>Postgres storage model: single JSONB <code>entities</code> table vs. generated per-class typed tables</td>
+<td>sec3b</td>
+<td>High</td>
+<td><strong>🟡 Proposed (<a href="../decisions/ADR-0008-postgres-per-class-tables-shared-sql-core/">ADR-0008</a>; <a href="https://github.com/BU-Neuromics/mosaic/issues/162">issue #162</a>).</strong> The divergence is vestigial: v0.6.0 (PTS-168–174) migrated SQLite to per-class typed tables; Postgres never got the equivalent migration (<code>PostgresDDLGenerator</code> exists, "not-yet-wired-into-CRUD"), and every query-surface feature has been double-priced by JSONB casts/absence-semantics since. Proposed: wire the DDL generator into CRUD with a one-time JSONB→per-class migration, and extract a shared SQL core (<code>column_expr</code> + dialect hooks) so find/filter/aggregation compile once. Sequenced <strong>after</strong> the current query-surface campaign (#155–#158; SQLite-first deployment).</td>
 </tr>
 </tbody>
 </table>

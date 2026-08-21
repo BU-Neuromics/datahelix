@@ -3930,15 +3930,15 @@
 <h1 id="aperture-vision-an-ai-native-data-workflow-explorer">Aperture — Vision: An AI-Native Data &amp; Workflow Explorer<a class="headerlink" href="#aperture-vision-an-ai-native-data-workflow-explorer" title="Permanent link">&para;</a></h1>
 <p><strong>Status:</strong> 🔵 North-star vision (2026-06-17). <strong>Reframes</strong> the "config-driven data portal"
 framing: the portal is the <em>substrate and MVP</em>, not the product. The product is an <strong>LLM-native
-interaction layer</strong> over the whole BASS platform. Honest companion to
+interaction layer</strong> over the whole DataHelix platform. Honest companion to
 <a href="../prior-art/"><code>prior-art.md</code></a>, <a href="../gen3-comparison/"><code>gen3-comparison.md</code></a>, and
-<a href="../../proposals/bass-vs-gen3-strategic-review.md"><code>../../proposals/bass-vs-gen3-strategic-review.md</code></a>
+<a href="../../proposals/datahelix-vs-gen3-strategic-review.md"><code>../../proposals/datahelix-vs-gen3-strategic-review.md</code></a>
 — it directly answers that review's crux #1 ("is the deliverable just a faceted explorer?":
 <strong>no</strong>) and raises, not lowers, the de-risking stakes.</p>
 <blockquote>
 <p><strong>Portal-first MVP (ADR-0026).</strong> This is the <strong>north star</strong>, not the MVP scope. The <strong>MVP is the
 config-driven portal</strong> — read loop + write loop (forms + one guided workflow) over a single
-Hippo endpoint (see <code>portal-requirements.md</code>). The agentic surfaces described below
+Mosaic (formerly Hippo) endpoint (see <code>portal-requirements.md</code>). The agentic surfaces described below
 (in-app agent/chat, data-stories, per-user keys, conversations-as-provenance) and the in-app
 schema editor are <strong>deferred from the MVP</strong> (ADR-0026; schema editor → <a href="https://github.com/BU-Neuromics/aperture/issues/2">aperture#2</a>).
 The substrate invariants are preserved so this vision is an additive future, not a rewrite.</p>
@@ -3956,9 +3956,9 @@ we are building a conversational interface for <em>exploring and transforming</e
 <h2 id="the-substrate-it-drives-the-domain-graph">The substrate it drives: the domain graph<a class="headerlink" href="#the-substrate-it-drives-the-domain-graph" title="Permanent link">&para;</a></h2>
 <p>Aperture drives the platform's <strong>domain graph</strong> (see
 <a href="../../platform/design/domain-graph.md"><code>platform/design/domain-graph.md</code></a>): one typed knowledge
-graph whose type system is the LinkML schema and whose runtime is Hippo — <em>not</em> a "metadata
+graph whose type system is the LinkML schema and whose runtime is Mosaic — <em>not</em> a "metadata
 store." Every query returns a <strong>knowledge subgraph</strong>; "metadata vs. data" is a query-relative
-<em>role</em>, not a storage category. Structured records live in Hippo; bulk payloads live in files
+<em>role</em>, not a storage category. Structured records live in Mosaic; bulk payloads live in files
 (Canon/Cappella) and enter the graph as <strong>induced subgraphs unioned at query time</strong> (OBDA/VKG).
 This is why an LLM can drive it coherently: there is <em>one</em> uniform, typed graph surface, and the
 substrate mechanics are hidden behind it.</p>
@@ -4006,11 +4006,11 @@ LLM never touches raw DOM, raw SQL, or raw pipeline code; it manipulates typed a
 validator gates. That is what makes "talk to it and it does sophisticated things" <em>tractable and
 safe</em> rather than a hallucination engine.</p>
 <h2 id="scope-expansion-the-conversational-control-plane-for-the-whole-platform">Scope expansion: the conversational control plane for the whole platform<a class="headerlink" href="#scope-expansion-the-conversational-control-plane-for-the-whole-platform" title="Permanent link">&para;</a></h2>
-<p>Aperture is the LLM-native interface over <strong>all three</strong> BASS domains, via one uniform pattern —
+<p>Aperture is the LLM-native interface over <strong>all three</strong> DataHelix domains, via one uniform pattern —
 each domain exposed as typed, declarative, dry-run-validatable, provenance-tracked artifacts the
 agent composes/modifies under the user's authority:</p>
 <ul>
-<li><strong>Hippo (metadata):</strong> browse, faceted explore, build views, compose data stories.</li>
+<li><strong>Mosaic (metadata):</strong> browse, faceted explore, build views, compose data stories.</li>
 <li><strong>Cappella (workflows):</strong> compose and modify pipelines by natural language.</li>
 <li><strong>Canon (files / reference data):</strong> resolve and bind real tools/inputs into those workflows.</li>
 </ul>
@@ -4033,7 +4033,7 @@ bets the strategic review flagged ("zero verified prior art" for agent-editable 
 a harder one (agentic workflow editing with correctness guarantees). So the review's discipline
 matters <strong>more</strong>, not less:</p>
 <ul>
-<li><strong>Keep Hippo; do not adopt Gen3 wholesale</strong> — unchanged.</li>
+<li><strong>Keep Mosaic; do not adopt Gen3 wholesale</strong> — unchanged.</li>
 <li><strong>The keystone probe reframes.</strong> It is no longer "derived binding for a portal." It is: <em>can an
   LLM reliably drive a typed declarative artifact through a validator to a correct change?</em> That
   is the whole thesis in one testable question.</li>
@@ -4048,7 +4048,7 @@ matters <strong>more</strong>, not less:</p>
 </ul>
 <h2 id="new-platform-invariant-this-implies">New platform invariant this implies<a class="headerlink" href="#new-platform-invariant-this-implies" title="Permanent link">&para;</a></h2>
 <p>Every domain Aperture drives must expose a <strong>typed, introspectable, dry-run-validatable,
-provenance-tracked declarative representation.</strong> Hippo has this (LinkML + GraphQL + PROV-O).
+provenance-tracked declarative representation.</strong> Mosaic has this (LinkML + GraphQL + PROV-O).
 <strong>Cappella and Canon must grow it</strong> for the workflow/file domains — this becomes a first-class
 requirement on those components, not an Aperture-only concern.</p>
 <h2 id="net">Net<a class="headerlink" href="#net" title="Permanent link">&para;</a></h2>

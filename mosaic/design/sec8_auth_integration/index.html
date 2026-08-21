@@ -4335,13 +4335,13 @@ Bridge strips the original <code>Authorization</code> header and injects two ver
 </thead>
 <tbody>
 <tr>
-<td><code>X-Bass-Actor</code></td>
-<td>Authenticated actor identity from the JWT <code>bass:actor</code> claim</td>
+<td><code>X-DataHelix-Actor</code></td>
+<td>Authenticated actor identity from the JWT <code>datahelix:actor</code> claim</td>
 <td><code>alice@uni.edu</code></td>
 </tr>
 <tr>
-<td><code>X-Bass-Roles</code></td>
-<td>Comma-separated RBAC roles from the JWT <code>bass:roles</code> claim</td>
+<td><code>X-DataHelix-Roles</code></td>
+<td>Comma-separated RBAC roles from the JWT <code>datahelix:roles</code> claim</td>
 <td><code>analyst,viewer</code></td>
 </tr>
 </tbody>
@@ -4366,16 +4366,16 @@ Bridge strips the original <code>Authorization</code> header and injects two ver
 <a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="k">class</span><span class="w"> </span><span class="nc">BridgeAuthMiddleware</span><span class="p">(</span><span class="n">AuthMiddleware</span><span class="p">):</span>
 <a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="sd">"""</span>
 <a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="sd">    Auth middleware for Hippo deployments running behind Bridge.</span>
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="sd">    Trusts X-Bass-Actor and X-Bass-Roles headers injected by Bridge.</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="sd">    Trusts X-DataHelix-Actor and X-DataHelix-Roles headers injected by Bridge.</span>
 <a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="sd">    Never validates JWT signatures — that is Bridge's responsibility.</span>
 <a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="sd">    """</span>
 <a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>
 <a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">authenticate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>        <span class="n">actor</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"X-Bass-Actor"</span><span class="p">)</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>        <span class="n">actor</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"X-DataHelix-Actor"</span><span class="p">)</span>
 <a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">actor</span><span class="p">:</span>
 <a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
 <a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>                <span class="n">status_code</span><span class="o">=</span><span class="mi">401</span><span class="p">,</span>
-<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>                <span class="n">detail</span><span class="o">=</span><span class="s2">"Missing X-Bass-Actor header. "</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>                <span class="n">detail</span><span class="o">=</span><span class="s2">"Missing X-DataHelix-Actor header. "</span>
 <a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>                       <span class="s2">"Requests must be routed through Bridge."</span><span class="p">,</span>
 <a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>            <span class="p">)</span>
 <a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>        <span class="k">return</span> <span class="n">actor</span>
@@ -4400,21 +4400,21 @@ by middleware before <code>authorize</code> is called — see §8.4). The simpli
 the lookup logic; the wiring is an implementation detail.</p>
 </blockquote>
 <h4 id="831-header-trust-boundary">8.3.1 Header Trust Boundary<a class="headerlink" href="#831-header-trust-boundary" title="Permanent link">&para;</a></h4>
-<p><code>X-Bass-Actor</code> and <code>X-Bass-Roles</code> are only trusted when they arrive from Bridge's internal
+<p><code>X-DataHelix-Actor</code> and <code>X-DataHelix-Roles</code> are only trusted when they arrive from Bridge's internal
 network:</p>
 <ul>
 <li>Bridge strips and rewrites these headers on all proxied requests</li>
-<li>If Hippo receives a request directly (bypassing Bridge) that contains <code>X-Bass-Actor</code>,
+<li>If Hippo receives a request directly (bypassing Bridge) that contains <code>X-DataHelix-Actor</code>,
   it must be rejected with <code>403 Forbidden</code> — components must not be exposed on the public
   network when Bridge auth is expected</li>
 <li>The <code>hippo.yaml</code> <code>bridge.trust_proxy</code> configuration key (CIDR list) controls which source
   IPs are allowed to set these headers; requests from outside this range that carry
-  <code>X-Bass-Actor</code> are rejected</li>
+  <code>X-DataHelix-Actor</code> are rejected</li>
 </ul>
 <h4 id="832-backwards-compatibility-x-hippo-actor-header">8.3.2 Backwards Compatibility: <code>X-Hippo-Actor</code> Header<a class="headerlink" href="#832-backwards-compatibility-x-hippo-actor-header" title="Permanent link">&para;</a></h4>
 <p>The v0.1 <code>X-Hippo-Actor</code> header (caller-supplied actor) is superseded when Bridge auth is
 active. <code>BridgeAuthMiddleware.authenticate()</code> ignores <code>X-Hippo-Actor</code> entirely and reads only
-<code>X-Bass-Actor</code>. This prevents actor spoofing — a caller behind Bridge cannot override the
+<code>X-DataHelix-Actor</code>. This prevents actor spoofing — a caller behind Bridge cannot override the
 authenticated identity by setting <code>X-Hippo-Actor</code>.</p>
 <p>In <code>PassThroughAuthMiddleware</code> (standalone mode), <code>X-Hippo-Actor</code> continues to be read as
 before, for backwards compatibility.</p>
@@ -4424,7 +4424,7 @@ before, for backwards compatibility.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># hippo.yaml (relevant keys)</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">bridge</span><span class="p">:</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">                        </span><span class="c1"># Activates BridgeAuthMiddleware</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">trust_proxy</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"10.0.0.0/8"</span><span class="p p-Indicator">]</span><span class="w">         </span><span class="c1"># CIDRs allowed to set X-Bass-* headers</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">trust_proxy</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"10.0.0.0/8"</span><span class="p p-Indicator">]</span><span class="w">         </span><span class="c1"># CIDRs allowed to set X-DataHelix-* headers</span>
 </code></pre></div>
 <p>At request time the middleware pipeline runs:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Incoming request
@@ -4434,7 +4434,7 @@ before, for backwards compatibility.</p>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│  BridgeTrustFilter              │
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│  Verify source IP is in         │
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│  trust_proxy CIDR list          │
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│  → 403 if X-Bass-* set from     │
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│  → 403 if X-DataHelix-* set from     │
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>│    untrusted source             │
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>└──────────────┬──────────────────┘
 <a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>               │
@@ -4466,7 +4466,7 @@ threaded explicitly through the call chain.</p>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  <span class="s2">"event_type"</span><span class="p">:</span> <span class="s2">"EntityCreated"</span><span class="p">,</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>  <span class="s2">"entity_id"</span><span class="p">:</span> <span class="s2">"ent-uuid"</span><span class="p">,</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>  <span class="s2">"entity_type"</span><span class="p">:</span> <span class="s2">"Sample"</span><span class="p">,</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>  <span class="s2">"actor"</span><span class="p">:</span> <span class="s2">"alice@uni.edu"</span><span class="p">,</span>          <span class="c1"># ← value from X-Bass-Actor (Bridge-verified)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>  <span class="s2">"actor"</span><span class="p">:</span> <span class="s2">"alice@uni.edu"</span><span class="p">,</span>          <span class="c1"># ← value from X-DataHelix-Actor (Bridge-verified)</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>  <span class="s2">"timestamp"</span><span class="p">:</span> <span class="s2">"2026-09-14T10:32:11Z"</span><span class="p">,</span>
 <a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>  <span class="s2">"schema_version"</span><span class="p">:</span> <span class="s2">"2.1"</span><span class="p">,</span>
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>  <span class="s2">"context"</span><span class="p">:</span> <span class="p">{</span>
@@ -4609,7 +4609,7 @@ have already been filtered to the actor's permitted projects.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>X-Bass-Projects</code></td>
+<td><code>X-DataHelix-Projects</code></td>
 <td>Comma-separated list of project IDs the actor may access</td>
 </tr>
 </tbody>
@@ -4625,10 +4625,10 @@ appropriate role.</p>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nt">bridge</span><span class="p">:</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">                     </span><span class="c1"># Default: standalone mode (PassThroughAuthMiddleware)</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span><span class="nt">trust_proxy</span><span class="p">:</span><span class="w">                       </span><span class="c1"># Source CIDRs allowed to inject X-Bass-* headers</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span><span class="nt">trust_proxy</span><span class="p">:</span><span class="w">                       </span><span class="c1"># Source CIDRs allowed to inject X-DataHelix-* headers</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"127.0.0.1/32"</span><span class="w">                 </span><span class="c1"># loopback (local dev)</span>
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"10.0.0.0/8"</span><span class="w">                   </span><span class="c1"># internal network (production)</span>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">  </span><span class="nt">reject_direct_bass_headers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">   </span><span class="c1"># Reject X-Bass-* from untrusted sources (default: true)</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">  </span><span class="nt">reject_direct_datahelix_headers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">   </span><span class="c1"># Reject X-DataHelix-* from untrusted sources (default: true)</span>
 </code></pre></div>
 <p>Deployment tiers:</p>
 <table>
@@ -4651,7 +4651,7 @@ appropriate role.</p>
 <td><strong>Team server (Bridge-enabled)</strong></td>
 <td><code>true</code></td>
 <td><code>BridgeAuthMiddleware</code></td>
-<td><code>X-Bass-Actor</code> from Bridge</td>
+<td><code>X-DataHelix-Actor</code> from Bridge</td>
 </tr>
 <tr>
 <td><strong>SDK direct</strong></td>
@@ -4678,7 +4678,7 @@ appropriate role.</p>
 <td>Bridge injects actor via header — component JWT validation is redundant. Document the offline-capable pattern if needed.</td>
 </tr>
 <tr>
-<td><code>X-Bass-Projects</code> enforcement in SDK — should SDK expose a project filter API?</td>
+<td><code>X-DataHelix-Projects</code> enforcement in SDK — should SDK expose a project filter API?</td>
 <td>Medium</td>
 <td>Currently enforced at REST route level; SDK has no native project concept.</td>
 </tr>

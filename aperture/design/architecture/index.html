@@ -3924,10 +3924,10 @@ sandboxed components (ADR-0009). Read this for orientation; cite the ADRs for de
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>├──────────────────────────────────────────────────────────────────┤
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│ D. Data access: capability-negotiated GraphQL source adapter(s)    │
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│      generic __schema introspection + per-source enrichment        │
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│      ── data plane: N sources; Hippo now, Canon/Cappella later ──  │
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│      ── data plane: N sources; Mosaic now, Canon/Cappella later ──  │
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│      capability-scoped client seam (ADR-0008) lives here           │
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>├──────────────────────────────────────────────────────────────────┤
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│ E. Config &amp; state store (control plane)   LinkML-on-Hippo (ADR-0003)│
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│ E. Config &amp; state store (control plane)   LinkML-on-Mosaic (ADR-0003)│
 <a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>└──────────────────────────────────────────────────────────────────┘
 </code></pre></div>
 <p>The high-level questions map onto layers: "server vs client" is <strong>A</strong> (ADR-0014); "WASM"
@@ -3936,16 +3936,16 @@ over any GraphQL" + multi-source is <strong>D</strong> (ADR-0002, ADR-0017).</p>
 <h2 id="data-plane-vs-control-plane-adr-0017">Data plane vs. control plane (ADR-0017)<a class="headerlink" href="#data-plane-vs-control-plane-adr-0017" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Data plane</strong> — the GraphQL endpoint(s) Aperture <em>browses</em>; many, heterogeneous,
-  introspection-driven. Hippo first.</li>
-<li><strong>Control plane</strong> — Aperture's <em>own</em> config + user state; one store, LinkML-on-Hippo
+  introspection-driven. Mosaic (formerly Hippo) first.</li>
+<li><strong>Control plane</strong> — Aperture's <em>own</em> config + user state; one store, LinkML-on-Mosaic
   reference impl (a port, not a hard dependency).</li>
-<li>Hippo can be the control-plane store even when the data plane points elsewhere.</li>
+<li>Mosaic can be the control-plane store even when the data plane points elsewhere.</li>
 </ul>
 <h2 id="layer-d-capability-negotiated-source-adapter">Layer D: capability-negotiated source adapter<a class="headerlink" href="#layer-d-capability-negotiated-source-adapter" title="Permanent link">&para;</a></h2>
 <p>To be generic over "any GraphQL endpoint," the adapter <strong>declares capabilities</strong> (faceting,
 full-text, cursor pagination, relationship traversal, aggregation) and the UI <strong>gates
-features</strong> accordingly — the same pattern Hippo uses for its own TUI backends. Baseline =
-standard <code>__schema</code> introspection; per-source enrichment = Hippo's <code>hippoSchema</code> /
+features</strong> accordingly — the same pattern Mosaic uses for its own TUI backends. Baseline =
+standard <code>__schema</code> introspection; per-source enrichment = Mosaic's <code>hippoSchema</code> /
 <code>hippoEntityType</code>, or a Canon/Cappella adapter later. This is the natural next code artifact
 (a GraphQL backend alongside the kept SDK/REST <code>backends/</code>). Internal cross-links come from
 resolved relationship fields; external hrefs from a <code>system → URL-template</code> map (ADR-0015).</p>
@@ -3973,21 +3973,21 @@ resolved relationship fields; external hrefs from a <code>system → URL-templat
 <tr>
 <td><strong>Client-side compute engine</strong></td>
 <td>DuckDB-WASM / Polars-WASM for in-browser aggregation</td>
-<td>Attractive given Hippo's thin GraphQL — but it belongs in the layer-D adapter (compensating for a thin source), hidden behind the capability protocol, <strong>never</strong> exposed as user config/scripting (preserves ADR-0004's "no middle layer").</td>
+<td>Attractive given Mosaic's thin GraphQL — but it belongs in the layer-D adapter (compensating for a thin source), hidden behind the capability protocol, <strong>never</strong> exposed as user config/scripting (preserves ADR-0004's "no middle layer").</td>
 </tr>
 </tbody>
 </table>
 <h2 id="security-the-bff-platform-sec6-adr-0016">Security &amp; the BFF (platform sec6, ADR-0016)<a class="headerlink" href="#security-the-bff-platform-sec6-adr-0016" title="Permanent link">&para;</a></h2>
-<p>Authorization lives in <strong>Bridge</strong> (PEP/PDP), not Aperture or Hippo. The "thin BFF in front of
-Hippo" that a multi-source, per-viewer model wants <strong>is Bridge</strong> — same component as the auth
+<p>Authorization lives in <strong>Bridge</strong> (PEP/PDP), not Aperture or Mosaic. The "thin BFF in front of
+Mosaic" that a multi-source, per-viewer model wants <strong>is Bridge</strong> — same component as the auth
 gateway (so app-architecture decision ADR-0014's BFF candidate = Bridge). Aperture talks the
-same GraphQL contract to Hippo directly (local, no auth) or Bridge (enforcing); the only
+same GraphQL contract to Mosaic directly (local, no auth) or Bridge (enforcing); the only
 variable is the injected capability-scoped client (ADR-0008). <strong>Bridge is deferred</strong>
-(ADR-0016): Aperture is built/demoed against Hippo directly, with the capability-scoped client
+(ADR-0016): Aperture is built/demoed against Mosaic directly, with the capability-scoped client
 present as a no-op pass-through so Bridge later is a swap, not a retrofit. Full model:
-<code>drylims/platform/design/sec6_security_model.md</code>.</p>
+<code>DataHelix/platform/design/sec6_security_model.md</code>.</p>
 <h2 id="sequencing">Sequencing<a class="headerlink" href="#sequencing" title="Permanent link">&para;</a></h2>
-<p>Per handoff §8 and ADR-0016: schema-derived browse + faceted search against Hippo first
+<p>Per handoff §8 and ADR-0016: schema-derived browse + faceted search against Mosaic first
 (highest-visibility, demonstrable), then the dry-run validator + Type-A agent loop, then the
 typed component contract. Bridge enforcement drops in later without changing Aperture.
 Keystone open decision: <strong>ADR-0010</strong> (view-vocabulary noun-catalog) — its survival-curve probe

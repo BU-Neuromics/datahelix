@@ -16,19 +16,19 @@
         
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Gen3 — Deep Comparison to DataHelix / Aperture - DataHelix Documentation</title>
+        <title>ADR-0006: The GraphQL filter contract is typed per-class input objects - DataHelix Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -47,9 +47,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../stylesheets/custom.css">
+      <link rel="stylesheet" href="../../../../stylesheets/custom.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#gen3-deep-comparison-to-datahelix-aperture" class="md-skip">
+        <a href="#adr-0006-the-graphql-filter-contract-is-typed-per-class-input-objects" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Gen3 — Deep Comparison to DataHelix / Aperture
+              ADR-0006: The GraphQL filter contract is typed per-class input objects
             
           </span>
         </div>
@@ -209,7 +209,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../../../.." class="md-tabs__link">
         
   
   
@@ -230,7 +230,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../platform/" class="md-tabs__link">
+        <a href="../../../../platform/" class="md-tabs__link">
           
   
   
@@ -250,7 +250,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../mosaic/" class="md-tabs__link">
+        <a href="../../../" class="md-tabs__link">
           
   
   
@@ -270,7 +270,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../cappella/" class="md-tabs__link">
+        <a href="../../../../cappella/" class="md-tabs__link">
           
   
   
@@ -290,7 +290,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../" class="md-tabs__link">
+        <a href="../../../../aperture/" class="md-tabs__link">
           
   
   
@@ -310,7 +310,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../bridge/" class="md-tabs__link">
+        <a href="../../../../bridge/" class="md-tabs__link">
           
   
   
@@ -330,7 +330,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../canon/" class="md-tabs__link">
+        <a href="../../../../canon/" class="md-tabs__link">
           
   
   
@@ -364,7 +364,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -382,7 +382,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   
@@ -463,7 +463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/" class="md-nav__link">
+      <a href="../../../../platform/" class="md-nav__link">
         
   
   
@@ -491,7 +491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/overview/" class="md-nav__link">
+      <a href="../../../../platform/src/overview/" class="md-nav__link">
         
   
   
@@ -519,7 +519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/architecture/" class="md-nav__link">
+      <a href="../../../../platform/src/architecture/" class="md-nav__link">
         
   
   
@@ -547,7 +547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/getting-started/" class="md-nav__link">
+      <a href="../../../../platform/src/getting-started/" class="md-nav__link">
         
   
   
@@ -575,7 +575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/deployment/" class="md-nav__link">
+      <a href="../../../../platform/src/deployment/" class="md-nav__link">
         
   
   
@@ -603,7 +603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/glossary/" class="md-nav__link">
+      <a href="../../../../platform/src/glossary/" class="md-nav__link">
         
   
   
@@ -685,7 +685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -713,7 +713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec2_components/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec2_components/" class="md-nav__link">
         
   
   
@@ -741,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec3_integration/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec3_integration/" class="md-nav__link">
         
   
   
@@ -769,7 +769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
         
   
   
@@ -797,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
         
   
   
@@ -894,7 +894,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/" class="md-nav__link">
+      <a href="../../../" class="md-nav__link">
         
   
   
@@ -922,7 +922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/why-mosaic/" class="md-nav__link">
+      <a href="../../../docs/why-mosaic/" class="md-nav__link">
         
   
   
@@ -1004,7 +1004,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/introduction/" class="md-nav__link">
+      <a href="../../../docs/introduction/" class="md-nav__link">
         
   
   
@@ -1032,7 +1032,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/installation/" class="md-nav__link">
+      <a href="../../../docs/installation/" class="md-nav__link">
         
   
   
@@ -1060,7 +1060,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/quickstart/" class="md-nav__link">
+      <a href="../../../docs/quickstart/" class="md-nav__link">
         
   
   
@@ -1088,7 +1088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/schema-guide/" class="md-nav__link">
+      <a href="../../../docs/schema-guide/" class="md-nav__link">
         
   
   
@@ -1116,7 +1116,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/data-model/" class="md-nav__link">
+      <a href="../../../docs/data-model/" class="md-nav__link">
         
   
   
@@ -1144,7 +1144,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/configuration/" class="md-nav__link">
+      <a href="../../../docs/configuration/" class="md-nav__link">
         
   
   
@@ -1172,7 +1172,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/cli-reference/" class="md-nav__link">
+      <a href="../../../docs/cli-reference/" class="md-nav__link">
         
   
   
@@ -1200,7 +1200,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/api-reference/" class="md-nav__link">
+      <a href="../../../docs/api-reference/" class="md-nav__link">
         
   
   
@@ -1228,7 +1228,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/reference-loaders/" class="md-nav__link">
+      <a href="../../../docs/reference-loaders/" class="md-nav__link">
         
   
   
@@ -1256,7 +1256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/writing-a-reference-loader/" class="md-nav__link">
+      <a href="../../../docs/writing-a-reference-loader/" class="md-nav__link">
         
   
   
@@ -1284,7 +1284,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/writing-a-recipe/" class="md-nav__link">
+      <a href="../../../docs/writing-a-recipe/" class="md-nav__link">
         
   
   
@@ -1312,7 +1312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/installing-recipes/" class="md-nav__link">
+      <a href="../../../docs/installing-recipes/" class="md-nav__link">
         
   
   
@@ -1340,7 +1340,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/docs/recipe-reference/" class="md-nav__link">
+      <a href="../../../docs/recipe-reference/" class="md-nav__link">
         
   
   
@@ -1430,7 +1430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec1_overview/" class="md-nav__link">
+      <a href="../../sec1_overview/" class="md-nav__link">
         
   
   
@@ -1458,7 +1458,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../sec2_architecture/" class="md-nav__link">
         
   
   
@@ -1486,7 +1486,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec3_data_model/" class="md-nav__link">
+      <a href="../../sec3_data_model/" class="md-nav__link">
         
   
   
@@ -1514,7 +1514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec3b_relational_storage/" class="md-nav__link">
+      <a href="../../sec3b_relational_storage/" class="md-nav__link">
         
   
   
@@ -1542,7 +1542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec4_api_layer/" class="md-nav__link">
+      <a href="../../sec4_api_layer/" class="md-nav__link">
         
   
   
@@ -1570,7 +1570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec5_ingestion/" class="md-nav__link">
+      <a href="../../sec5_ingestion/" class="md-nav__link">
         
   
   
@@ -1598,7 +1598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec6_provenance/" class="md-nav__link">
+      <a href="../../sec6_provenance/" class="md-nav__link">
         
   
   
@@ -1626,7 +1626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec7_nfr/" class="md-nav__link">
+      <a href="../../sec7_nfr/" class="md-nav__link">
         
   
   
@@ -1654,7 +1654,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/sec8_auth_integration/" class="md-nav__link">
+      <a href="../../sec8_auth_integration/" class="md-nav__link">
         
   
   
@@ -1682,7 +1682,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/appendix_a_example_schema_omics/" class="md-nav__link">
+      <a href="../../appendix_a_example_schema_omics/" class="md-nav__link">
         
   
   
@@ -1710,7 +1710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/appendix_b_implementation_guide/" class="md-nav__link">
+      <a href="../../appendix_b_implementation_guide/" class="md-nav__link">
         
   
   
@@ -1738,7 +1738,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/reference_hippo_yaml/" class="md-nav__link">
+      <a href="../../reference_hippo_yaml/" class="md-nav__link">
         
   
   
@@ -1766,7 +1766,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/reference_validators_yaml/" class="md-nav__link">
+      <a href="../../reference_validators_yaml/" class="md-nav__link">
         
   
   
@@ -1794,7 +1794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mosaic/design/reference_cel_context/" class="md-nav__link">
+      <a href="../../reference_cel_context/" class="md-nav__link">
         
   
   
@@ -1891,7 +1891,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/" class="md-nav__link">
+      <a href="../../../../cappella/" class="md-nav__link">
         
   
   
@@ -1973,7 +1973,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/introduction/" class="md-nav__link">
+      <a href="../../../../cappella/docs/introduction/" class="md-nav__link">
         
   
   
@@ -2001,7 +2001,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/installation/" class="md-nav__link">
+      <a href="../../../../cappella/docs/installation/" class="md-nav__link">
         
   
   
@@ -2029,7 +2029,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/overview/" class="md-nav__link">
+      <a href="../../../../cappella/docs/overview/" class="md-nav__link">
         
   
   
@@ -2057,7 +2057,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../cappella/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -2085,7 +2085,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/user_guide/" class="md-nav__link">
+      <a href="../../../../cappella/docs/user_guide/" class="md-nav__link">
         
   
   
@@ -2113,7 +2113,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/workflows/" class="md-nav__link">
+      <a href="../../../../cappella/docs/workflows/" class="md-nav__link">
         
   
   
@@ -2203,7 +2203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -2231,7 +2231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -2259,7 +2259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec3_adapters/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec3_adapters/" class="md-nav__link">
         
   
   
@@ -2287,7 +2287,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec4_audit/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec4_audit/" class="md-nav__link">
         
   
   
@@ -2315,7 +2315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec5_workflows/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec5_workflows/" class="md-nav__link">
         
   
   
@@ -2343,7 +2343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec6_nfr/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec6_nfr/" class="md-nav__link">
         
   
   
@@ -2371,7 +2371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec7_testing/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec7_testing/" class="md-nav__link">
         
   
   
@@ -2468,7 +2468,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../" class="md-nav__link">
+      <a href="../../../../aperture/" class="md-nav__link">
         
   
   
@@ -2550,7 +2550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../INDEX/" class="md-nav__link">
+      <a href="../../../../aperture/design/INDEX/" class="md-nav__link">
         
   
   
@@ -2578,7 +2578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../portal-vision-handoff/" class="md-nav__link">
+      <a href="../../../../aperture/design/portal-vision-handoff/" class="md-nav__link">
         
   
   
@@ -2606,7 +2606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../portal-open-questions/" class="md-nav__link">
+      <a href="../../../../aperture/design/portal-open-questions/" class="md-nav__link">
         
   
   
@@ -2703,7 +2703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/" class="md-nav__link">
+      <a href="../../../../bridge/" class="md-nav__link">
         
   
   
@@ -2785,7 +2785,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/introduction/" class="md-nav__link">
+      <a href="../../../../bridge/docs/introduction/" class="md-nav__link">
         
   
   
@@ -2813,7 +2813,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/auth/" class="md-nav__link">
+      <a href="../../../../bridge/docs/auth/" class="md-nav__link">
         
   
   
@@ -2841,7 +2841,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/security-model/" class="md-nav__link">
+      <a href="../../../../bridge/docs/security-model/" class="md-nav__link">
         
   
   
@@ -2869,7 +2869,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/admin-guide/" class="md-nav__link">
+      <a href="../../../../bridge/docs/admin-guide/" class="md-nav__link">
         
   
   
@@ -2959,7 +2959,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -2987,7 +2987,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -3015,7 +3015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec3_api_unification/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec3_api_unification/" class="md-nav__link">
         
   
   
@@ -3043,7 +3043,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec4_auth/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec4_auth/" class="md-nav__link">
         
   
   
@@ -3071,7 +3071,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec5_sync/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec5_sync/" class="md-nav__link">
         
   
   
@@ -3099,7 +3099,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec6_nfr/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec6_nfr/" class="md-nav__link">
         
   
   
@@ -3196,7 +3196,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/" class="md-nav__link">
+      <a href="../../../../canon/" class="md-nav__link">
         
   
   
@@ -3278,7 +3278,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/introduction/" class="md-nav__link">
+      <a href="../../../../canon/docs/introduction/" class="md-nav__link">
         
   
   
@@ -3306,7 +3306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../canon/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -3334,7 +3334,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/user-guide/" class="md-nav__link">
+      <a href="../../../../canon/docs/user-guide/" class="md-nav__link">
         
   
   
@@ -3424,7 +3424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../canon/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -3452,7 +3452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../canon/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -3480,7 +3480,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
+      <a href="../../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
         
   
   
@@ -3508,7 +3508,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
+      <a href="../../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
         
   
   
@@ -3536,7 +3536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
+      <a href="../../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
         
   
   
@@ -3564,7 +3564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
+      <a href="../../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
         
   
   
@@ -3592,7 +3592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
+      <a href="../../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
         
   
   
@@ -3620,7 +3620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec6_mosaic_integration/" class="md-nav__link">
+      <a href="../../../../canon/design/sec6_mosaic_integration/" class="md-nav__link">
         
   
   
@@ -3648,7 +3648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec7_nfr/" class="md-nav__link">
+      <a href="../../../../canon/design/sec7_nfr/" class="md-nav__link">
         
   
   
@@ -3676,7 +3676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
+      <a href="../../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
         
   
   
@@ -3704,7 +3704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/reference_canon_yaml/" class="md-nav__link">
+      <a href="../../../../canon/design/reference_canon_yaml/" class="md-nav__link">
         
   
   
@@ -3732,7 +3732,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
+      <a href="../../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
         
   
   
@@ -3760,7 +3760,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
+      <a href="../../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
         
   
   
@@ -3823,10 +3823,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-gen3-is" class="md-nav__link">
+  <a href="#context" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What Gen3 is
+        Context
       
     </span>
   </a>
@@ -3834,10 +3834,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#service-by-service-map-to-datahelix" class="md-nav__link">
+  <a href="#decision" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Service-by-service map to DataHelix
+        Decision
       
     </span>
   </a>
@@ -3845,10 +3845,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-explorerconfig-our-core-loop-config-near-11" class="md-nav__link">
+  <a href="#consequences" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The explorerConfig ≈ our core-loop config (near 1:1)
+        Consequences
       
     </span>
   </a>
@@ -3856,10 +3856,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-single-biggest-lesson-a-two-tier-data-architecture-solves-our-aggregation-gap" class="md-nav__link">
+  <a href="#alternatives-considered" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The single biggest lesson: a two-tier data architecture solves our aggregation gap
+        Alternatives considered
       
     </span>
   </a>
@@ -3867,43 +3867,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#where-aperture-is-more-ambitious-than-gen3" class="md-nav__link">
+  <a href="#notes-open-sub-questions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Where Aperture is more ambitious than Gen3
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-to-steal-prototype-against" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What to steal / prototype against
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#caveats" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Caveats
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sources" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sources
+        Notes / open sub-questions
       
     </span>
   </a>
@@ -3927,218 +3894,213 @@
 
 
 
-<h1 id="gen3-deep-comparison-to-datahelix-aperture">Gen3 — Deep Comparison to DataHelix / Aperture<a class="headerlink" href="#gen3-deep-comparison-to-datahelix-aperture" title="Permanent link">&para;</a></h1>
-<p><strong>Status:</strong> 🟢 Research findings (2026-06-16, primary sources). Companion to
-<a href="../prior-art/"><code>prior-art.md</code></a>, which named Gen3 the strongest faceted-portal match. This
-goes deeper: <strong>Gen3 is the closest production analog to the <em>whole DataHelix platform</em>, not just to
-Aperture</strong> — and its architecture answers our sharpest open capability question.</p>
-<h2 id="what-gen3-is">What Gen3 is<a class="headerlink" href="#what-gen3-is" title="Permanent link">&para;</a></h2>
-<p>Gen3 (Center for Translational Data Science, U. Chicago / <code>uc-cdis</code>) is an open-source platform
-for building <strong>data commons</strong> — it powers NIH commons like MIDRC, AnVIL, BioData Catalyst,
-HEAL. It is a stack of microservices around a <strong>config-driven data model (the Data Dictionary)</strong>
-and a <strong>config-driven faceted Data Explorer</strong>. Many independent commons run the <em>same</em> codebase
-differentiated by dictionary + portal config — the same "generic engine, per-instance config"
-thesis as DataHelix/Aperture.</p>
-<h2 id="service-by-service-map-to-datahelix">Service-by-service map to DataHelix<a class="headerlink" href="#service-by-service-map-to-datahelix" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Gen3 service</th>
-<th>Role</th>
-<th>DataHelix analog</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Data Dictionary</strong> (YAML, one JSON-Schema file per node; nodes + typed properties + links w/ backref, multiplicity, semantic label; Program = graph root)</td>
-<td>Config-driven data model</td>
-<td><strong>Hippo LinkML schema</strong> (entities + slots + relationships). LinkML is more expressive/standardized than Gen3's per-node JSON-Schema.</td>
-</tr>
-<tr>
-<td><strong>Sheepdog</strong></td>
-<td>Submission/write into the Postgres graph; validates against the dictionary (rejects <code>INVALID_LINK</code>)</td>
-<td>Hippo write path + validation</td>
-</tr>
-<tr>
-<td><strong>Peregrine</strong></td>
-<td><strong>GraphQL over the normalized Postgres graph</strong> (traversal, lineage)</td>
-<td><strong>Hippo's autogenerated GraphQL</strong> (graph-shaped, normalized)</td>
-</tr>
-<tr>
-<td><strong>Tube (ETL)</strong></td>
-<td>Flattens the graph → <strong>Elasticsearch</strong> documents; re-runs on new submissions</td>
-<td><em>(no Hippo equivalent today)</em></td>
-</tr>
-<tr>
-<td><strong>Guppy</strong></td>
-<td><strong>GraphQL over Elasticsearch</strong> — faceted search, <strong>aggregations, counts, histograms</strong>, tiered access</td>
-<td><em>(no Hippo equivalent — this is the gap, see below)</em></td>
-</tr>
-<tr>
-<td><strong>Indexd</strong></td>
-<td>GUID → physical file location index</td>
-<td>Hippo "where data lives" / Canon</td>
-</tr>
-<tr>
-<td><strong>Fence</strong></td>
-<td>AuthN — OIDC/OAuth identity provider; issues tokens carrying arborist policies</td>
-<td><strong>Bridge</strong> (authn half)</td>
-</tr>
-<tr>
-<td><strong>Arborist</strong></td>
-<td>AuthZ — RBAC <strong>policy engine</strong>; fence embeds its policies in tokens</td>
-<td><strong>Bridge</strong> (PEP/PDP half)</td>
-</tr>
-<tr>
-<td><strong>Data-portal (Windmill)</strong></td>
-<td>React frontend; the <strong>Data Explorer is driven by <code>gitops.json</code>/<code>explorerConfig</code></strong> (config-as-data)</td>
-<td><strong>Aperture</strong></td>
-</tr>
-<tr>
-<td>Hatchery / MDS / Pelican / Sower / WTS</td>
-<td>Workspaces, metadata svc, PFB export, batch jobs, tokens</td>
-<td>(various: Cappella / platform)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>fence + arborist = Bridge.</strong> Gen3 independently arrived at exactly Bridge's split: a central
-OIDC identity provider plus a <em>separate</em> policy engine whose decisions ride in the token. Strong
-external validation of the Bridge PEP/PDP design (ADR-0016, platform <code>sec6</code>).</p>
-<h2 id="the-explorerconfig-our-core-loop-config-near-11">The explorerConfig ≈ our core-loop config (near 1:1)<a class="headerlink" href="#the-explorerconfig-our-core-loop-config-near-11" title="Permanent link">&para;</a></h2>
-<p>Gen3's <code>gitops.json</code> <code>explorerConfig</code> is config-as-data that drives the faceted explorer —
-strikingly close to what our prefab core-loop config will look like:</p>
-<table>
-<thead>
-<tr>
-<th>explorerConfig block</th>
-<th>Concrete shape</th>
-<th>Maps to</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>filters.tabs[].fields[]</code></td>
-<td>facet fields grouped into titled tabs</td>
-<td><strong>PF-3</strong> facet panel (grouped facets)</td>
-</tr>
-<tr>
-<td><code>charts{field: {chartType: count\|pie\|fullPie\|bar, title}}</code></td>
-<td>charts as data, keyed by field</td>
-<td><strong>PF-6</strong> charts bound to query</td>
-</tr>
-<tr>
-<td><code>table{enabled, fields[], linkFields[]}</code></td>
-<td>table columns as data</td>
-<td><strong>PF-2</strong> collection table</td>
-</tr>
-<tr>
-<td><code>buttons[]{type: data-csv\|manifest\|export-to-pfb, title, fileName}</code></td>
-<td>export actions as data</td>
-<td><strong>PF-7</strong> export</td>
-</tr>
-<tr>
-<td><code>guppyConfig{dataType, fieldMapping[], manifestMapping{...}}</code></td>
-<td>binds the tab to a Guppy ES index + field renames + cohort→file join</td>
-<td><strong>binding</strong> (which collection; relationship/file join)</td>
-</tr>
-</tbody>
-</table>
-<p>And the validation discipline matches our composition+binding split: <strong>only properties present
-in <code>etlMapping.yaml</code> may appear in <code>gitops.json</code></strong>, and it's validated against the Data
-Dictionary + ETL mapping (via <code>gen3utils</code> CI). This <em>is</em> config-as-data with schema-derived
-binding — proven across many commons.</p>
-<h2 id="the-single-biggest-lesson-a-two-tier-data-architecture-solves-our-aggregation-gap">The single biggest lesson: a two-tier data architecture solves our aggregation gap<a class="headerlink" href="#the-single-biggest-lesson-a-two-tier-data-architecture-solves-our-aggregation-gap" title="Permanent link">&para;</a></h2>
-<p>The capability gaps we hit in core-loop Steps 2–3 (no sort, <strong>no counts, no aggregation/facet
-counts</strong> over Hippo's thin GraphQL) are exactly what Gen3 solved — by running <strong>two</strong> query
-surfaces over <strong>two</strong> stores:</p>
+<h1 id="adr-0006-the-graphql-filter-contract-is-typed-per-class-input-objects">ADR-0006: The GraphQL filter contract is typed per-class input objects<a class="headerlink" href="#adr-0006-the-graphql-filter-contract-is-typed-per-class-input-objects" title="Permanent link">&para;</a></h1>
 <ul>
-<li><strong>Peregrine / Postgres graph</strong> — normalized; great for traversal, lineage, submission
-  validation. <em>(≈ Hippo's GraphQL today.)</em></li>
-<li><strong>Guppy / Elasticsearch</strong> — a <strong>denormalized, indexed, aggregation-optimized</strong> copy, kept in
-  sync by the <strong>Tube ETL</strong>. Purpose-built for fast faceted search, <strong>counts, and histograms</strong>.</li>
+<li><strong>Status:</strong> Accepted</li>
+<li><strong>Date:</strong> 2026-08-19 (ratified same day; see #153)</li>
+<li><strong>Deciders:</strong> labadorf</li>
+<li><strong>Related:</strong> sec4 §4.3 (REST filtering — the CEL sketch this ADR supersedes/narrows for the
+  GraphQL transport), sec4 §4.7 (GraphQL transport), ADR-0001 (graph-level as-of — every filter
+  feature must mirror into the as-of path), ADR-0002 (multivalued reference slots persist as
+  relationship edges — why they are unfilterable today and why M5b needs the link table),
+  ADR-0005 (edge-only reference emission; its "clean break, early software" precedent is the
+  prior art for eventually retiring the flat <code>filters:</code> arg); <strong>Aperture
+  <code>design/cross-class-query.md</code> §7</strong> (the co-design exploration this ADR lands, M1/M5 and the
+  wire-contract decision), <strong>Aperture ADR-0035</strong> (Accepted 2026-08-19 — cross-class queries
+  are a typed QuerySpec artifact; carries the reciprocal cross-reference), <strong>Aperture
+  <code>design/portal-requirements.md</code> X5</strong> (the "typed operator + relationship-predicate filter
+  contract" requirement pointing here; filed as X5 because the exploration's "X3" name was
+  already taken by X3a/X3b — the X4/L9/L10 citation form modeled by
+  <code>design/sec5_ingestion.md</code> §5.4 and <code>openspec/changes/batch-unit-of-work/proposal.md</code>).
+  Code landing sites cited inline (mosaic @ 502991c, v0.12.1).</li>
+<li><strong>Tracking issue:</strong> <a href="https://github.com/BU-Neuromics/mosaic/issues/153">#153</a>
+  (implementation: OpenSpec <code>typed-filter-inputs</code>,
+  <a href="https://github.com/BU-Neuromics/mosaic/issues/155">#155</a>)</li>
 </ul>
-<blockquote>
-<p><strong>Hippo's current GraphQL is the Peregrine analog. Aperture's faceted explorer needs the
-Guppy analog — and Hippo has none yet.</strong> This is the decisive architectural question for the
-core loop:
-- <strong>(b) server-side index layer:</strong> give Hippo (or a sidecar) a Guppy-equivalent — ETL/flatten
-  to an aggregation store (ES / DuckDB / OLAP) with a faceting+aggregation GraphQL surface.
-  This is Gen3's <em>production</em> answer.
-- <strong>(c) adapter compensation:</strong> Aperture's Layer-D adapter computes aggregation client-side
-  (DuckDB-WASM) when the source can't — viable at small scale, breaks on large cohorts.</p>
-<p>Gen3's experience says facet counts at real scale want the index layer (b). This likely
-warrants a Hippo design issue.</p>
-</blockquote>
-<p>Also worth stealing: <strong>Guppy's tiered access</strong> (private / regular / libre) lets users see
-<strong>aggregate counts with a minimum-count threshold over data they cannot access row-level</strong> — a
-real biomedical-privacy pattern for Bridge's field-mask/predicate model (aggregate-with-min-count
-prevents re-identification).</p>
-<h2 id="where-aperture-is-more-ambitious-than-gen3">Where Aperture is <em>more</em> ambitious than Gen3<a class="headerlink" href="#where-aperture-is-more-ambitious-than-gen3" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Dimension</th>
-<th>Gen3</th>
-<th>Aperture</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Generic over backends</td>
-<td>Its own stack only</td>
-<td>Any LinkML+GraphQL endpoint</td>
-</tr>
-<tr>
-<td>Config form</td>
-<td>JSON in a gitops repo, <strong>CI-validated</strong>, portal redeploy</td>
-<td>Serializable <strong>LinkML data in the backend</strong>, structurally validated, versioned/provenance-tracked</td>
-</tr>
-<tr>
-<td>New visualization / behavior</td>
-<td><strong>Code a React component</strong> in <code>data-portal</code> (bespoke)</td>
-<td><strong>Typed sandboxed component</strong> emitting a view-description, hot-reloaded (ADR-0009/0011)</td>
-</tr>
-<tr>
-<td>Authoring</td>
-<td>Humans edit <code>gitops.json</code> + redeploy</td>
-<td>Humans <strong>and LLM agents</strong> edit config (MCP/API, dry-run, ADR-0018/0021)</td>
-</tr>
-<tr>
-<td>View vocabulary</td>
-<td>Fixed chart set baked into Windmill</td>
-<td>Growable typed <strong>noun-catalog</strong> (Vega-Lite-style, ADR-0010)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="what-to-steal-prototype-against">What to steal / prototype against<a class="headerlink" href="#what-to-steal-prototype-against" title="Permanent link">&para;</a></h2>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<p>The GraphQL list surface filters with a flat <code>filters: [FilterInput]</code> argument — <code>{field,
+value, op}</code> where <code>op</code> is <code>EQ | IN</code> (<code>graphql/resolvers.py:53-72</code>, #102). Everything else
+raises by design: #129 made unsupported operators (<code>gt</code>, <code>lt</code>, <code>ne</code>, <code>contains</code>, …) fail loud
+at the single chokepoint (<code>VALID_FILTER_OPS</code> + <code>normalize_filter</code>,
+<code>core/storage/__init__.py:50-106</code>) rather than silently degrade to equality. Relationship
+predicates do not exist: multivalued references are walled off from filtering entirely
+(<code>resolvers.py:435-442</code>, coded <code>UNFILTERABLE_FIELD</code>), and the SQL builders
+(SQLite <code>_find_per_class</code>, <code>sqlite_adapter.py:2741-2794</code>; Postgres <code>find</code>,
+<code>postgres_adapter.py:2039-2092</code>) have no join/subquery machinery at all.</p>
+<p>The documented future for richer predicates is <strong>CEL</strong>: sec4 §4.3 sketches a REST <code>filter</code>
+parameter carrying a CEL expression, evaluated in the storage adapter by "translating common
+patterns to SQL predicates; others fall back to in-memory evaluation."</p>
+<p>Meanwhile Aperture is building cross-class criteria queries ("donors over 60 having ≥1 sample
+of type X"), derived <strong>entirely from GraphQL introspection</strong> per its constitution: every class,
+edge, operator, and traversal offered by its query builder must come from the introspected
+schema (Aperture ADR-0002 derive-everything, ADR-0004 no scripting layer, ADR-0029
+capability-honest gating). The co-design exploration (Aperture <code>design/cross-class-query.md</code>,
+Rev 2, priced against this repo @ 502991c) concluded the governing principle: <strong>the
+introspected GraphQL schema itself becomes the query-capability contract.</strong> What Mosaic
+advertises in <code>__schema</code> is exactly what consumers may offer; nothing more is promised,
+nothing less needs a side-channel.</p>
+<p>The question: when the GraphQL filter surface grows comparison operators and relationship
+predicates, is the wire contract <strong>generated typed input objects</strong> or a <strong>CEL expression
+argument</strong>?</p>
+<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
+<p><strong>Mosaic will generate typed per-class filter input objects as the GraphQL filter contract.</strong></p>
+<ul>
+<li>For each entity class, a <code>&lt;Type&gt;Filter</code> input object is generated (in
+  <code>graphql/schema_builder.py</code>, alongside the existing create/update input pass) with:</li>
+<li>one field per filterable slot, typed as a <strong>per-slot operator object</strong> — e.g.
+    <code>StringFilterOps {eq, neq, in, contains, isNull}</code>, <code>NumberFilterOps {eq, neq, in, gt, gte,
+    lt, lte, isNull}</code>, <code>DateFilterOps</code> (comparison set over ISO dates), <code>BooleanFilterOps {eq,
+    isNull}</code>, <code>EnumFilterOps {eq, neq, in, isNull}</code> — the operator set <strong>selected by slot
+    kind/range</strong>, so introspection tells a consumer exactly which predicates each slot
+    supports;</li>
+<li><code>and: [&lt;Type&gt;Filter!]</code>, <code>or: [&lt;Type&gt;Filter!]</code>, <code>not: &lt;Type&gt;Filter</code> combinators;</li>
+<li>(phased, below) <strong>relationship predicates</strong>: a to-one reference slot exposes the target
+    type's filter nested under the edge name (<code>where: {donor: {age: {gt: 60}}}</code>); a
+    multivalued (relationship-backed) reference exposes quantifiers
+    (<code>where: {samples: {some: &lt;SampleFilter&gt;, none: &lt;SampleFilter&gt;}}</code>).</li>
+<li>The new contract is exposed as a <strong><code>where:</code> argument beside the existing flat <code>filters:</code>
+  argument</strong> on list queries (and, once search composes — OpenSpec <code>search-composition</code> — on
+  the search twins). Both arguments translate to the same SDK filter representation; <code>where:</code>
+  is strictly more expressive.</li>
+<li>Operator semantics land once at the storage chokepoint (<code>VALID_FILTER_OPS</code> /
+  <code>normalize_filter</code>) and in <strong>both</strong> adapters' clause builders, preserving #129's discipline:
+  an operator is either advertised and pushed down, or absent from the schema — never accepted
+  and approximated.</li>
+</ul>
+<p><strong>Explicitly decided against: CEL on the GraphQL wire.</strong> CEL keeps its current Mosaic role
+(validator conditions) and may serve internally as an adapter IR if useful, but the
+consumer-facing GraphQL contract is typed inputs. This <strong>supersedes/narrows the sec4 §4.3 CEL
+filtering sketch for the GraphQL transport</strong>: the "CEL filters follow the REST roadmap" line
+formerly in §4.7's limitations table does not happen; whether the REST-side CEL <code>filter</code>
+parameter itself ever ships is left to sec4 §4.3's own roadmap, but it is no longer the plan
+of record for rich GraphQL predicates. Reasons:</p>
 <ol>
-<li><strong>The explorerConfig schema</strong> as the concrete template for our core-loop config
-   (facets-as-tabs, charts-by-field, table fields, export buttons, dataType binding).</li>
-<li><strong>The validation model</strong> (<code>gitops.json</code> validated against dictionary + ETL mapping) — but
-   make ours <strong>structural/live</strong> (LinkML-in-Hippo) rather than CI-time tooling.</li>
-<li><strong>The two-tier graph+index architecture</strong> as the reference answer to faceting/aggregation at
-   scale (the Guppy/Tube pattern).</li>
-<li><strong>manifestMapping</strong> (cohort → file-manifest join) for PF-7 export.</li>
-<li><strong>Tiered aggregate access + min-count</strong> for Bridge's privacy model.</li>
+<li><strong>Introspectability.</strong> A <code>filter: String</code> CEL argument is opaque to introspection — a
+   consumer cannot learn which predicates the server supports, so Aperture's derive-everything
+   rule and capability gating would need a side-channel capability contract anyway. Typed
+   inputs <em>are</em> the contract.</li>
+<li><strong>Validation.</strong> Malformed typed input fails GraphQL validation with a precise error before
+   execution — the dry-run property Aperture's builder and its NL→query loop depend on. Bad
+   CEL fails at runtime, in a second grammar, with a second error vocabulary.</li>
+<li><strong>Pushdown honesty.</strong> The documented CEL strategy — "translate common patterns to SQL, fall
+   back to in-memory" (sec4 §4.3) — is an invisible performance cliff: two queries that look
+   the same on the wire execute in different complexity classes. Typed inputs make everything
+   advertised pushdown-able by construction.</li>
+<li><strong>Scripting-layer pressure.</strong> An expression string on the wire is one temptation away from
+   a user-facing scripting layer, which Aperture's ADR-0004 forbids; a closed noun vocabulary
+   is not.</li>
 </ol>
-<h2 id="caveats">Caveats<a class="headerlink" href="#caveats" title="Permanent link">&para;</a></h2>
+<p><strong>Relationship predicates phase in two increments (to-one before to-many):</strong></p>
 <ul>
-<li>Gen3 is <strong>domain-specific</strong> (NIH biomedical data commons) and <strong>heavyweight</strong> (a dozen+
-  microservices); not adoptable wholesale.</li>
-<li>Its portal is <strong>bespoke React (Windmill)</strong> — not generic, not sandboxed, not agent-editable.
-  The config drives a hand-built app; it is <em>not</em> the generic config-driven engine we're after.</li>
-<li>Refines <code>prior-art.md</code>'s shorthand ("not an introspectable GraphQL transport"): Gen3 <strong>does</strong>
-  use GraphQL (Peregrine over the graph, Guppy over ES), but its <em>portal binding is
-  config-mapped to ES indices</em>, not auto-derived from schema introspection — so the
-  derived-binding bet remains ours to prove.</li>
+<li><strong>M5a — to-one predicates</strong> (moderate): a single-valued reference is a column (the target
+  id), so <code>{donor: {age: {gt: 60}}}</code> compiles to one correlated <code>EXISTS</code> subquery against the
+  target's table keyed on the FK column. No link table involved.</li>
+<li><strong>M5b — to-many quantified predicates</strong> (expensive; nothing else waits on it): <code>some</code>/<code>none</code>
+  compile to <code>EXISTS</code> / <code>NOT EXISTS</code> against the <code>relationships</code> link table joined to the
+  target table. Requires recursive input types — the two-pass bare-class trick used for cyclic
+  object types (<code>schema_builder.py:507-513</code>) is the precedent — and a <strong>filter-nesting depth
+  cap</strong>, because the existing <code>QueryDepthLimiter</code> guards output selection nesting only, not
+  input nesting. Multivalued references remain unfilterable (today's coded
+  <code>UNFILTERABLE_FIELD</code>) until M5b lands; the error message already points at <code>relatedTo</code>.</li>
 </ul>
-<h2 id="sources">Sources<a class="headerlink" href="#sources" title="Permanent link">&para;</a></h2>
+<p><strong><code>isNull</code> semantics (decided):</strong> <code>isNull: true</code> matches entities with <strong>no stored value</strong> for
+the slot — SQLite: column <code>IS NULL</code>; Postgres: JSONB key absent or JSON <code>null</code> — and
+<code>isNull: false</code> the complement. This matches read semantics, where unset columns are simply
+omitted from the reconstructed <code>data</code> dict (<code>sqlite_adapter.py:2830-2839</code>). Two consequences
+pinned now: (a) <code>eq: null</code> is rejected with a coded error — GraphQL cannot distinguish
+"explicit null" from "absent" reliably enough for a filter contract; the only way to ask about
+absence is <code>isNull</code>; (b) <code>isNull</code> is <strong>not offered</strong> on relationship-backed multivalued
+references (they have no column; a required multivalued slot already reads back as <code>[]</code>, not
+null, <code>schema_builder.py:729-730</code>) — under M5b, emptiness is expressed as <code>none: {}</code>.</p>
+<p><strong>asOf × relationship predicates (decided):</strong> the temporal read path filters in Python over
+provenance-reconstructed state and declares relationship-existence filtering out of scope
+(<code>sqlite_adapter.py:2674-2675</code>, hippo#71). Until a temporal join is designed and funded,
+a query combining <code>asOf</code> with any relationship predicate (M5a or M5b) is <strong>rejected with a
+coded GraphQLError</strong> (e.g. <code>ASOF_RELATIONSHIP_FILTER_UNSUPPORTED</code>), in both adapters. Scalar
+operator filters (<code>gt</code>, <code>contains</code>, …) <strong>do</strong> work under <code>asOf</code> — but only by landing every
+operator in the as-of mirrors: <code>_matches_filters</code> exists in four places (SQLite
+<code>sqlite_adapter.py:2709-2739</code>, Postgres <code>postgres_adapter.py:2132+</code>, and their call sites);
+an operator implemented in the SQL builders but not the mirrors makes as-of queries silently
+diverge from current-state queries, which is the forbidden outcome (an undocumented wrong
+answer).</p>
+<h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>github.com/uc-cdis/guppy</code> (Guppy: GraphQL-over-ES, aggregations/counts/histograms, tiered access, arborist authz)</li>
-<li><code>docs.gen3.org</code> (glossary, customize-search, data-svcs), <code>gen3.org/resources/developer/microservice/</code></li>
-<li><code>gen3.org/resources/user/dictionary/</code>, <code>github.com/uc-cdis/datadictionary</code> (dictionary: YAML/JSON-Schema nodes + links)</li>
-<li><code>github.com/uc-cdis/data-portal</code> <code>docs/portal_config.md</code> (explorerConfig blocks)</li>
-<li><code>github.com/uc-cdis/arborist</code> (policy engine)</li>
+<li><strong>The introspected schema becomes the capability contract.</strong> Aperture (and any consumer,
+  including an LLM agent) derives every operator it offers, per slot, from <code>__schema</code> — no
+  capability side-channel, no hardcoded operator tables. Capability gating reduces to "offer
+  exactly what the schema advertises"; dry-run validation reduces to GraphQL validation.</li>
+<li><strong>Both adapters, every increment.</strong> SQLite's typed per-class columns make comparisons
+  trivial; Postgres stores one JSONB document, so <code>data-&gt;&gt;'slot'</code> yields text and <strong>every
+  typed comparison needs a per-range cast</strong> (<code>::numeric</code> for LinkML integer/float ranges,
+  <code>::timestamptz</code>/<code>::date</code> for temporal ranges, <code>::boolean</code>) driven by <code>SlotModel.range</code>
+  (<code>core/schema_typing.py:93</code>). This is the main cost and the main correctness risk of the
+  whole feature; the SQLite/Postgres parity discipline double-prices every estimate.</li>
+<li><strong>Four as-of mirrors are now load-bearing.</strong> Every operator lands in the SQL builders <em>and</em>
+  in each <code>_matches_filters</code> mirror, with shared tests asserting current-state/as-of agreement.</li>
+<li><strong>Input-type generation extends the existing pass.</strong> <code>_build_one_input</code>
+  (<code>schema_builder.py:673-724</code>) is the pattern to copy; filter inputs key on LinkML slot names
+  exactly as create/update inputs do (with the same alias resolution as
+  <code>resolve_filter_field</code>, <code>schema_builder.py:214-235</code>).</li>
+<li><strong>The flat <code>filters:</code> arg survives initially</strong> (additive change, no consumer breaks).
+  Retiring it is an open sub-question below; ADR-0005's clean-break precedent
+  (ADR-0005, Consequences: "early software; a clean break is acceptable") is the prior art
+  for removing it in a breaking release once Aperture is off it.</li>
+<li><strong>GraphQL translation</strong> (<code>_to_sdk_filters</code> + <code>FilterInput</code>, <code>graphql/resolvers.py:59-72,
+  405-444</code>) grows a <code>where:</code>-tree walker emitting the normalized SDK filter representation;
+  the coded-error discipline (<code>UNKNOWN_FILTER_FIELD</code>, <code>UNFILTERABLE_FIELD</code>) extends to the
+  nested contract.</li>
+<li><strong>Unblocks Aperture:</strong> the QuerySpec builder's per-slot operator menus, its Metabase-style
+  implicit to-one traversal (M5a), and its Atlas-style "having ≥1 / exactly 0" relationship
+  criteria (M5b) — until M5 lands, Aperture compensates with a server-assisted semijoin over
+  the native <code>in</code> operator, visibly gated.</li>
+</ul>
+<h2 id="alternatives-considered">Alternatives considered<a class="headerlink" href="#alternatives-considered" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>CEL on the GraphQL wire</strong> (<code>filter: String</code>). Rejected for the four reasons in the
+  Decision: opaque to introspection (breaks derive-everything and capability gating), runtime
+  errors in a second grammar (loses the dry-run property), the documented translate-or-
+  fall-back strategy is an invisible performance cliff (a capability lie in Aperture ADR-0029
+  terms), and expression-on-the-wire invites a scripting layer. CEL remains for validator
+  conditions and as a possible internal IR.</li>
+<li><strong>Extend the flat <code>filters:</code> arg with more <code>FilterOp</code> values only</strong> (no <code>where:</code>). Cheapest
+  increment and it ships first (OpenSpec <code>typed-filter-inputs</code> increment 1), but as the final
+  state it cannot express nesting (<code>and</code>/<code>or</code> beyond one mode, <code>not</code>, relationship
+  predicates), and a single generic <code>value: JSON</code> field advertises nothing per-slot — the
+  introspection-as-contract principle fails.</li>
+<li><strong>One generic <code>EntityFilter</code> input shared by all classes.</strong> Loses per-slot typing — every
+  field name is a string, every value JSON — so introspection again says nothing; also
+  reintroduces the unknown-field-at-runtime class of errors #149 eliminated.</li>
+<li><strong>A true GraphQL union/interface root with polymorphic filtering.</strong> Inverts the deliberate
+  <code>Entity</code> exclusion from the schema (<code>core/schema_typing.py:37-45</code>); ADR-0005 flags
+  union/interface polymorphism as future work. Out of scope here; if pursued, it is its own
+  ADR (see OpenSpec <code>heterogeneous-roots</code> for the envelope-shaped alternative).</li>
+<li><strong>Reject <code>asOf</code> × relationship predicates silently / return best-effort results.</strong> Forbidden
+  outcome — an undocumented wrong answer. The coded error keeps the surface honest until the
+  temporal join is funded.</li>
+</ul>
+<h2 id="notes-open-sub-questions">Notes / open sub-questions<a class="headerlink" href="#notes-open-sub-questions" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Deprecation path for the flat <code>filters:</code> arg (decided at ratification):</strong> the flat arg
+  stays supported beside <code>where:</code>; once increment 2 ships, its SDL description names it the
+  legacy form. Removal, if ever, is a later breaking release per the ADR-0005 clean-break
+  precedent, and not before Aperture's planner emits <code>where:</code> everywhere.</li>
+<li><strong><code>contains</code> semantics (decided at ratification):</strong> case-insensitive substring on
+  string-ranged slots — SQLite <code>LIKE</code> (ASCII case folding) / Postgres <code>ILIKE</code> (locale case
+  folding; the non-ASCII divergence is a documented backend difference), with <code>%</code>/<code>_</code>
+  treated as literals via an <code>ESCAPE</code> clause and the same semantics in the as-of mirror
+  (<code>matches_operator</code>). Membership testing on inline (non-reference) multivalued slots is
+  <strong>deferred</strong> — those slots offer <code>eq</code>/<code>isNull</code> only until a membership design lands
+  (<code>LIKE</code>/<code>json_each</code> vs. <code>@&gt;</code> pushdowns differ).</li>
+<li><strong>Literate schema (M0 ask):</strong> LinkML <code>description</code>s already propagate into SDL for object
+  types, fields, and enums (<code>schema_builder.py:404,463,477,599</code>; enum descriptions at
+  <code>:361-381</code>); LinkML <code>comments</code> do <strong>not</strong> propagate anywhere today. The new filter inputs
+  and operator objects must carry descriptions from day one; whether <code>comments</code> should append
+  to SDL descriptions is a small open question to settle in the same increment.</li>
+<li><strong>Filter-nesting depth cap default</strong> (M5b): pick a value (Airtable/Notion cap criteria
+  nesting at 3; Aperture's QuerySpec caps at 3) and a coded error for exceeding it.</li>
+<li>Implementation increments, tasks, and acceptance live in the OpenSpec change
+  <code>typed-filter-inputs</code> (<a href="https://github.com/BU-Neuromics/mosaic/issues/155">#155</a>);
+  do not implement ahead of it.</li>
 </ul>
 
 
@@ -4195,10 +4157,10 @@ prevents re-identification).</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
