@@ -49,7 +49,7 @@ RUN pnpm --filter @linkml-editor/core build \
 RUN cd packages/proxy && npm install --omit=dev
 
 # node runtime for the CORS proxy (glibc build — the final stage is Debian).
-FROM node:20-slim AS node-runtime
+FROM node:26-slim AS node-runtime
 
 # ── Final stage: the bundle ─────────────────────────────────────────────────
 FROM ${MOSAIC_IMAGE}
