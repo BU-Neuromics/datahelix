@@ -1,0 +1,50 @@
+# Example LinkML schema for the DataHelix ide recipe.
+# Edit this, then `make migrate` — additive changes (new classes, new
+# attributes) apply as DDL on restart and appear in Aperture immediately.
+#
+# NOTE: the identifier slot is named `id` deliberately. `mosaic ingest` writes
+# identity to an `id` column rather than to the schema's declared identifier
+# slot, so a schema whose identifier is e.g. `project_id` browses fine but
+# cannot be seeded ("table Project has no column named id"). Reported upstream;
+# until it is fixed, name identifiers `id` if you intend to use `make seed`.
+id: https://example.org/ide-example
+name: ide_example
+prefixes:
+  linkml: https://w3id.org/linkml/
+  ide_example: https://example.org/ide-example/
+imports:
+  - linkml:types
+default_range: string
+
+classes:
+  Project:
+    description: "A tracked project"
+    attributes:
+      id:
+        range: string
+        required: true
+        identifier: true
+      title:
+        range: string
+        required: true
+      status:
+        range: ProjectStatus
+
+  Note:
+    description: "A note attached to a project"
+    attributes:
+      id:
+        range: string
+        required: true
+        identifier: true
+      project:
+        range: Project
+      body:
+        range: string
+
+enums:
+  ProjectStatus:
+    permissible_values:
+      planned:
+      active:
+      done:
