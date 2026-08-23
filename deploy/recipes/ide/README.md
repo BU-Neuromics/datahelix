@@ -26,9 +26,9 @@ The first `make dev` installs Aperture's dependencies into a named volume
 | Command | Aperture | Mosaic | Use when |
 |---|---|---|---|
 | `make up` | pinned image | pinned image | you want a known-good baseline to compare against |
-| `make dev` | **source, HMR** | **source, auto-reload** | changing either side, or both |
+| `make dev` | **source, HMR** | **source** (`make reload-api`) | changing either side, or both |
 | `make dev-web` | **source, HMR** | pinned image | front-end only — the common case |
-| `make dev-api` | published image | **source, auto-reload** | backend only |
+| `make dev-api` | published image | **source** (`make reload-api`) | backend only |
 
 All four serve the same URLs, so nothing in the browser changes when you switch:
 
@@ -48,17 +48,24 @@ volume, forcing a clean reinstall.
 without a reload — Vite HMR, sub-second. No build, no restart, no bind-mounted
 `dist/`.
 
-**Mosaic.** Edit anything under `mosaic/src/` — the running `mosaic serve
---reload` picks it up on its own, no restart needed.
+**Mosaic.** Edit anything under `mosaic/src/`, then:
+
+```bash
+make reload-api   # ~1s container restart; no rebuild
+```
 
 This works because the container runs the pinned Mosaic *image* — so every
 runtime dependency is already installed — with your checkout mounted at `/src`
 and `PYTHONPATH=/src` shadowing the installed package. Verified: `import mosaic`
-resolves to `/src/mosaic/__init__.py`, not the image's `site-packages`, and the
-`--reload` subprocess re-imports the same shadowed source on every change.
+resolves to `/src/mosaic/__init__.py`, not the image's `site-packages`.
 
-If a change ever needs a clean process (e.g. a stuck watcher), `make
-reload-api` force-restarts the service.
+> **Why not `--reload`?** The flag exists on `mosaic serve` but is unusable as
+> shipped: `serve` builds the app *object* and passes it to
+> `uvicorn.run(app, reload=True)`, and uvicorn requires an **import string** for
+> reload — it logs `You must pass the application as an import string` and calls
+> `sys.exit(1)`. The container then restart-loops. Reported upstream; when Mosaic
+> passes a factory import string, `--reload` goes back into
+> `docker-compose.yml` and this step disappears.
 
 **Schema.** Edit `project/schemas/*.yaml`, then:
 

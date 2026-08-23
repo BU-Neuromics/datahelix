@@ -73,18 +73,19 @@ services:
   # Verified: `import mosaic` resolves to /src/mosaic/__init__.py, not the
   # image's site-packages.
   #
-  # `--reload` needs Mosaic to pass uvicorn a factory import string rather
-  # than a live app object (BU-Neuromics/mosaic#171, fixed on main) — with
-  # that fixed, the source checkout mounted at /src plus PYTHONPATH shadowing
-  # means the reload subprocess re-imports the same live source on every
-  # change, no restart needed.
+  # NOTE: `--reload` is deliberately NOT passed. `mosaic serve` builds the app
+  # object and hands it to `uvicorn.run(app, reload=...)`, but uvicorn requires
+  # an import string for reload and calls sys.exit(1) instead — so the flag
+  # exits the process on every start. Reported upstream; until it is fixed the
+  # loop is `make reload-api` (a ~1s container restart), which still needs no
+  # rebuild. Re-add the flag here once Mosaic passes a factory import string.
   mosaic-dev:
     profiles: [mosaic-source]
     image: ghcr.io/bu-neuromics/mosaic:${MOSAIC_VERSION:-0.13.0}
     user: "${DOCKER_UID:-1000}:${DOCKER_GID:-1000}"
     command:
       ["serve", "--graphql", "--host", "0.0.0.0", "--port", "8001",
-       "--config", "/project/mosaic.yaml", "--reload"]
+       "--config", "/project/mosaic.yaml"]
     environment:
       PYTHONPATH: /src
       # See the note on the `mosaic` service above.
