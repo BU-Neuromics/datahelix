@@ -46,7 +46,7 @@ up: init
 		$(WEB_IMAGE) $(API_IMAGE) $(IDS) IDE_PORT=$(IDE_PORT) docker compose up -d
 	@$(MAKE) --no-print-directory _ready
 
-## Both components live from source: Aperture HMR + Mosaic --reload.
+## Both components live from source: Aperture HMR + Mosaic auto-reload.
 dev: init
 	env COMPOSE_PROFILES=aperture-source,mosaic-source \
 		$(WEB_SOURCE) $(API_SOURCE) $(IDS) IDE_PORT=$(IDE_PORT) docker compose up -d
@@ -58,7 +58,7 @@ dev-web: init
 		$(WEB_SOURCE) $(API_IMAGE) $(IDS) IDE_PORT=$(IDE_PORT) docker compose up -d
 	@$(MAKE) --no-print-directory _ready
 
-## Mosaic from source (--reload); Aperture from its published image.
+## Mosaic from source (auto-reload); Aperture from its published image.
 dev-api: init
 	env COMPOSE_PROFILES=aperture-image,mosaic-source \
 		$(WEB_IMAGE) $(API_SOURCE) $(IDS) IDE_PORT=$(IDE_PORT) docker compose up -d
@@ -100,8 +100,9 @@ seed:
 	done; \
 	if [ $$found -eq 0 ]; then echo "no *.yaml in $(PROJECT_DIR)/seed/ — nothing to ingest"; fi
 
-## Pick up Mosaic source changes (~1s). Stands in for `mosaic serve --reload`,
-## which exits the process as shipped — see the note in docker-compose.yml.
+## Force-restart the mosaic-dev service. `mosaic serve --reload` (set in
+## docker-compose.yml) already auto-reloads on source changes; this is a
+## manual fallback for cases that need a fresh process (e.g. a stuck watcher).
 reload-api:
 	@svc=$$(docker compose ps --services --status running | grep -E '^mosaic(-dev)?$$' | head -1); \
 	if [ -z "$$svc" ]; then echo "no mosaic service running" >&2; exit 1; fi; \
