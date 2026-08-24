@@ -73,12 +73,20 @@ services:
   # Verified: `import mosaic` resolves to /src/mosaic/__init__.py, not the
   # image's site-packages.
   #
-  # NOTE: `--reload` is deliberately NOT passed. `mosaic serve` builds the app
-  # object and hands it to `uvicorn.run(app, reload=...)`, but uvicorn requires
-  # an import string for reload and calls sys.exit(1) instead — so the flag
-  # exits the process on every start. Reported upstream; until it is fixed the
-  # loop is `make reload-api` (a ~1s container restart), which still needs no
-  # rebuild. Re-add the flag here once Mosaic passes a factory import string.
+  # `--reload` is still NOT passed, for a second reason now that the original
+  # crash is fixed (mosaic fbffc7c / BU-Neuromics/mosaic#171):
+  #
+  #   `mosaic serve` does not expose uvicorn's reload_dirs, and uvicorn
+  #   defaults it to the process cwd. cwd must stay /project, because
+  #   mosaic.yaml's `schema_path` and `database_url` are resolved relative to
+  #   it (running with -w /src fails outright in create_client_from_config).
+  #   So the reloader would watch /project for *.py — of which there are none
+  #   — and never see a change under /src.
+  #
+  # A flag that starts a reloader watching the wrong tree is worse than no
+  # flag: it looks like live reload and silently never fires. `make reload-api`
+  # (~1s restart, no rebuild) remains the loop until Mosaic exposes a
+  # reload-dir option.
   mosaic-dev:
     profiles: [mosaic-source]
     image: ghcr.io/bu-neuromics/mosaic:${MOSAIC_VERSION:-0.13.0}
