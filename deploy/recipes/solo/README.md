@@ -1,9 +1,18 @@
 # DataHelix `solo` — single-container production MVP
 
-One container, one port: **Aperture** (data explorer) at `/`, the **LinkML
-Modeler** (schema editor) at `/modeler/`, and **Mosaic** (`serve --graphql`,
-SQLite) proxied same-origin at `/graphql` — with a migrate-on-restart loop for
-iterating your schema. Designed in `proposals/deployment-recipes.md` (§2.1).
+One container, one port: **Aperture** (data explorer) at `/` and **Mosaic**
+(`serve --graphql`, SQLite) proxied same-origin at `/graphql` — with a
+migrate-on-restart loop for iterating your schema. Designed in
+`proposals/deployment-recipes.md` (§2.1).
+
+> **The LinkML Modeler is no longer bundled** (platform ADR-0005). It was
+> served at `/modeler/` with a `/cors-proxy/` git relay; both are gone. It was
+> wired into nothing — a purely client-side app that reads your *host*
+> filesystem, never the container's — while being the only from-source build in
+> a production recipe and the last pin on EOL Node 20. **There is now no Node
+> in this image at all.** Run the Modeler yourself against your `schemas/`
+> directory if you want the canvas; nothing about how it reaches those files
+> has changed.
 
 > **No auth.** Mosaic's bearer guard is a placeholder and this recipe injects
 > the token for you; Bridge (the platform's PEP/PDP) is not in this bundle.
@@ -18,9 +27,8 @@ make gate     # certified-frontier pre-flight (platform ADR-0001)
 make up       # build the bundle image and start it
 ```
 
-Then open <http://localhost:8080> (Aperture), <http://localhost:8080/modeler/>
-(Modeler), <http://localhost:8080/docs> (API docs). `SOLO_PORT=9090 make up`
-to publish elsewhere.
+Then open <http://localhost:8080> (Aperture) and <http://localhost:8080/docs>
+(API docs). `SOLO_PORT=9090 make up` to publish elsewhere.
 
 The **project directory** is the whole deployment state: `mosaic.yaml`,
 `schemas/*.yaml`, `data/mosaic.db`. Put it under git; back it up with
@@ -41,28 +49,36 @@ when debugging a `migrate` failure, since the entrypoint's migrate step
 runs with its working directory set to `schemas/` so those relative
 imports resolve.
 
-**Mode L — browser and container on the same machine.** Open the Modeler,
-use *Open* to pick `./project/schemas/` on your disk (the very directory the
-container mounts), edit on the canvas, save, then:
+**Mode L — you and the container on the same machine.** Edit
+`./project/schemas/*.yaml` directly — that directory is bind-mounted into the
+container — then:
 
 ```bash
 make migrate   # = restart: applies additive DDL, Aperture re-introspects
 ```
 
-**Mode R — container on a remote host.** The Modeler in your browser cannot
-see the server's filesystem; the loop goes through git:
+Any editor works, including the LinkML Modeler run separately: it uses the
+browser's File System Access API to open a directory on *your* disk, which is
+the same directory the container mounts. That was always true — the bundled
+copy never had server-side access either.
+
+**Mode R — container on a remote host.** The loop goes through git:
 
 1. Make `project/` (or just its `schemas/`) a git repo with a remote.
-2. In the Modeler, clone that remote (the bundle serves a same-origin git
-   relay at `/cors-proxy` for exactly this), edit, commit, push.
+2. Edit and push from wherever you work.
 3. Configure the container with `SCHEMA_GIT_REMOTE=<url>` (optionally
-   `SCHEMA_GIT_REF`, and `SCHEMA_GIT_PATH` if the schemas aren't at
-   `schemas/` in that repo), then `make migrate`.
+   `SCHEMA_GIT_REF`, and `SCHEMA_GIT_PATH` if the schemas aren't at `schemas/`
+   in that repo), then `make migrate`.
 
 On every (re)start with `SCHEMA_GIT_REMOTE` set, the entrypoint fetches the
 remote into a staging directory, **dry-runs the migration before touching
 anything**, then swaps the schemas in and applies. A failed plan aborts the
 boot with the old schemas and database untouched.
+
+> Editing in a browser-based tool on a *remote* deployment used to be served by
+> the bundled `/cors-proxy/` git relay, which let the Modeler clone and push
+> same-origin. That is gone with the Modeler (ADR-0005); in-browser git now
+> needs a CORS-enabled git host or your own proxy.
 
 Escape hatch: `scp` the YAML into `project/schemas/` and `make migrate`.
 
@@ -70,11 +86,9 @@ Escape hatch: `scp` the YAML into `project/schemas/` and `make migrate`.
 
 ```
 :8080 nginx ── /            → Aperture SPA   (from the certified aperture image)
-          ├── /modeler/     → LinkML Modeler (static build at a pinned ref)
-          ├── /cors-proxy/  → git relay for the Modeler (node, localhost:9999)
           ├── /graphql      → mosaic serve --graphql (localhost:8001)  [+ bearer]
           └── /health /docs /redoc /openapi.json → mosaic serve
-supervisord: nginx + mosaic + cors-proxy ─ entrypoint: [pull] → migrate → serve
+supervisord: nginx + mosaic ─ entrypoint: [pull] → migrate → serve
 volume: ./project → /project   (workdir; mosaic.yaml auto-discovered)
 ```
 
@@ -87,7 +101,7 @@ runtime var (`VITE_HIPPO_GRAPHQL_URL`, `VITE_HIPPO_CONTROL_PLANE_URL`,
 ## Certification (platform ADR-0001)
 
 The bundle is **built from the certified pair**: the Dockerfile pins the
-hippo and aperture images by digest, and `make check-pins` fails if they
+mosaic and aperture images by digest, and `make check-pins` fails if they
 drift from `certification/composition.lock.json` (this is the recipe's own
 invariant, enforced in CI). The pins are recorded as OCI labels
 (`org.datahelix.solo.*`) on the bundle image for provenance.
@@ -105,8 +119,8 @@ follow-on (proposal §4.4).
 ## Upgrading
 
 1. The certification frontier advances (new certified pair in the lock).
-2. Update the Dockerfile's `HIPPO_IMAGE` / `APERTURE_IMAGE` ARGs to match
-   (`make check-pins` confirms), bump `MODELER_REF` if desired.
+2. Update the Dockerfile's `MOSAIC_IMAGE` / `APERTURE_IMAGE` ARGs to match
+   (`make check-pins` confirms).
 3. `make gate && make up` — the image rebuilds, migrate-on-boot handles
    additive schema evolution, SQLite data carries over in `project/`.
 
@@ -114,6 +128,8 @@ follow-on (proposal §4.4).
 
 - **Single-user, no auth** (see banner above). Multi-user lands with Bridge
   and the `team` recipe.
+- **No bundled schema-editing GUI** (ADR-0005) — edit YAML directly, or run the
+  LinkML Modeler yourself against `project/schemas/`.
 - Only `/graphql`, `/health`, `/docs`, `/redoc`, `/openapi.json` are proxied;
   Mosaic's full REST surface needs the optional `8001` port mapping
   (commented in `docker-compose.yml`).

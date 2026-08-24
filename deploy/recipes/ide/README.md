@@ -102,7 +102,8 @@ Two sharp edges worth knowing, both of which cost time to find:
   schema names its identifiers `id`. Reported upstream.
 
 To edit schemas on a canvas instead of by hand, run the LinkML Modeler
-separately for now — it is not yet part of this recipe (see *Not included*).
+separately against `project/schemas/` — it is deliberately not part of any
+recipe (ADR-0005), and it reads your host filesystem either way.
 
 ## Verifying the production bundle
 
@@ -194,7 +195,10 @@ updating, so only the websocket assertion catches it.
 
 ## Not included
 
-- **LinkML Modeler** — `solo` ships it; here it is deferred to its own task, so
-  `/modeler/` is not routed yet.
+- **LinkML Modeler** — not routed, and not coming: platform ADR-0005 removed it
+  from every recipe (it was wired into nothing, was the only from-source build
+  in a production recipe, and was the last pin on EOL Node 20). `solo` dropped
+  it too. Run it yourself against `project/schemas/` if you want the canvas —
+  it reads your host filesystem either way.
 - **Deploy gate** — deliberately absent (decision 1.10). There is no
   `make gate` and no `check_pins.py` here by design.

@@ -20,8 +20,8 @@ services:
     volumes:
       - "${PROJECT_DIR:-./project}:/project"
     environment:
-      # Mode R (remote schema iteration): set SCHEMA_GIT_REMOTE to a repo the
-      # Modeler pushes to and the entrypoint pulls schemas on every (re)start.
+      # Mode R (remote schema iteration): set SCHEMA_GIT_REMOTE to a repo you
+      # push schemas to; the entrypoint pulls them on every (re)start.
       SCHEMA_GIT_REMOTE: ${SCHEMA_GIT_REMOTE:-}
       SCHEMA_GIT_REF: ${SCHEMA_GIT_REF:-}
       SCHEMA_GIT_PATH: ${SCHEMA_GIT_PATH:-}
