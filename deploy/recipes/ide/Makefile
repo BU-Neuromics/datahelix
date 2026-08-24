@@ -100,8 +100,9 @@ seed:
 	done; \
 	if [ $$found -eq 0 ]; then echo "no *.yaml in $(PROJECT_DIR)/seed/ — nothing to ingest"; fi
 
-## Pick up Mosaic source changes (~1s). Stands in for `mosaic serve --reload`,
-## which exits the process as shipped — see the note in docker-compose.yml.
+## Manually restart the API (~1s, no rebuild). The source profile auto-reloads
+## on *.py changes under /src, so this is for what the watcher does not see —
+## mosaic.yaml itself, or changes outside the mounted source tree.
 reload-api:
 	@svc=$$(docker compose ps --services --status running | grep -E '^mosaic(-dev)?$$' | head -1); \
 	if [ -z "$$svc" ]; then echo "no mosaic service running" >&2; exit 1; fi; \

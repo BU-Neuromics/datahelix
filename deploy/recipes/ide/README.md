@@ -26,9 +26,9 @@ The first `make dev` installs Aperture's dependencies into a named volume
 | Command | Aperture | Mosaic | Use when |
 |---|---|---|---|
 | `make up` | pinned image | pinned image | you want a known-good baseline to compare against |
-| `make dev` | **source, HMR** | **source** (`make reload-api`) | changing either side, or both |
+| `make dev` | **source, HMR** | **source, auto-reload** | changing either side, or both |
 | `make dev-web` | **source, HMR** | pinned image | front-end only — the common case |
-| `make dev-api` | published image | **source** (`make reload-api`) | backend only |
+| `make dev-api` | published image | **source, auto-reload** | backend only |
 
 All four serve the same URLs, so nothing in the browser changes when you switch:
 
@@ -48,24 +48,27 @@ volume, forcing a clean reinstall.
 without a reload — Vite HMR, sub-second. No build, no restart, no bind-mounted
 `dist/`.
 
-**Mosaic.** Edit anything under `mosaic/src/`, then:
-
-```bash
-make reload-api   # ~1s container restart; no rebuild
-```
+**Mosaic.** Edit anything under `mosaic/src/` and uvicorn reloads itself — no
+command, no restart, about a second.
 
 This works because the container runs the pinned Mosaic *image* — so every
 runtime dependency is already installed — with your checkout mounted at `/src`
-and `PYTHONPATH=/src` shadowing the installed package. Verified: `import mosaic`
-resolves to `/src/mosaic/__init__.py`, not the image's `site-packages`.
+and `PYTHONPATH=/src` shadowing the installed package. `import mosaic` resolves
+to `/src/mosaic/__init__.py`, not the image's `site-packages`, and
+`--reload-dir /src` points the watcher at that same tree.
 
-> **Why not `--reload`?** The flag exists on `mosaic serve` but is unusable as
-> shipped: `serve` builds the app *object* and passes it to
-> `uvicorn.run(app, reload=True)`, and uvicorn requires an **import string** for
-> reload — it logs `You must pass the application as an import string` and calls
-> `sys.exit(1)`. The container then restart-loops. Reported upstream; when Mosaic
-> passes a factory import string, `--reload` goes back into
-> `docker-compose.yml` and this step disappears.
+`make reload-api` remains as a manual restart for changes the watcher does not
+see — `mosaic.yaml` itself, or anything outside `/src`.
+
+> Getting here took two upstream fixes, both surfaced by this recipe.
+> BU-Neuromics/mosaic#171: `--reload` used to `exit(1)`, because `serve` handed
+> uvicorn an app *object* where reload requires an import string.
+> BU-Neuromics/mosaic#174: with that fixed, uvicorn defaulted its watch
+> directory to cwd — which must stay `/project`, since `mosaic.yaml` resolves
+> `schema_path` and `database_url` against it — so the reloader watched a tree
+> containing no `*.py` and silently never fired. **Both fixes are newer than
+> the v0.13.0 image**, so auto-reload works only on the source profile, not
+> `make up`.
 
 **Schema.** Edit `project/schemas/*.yaml`, then:
 
