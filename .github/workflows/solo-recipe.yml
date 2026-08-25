@@ -65,12 +65,11 @@ jobs:
           echo
           docker compose logs solo | grep "solo:"
 
-      - name: "Smoke: SPA shells and runtime config"
+      - name: "Smoke: SPA shell and runtime config"
         run: |
           curl -sf http://localhost:8080/ | grep -qi "<!doctype html>"
           curl -sf http://localhost:8080/config.js | grep -q '"/graphql"'
-          curl -sf http://localhost:8080/modeler/ | grep -qi "<!doctype html>"
-          echo "aperture + modeler shells served; runtime config injected"
+          echo "aperture shell served; runtime config injected"
 
       - name: "Smoke: GraphQL introspection through the same-origin seam"
         # Deliberately no Authorization header — proves the nginx bearer

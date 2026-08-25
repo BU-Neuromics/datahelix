@@ -8,7 +8,7 @@
 #      (first boot needs no migrate — serve self-initializes the database)
 #   3. write Aperture's runtime config.js (ADR-0034 pattern; defaults to the
 #      same-origin /graphql seam)
-#   4. exec supervisord (nginx + mosaic serve + cors-proxy)
+#   4. exec supervisord (nginx + mosaic serve)
 #
 # "Restart the container" therefore means: pull (if configured) + migrate +
 # serve — the restart-on-migrate model in one motion.

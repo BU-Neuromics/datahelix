@@ -1,5 +1,5 @@
 # Example LinkML schema for the DataHelix solo recipe.
-# Edit this (by hand or in the Modeler at /modeler/), then `make migrate` —
+# Edit this, then `make migrate` —
 # additive changes (new classes, new attributes) apply as DDL on restart and
 # appear in Aperture immediately.
 id: https://example.org/solo-example

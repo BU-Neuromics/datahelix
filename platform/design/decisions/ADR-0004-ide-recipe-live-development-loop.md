@@ -51,7 +51,9 @@ The platform will implement `deploy/recipes/ide/` as a **compose recipe in which
 components can run from source with live reload, behind a single nginx gateway**:
 
 - **`gateway` (nginx)** publishes one port and routes exactly as `solo` does: `/` → Aperture,
-  `/modeler/` → Modeler, `/graphql` + REST + `/docs` → Mosaic. One URL for everything.
+  `/graphql` + REST + `/docs` → Mosaic. One URL for everything.
+  (This originally also routed `/modeler/`; [ADR-0005](./ADR-0005-drop-linkml-modeler-from-recipes.md)
+  removed the Modeler from every recipe. The rest of this ADR stands.)
 - **Profile `dev-aperture` (new — this is the amendment):** `/` proxies to a **Vite dev server**
   running Aperture from the source checkout, with HMR. The gateway must proxy the HMR
   **websocket**, not only HTTP. Without the profile, the default remains the published Aperture

@@ -73,19 +73,28 @@ services:
   # Verified: `import mosaic` resolves to /src/mosaic/__init__.py, not the
   # image's site-packages.
   #
-  # NOTE: `--reload` is deliberately NOT passed. `mosaic serve` builds the app
-  # object and hands it to `uvicorn.run(app, reload=...)`, but uvicorn requires
-  # an import string for reload and calls sys.exit(1) instead — so the flag
-  # exits the process on every start. Reported upstream; until it is fixed the
-  # loop is `make reload-api` (a ~1s container restart), which still needs no
-  # rebuild. Re-add the flag here once Mosaic passes a factory import string.
+  # `--reload` watches the mounted checkout, not cwd. Two upstream fixes were
+  # needed to get here: BU-Neuromics/mosaic#171 (the flag used to exit(1),
+  # because serve handed uvicorn an app object instead of an import string)
+  # and #174 (uvicorn then defaulted its watch dir to cwd, which must stay
+  # /project so mosaic.yaml's schema_path/database_url keep resolving — so the
+  # reloader watched a tree with no *.py in it and silently never fired).
+  #
+  # --reload-dir is passed explicitly even though mosaic now defaults it to the
+  # resolved `mosaic` package directory (which is /src/mosaic here): being
+  # explicit means this keeps working if PYTHONPATH or the mount path changes.
+  #
+  # NOT available on the `mosaic` (image) profile: the fixes postdate v0.13.0
+  # and no image has shipped with them. This profile is unaffected because
+  # PYTHONPATH=/src shadows the CLI too, so `mosaic serve` runs from the
+  # submodule rather than the image.
   mosaic-dev:
     profiles: [mosaic-source]
     image: ghcr.io/bu-neuromics/mosaic:${MOSAIC_VERSION:-0.13.0}
     user: "${DOCKER_UID:-1000}:${DOCKER_GID:-1000}"
     command:
       ["serve", "--graphql", "--host", "0.0.0.0", "--port", "8001",
-       "--config", "/project/mosaic.yaml"]
+       "--config", "/project/mosaic.yaml", "--reload", "--reload-dir", "/src"]
     environment:
       PYTHONPATH: /src
       # See the note on the `mosaic` service above.

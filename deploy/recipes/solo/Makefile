@@ -26,7 +26,7 @@ gate: check-pins
 
 up:
 	docker compose up -d --build
-	@echo "solo up — http://localhost:$${SOLO_PORT:-8080} (Aperture) /modeler/ (Modeler) /docs (API)"
+	@echo "solo up — http://localhost:$${SOLO_PORT:-8080} (Aperture) /docs (API)"
 
 down:
 	docker compose down

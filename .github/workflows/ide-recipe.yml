@@ -203,6 +203,29 @@ jobs:
           git -C ../../../aperture checkout -- web/src/App.tsx
           echo "edit propagated over the bind mount with no restart"
 
+      - name: "Reload: a Mosaic source edit reloads uvicorn"
+        # Same reasoning as the HMR websocket assertion above. `--reload` has
+        # failed silently twice: first by exiting the process (mosaic#171),
+        # then by watching cwd instead of the mounted source (mosaic#174) —
+        # in which case the reloader starts, logs normally, and simply never
+        # fires. Only an end-to-end edge catches that.
+        run: |
+          docker compose logs mosaic-dev | grep -qi "Watching for reload in" || {
+            echo "mosaic did not report a reload watch dir — --reload-dir not honoured?" >&2
+            exit 1
+          }
+          before=$(docker compose logs mosaic-dev | grep -ci 'reloading' || true)
+          printf '\n# ide-recipe ci reload probe\n' >> ../../../mosaic/src/mosaic/cli/main.py
+          timeout 90 sh -c "until [ \"\$(docker compose logs mosaic-dev | grep -ci 'reloading' || true)\" -gt $before ]; do sleep 2; done" || {
+            echo "no reload within 90s of editing /src — the watcher is not seeing the mounted tree" >&2
+            git -C ../../../mosaic checkout -- src/mosaic/cli/main.py
+            exit 1
+          }
+          docker compose logs mosaic-dev | grep -i 'reloading' | tail -1
+          git -C ../../../mosaic checkout -- src/mosaic/cli/main.py
+          timeout 120 sh -c 'until curl -sf http://localhost:8080/health >/dev/null; do sleep 3; done'
+          echo "mosaic source edit reloaded uvicorn, and it came back healthy"
+
       - name: "Smoke: GraphQL through the gateway on the source profile"
         run: |
           curl -sf -X POST http://localhost:8080/graphql \
