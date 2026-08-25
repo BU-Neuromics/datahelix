@@ -4246,6 +4246,11 @@ decisions live in each component's own <code>design/decisions/</code>.</p>
 <td>✅ Accepted</td>
 </tr>
 <tr>
+<td><a href="../decisions/ADR-0005-drop-linkml-modeler-from-recipes/">0005</a></td>
+<td><strong>Drop the LinkML Modeler from every deployment recipe</strong> — it is wired into nothing (client-side only; cannot read the server's schema dir), is the sole from-source build in a production recipe (an exception to decision 1.4), drags a <code>cors-proxy</code> sidecar + Node runtime into the image, and is the last thing pinning the platform to EOL Node 20. <strong>Supersedes</strong> <a href="../../../proposals/deployment-recipes.md"><code>deployment-recipes.md</code></a> decision 1.8. Mode R (git schema pull) stays; only the Modeler and its proxy go. Completes the Node 26 migration by elimination.</td>
+<td>✅ Accepted</td>
+</tr>
+<tr>
 <td><a href="../decisions/ADR-0004-ide-recipe-live-development-loop/">0004</a></td>
 <td>The <code>ide</code> recipe develops <strong>Aperture and Mosaic live behind one nginx gateway</strong> — new <code>dev-aperture</code> profile proxies <code>/</code> to a Vite dev server (HMR, websocket proxied by the gateway) alongside the existing <code>dev-mosaic</code> source profile; relative <code>VITE_HIPPO_GRAPHQL_URL=/graphql</code> keeps dev on the same same-origin seam as <code>solo</code>. <strong>Amends</strong> <a href="../../../proposals/deployment-recipes.md"><code>deployment-recipes.md</code></a> decision 1.9, which specified Aperture as a published image. Stays exempt from the ADR-0001 deploy gate.</td>
 <td>✅ Accepted</td>

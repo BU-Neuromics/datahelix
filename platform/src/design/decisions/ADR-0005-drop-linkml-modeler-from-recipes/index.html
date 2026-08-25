@@ -21,7 +21,7 @@
     
     
       
-        <title>ADR-0004: The ide recipe develops Aperture and Mosaic live behind one gateway - DataHelix Documentation</title>
+        <title>ADR-0005: Drop the LinkML Modeler from the deployment recipes - DataHelix Documentation</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#adr-0004-the-ide-recipe-develops-aperture-and-mosaic-live-behind-one-gateway" class="md-skip">
+        <a href="#adr-0005-drop-the-linkml-modeler-from-the-deployment-recipes" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ADR-0004: The ide recipe develops Aperture and Mosaic live behind one gateway
+              ADR-0005: Drop the LinkML Modeler from the deployment recipes
             
           </span>
         </div>
@@ -3866,17 +3866,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#notes-open-sub-questions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notes / open sub-questions
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -3894,136 +3883,119 @@
 
 
 
-<h1 id="adr-0004-the-ide-recipe-develops-aperture-and-mosaic-live-behind-one-gateway">ADR-0004: The <code>ide</code> recipe develops Aperture and Mosaic live behind one gateway<a class="headerlink" href="#adr-0004-the-ide-recipe-develops-aperture-and-mosaic-live-behind-one-gateway" title="Permanent link">&para;</a></h1>
+<h1 id="adr-0005-drop-the-linkml-modeler-from-the-deployment-recipes">ADR-0005: Drop the LinkML Modeler from the deployment recipes<a class="headerlink" href="#adr-0005-drop-the-linkml-modeler-from-the-deployment-recipes" title="Permanent link">&para;</a></h1>
 <ul>
 <li><strong>Status:</strong> Accepted</li>
-<li><strong>Date:</strong> 2026-08-21</li>
+<li><strong>Date:</strong> 2026-08-24</li>
 <li><strong>Deciders:</strong> labadorf, design session</li>
-<li><strong>Tracking issue:</strong> <a href="https://github.com/BU-Neuromics/datahelix/issues/74">#74</a> (deliberation; closed at ratification — implementation tracked in <a href="https://github.com/BU-Neuromics/datahelix/issues/75">#75</a>)</li>
-<li><strong>Related:</strong> <a href="../../../proposals/deployment-recipes.md"><code>proposals/deployment-recipes.md</code></a> decisions 1.9 / 1.10 / §2.2 / §4.3 (this ADR <strong>amends 1.9</strong>); <a href="../ADR-0001-certified-frontier-composition/">ADR-0001</a> (deploy gate — <code>ide</code> is exempt); Aperture ADR-0034 (runtime endpoint injection); <a href="https://github.com/BU-Neuromics/aperture/pull/54">BU-Neuromics/aperture#54</a> (Node 26 toolchain pin)</li>
+<li><strong>Supersedes:</strong> <a href="../../../proposals/deployment-recipes.md"><code>proposals/deployment-recipes.md</code></a> decision <strong>1.8</strong> (owner decision of 2026-07-14, "Modeler ships in <code>solo</code> by default"), and the Modeler/<code>cors-proxy</code> portions of decision 1.9 and §2.2 carried into <a href="../ADR-0004-ide-recipe-live-development-loop/">ADR-0004</a></li>
+<li><strong>Related:</strong> <a href="../ADR-0004-ide-recipe-live-development-loop/">ADR-0004</a> (the <code>ide</code> recipe; its gateway routing loses <code>/modeler/</code> and <code>/cors-proxy/</code>); <a href="https://github.com/BU-Neuromics/linkml-modeler-app/issues/172">BU-Neuromics/linkml-modeler-app#172</a> (the EOL-Node blocker); datahelix #84 (the <code>ide</code> Modeler task this closes as superseded), #72 / #85 (the EOL Node pin this finishes)</li>
 </ul>
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
-<p>The platform ships two container recipes today: <code>solo</code> (single-container production MVP) and
-<code>demo</code> (<code>solo</code> plus a baked synthetic dataset). <code>proposals/deployment-recipes.md</code> decision 1.9
-designed a third — <code>ide</code>, the development environment — and made it explicitly exempt from the
-ADR-0001 deploy gate on the grounds that "ADR-0001 governs deployment, not development." It was
-never implemented.</p>
-<p>In its absence, front-end iteration was done by hand: build <code>aperture/web/dist</code> on the host,
-then bind-mount it over the SPA baked into the <code>demo</code> image using an <strong>untracked</strong>
-<code>docker-compose.dev-aperture.yml</code>. That loop has four seams, and three of them fail silently:</p>
-<ol>
-<li><strong>Stale <code>dist/</code></strong> — the browser shows the last build, not the current edit.</li>
-<li><strong>Container started without the overlay</strong> — nginx serves the certified bundle instead of the
-   local build, with no error anywhere.</li>
-<li><strong>Host toolchain on an unpinned Node</strong> — the container in that loop runs <em>only nginx</em>; it has
-   no Node at all, so every build and test ran on whatever the host happened to have.</li>
-<li><strong><code>npm run build</code> deletes <code>config.js</code></strong>, which the image entrypoint only regenerates on
-   container start, so a rebuild can leave the app with no data-plane endpoint.</li>
-</ol>
-<p>All four were hit in a single session (2026-08-21). The visible cost was an afternoon and a
-false diagnosis — a completed fix was believed lost because the running container was serving
-the baked bundle — plus a 26-test failure that turned out to be host Node 25 shadowing jsdom's
-<code>localStorage</code>, unrelated to the code under change.</p>
-<p>Decision 1.9 as written would not have prevented any of it. Its service table lists <code>aperture</code>
-as a <strong>published image</strong>, and the inner loop in §2.2 is schema iteration ending in "Reload
-Aperture — introspection picks up the new types." The recipe addresses Mosaic and schema
-iteration; front-end iteration is out of its scope by construction.</p>
-<p>That gap matters more than it looks, because Aperture and Mosaic are developed as <strong>one unit</strong>:
-a given defect may legitimately be fixed on either side of the GraphQL seam. When one side has a
-sub-second loop and the other needs a rebuild, the loop quality — not the design — starts
-deciding where code lands.</p>
-<p><strong>The question:</strong> what shape must <code>ide</code> take so that a change to <em>either</em> component is visible
-immediately, without a rebuild, while still exercising the same-origin arrangement that
-production uses?</p>
+<p>Decision 1.8 made the LinkML Modeler a first-class part of <code>solo</code> on the
+reasoning that "users iterating their own schema is a first-class platform
+capability, not a dev-only feature." That was a defensible call at the time.
+Six weeks of building on it have changed the facts.</p>
+<p><strong>It is not wired into anything.</strong> The Modeler is served as a static SPA at
+<code>/modeler/</code> and shares no state with the rest of the bundle. It cannot read the
+server's schema directory at all — it is a purely client-side app using the
+browser's File System Access API (<code>deployment-recipes.md</code> §0 fact 2). Every
+loop that closes between it and Mosaic closes through something else: the host
+filesystem (Mode L) or a git remote (Mode R). Nothing in Aperture, Mosaic, or
+the certification harness references it.</p>
+<p><strong>It is the most expensive thing in the bundle by a wide margin.</strong> It is the
+only component built from source in a production recipe — an external repo
+(<code>BU-Neuromics/linkml-modeler-app</code>) cloned at a pinned commit and built with
+corepack pnpm — which is a direct exception to decision 1.4's "never build
+components from source in a production recipe". It also drags in a <code>cors-proxy</code>
+sidecar, a Node runtime binary copied into the final image, <code>libstdc++6</code> to run
+that binary, a supervisord program, and two nginx location blocks.</p>
+<p><strong>It is the last thing holding the platform on an EOL runtime.</strong> Node 20 went
+EOL 2026-04-30. #85 moved the <code>node-runtime</code> stage to Node 26, but the
+<code>modeler-build</code> stage is still <code>node:20-alpine</code> and cannot move until the
+upstream repo does — its own CI and <code>engines</code> floor are still Node 20
+(linkml-modeler-app#172, filed 2026-08-21, untriaged). So a component that is
+not wired into anything is pinning a production image to an end-of-life
+toolchain, and the fix is gated on a repo outside this one.</p>
+<p><strong>It is not needed for the DataHelix MVP.</strong> Schema authoring by hand plus
+<code>make migrate</code> is the loop the recipes actually document and test.</p>
+<p><strong>The question:</strong> does the Modeler stay in the recipe family, or come out?</p>
 <h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
-<p>The platform will implement <code>deploy/recipes/ide/</code> as a <strong>compose recipe in which both
-components can run from source with live reload, behind a single nginx gateway</strong>:</p>
+<p><strong>The LinkML Modeler will not ship in any DataHelix deployment recipe.</strong></p>
 <ul>
-<li><strong><code>gateway</code> (nginx)</strong> publishes one port and routes exactly as <code>solo</code> does: <code>/</code> → Aperture,
-  <code>/graphql</code> + REST + <code>/docs</code> → Mosaic. One URL for everything.
-  (This originally also routed <code>/modeler/</code>; <a href="../ADR-0005-drop-linkml-modeler-from-recipes/">ADR-0005</a>
-  removed the Modeler from every recipe. The rest of this ADR stands.)</li>
-<li><strong>Profile <code>dev-aperture</code> (new — this is the amendment):</strong> <code>/</code> proxies to a <strong>Vite dev server</strong>
-  running Aperture from the source checkout, with HMR. The gateway must proxy the HMR
-  <strong>websocket</strong>, not only HTTP. Without the profile, the default remains the published Aperture
-  image exactly as decision 1.9 specified.</li>
-<li><strong>Profile <code>dev-mosaic</code>:</strong> Mosaic built from the source checkout with <code>--reload</code>, as 1.9
-  already allowed.</li>
-<li>Aperture keeps <strong><code>VITE_HIPPO_GRAPHQL_URL=/graphql</code></strong> (relative). The browser therefore sees a
-  same-origin data plane in development, identical to <code>solo</code> (decision 1.3), and no CORS is
-  involved anywhere in the stack.</li>
+<li><code>solo</code> drops the <code>modeler-build</code> stage, the <code>cors-proxy</code> sidecar, the Node
+  runtime binary and its <code>libstdc++6</code> dependency, the supervisord program, and
+  the <code>/modeler/</code> and <code>/cors-proxy/</code> nginx locations.</li>
+<li><code>ide</code> does not gain them — datahelix #84 closes as superseded rather than
+  being implemented.</li>
+<li><code>demo</code> is unaffected; it never had them.</li>
+<li><strong>Mode R stays.</strong> The <code>SCHEMA_GIT_REMOTE</code> pull-on-boot path was introduced so
+  the Modeler could reach a remote deployment's schemas, but it is useful for
+  any editing workflow — edit in whatever tool, push, restart. Only the
+  <code>cors-proxy</code> (which exists solely for the Modeler's in-browser
+  isomorphic-git) goes. Mode L likewise stays: it is just "edit the
+  bind-mounted <code>schemas/</code> directory", which needs no server-side support.</li>
 </ul>
-<p>Everything else in decision 1.9 stands unchanged. This ADR adds the <code>dev-aperture</code> profile and
-the obligation that the gateway carry the HMR websocket.</p>
+<p>Schema authoring is by hand, or in the Modeler run separately by the user
+against their own checkout. The recipes keep <code>make migrate</code> as the seam.</p>
+<p>This is a reversal, not a refinement: decision 1.8 is superseded, not amended.</p>
 <h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
 <p><strong>What becomes true</strong></p>
 <ul>
-<li>Front-end changes appear in sub-second HMR; Mosaic Python changes reload in about a second;
-  LinkML schema changes remain restart-on-migrate (<code>make migrate</code>). The three loops a platform
-  developer actually uses are all live, and none requires a rebuild.</li>
-<li>The relative-<code>/graphql</code> contract is exercised <strong>in development</strong>, not only in production.
-  Development stops being a topology special case, which is what allowed the <code>config.js</code> and
-  overlay failures above to be invisible.</li>
-<li>The dev toolchain's Node version is pinned <strong>by the recipe</strong> rather than by whatever is on the
-  host — the root cause of the 26-test failure. The Vite service tracks Aperture's <code>engines</code>
-  floor (<code>&gt;=26</code> as of aperture#54).</li>
+<li><strong>No Node anywhere in <code>solo</code>.</strong> Both Node pins disappear rather than moving,
+  which completes the platform's Node 26 migration by elimination — every
+  remaining Node in the repo (Aperture's image and CI, the certification
+  Playwright harness, <code>ide</code>'s Vite service) is already on 26.</li>
+<li><code>solo</code>'s image gets materially smaller and faster to build, and stops
+  depending on an external repo's build system, its pnpm version, and a pinned
+  commit that nobody was bumping.</li>
+<li>Decision 1.4's "never build components from source in a production recipe"
+  becomes true without exception.</li>
+<li>The <code>solo</code> recipe's surface shrinks to what is actually tested: Aperture,
+  Mosaic, the same-origin seam, and the migrate loop.</li>
 </ul>
-<p><strong>New obligations</strong></p>
+<p><strong>What becomes harder</strong></p>
 <ul>
-<li><strong>The gateway must proxy Vite's HMR websocket.</strong> This is the recipe's one fragile seam: with
-  wrong upgrade headers the page still loads fine and HMR silently degrades to nothing, which is
-  the same class of invisible failure this ADR exists to eliminate. The recipe's CI boot test
-  must therefore assert the <strong>websocket</strong>, not merely an HTTP 200.</li>
-<li><code>ide</code> remains <strong>exempt from the deploy gate</strong> (decision 1.10) and must never serve real data.
-  It builds from source by design; nothing it produces is a certified artifact.</li>
-<li><code>ide</code> is <strong>local-development only</strong> (decision 1.9, §4.3). The Modeler's File System Access
-  loop requires browser and containers on one machine. Devcontainers stay deferred.</li>
+<li><strong>Schema authoring loses its GUI in the bundle.</strong> A user who wants the canvas
+  now runs the Modeler themselves against their <code>schemas/</code> directory. For Mode
+  L that is genuinely equivalent — the Modeler always read the <em>host</em>
+  filesystem, never the container's, so running it separately changes nothing
+  about how it reaches the files. For Mode R it is a real loss: the bundled
+  <code>cors-proxy</code> was what let the browser clone and push the schema repo
+  same-origin. Users on that path need a CORS-enabled git host or their own
+  proxy.</li>
+<li>Anyone currently relying on <code>/modeler/</code> in a deployed <code>solo</code> loses it on
+  upgrade. The route returns an explicit <strong>410 Gone</strong> with a pointer, rather
+  than falling through to the SPA handler — which would otherwise serve
+  Aperture's shell and read as "the Modeler failed to load" instead of "the
+  Modeler is gone". This is an MVP-stage recipe with no compatibility
+  guarantee, but it is called out in the recipe's upgrade notes.</li>
 </ul>
-<p><strong>Follow-on</strong></p>
-<ul>
-<li>The untracked <code>docker-compose.dev-aperture.yml</code> is <strong>superseded</strong> and should be deleted when
-  <code>ide</code> lands, so there is one documented loop rather than a committed recipe plus a private
-  overlay.</li>
-<li>The <code>dist/</code> bind-mount path retains one legitimate use — verifying the <strong>production bundle</strong>
-  (minified, no dev-server semantics) before trusting it. That is a distinct job from
-  iterating, and should be documented as such rather than as the default loop.</li>
-</ul>
+<p><strong>Reversibility</strong></p>
+<p>Low cost to undo. If the Modeler becomes wired into the platform — most
+plausibly via the <code>PlatformAPI</code> backend sketched in §2.1a's rejected
+alternatives, which would let it read and write schemas <em>through</em> a server API
+instead of the browser filesystem — that is a different and better integration
+than serving its static bundle next door, and would warrant its own ADR rather
+than reinstating this one.</p>
 <h2 id="alternatives-considered">Alternatives considered<a class="headerlink" href="#alternatives-considered" title="Permanent link">&para;</a></h2>
-<p><strong>Vite as the entry point, no gateway.</strong> Vite serves the app and proxies <code>/graphql</code> to the
-Mosaic service directly. Genuinely simpler — no websocket proxying to get wrong — and verified
-in session: Vite ready in 171 ms, proxied GraphQL returning real counts from the running <code>demo</code>
-dataset. <strong>Rejected</strong> because the Modeler would not share the origin, making combined
-schema-plus-frontend sessions clumsy, and because the recipe would stop "feeling identical to
-<code>solo</code>", which is decision 1.9's stated goal for muscle-memory transfer. Retained as the
-documented fallback if the websocket proxy proves troublesome in practice.</p>
-<p><strong>Keep the bind-mounted <code>dist/</code> overlay as the loop.</strong> <strong>Rejected</strong>: it <em>is</em> the loop whose four
-silent seams caused the incident. It also requires a host toolchain, which reintroduces the Node
-skew independently of anything else.</p>
-<p><strong>Devcontainer.</strong> <strong>Rejected/deferred</strong>, consistent with the proposal (§4.3, "devcontainer
-deferred entirely"). It pins the toolchain only for tooling that actually runs inside it — the
-session's failure came from a host terminal, which a devcontainer would not have intercepted —
-and <code>docker-outside-of-docker</code> resolves bind-mount paths against the host, which would silently
-break the recipes' relative mounts (an empty mount renders as a blank app, no error).</p>
-<p><strong>Run the whole loop on the host, no containers.</strong> <strong>Rejected</strong>: the Mosaic + SQLite + nginx
-same-origin seam is what makes the stack behave like a deployment. Dropping it reintroduces CORS
-and makes development diverge from production in exactly the way this ADR is closing.</p>
-<h2 id="notes-open-sub-questions">Notes / open sub-questions<a class="headerlink" href="#notes-open-sub-questions" title="Permanent link">&para;</a></h2>
-<p>Probes to run before the recipe is considered done:</p>
-<ul>
-<li><strong><code>PYTHONPATH</code> shadowing for <code>dev-mosaic</code>.</strong> Mounting <code>mosaic/src</code> over the pinned image's
-  installed package should let the source win; the platform <code>Makefile</code> already uses
-  <code>PYTHONPATH := mosaic/src:…</code>. Precedence over the image's <code>site-packages</code> must be boot-tested,
-  not assumed.</li>
-<li><strong>File watching over bind mounts on WSL2.</strong> Vite may require <code>usePolling</code>, which costs CPU and
-  is a common cause of "HMR stopped working". Test on the real filesystem.</li>
-<li><strong>Seed data.</strong> Decide whether <code>ide</code> seeds from the <code>demo</code> recipe's dataset generator or from
-  <code>mosaic init</code> plus the <code>./project/seed/</code> convention 1.9 mentions.</li>
-<li><strong>Stale numbering in the proposal.</strong> §1.11 predicted this recipe family would ratify as
-  "platform ADR-0002"; that number is taken (metapackage + extras). The broader ratification of
-  decisions 1.1 / 1.4 / 1.10 — recipe home, image-not-source for production recipes, gate
-  applicability — remains outstanding and needs its own ADR. This ADR covers only the <code>ide</code>
-  shape.</li>
-</ul>
+<p><strong>Keep it and wait for the upstream Node bump.</strong> Rejected: it makes a
+production image's toolchain currency depend on an unrelated repo's
+maintenance cadence, for a component that is not wired into anything.
+linkml-modeler-app#172 has been open since 2026-08-21 with no triage, and there
+is no reason to think the recipes should block on it.</p>
+<p><strong>Keep it but pin a prebuilt Modeler image.</strong> Rejected: no such image is
+published, so this is really "publish and maintain a Modeler image" — real work
+in another repo to keep shipping something the MVP does not need.</p>
+<p><strong>Keep it in <code>solo</code>, skip it in <code>ide</code>.</strong> Rejected as the worst of both: it
+retains every cost (EOL Node, source build, sidecar, exception to 1.4) in the
+recipe where the stakes are highest — the one people actually deploy — while
+denying it to the recipe where a schema-editing GUI would plausibly be most
+useful.</p>
+<p><strong>Remove Mode R along with the <code>cors-proxy</code>.</strong> Rejected: git-based schema
+delivery is orthogonal to how the YAML was authored. Pull-on-boot with a
+migrate dry-run before the swap is a good property for any remote deployment
+and costs nothing to keep.</p>
 
 
 
