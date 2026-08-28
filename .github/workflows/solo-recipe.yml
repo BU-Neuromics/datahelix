@@ -128,6 +128,63 @@ jobs:
           print('migrate-on-restart ok: Milestone visible via GraphQL')
           "
 
+      - name: "Regression: migrate resolves local cross-file schema imports"
+        # Covers the bug fixed in #68: `mosaic migrate` resolves a schema's
+        # relative sibling `imports:` against the process cwd, not
+        # --schema-dir, so entrypoint.sh runs it with cwd = the schema dir.
+        # The example project above has a directory schema_path with no
+        # cross-file imports, so it cannot catch this — this fixture's
+        # tree-root file (main.yaml) imports a sibling (extra.yaml) in the
+        # same schemas/ directory, as a real split LinkML schema would.
+        run: |
+          docker compose down
+          FIXTURE="$(pwd)/.ci-fixtures/multi-file-imports"
+          # The container runs as root, so the db it writes is root-owned.
+          sudo rm -f "$FIXTURE"/data/mosaic.db*
+
+          # First boot: no db yet, so `mosaic serve` self-initializes it.
+          PROJECT_DIR="$FIXTURE" docker compose up -d
+          timeout 180 sh -c 'until curl -sf http://localhost:8080/health; do
+            sleep 3
+          done'
+          docker compose logs solo | grep -q "first boot"
+          curl -sf -X POST http://localhost:8080/graphql \
+            -H 'Content-Type: application/json' \
+            -d '{"query":"{ __schema { types { name } } }"}' \
+          | python3 -c "
+          import json, sys
+          names = [t['name'] for t in json.load(sys.stdin)['data']['__schema']['types']]
+          assert 'Widget' in names and 'Gadget' in names, names
+          print('first boot ok: Widget + Gadget present (cross-file imports resolved)')
+          "
+
+          # Restart (= what `make migrate` does): the db now exists, so this
+          # takes the migrate path the fix addresses. Before the fix it
+          # crash-looped with a FileNotFoundError instead of reaching
+          # "applying schema migrations". `up -d` would be a no-op here — the
+          # container is already running with an unchanged config.
+          PROJECT_DIR="$FIXTURE" docker compose restart solo
+          timeout 180 sh -c 'until curl -sf http://localhost:8080/health; do
+            sleep 3
+          done'
+          # Only the restart can emit this; the first boot logged "first boot".
+          docker compose logs solo | grep -q "applying schema migrations"
+          curl -sf -X POST http://localhost:8080/graphql \
+            -H 'Content-Type: application/json' \
+            -d '{"query":"{ __schema { types { name } } }"}' \
+          | python3 -c "
+          import json, sys
+          names = [t['name'] for t in json.load(sys.stdin)['data']['__schema']['types']]
+          assert 'Widget' in names and 'Gadget' in names, names
+          print('second boot ok: Widget + Gadget still present after migrate')
+          "
+
+      - name: Clean up the regression fixture
+        if: always()
+        run: |
+          docker compose down || true
+          sudo rm -f .ci-fixtures/multi-file-imports/data/mosaic.db*
+
       - name: Logs on failure
         if: failure()
         run: docker compose logs solo || true
