@@ -1,0 +1,20 @@
+# Sibling file imported by main.yaml — see main.yaml's comment.
+id: https://example.org/solo-ci-multi-file-imports-extra
+name: solo_ci_multi_file_imports_extra
+prefixes:
+  linkml: https://w3id.org/linkml/
+  solo_ci_multi_file_imports_extra: https://example.org/solo-ci-multi-file-imports-extra/
+imports:
+  - linkml:types
+default_range: string
+
+classes:
+  Gadget:
+    description: "Sibling class, imported by the tree-root file"
+    attributes:
+      gadget_id:
+        range: string
+        required: true
+        identifier: true
+      label:
+        range: string

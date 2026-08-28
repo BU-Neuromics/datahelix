@@ -1,0 +1,5 @@
+# schema_path points at the tree-root FILE (not just the schemas/
+# directory) because main.yaml imports a sibling file — see main.yaml.
+schema_path: schemas/main.yaml
+storage_backend: sqlite
+database_url: data/mosaic.db
