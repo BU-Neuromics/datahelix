@@ -19,7 +19,41 @@ services:
       # - "8001:8001"
     volumes:
       - "${PROJECT_DIR:-./project}:/project"
+      # htpasswd mode: a directory containing users.htpasswd. Read-only —
+      # the container never writes here (generated proxy args live in /run).
+      # Created empty by compose if absent, and unused when AUTH_MODE=none.
+      - "${AUTH_DIR:-./auth}:/etc/datahelix/auth:ro"
     environment:
+      # ── Authentication (platform ADR-0006) ────────────────────────────────
+      # none (default) | htpasswd (testing) | oidc (production, e.g. PIV/CAC
+      # via VA SSOi). htpasswd and oidc differ ONLY in credential source, so
+      # the switch to SSOi is a change of these variables and nothing else.
+      AUTH_MODE: ${AUTH_MODE:-none}
+      # Required whenever AUTH_MODE != none. 32 random bytes, base64:
+      #   python3 -c "import base64,os;print(base64.urlsafe_b64encode(os.urandom(32)).decode())"
+      AUTH_COOKIE_SECRET: ${AUTH_COOKIE_SECRET:-}
+      # Session cookies are Secure by default; false only for a local test
+      # over plain HTTP. Passwords in cleartext on a shared network are worse
+      # than the no-auth posture this replaces.
+      AUTH_COOKIE_SECURE: ${AUTH_COOKIE_SECURE:-}
+      AUTH_SESSION_MAX: ${AUTH_SESSION_MAX:-}
+      # htpasswd mode: bcrypt file, `htpasswd -B -c users.htpasswd <user>`.
+      AUTH_HTPASSWD_FILE: ${AUTH_HTPASSWD_FILE:-}
+      # oidc mode. AUTH_REDIRECT_URL must match what the IdP registered
+      # EXACTLY — VA IAM registers no wildcards, and changing it is another
+      # ticket.
+      AUTH_OIDC_ISSUER_URL: ${AUTH_OIDC_ISSUER_URL:-}
+      AUTH_OIDC_CLIENT_ID: ${AUTH_OIDC_CLIENT_ID:-}
+      AUTH_OIDC_CLIENT_SECRET: ${AUTH_OIDC_CLIENT_SECRET:-}
+      AUTH_REDIRECT_URL: ${AUTH_REDIRECT_URL:-}
+      # Coarse authorization: may this person use this deployment at all.
+      # Space-separated. Per-record and per-slot access remain Bridge's.
+      AUTH_ALLOWED_GROUPS: ${AUTH_ALLOWED_GROUPS:-}
+      AUTH_OIDC_GROUPS_CLAIM: ${AUTH_OIDC_GROUPS_CLAIM:-}
+      # VA TLS inspection intercepts outbound TLS; discovery and token calls
+      # need the interception CA trusted.
+      AUTH_PROVIDER_CA_FILE: ${AUTH_PROVIDER_CA_FILE:-}
+
       # Mode R (remote schema iteration): set SCHEMA_GIT_REMOTE to a repo you
       # push schemas to; the entrypoint pulls them on every (re)start.
       SCHEMA_GIT_REMOTE: ${SCHEMA_GIT_REMOTE:-}

@@ -2,3 +2,4 @@
 # never in git — a real project directory should be its own repo (README).
 project/
 solo-backup-*.tar.gz
+auth/
