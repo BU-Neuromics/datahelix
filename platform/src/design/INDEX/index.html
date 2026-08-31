@@ -4255,6 +4255,11 @@ decisions live in each component's own <code>design/decisions/</code>.</p>
 <td>The <code>ide</code> recipe develops <strong>Aperture and Mosaic live behind one nginx gateway</strong> — new <code>dev-aperture</code> profile proxies <code>/</code> to a Vite dev server (HMR, websocket proxied by the gateway) alongside the existing <code>dev-mosaic</code> source profile; relative <code>VITE_HIPPO_GRAPHQL_URL=/graphql</code> keeps dev on the same same-origin seam as <code>solo</code>. <strong>Amends</strong> <a href="../../../proposals/deployment-recipes.md"><code>deployment-recipes.md</code></a> decision 1.9, which specified Aperture as a published image. Stays exempt from the ADR-0001 deploy gate.</td>
 <td>✅ Accepted</td>
 </tr>
+<tr>
+<td><a href="../decisions/ADR-0006-authenticating-proxy-in-recipes/">0006</a></td>
+<td><strong>Recipes authenticate at an OIDC reverse proxy</strong>, not in a component — <code>AUTH_MODE=none\|htpasswd\|oidc</code> on one digest-pinned <code>oauth2-proxy</code> in the recipe's nginx position; nginx <code>auth_request</code> gates every route, no token reaches the browser. Implements <code>sec6</code> §6.3 steps (1)+(4) only — the PDP stays Bridge's. Injects <code>X-Hippo-Actor</code> so provenance names the real user. <code>htpasswd</code> and <code>oidc</code> differ only in credential source, so PIV/CAC is a flag change and everything else is exercised before VA IAM answers.</td>
+<td>✅ Accepted</td>
+</tr>
 </tbody>
 </table>
 <hr />
