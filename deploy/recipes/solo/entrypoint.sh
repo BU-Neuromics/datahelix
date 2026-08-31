@@ -8,7 +8,9 @@
 #      (first boot needs no migrate — serve self-initializes the database)
 #   3. write Aperture's runtime config.js (ADR-0034 pattern; defaults to the
 #      same-origin /graphql seam)
-#   4. exec supervisord (nginx + mosaic serve)
+#   3a. configure authentication when AUTH_MODE != none (platform ADR-0006):
+#      select the gated nginx config and generate the oauth2-proxy args
+#   4. exec supervisord (nginx + mosaic serve [+ oauth2-proxy])
 #
 # "Restart the container" therefore means: pull (if configured) + migrate +
 # serve — the restart-on-migrate model in one motion.
@@ -79,6 +81,118 @@ else
   echo "solo: first boot — database will be initialized by mosaic serve"
 fi
 
+# ── 3a. Authentication (platform ADR-0006) ─────────────────────────────────
+# none (default) | htpasswd (testing) | oidc (production; PIV/CAC via VA SSOi).
+# htpasswd and oidc differ ONLY in credential source: same proxy, same session
+# cookie, same nginx wiring, same headers. Switching to SSOi is a flag change.
+AUTH_MODE="${AUTH_MODE:-none}"
+
+case "$AUTH_MODE" in
+  none)
+    cp /etc/datahelix/nginx.conf /etc/nginx/conf.d/solo.conf
+    echo "solo: AUTH_MODE=none — no authentication (trusted network only)"
+    ;;
+
+  htpasswd|oidc)
+    : "${AUTH_COOKIE_SECRET:?AUTH_MODE=$AUTH_MODE requires AUTH_COOKIE_SECRET (32 bytes, base64)}"
+
+    # Cleartext credentials over plain HTTP are worse than the no-auth posture
+    # this replaces, so refuse by default. AUTH_COOKIE_SECURE=false is the
+    # explicit, deliberate override for a local test on 127.0.0.1.
+    AUTH_COOKIE_SECURE="${AUTH_COOKIE_SECURE:-true}"
+    if [ "$AUTH_COOKIE_SECURE" != "true" ]; then
+      echo "solo: WARNING — AUTH_COOKIE_SECURE=false: the session cookie will travel" >&2
+      echo "solo: WARNING   over plain HTTP. Acceptable only for a local test." >&2
+    fi
+
+    set -- \
+      --http-address=127.0.0.1:4180 \
+      --reverse-proxy=true \
+      --cookie-secret="$AUTH_COOKIE_SECRET" \
+      --cookie-secure="$AUTH_COOKIE_SECURE" \
+      --cookie-httponly=true \
+      --cookie-expire="${AUTH_SESSION_MAX:-12h}" \
+      --email-domain=* \
+      --set-xauthrequest=true \
+      --silence-ping-logging=true \
+      --upstream=static://202
+
+    if [ "$AUTH_MODE" = htpasswd ]; then
+      : "${AUTH_HTPASSWD_FILE:=/etc/datahelix/auth/users.htpasswd}"
+      if [ ! -f "$AUTH_HTPASSWD_FILE" ]; then
+        echo "solo: ABORT — AUTH_MODE=htpasswd but $AUTH_HTPASSWD_FILE is missing." >&2
+        echo "solo: create it with: htpasswd -B -c users.htpasswd <user>" >&2
+        exit 1
+      fi
+      # The htpasswd form is the credential surface; --skip-provider-button
+      # must be off or the sign-in page has nothing to render.
+      # The pinned oauth2-proxy validates provider settings even when
+      # htpasswd is the credential source: without a client id/secret it
+      # exits 1 with "provider missing setting: client-id". These stubs
+      # satisfy that check and are never reached — the htpasswd form is the
+      # only credential surface, and --skip-provider-button=false is what
+      # renders it.
+      set -- "$@" \
+        --htpasswd-file="$AUTH_HTPASSWD_FILE" \
+        --display-htpasswd-form=true \
+        --skip-provider-button=false \
+        --client-id=htpasswd-unused \
+        --client-secret=htpasswd-unused
+      echo "solo: AUTH_MODE=htpasswd — username/password sign-in ($AUTH_HTPASSWD_FILE)"
+    else
+      : "${AUTH_OIDC_ISSUER_URL:?AUTH_MODE=oidc requires AUTH_OIDC_ISSUER_URL}"
+      : "${AUTH_OIDC_CLIENT_ID:?AUTH_MODE=oidc requires AUTH_OIDC_CLIENT_ID}"
+      : "${AUTH_OIDC_CLIENT_SECRET:?AUTH_MODE=oidc requires AUTH_OIDC_CLIENT_SECRET}"
+      : "${AUTH_REDIRECT_URL:?AUTH_MODE=oidc requires AUTH_REDIRECT_URL (registered with the IdP, exactly)}"
+      set -- "$@" \
+        --skip-provider-button="${AUTH_SKIP_PROVIDER_BUTTON:-true}" \
+        --provider=oidc \
+        --oidc-issuer-url="$AUTH_OIDC_ISSUER_URL" \
+        --client-id="$AUTH_OIDC_CLIENT_ID" \
+        --client-secret="$AUTH_OIDC_CLIENT_SECRET" \
+        --redirect-url="$AUTH_REDIRECT_URL" \
+        --code-challenge-method=S256
+      # Group-based authorization, when the IdP releases the claim. This is
+      # the coarse "may you use this deployment" decision; per-record and
+      # per-slot access remain Bridge's (sec6 §6.3 steps 2-3), unbuilt.
+      [ -n "${AUTH_OIDC_GROUPS_CLAIM:-}" ] && set -- "$@" --oidc-groups-claim="$AUTH_OIDC_GROUPS_CLAIM"
+      for group in ${AUTH_ALLOWED_GROUPS:-}; do
+        set -- "$@" --allowed-group="$group"
+      done
+      # VA TLS inspection intercepts outbound TLS, so discovery and token
+      # calls need the interception CA trusted.
+      [ -n "${AUTH_PROVIDER_CA_FILE:-}" ] && set -- "$@" --provider-ca-file="$AUTH_PROVIDER_CA_FILE"
+      echo "solo: AUTH_MODE=oidc — issuer $AUTH_OIDC_ISSUER_URL"
+    fi
+
+    # Written as a file so the args survive supervisord's exec without
+    # another round of shell quoting. NOT under /etc/datahelix/auth — that is
+    # a read-only mount point for operator-supplied secrets (the htpasswd
+    # file); writing there fails the moment someone mounts it.
+    mkdir -p /run/datahelix
+    : > /run/datahelix/proxy.args
+    for arg in "$@"; do
+      printf '%s\n' "$arg" >> /run/datahelix/proxy.args
+    done
+    chmod 600 /run/datahelix/proxy.args  # carries the cookie secret
+    cp /etc/datahelix/supervisord-auth.conf /etc/supervisor/conf.d/oauth2-proxy.conf
+    cp /etc/datahelix/nginx-auth.conf /etc/nginx/conf.d/solo.conf
+
+    # Tell the SPA where the identity endpoints are (Aperture ADR-0038).
+    # Deployment-provided values win, so a bespoke proxy path still works.
+    : "${VITE_AUTH_MODE:=proxy}"
+    : "${VITE_AUTH_IDENTITY_URL:=/oauth2/userinfo}"
+    : "${VITE_AUTH_LOGIN_URL:=/oauth2/start}"
+    : "${VITE_AUTH_LOGOUT_URL:=/oauth2/sign_out}"
+    export VITE_AUTH_MODE VITE_AUTH_IDENTITY_URL VITE_AUTH_LOGIN_URL VITE_AUTH_LOGOUT_URL
+    ;;
+
+  *)
+    echo "solo: ABORT — AUTH_MODE='$AUTH_MODE' is not one of: none, htpasswd, oidc" >&2
+    exit 1
+    ;;
+esac
+
 # ── 3. Aperture runtime config (ADR-0034) ──────────────────────────────────
 # Same vocabulary as the Aperture image's own 40-aperture-config.sh, with the
 # same-origin seam as the default endpoint.
@@ -88,7 +202,9 @@ OUT=/srv/aperture/config.js
 {
   printf 'window.__APERTURE_CONFIG__ = {'
   sep=''
-  for key in VITE_HIPPO_GRAPHQL_URL VITE_HIPPO_CONTROL_PLANE_URL VITE_WORKFLOWS VITE_NAV; do
+  for key in VITE_HIPPO_GRAPHQL_URL VITE_HIPPO_CONTROL_PLANE_URL VITE_WORKFLOWS VITE_NAV \
+             VITE_AUTH_MODE VITE_AUTH_IDENTITY_URL VITE_AUTH_LOGIN_URL VITE_AUTH_LOGOUT_URL \
+             VITE_AUTH_IDENTITY_CLAIM VITE_AUTH_DISPLAY_CLAIM; do
     value=$(printenv "$key" 2>/dev/null || true)
     if [ -n "$value" ]; then
       escaped=$(printf '%s' "$value" | sed 's/\\/\\\\/g; s/"/\\"/g')
