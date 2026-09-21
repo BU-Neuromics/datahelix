@@ -59,10 +59,28 @@ services:
     # default schema when it finds no config, which looks like "my schema
     # vanished" rather than an error.
     command:
-      ["serve", "--graphql", "--host", "0.0.0.0", "--port", "8001",
+      ["serve", "--graphql", "--mcp", "--host", "0.0.0.0", "--port", "8001",
        "--config", "/project/mosaic.yaml"]
     environment:
       HOME: /tmp
+      # Empty unless a planner profile is on (the Makefile's chat targets set
+      # it). Mosaic registers `converseQuerySpec` ONLY when this is set, so
+      # leaving it unset is what keeps Aperture's chat panel correctly hidden
+      # on a stack with no planner -- rather than advertising a capability
+      # whose every call would fail.
+      MOSAIC_EXON_URL: ${MOSAIC_EXON_URL:-}
+      # The MCP transport allows only loopback Host headers by default, so a
+      # sibling container reaching http://mosaic:8001/mcp is refused with
+      # `421 Invalid Host header` (BU-Neuromics/mosaic#214). Loopback stays
+      # allowed; these are added to it.
+      #
+      # REQUIRES A MOSAIC NEWER THAN v0.13.0. The published 0.13.0 image has
+      # no `--mcp` flag (it predates the mcp extra being installed in the
+      # image) and no host allow-list, so `make chat` against the pinned image
+      # fails at startup with "No such option: --mcp". Until an image ships
+      # both, use `make chat-dev` with MOSAIC_SRC pointing at a checkout that
+      # has them.
+      MOSAIC_MCP_ALLOWED_HOSTS: ${MOSAIC_MCP_ALLOWED_HOSTS:-mosaic:*,mosaic-dev:*}
     volumes:
       - "${PROJECT_DIR:-./project}:/project"
     restart: unless-stopped
@@ -92,13 +110,29 @@ services:
     profiles: [mosaic-source]
     image: ghcr.io/bu-neuromics/mosaic:${MOSAIC_VERSION:-0.13.0}
     user: "${DOCKER_UID:-1000}:${DOCKER_GID:-1000}"
+    # The MCP transport needs the optional `mcp` extra, which the published
+    # v0.13.0 image does not carry (the Dockerfile fix postdates the tag), so
+    # `--mcp` aborts with "requires the optional 'mcp' extra". Installed on
+    # first run into the user site — the same first-run-install pattern
+    # `aperture-dev` uses for node_modules, and equally temporary: it comes out
+    # the moment an image ships with the extra.
+    # entrypoint cleared: the image's is `mosaic`, so a `command:` of `sh`
+    # would arrive as `mosaic sh` ("No such command 'sh'").
+    entrypoint: ["sh", "-lc"]
     command:
-      ["serve", "--graphql", "--host", "0.0.0.0", "--port", "8001",
-       "--config", "/project/mosaic.yaml", "--reload", "--reload-dir", "/src"]
+      - |
+        python -c 'import mcp' 2>/dev/null || {
+          echo "ide: installing the mcp extra (first run for this container)"
+          pip install --quiet --user mcp
+        }
+        exec mosaic serve --graphql --mcp --host 0.0.0.0 --port 8001 \
+          --config /project/mosaic.yaml --reload --reload-dir /src
     environment:
       PYTHONPATH: /src
       # See the note on the `mosaic` service above.
       HOME: /tmp
+      MOSAIC_EXON_URL: ${MOSAIC_EXON_URL:-}
+      MOSAIC_MCP_ALLOWED_HOSTS: ${MOSAIC_MCP_ALLOWED_HOSTS:-mosaic:*,mosaic-dev:*}
     volumes:
       - "${PROJECT_DIR:-./project}:/project"
       - "${MOSAIC_SRC:-../../../mosaic/src}:/src:ro"
@@ -148,6 +182,85 @@ services:
     volumes:
       - "${APERTURE_WEB:-../../../aperture/web}:/app"
       - aperture-node-modules:/app/node_modules
+    restart: unless-stopped
+
+  # ── Reel: the planning service Mosaic's relay delegates to ─────────────────
+  # OPT-IN. Neither `up` nor `dev` starts it; the Makefile's chat targets do.
+  # Without it Mosaic leaves MOSAIC_EXON_URL unset, never registers
+  # `converseQuerySpec`, and Aperture correctly hides its chat panel -- the
+  # stack is still a complete browsing environment, just not a conversational
+  # one.
+  #
+  # Reel plans and never executes (Reel ADR-0007): Mosaic re-validates every
+  # QuerySpec it returns before any caller sees it, and nothing runs without an
+  # explicit user action. It is reached only by Mosaic, container-internal, so
+  # it publishes no port and needs no gateway route.
+  #
+  # NO `depends_on`. It would have to name `mosaic` or `mosaic-dev` depending on
+  # which profile is active, and compose rejects a dependency on a service whose
+  # profile is not enabled -- which breaks every plain `docker compose` command
+  # run without COMPOSE_PROFILES set, `make restart-planner` included.
+  #
+  # The planner fetches its grounding ONCE at startup and exits 3 if Mosaic is
+  # not reachable, so on a cold start it loses the race and restarts until
+  # Mosaic is listening. `restart: unless-stopped` is what resolves it; one or
+  # two restarts on first run are expected, and the log says exactly what it is
+  # waiting for.
+  #
+  # It needs MODEL CREDENTIALS. The default passes an AWS profile through from
+  # the host for Bedrock; set REEL_MODEL and the matching provider key for
+  # anything else. Reel holds no credentials of its own and neither does
+  # Mosaic -- this is the only service in the stack that talks to a model.
+  reel:
+    profiles: [reel-image]
+    image: ghcr.io/bu-neuromics/reel:${REEL_VERSION:-dev}
+    environment:
+      MOSAIC_MCP_URL: ${MOSAIC_MCP_URL:-http://mosaic:8001/mcp}
+      AWS_REGION: ${AWS_REGION:-us-east-1}
+      # LIST form, not map form, for everything optional. `KEY: ${KEY:-}` SETS
+      # the variable to an empty string, which is not the same as leaving it
+      # unset: boto3 reads AWS_PROFILE="" as a profile literally named empty and
+      # fails to find credentials, and an empty REEL_MODEL reaches litellm as
+      # "no provider given". The list form passes a variable through only when
+      # it is actually set in the invoking environment.
+      REEL_MODEL:
+      AWS_PROFILE:
+      ANTHROPIC_API_KEY:
+      OPENAI_API_KEY:
+    volumes:
+      - "${AWS_DIR:-~/.aws}:/home/reel/.aws:ro"
+    restart: unless-stopped
+
+  # ── Reel: live from source ─────────────────────────────────────────────────
+  # Same image (every runtime dependency is already installed), with the
+  # checkout mounted and PYTHONPATH shadowing the installed package -- exactly
+  # the arrangement `mosaic-dev` uses. No --reload: the service fetches its
+  # capability grounding once at startup, so a reload would re-fetch on every
+  # edit; `make restart-planner` is the deliberate way to pick up changes.
+  reel-dev:
+    profiles: [reel-source]
+    image: ghcr.io/bu-neuromics/reel:${REEL_VERSION:-dev}
+    environment:
+      PYTHONPATH: /src
+      # `mosaic-dev`, not `mosaic`: the source profile is a different service
+      # and compose service names are the DNS names on the network. Pointing
+      # this at `mosaic` yields "Name or service not known" and a planner that
+      # restarts forever.
+      MOSAIC_MCP_URL: ${MOSAIC_MCP_URL:-http://mosaic-dev:8001/mcp}
+      AWS_REGION: ${AWS_REGION:-us-east-1}
+      # LIST form, not map form, for everything optional. `KEY: ${KEY:-}` SETS
+      # the variable to an empty string, which is not the same as leaving it
+      # unset: boto3 reads AWS_PROFILE="" as a profile literally named empty and
+      # fails to find credentials, and an empty REEL_MODEL reaches litellm as
+      # "no provider given". The list form passes a variable through only when
+      # it is actually set in the invoking environment.
+      REEL_MODEL:
+      AWS_PROFILE:
+      ANTHROPIC_API_KEY:
+      OPENAI_API_KEY:
+    volumes:
+      - "${REEL_SRC:-../../../reel/src}:/src:ro"
+      - "${AWS_DIR:-~/.aws}:/home/reel/.aws:ro"
     restart: unless-stopped
 
 volumes:
