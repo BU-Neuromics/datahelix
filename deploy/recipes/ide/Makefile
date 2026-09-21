@@ -28,7 +28,7 @@ WEB_SOURCE  = APERTURE_UPSTREAM=aperture-dev:$(IDE_PORT)
 API_IMAGE   = MOSAIC_UPSTREAM=mosaic:8001
 API_SOURCE  = MOSAIC_UPSTREAM=mosaic-dev:8001
 
-.PHONY: init up dev dev-web dev-api down logs logs-web migrate seed reload-api ps clean help
+.PHONY: init up dev dev-web dev-api chat chat-dev down logs logs-web logs-planner migrate seed reload-api restart-planner ps clean help
 
 ## Scaffold a project directory from the bundled example (no-op if it exists).
 init:
@@ -63,6 +63,40 @@ dev-api: init
 	env COMPOSE_PROFILES=aperture-image,mosaic-source \
 		$(WEB_IMAGE) $(API_SOURCE) $(IDS) IDE_PORT=$(IDE_PORT) docker compose up -d
 	@$(MAKE) --no-print-directory _ready
+
+## Both components from images, PLUS the planning service — the conversational
+## stack. Setting MOSAIC_EXON_URL is what makes Mosaic register
+## `converseQuerySpec`; without it Aperture correctly hides its chat panel.
+chat: init
+	env COMPOSE_PROFILES=aperture-image,mosaic-image,reel-image \
+		MOSAIC_EXON_URL=http://reel:9100/turn \
+		$(WEB_IMAGE) $(API_IMAGE) $(IDS) IDE_PORT=$(IDE_PORT) docker compose up -d
+	@$(MAKE) --no-print-directory _ready_chat
+
+## Everything live from source, planner included.
+chat-dev: init
+	env COMPOSE_PROFILES=aperture-source,mosaic-source,reel-source \
+		MOSAIC_EXON_URL=http://reel-dev:9100/turn \
+		$(WEB_SOURCE) $(API_SOURCE) $(IDS) IDE_PORT=$(IDE_PORT) docker compose up -d
+	@$(MAKE) --no-print-directory _ready_chat
+
+## Restart the planner. It fetches its capability grounding ONCE at startup, so
+## this is how a schema change reaches it — and how a source edit does, since
+## the planner deliberately does not auto-reload.
+restart-planner:
+	@svc=$$(docker compose ps --services --status running | grep -E '^reel(-dev)?$$' | head -1); \
+	if [ -z "$$svc" ]; then echo "no planning service running (try: make chat)" >&2; exit 1; fi; \
+	docker compose restart "$$svc"
+
+## Follow just the planner (grounding fetch, per-turn model calls, failures).
+logs-planner:
+	docker compose logs -f $$(docker compose ps --services --status running | grep -E '^reel(-dev)?$$' | head -1)
+
+_ready_chat:
+	@$(MAKE) --no-print-directory _ready
+	@echo "  chat panel   ask the data a question in plain language"
+	@echo "                 the planner needs model credentials — see the compose"
+	@echo "                 file's reel service if the panel reports an error"
 
 _ready:
 	@echo ""
