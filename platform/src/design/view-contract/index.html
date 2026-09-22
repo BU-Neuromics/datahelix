@@ -3971,6 +3971,20 @@ heading (the <strong>typed noun-catalog vocabulary</strong>); this spec is where
 <ul>
 <li><strong>How much of Aperture ADR-0010's vocabulary moves here</strong> vs. stays renderer-side? (Lean: the
   <em>catalog of primitives + encodings</em> is the contract; pixel realization is the renderer's.)</li>
+<li><strong>First concrete instance (2026-09-22): the <code>table</code> primitive's column encoding.</strong>
+    <a href="../../aperture/design/decisions/ADR-0041-referenced-class-slots-projection-vs-presentation.md">Aperture ADR-0041</a>
+    splits a result table's referenced-class values in two by asking <em>does changing it change the
+    row set?</em> — traversal and grain (<code>explode</code>) are query semantics and stay in the <code>QuerySpec</code>'s
+    <code>columns</code>; <strong>visibility, order and labelling are a view-side <code>ColumnView</code></strong> that never reaches
+    a server. That second half is exactly a <code>table</code> <code>encoding</code> in this grammar, and Aperture owns
+    it only as <strong>interim</strong> view state pending this contract. It is the first artifact that has
+    both a real producer and a stated need to be renderer-agnostic, so it is the natural forcing
+    case for taking this doc out of stub — and it settles the general question above by example:
+    the encoding is the contract's, the pixel realization is the renderer's.
+    <strong>Deliberately not decided yet.</strong> Aperture ships the client-side projection first; the shape
+    this encoding should take is better known after that than before it, and ADR-0041 declines to
+    decide the platform artifact on Aperture's behalf. When it lands, it graduates to a platform
+    ADR rather than staying an open question here.</li>
 <li><strong>Versioning.</strong> The contract is a wire format between independently-released components — it
   needs additive-compatibility rules (cf. Mosaic's additive-only GraphQL tolerance).</li>
 <li><strong>Data shape.</strong> Inline rows vs. a reference the renderer fetches (for large results) — and how

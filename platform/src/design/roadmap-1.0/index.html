@@ -3974,6 +3974,31 @@ validate/execute/aggregate tools) and Mosaic ADR-0010 (outbound delegation to a 
 service). The keystone probe (P3.5) has been running since 2026-08 as <strong>Exon</strong>
 (<code>BU-Neuromics/mosaic-demo-small</code>), the prototype Reel will absorb; see Reel's
 <code>design/platform-alignment.md</code> for the crosswalk.</p>
+<p><strong>Status update (2026-09-22, no scope change — an unreleased backlog on the critical path).</strong>
+The Mosaic work the 2026-09-11 note above describes as "landed" is <strong>merged but unreleased</strong>:
+<code>origin/main</code> carries 40 commits that no tag contains — the whole MCP boundary (ADR-0009),
+<code>converseQuerySpec</code>, and reverse-edge traversal via LinkML <code>inverse</code> (ADR-0011, mosaic#204,
+merged and tested across the QuerySpec compiler, GraphQL, MCP and both storage adapters). The
+latest tag is <code>v0.13.0</code>, which is what <code>certification/composition.lock.json</code> pins, so none of it
+is reachable from a certifiable server and <strong>P4.2 ("the 1.0 certified composition") cannot admit
+it until a release is cut</strong>. Recording the fact here because a release backlog sitting on the
+1.0 critical path is a roadmap-level condition, not a component detail. Three consequences worth
+naming: Mosaic ADR-0011 is still <code>Proposed</code> although its code shipped; reverse traversal is
+therefore a <em>release + schema-authoring</em> act rather than an engineering one (no deployment
+LinkML declares an <code>inverse:</code> slot yet); and <code>certification/fixtures/bootstrap/schema/
+portal_schema.yaml</code> (v1.0.0) has neither a multivalued reference nor an <code>inverse:</code> slot, so the
+capability is uncertifiable until that fixture is bumped.</p>
+<p><strong>P2.3 is under-executed against its own acceptance criterion.</strong> P2.3 reads "light up X1
+capabilities … features appear via pure capability negotiation." Mosaic's typed filter contract
+is <em>complete in the certified <code>v0.13.0</code> pin</em> — <code>&lt;Type&gt;Filter</code> <code>where:</code> inputs with per-slot
+operators, <code>and</code>/<code>or</code>/<code>not</code>, to-one relationship predicates (M5a) and to-many quantifiers
+(M5b) — and Aperture still compiles to the flat <code>filters:</code> list and still runs every
+relationship criterion through a capped client-side semijoin. Adopting it is already-ratified
+P2.3 scope that went unexecuted, not new scope. It should ship in one pass with
+<a href="../../aperture/design/decisions/ADR-0041-referenced-class-slots-projection-vs-presentation.md">Aperture ADR-0041</a>
+(referenced-class slot values in the result table), because the two rewrite the <em>filter</em> and
+<em>selection</em> paths of the same query builder — split apart, that builder is rewritten twice and
+the composition re-certified twice.</p>
 </blockquote>
 <p>This roadmap supersedes the milestone framing in <code>FABLE_HANDOFF.md</code> §6 where they
 conflict, and maps back to it (M2→P2, M4→P2/P3, M5→P3 scoped to one adapter,
