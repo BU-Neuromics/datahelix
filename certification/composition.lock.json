@@ -6,11 +6,11 @@
     "green merge \u2014 appends a ledger tag. A maintenance branch (release/lts-*)",
     "carries its own frozen copy of this file and its era-appropriate fixture.",
     "",
-    "digest is the artifact content address that was (or will be) booted. Until",
-    "the components ship digest-addressed artifacts (hippo release pipeline;",
-    "aperture#16 + a Dockerfile), digest is null and the certification workflow",
-    "skips the boot as an honest no-op rather than certifying an unpublished",
-    "pair. Semver is a claim; the digest is the evidence \u2014 the gate requires it."
+    "digest is the artifact content address that was booted. Both components now",
+    "publish digest-addressed images, so digest is never null on this line; if one",
+    "ever is, the certification workflow skips the boot as an honest no-op rather",
+    "than certifying an unpublished pair. Semver is a claim; the digest is the",
+    "evidence \u2014 the gate requires it."
   ],
   "line": "frontier",
   "fixture_version": "1.0.0",

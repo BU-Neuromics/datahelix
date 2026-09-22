@@ -46,6 +46,21 @@
 > *selection* paths of the same query builder — split apart, that builder is rewritten twice and
 > the composition re-certified twice.
 
+> **Resolved (2026-09-22) — Mosaic `v0.14.0` is cut and pinned.** The release backlog the note
+> above records is closed: `v0.14.0` tags the whole window (mosaic#218), and
+> `certification/composition.lock.json` moves the mosaic pin off `v0.13.0` to the released,
+> digest-addressed image. **P4.2 can now admit** the MCP boundary, `converseQuerySpec` and
+> reverse-edge traversal. Of the three consequences named above, two are closed — Mosaic
+> ADR-0011 was ratified in mosaic#219, and reverse traversal is now purely a schema-authoring
+> act, the release half having happened. **One remains open:**
+> `certification/fixtures/bootstrap/schema/portal_schema.yaml` (v1.0.0) still has neither a
+> multivalued reference nor an `inverse:` slot, so reverse traversal is *present in the pinned
+> image and uncertifiable* until #92 bumps the fixture. The same is true of the MCP boundary for
+> a different reason: `certification/compose/` boots `mosaic serve --graphql`, not `--mcp`, so
+> nothing on that surface is exercised by the golden path. **P2.3 is unaffected** by this release
+> — its under-execution is on Aperture's side of the seam, and the typed filter contract it names
+> was already complete in the `v0.13.0` pin.
+
 This roadmap supersedes the milestone framing in `FABLE_HANDOFF.md` §6 where they
 conflict, and maps back to it (M2→P2, M4→P2/P3, M5→P3 scoped to one adapter,
 M6→P4). It is written for **handoff to agents**: every epic names its repo, size,

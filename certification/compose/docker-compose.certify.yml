@@ -70,8 +70,9 @@ services:
       # nginx /graphql reverse proxy (see aperture-nginx.certify.conf), which
       # forwards to the mosaic service and injects the bearer token — the
       # compose-internal `mosaic` hostname doesn't resolve from the
-      # Playwright browser on the runner host, and mosaic serves neither CORS
-      # nor anonymous GraphQL.
+      # Playwright browser on the runner host, and this mosaic serves neither
+      # CORS (opt-in since 0.14.0 via --cors-origin; deliberately not set here,
+      # so the proxy stays the one path under test) nor anonymous GraphQL.
       VITE_HIPPO_GRAPHQL_URL: /graphql
       # The atomic-workflow golden path drives this staged set (runtime-
       # injected; config-as-data, Aperture ADR-0002/0004).
