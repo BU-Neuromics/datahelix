@@ -19,6 +19,33 @@
 > (`BU-Neuromics/mosaic-demo-small`), the prototype Reel will absorb; see Reel's
 > `design/platform-alignment.md` for the crosswalk.
 
+> **Status update (2026-09-22, no scope change — an unreleased backlog on the critical path).**
+> The Mosaic work the 2026-09-11 note above describes as "landed" is **merged but unreleased**:
+> `origin/main` carries 40 commits that no tag contains — the whole MCP boundary (ADR-0009),
+> `converseQuerySpec`, and reverse-edge traversal via LinkML `inverse` (ADR-0011, mosaic#204,
+> merged and tested across the QuerySpec compiler, GraphQL, MCP and both storage adapters). The
+> latest tag is `v0.13.0`, which is what `certification/composition.lock.json` pins, so none of it
+> is reachable from a certifiable server and **P4.2 ("the 1.0 certified composition") cannot admit
+> it until a release is cut**. Recording the fact here because a release backlog sitting on the
+> 1.0 critical path is a roadmap-level condition, not a component detail. Three consequences worth
+> naming: Mosaic ADR-0011 is still `Proposed` although its code shipped; reverse traversal is
+> therefore a *release + schema-authoring* act rather than an engineering one (no deployment
+> LinkML declares an `inverse:` slot yet); and `certification/fixtures/bootstrap/schema/
+> portal_schema.yaml` (v1.0.0) has neither a multivalued reference nor an `inverse:` slot, so the
+> capability is uncertifiable until that fixture is bumped.
+>
+> **P2.3 is under-executed against its own acceptance criterion.** P2.3 reads "light up X1
+> capabilities … features appear via pure capability negotiation." Mosaic's typed filter contract
+> is *complete in the certified `v0.13.0` pin* — `<Type>Filter` `where:` inputs with per-slot
+> operators, `and`/`or`/`not`, to-one relationship predicates (M5a) and to-many quantifiers
+> (M5b) — and Aperture still compiles to the flat `filters:` list and still runs every
+> relationship criterion through a capped client-side semijoin. Adopting it is already-ratified
+> P2.3 scope that went unexecuted, not new scope. It should ship in one pass with
+> [Aperture ADR-0041](../../aperture/design/decisions/ADR-0041-referenced-class-slots-projection-vs-presentation.md)
+> (referenced-class slot values in the result table), because the two rewrite the *filter* and
+> *selection* paths of the same query builder — split apart, that builder is rewritten twice and
+> the composition re-certified twice.
+
 This roadmap supersedes the milestone framing in `FABLE_HANDOFF.md` §6 where they
 conflict, and maps back to it (M2→P2, M4→P2/P3, M5→P3 scoped to one adapter,
 M6→P4). It is written for **handoff to agents**: every epic names its repo, size,

@@ -90,6 +90,20 @@ heading (the **typed noun-catalog vocabulary**); this spec is where that vocabul
 
 - **How much of Aperture ADR-0010's vocabulary moves here** vs. stays renderer-side? (Lean: the
   *catalog of primitives + encodings* is the contract; pixel realization is the renderer's.)
+  - **First concrete instance (2026-09-22): the `table` primitive's column encoding.**
+    [Aperture ADR-0041](../../aperture/design/decisions/ADR-0041-referenced-class-slots-projection-vs-presentation.md)
+    splits a result table's referenced-class values in two by asking *does changing it change the
+    row set?* — traversal and grain (`explode`) are query semantics and stay in the `QuerySpec`'s
+    `columns`; **visibility, order and labelling are a view-side `ColumnView`** that never reaches
+    a server. That second half is exactly a `table` `encoding` in this grammar, and Aperture owns
+    it only as **interim** view state pending this contract. It is the first artifact that has
+    both a real producer and a stated need to be renderer-agnostic, so it is the natural forcing
+    case for taking this doc out of stub — and it settles the general question above by example:
+    the encoding is the contract's, the pixel realization is the renderer's.
+    **Deliberately not decided yet.** Aperture ships the client-side projection first; the shape
+    this encoding should take is better known after that than before it, and ADR-0041 declines to
+    decide the platform artifact on Aperture's behalf. When it lands, it graduates to a platform
+    ADR rather than staying an open question here.
 - **Versioning.** The contract is a wire format between independently-released components — it
   needs additive-compatibility rules (cf. Mosaic's additive-only GraphQL tolerance).
 - **Data shape.** Inline rows vs. a reference the renderer fetches (for large results) — and how
