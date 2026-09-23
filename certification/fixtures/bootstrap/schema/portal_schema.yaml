@@ -13,6 +13,8 @@ description: >-
     - a scalar/ref-typed create + update surface                              → single-entity write loop
     - referenced relationships for intra-batch reference resolution           → atomic multi-entity workflow loop
     - full-text search + history                                              → (nightly) deeper coverage
+    - a stored multivalued forward reference (Book.co_authors)                → to-many traversal/explode (Aperture ADR-0041)
+    - an `inverse:`-declared reverse edge (Author.books)                       → reverse-edge traversal (mosaic ADR-0011)
 
   Kept intentionally small: three domain classes plus the control-plane
   document recipe (aperture_control_plane.yaml). Authored in LinkML because
@@ -56,6 +58,14 @@ classes:
           hippo_search: fts5
       bio:
         range: string
+      books:
+        range: Book
+        multivalued: true
+        inverse: author  # virtual reverse edge (mosaic ADR-0011) — no code, schema-only
+        description: >-
+          Reverse edge to every Book whose `author` points at this Author.
+          Declared so reverse-edge traversal (Aperture ADR-0041) is certifiable;
+          derived entirely from Book.author, never stored.
 
   Book:
     is_a: Entity
@@ -74,6 +84,14 @@ classes:
         description: The Book's author (typed reference → cross-link + batch resolution).
         annotations:
           hippo_index: true
+      co_authors:
+        range: Author
+        multivalued: true
+        description: >-
+          Other Authors credited alongside `author` (a real stored to-many
+          reference, not derived). Exercises forward to-many traversal/explode
+          (Aperture ADR-0041) — distinct from the `books` reverse edge, which
+          is derived rather than stored.
       format:
         range: BookFormat
         description: Enum facet in the browse/filter loop.

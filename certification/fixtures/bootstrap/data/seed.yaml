@@ -1,4 +1,4 @@
-# DataHelix certification — seed data bundle (fixture v1.0.0)
+# DataHelix certification — seed data bundle (fixture v1.1.0)
 #
 # Tree-root bundle format (hippo ingest --file): top-level keys are pluralized
 # class-name accessors; values are lists of instance dicts; identity is by `id`
@@ -8,6 +8,11 @@
 #     --validate-schema schema/   # validates against portal_schema + control plane
 #
 # Reference slots (`author`, `book`) carry the referenced instance's `id`.
+# `co_authors` (multivalued, stored) carries a list of Author ids — a real
+# to-many forward reference (Aperture ADR-0041 explode target). `Author.books`
+# is NOT seeded here: it is a virtual reverse edge derived from `Book.author`
+# (mosaic ADR-0011) and would be rejected as a write to a read-only field.
+#
 # Kept small on purpose: enough rows to make browse/filter facets meaningful
 # and to leave a clean slate for the write / atomic-workflow loops (which create
 # their own entities). The control-plane collection (ApertureDocument) is seeded
@@ -63,6 +68,12 @@ books:
     format: audiobook
     in_print: true
     year: 1937
+    co_authors: [author-austen, author-leguin]
+    # co_authors gives explode two members from one anchor (a declared grain
+    # change, 128→342-style) sitting alongside the unexploded `author`
+    # to-one column on the same row set — both halves of Aperture ADR-0041's
+    # forward traversal in one seeded row. Row count is unchanged (5 Books),
+    # so 01-browse-filter.spec.ts's count assertion still holds.
 
 reviews:
   - id: review-pride-1
