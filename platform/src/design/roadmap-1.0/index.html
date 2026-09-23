@@ -3999,6 +3999,20 @@ P2.3 scope that went unexecuted, not new scope. It should ship in one pass with
 (referenced-class slot values in the result table), because the two rewrite the <em>filter</em> and
 <em>selection</em> paths of the same query builder — split apart, that builder is rewritten twice and
 the composition re-certified twice.</p>
+<p><strong>Resolved (2026-09-22) — Mosaic <code>v0.14.0</code> is cut and pinned.</strong> The release backlog the note
+above records is closed: <code>v0.14.0</code> tags the whole window (mosaic#218), and
+<code>certification/composition.lock.json</code> moves the mosaic pin off <code>v0.13.0</code> to the released,
+digest-addressed image. <strong>P4.2 can now admit</strong> the MCP boundary, <code>converseQuerySpec</code> and
+reverse-edge traversal. Of the three consequences named above, two are closed — Mosaic
+ADR-0011 was ratified in mosaic#219, and reverse traversal is now purely a schema-authoring
+act, the release half having happened. <strong>One remains open:</strong>
+<code>certification/fixtures/bootstrap/schema/portal_schema.yaml</code> (v1.0.0) still has neither a
+multivalued reference nor an <code>inverse:</code> slot, so reverse traversal is <em>present in the pinned
+image and uncertifiable</em> until #92 bumps the fixture. The same is true of the MCP boundary for
+a different reason: <code>certification/compose/</code> boots <code>mosaic serve --graphql</code>, not <code>--mcp</code>, so
+nothing on that surface is exercised by the golden path. <strong>P2.3 is unaffected</strong> by this release
+— its under-execution is on Aperture's side of the seam, and the typed filter contract it names
+was already complete in the <code>v0.13.0</code> pin.</p>
 </blockquote>
 <p>This roadmap supersedes the milestone framing in <code>FABLE_HANDOFF.md</code> §6 where they
 conflict, and maps back to it (M2→P2, M4→P2/P3, M5→P3 scoped to one adapter,
