@@ -6,18 +6,18 @@
     "green merge \u2014 appends a ledger tag. A maintenance branch (release/lts-*)",
     "carries its own frozen copy of this file and its era-appropriate fixture.",
     "",
-    "digest is the artifact content address that was (or will be) booted. Until",
-    "the components ship digest-addressed artifacts (hippo release pipeline;",
-    "aperture#16 + a Dockerfile), digest is null and the certification workflow",
-    "skips the boot as an honest no-op rather than certifying an unpublished",
-    "pair. Semver is a claim; the digest is the evidence \u2014 the gate requires it."
+    "digest is the artifact content address that was booted. Both components now",
+    "publish digest-addressed images, so digest is never null on this line; if one",
+    "ever is, the certification workflow skips the boot as an honest no-op rather",
+    "than certifying an unpublished pair. Semver is a claim; the digest is the",
+    "evidence \u2014 the gate requires it."
   ],
   "line": "frontier",
   "fixture_version": "1.0.0",
   "components": {
     "mosaic": {
-      "version": "0.13.0",
-      "digest": "sha256:ded29427e210253505fe42a9d58205418bc9df8e609a960fb34c30300ea8d278",
+      "version": "0.14.0",
+      "digest": "sha256:48c2d120ebfdf633b4f5206e1fc58ed7dfc9972b4122d5cc64a1208d062de9a9",
       "image": "ghcr.io/bu-neuromics/mosaic",
       "repo": "BU-Neuromics/mosaic",
       "status": "published"
