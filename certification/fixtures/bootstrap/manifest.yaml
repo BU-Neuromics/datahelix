@@ -11,7 +11,7 @@
 # (fixture_version) — changing the fixture is a suite change and re-certifies.
 
 name: datahelix-certification-bootstrap
-version: 1.0.0            # keep in sync with ./VERSION
+version: 1.1.0            # keep in sync with ./VERSION
 schema_min_hippo_core: 0.6.0   # hippo_core version these classes were authored against
 
 provides:
@@ -48,3 +48,10 @@ golden_path_loops:
   single_entity_write: "create/update an Author or Book"
   atomic_multi_entity_workflow: "stage Author→Book→Review, whole-set dry-run, atomic batch commit"
   control_plane: "ApertureDocument saved-view + workflow-draft survive reload"
+  reference_traversal: >-
+    Book.co_authors (stored multivalued forward ref) and Author.books
+    (inverse:-declared reverse edge) — added in 1.1.0 so explode/reverse
+    traversal (Aperture ADR-0041, mosaic ADR-0011) are certifiable. Verified
+    at the GraphQL seam (certification/scenarios/tests/05-reference-traversal.spec.ts);
+    no golden-path UI scenario yet — Aperture's referenced-column display
+    ships in aperture#65, currently a Proposed ADR-0041 pending ratification.
