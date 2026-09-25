@@ -57,7 +57,22 @@
 > multivalued reference nor an `inverse:` slot, so reverse traversal is *present in the pinned
 > image and uncertifiable* until #92 bumps the fixture. The same is true of the MCP boundary for
 > a different reason: `certification/compose/` boots `mosaic serve --graphql`, not `--mcp`, so
-> nothing on that surface is exercised by the golden path. **P2.3 is unaffected** by this release
+> nothing on that surface is exercised by the golden path.
+>
+> **Closed (2026-09-25) — the fixture gap above is gone.** `#92` bumped the fixture to **1.1.0**
+> (`Book.co_authors` multivalued, `Author.books` `inverse:`-declared), and the aperture pin moved
+> to **v0.5.0** — which carries the `idColumn` fix that had to precede any `inverse:` declaration,
+> since the generated count field displaces `id` out of the eight-column table budget
+> (BU-Neuromics/aperture#68). The certification run on that bump produced
+> `fixture 1.1.0 · aperture0.5.0+mosaic0.14.0 · fail=None` — **the first ledger entry covering
+> 1.1.0 at all**, because the earlier fixture bump touched `fixtures/**` only and the workflow
+> appends a ledger tag on a push that changes `composition.lock.json`. Reverse traversal is now
+> present in the pinned image *and* certified. The MCP-surface gap in the same paragraph stands:
+> `certification/compose/` still boots `--graphql` without `--mcp`.
+>
+> Worth carrying forward as a small follow-up: `ledger/gate.py` matches on component versions and
+> digests but not `fixture_version`, which is why a lock file declaring 1.1.0 against 1.0.0-only
+> evidence passed the gate unnoticed. **P2.3 is unaffected** by this release
 > — its under-execution is on Aperture's side of the seam, and the typed filter contract it names
 > was already complete in the `v0.13.0` pin.
 
