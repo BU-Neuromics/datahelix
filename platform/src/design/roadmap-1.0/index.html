@@ -4010,7 +4010,20 @@ act, the release half having happened. <strong>One remains open:</strong>
 multivalued reference nor an <code>inverse:</code> slot, so reverse traversal is <em>present in the pinned
 image and uncertifiable</em> until #92 bumps the fixture. The same is true of the MCP boundary for
 a different reason: <code>certification/compose/</code> boots <code>mosaic serve --graphql</code>, not <code>--mcp</code>, so
-nothing on that surface is exercised by the golden path. <strong>P2.3 is unaffected</strong> by this release
+nothing on that surface is exercised by the golden path.</p>
+<p><strong>Closed (2026-09-25) — the fixture gap above is gone.</strong> <code>#92</code> bumped the fixture to <strong>1.1.0</strong>
+(<code>Book.co_authors</code> multivalued, <code>Author.books</code> <code>inverse:</code>-declared), and the aperture pin moved
+to <strong>v0.5.0</strong> — which carries the <code>idColumn</code> fix that had to precede any <code>inverse:</code> declaration,
+since the generated count field displaces <code>id</code> out of the eight-column table budget
+(BU-Neuromics/aperture#68). The certification run on that bump produced
+<code>fixture 1.1.0 · aperture0.5.0+mosaic0.14.0 · fail=None</code> — <strong>the first ledger entry covering
+1.1.0 at all</strong>, because the earlier fixture bump touched <code>fixtures/**</code> only and the workflow
+appends a ledger tag on a push that changes <code>composition.lock.json</code>. Reverse traversal is now
+present in the pinned image <em>and</em> certified. The MCP-surface gap in the same paragraph stands:
+<code>certification/compose/</code> still boots <code>--graphql</code> without <code>--mcp</code>.</p>
+<p>Worth carrying forward as a small follow-up: <code>ledger/gate.py</code> matches on component versions and
+digests but not <code>fixture_version</code>, which is why a lock file declaring 1.1.0 against 1.0.0-only
+evidence passed the gate unnoticed. <strong>P2.3 is unaffected</strong> by this release
 — its under-execution is on Aperture's side of the seam, and the typed filter contract it names
 was already complete in the <code>v0.13.0</code> pin.</p>
 </blockquote>
