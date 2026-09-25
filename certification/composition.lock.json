@@ -23,8 +23,8 @@
       "status": "published"
     },
     "aperture": {
-      "version": "0.4.0",
-      "digest": "sha256:0f710fa7b886089eb932e3b6c82ed62e87efb06d3252ff1fa2d48e1ad29ca083",
+      "version": "0.5.0",
+      "digest": "sha256:d05f34998d8cbe9dbbda663cfc4e0dcce78b5fe51e92bd452f6de9007c92c577",
       "image": "ghcr.io/bu-neuromics/aperture",
       "repo": "BU-Neuromics/aperture",
       "status": "published"
