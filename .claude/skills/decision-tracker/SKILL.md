@@ -41,7 +41,7 @@ Decision Log in that component's `design/INDEX.md`.
 | Platform (DataHelix) | `BU-Neuromics/datahelix` | — (this repo) | cross-component ADRs in `platform/design/decisions/ADR-NNNN-*.md`, indexed by `platform/design/INDEX.md` |
 | Mosaic (formerly Hippo, ADR-0004) | `BU-Neuromics/mosaic` | `mosaic/` | ADR files in `design/decisions/` + Key Decisions Log in `design/INDEX.md` — **forward-only**, no mass backfill |
 | Aperture | `BU-Neuromics/aperture` | `aperture/` | ADR files in `design/decisions/ADR-NNNN-*.md` + Decision Log in `design/INDEX.md` (the reference implementation) |
-| Reel | `BU-Neuromics/reel` | (not mounted) | ADR files in `design/decisions/ADR-NNNN-*.md` + `design/INDEX.md` |
+| Reel | `BU-Neuromics/reel` | `reel/` | ADR files in `design/decisions/ADR-NNNN-*.md` + `design/INDEX.md` |
 
 In-tree components (Canon, Cappella, Bridge) live in the DataHelix repo under their own
 `<component>/design/decisions/`. Notes:
