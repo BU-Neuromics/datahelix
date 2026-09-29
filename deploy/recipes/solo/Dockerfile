@@ -17,12 +17,15 @@
 # and the digests are recorded as OCI labels so a deploy gate can verify the
 # bundle's provenance. Never build components from source in this recipe.
 #
-# NOTE (ADR-0004 Phase R done): the certified frontier pins Mosaic 0.12.1,
-# published as ghcr.io/bu-neuromics/mosaic; the ledger key is now `mosaic`.
-# The CLI inside the image is `mosaic`.
+# NOTE: the ARGs below are the authoritative pins and are checked against
+# certification/composition.lock.json by `check_pins.py`, which `make gate`
+# runs before this image can come up. Do not name a version here — a comment
+# cannot be gated, and the previous one sat three releases stale (Mosaic
+# 0.12.1) without anything noticing. The CLI inside the image is `mosaic`
+# (ADR-0004 rename shipped).
 
-ARG MOSAIC_IMAGE=ghcr.io/bu-neuromics/mosaic@sha256:ded29427e210253505fe42a9d58205418bc9df8e609a960fb34c30300ea8d278
-ARG APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:0f710fa7b886089eb932e3b6c82ed62e87efb06d3252ff1fa2d48e1ad29ca083
+ARG MOSAIC_IMAGE=ghcr.io/bu-neuromics/mosaic@sha256:48c2d120ebfdf633b4f5206e1fc58ed7dfc9972b4122d5cc64a1208d062de9a9
+ARG APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:70ed3dfbd25716c1fb33d0d4737bc15d7bc42e38bf7191c31f4be37856f46c4f
 
 # The authenticating proxy (platform ADR-0006). Digest-pinned like the pair
 # above, but NOT part of the certified frontier: it is infrastructure, not a
