@@ -74,12 +74,11 @@ services:
       # `421 Invalid Host header` (BU-Neuromics/mosaic#214). Loopback stays
       # allowed; these are added to it.
       #
-      # REQUIRES A MOSAIC NEWER THAN v0.13.0. The published 0.13.0 image has
-      # no `--mcp` flag (it predates the mcp extra being installed in the
-      # image) and no host allow-list, so `make chat` against the pinned image
-      # fails at startup with "No such option: --mcp". Until an image ships
-      # both, use `make chat-dev` with MOSAIC_SRC pointing at a checkout that
-      # has them.
+      # Needs mosaic >= 0.14.0, which the pinned default is: 0.13.0 had neither
+      # the `--mcp` flag nor a host allow-list. Both shipped in 0.14.0 along
+      # with the `mcp` extra being installed in the image, so `make chat`
+      # against the pinned image works and the first-run pip install this
+      # recipe used to do for `mosaic-dev` is gone.
       MOSAIC_MCP_ALLOWED_HOSTS: ${MOSAIC_MCP_ALLOWED_HOSTS:-mosaic:*,mosaic-dev:*}
     volumes:
       - "${PROJECT_DIR:-./project}:/project"
@@ -110,23 +109,9 @@ services:
     profiles: [mosaic-source]
     image: ghcr.io/bu-neuromics/mosaic:${MOSAIC_VERSION:-0.14.0}
     user: "${DOCKER_UID:-1000}:${DOCKER_GID:-1000}"
-    # The MCP transport needs the optional `mcp` extra, which the published
-    # v0.13.0 image does not carry (the Dockerfile fix postdates the tag), so
-    # `--mcp` aborts with "requires the optional 'mcp' extra". Installed on
-    # first run into the user site — the same first-run-install pattern
-    # `aperture-dev` uses for node_modules, and equally temporary: it comes out
-    # the moment an image ships with the extra.
-    # entrypoint cleared: the image's is `mosaic`, so a `command:` of `sh`
-    # would arrive as `mosaic sh` ("No such command 'sh'").
-    entrypoint: ["sh", "-lc"]
     command:
-      - |
-        python -c 'import mcp' 2>/dev/null || {
-          echo "ide: installing the mcp extra (first run for this container)"
-          pip install --quiet --user mcp
-        }
-        exec mosaic serve --graphql --mcp --host 0.0.0.0 --port 8001 \
-          --config /project/mosaic.yaml --reload --reload-dir /src
+      ["serve", "--graphql", "--mcp", "--host", "0.0.0.0", "--port", "8001",
+       "--config", "/project/mosaic.yaml", "--reload", "--reload-dir", "/src"]
     environment:
       PYTHONPATH: /src
       # See the note on the `mosaic` service above.
