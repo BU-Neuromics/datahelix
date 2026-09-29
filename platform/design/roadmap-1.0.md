@@ -208,8 +208,49 @@ their dependents.
 1. **One epic = one agent engagement**, on a feature branch in the owning repo; PR per epic (or per increment for L epics). Follow the owning repo's process (hippo: OpenSpec change first; aperture: ADR first when a decision is embedded; DataHelix: platform ADR for cross-component decisions).
 2. **Never break a certified pair:** changes to a seam require the contract file (post-P2.1) green in your own CI before release; releases are one-per-bump-PR into DataHelix.
 3. **Acceptance criteria above are the definition of done** — an epic isn't done until its acceptance row is demonstrably true (tests/CI/certification evidence, not assertion).
-4. **Escalate [HUMAN] items** — never resolve them by implication. Current queue: platform name; registry/attestation choice; schema-sync 1.0 scope; Cappella adapter choice (REDCap vs CSV-batch).
+4. **Escalate [HUMAN] items** — never resolve them by implication. Current queue: platform name; registry/attestation choice; schema-sync 1.0 scope; Cappella adapter choice (REDCap vs CSV-batch); **first-users vs. automated-ingest sequencing (added 2026-09-29, see §4.1)**.
 5. **Status legibility:** update the owning repo's `design/INDEX.md` (and this file's phase tables via PR) as epics complete; the DataHelix Dependency Dashboard + ledger tags are the ground truth for composition state.
+
+### 4.1 Open [HUMAN] decision — deploy to first users, or automate ingest first?
+
+**Added 2026-09-29. Due at the next working session.** Raised because the single-user stack
+became genuinely deployable this week and the next move is no longer obvious from the phase
+plan alone.
+
+**What changed.** `aperture 0.6.0 + mosaic 0.14.0` is certified (`fixture 1.1.0`, ledger 10
+passing / 0 failing) and both deploy recipes boot — they had been gated shut on drifted
+digests. A single container now serves Aperture at `/` and Mosaic at `/graphql` same-origin.
+Verified running, not asserted.
+
+**Why it is a real fork rather than an ordering detail.** Both are cheap; neither blocks the
+other technically; and each makes the *other* one better-informed if it goes first. Picking by
+implication would mean picking by whichever someone starts on.
+
+| | **A — deploy to first users** | **B — automate ingest first** |
+|---|---|---|
+| Unlocks | people other than the maintainer using it; provenance naming real users | the graph stays current instead of being a hand-loaded snapshot |
+| Roadmap | not an epic — the recipes already exist | **P3.6**, which carries its own `[HUMAN]` adapter choice |
+| Cost | days; mostly schema and data, not code | weeks; one production adapter + trigger + `SyncRun` audit trail |
+| Strongest argument | every roadmap choice after it is currently a guess — there is no user feedback in the system at all | a data explorer over stale data stops being opened, so adoption dies before feedback arrives |
+| What it cannot do | everyone sees everything — access is **gated, not differentiated** | nothing about who may see what |
+
+**The constraint that may decide it, and cannot be read out of this repo: is the data
+identifiable?** `AUTH_MODE=htpasswd|oidc` is implemented in the `solo` recipe against a pinned
+oauth2-proxy (platform ADR-0006), so gated multi-user access exists **today** without Bridge —
+the proxy decides *whether you may use this deployment*, never *which records you may see*.
+Per-record and per-slot control remain Bridge's, unbuilt. If the first real dataset is
+identifiable, option A is capped at a small trusted group and **P3.1 (Bridge) moves up
+sharply**; if it is de-identified or internal-only, A is genuinely unblocked.
+
+**Not on the table at this session:** Bridge (P3.1) and the agentic/AI surface. The latter is
+the stated target direction and is tracked as **P3.4/P3.5** — recorded here so that choosing A
+or B is understood as choosing what runs *alongside* it, not instead of it.
+
+**Note on P3.4's status.** The 2026-09-11 amendment above records that the MCP agent surface
+planned as *P3.4 Aperture MCP agent surface* landed in **Mosaic** instead (ADR-0009/0010). The
+Aperture-side half — ratifying ADR-0018/0021 and the keystone probe P3.5 — has not been
+re-scoped since. Anyone targeting that direction should expect to restate P3.4 before working
+it, rather than treating the row as current.
 
 ## 5. Six-month success definition
 
