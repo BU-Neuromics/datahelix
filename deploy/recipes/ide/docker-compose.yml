@@ -213,7 +213,7 @@ services:
   # Mosaic -- this is the only service in the stack that talks to a model.
   reel:
     profiles: [reel-image]
-    image: ghcr.io/bu-neuromics/reel:${REEL_VERSION:-dev}
+    image: ghcr.io/bu-neuromics/reel:${REEL_VERSION:-0.1.0}
     environment:
       MOSAIC_MCP_URL: ${MOSAIC_MCP_URL:-http://mosaic:8001/mcp}
       AWS_REGION: ${AWS_REGION:-us-east-1}
@@ -239,7 +239,7 @@ services:
   # edit; `make restart-planner` is the deliberate way to pick up changes.
   reel-dev:
     profiles: [reel-source]
-    image: ghcr.io/bu-neuromics/reel:${REEL_VERSION:-dev}
+    image: ghcr.io/bu-neuromics/reel:${REEL_VERSION:-0.1.0}
     environment:
       PYTHONPATH: /src
       # `mosaic-dev`, not `mosaic`: the source profile is a different service
