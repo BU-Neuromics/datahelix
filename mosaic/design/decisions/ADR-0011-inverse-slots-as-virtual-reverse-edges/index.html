@@ -16,19 +16,19 @@
         
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Hippo Design Decisions (ADRs) - DataHelix Documentation</title>
+        <title>ADR-0011: inverse-declared slots are virtual reverse edges over the forward foreign key - DataHelix Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -47,9 +47,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../stylesheets/custom.css">
+      <link rel="stylesheet" href="../../../../stylesheets/custom.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#hippo-design-decisions-adrs" class="md-skip">
+        <a href="#adr-0011-inverse-declared-slots-are-virtual-reverse-edges-over-the-forward-foreign-key" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Hippo Design Decisions (ADRs)
+              ADR-0011: inverse-declared slots are virtual reverse edges over the forward foreign key
             
           </span>
         </div>
@@ -209,7 +209,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../../../.." class="md-tabs__link">
         
   
   
@@ -230,7 +230,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../platform/" class="md-tabs__link">
+        <a href="../../../../platform/" class="md-tabs__link">
           
   
   
@@ -250,7 +250,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../" class="md-tabs__link">
+        <a href="../../../" class="md-tabs__link">
           
   
   
@@ -270,7 +270,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../cappella/" class="md-tabs__link">
+        <a href="../../../../cappella/" class="md-tabs__link">
           
   
   
@@ -290,7 +290,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../aperture/" class="md-tabs__link">
+        <a href="../../../../aperture/" class="md-tabs__link">
           
   
   
@@ -310,7 +310,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../bridge/" class="md-tabs__link">
+        <a href="../../../../bridge/" class="md-tabs__link">
           
   
   
@@ -330,7 +330,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../canon/" class="md-tabs__link">
+        <a href="../../../../canon/" class="md-tabs__link">
           
   
   
@@ -364,7 +364,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -382,7 +382,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   
@@ -463,7 +463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/" class="md-nav__link">
+      <a href="../../../../platform/" class="md-nav__link">
         
   
   
@@ -491,7 +491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/overview/" class="md-nav__link">
+      <a href="../../../../platform/src/overview/" class="md-nav__link">
         
   
   
@@ -519,7 +519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/architecture/" class="md-nav__link">
+      <a href="../../../../platform/src/architecture/" class="md-nav__link">
         
   
   
@@ -547,7 +547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/getting-started/" class="md-nav__link">
+      <a href="../../../../platform/src/getting-started/" class="md-nav__link">
         
   
   
@@ -575,7 +575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/deployment/" class="md-nav__link">
+      <a href="../../../../platform/src/deployment/" class="md-nav__link">
         
   
   
@@ -603,7 +603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/glossary/" class="md-nav__link">
+      <a href="../../../../platform/src/glossary/" class="md-nav__link">
         
   
   
@@ -685,7 +685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -713,7 +713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec2_components/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec2_components/" class="md-nav__link">
         
   
   
@@ -741,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec3_integration/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec3_integration/" class="md-nav__link">
         
   
   
@@ -769,7 +769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
         
   
   
@@ -797,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
         
   
   
@@ -894,7 +894,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../" class="md-nav__link">
+      <a href="../../../" class="md-nav__link">
         
   
   
@@ -922,7 +922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/why-mosaic/" class="md-nav__link">
+      <a href="../../../docs/why-mosaic/" class="md-nav__link">
         
   
   
@@ -1004,7 +1004,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/introduction/" class="md-nav__link">
+      <a href="../../../docs/introduction/" class="md-nav__link">
         
   
   
@@ -1032,7 +1032,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/installation/" class="md-nav__link">
+      <a href="../../../docs/installation/" class="md-nav__link">
         
   
   
@@ -1060,7 +1060,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/quickstart/" class="md-nav__link">
+      <a href="../../../docs/quickstart/" class="md-nav__link">
         
   
   
@@ -1088,7 +1088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/schema-guide/" class="md-nav__link">
+      <a href="../../../docs/schema-guide/" class="md-nav__link">
         
   
   
@@ -1116,7 +1116,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/data-model/" class="md-nav__link">
+      <a href="../../../docs/data-model/" class="md-nav__link">
         
   
   
@@ -1144,7 +1144,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/configuration/" class="md-nav__link">
+      <a href="../../../docs/configuration/" class="md-nav__link">
         
   
   
@@ -1172,7 +1172,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/cli-reference/" class="md-nav__link">
+      <a href="../../../docs/cli-reference/" class="md-nav__link">
         
   
   
@@ -1200,7 +1200,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/api-reference/" class="md-nav__link">
+      <a href="../../../docs/api-reference/" class="md-nav__link">
         
   
   
@@ -1228,7 +1228,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/reference-loaders/" class="md-nav__link">
+      <a href="../../../docs/reference-loaders/" class="md-nav__link">
         
   
   
@@ -1256,7 +1256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/writing-a-reference-loader/" class="md-nav__link">
+      <a href="../../../docs/writing-a-reference-loader/" class="md-nav__link">
         
   
   
@@ -1284,7 +1284,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/writing-a-recipe/" class="md-nav__link">
+      <a href="../../../docs/writing-a-recipe/" class="md-nav__link">
         
   
   
@@ -1312,7 +1312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/installing-recipes/" class="md-nav__link">
+      <a href="../../../docs/installing-recipes/" class="md-nav__link">
         
   
   
@@ -1340,7 +1340,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/recipe-reference/" class="md-nav__link">
+      <a href="../../../docs/recipe-reference/" class="md-nav__link">
         
   
   
@@ -1430,7 +1430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec1_overview/" class="md-nav__link">
+      <a href="../../sec1_overview/" class="md-nav__link">
         
   
   
@@ -1458,7 +1458,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec2_architecture/" class="md-nav__link">
+      <a href="../../sec2_architecture/" class="md-nav__link">
         
   
   
@@ -1486,7 +1486,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec3_data_model/" class="md-nav__link">
+      <a href="../../sec3_data_model/" class="md-nav__link">
         
   
   
@@ -1514,7 +1514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec3b_relational_storage/" class="md-nav__link">
+      <a href="../../sec3b_relational_storage/" class="md-nav__link">
         
   
   
@@ -1542,7 +1542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec4_api_layer/" class="md-nav__link">
+      <a href="../../sec4_api_layer/" class="md-nav__link">
         
   
   
@@ -1570,7 +1570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec5_ingestion/" class="md-nav__link">
+      <a href="../../sec5_ingestion/" class="md-nav__link">
         
   
   
@@ -1598,7 +1598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec6_provenance/" class="md-nav__link">
+      <a href="../../sec6_provenance/" class="md-nav__link">
         
   
   
@@ -1626,7 +1626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec7_nfr/" class="md-nav__link">
+      <a href="../../sec7_nfr/" class="md-nav__link">
         
   
   
@@ -1654,7 +1654,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec8_auth_integration/" class="md-nav__link">
+      <a href="../../sec8_auth_integration/" class="md-nav__link">
         
   
   
@@ -1682,7 +1682,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../appendix_a_example_schema_omics/" class="md-nav__link">
+      <a href="../../appendix_a_example_schema_omics/" class="md-nav__link">
         
   
   
@@ -1710,7 +1710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../appendix_b_implementation_guide/" class="md-nav__link">
+      <a href="../../appendix_b_implementation_guide/" class="md-nav__link">
         
   
   
@@ -1738,7 +1738,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference_hippo_yaml/" class="md-nav__link">
+      <a href="../../reference_hippo_yaml/" class="md-nav__link">
         
   
   
@@ -1766,7 +1766,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference_validators_yaml/" class="md-nav__link">
+      <a href="../../reference_validators_yaml/" class="md-nav__link">
         
   
   
@@ -1794,7 +1794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference_cel_context/" class="md-nav__link">
+      <a href="../../reference_cel_context/" class="md-nav__link">
         
   
   
@@ -1891,7 +1891,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/" class="md-nav__link">
+      <a href="../../../../cappella/" class="md-nav__link">
         
   
   
@@ -1973,7 +1973,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/introduction/" class="md-nav__link">
+      <a href="../../../../cappella/docs/introduction/" class="md-nav__link">
         
   
   
@@ -2001,7 +2001,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/installation/" class="md-nav__link">
+      <a href="../../../../cappella/docs/installation/" class="md-nav__link">
         
   
   
@@ -2029,7 +2029,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/overview/" class="md-nav__link">
+      <a href="../../../../cappella/docs/overview/" class="md-nav__link">
         
   
   
@@ -2057,7 +2057,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../cappella/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -2085,7 +2085,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/user_guide/" class="md-nav__link">
+      <a href="../../../../cappella/docs/user_guide/" class="md-nav__link">
         
   
   
@@ -2113,7 +2113,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/workflows/" class="md-nav__link">
+      <a href="../../../../cappella/docs/workflows/" class="md-nav__link">
         
   
   
@@ -2203,7 +2203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -2231,7 +2231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -2259,7 +2259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec3_adapters/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec3_adapters/" class="md-nav__link">
         
   
   
@@ -2287,7 +2287,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec4_audit/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec4_audit/" class="md-nav__link">
         
   
   
@@ -2315,7 +2315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec5_workflows/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec5_workflows/" class="md-nav__link">
         
   
   
@@ -2343,7 +2343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec6_nfr/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec6_nfr/" class="md-nav__link">
         
   
   
@@ -2371,7 +2371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec7_testing/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec7_testing/" class="md-nav__link">
         
   
   
@@ -2468,7 +2468,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/" class="md-nav__link">
+      <a href="../../../../aperture/" class="md-nav__link">
         
   
   
@@ -2550,7 +2550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/design/INDEX/" class="md-nav__link">
+      <a href="../../../../aperture/design/INDEX/" class="md-nav__link">
         
   
   
@@ -2578,7 +2578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/design/portal-vision-handoff/" class="md-nav__link">
+      <a href="../../../../aperture/design/portal-vision-handoff/" class="md-nav__link">
         
   
   
@@ -2606,7 +2606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/design/portal-open-questions/" class="md-nav__link">
+      <a href="../../../../aperture/design/portal-open-questions/" class="md-nav__link">
         
   
   
@@ -2703,7 +2703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/" class="md-nav__link">
+      <a href="../../../../bridge/" class="md-nav__link">
         
   
   
@@ -2785,7 +2785,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/introduction/" class="md-nav__link">
+      <a href="../../../../bridge/docs/introduction/" class="md-nav__link">
         
   
   
@@ -2813,7 +2813,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/auth/" class="md-nav__link">
+      <a href="../../../../bridge/docs/auth/" class="md-nav__link">
         
   
   
@@ -2841,7 +2841,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/security-model/" class="md-nav__link">
+      <a href="../../../../bridge/docs/security-model/" class="md-nav__link">
         
   
   
@@ -2869,7 +2869,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/admin-guide/" class="md-nav__link">
+      <a href="../../../../bridge/docs/admin-guide/" class="md-nav__link">
         
   
   
@@ -2959,7 +2959,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -2987,7 +2987,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -3015,7 +3015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec3_api_unification/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec3_api_unification/" class="md-nav__link">
         
   
   
@@ -3043,7 +3043,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec4_auth/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec4_auth/" class="md-nav__link">
         
   
   
@@ -3071,7 +3071,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec5_sync/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec5_sync/" class="md-nav__link">
         
   
   
@@ -3099,7 +3099,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec6_nfr/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec6_nfr/" class="md-nav__link">
         
   
   
@@ -3196,7 +3196,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/" class="md-nav__link">
+      <a href="../../../../canon/" class="md-nav__link">
         
   
   
@@ -3278,7 +3278,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/introduction/" class="md-nav__link">
+      <a href="../../../../canon/docs/introduction/" class="md-nav__link">
         
   
   
@@ -3306,7 +3306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../canon/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -3334,7 +3334,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/user-guide/" class="md-nav__link">
+      <a href="../../../../canon/docs/user-guide/" class="md-nav__link">
         
   
   
@@ -3424,7 +3424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../canon/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -3452,7 +3452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../canon/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -3480,7 +3480,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
+      <a href="../../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
         
   
   
@@ -3508,7 +3508,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
+      <a href="../../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
         
   
   
@@ -3536,7 +3536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
+      <a href="../../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
         
   
   
@@ -3564,7 +3564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
+      <a href="../../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
         
   
   
@@ -3592,7 +3592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
+      <a href="../../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
         
   
   
@@ -3620,7 +3620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec6_mosaic_integration/" class="md-nav__link">
+      <a href="../../../../canon/design/sec6_mosaic_integration/" class="md-nav__link">
         
   
   
@@ -3648,7 +3648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec7_nfr/" class="md-nav__link">
+      <a href="../../../../canon/design/sec7_nfr/" class="md-nav__link">
         
   
   
@@ -3676,7 +3676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
+      <a href="../../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
         
   
   
@@ -3704,7 +3704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/reference_canon_yaml/" class="md-nav__link">
+      <a href="../../../../canon/design/reference_canon_yaml/" class="md-nav__link">
         
   
   
@@ -3732,7 +3732,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
+      <a href="../../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
         
   
   
@@ -3760,7 +3760,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
+      <a href="../../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
         
   
   
@@ -3823,10 +3823,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#hybrid-adoption-2026-06-17" class="md-nav__link">
+  <a href="#context" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hybrid adoption (2026-06-17)
+        Context
       
     </span>
   </a>
@@ -3834,10 +3834,54 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#index" class="md-nav__link">
+  <a href="#decision" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Index
+        Decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consequences
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives-considered" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives considered
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes-open-sub-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes / open sub-questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ratification-note-2026-09-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ratification note (2026-09-22)
       
     </span>
   </a>
@@ -3861,91 +3905,203 @@
 
 
 
-<h1 id="hippo-design-decisions-adrs">Hippo Design Decisions (ADRs)<a class="headerlink" href="#hippo-design-decisions-adrs" title="Permanent link">&para;</a></h1>
-<p>Hippo records design decisions as <strong>ADRs</strong> following the <strong>platform-wide convention</strong> — the
-canonical process and template live in the parent repo at
-<a href="../../../platform/design/decisions/README.md"><code>platform/design/decisions/README.md</code></a> (see also
-the root <a href="../../CLAUDE.md"><code>../CLAUDE.md</code></a>). ADR files live in this directory;
-<a href="_template/"><code>_template.md</code></a> is a local copy of the canonical template for convenience.</p>
-<h2 id="hybrid-adoption-2026-06-17">Hybrid adoption (2026-06-17)<a class="headerlink" href="#hybrid-adoption-2026-06-17" title="Permanent link">&para;</a></h2>
-<p>Hippo is a mature component with a large body of already-settled, shipped decisions recorded in
-the <strong>Key Decisions Log</strong> of <a href="../INDEX/"><code>../INDEX.md</code></a>. Hippo therefore adopts ADRs
-<strong>forward-only</strong>:</p>
+<h1 id="adr-0011-inverse-declared-slots-are-virtual-reverse-edges-over-the-forward-foreign-key">ADR-0011: <code>inverse</code>-declared slots are virtual reverse edges over the forward foreign key<a class="headerlink" href="#adr-0011-inverse-declared-slots-are-virtual-reverse-edges-over-the-forward-foreign-key" title="Permanent link">&para;</a></h1>
 <ul>
-<li><strong>New, non-trivial, or still-in-flux decisions</strong> get an ADR here, indexed from the INDEX.</li>
-<li>The existing <strong>Key Decisions Log remains the scannable index</strong> of record for the settled,
-  shipped decisions and is <strong>backfilled only opportunistically</strong> — when a settled decision is
-  revisited and capturing its alternatives is worthwhile — never as a mass migration.</li>
+<li><strong>Status:</strong> Accepted</li>
+<li><strong>Date:</strong> 2026-09-22 (ratified; proposed 2026-09-11)</li>
+<li><strong>Deciders:</strong> labadorf; clandaverde (issue analysis)</li>
+<li><strong>Related:</strong> ADR-0002 (multivalued reference slots persist as relationships — the storage
+  rule this ADR carves an exception out of); ADR-0005 (edge-only GraphQL references);
+  ADR-0006 (typed filter contract — M5a/M5b relationship predicates, whose SQL this ADR
+  extends with a third edge shape); ADR-0009 (capability manifest + <code>QuerySpec</code>, the consumer
+  that surfaced the gap); <strong>Aperture ADR-0035</strong> (<code>QuerySpec</code>); <code>mosaic-demo-small</code>'s
+  <code>APERTURE_EXON_CONTRACT.md</code> Decision 8 (the planner re-validates through Mosaic's validator,
+  so a reverse edge the validator rejects can never reach a <code>proposal</code> turn).</li>
+<li><strong>Tracking issue:</strong> <a href="https://github.com/BU-Neuromics/mosaic/issues/204">#204</a> (implemented,
+  <code>7fc300c</code>); ratification <a href="https://github.com/BU-Neuromics/mosaic/issues/217">#217</a>. Also
+  <strong>Aperture ADR-0041</strong> (referenced-class slot values in the result table — reverse-traversal
+  display columns gate on a deployment declaring an <code>inverse:</code> slot, which is this ADR's
+  mechanism), and its cross-component umbrella
+  <a href="https://github.com/BU-Neuromics/datahelix/issues/93">datahelix#93</a>.</li>
 </ul>
-<p>The supersede-don't-delete discipline already used in the Key Decisions Log (entries gain a
-<code>Superseded by</code> pointer rather than disappearing) matches the ADR lifecycle exactly.</p>
-<h2 id="index">Index<a class="headerlink" href="#index" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>ADR</th>
-<th>Decision</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="ADR-0001-graph-level-as-of-query/">0001</a></td>
-<td>Graph-level / query-spanning as-of reconstruction</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0002-multivalued-reference-slots-as-relationships/">0002</a></td>
-<td>Multivalued reference slots persist as relationships (issue #79)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0003-polymorphic-tree-root-ingest/">0003</a></td>
-<td>Polymorphic tree-root ingest via <code>designates_type</code> dispatch (issue #80)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0004-rename-hippo-to-mosaic/">0004</a></td>
-<td>Rename the Hippo component to <strong>Mosaic</strong> (music/art naming convention; PyPI-saturation dissolved by platform ADR-0002)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0005-graphql-reference-emission-edge-only/">0005</a></td>
-<td>GraphQL reference emission is edge-only — logical-identity boundary (issue #131)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0006-graphql-typed-filter-contract/">0006</a></td>
-<td>The GraphQL filter contract is typed per-class input objects — not CEL on the wire (issue #153)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0007-aggregation-and-ordering-surface/">0007</a></td>
-<td>Aggregation &amp; ordering surface — count mode, facet counts, min/max, <code>order_by</code> (issue #154)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0008-postgres-per-class-tables-shared-sql-core/">0008</a></td>
-<td>Postgres storage converges to generated per-class typed tables + shared SQL core (issue #162)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0009-mcp-boundary-capability-manifest-queryspec/">0009</a></td>
-<td>Mosaic hosts an MCP boundary over a server-derived capability manifest and the QuerySpec artifact (issue #177)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0010-mcp-outbound-delegation-to-a-planning-service/">0010</a></td>
-<td>The MCP boundary may delegate outbound to a planning service, as an untrusted planner behind a validating relay (issue #186)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0011-inverse-slots-as-virtual-reverse-edges/">0011</a></td>
-<td><code>inverse</code>-declared slots are virtual reverse edges over the forward FK — no storage of their own (issue #204)</td>
-<td>🟡 Proposed</td>
-</tr>
-</tbody>
-</table>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<p>A <code>QuerySpec</code> <code>RelatedCondition.edge</code> can only name a reference slot the <strong>anchor</strong> class
+itself holds — a <em>forward</em> edge. Given <code>Sample.donor: {range: Donor}</code> there is no way to anchor
+on <code>Donor</code> and quantify over "the samples that point at this donor", even though the reverse
+lookup is a plain equality filter on a single FK column. <code>mosaic-demo-small</code>'s chat grounding
+needs exactly that shape for its flagship example ("show me the donors of those samples
+instead"), and because Exon's <code>QuerySpec</code> is re-validated in-process before any <code>proposal</code> turn
+(ADR-0010), the direction cannot be offered client-side without matching server support.</p>
+<p>Where the forward-only assumption actually lives was checked against the current head with a
+scratch schema, and it is narrower than the issue first described:</p>
+<ul>
+<li>The <strong>validator and compiler are manifest-driven and already pass</strong> a reverse edge as soon
+  as the schema declares one. With <code>Donor.samples: {range: Sample, multivalued: true,
+  inverse: donor}</code> present, <code>build_capability_manifest</code> classifies <code>samples</code> as a filterable
+  multivalued <code>REFERENCE</code>, <code>validate_query_spec</code> returns valid, and <code>compile_query_spec</code> emits
+  the storage layer's to-many node <code>{edge: "samples", quantifier: "some", where: …}</code>.</li>
+<li>The <strong>storage adapters are the only failing step</strong>: <code>_reference_edge</code> resolves every
+  multivalued edge against the ADR-0002 <code>relationships</code> link table, which the reverse side of
+  an FK never writes, so the query returns zero rows. <code>count_relationship</code> and read-time
+  hydration have the same blind spot.</li>
+<li>Nothing under <code>src/mosaic</code> reads LinkML's <code>SlotDefinition.inverse</code>, but the attribute
+  <strong>survives <code>class_induced_slots</code></strong>, so the registry can consume it directly — no new
+  <code>hippo_*</code> annotation is needed.</li>
+<li>A hand-authored <code>inverse:</code> slot does <strong>not</strong> create a shadow link table: LinkML's
+  <code>SQLTableGenerator</code> emits one, and <code>DDLGenerator.generate</code> already drops every table that is
+  not a concrete class. The real hazard is different and worse: ADR-0002 treats the slot as a
+  <em>stored</em> multivalued reference, so a write carrying <code>samples: [...]</code> materializes
+  relationship rows — a second, independently writable encoding of the one fact
+  <code>Sample.donor</code> already stores.</li>
+</ul>
+<p>Two constraints frame the decision:</p>
+<ol>
+<li><strong>One physical encoding per fact.</strong> LinkML binds <code>inverse</code> to <code>owl:inverseOf</code>: the reverse
+   direction is <em>entailed</em> by the forward slot, never asserted independently. Whatever Mosaic
+   does must not let the two directions drift.</li>
+<li><strong>Every transport derives from one type model</strong> (<code>schema_typing</code>). If <code>Donor.samples</code>
+   appears there as a reference, GraphQL grows a <code>samples</code> resolver, a <code>DonorFilter.samples</code>
+   some/none input and a <code>samplesCount</code> field; REST/OpenAPI and the TUI list it; the MCP
+   capability resource advertises it. A fix that serves only the <code>QuerySpec</code> path would leave
+   every other consumer silently returning nothing.</li>
+</ol>
+<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
+<p><strong>Mosaic will implement LinkML <code>inverse</code>-declared slots as virtual (computed) reverse edges
+resolved through the forward slot's stored FK column — no column, no link table, no
+relationship rows of their own.</strong> The declaring slot is a full member of the type model and
+capability manifest, marked <code>inverse_of: &lt;forward slot&gt;</code>, and every read, filter, and count
+through it delegates to the forward column, so there is exactly one storage encoding of the
+relationship regardless of which slot a query traverses.</p>
+<p>Concretely:</p>
+<ol>
+<li><strong>Declaration.</strong> Schema authors use LinkML's own construct:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">Donor</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">attributes</span><span class="p">:</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">samples</span><span class="p">:</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">      </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sample</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">multivalued</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">inverse</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">donor</span><span class="w">        </span><span class="c1"># Sample.donor is the stored FK; this side is derived</span>
+</code></pre></div>
+<ol>
+<li>
+<p><strong>Load-time validation</strong> (<code>SchemaError</code>, aggregated like <code>hippo_*</code> annotation failures).
+   <code>inverse</code> must name a slot induced on the range class whose own range is the declaring
+   class or one of its ancestors; that forward slot must be <strong>single-valued</strong>; the declaring
+   slot must be <code>multivalued: true</code> and must not be <code>required</code>, <code>identifier</code>, or
+   <code>inlined</code>/<code>inlined_as_list</code>; the range must be an entity class, not a value type.
+   <strong>A reverse of a multivalued (relationships-backed) forward slot is rejected</strong> with a
+   message saying so — the scope boundary issue #204 draws, stated as an error rather than
+   left undefined.</p>
+</li>
+<li>
+<p><strong>Storage contract.</strong> The slot is excluded from <code>multivalued_reference_slots</code> (so
+   <code>_materialize_multivalued_refs</code> never sees it) and from the Postgres DDL / <code>schema_diff</code>
+   column walks. Reads hydrate <code>data[slot]</code> from the forward column in one batched query per
+   page, at the same call sites as ADR-0002 hydration, returning only <strong>available</strong> targets.
+   A write payload carrying the slot is <strong>accepted and ignored</strong> — it is derived, so dropping
+   it is the definition, not data loss; a get-then-put round-trip therefore stays stable.
+   The edge predicate compiles to one correlated <code>EXISTS</code> on the target table keyed by the
+   forward column (<code>some</code>), negated for <code>none</code>; <code>count_relationship</code> becomes a <code>COUNT(*)</code> on
+   the target table. As-of reads never carry the slot (it appears in no provenance patch);
+   as-of plus a relationship predicate is already a coded error (ADR-0006), unchanged.</p>
+</li>
+<li>
+<p><strong>Type model and manifest.</strong> <code>SlotModel</code> gains <code>inverse_of: Optional[str]</code>, set by
+   <code>_classify_slot</code>. <code>FieldCapability.predicate</code> is true when the target is exposed, exactly
+   as for forward references. <code>inverse_of</code> is serialized in the MCP <code>schema</code>/<code>capabilities</code>
+   resources and GraphQL's <code>MosaicSlotInfo</code> so a planner can offer the reverse direction and
+   describe it truthfully. GraphQL create/update inputs omit the slot; OpenAPI marks it
+   <code>readOnly</code>.</p>
+</li>
+<li>
+<p><strong>Validator and compiler are unchanged.</strong> They gain tests, not code.</p>
+</li>
+<li>
+<p><strong>No auto-detection of hand-authored pairs.</strong> Two reference slots between the same classes
+   can legitimately be two different facts; only an explicit <code>inverse:</code> says "one fact, two
+   views". A schema-lint <em>warning</em> for plausible un-linked pairs is a follow-up, not part of
+   this decision.</p>
+</li>
+</ol>
+<h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>QuerySpec</code> (and the GraphQL <code>where:</code> surface it compiles to) can traverse FK-backed
+  relationships in both directions once the schema declares the reverse. Unblocks
+  <code>mosaic-demo-small</code>'s <code>add-aperture-chat-panel</code> Phase 2.</li>
+<li>ADR-0002's rule "multivalued reference slot ⇒ relationship rows" acquires one carve-out:
+  a multivalued reference slot <strong>with <code>inverse</code></strong> is virtual. The four consumers of
+  <code>multivalued_reference_slots</code> (both adapters, <code>pg_ddl_generator</code>, <code>schema_diff</code>) share the
+  exclusion so they cannot drift.</li>
+<li>The relationship-predicate SQL gains a third edge shape (to-one FK, to-many link table,
+  <strong>reverse FK</strong>) in both adapters and in <code>count_relationship</code>.</li>
+<li>Read amplification: hydrating the reverse id list into <code>data</code> on every read is the
+  ADR-0002 contract and keeps every transport correct with no transport-specific code, but a
+  very high-fanout parent pays for it on each <code>get</code>. Acceptable for current deployments; an
+  opt-out annotation is a small later addition if a real schema hits it.</li>
+<li>Polymorphism: the reverse predicate joins only the named target table, matching the existing
+  to-many predicate (which likewise does not fan across per-subclass tables). Shared
+  limitation, recorded not solved.</li>
+<li>The demo repo can model <code>Sample.donor</code>'s reverse idiomatically instead of hand-adding a
+  second slot and keeping it in sync in <code>generate.py</code>.</li>
+</ul>
+<h2 id="alternatives-considered">Alternatives considered<a class="headerlink" href="#alternatives-considered" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Hand-author a plain back-reference slot</strong> (<code>Donor.samples: {range: Sample, multivalued:
+  true}</code> with no <code>inverse</code>). Rejected: under ADR-0002 that is a second, independently
+  writable encoding of one fact (FK column <em>and</em> relationship rows) with nothing tying them
+  together — drift by construction, and every schema wanting reverse traversal would have to
+  repeat the manual synchronization.</li>
+<li><strong>Semijoin at the <code>QuerySpec</code> layer</strong> (resolve the reverse edge with a <code>storage.find()</code> on
+  the target, then filter the anchor with <code>id IN [...]</code>), as the graph-neighborhood resolver
+  already does. Rejected: it gives up <code>compile_query_spec</code>'s purity (it would execute queries
+  or force its caller into a second round trip) and fixes only the MCP path, while the type
+  model would still expose the slot to GraphQL filters, resolvers, and counts that would
+  silently return nothing. Only the storage layer can give every transport one encoding.</li>
+<li><strong>A Mosaic-specific annotation</strong> (<code>hippo_inverse</code>) instead of LinkML's <code>inverse</code>. Rejected:
+  LinkML already has the idiomatic construct with the right semantics (<code>owl:inverseOf</code>), it
+  survives slot induction, and reusing it keeps schemas portable to other LinkML tooling.</li>
+<li><strong>Auto-detect equivalent slot pairs and treat them as inverses.</strong> Rejected as unsound (see
+  Decision item 6).</li>
+<li><strong>Support reverse traversal of multivalued forward slots too.</strong> Deferred: no consumer needs
+  it (no GraphQL query exists to compensate against those either), and the link-table reverse
+  is a different SQL shape. Explicitly rejected at load so the boundary is legible.</li>
+</ul>
+<h2 id="notes-open-sub-questions">Notes / open sub-questions<a class="headerlink" href="#notes-open-sub-questions" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Whether <code>inverse</code> should also be honoured on the <em>forward</em> side (LinkML allows declaring it
+  on either slot). This ADR reads it only on the multivalued, derived side; a forward slot
+  carrying <code>inverse</code> is left alone.</li>
+<li>Whether the reverse id list should be hydrated eagerly (this ADR) or resolved lazily per
+  transport — revisit only if read amplification shows up in a real deployment.</li>
+</ul>
+<h2 id="ratification-note-2026-09-22">Ratification note (2026-09-22)<a class="headerlink" href="#ratification-note-2026-09-22" title="Permanent link">&para;</a></h2>
+<p><strong>What released the gate is evidence, not a design session</strong> — the same posture ADR-0010's
+ratification took, stated rather than implied.</p>
+<p>The decision shipped and is exercised end to end: <code>7fc300c</code> (#210) with <code>3311f98</code> (schema
+recognition + validation), <code>999cbdf</code> (type model, capability manifest, MCP, GraphQL and OpenAPI
+surfacing), <code>9f0ab00</code> (SQLite), <code>27d8bcb</code> (Postgres), <code>4887d82</code> (end-to-end tests + prompt
+guidance). Coverage spans <code>tests/core/test_inverse_slots.py</code>, <code>test_inverse_slots_schema.py</code>,
+<code>test_query_spec_compiler.py</code>, <code>tests/graphql/test_inverse_slots.py</code>,
+<code>tests/mcp/test_mcp_inverse_slots.py</code>, and <code>tests/integration/test_postgres_inverse_slots.py</code> in
+CI. An independent check from the consumer side (Aperture ADR-0041) generated the GraphQL schema
+for a deployment declaring <code>inverse: donor</code> and got <code>Donor.samples: [Sample!]!</code>,
+<code>Donor.samplesCount: Int!</code> and <code>DonorFilter.samples: SampleEdgeQuantifiers { some, none }</code> with no
+code change — which is the decision behaving as written.</p>
+<p>Both open sub-questions are dispositioned rather than left ambiguous by the status flip:</p>
+<ul>
+<li><strong><code>inverse</code> on the forward side</strong> is resolved as the ADR reads it. <code>core/schema_typing.py</code> sets
+  <code>inverse_of</code> only for a multivalued reference slot, so a single-valued slot carrying <code>inverse</code>
+  is left alone, and <code>7a46e12</code> additionally rejects inlined forward slots for inverse edges.</li>
+<li><strong>Eager vs. lazy hydration</strong> was always conditional ("revisit only if read amplification shows
+  up in a real deployment"), so it is a future trigger, not a ratification gate. It stays open.</li>
+</ul>
+<p><strong>Two things ratification does not do, worth naming so nobody plans around them.</strong> No tag contains
+<code>7fc300c</code> — the latest is <code>v0.13.0</code>, which <code>datahelix</code>'s <code>composition.lock.json</code> pins — so this is
+unreachable from a certifiable server until a release is cut (<a href="https://github.com/BU-Neuromics/mosaic/issues/218">#218</a>).
+And no deployment LinkML on the platform declares an <code>inverse:</code> slot yet, so nothing exercises it
+outside tests. The blocker consumers were recording (Reel ADR-0006's "<code>pivot-grain</code> blocked on
+mosaic#204") moves from <em>engineering</em> to <em>release + schema authoring</em>; it does not vanish.</p>
 
 
 
@@ -4001,10 +4157,10 @@ the <strong>Key Decisions Log</strong> of <a href="../INDEX/"><code>../INDEX.md<
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

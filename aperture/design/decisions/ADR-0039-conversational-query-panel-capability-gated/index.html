@@ -16,19 +16,19 @@
         
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Hippo Design Decisions (ADRs) - DataHelix Documentation</title>
+        <title>ADR-0039: A conversational query panel, gated on an endpoint-advertised capability - DataHelix Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -47,9 +47,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../stylesheets/custom.css">
+      <link rel="stylesheet" href="../../../../stylesheets/custom.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#hippo-design-decisions-adrs" class="md-skip">
+        <a href="#adr-0039-a-conversational-query-panel-gated-on-an-endpoint-advertised-capability" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Hippo Design Decisions (ADRs)
+              ADR-0039: A conversational query panel, gated on an endpoint-advertised capability
             
           </span>
         </div>
@@ -209,7 +209,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../../../.." class="md-tabs__link">
         
   
   
@@ -230,7 +230,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../platform/" class="md-tabs__link">
+        <a href="../../../../platform/" class="md-tabs__link">
           
   
   
@@ -250,7 +250,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../" class="md-tabs__link">
+        <a href="../../../../mosaic/" class="md-tabs__link">
           
   
   
@@ -270,7 +270,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../cappella/" class="md-tabs__link">
+        <a href="../../../../cappella/" class="md-tabs__link">
           
   
   
@@ -290,7 +290,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../aperture/" class="md-tabs__link">
+        <a href="../../../" class="md-tabs__link">
           
   
   
@@ -310,7 +310,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../bridge/" class="md-tabs__link">
+        <a href="../../../../bridge/" class="md-tabs__link">
           
   
   
@@ -330,7 +330,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../canon/" class="md-tabs__link">
+        <a href="../../../../canon/" class="md-tabs__link">
           
   
   
@@ -364,7 +364,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -382,7 +382,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   
@@ -463,7 +463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/" class="md-nav__link">
+      <a href="../../../../platform/" class="md-nav__link">
         
   
   
@@ -491,7 +491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/overview/" class="md-nav__link">
+      <a href="../../../../platform/src/overview/" class="md-nav__link">
         
   
   
@@ -519,7 +519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/architecture/" class="md-nav__link">
+      <a href="../../../../platform/src/architecture/" class="md-nav__link">
         
   
   
@@ -547,7 +547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/getting-started/" class="md-nav__link">
+      <a href="../../../../platform/src/getting-started/" class="md-nav__link">
         
   
   
@@ -575,7 +575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/deployment/" class="md-nav__link">
+      <a href="../../../../platform/src/deployment/" class="md-nav__link">
         
   
   
@@ -603,7 +603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/glossary/" class="md-nav__link">
+      <a href="../../../../platform/src/glossary/" class="md-nav__link">
         
   
   
@@ -685,7 +685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -713,7 +713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec2_components/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec2_components/" class="md-nav__link">
         
   
   
@@ -741,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec3_integration/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec3_integration/" class="md-nav__link">
         
   
   
@@ -769,7 +769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
         
   
   
@@ -797,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
         
   
   
@@ -894,7 +894,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../" class="md-nav__link">
+      <a href="../../../../mosaic/" class="md-nav__link">
         
   
   
@@ -922,7 +922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/why-mosaic/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/why-mosaic/" class="md-nav__link">
         
   
   
@@ -1004,7 +1004,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/introduction/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/introduction/" class="md-nav__link">
         
   
   
@@ -1032,7 +1032,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/installation/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/installation/" class="md-nav__link">
         
   
   
@@ -1060,7 +1060,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/quickstart/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -1088,7 +1088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/schema-guide/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/schema-guide/" class="md-nav__link">
         
   
   
@@ -1116,7 +1116,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/data-model/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/data-model/" class="md-nav__link">
         
   
   
@@ -1144,7 +1144,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/configuration/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/configuration/" class="md-nav__link">
         
   
   
@@ -1172,7 +1172,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/cli-reference/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/cli-reference/" class="md-nav__link">
         
   
   
@@ -1200,7 +1200,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/api-reference/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/api-reference/" class="md-nav__link">
         
   
   
@@ -1228,7 +1228,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/reference-loaders/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/reference-loaders/" class="md-nav__link">
         
   
   
@@ -1256,7 +1256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/writing-a-reference-loader/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/writing-a-reference-loader/" class="md-nav__link">
         
   
   
@@ -1284,7 +1284,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/writing-a-recipe/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/writing-a-recipe/" class="md-nav__link">
         
   
   
@@ -1312,7 +1312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/installing-recipes/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/installing-recipes/" class="md-nav__link">
         
   
   
@@ -1340,7 +1340,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/recipe-reference/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/recipe-reference/" class="md-nav__link">
         
   
   
@@ -1430,7 +1430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec1_overview/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -1458,7 +1458,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec2_architecture/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -1486,7 +1486,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec3_data_model/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec3_data_model/" class="md-nav__link">
         
   
   
@@ -1514,7 +1514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec3b_relational_storage/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec3b_relational_storage/" class="md-nav__link">
         
   
   
@@ -1542,7 +1542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec4_api_layer/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec4_api_layer/" class="md-nav__link">
         
   
   
@@ -1570,7 +1570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec5_ingestion/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec5_ingestion/" class="md-nav__link">
         
   
   
@@ -1598,7 +1598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec6_provenance/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec6_provenance/" class="md-nav__link">
         
   
   
@@ -1626,7 +1626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec7_nfr/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec7_nfr/" class="md-nav__link">
         
   
   
@@ -1654,7 +1654,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec8_auth_integration/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec8_auth_integration/" class="md-nav__link">
         
   
   
@@ -1682,7 +1682,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../appendix_a_example_schema_omics/" class="md-nav__link">
+      <a href="../../../../mosaic/design/appendix_a_example_schema_omics/" class="md-nav__link">
         
   
   
@@ -1710,7 +1710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../appendix_b_implementation_guide/" class="md-nav__link">
+      <a href="../../../../mosaic/design/appendix_b_implementation_guide/" class="md-nav__link">
         
   
   
@@ -1738,7 +1738,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference_hippo_yaml/" class="md-nav__link">
+      <a href="../../../../mosaic/design/reference_hippo_yaml/" class="md-nav__link">
         
   
   
@@ -1766,7 +1766,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference_validators_yaml/" class="md-nav__link">
+      <a href="../../../../mosaic/design/reference_validators_yaml/" class="md-nav__link">
         
   
   
@@ -1794,7 +1794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference_cel_context/" class="md-nav__link">
+      <a href="../../../../mosaic/design/reference_cel_context/" class="md-nav__link">
         
   
   
@@ -1891,7 +1891,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/" class="md-nav__link">
+      <a href="../../../../cappella/" class="md-nav__link">
         
   
   
@@ -1973,7 +1973,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/introduction/" class="md-nav__link">
+      <a href="../../../../cappella/docs/introduction/" class="md-nav__link">
         
   
   
@@ -2001,7 +2001,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/installation/" class="md-nav__link">
+      <a href="../../../../cappella/docs/installation/" class="md-nav__link">
         
   
   
@@ -2029,7 +2029,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/overview/" class="md-nav__link">
+      <a href="../../../../cappella/docs/overview/" class="md-nav__link">
         
   
   
@@ -2057,7 +2057,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../cappella/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -2085,7 +2085,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/user_guide/" class="md-nav__link">
+      <a href="../../../../cappella/docs/user_guide/" class="md-nav__link">
         
   
   
@@ -2113,7 +2113,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/workflows/" class="md-nav__link">
+      <a href="../../../../cappella/docs/workflows/" class="md-nav__link">
         
   
   
@@ -2203,7 +2203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -2231,7 +2231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -2259,7 +2259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec3_adapters/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec3_adapters/" class="md-nav__link">
         
   
   
@@ -2287,7 +2287,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec4_audit/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec4_audit/" class="md-nav__link">
         
   
   
@@ -2315,7 +2315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec5_workflows/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec5_workflows/" class="md-nav__link">
         
   
   
@@ -2343,7 +2343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec6_nfr/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec6_nfr/" class="md-nav__link">
         
   
   
@@ -2371,7 +2371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec7_testing/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec7_testing/" class="md-nav__link">
         
   
   
@@ -2468,7 +2468,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/" class="md-nav__link">
+      <a href="../../../" class="md-nav__link">
         
   
   
@@ -2550,7 +2550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/design/INDEX/" class="md-nav__link">
+      <a href="../../INDEX/" class="md-nav__link">
         
   
   
@@ -2578,7 +2578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/design/portal-vision-handoff/" class="md-nav__link">
+      <a href="../../portal-vision-handoff/" class="md-nav__link">
         
   
   
@@ -2606,7 +2606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/design/portal-open-questions/" class="md-nav__link">
+      <a href="../../portal-open-questions/" class="md-nav__link">
         
   
   
@@ -2703,7 +2703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/" class="md-nav__link">
+      <a href="../../../../bridge/" class="md-nav__link">
         
   
   
@@ -2785,7 +2785,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/introduction/" class="md-nav__link">
+      <a href="../../../../bridge/docs/introduction/" class="md-nav__link">
         
   
   
@@ -2813,7 +2813,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/auth/" class="md-nav__link">
+      <a href="../../../../bridge/docs/auth/" class="md-nav__link">
         
   
   
@@ -2841,7 +2841,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/security-model/" class="md-nav__link">
+      <a href="../../../../bridge/docs/security-model/" class="md-nav__link">
         
   
   
@@ -2869,7 +2869,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/admin-guide/" class="md-nav__link">
+      <a href="../../../../bridge/docs/admin-guide/" class="md-nav__link">
         
   
   
@@ -2959,7 +2959,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -2987,7 +2987,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -3015,7 +3015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec3_api_unification/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec3_api_unification/" class="md-nav__link">
         
   
   
@@ -3043,7 +3043,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec4_auth/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec4_auth/" class="md-nav__link">
         
   
   
@@ -3071,7 +3071,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec5_sync/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec5_sync/" class="md-nav__link">
         
   
   
@@ -3099,7 +3099,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec6_nfr/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec6_nfr/" class="md-nav__link">
         
   
   
@@ -3196,7 +3196,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/" class="md-nav__link">
+      <a href="../../../../canon/" class="md-nav__link">
         
   
   
@@ -3278,7 +3278,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/introduction/" class="md-nav__link">
+      <a href="../../../../canon/docs/introduction/" class="md-nav__link">
         
   
   
@@ -3306,7 +3306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../canon/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -3334,7 +3334,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/user-guide/" class="md-nav__link">
+      <a href="../../../../canon/docs/user-guide/" class="md-nav__link">
         
   
   
@@ -3424,7 +3424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../canon/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -3452,7 +3452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../canon/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -3480,7 +3480,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
+      <a href="../../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
         
   
   
@@ -3508,7 +3508,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
+      <a href="../../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
         
   
   
@@ -3536,7 +3536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
+      <a href="../../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
         
   
   
@@ -3564,7 +3564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
+      <a href="../../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
         
   
   
@@ -3592,7 +3592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
+      <a href="../../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
         
   
   
@@ -3620,7 +3620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec6_mosaic_integration/" class="md-nav__link">
+      <a href="../../../../canon/design/sec6_mosaic_integration/" class="md-nav__link">
         
   
   
@@ -3648,7 +3648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec7_nfr/" class="md-nav__link">
+      <a href="../../../../canon/design/sec7_nfr/" class="md-nav__link">
         
   
   
@@ -3676,7 +3676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
+      <a href="../../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
         
   
   
@@ -3704,7 +3704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/reference_canon_yaml/" class="md-nav__link">
+      <a href="../../../../canon/design/reference_canon_yaml/" class="md-nav__link">
         
   
   
@@ -3732,7 +3732,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
+      <a href="../../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
         
   
   
@@ -3760,7 +3760,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
+      <a href="../../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
         
   
   
@@ -3823,10 +3823,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#hybrid-adoption-2026-06-17" class="md-nav__link">
+  <a href="#context" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hybrid adoption (2026-06-17)
+        Context
       
     </span>
   </a>
@@ -3834,10 +3834,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#index" class="md-nav__link">
+  <a href="#decision" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Index
+        Decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consequences
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives-considered" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives considered
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes-open-sub-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes / open sub-questions
       
     </span>
   </a>
@@ -3861,91 +3894,146 @@
 
 
 
-<h1 id="hippo-design-decisions-adrs">Hippo Design Decisions (ADRs)<a class="headerlink" href="#hippo-design-decisions-adrs" title="Permanent link">&para;</a></h1>
-<p>Hippo records design decisions as <strong>ADRs</strong> following the <strong>platform-wide convention</strong> — the
-canonical process and template live in the parent repo at
-<a href="../../../platform/design/decisions/README.md"><code>platform/design/decisions/README.md</code></a> (see also
-the root <a href="../../CLAUDE.md"><code>../CLAUDE.md</code></a>). ADR files live in this directory;
-<a href="_template/"><code>_template.md</code></a> is a local copy of the canonical template for convenience.</p>
-<h2 id="hybrid-adoption-2026-06-17">Hybrid adoption (2026-06-17)<a class="headerlink" href="#hybrid-adoption-2026-06-17" title="Permanent link">&para;</a></h2>
-<p>Hippo is a mature component with a large body of already-settled, shipped decisions recorded in
-the <strong>Key Decisions Log</strong> of <a href="../INDEX/"><code>../INDEX.md</code></a>. Hippo therefore adopts ADRs
-<strong>forward-only</strong>:</p>
+<h1 id="adr-0039-a-conversational-query-panel-gated-on-an-endpoint-advertised-capability">ADR-0039: A conversational query panel, gated on an endpoint-advertised capability<a class="headerlink" href="#adr-0039-a-conversational-query-panel-gated-on-an-endpoint-advertised-capability" title="Permanent link">&para;</a></h1>
 <ul>
-<li><strong>New, non-trivial, or still-in-flux decisions</strong> get an ADR here, indexed from the INDEX.</li>
-<li>The existing <strong>Key Decisions Log remains the scannable index</strong> of record for the settled,
-  shipped decisions and is <strong>backfilled only opportunistically</strong> — when a settled decision is
-  revisited and capturing its alternatives is worthwhile — never as a mass migration.</li>
+<li><strong>Status:</strong> Accepted</li>
+<li><strong>Date:</strong> 2026-09-11 (ratified 2026-09-17; see aperture#60)</li>
+<li><strong>Deciders:</strong> labadorf, design session</li>
+<li><strong>Related:</strong> ADR-0021 (defer in-app chat), ADR-0026 (portal-first MVP), ADR-0029 (capability-gated honest degradation), ADR-0031 (app-shell layout library), ADR-0035 (typed <code>QuerySpec</code>), ADR-0017 (data plane vs control plane); Mosaic <code>converse_query_spec</code> (<code>BU-Neuromics/mosaic#186</code>, shipped PR #199) and the <code>mosaic-demo-small</code> change <code>add-aperture-chat-panel</code></li>
 </ul>
-<p>The supersede-don't-delete discipline already used in the Key Decisions Log (entries gain a
-<code>Superseded by</code> pointer rather than disappearing) matches the ADR lifecycle exactly.</p>
-<h2 id="index">Index<a class="headerlink" href="#index" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>ADR</th>
-<th>Decision</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="ADR-0001-graph-level-as-of-query/">0001</a></td>
-<td>Graph-level / query-spanning as-of reconstruction</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0002-multivalued-reference-slots-as-relationships/">0002</a></td>
-<td>Multivalued reference slots persist as relationships (issue #79)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0003-polymorphic-tree-root-ingest/">0003</a></td>
-<td>Polymorphic tree-root ingest via <code>designates_type</code> dispatch (issue #80)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0004-rename-hippo-to-mosaic/">0004</a></td>
-<td>Rename the Hippo component to <strong>Mosaic</strong> (music/art naming convention; PyPI-saturation dissolved by platform ADR-0002)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0005-graphql-reference-emission-edge-only/">0005</a></td>
-<td>GraphQL reference emission is edge-only — logical-identity boundary (issue #131)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0006-graphql-typed-filter-contract/">0006</a></td>
-<td>The GraphQL filter contract is typed per-class input objects — not CEL on the wire (issue #153)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0007-aggregation-and-ordering-surface/">0007</a></td>
-<td>Aggregation &amp; ordering surface — count mode, facet counts, min/max, <code>order_by</code> (issue #154)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0008-postgres-per-class-tables-shared-sql-core/">0008</a></td>
-<td>Postgres storage converges to generated per-class typed tables + shared SQL core (issue #162)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0009-mcp-boundary-capability-manifest-queryspec/">0009</a></td>
-<td>Mosaic hosts an MCP boundary over a server-derived capability manifest and the QuerySpec artifact (issue #177)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0010-mcp-outbound-delegation-to-a-planning-service/">0010</a></td>
-<td>The MCP boundary may delegate outbound to a planning service, as an untrusted planner behind a validating relay (issue #186)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0011-inverse-slots-as-virtual-reverse-edges/">0011</a></td>
-<td><code>inverse</code>-declared slots are virtual reverse edges over the forward FK — no storage of their own (issue #204)</td>
-<td>🟡 Proposed</td>
-</tr>
-</tbody>
-</table>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<p>Aperture ships a working cross-class query builder (ADR-0035): <code>QueryBuilderView</code> composes a
+typed <code>QuerySpec</code>, <code>planner.ts</code> executes it, results render and export. Building a spec is
+manual — pick an anchor, add criteria, pick edges.</p>
+<p>A second way to produce the same artifact now exists <em>outside</em> Aperture. Mosaic hosts a
+<code>converse_query_spec</code> capability (shipped, <code>mosaic</code> PR #199) that delegates to a conversational
+planning service (Exon), taking <code>{utterance, query_spec, turns, edit_turn_id}</code> and returning a
+turn whose status is <code>proposal</code> (carrying an updated <code>QuerySpec</code>), <code>clarification</code>, or
+<code>suspended</code>. Mosaic re-validates every candidate spec in-process before labelling it a proposal,
+so an invalid spec never reaches a client. A terminal reference client (<code>exon/chat.py</code>) already
+drives the whole loop end to end.</p>
+<p>The question this ADR settles: <strong>may Aperture surface that capability as an in-app chat panel,
+given ADR-0021 and ADR-0026 explicitly deferred in-app chat from the MVP?</strong></p>
+<p>The tension is real but narrower than it first looks. What ADR-0021 deferred was an <em>in-app
+conversational agent</em>: Aperture hosting an agent loop, holding per-user LLM provider keys
+(ADR-0019), doing prompt/skill engineering, and letting a chat <strong>edit config</strong> with delegated
+authority (ADR-0018/0020). Every one of those remains deferred and absent here. This panel hosts
+no agent loop, holds no provider key, sends no system prompt, and cannot mutate config or data —
+it is a thin client for one read-only, server-side capability whose entire output is a <code>QuerySpec</code>
+the user must then explicitly run, exactly like a spec they built by hand.</p>
+<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
+<p><strong>Aperture will surface a conversational query panel as an additive, capability-gated surface
+over the existing <code>QuerySpec</code> artifact — never as a new foundation, and never as a capability
+Aperture itself supplies.</strong></p>
+<p>Concretely:</p>
+<ol>
+<li><strong>The gate is introspection, not config.</strong> A <code>conversationalQuery</code> capability is negotiated in
+   <code>deriveCapabilities</code> from the endpoint actually advertising a usable <code>converseQuerySpec</code>
+   mutation — a name match alone is not a capability (ADR-0029, matching how <code>batchWrite</code> and
+   <code>whereFilter</code> are derived). No <code>VITE_*</code> flag can force the panel on; an endpoint without the
+   mutation renders no chat affordance at all, with no dead chrome.</li>
+<li><strong>The panel occupies a composer column in the query context's own layout</strong>, alongside the
+   artifact it feeds, and only while the cross-class query view is open (see the amended
+   consequence below on why this is a layout and not the existing inspector slot).</li>
+<li><strong>Aperture owns no conversation state beyond the session.</strong> The turn list is the wire
+   contract's own <code>turns</code> array, replaced wholesale from each response (the server is
+   authoritative — it recomputes downstream turns after an edit). Nothing is persisted; a refresh
+   loses the transcript, and the <code>QuerySpec</code> survives in the URL as it already does.</li>
+<li><strong>The chat never executes.</strong> A proposal populates the builder's spec; running it stays the
+   user's explicit action through the existing execution path (ADR-0035). "Model plans,
+   deterministic code executes."</li>
+</ol>
+<h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Aperture gains a second producer of <code>QuerySpec</code> without gaining a second <em>executor</em>, a second
+  artifact, or an agent loop. If the capability disappears from the endpoint, the panel
+  disappears; nothing else changes.</li>
+<li>ADR-0021/0026 are <strong>not</strong> reversed and need no supersession: their deferral covers the hosted
+  agent loop, provider keys, and config-mutation authority, none of which this adds. When the
+  in-app agent surface is eventually built, this panel is one more client of it, not a competing
+  foundation.</li>
+</ul>
+<p><strong>Correction (2026-09-11):</strong> the ADR-0026 half of that sentence was loosely worded. ADR-0026 is
+  not a live Aperture deferral this ADR could leave standing — it was <strong>already superseded on
+  2026-06-22</strong>, moved to Reel as <strong>Reel ADR-0005</strong> in the data-story-engine split, and what
+  remains here is a tombstone. The load-bearing citation is <strong>ADR-0021</strong>, which is Accepted and
+  still Aperture's own (its "⛔ Deferred from MVP" marker merely points at 0026 for the reason).
+  The argument is unchanged — this panel adds no agent loop, provider key, or config-mutation
+  authority, so nothing in either decision is reversed — but the reader should not be sent to a
+  tombstone for a live constraint.</p>
+<p><strong>Reel boundary (2026-09-11).</strong> Reel's design refresh (<code>reel#1</code>) lands three <code>Proposed</code> ADRs
+  that touch this panel's seam, and they agree with it rather than contest it: <strong>Reel ADR-0006</strong>
+  adopts the <code>QuerySpec</code> as Reel's v1 <code>State</code> and cites Aperture ADR-0035's seam verbatim —
+  "Aperture owns the noun and its execution; Reel composes instances of it" — which is exactly
+  where this panel sits (it produces a <code>QuerySpec</code> and hands it to Aperture's existing executor).
+  <strong>Reel ADR-0008</strong> claims the conversational turn model as Reel's <code>Instruction</code>, seeded from
+  Exon. That does not change this ADR, but it does sharpen the forward-compatibility sentence
+  above: the agent surface this panel will eventually be "one more client of" is most likely
+  <strong>Reel</strong>, not an Aperture-hosted loop. Nothing here needs to change until Reel exists; when it
+  does, the swap is the wire adapter (<code>data/conversation.ts</code>), not the panel.
+- <strong>The proposal's <code>headerNavMainInspector</code> layout is not needed, but a workbench is.</strong> Scoping
+  found that <code>headerNavMain</code> already declares and renders <code>inspector</code>
+  (<code>shell/layouts/HeaderNavMain.tsx</code>), <code>App.tsx</code> already binds it, and <code>FacetPanel</code> already
+  vacates it whenever a cross-class view is open (<code>FacetPanel.tsx:26</code> — <code>if (urlState.view !=
+  null) return null</code>). So a variant of the browse shell that merely adds an inspector — what
+  <code>add-aperture-chat-panel</code>'s Decision 4 assumed was missing — would be redundant chrome, and
+  that proposal's task 4.2 should be struck on this finding.</p>
+<p><strong>Amended after building it:</strong> the inspector column (264px) is the wrong <em>shape</em> for a
+  transcript, which is a different objection from the one above. Composing a query and browsing a
+  collection are genuinely different screens, which is the case ADR-0031 was written for ("one
+  screen can't serve master-detail browse, a dashboard landing, and full-bleed views without
+  contortions"). So this adds <code>queryWorkbench</code> — nav, a bounded composer column, and a wide main
+  for the artifact and its results — and the portal selects it by name for the query context
+  (<code>shell/contexts.ts</code>). Selection stays data: a table of layout names resolved through the
+  registry, never composition. <code>queryWorkbench</code> does not support <code>inspector</code>, since collection
+  facets have no meaning against a cross-class query.
+- An obligation lands on Mosaic: the capability must be reachable over GraphQL, since a browser
+  cannot speak MCP without transport work Aperture's thin-client posture (ADR-0014/0016) rules
+  out. Tracked in <code>mosaic-demo-small</code>'s <code>add-aperture-chat-panel</code> Phase 1 and cross-referenced
+  there; until it ships, the panel is exercised against a stub endpoint the way every other phase
+  of this app was (<code>web/.claude/skills/verify</code>).
+- A spelling dependency was explicit and <strong>sequenced before the panel could run a spec it
+  receives</strong>: Exon emits LinkML names (<code>anchor: "Sample"</code>, <code>edge: "donor"</code>), while Aperture's
+  <code>QuerySpec</code> carried collection ids and derived <code>fwd:</code>/<code>rev:</code> edge keys. <strong>Resolved in
+  <code>e0064aa</code></strong>: <code>QuerySpec</code> now speaks LinkML names, and <code>canonicalizeQuerySpec()</code>
+  (<code>web/src/query/querySpec.ts</code>) provides a tolerant read of the legacy spelling for existing
+  saved views, discriminating by content rather than by a version field. A received proposal now
+  runs. Reverse edges remain the exception — they keep the Aperture-local
+  <code>rev:&lt;collectionId&gt;.&lt;field&gt;</code> key, because no LinkML name exists for them until Mosaic ADR-0011
+  (<code>mosaic#204</code>) lands inverse slots.</p>
+<h2 id="alternatives-considered">Alternatives considered<a class="headerlink" href="#alternatives-considered" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>A mode toggle inside <code>QueryBuilderView</code>.</strong> Rejected: welds an app-level surface into one
+  view, the opposite direction from ADR-0021's eventual end state (chat editing config from
+  inside Aperture generally), and makes the panel expensive to relocate later.</li>
+<li><strong>A separate <code>Ask</code> nav route.</strong> Rejected: cheapest to build, but hides the <code>QuerySpec</code> the chat
+  is producing behind a disclosure and creates two query surfaces to reconcile — when the whole
+  value is watching the spec assemble next to the builder.</li>
+<li><strong>Speak MCP from the browser.</strong> Rejected: needs an MCP client in the SPA bundle, SSE handling,
+  a new proxied path, and CORS — to preserve a "one wire protocol" purity ADR-0017 does not
+  actually require (it constrains <em>endpoints</em>, not protocols). Aperture is a thin GraphQL
+  pass-through by design (ADR-0014/0016).</li>
+<li><strong>Aperture hosts the planning loop itself</strong> (its own LLM calls against the schema). Rejected
+  outright: that <em>is</em> the thing ADR-0021 deferred, it would put a provider key in Aperture's
+  hands (ADR-0019 unbuilt), and it would duplicate a validated capability the endpoint already
+  offers — with Aperture's copy lacking Mosaic's in-process re-validation.</li>
+<li><strong>Wait for the GraphQL mutation before building any UI.</strong> Rejected: the wire contract is
+  already pinned by a shipped MCP tool and its reference client, and every prior phase of this
+  app was built and verified against a stub endpoint first. Waiting buys no design certainty.</li>
+</ul>
+<h2 id="notes-open-sub-questions">Notes / open sub-questions<a class="headerlink" href="#notes-open-sub-questions" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Ratify <code>Proposed</code> → <code>Accepted</code> once the panel has been driven end to end against a real
+  <code>converseQuerySpec</code> mutation, not only the stub.</li>
+<li>The three UI-feel behaviors specified in <code>add-aperture-chat-panel</code>'s design (suspended-turn
+  inline + banner treatment, in-flight typing indicator + elapsed timer + cancel, and the
+  builder-lock/reset affordance) are implementation detail under this decision, not separate
+  decisions — but the builder lock is load-bearing for correctness, not taste: Mosaic rejects a
+  request whose wire <code>query_spec</code> disagrees with what it derives from <code>turns</code>.</li>
+<li>Conversation-as-provenance (ADR-0020) is deliberately out of scope: a chat-produced saved view
+  keeps the resulting <code>QuerySpec</code> and loses the conversation that produced it. Revisit if
+  conversations become provenance events in practice.</li>
+</ul>
 
 
 
@@ -4001,10 +4089,10 @@ the <strong>Key Decisions Log</strong> of <a href="../INDEX/"><code>../INDEX.md<
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

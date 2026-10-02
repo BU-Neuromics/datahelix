@@ -16,19 +16,19 @@
         
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Hippo Design Decisions (ADRs) - DataHelix Documentation</title>
+        <title>ADR-0038: Aperture presents an identity it is given; it never authenticates - DataHelix Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -47,9 +47,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../stylesheets/custom.css">
+      <link rel="stylesheet" href="../../../../stylesheets/custom.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#hippo-design-decisions-adrs" class="md-skip">
+        <a href="#adr-0038-aperture-presents-an-identity-it-is-given-it-never-authenticates" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Hippo Design Decisions (ADRs)
+              ADR-0038: Aperture presents an identity it is given; it never authenticates
             
           </span>
         </div>
@@ -209,7 +209,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../../../.." class="md-tabs__link">
         
   
   
@@ -230,7 +230,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../platform/" class="md-tabs__link">
+        <a href="../../../../platform/" class="md-tabs__link">
           
   
   
@@ -250,7 +250,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../" class="md-tabs__link">
+        <a href="../../../../mosaic/" class="md-tabs__link">
           
   
   
@@ -270,7 +270,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../cappella/" class="md-tabs__link">
+        <a href="../../../../cappella/" class="md-tabs__link">
           
   
   
@@ -290,7 +290,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../aperture/" class="md-tabs__link">
+        <a href="../../../" class="md-tabs__link">
           
   
   
@@ -310,7 +310,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../bridge/" class="md-tabs__link">
+        <a href="../../../../bridge/" class="md-tabs__link">
           
   
   
@@ -330,7 +330,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../canon/" class="md-tabs__link">
+        <a href="../../../../canon/" class="md-tabs__link">
           
   
   
@@ -364,7 +364,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -382,7 +382,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   
@@ -463,7 +463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/" class="md-nav__link">
+      <a href="../../../../platform/" class="md-nav__link">
         
   
   
@@ -491,7 +491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/overview/" class="md-nav__link">
+      <a href="../../../../platform/src/overview/" class="md-nav__link">
         
   
   
@@ -519,7 +519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/architecture/" class="md-nav__link">
+      <a href="../../../../platform/src/architecture/" class="md-nav__link">
         
   
   
@@ -547,7 +547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/getting-started/" class="md-nav__link">
+      <a href="../../../../platform/src/getting-started/" class="md-nav__link">
         
   
   
@@ -575,7 +575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/deployment/" class="md-nav__link">
+      <a href="../../../../platform/src/deployment/" class="md-nav__link">
         
   
   
@@ -603,7 +603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/glossary/" class="md-nav__link">
+      <a href="../../../../platform/src/glossary/" class="md-nav__link">
         
   
   
@@ -685,7 +685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -713,7 +713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec2_components/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec2_components/" class="md-nav__link">
         
   
   
@@ -741,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec3_integration/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec3_integration/" class="md-nav__link">
         
   
   
@@ -769,7 +769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
         
   
   
@@ -797,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
         
   
   
@@ -894,7 +894,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../" class="md-nav__link">
+      <a href="../../../../mosaic/" class="md-nav__link">
         
   
   
@@ -922,7 +922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/why-mosaic/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/why-mosaic/" class="md-nav__link">
         
   
   
@@ -1004,7 +1004,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/introduction/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/introduction/" class="md-nav__link">
         
   
   
@@ -1032,7 +1032,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/installation/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/installation/" class="md-nav__link">
         
   
   
@@ -1060,7 +1060,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/quickstart/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -1088,7 +1088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/schema-guide/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/schema-guide/" class="md-nav__link">
         
   
   
@@ -1116,7 +1116,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/data-model/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/data-model/" class="md-nav__link">
         
   
   
@@ -1144,7 +1144,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/configuration/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/configuration/" class="md-nav__link">
         
   
   
@@ -1172,7 +1172,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/cli-reference/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/cli-reference/" class="md-nav__link">
         
   
   
@@ -1200,7 +1200,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/api-reference/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/api-reference/" class="md-nav__link">
         
   
   
@@ -1228,7 +1228,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/reference-loaders/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/reference-loaders/" class="md-nav__link">
         
   
   
@@ -1256,7 +1256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/writing-a-reference-loader/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/writing-a-reference-loader/" class="md-nav__link">
         
   
   
@@ -1284,7 +1284,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/writing-a-recipe/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/writing-a-recipe/" class="md-nav__link">
         
   
   
@@ -1312,7 +1312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/installing-recipes/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/installing-recipes/" class="md-nav__link">
         
   
   
@@ -1340,7 +1340,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/recipe-reference/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/recipe-reference/" class="md-nav__link">
         
   
   
@@ -1430,7 +1430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec1_overview/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -1458,7 +1458,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec2_architecture/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -1486,7 +1486,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec3_data_model/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec3_data_model/" class="md-nav__link">
         
   
   
@@ -1514,7 +1514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec3b_relational_storage/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec3b_relational_storage/" class="md-nav__link">
         
   
   
@@ -1542,7 +1542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec4_api_layer/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec4_api_layer/" class="md-nav__link">
         
   
   
@@ -1570,7 +1570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec5_ingestion/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec5_ingestion/" class="md-nav__link">
         
   
   
@@ -1598,7 +1598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec6_provenance/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec6_provenance/" class="md-nav__link">
         
   
   
@@ -1626,7 +1626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec7_nfr/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec7_nfr/" class="md-nav__link">
         
   
   
@@ -1654,7 +1654,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec8_auth_integration/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec8_auth_integration/" class="md-nav__link">
         
   
   
@@ -1682,7 +1682,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../appendix_a_example_schema_omics/" class="md-nav__link">
+      <a href="../../../../mosaic/design/appendix_a_example_schema_omics/" class="md-nav__link">
         
   
   
@@ -1710,7 +1710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../appendix_b_implementation_guide/" class="md-nav__link">
+      <a href="../../../../mosaic/design/appendix_b_implementation_guide/" class="md-nav__link">
         
   
   
@@ -1738,7 +1738,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference_hippo_yaml/" class="md-nav__link">
+      <a href="../../../../mosaic/design/reference_hippo_yaml/" class="md-nav__link">
         
   
   
@@ -1766,7 +1766,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference_validators_yaml/" class="md-nav__link">
+      <a href="../../../../mosaic/design/reference_validators_yaml/" class="md-nav__link">
         
   
   
@@ -1794,7 +1794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference_cel_context/" class="md-nav__link">
+      <a href="../../../../mosaic/design/reference_cel_context/" class="md-nav__link">
         
   
   
@@ -1891,7 +1891,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/" class="md-nav__link">
+      <a href="../../../../cappella/" class="md-nav__link">
         
   
   
@@ -1973,7 +1973,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/introduction/" class="md-nav__link">
+      <a href="../../../../cappella/docs/introduction/" class="md-nav__link">
         
   
   
@@ -2001,7 +2001,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/installation/" class="md-nav__link">
+      <a href="../../../../cappella/docs/installation/" class="md-nav__link">
         
   
   
@@ -2029,7 +2029,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/overview/" class="md-nav__link">
+      <a href="../../../../cappella/docs/overview/" class="md-nav__link">
         
   
   
@@ -2057,7 +2057,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../cappella/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -2085,7 +2085,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/user_guide/" class="md-nav__link">
+      <a href="../../../../cappella/docs/user_guide/" class="md-nav__link">
         
   
   
@@ -2113,7 +2113,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/workflows/" class="md-nav__link">
+      <a href="../../../../cappella/docs/workflows/" class="md-nav__link">
         
   
   
@@ -2203,7 +2203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -2231,7 +2231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -2259,7 +2259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec3_adapters/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec3_adapters/" class="md-nav__link">
         
   
   
@@ -2287,7 +2287,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec4_audit/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec4_audit/" class="md-nav__link">
         
   
   
@@ -2315,7 +2315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec5_workflows/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec5_workflows/" class="md-nav__link">
         
   
   
@@ -2343,7 +2343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec6_nfr/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec6_nfr/" class="md-nav__link">
         
   
   
@@ -2371,7 +2371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec7_testing/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec7_testing/" class="md-nav__link">
         
   
   
@@ -2468,7 +2468,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/" class="md-nav__link">
+      <a href="../../../" class="md-nav__link">
         
   
   
@@ -2550,7 +2550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/design/INDEX/" class="md-nav__link">
+      <a href="../../INDEX/" class="md-nav__link">
         
   
   
@@ -2578,7 +2578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/design/portal-vision-handoff/" class="md-nav__link">
+      <a href="../../portal-vision-handoff/" class="md-nav__link">
         
   
   
@@ -2606,7 +2606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/design/portal-open-questions/" class="md-nav__link">
+      <a href="../../portal-open-questions/" class="md-nav__link">
         
   
   
@@ -2703,7 +2703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/" class="md-nav__link">
+      <a href="../../../../bridge/" class="md-nav__link">
         
   
   
@@ -2785,7 +2785,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/introduction/" class="md-nav__link">
+      <a href="../../../../bridge/docs/introduction/" class="md-nav__link">
         
   
   
@@ -2813,7 +2813,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/auth/" class="md-nav__link">
+      <a href="../../../../bridge/docs/auth/" class="md-nav__link">
         
   
   
@@ -2841,7 +2841,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/security-model/" class="md-nav__link">
+      <a href="../../../../bridge/docs/security-model/" class="md-nav__link">
         
   
   
@@ -2869,7 +2869,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/admin-guide/" class="md-nav__link">
+      <a href="../../../../bridge/docs/admin-guide/" class="md-nav__link">
         
   
   
@@ -2959,7 +2959,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -2987,7 +2987,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -3015,7 +3015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec3_api_unification/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec3_api_unification/" class="md-nav__link">
         
   
   
@@ -3043,7 +3043,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec4_auth/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec4_auth/" class="md-nav__link">
         
   
   
@@ -3071,7 +3071,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec5_sync/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec5_sync/" class="md-nav__link">
         
   
   
@@ -3099,7 +3099,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec6_nfr/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec6_nfr/" class="md-nav__link">
         
   
   
@@ -3196,7 +3196,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/" class="md-nav__link">
+      <a href="../../../../canon/" class="md-nav__link">
         
   
   
@@ -3278,7 +3278,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/introduction/" class="md-nav__link">
+      <a href="../../../../canon/docs/introduction/" class="md-nav__link">
         
   
   
@@ -3306,7 +3306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../canon/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -3334,7 +3334,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/user-guide/" class="md-nav__link">
+      <a href="../../../../canon/docs/user-guide/" class="md-nav__link">
         
   
   
@@ -3424,7 +3424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../canon/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -3452,7 +3452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../canon/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -3480,7 +3480,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
+      <a href="../../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
         
   
   
@@ -3508,7 +3508,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
+      <a href="../../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
         
   
   
@@ -3536,7 +3536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
+      <a href="../../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
         
   
   
@@ -3564,7 +3564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
+      <a href="../../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
         
   
   
@@ -3592,7 +3592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
+      <a href="../../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
         
   
   
@@ -3620,7 +3620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec6_mosaic_integration/" class="md-nav__link">
+      <a href="../../../../canon/design/sec6_mosaic_integration/" class="md-nav__link">
         
   
   
@@ -3648,7 +3648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec7_nfr/" class="md-nav__link">
+      <a href="../../../../canon/design/sec7_nfr/" class="md-nav__link">
         
   
   
@@ -3676,7 +3676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
+      <a href="../../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
         
   
   
@@ -3704,7 +3704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/reference_canon_yaml/" class="md-nav__link">
+      <a href="../../../../canon/design/reference_canon_yaml/" class="md-nav__link">
         
   
   
@@ -3732,7 +3732,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
+      <a href="../../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
         
   
   
@@ -3760,7 +3760,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
+      <a href="../../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
         
   
   
@@ -3823,10 +3823,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#hybrid-adoption-2026-06-17" class="md-nav__link">
+  <a href="#context" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hybrid adoption (2026-06-17)
+        Context
       
     </span>
   </a>
@@ -3834,10 +3834,60 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#index" class="md-nav__link">
+  <a href="#decision" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Index
+        Decision
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Decision">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-identity-claim-is-load-bearing-and-effectively-immutable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The identity claim is load-bearing and effectively immutable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expiry-is-a-top-level-navigation-never-a-fetch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expiry is a top-level navigation, never a fetch
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consequences
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives-considered" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives considered
       
     </span>
   </a>
@@ -3861,91 +3911,122 @@
 
 
 
-<h1 id="hippo-design-decisions-adrs">Hippo Design Decisions (ADRs)<a class="headerlink" href="#hippo-design-decisions-adrs" title="Permanent link">&para;</a></h1>
-<p>Hippo records design decisions as <strong>ADRs</strong> following the <strong>platform-wide convention</strong> — the
-canonical process and template live in the parent repo at
-<a href="../../../platform/design/decisions/README.md"><code>platform/design/decisions/README.md</code></a> (see also
-the root <a href="../../CLAUDE.md"><code>../CLAUDE.md</code></a>). ADR files live in this directory;
-<a href="_template/"><code>_template.md</code></a> is a local copy of the canonical template for convenience.</p>
-<h2 id="hybrid-adoption-2026-06-17">Hybrid adoption (2026-06-17)<a class="headerlink" href="#hybrid-adoption-2026-06-17" title="Permanent link">&para;</a></h2>
-<p>Hippo is a mature component with a large body of already-settled, shipped decisions recorded in
-the <strong>Key Decisions Log</strong> of <a href="../INDEX/"><code>../INDEX.md</code></a>. Hippo therefore adopts ADRs
-<strong>forward-only</strong>:</p>
+<h1 id="adr-0038-aperture-presents-an-identity-it-is-given-it-never-authenticates">ADR-0038: Aperture presents an identity it is given; it never authenticates<a class="headerlink" href="#adr-0038-aperture-presents-an-identity-it-is-given-it-never-authenticates" title="Permanent link">&para;</a></h1>
 <ul>
-<li><strong>New, non-trivial, or still-in-flux decisions</strong> get an ADR here, indexed from the INDEX.</li>
-<li>The existing <strong>Key Decisions Log remains the scannable index</strong> of record for the settled,
-  shipped decisions and is <strong>backfilled only opportunistically</strong> — when a settled decision is
-  revisited and capturing its alternatives is worthwhile — never as a mass migration.</li>
+<li><strong>Status:</strong> Accepted</li>
+<li><strong>Date:</strong> 2026-08-28</li>
+<li><strong>Deciders:</strong> labadorf, design session</li>
+<li><strong>Related:</strong> ADR-0008 (components hold no authority), ADR-0016 (defer Bridge; enforcement is never Aperture's), ADR-0029 (capability-gated honest degradation), ADR-0032 (control-plane ownership — consumes the viewer identity), ADR-0034 (runtime config injection); platform <code>sec6_security_model.md</code> §6.3; DataHelix platform ADR-0006 (the authenticating proxy that supplies the identity)</li>
 </ul>
-<p>The supersede-don't-delete discipline already used in the Key Decisions Log (entries gain a
-<code>Superseded by</code> pointer rather than disappearing) matches the ADR lifecycle exactly.</p>
-<h2 id="index">Index<a class="headerlink" href="#index" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>ADR</th>
-<th>Decision</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="ADR-0001-graph-level-as-of-query/">0001</a></td>
-<td>Graph-level / query-spanning as-of reconstruction</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0002-multivalued-reference-slots-as-relationships/">0002</a></td>
-<td>Multivalued reference slots persist as relationships (issue #79)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0003-polymorphic-tree-root-ingest/">0003</a></td>
-<td>Polymorphic tree-root ingest via <code>designates_type</code> dispatch (issue #80)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0004-rename-hippo-to-mosaic/">0004</a></td>
-<td>Rename the Hippo component to <strong>Mosaic</strong> (music/art naming convention; PyPI-saturation dissolved by platform ADR-0002)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0005-graphql-reference-emission-edge-only/">0005</a></td>
-<td>GraphQL reference emission is edge-only — logical-identity boundary (issue #131)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0006-graphql-typed-filter-contract/">0006</a></td>
-<td>The GraphQL filter contract is typed per-class input objects — not CEL on the wire (issue #153)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0007-aggregation-and-ordering-surface/">0007</a></td>
-<td>Aggregation &amp; ordering surface — count mode, facet counts, min/max, <code>order_by</code> (issue #154)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0008-postgres-per-class-tables-shared-sql-core/">0008</a></td>
-<td>Postgres storage converges to generated per-class typed tables + shared SQL core (issue #162)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0009-mcp-boundary-capability-manifest-queryspec/">0009</a></td>
-<td>Mosaic hosts an MCP boundary over a server-derived capability manifest and the QuerySpec artifact (issue #177)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0010-mcp-outbound-delegation-to-a-planning-service/">0010</a></td>
-<td>The MCP boundary may delegate outbound to a planning service, as an untrusted planner behind a validating relay (issue #186)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0011-inverse-slots-as-virtual-reverse-edges/">0011</a></td>
-<td><code>inverse</code>-declared slots are virtual reverse edges over the forward FK — no storage of their own (issue #204)</td>
-<td>🟡 Proposed</td>
-</tr>
-</tbody>
-</table>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<p>Aperture needs authentication in front of it. The first concrete requirement is <strong>PIV/CAC via VA
+SSOi</strong> for a VAEC GovCloud deployment; a username/password rig is needed sooner, for testing,
+because SSOi onboarding is queue-driven and gated on VA IAM paperwork with long lead times.</p>
+<p>Two facts constrain the answer:</p>
+<ol>
+<li><strong>Aperture has no server.</strong> It ships as a static bundle served by nginx (<code>web/Dockerfile</code>);
+   the <code>solo</code> recipe image contains no Node at all. The BFF pattern that SSOi integration wants —
+   SPA holds no tokens, a confidential client holds an httpOnly session — has <strong>no component in
+   Aperture to live in</strong>. An OIDC relying party cannot be added to a static bundle; putting one
+   there would mean shipping a client-side confidential client, which is a contradiction.</li>
+<li><strong>Enforcement is not Aperture's, by standing decision.</strong> ADR-0016: <em>"Enforcement is never
+   added to Aperture; it always remains Bridge's."</em> ADR-0008: components hold no authority.</li>
+</ol>
+<p>Bridge is unimplemented and, for authentication specifically, unnecessary: platform sec6 §6.3
+decomposes Bridge into four steps, and PIV/CAC needs only (1) validate the credential and resolve
+the viewer, and (4) forward a verified identity downstream. Steps (2)–(3) — the PDP computing
+per-viewer predicates and field masks — are a separate, larger problem unrelated to how a user
+proves who they are.</p>
+<p>So the authentication itself belongs in an <strong>authenticating reverse proxy</strong> occupying the
+recipe's nginx position (platform ADR-0006). The open question this ADR answers is narrower:
+<strong>what, if anything, does Aperture itself do about identity?</strong></p>
+<p>Doing nothing is not viable. A user who cannot see who they are signed in as, cannot sign out,
+and gets an unexplained blank table when their session expires has a broken application, however
+correct the layering is. And ADR-0032 now needs a <strong>viewer identity</strong> to own control-plane
+documents.</p>
+<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
+<p><strong>Aperture gains a configurable identity capability that is presentation only.</strong> It will:</p>
+<ul>
+<li><strong>read</strong> a configured identity endpoint (same-origin, <code>credentials: 'same-origin'</code>) and render
+  who the viewer is, with a sign-out link;</li>
+<li><strong>supply</strong> the resolved identity to the control-plane store as the document <code>owner</code> (ADR-0032);</li>
+<li><strong>hand off</strong> to a configured login URL on an unauthenticated or expired session, via a
+  <strong>top-level navigation</strong>;</li>
+<li><strong>degrade to nothing</strong> when unconfigured.</li>
+</ul>
+<p>It will <strong>not</strong>, ever:</p>
+<ul>
+<li>perform an OAuth/OIDC flow, hold a client secret, or complete a token exchange;</li>
+<li>receive, store, or transmit an access token or ID token — <strong>no token touches the SPA</strong>, and
+  nothing auth-related is written to <code>localStorage</code>;</li>
+<li>parse a client certificate or read a <code>X-Client-Cert</code>-style header (no smart-card certificate
+  ever reaches the application; that terminates at the IdP);</li>
+<li>decide whether a request is permitted.</li>
+</ul>
+<p><code>VITE_AUTH_MODE</code> defaults to <code>none</code>, in which the capability renders nothing and the viewer is
+<code>null</code> — behaviour byte-identical to today. Configuration arrives through the ADR-0034 runtime
+overlay, so one image serves an authenticated and an unauthenticated deployment.</p>
+<h3 id="the-identity-claim-is-load-bearing-and-effectively-immutable">The identity claim is load-bearing and effectively immutable<a class="headerlink" href="#the-identity-claim-is-load-bearing-and-effectively-immutable" title="Permanent link">&para;</a></h3>
+<p>The field chosen as the viewer's stable identity becomes the <code>owner</code> on every control-plane
+document (ADR-0032). <strong>Changing it later orphans every saved view and draft in the deployment</strong>,
+because ownership is matched by exact string.</p>
+<p>Therefore:</p>
+<ul>
+<li>The default probe order is <code>preferredUsername</code>, <code>upn</code>, <code>edipi</code>, <code>sub</code>, <code>user</code> — and
+  <strong><code>email</code> is deliberately excluded</strong>. Email addresses change (name changes, domain migrations),
+  and a changed email silently orphans that user's documents. VA guidance is explicit on this
+  point: key on UPN or EDIPI, never email.</li>
+<li>When no candidate claim is present, the capability enters an <strong>error</strong> state naming the
+  problem, rather than falling back to something plausible. A silent fallback to <code>email</code> is the
+  single worst outcome available here, so it is not reachable.</li>
+<li><code>VITE_AUTH_IDENTITY_CLAIM</code> overrides the probe explicitly, which is the supported way to pin
+  the claim before a deployment accumulates documents.</li>
+</ul>
+<h3 id="expiry-is-a-top-level-navigation-never-a-fetch">Expiry is a top-level navigation, never a fetch<a class="headerlink" href="#expiry-is-a-top-level-navigation-never-a-fetch" title="Permanent link">&para;</a></h3>
+<p>On a 401 the SPA navigates the <strong>whole window</strong> to the login URL. Not <code>fetch</code>, not an iframe, not
+an XHR redirect. A PIV/CAC challenge requires a top-level navigation to reach the card and PIN
+prompt; an iframe or background request produces a hung state with no visible cause. This holds
+for the password rig too, so the behaviour is identical in both modes and gets exercised long
+before a real PIV is available.</p>
+<h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Aperture stays deployable with no auth at all.</strong> <code>none</code> is the default and the local/dev
+  posture ADR-0016 describes is preserved exactly.</li>
+<li><strong>One image, both modes.</strong> Swapping PIV/CAC for htpasswd — or either for Bridge — is a change
+  of proxy configuration and four <code>VITE_AUTH_*</code> values, not an Aperture change. The capability is
+  written against an <em>identity endpoint</em>, not against SSOi.</li>
+<li><strong>The <code>runtimeEnv()</code> allowlist in <code>web/docker/40-aperture-config.sh</code> is now load-bearing for
+  auth.</strong> It is an explicit list; a new <code>VITE_*</code> name that is not added there is silently dropped
+  at container start (the ADR-0034 hazard, now with a security-adjacent failure mode: the app
+  would come up looking unauthenticated).</li>
+<li><strong>ADR-0032's viewer seam is filled.</strong> <code>App</code> → <code>ControlPlaneProvider</code> already accepts <code>viewer</code>;
+  this supplies it. Per-user control-plane scoping lights up only when both an identity and a
+  1.1.0-recipe endpoint are present.</li>
+<li><strong>This is not access control, and the UI must not imply that it is.</strong> An unauthenticated user
+  is kept out by the proxy, not by Aperture. If the proxy is misconfigured or bypassed, Aperture
+  will render whatever the endpoint returns — as it always has.</li>
+<li>Aperture gains no dependency: the capability is <code>fetch</code> and one context.</li>
+</ul>
+<h2 id="alternatives-considered">Alternatives considered<a class="headerlink" href="#alternatives-considered" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Build an OIDC relying party into Aperture.</strong> Impossible as specified — there is no server
+  process to hold a confidential client or an httpOnly session, and a public-client SPA flow
+  would put tokens in the browser, which §6.4 of the VA SSOi guidance and this ADR both forbid.
+  It would also put enforcement in Aperture, violating ADR-0008/0016.</li>
+<li><strong>Wait for Bridge.</strong> Bridge is unimplemented and its remaining irreducible part (the PDP) is
+  unrelated to authentication. Waiting blocks a VA deployment on work that PIV/CAC does not need.</li>
+<li><strong>Add no identity UI; let the proxy's own pages handle everything.</strong> The proxy can sign a user
+  in, but it cannot show who is signed in inside the app, cannot offer sign-out in context, and
+  cannot explain an expired session mid-task — the user sees an unexplained failure. It also
+  leaves ADR-0032 with no viewer, so control-plane ownership stays dark.</li>
+<li><strong>Read the identity from <code>X-Auth-Request-User</code> in the SPA.</strong> A browser cannot read request
+  headers it did not send. The proxy's userinfo endpoint is the readable surface.</li>
+<li><strong>Take the identity from runtime config (<code>VITE_VIEWER_ID</code>).</strong> Trivial, and a footgun: a
+  client-declared identity is unauthenticated by construction and would let anyone claim
+  ownership of anyone's documents by editing config. Rejected outright.</li>
+<li><strong>Fall back to the <code>email</code> claim when nothing else matches.</strong> Convenient and quietly
+  destructive — see the identity-claim section. Rejected in favour of a visible error.</li>
+</ul>
 
 
 
@@ -4001,10 +4082,10 @@ the <strong>Key Decisions Log</strong> of <a href="../INDEX/"><code>../INDEX.md<
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

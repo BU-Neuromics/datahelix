@@ -16,19 +16,19 @@
         
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Hippo Design Decisions (ADRs) - DataHelix Documentation</title>
+        <title>ADR-0041: A result table's referenced-class values are two decisions, not one — traversal/grain is query, visibility/order is view - DataHelix Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -47,9 +47,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../stylesheets/custom.css">
+      <link rel="stylesheet" href="../../../../stylesheets/custom.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#hippo-design-decisions-adrs" class="md-skip">
+        <a href="#adr-0041-a-result-tables-referenced-class-values-are-two-decisions-not-one-traversalgrain-is-query-visibilityorder-is-view" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Hippo Design Decisions (ADRs)
+              ADR-0041: A result table's referenced-class values are two decisions, not one — traversal/grain is query, visibility/order is view
             
           </span>
         </div>
@@ -209,7 +209,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../../../.." class="md-tabs__link">
         
   
   
@@ -230,7 +230,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../platform/" class="md-tabs__link">
+        <a href="../../../../platform/" class="md-tabs__link">
           
   
   
@@ -250,7 +250,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../" class="md-tabs__link">
+        <a href="../../../../mosaic/" class="md-tabs__link">
           
   
   
@@ -270,7 +270,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../cappella/" class="md-tabs__link">
+        <a href="../../../../cappella/" class="md-tabs__link">
           
   
   
@@ -290,7 +290,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../aperture/" class="md-tabs__link">
+        <a href="../../../" class="md-tabs__link">
           
   
   
@@ -310,7 +310,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../bridge/" class="md-tabs__link">
+        <a href="../../../../bridge/" class="md-tabs__link">
           
   
   
@@ -330,7 +330,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../canon/" class="md-tabs__link">
+        <a href="../../../../canon/" class="md-tabs__link">
           
   
   
@@ -364,7 +364,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -382,7 +382,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   
@@ -463,7 +463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/" class="md-nav__link">
+      <a href="../../../../platform/" class="md-nav__link">
         
   
   
@@ -491,7 +491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/overview/" class="md-nav__link">
+      <a href="../../../../platform/src/overview/" class="md-nav__link">
         
   
   
@@ -519,7 +519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/architecture/" class="md-nav__link">
+      <a href="../../../../platform/src/architecture/" class="md-nav__link">
         
   
   
@@ -547,7 +547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/getting-started/" class="md-nav__link">
+      <a href="../../../../platform/src/getting-started/" class="md-nav__link">
         
   
   
@@ -575,7 +575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/deployment/" class="md-nav__link">
+      <a href="../../../../platform/src/deployment/" class="md-nav__link">
         
   
   
@@ -603,7 +603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/glossary/" class="md-nav__link">
+      <a href="../../../../platform/src/glossary/" class="md-nav__link">
         
   
   
@@ -685,7 +685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -713,7 +713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec2_components/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec2_components/" class="md-nav__link">
         
   
   
@@ -741,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec3_integration/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec3_integration/" class="md-nav__link">
         
   
   
@@ -769,7 +769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
         
   
   
@@ -797,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
         
   
   
@@ -894,7 +894,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../" class="md-nav__link">
+      <a href="../../../../mosaic/" class="md-nav__link">
         
   
   
@@ -922,7 +922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/why-mosaic/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/why-mosaic/" class="md-nav__link">
         
   
   
@@ -1004,7 +1004,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/introduction/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/introduction/" class="md-nav__link">
         
   
   
@@ -1032,7 +1032,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/installation/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/installation/" class="md-nav__link">
         
   
   
@@ -1060,7 +1060,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/quickstart/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -1088,7 +1088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/schema-guide/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/schema-guide/" class="md-nav__link">
         
   
   
@@ -1116,7 +1116,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/data-model/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/data-model/" class="md-nav__link">
         
   
   
@@ -1144,7 +1144,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/configuration/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/configuration/" class="md-nav__link">
         
   
   
@@ -1172,7 +1172,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/cli-reference/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/cli-reference/" class="md-nav__link">
         
   
   
@@ -1200,7 +1200,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/api-reference/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/api-reference/" class="md-nav__link">
         
   
   
@@ -1228,7 +1228,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/reference-loaders/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/reference-loaders/" class="md-nav__link">
         
   
   
@@ -1256,7 +1256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/writing-a-reference-loader/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/writing-a-reference-loader/" class="md-nav__link">
         
   
   
@@ -1284,7 +1284,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/writing-a-recipe/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/writing-a-recipe/" class="md-nav__link">
         
   
   
@@ -1312,7 +1312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/installing-recipes/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/installing-recipes/" class="md-nav__link">
         
   
   
@@ -1340,7 +1340,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/recipe-reference/" class="md-nav__link">
+      <a href="../../../../mosaic/docs/recipe-reference/" class="md-nav__link">
         
   
   
@@ -1430,7 +1430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec1_overview/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -1458,7 +1458,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec2_architecture/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -1486,7 +1486,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec3_data_model/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec3_data_model/" class="md-nav__link">
         
   
   
@@ -1514,7 +1514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec3b_relational_storage/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec3b_relational_storage/" class="md-nav__link">
         
   
   
@@ -1542,7 +1542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec4_api_layer/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec4_api_layer/" class="md-nav__link">
         
   
   
@@ -1570,7 +1570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec5_ingestion/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec5_ingestion/" class="md-nav__link">
         
   
   
@@ -1598,7 +1598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec6_provenance/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec6_provenance/" class="md-nav__link">
         
   
   
@@ -1626,7 +1626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec7_nfr/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec7_nfr/" class="md-nav__link">
         
   
   
@@ -1654,7 +1654,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec8_auth_integration/" class="md-nav__link">
+      <a href="../../../../mosaic/design/sec8_auth_integration/" class="md-nav__link">
         
   
   
@@ -1682,7 +1682,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../appendix_a_example_schema_omics/" class="md-nav__link">
+      <a href="../../../../mosaic/design/appendix_a_example_schema_omics/" class="md-nav__link">
         
   
   
@@ -1710,7 +1710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../appendix_b_implementation_guide/" class="md-nav__link">
+      <a href="../../../../mosaic/design/appendix_b_implementation_guide/" class="md-nav__link">
         
   
   
@@ -1738,7 +1738,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference_hippo_yaml/" class="md-nav__link">
+      <a href="../../../../mosaic/design/reference_hippo_yaml/" class="md-nav__link">
         
   
   
@@ -1766,7 +1766,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference_validators_yaml/" class="md-nav__link">
+      <a href="../../../../mosaic/design/reference_validators_yaml/" class="md-nav__link">
         
   
   
@@ -1794,7 +1794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference_cel_context/" class="md-nav__link">
+      <a href="../../../../mosaic/design/reference_cel_context/" class="md-nav__link">
         
   
   
@@ -1891,7 +1891,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/" class="md-nav__link">
+      <a href="../../../../cappella/" class="md-nav__link">
         
   
   
@@ -1973,7 +1973,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/introduction/" class="md-nav__link">
+      <a href="../../../../cappella/docs/introduction/" class="md-nav__link">
         
   
   
@@ -2001,7 +2001,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/installation/" class="md-nav__link">
+      <a href="../../../../cappella/docs/installation/" class="md-nav__link">
         
   
   
@@ -2029,7 +2029,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/overview/" class="md-nav__link">
+      <a href="../../../../cappella/docs/overview/" class="md-nav__link">
         
   
   
@@ -2057,7 +2057,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../cappella/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -2085,7 +2085,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/user_guide/" class="md-nav__link">
+      <a href="../../../../cappella/docs/user_guide/" class="md-nav__link">
         
   
   
@@ -2113,7 +2113,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/workflows/" class="md-nav__link">
+      <a href="../../../../cappella/docs/workflows/" class="md-nav__link">
         
   
   
@@ -2203,7 +2203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -2231,7 +2231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -2259,7 +2259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec3_adapters/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec3_adapters/" class="md-nav__link">
         
   
   
@@ -2287,7 +2287,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec4_audit/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec4_audit/" class="md-nav__link">
         
   
   
@@ -2315,7 +2315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec5_workflows/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec5_workflows/" class="md-nav__link">
         
   
   
@@ -2343,7 +2343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec6_nfr/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec6_nfr/" class="md-nav__link">
         
   
   
@@ -2371,7 +2371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec7_testing/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec7_testing/" class="md-nav__link">
         
   
   
@@ -2468,7 +2468,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/" class="md-nav__link">
+      <a href="../../../" class="md-nav__link">
         
   
   
@@ -2550,7 +2550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/design/INDEX/" class="md-nav__link">
+      <a href="../../INDEX/" class="md-nav__link">
         
   
   
@@ -2578,7 +2578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/design/portal-vision-handoff/" class="md-nav__link">
+      <a href="../../portal-vision-handoff/" class="md-nav__link">
         
   
   
@@ -2606,7 +2606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/design/portal-open-questions/" class="md-nav__link">
+      <a href="../../portal-open-questions/" class="md-nav__link">
         
   
   
@@ -2703,7 +2703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/" class="md-nav__link">
+      <a href="../../../../bridge/" class="md-nav__link">
         
   
   
@@ -2785,7 +2785,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/introduction/" class="md-nav__link">
+      <a href="../../../../bridge/docs/introduction/" class="md-nav__link">
         
   
   
@@ -2813,7 +2813,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/auth/" class="md-nav__link">
+      <a href="../../../../bridge/docs/auth/" class="md-nav__link">
         
   
   
@@ -2841,7 +2841,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/security-model/" class="md-nav__link">
+      <a href="../../../../bridge/docs/security-model/" class="md-nav__link">
         
   
   
@@ -2869,7 +2869,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/admin-guide/" class="md-nav__link">
+      <a href="../../../../bridge/docs/admin-guide/" class="md-nav__link">
         
   
   
@@ -2959,7 +2959,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -2987,7 +2987,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -3015,7 +3015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec3_api_unification/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec3_api_unification/" class="md-nav__link">
         
   
   
@@ -3043,7 +3043,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec4_auth/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec4_auth/" class="md-nav__link">
         
   
   
@@ -3071,7 +3071,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec5_sync/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec5_sync/" class="md-nav__link">
         
   
   
@@ -3099,7 +3099,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec6_nfr/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec6_nfr/" class="md-nav__link">
         
   
   
@@ -3196,7 +3196,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/" class="md-nav__link">
+      <a href="../../../../canon/" class="md-nav__link">
         
   
   
@@ -3278,7 +3278,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/introduction/" class="md-nav__link">
+      <a href="../../../../canon/docs/introduction/" class="md-nav__link">
         
   
   
@@ -3306,7 +3306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../canon/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -3334,7 +3334,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/user-guide/" class="md-nav__link">
+      <a href="../../../../canon/docs/user-guide/" class="md-nav__link">
         
   
   
@@ -3424,7 +3424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../canon/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -3452,7 +3452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../canon/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -3480,7 +3480,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
+      <a href="../../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
         
   
   
@@ -3508,7 +3508,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
+      <a href="../../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
         
   
   
@@ -3536,7 +3536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
+      <a href="../../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
         
   
   
@@ -3564,7 +3564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
+      <a href="../../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
         
   
   
@@ -3592,7 +3592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
+      <a href="../../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
         
   
   
@@ -3620,7 +3620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec6_mosaic_integration/" class="md-nav__link">
+      <a href="../../../../canon/design/sec6_mosaic_integration/" class="md-nav__link">
         
   
   
@@ -3648,7 +3648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec7_nfr/" class="md-nav__link">
+      <a href="../../../../canon/design/sec7_nfr/" class="md-nav__link">
         
   
   
@@ -3676,7 +3676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
+      <a href="../../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
         
   
   
@@ -3704,7 +3704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/reference_canon_yaml/" class="md-nav__link">
+      <a href="../../../../canon/design/reference_canon_yaml/" class="md-nav__link">
         
   
   
@@ -3732,7 +3732,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
+      <a href="../../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
         
   
   
@@ -3760,7 +3760,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
+      <a href="../../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
         
   
   
@@ -3823,10 +3823,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#hybrid-adoption-2026-06-17" class="md-nav__link">
+  <a href="#context" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hybrid adoption (2026-06-17)
+        Context
       
     </span>
   </a>
@@ -3834,10 +3834,54 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#index" class="md-nav__link">
+  <a href="#decision" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Index
+        Decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consequences
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#status-corrections-2026-09-25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Status corrections (2026-09-25)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives-considered" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives considered
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes-open-sub-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes / open sub-questions
       
     </span>
   </a>
@@ -3861,91 +3905,306 @@
 
 
 
-<h1 id="hippo-design-decisions-adrs">Hippo Design Decisions (ADRs)<a class="headerlink" href="#hippo-design-decisions-adrs" title="Permanent link">&para;</a></h1>
-<p>Hippo records design decisions as <strong>ADRs</strong> following the <strong>platform-wide convention</strong> — the
-canonical process and template live in the parent repo at
-<a href="../../../platform/design/decisions/README.md"><code>platform/design/decisions/README.md</code></a> (see also
-the root <a href="../../CLAUDE.md"><code>../CLAUDE.md</code></a>). ADR files live in this directory;
-<a href="_template/"><code>_template.md</code></a> is a local copy of the canonical template for convenience.</p>
-<h2 id="hybrid-adoption-2026-06-17">Hybrid adoption (2026-06-17)<a class="headerlink" href="#hybrid-adoption-2026-06-17" title="Permanent link">&para;</a></h2>
-<p>Hippo is a mature component with a large body of already-settled, shipped decisions recorded in
-the <strong>Key Decisions Log</strong> of <a href="../INDEX/"><code>../INDEX.md</code></a>. Hippo therefore adopts ADRs
-<strong>forward-only</strong>:</p>
+<h1 id="adr-0041-a-result-tables-referenced-class-values-are-two-decisions-not-one-traversalgrain-is-query-visibilityorder-is-view">ADR-0041: A result table's referenced-class values are two decisions, not one — traversal/grain is query, visibility/order is view<a class="headerlink" href="#adr-0041-a-result-tables-referenced-class-values-are-two-decisions-not-one-traversalgrain-is-query-visibilityorder-is-view" title="Permanent link">&para;</a></h1>
 <ul>
-<li><strong>New, non-trivial, or still-in-flux decisions</strong> get an ADR here, indexed from the INDEX.</li>
-<li>The existing <strong>Key Decisions Log remains the scannable index</strong> of record for the settled,
-  shipped decisions and is <strong>backfilled only opportunistically</strong> — when a settled decision is
-  revisited and capturing its alternatives is worthwhile — never as a mass migration.</li>
+<li><strong>Status:</strong> Proposed</li>
+<li><strong>Date:</strong> 2026-09-22</li>
+<li><strong>Deciders:</strong> labadorf (pending); clandaverde (investigation)</li>
+<li><strong>Related:</strong> <strong>ADR-0035</strong> (cross-class queries are a typed <code>QuerySpec</code>; this ADR resolves the
+  <code>columns</code> field ADR-0035 reserved and never built, and is the amendment vehicle Reel ADR-0006 §3
+  requires for a change to the noun) · ADR-0002 (derived, never enumerated) · ADR-0004 (no middle
+  scripting layer — a column selection is a noun, not a projection expression) · ADR-0009/0010
+  (views emit view descriptions from a typed noun catalog) · ADR-0015 (cross-links name logical
+  targets) · ADR-0029 (capability-gated honest degradation) · ADR-0037 (graph view primitive) ·
+  <strong>Mosaic ADR-0005</strong> (edge-only reference emission — the raw FK is <code>strawberry.Private</code>, so a
+  referenced value is reachable <em>only</em> through a nested selection) · <strong>Mosaic ADR-0006</strong> (typed
+  filter contract; M5a relationship predicates) · <strong>Mosaic ADR-0009</strong> (the MCP boundary validates
+  <code>QuerySpec</code>; its validator mirrors this decision) · <strong>Mosaic ADR-0011</strong> (inverse slots as virtual
+  reverse edges — <em>implemented and merged</em>, see Context) · <strong>Reel ADR-0005</strong> (View Contract is the
+  renderer seam) · <strong>Reel ADR-0006</strong> (Reel's v1 <code>State</code> <em>is</em> the <code>QuerySpec</code>; <code>pivot-grain</code> is
+  listed blocked on mosaic#204) · <code>datahelix:platform/design/view-contract.md</code> (stub; the eventual
+  home of the presentation half) · <code>design/cross-class-query.md</code> §5, §8 · <code>mosaic-demo-small</code>
+  <code>APERTURE_EXON_CONTRACT.md</code> "Open questions" (explode-vs-<code>RelatedCondition</code> scoping)</li>
+<li><strong>Tracking issue:</strong> <a href="https://github.com/BU-Neuromics/aperture/issues/65">#65</a>; cross-component
+  umbrella <a href="https://github.com/BU-Neuromics/datahelix/issues/93">datahelix#93</a> (sequence across
+  aperture/mosaic/reel/certification), with mosaic#217 (ratify ADR-0011), mosaic#218 (cut the
+  release carrying it), datahelix#92 (certification fixture v1.1.0), reel#2 and
+  mosaic-demo-small#1</li>
 </ul>
-<p>The supersede-don't-delete discipline already used in the Key Decisions Log (entries gain a
-<code>Superseded by</code> pointer rather than disappearing) matches the ADR lifecycle exactly.</p>
-<h2 id="index">Index<a class="headerlink" href="#index" title="Permanent link">&para;</a></h2>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<p>Aperture's result table shows one row per anchor entity, over the anchor's own columns. A user who
+queries Samples filtered by donor cohort cannot see the cohort: the reference renders as a UUID.
+The requirement is to show slot values from <em>referenced</em> classes, joined into the same table, with
+repeated anchor values where a reference is to-many, and a user-controlled include/exclude set.</p>
+<p><strong>The premise this started from was wrong in a load-bearing way, and the correction sets the
+scope.</strong> It is not "the server returns the data, the client cannot display it." Two things are
+true instead, both verified:</p>
+<ol>
+<li><strong><code>QuerySpec</code> cannot express column selection at all.</strong> Mosaic's parser hard-rejects it —
+   <code>core/query_spec.py:223</code>, <code>COLUMNS_NOT_SUPPORTED</code>: <em>"'columns' (aggregate-vs-explode selection,
+   ADR-0035) has no Mosaic-side compiler yet — omit it, or request full envelopes and project
+   client-side."</em> The conversational path (ADR-0039) round-trips every spec through that same
+   parser, so a <code>columns</code> key added to the artifact today would break the chat panel.</li>
+<li><strong>Referenced values never cross the wire.</strong> <code>web/src/data/hippoSource.ts:154</code> (<code>selectionFor</code>) emits
+   <code>field { targetIdField }</code> for every <code>ref</code>/<code>refList</code>. <code>renderCell</code>'s <code>ref</code> branch can only ever
+   print an id and its <code>refList</code> branch only a count, because nothing else was ever requested.</li>
+</ol>
+<p>So this is a data-layer + planner + UI change, and the interesting question is not <em>how to render</em>
+but <strong>what kind of decision a column is</strong>, because three repos have been calling two different
+things by one name. ADR-0035 sketched <code>columns: [ColumnSpec]</code> carrying both a traversal <code>path</code> and
+an <code>aggregate</code>/<code>explode</code> choice; Mosaic ADR-0009 lists <code>columns</code> among the fields its boundary
+accepts; Reel ADR-0006 lists it in the <code>QuerySpec</code> shape it adopts wholesale. None of them built
+it, and the reason they could not is that the field conflates two decisions with different owners,
+different validators, and different blast radii.</p>
+<p><strong>What the endpoint actually offers</strong> (generated from the live 15-collection demo schema through
+<code>GraphQLTypeBuilder</code>, not read off the stale <code>realIntrospection.json</code> capture, which is still the
+4-class book schema and contradicts Mosaic ADR-0005):</p>
 <table>
 <thead>
 <tr>
-<th>ADR</th>
-<th>Decision</th>
-<th>Status</th>
+<th>Path</th>
+<th>Example</th>
+<th>Available</th>
+<th>Grain</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="ADR-0001-graph-level-as-of-query/">0001</a></td>
-<td>Graph-level / query-spanning as-of reconstruction</td>
-<td>✅ Accepted</td>
+<td>Forward to-one</td>
+<td><code>Sample.donor { cohort ageAtDeath }</code></td>
+<td>yes — nested selection, <code>DataLoader</code>-batched per request per type</td>
+<td>unchanged</td>
 </tr>
 <tr>
-<td><a href="ADR-0002-multivalued-reference-slots-as-relationships/">0002</a></td>
-<td>Multivalued reference slots persist as relationships (issue #79)</td>
-<td>🟡 Proposed</td>
+<td>Forward to-many</td>
+<td><code>Workflow.inputSamples { accession }</code>, plus a free <code>inputSamplesCount: Int!</code></td>
+<td>yes</td>
+<td><strong>changes</strong></td>
 </tr>
 <tr>
-<td><a href="ADR-0003-polymorphic-tree-root-ingest/">0003</a></td>
-<td>Polymorphic tree-root ingest via <code>designates_type</code> dispatch (issue #80)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0004-rename-hippo-to-mosaic/">0004</a></td>
-<td>Rename the Hippo component to <strong>Mosaic</strong> (music/art naming convention; PyPI-saturation dissolved by platform ADR-0002)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0005-graphql-reference-emission-edge-only/">0005</a></td>
-<td>GraphQL reference emission is edge-only — logical-identity boundary (issue #131)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0006-graphql-typed-filter-contract/">0006</a></td>
-<td>The GraphQL filter contract is typed per-class input objects — not CEL on the wire (issue #153)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0007-aggregation-and-ordering-surface/">0007</a></td>
-<td>Aggregation &amp; ordering surface — count mode, facet counts, min/max, <code>order_by</code> (issue #154)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0008-postgres-per-class-tables-shared-sql-core/">0008</a></td>
-<td>Postgres storage converges to generated per-class typed tables + shared SQL core (issue #162)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0009-mcp-boundary-capability-manifest-queryspec/">0009</a></td>
-<td>Mosaic hosts an MCP boundary over a server-derived capability manifest and the QuerySpec artifact (issue #177)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0010-mcp-outbound-delegation-to-a-planning-service/">0010</a></td>
-<td>The MCP boundary may delegate outbound to a planning service, as an untrusted planner behind a validating relay (issue #186)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0011-inverse-slots-as-virtual-reverse-edges/">0011</a></td>
-<td><code>inverse</code>-declared slots are virtual reverse edges over the forward FK — no storage of their own (issue #204)</td>
-<td>🟡 Proposed</td>
+<td>Reverse</td>
+<td><code>Donor</code> → its Samples</td>
+<td><strong>only when the schema declares <code>inverse:</code></strong></td>
+<td>changes</td>
 </tr>
 </tbody>
 </table>
+<p>The reverse row is the one that moved. Mosaic ADR-0011 is still <code>Proposed</code> and Reel ADR-0006
+records <code>pivot-grain</code> as <em>"blocked — needs reverse-edge traversal (mosaic#204)"</em>. <strong>That is stale.</strong>
+mosaic#204 is merged (<code>7fc300c</code>, with <code>3311f98</code>/<code>999cbdf</code>/<code>9f0ab00</code>/<code>27d8bcb</code>/<code>4887d82</code> behind it)
+and tested end to end across the QuerySpec compiler, GraphQL, MCP and both storage adapters.
+Adding <code>inverse: donor</code> to a <code>Donor.samples</code> slot and regenerating the schema yields, with <strong>no
+Mosaic code change</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">type</span><span class="w"> </span><span class="err">Donor</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nl">samplesCount</span><span class="p">:</span><span class="w"> </span><span class="n">Int</span><span class="err">!</span><span class="w">                 </span><span class="c"># free cardinality, one indexed COUNT(*)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nl">samples</span><span class="p">:</span><span class="w"> </span><span class="err">[</span><span class="n">Sample</span><span class="err">!]!</span><span class="w">                </span><span class="c"># resolved reverse edge, nested-selectable</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">}</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">input</span><span class="w"> </span><span class="err">DonorFilter</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">samples</span><span class="p">:</span><span class="w"> </span><span class="n">SampleEdgeQuantifiers</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c"># { some: SampleFilter, none: SampleFilter }</span>
+</code></pre></div>
+<p>Reverse traversal is therefore not an engineering problem on any repo. What stands between it and
+use is <strong>release and schema authoring</strong>, not code: <code>7fc300c</code> is on <code>origin/main</code> but <strong>carried by no
+tag</strong> (the latest is <code>v0.13.0</code>, which certification pins), it sits among 40 unreleased commits
+alongside the whole MCP boundary, and no deployment LinkML on the platform declares an <code>inverse:</code>
+slot yet.</p>
+<p>The same probe sharpens the adjacent gap recorded below: Mosaic's typed filter contract is
+<strong>complete in the certified pin</strong> — <code>67e1a24</code> (M5a, to-one predicates) and <code>c758d8a</code> (M5b, to-many
+quantifiers) are both in <code>v0.13.0</code>, and the as-shipped demo schema already generates
+<code>WorkflowFilter.inputSamples: SampleEdgeQuantifiers { some, none }</code>. Aperture uses none of it.</p>
+<p>The constraint envelope is unchanged: everything offered derives from introspection (ADR-0002); the
+selection is a closed typed noun, never a projection expression (ADR-0004); anything the endpoint
+does not advertise gates off visibly rather than being compensated silently (ADR-0029).</p>
+<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
+<p><strong>Aperture splits the result table's referenced-class values into two artifacts, separated by one
+test — <em>does changing it change the row set?</em> — and ships the forward directions now.</strong></p>
+<p><strong>The test.</strong> Choosing to traverse <code>Workflow → inputSamples</code> and explode it turns 128 matching
+workflows into 342 table rows. That is a different answer to "what is a row", and it is exactly
+Reel ADR-0001's <code>pivot-grain</code>. Hiding the <code>accession</code> column changes nothing about which rows
+exist. The first is query semantics; the second is presentation. They have been sharing a name.</p>
+<ol>
+<li><strong>Traversal and grain stay in the <code>QuerySpec</code>, under its reserved <code>columns</code> field.</strong> A
+   <code>ColumnSpec</code> names a <code>path</code> (anchor slot, or a schema-derived reference edge followed by a slot,
+   depth-capped at <strong>2 hops</strong> client-side — well inside Mosaic's <code>DEFAULT_MAX_QUERY_DEPTH = 10</code>) and,
+   for any to-many hop, an explicit <code>count | joinIds | explode</code>. It is schema-validated by the same
+   total, introspection-driven validator every other part of the artifact is, and it is
+   server-compilable — the eventual Mosaic compiler changes only <em>where</em> it executes.
+   <strong>The field keeps the name <code>columns</code>.</strong> It is already reserved in ADR-0035, named in Mosaic
+   ADR-0009 and Reel ADR-0006, and carried by a shipped error code, an MCP prompt and four repos'
+   prose. Renaming it would be vocabulary churn with no functional payoff.</li>
+<li><strong>Visibility, order and labelling are a separate view-side artifact</strong> — a <strong><code>ColumnView</code></strong> —
+   which never reaches a server, never affects the row set, and is not part of the noun. Aperture
+   owns it as interim view state; it is the natural occupant of the View Contract's <code>table</code>
+   <code>encoding</code> when <code>platform/design/view-contract.md</code> stops being a stub.</li>
+<li><strong>The user manipulates one control; the two artifacts are derived from it.</strong> <code>QuerySpec.columns</code>
+   is the union of the paths the user has <strong>chosen</strong>; the <code>ColumnView</code> carries each chosen path with
+   a <strong>visibility flag</strong>. One affordance, two artifacts, one derivation rule — and the flag is what
+   keeps them separate: hiding a column must never narrow <code>columns</code>, because that would mutate <code>qs</code>,
+   re-run the query, and silently change what a shared link means. A path leaves <code>columns</code> only by
+   being <em>unchosen</em>, which is a query edit and is presented as one.</li>
+<li><strong>Aperture ships <code>columns</code> client-side now, unchanged in shape when it compiles server-side
+   later.</strong> Nothing is added to the wire artifact until Mosaic's validator accepts it (§Consequences);
+   until then the projection is executed exactly as <code>COLUMNS_NOT_SUPPORTED</code> prescribes — full
+   envelopes plus a merged nested selection, projected in the client.</li>
+<li><strong>Forward to-one and forward to-many ship; reverse is offered and disabled until the deployment
+   schema declares it.</strong> A reverse edge the endpoint does not advertise is <em>listed</em> in the picker
+   and gated off with its reason named (ADR-0029) — silence would read as "this data does not
+   exist". The planner's capped <code>rev:</code> semijoin is <strong>never</strong> repurposed to fetch display values: a
+   500-row cap that silently truncates a filter is bad, and one that silently truncates <em>displayed
+   data</em> is worse.</li>
+<li><strong>A grain change is always stated on screen and in the export.</strong> An exploded table says
+   <em>"1 row per Workflow × Sample — 342 rows from 128 workflows"</em>, and the export's cap message names
+   its unit. Without this, the result total sits above a table it does not describe.</li>
+</ol>
+<h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>The ADR-0035 blocker dissolves without touching the artifact's version.</strong> <code>v</code> stays 1;
+  <code>columns</code> was reserved from the start. This is the field ADR-0035 wrote down and deferred, now
+  given an owner boundary that lets it be built incrementally instead of all at once.</li>
+<li><strong>Aperture obligations.</strong> A path-aware, sibling-merging selection builder replacing
+  <code>selectionFor</code> (two chosen donor fields must emit one <code>donor { … }</code>, and every nested object must
+  carry its id field for row-click and <code>joinIds</code>); a row flattener producing the explode grain; the
+  picker enumerating <code>detailColumns</code> (budget 50), <strong>not</strong> <code>columns</code> (budget 8) — <code>deriveEdges</code>
+  already documents that resolved reference edges <em>"sit after the computed fields … so the curated
+  table budget routinely truncates them away"</em>, which is to say the edges this feature is about are
+  outside the table budget; <code>renderCell</code> / <code>isRightAligned</code> / <code>toCSV</code> / <code>toJSONExport</code> re-keyed off
+  <code>column.field</code> onto paths — <code>toJSONExport</code>'s <code>f in row</code> guard will otherwise <em>silently</em> drop every
+  path key, which is the one failure here that leaves no trace.</li>
+<li><strong>Mosaic obligations (proposed on its side, not decided here).</strong> Amend ADR-0009 so its validator
+  accepts <code>columns</code> under this split and lift <code>COLUMNS_NOT_SUPPORTED</code> when the compiler lands; keep
+  <code>construct-query-spec</code>'s prompt truthful in the interim (<code>mcp/server.py:736</code> already is). Ratify
+  ADR-0011 — the code merged, the status did not — <strong>cut a release carrying it</strong>, since reverse
+  traversal is otherwise unreachable from any pinned, certifiable server; and declare <code>inverse:</code>
+  slots in the deployment schemas, which is what actually unblocks reverse traversal for every
+  consumer at once.</li>
+<li><strong>Reel is a downstream consumer, and one of its blockers is already gone.</strong> Reel ADR-0006's
+  <code>pivot-grain</code> row should move off "blocked on mosaic#204": an <code>explode</code> <code>ColumnSpec</code> <em>is</em> a
+  declared grain change, and reverse anchoring works wherever <code>inverse:</code> is declared.
+  <code>render-as-primitive</code> is where <code>ColumnView</code> eventually lands. No Reel deliverable is required for
+  Aperture to ship this.</li>
+<li><strong>Certification cannot test the interesting half today.</strong> <code>certification/fixtures/bootstrap/
+  schema/portal_schema.yaml</code> (v1.0.0) is the Book/Author/Review schema: no multivalued reference,
+  no <code>inverse:</code> slot. Explode and reverse traversal are therefore uncertifiable against the current
+  fixture, and the fixture must gain both. Ledger facts are about immutable artifacts, so a
+  <code>fixture_version</code> bump appends new facts rather than invalidating existing entries (platform
+  ADR-0001).</li>
+<li><strong>The stale capture is a test blocker, not a detail.</strong> <code>web/src/data/testing/realIntrospection.json</code>
+  is the 4-class book schema and carries <code>Book.authorId</code> <em>alongside</em> <code>Book.author</code>, contradicting
+  Mosaic ADR-0005's edge-only emission, with zero entity-level list-of-object fields. Every test
+  below the flattener needs a re-capture against a live serve. ADR-0035 names this failure mode by
+  its own name — the stale-capture lesson.</li>
+<li><strong>Adjacent — and it should ship in the same pass.</strong> Mosaic's typed <code>where:</code> surface is complete on
+  the <em>certified</em> pin: <code>SampleFilter.donor: DonorFilter</code> (M5a), <code>WorkflowFilter.inputSamples:
+  SampleEdgeQuantifiers</code> (M5b), plus <code>and</code>/<code>or</code>/<code>not</code>. Aperture's planner still compiles to the flat
+  <code>filters:</code> list and still runs every <code>RelatedCondition</code> through the capped client semijoin.
+  Adopting it lifts that cap and makes <code>quantifier: none</code> real, which <code>validateQuerySpec</code> currently
+  hard-errors on. It is a <em>separate decision</em>, but not a separate pass: it rewrites
+  <code>buildListQuery</code>'s <strong>filter</strong> path while this ADR rewrites the same function's <strong>selection</strong> path.
+  Split across two changes, that query builder is rewritten twice, its contract tests re-baselined
+  twice, and the composition re-certified twice, for no gain.</li>
+</ul>
+<h2 id="status-corrections-2026-09-25">Status corrections (2026-09-25)<a class="headerlink" href="#status-corrections-2026-09-25" title="Permanent link">&para;</a></h2>
+<p>Two sweeps' worth of drift, recorded rather than edited into the text above, per the
+repo's convention (<code>decisions/README.md</code>: supersede, don't edit history). The Context
+section describes what was true when this was written on 2026-09-22; these are what has
+changed since, and one place where the Decision overstates what was built.</p>
+<p><strong>The split is currently semantic, not structural.</strong> Decision items 1–3 describe two
+artifacts — <code>QuerySpec.columns</code> for traversal and grain, a separate <code>ColumnView</code> for
+visibility and order. <strong>The implementation has neither.</strong> There is one <code>PathColumn[]</code> held
+in component state (<code>QueryBuilderView</code>), where <code>many.mode</code> carries the grain decision and
+membership of the list carries the display decision. No <code>ColumnView</code> type exists, and
+<code>QuerySpec</code> has no <code>columns</code> field.</p>
+<p>That is consistent with Decision item 4 ("nothing is added to the wire artifact until
+Mosaic's validator accepts it") and with the test the whole ADR turns on — the code does
+keep grain separate from visibility, and hiding a column still cannot change the row set.
+What it does not do is <em>reify</em> the separation, because nothing yet persists either half:
+the <code>columns</code> field has no server compiler, and whether <code>ColumnView</code> rides the URL is still
+open below. Reifying two artifacts to serve a persistence layer that does not exist would
+be speculative structure.</p>
+<p><strong>The two separate when either half first needs to persist</strong> — a <code>cols</code> URL parameter, or
+Mosaic accepting <code>columns</code> on the wire. Until then, read items 1–3 as <em>where each decision
+belongs</em>, not as a description of types that exist today.</p>
+<p><strong>Facts the Context section states that have since moved:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Stated</th>
+<th>Now</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>7fc300c</code> "carried by no tag", among 40 unreleased commits</td>
+<td><strong>mosaic v0.14.0</strong> released; certification pins it</td>
+</tr>
+<tr>
+<td>Typed filter contract "complete in the certified pin — <code>v0.13.0</code>"</td>
+<td>still complete; the pin is now <strong>v0.14.0</strong></td>
+</tr>
+<tr>
+<td>Certification fixture has no multivalued reference and no <code>inverse:</code> slot, so explode and reverse traversal are "uncertifiable"</td>
+<td><strong>fixture 1.1.0</strong> carries both, and <code>fixture 1.1.0 · aperture0.5.0+mosaic0.14.0</code> is a passing ledger entry</td>
+</tr>
+<tr>
+<td>No deployment LinkML declares an <code>inverse:</code> slot</td>
+<td><code>mosaic-demo-small</code> declares four (<code>Donor.samples</code>, <code>Donor.diagnoses</code>, <code>Sample.aliquots</code>, <code>Workflow.datasets</code>), verified against its existing database with no re-ingest</td>
+</tr>
+<tr>
+<td>Anchor-field toggles are "in flight on <code>fix/discovery-turn-chrome</code> (<code>12cf637</code>, not yet on <code>main</code>)"</td>
+<td>merged (aperture#69); <code>FieldsPanel</code> is on <code>main</code> and is where the traversal picker was built</td>
+</tr>
+</tbody>
+</table>
+<p>None of these changes the decision. The reverse-edge gating in particular behaves exactly as
+designed: the same derivation code offers reverse columns where a schema declares the
+inverting slot and gates them off where it does not, deciding from introspection and never
+from a version number.</p>
+<h2 id="alternatives-considered">Alternatives considered<a class="headerlink" href="#alternatives-considered" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Put everything in <code>QuerySpec.columns</code>, visibility included</strong> (ADR-0035's literal sketch). Makes
+  hiding a column a query edit: it re-runs the query, invalidates a shared URL's meaning, and forces
+  Mosaic's validator and Reel's op catalog to care about presentation. It is also what stalled the
+  field for a year — the aggregate/explode half needs a server compiler, and the visibility half
+  needs nothing, so binding them meant neither shipped. Rejected.</li>
+<li><strong>Put everything in view state, including explode.</strong> Explode changes the row set, so a saved or
+  shared query would reproduce a different table than the one it names, and Reel's <code>pivot-grain</code> —
+  defined as a <em>State</em> transition — would have no artifact to attach to. Rejected.</li>
+<li><strong>Rename <code>columns</code> to <code>projection</code> to mark the narrowing.</strong> Four repos, a shipped error code, an
+  MCP prompt and an evals file carry the name; the churn buys nothing the ADR text cannot say.
+  Rejected.</li>
+<li><strong>Fetch reverse columns through the planner's existing <code>rev:</code> semijoin.</strong> Available immediately
+  and requires no schema change — but it caps displayed data at 500 related records and its <code>rev:</code>
+  keys are already flagged provisional Aperture-local dialect by ADR-0035's own amendment. Declaring
+  <code>inverse:</code> costs less and is correct. Rejected.</li>
+<li><strong>Wait for the Mosaic <code>columns</code> compiler before shipping anything.</strong> The client-side projection is
+  the remedy <code>COLUMNS_NOT_SUPPORTED</code> itself prescribes, and the artifact does not change when the
+  compiler lands — only the planner does, which is precisely ADR-0035's server-independence payoff.
+  Rejected.</li>
+</ul>
+<h2 id="notes-open-sub-questions">Notes / open sub-questions<a class="headerlink" href="#notes-open-sub-questions" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Does an <code>explode</code> show all members, or only those matching a <code>RelatedCondition</code> on the same
+  edge?</strong> Recorded as unresolved in <code>APERTURE_EXON_CONTRACT.md</code> and in ADR-0035 itself.
+  <em>Recommended resolution to pressure-test:</em> <strong>all members by default</strong>, with an explicit per-explode
+  "only the ones matching my criteria" toggle, and the active choice stated. Criteria select
+  <em>anchors</em>, not members; silently narrowing the exploded rows would make the table disagree with
+  the total above it. Both readings are cheap — the sub-criteria are already in hand client-side and
+  are the same predicate server-side — so this is a defaults question, not a capability one.</li>
+<li><strong>A wart this split produces, stated rather than discovered at ratification.</strong> Hide the last
+  visible column on an exploded path and the table still shows duplicated anchor rows with nothing
+  on screen explaining the duplication. Making visibility collapse the grain would re-couple the two
+  artifacts this ADR just separated. <em>Recommended:</em> keep them separate and keep the grain note
+  visible, so the duplication is always explained even when its cause is hidden.</li>
+<li><strong>Cap explode to one path per query in v1?</strong> Two exploded to-many paths is a cartesian product
+  with no user model behind it. Leaning yes, stated as a cap rather than an omission.</li>
+<li><strong>Does the <code>ColumnView</code> ride the URL?</strong> <code>qs</code> does; the anchor-field visibility toggles in flight
+  on <code>fix/discovery-turn-chrome</code> (<code>12cf637</code>, not yet on <code>main</code>) hold <code>hiddenFields</code> in <code>useState</code>,
+  which dies with the tab. A link that reproduces a table but not its columns is a half-share; a
+  <code>cols</code> parameter with its own nuqs validator is small. Leaning yes — confirm at ratification.</li>
+<li><strong>Depth cap of 2 hops</strong> is a client choice inside a server cap of 10, chosen to match ADR-0035's
+  nesting discipline. Revisit if a real schema needs 3.</li>
+<li>Confirm the <code>ColumnView</code> → View Contract <code>encoding</code> landing at the point
+  <code>platform/design/view-contract.md</code> stops being a stub; this ADR decides Aperture's interim
+  ownership, not the platform artifact's shape.</li>
+</ul>
 
 
 
@@ -4001,10 +4260,10 @@ the <strong>Key Decisions Log</strong> of <a href="../INDEX/"><code>../INDEX.md<
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

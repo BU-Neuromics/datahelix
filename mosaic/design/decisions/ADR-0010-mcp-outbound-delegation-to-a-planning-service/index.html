@@ -16,19 +16,19 @@
         
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Hippo Design Decisions (ADRs) - DataHelix Documentation</title>
+        <title>ADR-0010: The MCP boundary may delegate outbound to a planning service, as an untrusted planner behind a validating relay - DataHelix Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -47,9 +47,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../stylesheets/custom.css">
+      <link rel="stylesheet" href="../../../../stylesheets/custom.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#hippo-design-decisions-adrs" class="md-skip">
+        <a href="#adr-0010-the-mcp-boundary-may-delegate-outbound-to-a-planning-service-as-an-untrusted-planner-behind-a-validating-relay" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-header__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Hippo Design Decisions (ADRs)
+              ADR-0010: The MCP boundary may delegate outbound to a planning service, as an untrusted planner behind a validating relay
             
           </span>
         </div>
@@ -209,7 +209,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../../../.." class="md-tabs__link">
         
   
   
@@ -230,7 +230,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../platform/" class="md-tabs__link">
+        <a href="../../../../platform/" class="md-tabs__link">
           
   
   
@@ -250,7 +250,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../" class="md-tabs__link">
+        <a href="../../../" class="md-tabs__link">
           
   
   
@@ -270,7 +270,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../cappella/" class="md-tabs__link">
+        <a href="../../../../cappella/" class="md-tabs__link">
           
   
   
@@ -290,7 +290,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../aperture/" class="md-tabs__link">
+        <a href="../../../../aperture/" class="md-tabs__link">
           
   
   
@@ -310,7 +310,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../bridge/" class="md-tabs__link">
+        <a href="../../../../bridge/" class="md-tabs__link">
           
   
   
@@ -330,7 +330,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../canon/" class="md-tabs__link">
+        <a href="../../../../canon/" class="md-tabs__link">
           
   
   
@@ -364,7 +364,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
+    <a href="../../../.." title="DataHelix Documentation" class="md-nav__button md-logo" aria-label="DataHelix Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -382,7 +382,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   
@@ -463,7 +463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/" class="md-nav__link">
+      <a href="../../../../platform/" class="md-nav__link">
         
   
   
@@ -491,7 +491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/overview/" class="md-nav__link">
+      <a href="../../../../platform/src/overview/" class="md-nav__link">
         
   
   
@@ -519,7 +519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/architecture/" class="md-nav__link">
+      <a href="../../../../platform/src/architecture/" class="md-nav__link">
         
   
   
@@ -547,7 +547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/getting-started/" class="md-nav__link">
+      <a href="../../../../platform/src/getting-started/" class="md-nav__link">
         
   
   
@@ -575,7 +575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/deployment/" class="md-nav__link">
+      <a href="../../../../platform/src/deployment/" class="md-nav__link">
         
   
   
@@ -603,7 +603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/glossary/" class="md-nav__link">
+      <a href="../../../../platform/src/glossary/" class="md-nav__link">
         
   
   
@@ -685,7 +685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -713,7 +713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec2_components/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec2_components/" class="md-nav__link">
         
   
   
@@ -741,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec3_integration/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec3_integration/" class="md-nav__link">
         
   
   
@@ -769,7 +769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec4_unified_ingestion/" class="md-nav__link">
         
   
   
@@ -797,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
+      <a href="../../../../platform/src/design/sec5_integration_test_strategy/" class="md-nav__link">
         
   
   
@@ -894,7 +894,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../" class="md-nav__link">
+      <a href="../../../" class="md-nav__link">
         
   
   
@@ -922,7 +922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/why-mosaic/" class="md-nav__link">
+      <a href="../../../docs/why-mosaic/" class="md-nav__link">
         
   
   
@@ -1004,7 +1004,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/introduction/" class="md-nav__link">
+      <a href="../../../docs/introduction/" class="md-nav__link">
         
   
   
@@ -1032,7 +1032,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/installation/" class="md-nav__link">
+      <a href="../../../docs/installation/" class="md-nav__link">
         
   
   
@@ -1060,7 +1060,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/quickstart/" class="md-nav__link">
+      <a href="../../../docs/quickstart/" class="md-nav__link">
         
   
   
@@ -1088,7 +1088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/schema-guide/" class="md-nav__link">
+      <a href="../../../docs/schema-guide/" class="md-nav__link">
         
   
   
@@ -1116,7 +1116,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/data-model/" class="md-nav__link">
+      <a href="../../../docs/data-model/" class="md-nav__link">
         
   
   
@@ -1144,7 +1144,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/configuration/" class="md-nav__link">
+      <a href="../../../docs/configuration/" class="md-nav__link">
         
   
   
@@ -1172,7 +1172,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/cli-reference/" class="md-nav__link">
+      <a href="../../../docs/cli-reference/" class="md-nav__link">
         
   
   
@@ -1200,7 +1200,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/api-reference/" class="md-nav__link">
+      <a href="../../../docs/api-reference/" class="md-nav__link">
         
   
   
@@ -1228,7 +1228,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/reference-loaders/" class="md-nav__link">
+      <a href="../../../docs/reference-loaders/" class="md-nav__link">
         
   
   
@@ -1256,7 +1256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/writing-a-reference-loader/" class="md-nav__link">
+      <a href="../../../docs/writing-a-reference-loader/" class="md-nav__link">
         
   
   
@@ -1284,7 +1284,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/writing-a-recipe/" class="md-nav__link">
+      <a href="../../../docs/writing-a-recipe/" class="md-nav__link">
         
   
   
@@ -1312,7 +1312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/installing-recipes/" class="md-nav__link">
+      <a href="../../../docs/installing-recipes/" class="md-nav__link">
         
   
   
@@ -1340,7 +1340,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docs/recipe-reference/" class="md-nav__link">
+      <a href="../../../docs/recipe-reference/" class="md-nav__link">
         
   
   
@@ -1430,7 +1430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec1_overview/" class="md-nav__link">
+      <a href="../../sec1_overview/" class="md-nav__link">
         
   
   
@@ -1458,7 +1458,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec2_architecture/" class="md-nav__link">
+      <a href="../../sec2_architecture/" class="md-nav__link">
         
   
   
@@ -1486,7 +1486,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec3_data_model/" class="md-nav__link">
+      <a href="../../sec3_data_model/" class="md-nav__link">
         
   
   
@@ -1514,7 +1514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec3b_relational_storage/" class="md-nav__link">
+      <a href="../../sec3b_relational_storage/" class="md-nav__link">
         
   
   
@@ -1542,7 +1542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec4_api_layer/" class="md-nav__link">
+      <a href="../../sec4_api_layer/" class="md-nav__link">
         
   
   
@@ -1570,7 +1570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec5_ingestion/" class="md-nav__link">
+      <a href="../../sec5_ingestion/" class="md-nav__link">
         
   
   
@@ -1598,7 +1598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec6_provenance/" class="md-nav__link">
+      <a href="../../sec6_provenance/" class="md-nav__link">
         
   
   
@@ -1626,7 +1626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec7_nfr/" class="md-nav__link">
+      <a href="../../sec7_nfr/" class="md-nav__link">
         
   
   
@@ -1654,7 +1654,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sec8_auth_integration/" class="md-nav__link">
+      <a href="../../sec8_auth_integration/" class="md-nav__link">
         
   
   
@@ -1682,7 +1682,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../appendix_a_example_schema_omics/" class="md-nav__link">
+      <a href="../../appendix_a_example_schema_omics/" class="md-nav__link">
         
   
   
@@ -1710,7 +1710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../appendix_b_implementation_guide/" class="md-nav__link">
+      <a href="../../appendix_b_implementation_guide/" class="md-nav__link">
         
   
   
@@ -1738,7 +1738,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference_hippo_yaml/" class="md-nav__link">
+      <a href="../../reference_hippo_yaml/" class="md-nav__link">
         
   
   
@@ -1766,7 +1766,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference_validators_yaml/" class="md-nav__link">
+      <a href="../../reference_validators_yaml/" class="md-nav__link">
         
   
   
@@ -1794,7 +1794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference_cel_context/" class="md-nav__link">
+      <a href="../../reference_cel_context/" class="md-nav__link">
         
   
   
@@ -1891,7 +1891,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/" class="md-nav__link">
+      <a href="../../../../cappella/" class="md-nav__link">
         
   
   
@@ -1973,7 +1973,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/introduction/" class="md-nav__link">
+      <a href="../../../../cappella/docs/introduction/" class="md-nav__link">
         
   
   
@@ -2001,7 +2001,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/installation/" class="md-nav__link">
+      <a href="../../../../cappella/docs/installation/" class="md-nav__link">
         
   
   
@@ -2029,7 +2029,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/overview/" class="md-nav__link">
+      <a href="../../../../cappella/docs/overview/" class="md-nav__link">
         
   
   
@@ -2057,7 +2057,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../cappella/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -2085,7 +2085,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/user_guide/" class="md-nav__link">
+      <a href="../../../../cappella/docs/user_guide/" class="md-nav__link">
         
   
   
@@ -2113,7 +2113,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/docs/workflows/" class="md-nav__link">
+      <a href="../../../../cappella/docs/workflows/" class="md-nav__link">
         
   
   
@@ -2203,7 +2203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -2231,7 +2231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -2259,7 +2259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec3_adapters/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec3_adapters/" class="md-nav__link">
         
   
   
@@ -2287,7 +2287,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec4_audit/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec4_audit/" class="md-nav__link">
         
   
   
@@ -2315,7 +2315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec5_workflows/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec5_workflows/" class="md-nav__link">
         
   
   
@@ -2343,7 +2343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec6_nfr/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec6_nfr/" class="md-nav__link">
         
   
   
@@ -2371,7 +2371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cappella/design/sec7_testing/" class="md-nav__link">
+      <a href="../../../../cappella/design/sec7_testing/" class="md-nav__link">
         
   
   
@@ -2468,7 +2468,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/" class="md-nav__link">
+      <a href="../../../../aperture/" class="md-nav__link">
         
   
   
@@ -2550,7 +2550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/design/INDEX/" class="md-nav__link">
+      <a href="../../../../aperture/design/INDEX/" class="md-nav__link">
         
   
   
@@ -2578,7 +2578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/design/portal-vision-handoff/" class="md-nav__link">
+      <a href="../../../../aperture/design/portal-vision-handoff/" class="md-nav__link">
         
   
   
@@ -2606,7 +2606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../aperture/design/portal-open-questions/" class="md-nav__link">
+      <a href="../../../../aperture/design/portal-open-questions/" class="md-nav__link">
         
   
   
@@ -2703,7 +2703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/" class="md-nav__link">
+      <a href="../../../../bridge/" class="md-nav__link">
         
   
   
@@ -2785,7 +2785,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/introduction/" class="md-nav__link">
+      <a href="../../../../bridge/docs/introduction/" class="md-nav__link">
         
   
   
@@ -2813,7 +2813,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/auth/" class="md-nav__link">
+      <a href="../../../../bridge/docs/auth/" class="md-nav__link">
         
   
   
@@ -2841,7 +2841,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/security-model/" class="md-nav__link">
+      <a href="../../../../bridge/docs/security-model/" class="md-nav__link">
         
   
   
@@ -2869,7 +2869,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/docs/admin-guide/" class="md-nav__link">
+      <a href="../../../../bridge/docs/admin-guide/" class="md-nav__link">
         
   
   
@@ -2959,7 +2959,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -2987,7 +2987,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -3015,7 +3015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec3_api_unification/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec3_api_unification/" class="md-nav__link">
         
   
   
@@ -3043,7 +3043,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec4_auth/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec4_auth/" class="md-nav__link">
         
   
   
@@ -3071,7 +3071,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec5_sync/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec5_sync/" class="md-nav__link">
         
   
   
@@ -3099,7 +3099,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bridge/design/sec6_nfr/" class="md-nav__link">
+      <a href="../../../../bridge/design/sec6_nfr/" class="md-nav__link">
         
   
   
@@ -3196,7 +3196,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/" class="md-nav__link">
+      <a href="../../../../canon/" class="md-nav__link">
         
   
   
@@ -3278,7 +3278,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/introduction/" class="md-nav__link">
+      <a href="../../../../canon/docs/introduction/" class="md-nav__link">
         
   
   
@@ -3306,7 +3306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/quickstart/" class="md-nav__link">
+      <a href="../../../../canon/docs/quickstart/" class="md-nav__link">
         
   
   
@@ -3334,7 +3334,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/docs/user-guide/" class="md-nav__link">
+      <a href="../../../../canon/docs/user-guide/" class="md-nav__link">
         
   
   
@@ -3424,7 +3424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec1_overview/" class="md-nav__link">
+      <a href="../../../../canon/design/sec1_overview/" class="md-nav__link">
         
   
   
@@ -3452,7 +3452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec2_architecture/" class="md-nav__link">
+      <a href="../../../../canon/design/sec2_architecture/" class="md-nav__link">
         
   
   
@@ -3480,7 +3480,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
+      <a href="../../../../canon/design/sec3_rules_dsl/" class="md-nav__link">
         
   
   
@@ -3508,7 +3508,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
+      <a href="../../../../canon/design/sec3b_cwl_integration/" class="md-nav__link">
         
   
   
@@ -3536,7 +3536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
+      <a href="../../../../canon/design/sec4_resolution_algorithm/" class="md-nav__link">
         
   
   
@@ -3564,7 +3564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
+      <a href="../../../../canon/design/sec5_executor_adapters/" class="md-nav__link">
         
   
   
@@ -3592,7 +3592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
+      <a href="../../../../canon/design/sec5b_storage_adapters/" class="md-nav__link">
         
   
   
@@ -3620,7 +3620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec6_mosaic_integration/" class="md-nav__link">
+      <a href="../../../../canon/design/sec6_mosaic_integration/" class="md-nav__link">
         
   
   
@@ -3648,7 +3648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec7_nfr/" class="md-nav__link">
+      <a href="../../../../canon/design/sec7_nfr/" class="md-nav__link">
         
   
   
@@ -3676,7 +3676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
+      <a href="../../../../canon/design/sec8_dynamic_rules/" class="md-nav__link">
         
   
   
@@ -3704,7 +3704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/reference_canon_yaml/" class="md-nav__link">
+      <a href="../../../../canon/design/reference_canon_yaml/" class="md-nav__link">
         
   
   
@@ -3732,7 +3732,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
+      <a href="../../../../canon/design/reference_canon_rules_yaml/" class="md-nav__link">
         
   
   
@@ -3760,7 +3760,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
+      <a href="../../../../canon/design/appendix_a_rnaseq_example/" class="md-nav__link">
         
   
   
@@ -3823,10 +3823,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#hybrid-adoption-2026-06-17" class="md-nav__link">
+  <a href="#context" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hybrid adoption (2026-06-17)
+        Context
       
     </span>
   </a>
@@ -3834,10 +3834,54 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#index" class="md-nav__link">
+  <a href="#decision" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Index
+        Decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consequences
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives-considered" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives considered
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exon-side-follow-ups-not-mosaics-to-implement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exon-side follow-ups (not Mosaic's to implement)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes-open-sub-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes / open sub-questions
       
     </span>
   </a>
@@ -3861,91 +3905,294 @@
 
 
 
-<h1 id="hippo-design-decisions-adrs">Hippo Design Decisions (ADRs)<a class="headerlink" href="#hippo-design-decisions-adrs" title="Permanent link">&para;</a></h1>
-<p>Hippo records design decisions as <strong>ADRs</strong> following the <strong>platform-wide convention</strong> — the
-canonical process and template live in the parent repo at
-<a href="../../../platform/design/decisions/README.md"><code>platform/design/decisions/README.md</code></a> (see also
-the root <a href="../../CLAUDE.md"><code>../CLAUDE.md</code></a>). ADR files live in this directory;
-<a href="_template/"><code>_template.md</code></a> is a local copy of the canonical template for convenience.</p>
-<h2 id="hybrid-adoption-2026-06-17">Hybrid adoption (2026-06-17)<a class="headerlink" href="#hybrid-adoption-2026-06-17" title="Permanent link">&para;</a></h2>
-<p>Hippo is a mature component with a large body of already-settled, shipped decisions recorded in
-the <strong>Key Decisions Log</strong> of <a href="../INDEX/"><code>../INDEX.md</code></a>. Hippo therefore adopts ADRs
-<strong>forward-only</strong>:</p>
+<h1 id="adr-0010-the-mcp-boundary-may-delegate-outbound-to-a-planning-service-as-an-untrusted-planner-behind-a-validating-relay">ADR-0010: The MCP boundary may delegate outbound to a planning service, as an untrusted planner behind a validating relay<a class="headerlink" href="#adr-0010-the-mcp-boundary-may-delegate-outbound-to-a-planning-service-as-an-untrusted-planner-behind-a-validating-relay" title="Permanent link">&para;</a></h1>
 <ul>
-<li><strong>New, non-trivial, or still-in-flux decisions</strong> get an ADR here, indexed from the INDEX.</li>
-<li>The existing <strong>Key Decisions Log remains the scannable index</strong> of record for the settled,
-  shipped decisions and is <strong>backfilled only opportunistically</strong> — when a settled decision is
-  revisited and capturing its alternatives is worthwhile — never as a mass migration.</li>
+<li><strong>Status:</strong> Proposed</li>
+<li><strong>Date:</strong> 2026-09-08</li>
+<li><strong>Deciders:</strong> labadorf (review of <a href="https://github.com/BU-Neuromics/mosaic/pull/199">#199</a>); clandaverde (implementation)</li>
+<li><strong>Related:</strong> ADR-0009 (MCP boundary, capability manifest, QuerySpec — this ADR extends its
+  surface with the one tool that is not a <code>MosaicClient</code> wrapper); <strong>Aperture ADR-0032</strong>
+  (rejects a dedicated control-plane service — the constraint that forces the relay here) and
+  <strong>ADR-0035</strong> (<code>QuerySpec</code>); <a href="../../sec8_auth_integration/">sec8</a> (auth integration — inbound
+  only, see Consequences); issue <a href="https://github.com/BU-Neuromics/mosaic/issues/54">#54</a>
+  Part A (authn/authz, referenced not resolved); <code>mosaic-demo-small</code>'s
+  <code>openspec/changes/add-exon-conversational-contract/design.md</code> Decision 8 (the wire
+  contract, owned by that repo).</li>
+<li><strong>Tracking issue:</strong> <a href="https://github.com/BU-Neuromics/mosaic/issues/186">#186</a>
+  (<code>converse_query_spec</code>), implemented in <a href="https://github.com/BU-Neuromics/mosaic/pull/199">#199</a>.</li>
 </ul>
-<p>The supersede-don't-delete discipline already used in the Key Decisions Log (entries gain a
-<code>Superseded by</code> pointer rather than disappearing) matches the ADR lifecycle exactly.</p>
-<h2 id="index">Index<a class="headerlink" href="#index" title="Permanent link">&para;</a></h2>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<p>Aperture's chat interface needs to build a <code>QuerySpec</code> collaboratively across conversational
+turns rather than in one shot. That requires an LLM call, and three prior decisions close off
+every place it could happen except one:</p>
+<ul>
+<li><strong>Aperture has no backend of its own.</strong> Its <code>ScopedDataClient</code> is a thin GraphQL
+  pass-through, so a browser-side call would mean shipping model credentials to the browser.</li>
+<li><strong>Aperture ADR-0032 explicitly rejected a dedicated control-plane service</strong>, so there is no
+  third component to put it in.</li>
+<li><strong>ADR-0009 put an MCP boundary in Mosaic</strong>, but scoped it entirely to local capability:
+  every tool it defines is a thin wrapper over a <code>MosaicClient</code> method, and its item 5 fixes
+  the surface as read-only with no write or mutation path.</li>
+</ul>
+<p>The turn-taking planner itself (<code>mosaic-demo-small</code>'s Exon) holds the model credentials and
+must keep holding them — importing it into Mosaic would drag <code>litellm</code> and a provider-credential
+surface into <code>datahelix-mosaic</code>, which is meant to stay a generic LinkML runtime.</p>
+<p>That leaves exactly one shape: <strong>Mosaic relays</strong>. Aperture → Mosaic (MCP) → Exon (HTTP).</p>
+<p>This is a change in Mosaic's deployment shape, not just a new tool. Every transport Mosaic has
+today is inbound-only: it answers requests and touches nothing but its own storage. A tool that
+makes an outbound HTTP request to a third-party service when configured to is the first of its
+kind here, and the question this ADR settles is <strong>on what terms that is allowed</strong> — what Mosaic
+must guarantee about a planner's output, what it must not disclose, and what it does not yet
+account for.</p>
+<p>Getting this wrong has two distinct failure modes worth naming, because they are not the same
+risk:</p>
+<ol>
+<li><strong>A planner's output reaching a caller unvalidated.</strong> Exon generates a <code>QuerySpec</code> with an
+   LLM. If Mosaic passes that through on Exon's word alone, ADR-0009's central guarantee —
+   "validation is specific, actionable, and happens before anything executes" — becomes only as
+   strong as a service in another repository, on another release cycle.</li>
+<li><strong>A relay being cheaper to abuse than the thing it relays.</strong> A Mosaic query costs CPU. A
+   relayed conversational turn costs a hosted model invocation, i.e. money, at a third party.</li>
+</ol>
+<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
+<p><strong>Mosaic may host an MCP tool that delegates outbound to a configured planning service, on
+these terms.</strong> The terms are the decision; <code>converse_query_spec</code> (#186/#199) is its first and
+currently only instance.</p>
+<ol>
+<li>
+<p><strong>Configured-or-absent.</strong> The tool is registered only when its endpoint env var
+   (<code>MOSAIC_EXON_URL</code>) is set and non-blank, and the server <code>instructions</code> text describes it
+   only under the same condition. An unconfigured deployment does not advertise a delegate it
+   cannot reach — mirroring how <code>--mcp</code>/<code>MOSAIC_SERVE_MCP</code> already gates this whole module. An
+   optional integration is <em>absent</em>, never present-and-broken.</p>
+</li>
+<li>
+<p><strong>The planner is untrusted; Mosaic re-validates in-process.</strong> <strong>Every</strong> <code>QuerySpec</code> in the
+   response — not only the turn just taken — is re-parsed and re-validated against this
+   deployment's own capability manifest, via a direct in-process <code>validate_query_spec</code> call,
+   never a self-call back through MCP, before any of it is handed to a caller. A spec the planner
+   labelled a <code>proposal</code> that this deployment's validator rejects is returned as an <code>error</code>, not
+   a proposal. This is defence in depth, not redundancy: it holds even if the planner's own check
+   is stale, buggy, or bypassed, and it keeps ADR-0009's guarantee a property of Mosaic rather
+   than of another repo's release cycle.</p>
+</li>
+</ol>
+<p>"Every" is load-bearing, and was widened by <a href="https://github.com/BU-Neuromics/mosaic/pull/200">#200</a>
+   rather than assumed here: editing an earlier turn makes the planner <em>recompute</em> the turns that
+   follow it, so a response can carry freshly generated specs this deployment has never seen.
+   Validating only the turn just taken would let those reach the caller unchecked — precisely the
+   hole this term exists to close. Any future field that can carry a <code>QuerySpec</code> inherits the
+   same rule.</p>
+<ol>
+<li><strong>The response shape is validated strictly, not duck-typed.</strong> An unrecognized turn status, a
+   missing <code>message</code>, a <code>proposal</code> with no spec, a non-<code>proposal</code> turn carrying one, a turn
+   missing the <code>id</code>/<code>utterance</code> a caller needs to rewind or edit — each fails at this boundary
+   with the reason named, and applies per-turn to every turn in the response, not just the one
+   just taken. Mosaic is the only thing between an out-of-contract planning service and a UI; a
+   silent contract break is far harder to diagnose downstream than here.</li>
+</ol>
+<p>A corollary, from #200: where a response field carries authoritative state a caller is told to
+   adopt, <strong>absent and empty must stay distinguishable end to end</strong>. An omitted conversation means
+   "nothing was applied, keep your own"; an empty one means "the conversation is now empty". A
+   relay that coerces the former into the latter tells a compliant caller to discard state the
+   planner never touched — so absent stays absent, on success and failure paths alike.</p>
+<ol>
+<li>
+<p><strong>Every failure is a structured <code>error</code> turn, never a bare tool exception.</strong> Unreachable,
+   timed out, non-JSON body, the planner's own 4xx, or still-invalid-after-revalidation all come
+   back inside the same discriminated envelope the caller already branches on, with
+   <code>query_spec: null</code> and no <code>id</code> (an error is not a conversational step that can be rewound —
+   there is nothing to recompute). A chat UI has no structured way to render an exception beside
+   the turns it has already drawn.</p>
+</li>
+<li>
+<p><strong>Client-visible failures name the <em>role</em>, not the <em>address</em>.</strong> An <code>error</code> turn says "the
+   configured conversational planning service" and may carry the HTTP status class, but never
+   the endpoint URL, host, port, or the planner's response body verbatim. The full URL and the
+   upstream detail go to a server-side log line for operators instead. Rationale: per ADR-0009
+   this surface carries no authn/authz, so anything on an <code>error</code> turn is effectively public,
+   and the endpoint address is deployment topology. Operators keep their diagnostics; callers
+   get a stable, non-leaking classification.</p>
+</li>
+<li>
+<p><strong>It never executes.</strong> A validated <code>proposal</code> is handed back for a separate, explicit
+   <code>execute_query_spec</code> call once a human confirms it. ADR-0009's "the LLM never decides to
+   execute" holds for this tool too, and the read-only constraint of item 5 there is unchanged:
+   no write or mutation path is added here.</p>
+</li>
+<li>
+<p><strong>The wire contract is not Mosaic's to change.</strong> The request/response shape is Decision 8 of
+   <code>mosaic-demo-small</code>'s <code>add-exon-conversational-contract/design.md</code>. Mosaic implements it
+   faithfully and does not add, rename, or repurpose fields unilaterally — including fields
+   Mosaic would find useful (see Consequences on actor propagation). A change to the shape is an
+   amendment there first, then here.</p>
+</li>
+</ol>
+<h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p><strong>Mosaic makes an egress HTTP request when configured to.</strong> This is a deployment-shape change:
+  operators must now reason about outbound reachability, an outbound timeout
+  (<code>MOSAIC_EXON_TIMEOUT</code>, default 60s — sized for hosted-model latency so a hung turn fails
+  rather than hangs), and the availability of a service Mosaic does not own. With the env var
+  unset, Mosaic behaves exactly as before.</p>
+</li>
+<li>
+<p><strong>No new dependency.</strong> <code>httpx2</code> arrives with <code>mcp&gt;=2.1.1</code> (the MCP SDK's own HTTP client), so
+  the <code>mcp</code> extra is unchanged. Verified: <code>mcp</code> 2.1.1 and 2.2.0 both declare <code>httpx2&gt;=2.5.0</code>.
+  It is imported inside the tool, so the rest of the server keeps no import-time coupling to an
+  HTTP client it never uses.</p>
+</li>
+<li>
+<p><strong>The egress call carries no credential and no actor identity.</strong> Authn/authz remains issue #54
+  Part A. The deployment assumption that makes this acceptable — the planning service reachable
+  only from a trusted network segment, and Mosaic's MCP surface not publicly exposed while the
+  delegate is configured — is <strong>inherited from ADR-0009's existing no-authn posture, not
+  resolved here</strong>.</p>
+</li>
+<li>
+<p><strong>Unauthenticated cost amplification is a NEW exposure, not one inherited from ADR-0009.</strong>
+  ADR-0009 accepted that the MCP surface has "the same trust boundary (or lack thereof) as
+  REST/GraphQL today". That equivalence does not extend to this tool: a REST query costs
+  Mosaic's own CPU, whereas a relayed turn spends a hosted model invocation at a third party.
+  Anyone who can reach a configured Mosaic can therefore cause spend, with no attribution and no
+  quota anywhere in the path. This is stated explicitly so it is not filed under "same as REST".</p>
+</li>
+<li>
+<p><strong>Per-actor accounting across an egress hop is unspecified.</strong> <a href="../../sec8_auth_integration/">sec8</a>
+  settles the <em>inbound</em> story — Bridge validates credentials and injects <code>X-DataHelix-Actor</code>/
+  <code>-Roles</code>/<code>-Projects</code>; Mosaic trusts them and never holds signing keys (§8.1, §8.3); the audit
+  trail is deliberately split, with Bridge logging auth lifecycle and denials and Mosaic's
+  provenance logging data mutations, correlated by <code>request_id</code> (§8.6). sec8 contains no
+  counterpart for Mosaic acting as a <em>client</em> to a downstream paid service: it mentions neither
+  egress, quota, nor rate limiting, and predates the MCP transport entirely. Consequently Bridge,
+  once implemented, will know <em>who called Mosaic</em> but nothing will know <em>what Mosaic spent on
+  whose behalf</em>. <strong>The intended shape is §8.6's two-log correlation extended one hop</strong> — Bridge's
+  audit log for who called, the planning service's own log for what it cost, joined on a
+  correlation id — and the missing piece is that Mosaic currently drops the actor at the tool
+  boundary.</p>
+</li>
+<li>
+<p><strong>Actor propagation is mechanically available but deliberately not implemented here.</strong> The
+  actor does reach this boundary (the auth middleware is in the request path for the <code>/mcp/</code>
+  mount, and contextvars propagate into the worker thread where sync MCP tools run, so
+  <code>get_current_actor()</code> would work inside the tool), and the surface being read-only means
+  there are no provenance writes to carry it. Adding it to the outbound payload would require a
+  new field in a wire contract this repo does not own (Decision 7 above), so it is an amendment
+  in <code>mosaic-demo-small</code> first. Until Bridge verifies identity, any actor Mosaic forwarded would
+  be unverified, caller-supplied provenance — and per ADR-0009 item 5 it must never be presented
+  as authentication.</p>
+</li>
+<li>
+<p><strong>A validating relay is now a pattern with terms.</strong> Any future outbound delegate on this
+  surface (a Reel engine, another planner) inherits items 1–7 rather than renegotiating them.</p>
+</li>
+<li>
+<p><strong>CI now exercises this module.</strong> <code>tests/mcp/</code> was skipped on every CI run — the package
+  skips itself via <code>pytest.importorskip("mcp")</code> and no job installed that extra — so the MCP
+  transport had no CI coverage at all. The SQLite job now installs <code>[dev,graphql,mcp]</code>. This
+  mattered more for this tool than its predecessors: it is the first to depend on a third-party
+  HTTP client's exception hierarchy.</p>
+</li>
+</ul>
+<h2 id="alternatives-considered">Alternatives considered<a class="headerlink" href="#alternatives-considered" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p><strong>Import Exon into Mosaic (in-process planner).</strong> Rejected: drags <code>litellm</code> and a
+  provider-credential surface into <code>datahelix-mosaic</code>, which is meant to run <em>any</em> LinkML schema
+  and hold no model credentials. It would also couple Mosaic's release cycle to a demo repo's.</p>
+</li>
+<li>
+<p><strong>Let Aperture call Exon directly.</strong> Rejected: Aperture is a browser app with no backend, so
+  this means model credentials in the browser. This is the constraint that produced the issue.</p>
+</li>
+<li>
+<p><strong>A dedicated control-plane service between them.</strong> Rejected upstream by Aperture ADR-0032;
+  re-proposing it here would relitigate a settled decision in another component.</p>
+</li>
+<li>
+<p><strong>Trust the planner's own validation and pass proposals straight through.</strong> Rejected: makes
+  ADR-0009's validation guarantee a property of another repository's release cycle. The
+  in-process re-check costs one function call against an already-loaded manifest.</p>
+</li>
+<li>
+<p><strong>Raise MCP tool exceptions on failure instead of <code>error</code> turns.</strong> Rejected: a chat UI must
+  render a failure beside the turns it has already drawn, which needs the failure inside the
+  same discriminated envelope. Verified in #199: with the planner killed, the call returns
+  <code>is_error: False</code> at the protocol level plus a structured <code>error</code> turn.</p>
+</li>
+<li>
+<p><strong>Register the tool unconditionally and fail at call time when unconfigured.</strong> Rejected:
+  advertising a tool in <code>list_tools</code> that cannot work sends every client — human or LLM — down a
+  path that always fails. Absent is a better contract than broken.</p>
+</li>
+<li>
+<p><strong>Keep the endpoint URL and upstream body in client-visible error messages</strong> (as first
+  implemented in #199). Rejected per item 5: on a surface with no authn, that publishes
+  deployment topology and proxies an external service's raw text to any caller. The cost is
+  real — the planner's own 4xx names what disagreed, which is actionable — so the status class
+  is kept in the client message and the detail goes to the operator log rather than being
+  discarded.</p>
+</li>
+<li>
+<p><strong>Add an outbound bearer token (<code>MOSAIC_EXON_TOKEN</code>) in this change.</strong> Rejected <em>for now</em>, on
+  ordering grounds rather than merit: a credential is only meaningful once the planning service
+  validates it, so the requirement belongs at that service's ingress first (symmetric with sec8's
+  own philosophy, where the component owning the resource validates the caller). A header nobody
+  checks closes nothing while adding a credential to handle, redact, and test. See the Exon-side
+  follow-ups below.</p>
+</li>
+</ul>
+<h2 id="exon-side-follow-ups-not-mosaics-to-implement">Exon-side follow-ups (not Mosaic's to implement)<a class="headerlink" href="#exon-side-follow-ups-not-mosaics-to-implement" title="Permanent link">&para;</a></h2>
+<p>Recorded here so they can be picked up in <code>mosaic-demo-small</code> later. Nothing in this ADR depends
+on them; each makes a Consequence above less sharp.</p>
 <table>
 <thead>
 <tr>
-<th>ADR</th>
-<th>Decision</th>
-<th>Status</th>
+<th>#</th>
+<th>Change</th>
+<th>Why it is Exon's</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="ADR-0001-graph-level-as-of-query/">0001</a></td>
-<td>Graph-level / query-spanning as-of reconstruction</td>
-<td>✅ Accepted</td>
+<td>E1</td>
+<td><strong>Authenticate the conversational turn endpoint</strong> (require a shared secret or a Bridge-issued token, reject unauthenticated callers). Then, and only then, Mosaic sends it — a small additive change here (<code>MOSAIC_EXON_TOKEN</code>).</td>
+<td>The service owning the paid resource validates its callers. A token Mosaic sends that Exon does not check closes nothing. <strong>Assumption not verified:</strong> whether that endpoint has any auth today was not checked — <code>mosaic-demo-small</code> was out of scope for the session that produced this ADR. Confirm before treating E1 as outstanding.</td>
 </tr>
 <tr>
-<td><a href="ADR-0002-multivalued-reference-slots-as-relationships/">0002</a></td>
-<td>Multivalued reference slots persist as relationships (issue #79)</td>
-<td>🟡 Proposed</td>
+<td>E2</td>
+<td><strong>Amend Decision 8 to carry a caller identity and/or correlation id</strong> on the request (e.g. <code>actor</code>, <code>request_id</code>), so a turn can be attributed.</td>
+<td>The wire contract is Decision 8's, and Mosaic must not add fields to it unilaterally (Decision 7 above). Mosaic can populate it the day the contract has the field.</td>
 </tr>
 <tr>
-<td><a href="ADR-0003-polymorphic-tree-root-ingest/">0003</a></td>
-<td>Polymorphic tree-root ingest via <code>designates_type</code> dispatch (issue #80)</td>
-<td>🟡 Proposed</td>
+<td>E3</td>
+<td><strong>Log per-turn cost/usage against that identity</strong>, so the two-log correlation in sec8 §8.6 extends one hop.</td>
+<td>Only Exon sees the model invocation and its cost.</td>
 </tr>
 <tr>
-<td><a href="ADR-0004-rename-hippo-to-mosaic/">0004</a></td>
-<td>Rename the Hippo component to <strong>Mosaic</strong> (music/art naming convention; PyPI-saturation dissolved by platform ADR-0002)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0005-graphql-reference-emission-edge-only/">0005</a></td>
-<td>GraphQL reference emission is edge-only — logical-identity boundary (issue #131)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0006-graphql-typed-filter-contract/">0006</a></td>
-<td>The GraphQL filter contract is typed per-class input objects — not CEL on the wire (issue #153)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0007-aggregation-and-ordering-surface/">0007</a></td>
-<td>Aggregation &amp; ordering surface — count mode, facet counts, min/max, <code>order_by</code> (issue #154)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0008-postgres-per-class-tables-shared-sql-core/">0008</a></td>
-<td>Postgres storage converges to generated per-class typed tables + shared SQL core (issue #162)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0009-mcp-boundary-capability-manifest-queryspec/">0009</a></td>
-<td>Mosaic hosts an MCP boundary over a server-derived capability manifest and the QuerySpec artifact (issue #177)</td>
-<td>✅ Accepted</td>
-</tr>
-<tr>
-<td><a href="ADR-0010-mcp-outbound-delegation-to-a-planning-service/">0010</a></td>
-<td>The MCP boundary may delegate outbound to a planning service, as an untrusted planner behind a validating relay (issue #186)</td>
-<td>🟡 Proposed</td>
-</tr>
-<tr>
-<td><a href="ADR-0011-inverse-slots-as-virtual-reverse-edges/">0011</a></td>
-<td><code>inverse</code>-declared slots are virtual reverse edges over the forward FK — no storage of their own (issue #204)</td>
-<td>🟡 Proposed</td>
+<td>E4</td>
+<td><strong>Rate limiting / quota per caller</strong> at the endpoint.</td>
+<td>Addresses the cost-amplification Consequence at the point where spend actually happens; Mosaic cannot bound another service's spend.</td>
 </tr>
 </tbody>
 </table>
+<h2 id="notes-open-sub-questions">Notes / open sub-questions<a class="headerlink" href="#notes-open-sub-questions" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Status is <code>Proposed</code>.</strong> The implementation (#199) is complete and verified end to end, but
+  the terms above — particularly items 5 and 7, and the cost-amplification Consequence — were
+  settled during review of that PR and have not been ratified in a design session.</li>
+<li>Whether a future outbound delegate should share one env-var/timeout/logging convention (a
+  small <code>mosaic.mcp.delegate</code> helper) or keep per-tool config, once there is a second one. One
+  instance is not yet a pattern worth abstracting.</li>
+<li>Whether Mosaic should bound relay concurrency. Sync MCP tools run on the SDK's worker-thread
+  pool (<code>anyio.to_thread.run_sync</code>, default 40 slots), so a burst of slow turns is bounded but
+  shares that pool with every other tool on the surface. Not a problem at MVP scale; revisit
+  before a deployed multi-user chat.</li>
+<li>Actor propagation (E2 above) needs the sec8 vocabulary settled first: if it is carried as a
+  header rather than a payload field, <code>X-DataHelix-Actor</code> is the name sec8 §8.3 already uses,
+  and reusing it would make the relay slot into Bridge's model without a second convention.</li>
+</ul>
 
 
 
@@ -4001,10 +4248,10 @@ the <strong>Key Decisions Log</strong> of <a href="../INDEX/"><code>../INDEX.md<
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -4010,10 +4010,65 @@ scripting layer.</p>
 <li><strong>The Reel seam stays clean:</strong> Aperture owns the noun and its execution; Reel composes
   instances of it (sequencing, forking, watermark pinning per story-version, set-ops between
   states — Reel ADR-0001/0003). One query state here, stories there.</li>
-<li><strong>Export inherits anchor semantics:</strong> default CSV is one-row-per-anchor with aggregates;
+<li>
+<p><strong>Export inherits anchor semantics:</strong> default CSV is one-row-per-anchor with aggregates;
   explode is opt-in per path with the grain change and predicted row counts (once counts are
-  cheap) stated visibly; the existing capped page-through exporter is reused.</li>
+  cheap) stated visibly; the existing capped page-through exporter is reused.</p>
+</li>
+<li>
+<p><strong>Amendment (2026-09-11) — the artifact is spelled in platform LinkML vocabulary, and <code>v</code> stays
+  1.</strong> As first built, Aperture addressed the <code>anchor</code> by its own collection id (<code>"samples"</code>) and
+  prefixed forward edges <code>fwd:&lt;graphqlField&gt;</code>. That was a <strong>local dialect of a shared artifact</strong>,
+  and it had a concrete cost: a <code>QuerySpec</code> produced by the conversational planning service
+  (ADR-0039) names its anchor by LinkML class (<code>"Sample"</code>) and its edges by slot, so a proposal
+  could be displayed but never run. <code>anchor</code> is now the class name and a forward <code>edge</code> is the
+  reference slot's name; <code>slot</code> was already LinkML-spelled and is unchanged.</p>
+</li>
 </ul>
+<p><strong>The version is deliberately not bumped.</strong> <code>v: 1</code> is the <em>platform</em> wire version, not
+  Aperture's to change: Mosaic's parser hard-requires it and re-validates every candidate spec
+  through that parser, and the planner's own tool schema declares "Always 1." A <code>v: 2</code> would come
+  back <code>INVALID_QUERYSPEC_SHAPE</code>. Since both dialects therefore carry <code>v: 1</code>, the version cannot
+  discriminate them and <code>canonicalizeQuerySpec</code> reads <strong>content</strong> instead, in a stated precedence:
+  an anchor matching a typeName is already canonical (checked first), one matching a collection id
+  is legacy, and a <code>fwd:</code> prefix marks a legacy edge anywhere it appears (LinkML slot names contain
+  no colon). An anchor matching neither yields <code>null</code> and the caller degrades honestly (ADR-0029)
+  rather than running a half-translated query.</p>
+<p>Two scope notes, stated rather than implied. <strong>Reverse edges keep the Aperture-local
+  <code>rev:&lt;collectionId&gt;.&lt;field&gt;</code> key</strong>, because a reverse edge has no LinkML name until the schema
+  declares the inverting slot — which Mosaic ADR-0011 (<code>mosaic#204</code>) adds. Naming one now would
+  invent a vocabulary upstream has already settled differently, and
+  stripping the prefix would be wrong regardless: <code>rev:samples.donor</code> reduces to <code>donor</code>, a slot on
+  <code>Sample</code> rather than on the <code>Donor</code> anchor, colliding with the forward edge of the same name.
+  These keys never reach a server; they drive the client-side semijoin. And Aperture's shape
+  remains a documented <strong>subset</strong> of Mosaic's <code>QuerySpec</code>, which also carries <code>as_of</code> and <code>sort</code> —
+  a pre-existing gap this amendment does not close.</p>
+<p><strong>Correction (2026-09-22, ADR-0041): <code>mosaic#204</code> has merged.</strong> The sentence above read "and
+  which has not merged", which was true when written and is not now — <code>7fc300c</code> is on Mosaic's
+  <code>main</code>, tested across the QuerySpec compiler, GraphQL, MCP and both storage adapters, and a
+  deployment that declares <code>inverse: donor</code> gets <code>Donor.samples: [Sample!]!</code> plus
+  <code>DonorFilter.samples: SampleEdgeQuantifiers</code> with no Mosaic code change. The <code>rev:</code> key's
+  <em>rationale</em> survives intact, because it was never "upstream has not built this" but "upstream
+  will name it, so do not invent a name": the LinkML <code>inverse</code> slot name is now that name, and a
+  <code>rev:</code> key still reduces ambiguously (<code>rev:samples.donor</code> → <code>donor</code>, a slot on <code>Sample</code>, not on
+  the <code>Donor</code> anchor). What changed is only the horizon — the key is now a <em>migration</em> target
+  rather than a placeholder for something unbuilt. Two caveats keep it in place for now: no tag
+  contains <code>7fc300c</code> (Mosaic's latest is <code>v0.13.0</code>, which certification pins), and no deployment
+  LinkML declares an <code>inverse:</code> slot yet.</p>
+<ul>
+<li><strong>Amendment (2026-09-22) — <code>columns</code> is built by ADR-0041, split in two.</strong> The <code>columns</code> field
+  this ADR reserved is two decisions with different owners, separated by the test <em>does changing
+  it change the row set?</em> Traversal and grain (<code>explode</code>) stay here, in the artifact; visibility
+  and order become a view-side <code>ColumnView</code> that never reaches a server. See
+  <a href="../ADR-0041-referenced-class-slots-projection-vs-presentation/">ADR-0041</a>, which also records
+  why the field went unbuilt for a year: bound together, the explode half needed a server compiler
+  (Mosaic still answers <code>COLUMNS_NOT_SUPPORTED</code>) and the visibility half needed nothing, so
+  neither shipped.</li>
+</ul>
+<p>The only persisted specs are URLs. Saved views (ADR-0032) carry <code>collection/page/q/filters/sort</code>
+  and never a <code>QuerySpec</code>, so the migration surface is bookmarked and shared links, not stored
+  documents — narrower than <code>add-aperture-chat-panel</code> task 4.1 assumed when it called for "a
+  tolerant v1 read for existing saved views."</p>
 <h2 id="alternatives-considered">Alternatives considered<a class="headerlink" href="#alternatives-considered" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Client-side join/filter compensation as the primary strategy</strong> (Rev 1 of the

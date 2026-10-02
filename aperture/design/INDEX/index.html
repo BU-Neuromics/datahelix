@@ -4371,31 +4371,37 @@ a status flip to <code>Accepted</code>, not a new document. Decisions are never 
 <tr>
 <td><a href="../decisions/ADR-0022-data-story-is-an-instruction-path/">0022</a></td>
 <td>A data story is an instruction path → typed subgraph states + artifacts</td>
-<td>⛔ Deferred (MVP)</td>
+<td>⤳ Superseded by <a href="https://github.com/BU-Neuromics/reel/blob/main/design/decisions/ADR-0001-data-story-is-an-instruction-path.md">Reel ADR-0001</a> (2026-06-22 split)</td>
 <td>instruction-path-model.md (D-1)</td>
 </tr>
 <tr>
 <td><a href="../decisions/ADR-0023-data-story-reproducibility-as-of-watermark/">0023</a></td>
 <td>Reproducibility: one as-of watermark per story-version; "pull new data" = recorded watermark-advance</td>
-<td>⛔ Deferred (MVP)</td>
+<td>⤳ Superseded by <a href="https://github.com/BU-Neuromics/reel/blob/main/design/decisions/ADR-0002-data-story-reproducibility-as-of-watermark.md">Reel ADR-0002</a> (2026-06-22 split)</td>
 <td>instruction-path-model.md (D-2)</td>
 </tr>
 <tr>
 <td><a href="../decisions/ADR-0024-instruction-path-linear-first-general-schema/">0024</a></td>
 <td>Topology: general <code>parents</code>-list schema now, linear-only validator in v1</td>
-<td>⛔ Deferred (MVP)</td>
+<td>⤳ Superseded by <a href="https://github.com/BU-Neuromics/reel/blob/main/design/decisions/ADR-0003-instruction-path-linear-first-general-schema.md">Reel ADR-0003</a> (2026-06-22 split)</td>
 <td>instruction-path-model.md (D-3)</td>
 </tr>
 <tr>
 <td><a href="../decisions/ADR-0025-mid-path-edit-recompute-with-suspend/">0025</a></td>
 <td>Mid-path edits recompute downstream + suspend-on-invalid (not discard)</td>
-<td>⛔ Deferred (MVP)</td>
+<td>⤳ Superseded by <a href="https://github.com/BU-Neuromics/reel/blob/main/design/decisions/ADR-0004-mid-path-edit-recompute-with-suspend.md">Reel ADR-0004</a> (2026-06-22 split)</td>
 <td>instruction-path-model.md (D-5)</td>
+</tr>
+<tr>
+<td><a href="../decisions/ADR-0026-headless-core-thin-shell/">0026</a></td>
+<td>Aperture is a headless interaction core + a thin, replaceable shell (<strong>number later reused</strong> by the portal-first-MVP ADR below; cite <strong>Reel ADR-0005</strong> for this decision)</td>
+<td>⤳ Superseded by <a href="https://github.com/BU-Neuromics/reel/blob/main/design/decisions/ADR-0005-headless-core-thin-shell.md">Reel ADR-0005</a> (2026-06-22 split)</td>
+<td>vision.md reframe; ADR-0014</td>
 </tr>
 <tr>
 <td><a href="../decisions/ADR-0026-portal-first-mvp-defer-agentic-surfaces/">0026</a></td>
 <td>Portal-first MVP; defer agentic, agent-assist &amp; schema-editing surfaces</td>
-<td>✅ Accepted</td>
+<td>✅ Accepted (number <strong>reused</strong> — see the superseded 0026 row above)</td>
 <td>portal-requirements L1/L13/L14</td>
 </tr>
 <tr>
@@ -4430,8 +4436,8 @@ a status flip to <code>Accepted</code>, not a new document. Decisions are never 
 </tr>
 <tr>
 <td><a href="../decisions/ADR-0032-control-plane-document-store/">0032</a></td>
-<td>Control-plane state = versioned <code>{kind,name,payload}</code> documents on a structurally-recognized Hippo collection; honest local fallback; retire-not-delete</td>
-<td>✅ Accepted</td>
+<td>Control-plane state = versioned <code>{kind,name,payload}</code> documents on a structurally-recognized Hippo collection; honest local fallback; retire-not-delete. <strong>Amended 2026-08-28:</strong> documents carry <code>owner</code>+<code>visibility</code>, upsert key <code>(owner, kind, name)</code>, owner-only writes; Aperture presents, Mosaic enforces</td>
+<td>✅ Accepted (amended — ownership)</td>
 <td>Phase 4 (PR #14); refines ADR-0017</td>
 </tr>
 <tr>
@@ -4448,8 +4454,8 @@ a status flip to <code>Accepted</code>, not a new document. Decisions are never 
 </tr>
 <tr>
 <td><a href="../decisions/ADR-0035-cross-class-queries-typed-queryspec/">0035</a></td>
-<td>Cross-class queries are a typed <strong>QuerySpec</strong> artifact — anchor grain, capability-gated operators, quantified relationship criteria, server-first planner with declared semijoin compensation</td>
-<td>✅ Accepted</td>
+<td>Cross-class queries are a typed <strong>QuerySpec</strong> artifact — anchor grain, capability-gated operators, quantified relationship criteria, server-first planner with declared semijoin compensation. <strong>Amended 2026-09-22:</strong> <code>columns</code> is specified by ADR-0041 (traversal/grain here, visibility view-side) and projected client-side until Mosaic compiles it; the <code>rev:</code>-key note's "mosaic#204 has not merged" is corrected</td>
+<td>✅ Accepted (amended — columns)</td>
 <td><code>cross-class-query.md</code> §5–§10; Mosaic ADR-0006/0007; portal req X1/X5; issue #46</td>
 </tr>
 <tr>
@@ -4464,17 +4470,41 @@ a status flip to <code>Accepted</code>, not a new document. Decisions are never 
 <td>🟡 Proposed</td>
 <td><code>cross-class-query.md</code> §8; mosaic#158</td>
 </tr>
+<tr>
+<td><a href="../decisions/ADR-0038-identity-is-presentation-not-enforcement/">0038</a></td>
+<td>Aperture presents an identity it is given; it never authenticates, holds no token, enforces nothing</td>
+<td>✅ Accepted</td>
+<td>2026-08-28; fills ADR-0032's viewer seam; platform ADR-0006 supplies the identity</td>
+</tr>
+<tr>
+<td><a href="../decisions/ADR-0039-conversational-query-panel-capability-gated/">0039</a></td>
+<td>Conversational query panel — additive, gated on an introspected <code>converseQuerySpec</code>; Aperture hosts no agent loop, so ADR-0021/0026 stand unreversed</td>
+<td>✅ Accepted</td>
+<td>2026-09-11 (ratified 2026-09-17, aperture#60); Mosaic <code>converse_query_spec</code> (mosaic#186, PR #199); <code>mosaic-demo-small</code> <code>add-aperture-chat-panel</code></td>
+</tr>
+<tr>
+<td><a href="../decisions/ADR-0040-visual-system-type-colour-and-chrome/">0040</a></td>
+<td>Visual system: colour carries type identity app-wide (one palette, one hash); chrome is deep ink and distinct from light content surfaces; depth/motion systemic in tokens</td>
+<td>🟡 Proposed</td>
+<td>2026-09-11; promotes ADR-0037's graph palette out of the canvas; no new deps (ADR-0030)</td>
+</tr>
+<tr>
+<td><a href="../decisions/ADR-0041-referenced-class-slots-projection-vs-presentation/">0041</a></td>
+<td>Referenced-class values in the result table are <strong>two</strong> decisions, separated by “does changing it change the row set?”: traversal + grain are query semantics (destined for <code>QuerySpec.columns</code>, server-compilable); visibility/order is view state. <strong>Corrected 2026-09-25:</strong> the split is currently semantic — one <code>PathColumn[]</code> in component state carries both; the artifacts separate when either half first needs to persist. Forward to-one/to-many ship client-side now; reverse gates on a declared <code>inverse:</code> slot</td>
+<td>🟡 Proposed</td>
+<td>2026-09-22; builds the <code>columns</code> field ADR-0035 reserved; Mosaic ADR-0011 verified merged (mosaic#204) — reverse traversal is a schema-authoring act, not a blocker; certification fixture v1.0.0 cannot test explode; issue #65, umbrella datahelix#93</td>
+</tr>
 </tbody>
 </table>
 <h2 id="decision-queue-open-resolve-in-dependency-order">Decision Queue (open — resolve in dependency order)<a class="headerlink" href="#decision-queue-open-resolve-in-dependency-order" title="Permanent link">&para;</a></h2>
 <p>Per <code>portal-open-questions.md</code>, resolve <strong>ADR-0010 → 0011 → 0012 → 0013</strong>; ADR-0014 follows
 0011 (the runtime/Pyodide weight changes the SSR-vs-SPA tradeoff), and ADR-0015 follows
 0010/0014. ADR-0010 (the typed view vocabulary) is what the platform <strong>View Contract</strong>
-(<code>drylims:platform/design/view-contract.md</code>) now absorbs as a shared rendering standard.</p>
+(<code>datahelix:platform/design/view-contract.md</code>) now absorbs as a shared rendering standard.</p>
 <blockquote>
 <p><strong>Relocated to Reel (2026-06-22 split).</strong> The agentic <strong>keystone probe</strong> — <em>"can an LLM drive a
 typed declarative artifact through a validator to a correct change?"</em> — and its survival-curve
-exemplar now belong to <strong>Reel</strong> (<code>drylims:platform/design/decisions/ADR-0001</code>); they are no
+exemplar now belong to <strong>Reel</strong> (DataHelix platform ADR-0003 — <code>datahelix:platform/design/decisions/ADR-0003-reel-data-story-engine-separate-from-portal.md</code>); they are no
 longer Aperture's gating "next action." Aperture's queue is the portal-rendering decisions
 above.</p>
 </blockquote>
