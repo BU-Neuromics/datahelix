@@ -13,12 +13,11 @@ import { gql, gqlContext } from "../support/graphql";
 // What this does NOT do: assert anything about Aperture's result-table UI
 // (a to-one column with no repetition, an exploded to-many repeating anchor
 // rows with its grain stated on screen, CSV parity). That is Aperture
-// ADR-0041 / aperture#65 — still a Proposed ADR pending ratification, with no
-// referenced-column display shipped yet (Aperture's `renderCell` only ever
-// prints a ref's id or a refList's count today). Asserting on DOM that
-// doesn't exist yet would just be a scenario that fails until someone ships
-// unrelated frontend work — the fixture and the UI golden path are tracked
-// separately on purpose. Add the UI scenario here once aperture#65 ships.
+// ADR-0041 / aperture#65, which HAS now shipped — aperture#70, released
+// v0.6.0, Accepted 2026-10-02 — so the reason this file gives for stopping at
+// the GraphQL seam no longer holds. The UI scenario this comment asked for is
+// now writable and is the open work here; the DOM it would assert on exists
+// in the certified pin (`aperture-0.6.0+mosaic-0.14.0`, fixture 1.1.0).
 
 test("Book.co_authors (forward to-many) and Author.books (inverse reverse edge) are queryable", async ({}) => {
   const ctx = await gqlContext();
