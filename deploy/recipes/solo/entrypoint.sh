@@ -18,8 +18,9 @@ set -eu
 
 PROJECT=/project
 
-# The certified frontier now pins Mosaic ≥0.12.0 (ADR-0004 rename shipped),
-# so the CLI is `mosaic`.
+# The CLI is `mosaic` (ADR-0004 rename shipped); every certified frontier since
+# 0.12.0 carries it. Deliberately not naming the current pin — that lives in
+# composition.lock.json, which is gated; a version in a comment is not.
 MOSAIC_BIN=mosaic
 export MOSAIC_BIN
 
