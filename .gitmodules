@@ -4,3 +4,6 @@
 [submodule "aperture"]
 	path = aperture
 	url = https://github.com/BU-Neuromics/aperture.git
+[submodule "reel"]
+	path = reel
+	url = https://github.com/BU-Neuromics/reel.git

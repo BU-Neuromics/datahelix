@@ -16,7 +16,7 @@ This repository hosts the DataHelix platform: documentation, cross-component int
 | **Cappella** | Workflow engine | in-tree | [design/](cappella/design/INDEX.md) | [docs/](cappella/docs/introduction.md) |
 | **Aperture** | AI-native data & workflow explorer (config-driven portal = substrate) | [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture) (submodule) | [design/](aperture/design/INDEX.md) | — |
 | **Bridge** | Integration middleware | in-tree | [design/](bridge/design/INDEX.md) | [docs/](bridge/docs/introduction.md) |
-| **Reel** | AI-native data-story engine (headless; composes QuerySpec states into replayable stories) — design only; split from Aperture per [platform ADR-0003](platform/design/decisions/ADR-0003-reel-data-story-engine-separate-from-portal.md) | [BU-Neuromics/reel](https://github.com/BU-Neuromics/reel) (not yet mounted as a submodule) | [design/](https://github.com/BU-Neuromics/reel/blob/main/design/INDEX.md) | — |
+| **Reel** | AI-native data-story engine (headless; composes QuerySpec states into replayable stories) — turn path carried from Exon (Reel ADR-0008); harness migration outstanding; split from Aperture per [platform ADR-0003](platform/design/decisions/ADR-0003-reel-data-story-engine-separate-from-portal.md) | [BU-Neuromics/reel](https://github.com/BU-Neuromics/reel) (submodule: `reel/`) | [design/](https://github.com/BU-Neuromics/reel/blob/main/design/INDEX.md) | — |
 
 ## Platform Documentation
 

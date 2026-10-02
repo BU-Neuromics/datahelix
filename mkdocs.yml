@@ -132,6 +132,13 @@ nav:
           - Index: aperture/design/INDEX.md
           - Portal Vision (Handoff): aperture/design/portal-vision-handoff.md
           - Open Questions: aperture/design/portal-open-questions.md
+  - Reel:
+      - reel/index.md
+      - Design:
+          - Index: reel/design/INDEX.md
+          - Vision: reel/design/vision.md
+          - Instruction-Path Model: reel/design/instruction-path-model.md
+          - Platform Alignment: reel/design/platform-alignment.md
   - Bridge:
       - bridge/index.md
       - User Docs:
