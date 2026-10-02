@@ -22,7 +22,25 @@ tests/
 
 **Components:** Mosaic (formerly Hippo, ADR-0004; LinkML runtime — the platform's structured domain graph; metadata tracking is one application — submodule at [BU-Neuromics/mosaic](https://github.com/BU-Neuromics/mosaic)), Cappella (workflow engine), Aperture (interface layer — AI-native data & workflow explorer; the config-driven portal is its substrate — submodule at [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture)), Bridge (integration middleware / auth gateway — the platform's sole PEP/PDP). Hippo was split out 2026-05-25 (see `proposals/hippo-split.md`); Aperture was split out 2026-06-13 as a fresh start carrying only the Hippo backend protocol + portal design (see `proposals/aperture-split.md`). The remaining in-tree components are expected to follow the same pattern.
 
-**Working with submodules:** Clone with `git clone --recurse-submodules`. To bump a submodule's pinned version: `git submodule update --remote <mosaic|aperture>`, verify, then commit the submodule pointer change.
+**Working with submodules:** Clone with `git clone --recurse-submodules`.
+
+1. Work starts in `datahelix/`. `git submodule status` shows the commit each component is pinned at.
+2. To change a component, `cd datahelix/<component>`, create a branch (submodules sit on a
+   detached HEAD at the pinned tag), commit, push, open the PR **in that component's repo**.
+3. After the component releases, bump the pin in datahelix: in `datahelix/<component>`
+   `git checkout <tag>`, then in `datahelix/` `git add <component>` and commit
+   ("Bump <component> to vX.Y.Z"), PR to datahelix.
+4. Never edit a component and leave it uncommitted inside datahelix — the parent repo only
+   records the commit pointer.
+
+## GitHub
+
+- Orgs: **BU-Neuromics** (datahelix, mosaic, aperture, reel, mosaic-demo-small,
+  linkml-data-gen) and **VA-NCPTSDBB-Bioinformatics** (brainbank-hippo-schema, docs site,
+  ncptsdbb-db-app).
+- File issues in the repo that owns the code; cross-component work gets a datahelix umbrella
+  issue linking the component issues (the #93 pattern).
+- Never force-push; never push straight to `main` — branch + PR.
 
 ## Key Conventions
 
