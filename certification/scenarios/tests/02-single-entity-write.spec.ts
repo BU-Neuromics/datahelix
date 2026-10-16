@@ -2,7 +2,7 @@ import { test, expect } from "../support/fixtures";
 import { newEntityFormUrl, sel, waitForApp, collectionUrl } from "../support/app";
 import { countCollection, gqlContext } from "../support/graphql";
 
-// GOLDEN PATH 2 of 4 — SINGLE-ENTITY WRITE
+// GOLDEN PATH 2 of 5 — SINGLE-ENTITY WRITE
 // Seam exercised: create mutation derived from the entity's input type
 // (Aperture ADR-0027 write portal; form model from schemaModel.deriveWriteModel).
 // Proves: the SPA renders a create form from introspection, submits a single

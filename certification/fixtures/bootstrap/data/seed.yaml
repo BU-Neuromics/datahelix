@@ -1,4 +1,4 @@
-# DataHelix certification — seed data bundle (fixture v1.1.0)
+# DataHelix certification — seed data bundle (fixture v1.2.0)
 #
 # Tree-root bundle format (hippo ingest --file): top-level keys are pluralized
 # class-name accessors; values are lists of instance dicts; identity is by `id`
@@ -8,6 +8,9 @@
 #     --validate-schema schema/   # validates against portal_schema + control plane
 #
 # Reference slots (`author`, `book`) carry the referenced instance's `id`.
+# `dimensions` (1.2.0) is an inlined value object, written inline as a mapping —
+# it has no id of its own and is not a collection. Both Austen titles carry one,
+# so an Author → books "list them" column lists two structured values.
 # `co_authors` (multivalued, stored) carries a list of Author ids — a real
 # to-many forward reference (Aperture ADR-0041 explode target). `Author.books`
 # is NOT seeded here: it is a virtual reverse edge derived from `Book.author`
@@ -40,6 +43,7 @@ books:
     format: hardcover
     in_print: true
     year: 1813
+    dimensions: {height_cm: 19.8, width_cm: 12.9}
   - id: book-emma
     is_available: true
     title: Emma
@@ -47,6 +51,7 @@ books:
     format: paperback
     in_print: true
     year: 1815
+    dimensions: {height_cm: 19.8, width_cm: 12.9}
   - id: book-left-hand
     is_available: true
     title: The Left Hand of Darkness
@@ -68,6 +73,7 @@ books:
     format: audiobook
     in_print: true
     year: 1937
+    dimensions: {height_cm: 20.3, width_cm: 13.5}
     co_authors: [author-austen, author-leguin]
     # co_authors gives explode two members from one anchor (a declared grain
     # change, 128→342-style) sitting alongside the unexploded `author`

@@ -2,7 +2,7 @@ import { test, expect } from "../support/fixtures";
 import { workflowUrl, sel } from "../support/app";
 import { countCollection, gqlContext } from "../support/graphql";
 
-// GOLDEN PATH 3 of 4 — ATOMIC MULTI-ENTITY WORKFLOW (the batch unit-of-work seam)
+// GOLDEN PATH 3 of 5 — ATOMIC MULTI-ENTITY WORKFLOW (the batch unit-of-work seam)
 // Seam exercised: `batchPut` / batch unit-of-work (Aperture ADR-0028; Hippo #84).
 // Proves the load-bearing cross-component contract: a guided workflow STAGES a
 // linked set (Author → Book → Review, the Book/Review referencing the

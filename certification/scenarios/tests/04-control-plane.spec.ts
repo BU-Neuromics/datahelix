@@ -2,7 +2,7 @@ import { test, expect, emulateGraphqlProxy } from "../support/fixtures";
 import { collectionUrl, sel, waitForApp } from "../support/app";
 import { gql, gqlContext } from "../support/graphql";
 
-// GOLDEN PATH 4 of 4 — CONTROL-PLANE SAVED VIEWS / DRAFTS
+// GOLDEN PATH 4 of 5 — CONTROL-PLANE SAVED VIEWS / DRAFTS
 // Seam exercised: the Aperture control-plane document type (Aperture ADR-0032) —
 // `{kind,name,payload}` documents on a structurally-recognized Hippo collection.
 // Proves: with the ApertureDocument recipe seeded, a saved view is persisted

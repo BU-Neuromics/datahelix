@@ -2,7 +2,7 @@ import { test, expect } from "../support/fixtures";
 import { gql, gqlContext } from "../support/graphql";
 
 // FIXTURE CAPABILITY CHECK (not a fifth golden-path UI loop) — reference
-// traversal, fixture v1.1.0.
+// traversal, fixture v1.1.0 (still holds in 1.2.0).
 //
 // Verifies at the GraphQL seam only, deliberately: Book.co_authors (a real
 // stored multivalued forward reference) and Author.books (an `inverse:`-
@@ -10,14 +10,11 @@ import { gql, gqlContext } from "../support/graphql";
 // the certified pin. This is what BU-Neuromics/datahelix#92 asked the fixture
 // to make possible.
 //
-// What this does NOT do: assert anything about Aperture's result-table UI
-// (a to-one column with no repetition, an exploded to-many repeating anchor
-// rows with its grain stated on screen, CSV parity). That is Aperture
-// ADR-0041 / aperture#65, which HAS now shipped — aperture#70, released
-// v0.6.0, Accepted 2026-10-02 — so the reason this file gives for stopping at
-// the GraphQL seam no longer holds. The UI scenario this comment asked for is
-// now writable and is the open work here; the DOM it would assert on exists
-// in the certified pin (`aperture-0.6.0+mosaic-0.14.0`, fixture 1.1.0).
+// The result-table UI over these same edges (a to-one column with no
+// repetition, an exploded to-many repeating anchor rows with its grain stated
+// on screen, CSV/JSON parity) is certified by 06-result-table.spec.ts
+// (Aperture ADR-0041, BU-Neuromics/datahelix#107). This file stays as the
+// transport-level check underneath it.
 
 test("Book.co_authors (forward to-many) and Author.books (inverse reverse edge) are queryable", async ({}) => {
   const ctx = await gqlContext();

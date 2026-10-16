@@ -11,7 +11,7 @@
 # (fixture_version) — changing the fixture is a suite change and re-certifies.
 
 name: datahelix-certification-bootstrap
-version: 1.1.0            # keep in sync with ./VERSION
+version: 1.2.0            # keep in sync with ./VERSION
 schema_min_hippo_core: 0.6.0   # hippo_core version these classes were authored against
 
 provides:
@@ -52,6 +52,14 @@ golden_path_loops:
     Book.co_authors (stored multivalued forward ref) and Author.books
     (inverse:-declared reverse edge) — added in 1.1.0 so explode/reverse
     traversal (Aperture ADR-0041, mosaic ADR-0011) are certifiable. Verified
-    at the GraphQL seam (certification/scenarios/tests/05-reference-traversal.spec.ts);
-    no golden-path UI scenario yet — Aperture's referenced-column display
-    ships in aperture#65, currently a Proposed ADR-0041 pending ratification.
+    at the GraphQL seam (certification/scenarios/tests/05-reference-traversal.spec.ts)
+    and through the UI (06-result-table.spec.ts).
+  query_result_table: >-
+    Referenced-class columns in the query result table (Aperture ADR-0041):
+    Book.author (to-one), Book.co_authors (how many / list them / one row each,
+    grain stated on screen), Author.books (reverse edge), the un-advertised
+    Book → Review reverse edge listed with its reason, CSV/JSON export at the
+    screen's grain, and a saved query view (aperture#81/#84). Book.dimensions
+    (an inlined value object, added in 1.2.0) certifies that structured values
+    and references read through a list are text on screen and in every export,
+    never "[object Object]" (aperture#82). certification/scenarios/tests/06-result-table.spec.ts.

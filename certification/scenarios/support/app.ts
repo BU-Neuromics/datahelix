@@ -19,6 +19,16 @@ export function workflowUrl(workflowId: string): string {
   return `/?${new URLSearchParams({ workflow: workflowId }).toString()}`;
 }
 
+// The query builder (Aperture ADR-0035/0041). `qs` is the executed QuerySpec
+// and `cols` the column choices -- together they are the shareable state a
+// saved query view stores (aperture#75, #81).
+export function queryUrl(qs?: object, cols?: object): string {
+  const p = new URLSearchParams({ view: "query" });
+  if (qs) p.set("qs", JSON.stringify(qs));
+  if (cols) p.set("cols", JSON.stringify(cols));
+  return `/?${p.toString()}`;
+}
+
 // --- Resilient locators ------------------------------------------------------
 // Centralized so that when the built SPA's DOM firms up (aperture#15/#16) only
 // this file changes. Each locator prefers a data-testid, then falls back to an
@@ -82,6 +92,38 @@ export const sel = {
 
   workflowSuccess: (p: Page): Locator =>
     p.getByTestId("workflow-success").or(p.getByText(/committed|created|success/i)).first(),
+
+  // --- Query builder + result table (Aperture ADR-0041) ---------------------
+  queryAnchor: (p: Page): Locator => p.getByTestId("query-anchor"),
+  queryRun: (p: Page): Locator => p.getByTestId("query-run"),
+  queryResults: (p: Page): Locator => p.getByTestId("query-results"),
+  queryTable: (p: Page): Locator => p.getByTestId("query-results").getByRole("table"),
+  // "6 matching books" -- counts ANCHORS, whatever the table's grain.
+  queryTotal: (p: Page): Locator =>
+    p.getByTestId("query-results").getByRole("status").filter({ hasText: /matching/i }).first(),
+  // "Exploded by … — N rows from M <anchors> on this page" (ADR-0041 item 6).
+  queryGrain: (p: Page): Locator => p.getByTestId("query-grain"),
+  fieldsButton: (p: Page): Locator =>
+    p.getByTestId("query-results").getByRole("button", { name: /^Fields/ }),
+  // One "Through a reference" link group in the Fields panel, by its label
+  // (e.g. "its co authors"). Its toggle is the group's first button.
+  referenceLink: (p: Page, label: RegExp): Locator =>
+    p.getByTestId("fields-related-edge").filter({ hasText: label }).first(),
+  // A link the endpoint offers only as a filter: listed with its reason, never
+  // silently absent (Aperture ADR-0029).
+  gatedReferenceLink: (p: Page, label: RegExp): Locator =>
+    p.getByTestId("fields-related-gated").filter({ hasText: label }).first(),
+  // A field row inside a link group, found by its checkbox's accessible name.
+  // (Row text grows once a list link's mode choices appear, so match the
+  // checkbox, not the text.)
+  referenceField: (group: Locator, field: string): Locator =>
+    group.getByRole("listitem").filter({
+      has: group.page().getByRole("checkbox", { name: field, exact: true }),
+    }),
+  exportButton: (p: Page, kind: "CSV" | "JSON"): Locator =>
+    p.getByTestId("query-results").getByRole("button", { name: `Export ${kind}` }),
+  exportNote: (p: Page): Locator =>
+    p.getByTestId("query-results").getByRole("status").filter({ hasText: /^Exported/ }).first(),
 };
 
 // Wait for the SPA shell + first data render. The SPA derives its capabilities
