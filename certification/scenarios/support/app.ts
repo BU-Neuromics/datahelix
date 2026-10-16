@@ -122,6 +122,14 @@ export const sel = {
     }),
   exportButton: (p: Page, kind: "CSV" | "JSON"): Locator =>
     p.getByTestId("query-results").getByRole("button", { name: `Export ${kind}` }),
+  // The page's areas (aperture 0.7.1, #85): the Fields panel opened over a
+  // result, the table's own scroll box, and the pager under it.
+  fieldsPanel: (p: Page): Locator =>
+    p.getByTestId("query-results").getByTestId("fields-panel")
+      .or(p.getByTestId("query-results").getByRole("region", { name: "Fields" })).first(),
+  queryTableBox: (p: Page): Locator => p.getByTestId("query-table-scroll"),
+  queryPager: (p: Page): Locator =>
+    p.getByTestId("query-results").getByRole("button", { name: "Previous" }),
   exportNote: (p: Page): Locator =>
     p.getByTestId("query-results").getByRole("status").filter({ hasText: /^Exported/ }).first(),
 };

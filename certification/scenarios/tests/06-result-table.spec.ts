@@ -26,7 +26,10 @@ import { gql, gqlContext } from "../support/graphql";
 //     1.2.0) and a reference read through a list read as TEXT on screen and in
 //     every export — never "[object Object]" (aperture#82);
 //   - a query saved as a view persists server-side and reopens, in a fresh
-//     browser context, with its columns.
+//     browser context, with its columns;
+//   - with the Fields panel open over a result, the panel, the table and the
+//     pager each keep their own area — nothing paints over the table
+//     (aperture#85, 0.7.1).
 //
 // Fixture rows (fixtures/bootstrap/data/seed.yaml): The Hobbit (author Tolkien,
 // co_authors Austen + Le Guin, dimensions 20.3 × 13.5); Austen wrote Pride and
@@ -112,6 +115,23 @@ test("Books with linked authors: to-one, how many / list them / one row each, an
       expect(row["Dimensions"]).toMatch(/height_cm: 20\.3/);
     }
     await expect(table).not.toContainText(LEAK);
+  });
+
+  await test.step("the Fields panel, the table and the pager each keep their own area", async () => {
+    // With both reference groups expanded the Fields panel is at its tallest.
+    // Before aperture#85 its content painted over the table and the pager;
+    // now each sits in its own box, top to bottom, with no overlap.
+    // (Before #85 the panel was squeezed to zero height — so not even
+    // "visible" — while its content spilled over the table.)
+    await expect(sel.fieldsPanel(page), "the Fields panel has no area of its own").toBeVisible();
+    const fields = (await sel.fieldsPanel(page).boundingBox())!;
+    const tableTop = (await sel.queryTable(page).boundingBox())!;
+    expect(fields.y + fields.height, "the Fields panel overlaps the results table").toBeLessThanOrEqual(tableTop.y + 0.5);
+    // The table scrolls inside its own box, which ends above the pager.
+    await expect(sel.queryTableBox(page)).toBeVisible();
+    const box = (await sel.queryTableBox(page).boundingBox())!;
+    const pager = (await sel.queryPager(page).boundingBox())!;
+    expect(box.y + box.height, "the results table overlaps the pager").toBeLessThanOrEqual(pager.y + 0.5);
   });
 
   await test.step("CSV export carries the screen's columns at the screen's grain", async () => {
