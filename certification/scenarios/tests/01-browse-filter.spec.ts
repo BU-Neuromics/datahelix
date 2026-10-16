@@ -1,7 +1,7 @@
 import { test, expect } from "../support/fixtures";
 import { collectionUrl, sel, waitForApp } from "../support/app";
 
-// GOLDEN PATH 1 of 4 — BROWSE / FILTER
+// GOLDEN PATH 1 of 5 — BROWSE / FILTER
 // Collection ids are the introspected Query field names (aperture 0.2.0).
 // Seams exercised: introspection enrichment + filter SDL (Aperture ADR-0029/0030).
 // Proves: the SPA introspects the booted Mosaic, renders the Book collection,

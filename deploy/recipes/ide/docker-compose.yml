@@ -127,7 +127,7 @@ services:
   # The image injects its runtime config at start from VITE_* env (ADR-0034).
   aperture:
     profiles: [aperture-image]
-    image: ghcr.io/bu-neuromics/aperture:${APERTURE_VERSION:-0.7.0}
+    image: ghcr.io/bu-neuromics/aperture:${APERTURE_VERSION:-0.7.1}
     environment:
       VITE_HIPPO_GRAPHQL_URL: ${VITE_HIPPO_GRAPHQL_URL:-/graphql}
       VITE_HIPPO_CONTROL_PLANE_URL: ${VITE_HIPPO_CONTROL_PLANE_URL:-}

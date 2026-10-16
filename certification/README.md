@@ -54,10 +54,15 @@ it does, this suite is the only seam check.**
 | Single-entity write | `scenarios/tests/02-single-entity-write.spec.ts` | create mutation |
 | Atomic multi-entity workflow | `scenarios/tests/03-atomic-workflow.spec.ts` | batch unit-of-work |
 | Control-plane saved views / drafts | `scenarios/tests/04-control-plane.spec.ts` | control-plane document type |
+| Query result table (referenced-class columns, structured values, CSV/JSON export, saved query view) | `scenarios/tests/06-result-table.spec.ts` | ADR-0041 traversal columns over nested reference selections |
 
-The numeric prefixes pin Playwright's execution order to the documented 1→4
-sequence: browse/filter asserts the pristine seeded fixture (5 Books), so it
-must run before the write and workflow loops add rows.
+`05-reference-traversal.spec.ts` is a fixture capability check at the GraphQL
+seam, not a product loop; 06 certifies the same edges through the UI.
+
+The numeric prefixes pin Playwright's execution order (01→06): browse/filter
+asserts the pristine seeded fixture (5 Books), so it must run before the write
+and workflow loops add rows; 06 asserts only on named seeded rows and counts it
+reads off the page, so it tolerates the rows they add.
 
 Budget is enforced twice: `playwright.config.ts` (`globalTimeout`) and
 `run_composition.sh` (`BUDGET_SECONDS`, which also covers artifact pull + boot +
@@ -132,10 +137,11 @@ Known gaps, each tracked where it belongs:
   carries both a stored multivalued forward reference (`Book.co_authors`) and an
   `inverse:`-declared reverse edge (`Author.books`), so mosaic 0.14.0's
   reverse-edge capability is certifiable and `05-reference-traversal.spec.ts`
-  checks it at the GraphQL seam. Two gaps remain: that scenario asserts nothing
-  about Aperture's **result-table UI** for referenced columns, which shipped in
-  aperture v0.6.0 under Aperture ADR-0041 (Accepted 2026-10-02); and the **MCP
-  boundary** is still unexercised, because the compose boots
-  `mosaic serve --graphql`, not `--mcp`.
+  checks it at the GraphQL seam. Since **v1.2.0** (#107) the fixture also carries
+  an inlined value object (`Book.dimensions`), and `06-result-table.spec.ts`
+  certifies Aperture's **result-table UI** for referenced columns (Aperture
+  ADR-0041) and structured values (aperture#82), including CSV/JSON export and a
+  saved query view. The **MCP boundary** is still unexercised, because the
+  compose boots `mosaic serve --graphql`, not `--mcp`.
 - The aperture consumer contract file (aperture#16) does not exist, so this
   suite remains the only seam check.

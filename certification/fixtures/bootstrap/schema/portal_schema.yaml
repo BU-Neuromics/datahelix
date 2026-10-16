@@ -15,9 +15,11 @@ description: >-
     - full-text search + history                                              → (nightly) deeper coverage
     - a stored multivalued forward reference (Book.co_authors)                → to-many traversal/explode (Aperture ADR-0041)
     - an `inverse:`-declared reverse edge (Author.books)                       → reverse-edge traversal (mosaic ADR-0011)
+    - an inlined value object (Book.dimensions → Dimensions)                   → structured-value display + export (aperture#82)
 
-  Kept intentionally small: three domain classes plus the control-plane
-  document recipe (aperture_control_plane.yaml). Authored in LinkML because
+  Kept intentionally small: three domain classes, one inlined value type
+  (Dimensions), plus the control-plane document recipe
+  (aperture_control_plane.yaml). Authored in LinkML because
   Mosaic *becomes* the schema it is given (config-driven relational, graph-shaped
   API); Mosaic autogenerates the GraphQL types, filters, and create/update/batch
   mutations from these classes at `serve` time.
@@ -101,6 +103,25 @@ classes:
         description: Boolean facet in the browse/filter loop.
       year:
         range: integer
+      dimensions:
+        range: Dimensions
+        inlined: true
+        description: >-
+          The catalogued physical size of the Book — an inlined value object,
+          not an entity (no identity, no lifecycle). Mosaic passes it through as a
+          structured value, so it certifies that the result table and every
+          export read it as text, never "[object Object]" (aperture#82).
+
+  Dimensions:
+    description: >-
+      Height and width of a Book as catalogued, in centimetres. A value type: it is
+      embedded in its Book (`inlined: true`), so it is neither a collection nor
+      a reference target.
+    attributes:
+      height_cm:
+        range: float
+      width_cm:
+        range: float
 
   Review:
     is_a: Entity
