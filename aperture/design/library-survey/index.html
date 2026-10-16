@@ -4384,7 +4384,7 @@ onto our LinkML-schema (data shape) + view-description (layout) separation. Cond
 <li><strong>Zag.js</strong> — <em>chakra-ui · headless FSM-driven UI machines.</em> Headless aligns with avoiding DOM
   coupling, <strong>but</strong> it emits <strong>prop-getters onto a consumer's own DOM</strong>, not a serializable
   view-description → fails the Vega-style emit-a-description constraint (ADR-0009). <em>(The narrower
-  claim that Zag is "too low-level for wizards" was </em><em>refuted 0-3</em><em> — scope isn't the
+  claim that Zag is "too low-level for wizards" was <strong>refuted 0-3</strong> — scope isn't the
   disqualifier; the prop-getter-not-description mismatch is.)</em></li>
 <li><strong>Demonstrated composition pattern:</strong> XState + a form lib (Formik/Yup in the cited example) is
   an established multi-step-wizard recipe (per-step validation, step transitions). For us:
@@ -4460,7 +4460,7 @@ budget; do not cite as confirmed without a follow-up pass.</p>
 <h3 id="7-admin-low-code-re-evaluation-not-covered-this-round">7. Admin / low-code re-evaluation — <strong>Not covered this round</strong><a class="headerlink" href="#7-admin-low-code-re-evaluation-not-covered-this-round" title="Permanent link">&para;</a></h3>
 <p>Refine, Directus, PostGraphile, Hasura DDN v3, Retool/Budibase/Appsmith/ToolJet, Forest Admin,
 Strapi, Amplication produced <strong>no verified claims</strong> this round. The key question — <em>does any
-consume GraphQL introspection to emit </em><em>serializable config (not code)</em><em>, and does any have a
+consume GraphQL introspection to emit <strong>serializable config (not code)</strong>, and does any have a
 serializable workflow model worth stealing?</em> — is <strong>still open</strong> (it was also a <code>prior-art.md</code>
 coverage gap). Recommended as the next focused search.</p>
 <hr />

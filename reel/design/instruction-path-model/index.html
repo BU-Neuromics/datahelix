@@ -4625,7 +4625,7 @@ explicitly asks for new data. We get this from Mosaic's existing provenance subs
   <code>state_snapshot</code> and <code>previous_state_hash</code>; <code>client.state_at(entity_id, timestamp)</code> already
   reconstructs an entity as-of T; even <code>schema_version</code> is derived from the provenance log
   (<code>mosaic/docs/data-model.md</code>). So <strong>both the data and the type system are recoverable as-of T.</strong>
-  <em>(2026-09 status: the query-spanning form is </em><em>Mosaic ADR-0001</em><em>, Accepted, implementation in
+  <em>(2026-09 status: the query-spanning form is <strong>Mosaic ADR-0001</strong>, Accepted, implementation in
   progress; <code>asOf</code> is live on GraphQL and on the QuerySpec but not yet combinable with a
   relationship predicate.)</em></li>
 <li>A <code>DataStory</code> carries <strong>one as-of watermark</strong> (a timestamp). Every query in the story resolves
