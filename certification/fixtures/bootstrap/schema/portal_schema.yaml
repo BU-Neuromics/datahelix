@@ -107,14 +107,14 @@ classes:
         range: Dimensions
         inlined: true
         description: >-
-          The physical size of a printed edition — an inlined value object, not
-          an entity (no identity, no lifecycle). Mosaic passes it through as a
+          The catalogued physical size of the Book — an inlined value object,
+          not an entity (no identity, no lifecycle). Mosaic passes it through as a
           structured value, so it certifies that the result table and every
           export read it as text, never "[object Object]" (aperture#82).
 
   Dimensions:
     description: >-
-      Height and width of a printed Book, in centimetres. A value type: it is
+      Height and width of a Book as catalogued, in centimetres. A value type: it is
       embedded in its Book (`inlined: true`), so it is neither a collection nor
       a reference target.
     attributes:

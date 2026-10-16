@@ -30,9 +30,10 @@ import { gql, gqlContext } from "../support/graphql";
 //
 // Fixture rows (fixtures/bootstrap/data/seed.yaml): The Hobbit (author Tolkien,
 // co_authors Austen + Le Guin, dimensions 20.3 × 13.5); Austen wrote Pride and
-// Emma, both with dimensions. Scenarios 02/03 add an Author and a Book before
-// this file runs, so every assertion is either on named seeded rows or
-// self-consistent (counts read off the page), never a hard-coded total.
+// Emma, both with dimensions. Earlier scenarios add rows before this file runs
+// (02 an Author; 03 an Author, a Book and a Review; 04 a saved view), so every
+// assertion is either on named seeded rows or self-consistent (counts read off
+// the page), never a hard-coded total.
 
 const LEAK = /\[object Object\]/;
 
@@ -63,9 +64,11 @@ test("Books with linked authors: to-one, how many / list them / one row each, an
     await bio.getByRole("checkbox").check();
     await expect(bio.getByRole("radio")).toHaveCount(0);
     await expect(table.getByRole("columnheader", { name: "Author → Bio" })).toBeVisible();
-    const hobbit = await rowsWhere(table, "Title", "The Hobbit");
-    expect(hobbit).toHaveLength(1);
-    expect(hobbit[0]["Author → Bio"]).toBe("English writer and philologist.");
+    // The header renders as soon as the box is ticked; the value arrives with
+    // the re-read that fetches author { bio }. Poll the data, not the header.
+    // One element = one row: a to-one column never repeats the anchor.
+    await expect.poll(async () => (await rowsWhere(table, "Title", "The Hobbit")).map((r) => r["Author → Bio"]))
+      .toEqual(["English writer and philologist."]);
   });
 
   const coAuthors = await openLink(page, /its co authors/);
@@ -75,9 +78,9 @@ test("Books with linked authors: to-one, how many / list them / one row each, an
     await coName.getByRole("checkbox").check();
     await expect(coName.getByRole("radio", { name: "how many" })).toBeChecked();
     await expect(table.getByRole("columnheader", { name: "Author → Name" })).toBeVisible();
-    const hobbit = await rowsWhere(table, "Title", "The Hobbit");
-    expect(hobbit).toHaveLength(1);
-    expect(hobbit[0]["Author → Name"]).toBe("2");
+    // Until the re-read adds coAuthors { name } the count reads 0 -- poll.
+    await expect.poll(async () => (await rowsWhere(table, "Title", "The Hobbit")).map((r) => r["Author → Name"]))
+      .toEqual(["2"]);
   });
 
   await test.step("'list them' joins the members, still at anchor grain", async () => {
@@ -158,9 +161,20 @@ test("Authors through the reverse books edge: structured values and references r
   await test.step("a reference read through a list, one row each, reads as its id (the aliquots.location shape)", async () => {
     const author = sel.referenceField(books, "Author");
     await author.getByRole("checkbox").check();
+    // "list them": each member's id, not a blank (aperture#82 — joinIds used
+    // to drop object-valued members). Polled: the value arrives with the
+    // re-read that adds books { author }.
+    await author.getByRole("radio", { name: "list them" }).check();
+    await expect(sel.queryGrain(page)).toHaveCount(0);
+    await expect.poll(async () => (await rowsWhere(table, "Name", "Jane Austen"))[0]?.["Book → Author"] ?? "")
+      .toBe("author-austen; author-austen");
+    await expect(table).not.toContainText(LEAK);
+
     // "one row each" belongs to the link: every column through it explodes.
     await author.getByRole("radio", { name: "one row each" }).check();
     await expect(sel.queryGrain(page)).toHaveText(/Exploded by .*books.* — \d+ rows from \d+ authors on this page/);
+    await expect.poll(async () => (await rowsWhere(table, "Name", "Jane Austen")).map((r) => r["Book → Author"]))
+      .toEqual(["author-austen", "author-austen"]);
     const austen = await rowsWhere(table, "Name", "Jane Austen");
     expect(austen).toHaveLength(2);
     for (const row of austen) {
