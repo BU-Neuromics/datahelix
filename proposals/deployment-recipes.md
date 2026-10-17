@@ -136,6 +136,27 @@ The dataset is generated **at build time, inside the pinned runtime image** (so 
 
 Two integration findings surfaced building this and were fixed at the source rather than papered over in the recipe: (1) `linkml-data-gen` minted per-class ids, so sibling classes sharing an abbreviation (`ATACSeqDataset`/`ATACSeqAssay` → `ATAC`) collided under Mosaic's global entity registry — fixed upstream ([linkml-data-gen#3](https://github.com/BU-Neuromics/linkml-data-gen/pull/3)); (2) Mosaic derives ingest-bundle accessors from class names, diverging from the schema's own tree-root slot names for irregular plurals (`processes`→`processs`) — handled by the recipe's schema-driven remap, which reuses Mosaic's own accessor helper so it self-adapts to the runtime version.
 
+### 2.3b `deploy/recipes/demo-reel/` — the showcase with the conversational panel (2026-10-17)
+
+`demo` plus **Reel** (v0.1.0), the planner behind Aperture's conversational query panel (Aperture ADR-0039), for screenshotting it. It needs nothing past the current frontier: Mosaic 0.14.0 is the first certified version with `--mcp` and `converseQuerySpec`, and Aperture 0.7.1 ships the panel. The recipe combines `demo` (the baked dataset) with the `ide` recipe's `make chat` wiring (the planner).
+
+- **Two containers, not one.** The `demo` service is the data image: `demo`'s runtime with `serve --graphql --mcp` and `MOSAIC_EXON_URL=http://reel:9100/turn`. The `reel` service is the published image, unmodified. Reel is the only process with model credentials and the only pin outside the certified lock. Keeping it separate means the data image stays an exact certified-pair build, Reel can be bumped without regenerating the dataset, and credentials never enter an image layer.
+- **Reel reaches only MCP.** An internal nginx listener (`:8100`, never published) proxies `/mcp` with a loopback Host header. Mosaic stays on 127.0.0.1, its MCP DNS-rebinding guard stays at the default (no `MOSAIC_MCP_ALLOWED_HOSTS`), and the planner cannot reach REST or GraphQL. `/graphql`'s nginx timeout (180s) sits above `MOSAIC_EXON_TIMEOUT` (120s), so a slow turn comes back as a proper `error` turn rather than a 504.
+- **Pins.** `check_pins.py` checks two classes. The certified pair must equal the lock, as in `demo`. The planner must be digest-pinned and is reported **UNCERTIFIED**, because the lock has no `reel` entry; if one is added, it is compared like the others. `make gate` covers the pair and says so.
+- **Two datasets.** `DEMO_DATASET=brainbank` (default) is `demo`'s generation, reused through a compose `additional_contexts`, not copied. `DEMO_DATASET=small` is `mosaic-demo-small`'s fifteen-class schema, built by that repo's own `generate.py`, which is the schema Reel was developed against. `small` needs linkml-data-gen `main` (`e0454b2`, which has `hints`). `demo`'s pin (`6d1386f`) is on a side branch: linkml-data-gen#3 was merged there, not to `main`.
+- **Measured before choosing the default.** Reel had never been evaluated on the 86-entity brain-bank schema (about 71k prompt tokens of grounding per turn). Twelve brain-bank discovery cases (`evals/brainbank.yaml`, a temporary home until they move to `brainbank-hippo-schema` per Reel Phase A6) were scored with Reel's own harness (`make eval`, n=3):
+  - brainbank × Haiku 4.5: 5/12 reliable.
+  - brainbank × Sonnet 5: 6/12, with 24/27 runs passing on the answerable cases.
+  - small × Haiku 4.5 on its own 22 cases: 8/22.
+
+  The planner is not more reliable on its development schema, so brain-bank is the default. Concrete filter requests are reliable on brain-bank. Open "what do we have on…" questions are the weak spot.
+- **Found along the way (Reel 0.1.0):**
+  - Sonnet 5 sometimes returns a correct turn without the required `status` field, which Reel rejects.
+  - Reel answers Mosaic with a 502 and logs no reason for such failures.
+  - `Dataset.produced_by` → abstract `Activity` is not filterable, so a prompt about "datasets produced by failed analyses" is rejected by Mosaic's validation.
+  - The `ide` recipe's planner, mounting `~/.aws` into the image's uid-10001 user, cannot read a mode-600 credentials file. `demo-reel` runs Reel as the invoking user instead.
+- **CI** (`demo-reel-recipe.yml`) asserts everything except the model call, which needs credentials: pins, rows through the seam, `converseQuerySpec` registered, the planner grounded over `:8100`, and `:8100` unpublished. An end-to-end turn is `make smoke`, run locally.
+
 ### 2.4 Out of scope
 
 Kubernetes/Helm (Tier 3), Cappella/Canon/Bridge recipes (join `platform-full` when they're consumable), remote multi-author schema editing (git-first Modeler flow exists in `ide` but the server-side auto-pull-and-migrate loop is future work).

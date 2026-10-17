@@ -1,0 +1,86 @@
+# Discovery cases for brainbank-hippo-schema @ 43a93d6 (the schema `demo` and
+# demo-reel bake). Same format and grading as mosaic-demo-small's
+# evals/discovery.yaml, scored by Reel's `python -m reel.evals.run`
+# (`make eval` in this recipe).
+#
+# Temporary home. A case set describes ONE schema, so it belongs with that
+# schema — brainbank-hippo-schema, per Reel's Phase A6 ("cases live with the
+# schema they describe"). It is here because the question this recipe had to
+# answer first — can Reel plan reliably against an 86-entity schema it was
+# never evaluated on? — needed cases before that upstream home existed. Move it
+# there and point the recipe at the pinned copy.
+#
+# Rules carried from the demo-small set: assert SLOTS named (subset check),
+# never prose or row counts; phrase every utterance in a researcher's
+# vocabulary, NOT in field names.
+
+- id: b01
+  utterance: how long after death was tissue collected from each donor?
+  expect_slots: [post_mortem_interval_hours]
+  note: >-
+    The brain-bank reference case. "PMI" is the field's vocabulary; the
+    question never says it, so this resolves through the description.
+
+- id: b02
+  utterance: what do we know about how old the donors were?
+  expect_slots: [age_at_death]
+
+- id: b03
+  utterance: which study groups are the donors part of?
+  expect_slots: [cohort]
+  note: >-
+    "study group" is the Cohort class's own description, reached from Donor
+    through a reference slot.
+
+- id: b04
+  utterance: which reference genome were the variant calls made against?
+  expect_slots: [genome_build]
+
+- id: b05
+  utterance: were the sequencing reads single or paired?
+  expect_slots: [paired_end]
+
+- id: b06
+  utterance: are the expression matrices raw counts or normalized?
+  expect_slots: [quantification]
+  note: >-
+    Nothing in the question matches the slot name; the enum values (raw_counts,
+    TPM, FPKM, CPM) and the description carry it.
+
+- id: b07
+  utterance: which marker was the tissue labelled with before the slides were scanned?
+  expect_slots: [stain]
+  note: >-
+    NeuN/Iba1/GFAP are IHC markers. "labelled" and "marker" avoid the word
+    stain on purpose.
+
+- id: b08
+  utterance: how many CpG sites survived QC in the methylation data?
+  expect_slots: [n_probes]
+
+- id: b09
+  utterance: where is a given specimen physically kept?
+  expect_slots: [container]
+  note: >-
+    Sample.container is the direct answer; naming Container.location or the
+    Location hierarchy alongside it is a better answer, not a failure.
+
+- id: b10
+  utterance: what neuropathology staging, like tau tangle stage, do we record?
+  expect_slots: [measure_name]
+  note: >-
+    Measurement.measure_name, described with "Braak NFT stage". Measurement is
+    marked PROVISIONAL in the schema, which makes it a fair test of a sparse
+    corner of a large grounding surface.
+
+- id: b11
+  utterance: do we have anything on donors' smoking history?
+  expect_none: true
+  note: >-
+    Not modelled anywhere in the schema. The planner must say so rather than
+    reach for a plausible field (description, cohort).
+
+- id: b12
+  utterance: what was each donor's level of education?
+  expect_none: true
+  note: Not modelled. Second negative, different entity-adjacent topic.
