@@ -1,0 +1,109 @@
+# demo-reel recipe smoke: build the data image (small brainbank dataset), start
+# it with the planner, and assert the conversational wiring is live.
+#
+# No model credentials in CI, so no turn is sent. What is asserted is
+# everything short of the model call: the certified pins, real rows through
+# the seam, `converseQuerySpec` registered (the gate Aperture's chat panel
+# keys off), and the planner grounded over the internal MCP listener. A turn
+# end to end is `make smoke`, locally, with credentials.
+
+name: demo-reel recipe
+
+on:
+  pull_request:
+    paths:
+      - "deploy/recipes/demo-reel/**"
+      - "deploy/recipes/demo/build-dataset.sh"
+      - "deploy/recipes/demo/remap_accessors.py"
+      - "deploy/recipes/demo/entrypoint.sh"
+      - ".github/workflows/demo-reel-recipe.yml"
+  push:
+    branches: [main]
+    paths:
+      - "deploy/recipes/demo-reel/**"
+      - "deploy/recipes/demo/build-dataset.sh"
+      - "deploy/recipes/demo/remap_accessors.py"
+      - "deploy/recipes/demo/entrypoint.sh"
+      - ".github/workflows/demo-reel-recipe.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: deploy/recipes/demo-reel
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Pins — certified pair matches the lock; planner digest-pinned
+        run: make check-pins
+
+      - name: Certification status (informational — ADR-0001 deploy gate)
+        continue-on-error: true
+        run: make gate
+
+      - name: Build (small dataset) and start
+        env:
+          DEMO_COUNTS: "donors=25 samples=80 datasets=30 assays=30 processes=20 analyses=10"
+          DOCKER_UID: "1001"
+          DOCKER_GID: "1001"
+          AWS_DIR: ${{ runner.temp }}/no-aws
+        run: |
+          mkdir -p "$AWS_DIR"
+          docker compose up -d --build
+
+      - name: Wait for health
+        run: |
+          timeout 180 sh -c 'until curl -sf http://localhost:8080/health; do
+            sleep 3
+          done'
+          echo
+
+      - name: "Smoke: the baked dataset is served through the seam"
+        run: |
+          curl -sf -X POST http://localhost:8080/graphql \
+            -H 'Content-Type: application/json' \
+            -d '{"query":"{ donors(limit: 3) { total items { id } } }"}' \
+          | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)['data']['donors']
+          assert d['total'] >= 25, d
+          print(f\"demo-reel ok: {d['total']} donors served\")
+          "
+
+      - name: "Smoke: converseQuerySpec is registered (the chat panel's gate)"
+        run: |
+          curl -sf -X POST http://localhost:8080/graphql \
+            -H 'Content-Type: application/json' \
+            -d '{"query":"{ __schema { mutationType { fields { name } } } }"}' \
+          | python3 -c "
+          import json, sys
+          names = {f['name'] for f in json.load(sys.stdin)['data']['__schema']['mutationType']['fields']}
+          assert 'converseQuerySpec' in names, 'converseQuerySpec missing — MOSAIC_EXON_URL not reaching Mosaic'
+          print('converseQuerySpec registered')
+          "
+
+      - name: "Smoke: the planner grounded over the internal MCP listener"
+        # Grounding needs no model call, so this proves the Reel -> nginx:8100
+        # -> Mosaic /mcp path without credentials. One or two restarts on the
+        # way are the expected startup race.
+        run: |
+          timeout 120 sh -c 'until docker compose logs reel | grep -q "Grounded in"; do
+            sleep 3
+          done'
+          docker compose logs reel | grep "Grounded in" | tail -1 | cut -c1-160
+
+      - name: "8100 is not published"
+        run: |
+          ! curl -s --max-time 3 http://localhost:8100/mcp
+
+      - name: Logs on failure
+        if: failure()
+        run: docker compose logs || true

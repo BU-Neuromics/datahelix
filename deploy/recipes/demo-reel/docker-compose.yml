@@ -1,0 +1,87 @@
+# DataHelix demo-reel recipe — `demo` with the conversational query panel.
+# Two services: the baked data image, and the planner.
+#
+#   make up           # build (generates + bakes the dataset) and start both
+#   make smoke        # one discovery turn through /graphql, end to end
+#   open http://localhost:8080
+#
+# Why two containers and not one: Reel is the only process that holds model
+# credentials and the only pin outside the certified lock. Keeping it out of
+# the data image means the data image stays exactly a certified-pair build
+# (check_pins.py), Reel can be bumped without regenerating the dataset, and
+# the credentials never enter an image layer.
+#
+# Build args (rebuild to change):
+#   DEMO_DATASET=brainbank|small   which dataset to bake (see the Dockerfile)
+#   DEMO_SEED, DEMO_COUNTS         as `demo`; DEMO_COUNTS applies to brainbank only
+
+services:
+  demo:
+    build:
+      context: .
+      # `demo`'s build-dataset.sh, remap_accessors.py and entrypoint.sh,
+      # reused unmodified rather than copied.
+      additional_contexts:
+        demo: ../demo
+      args:
+        DEMO_DATASET: ${DEMO_DATASET:-brainbank}
+        DEMO_SEED: ${DEMO_SEED:-0}
+        DEMO_COUNTS: ${DEMO_COUNTS:-donors=500 samples=3000 datasets=800 assays=800 processes=400 analyses=200}
+    image: datahelix-demo-reel:${DEMO_DATASET:-brainbank}
+    ports:
+      - "${DEMO_PORT:-8080}:8080"
+      # 8100 (MCP) is deliberately NOT published: only `reel` reaches it.
+    environment:
+      # Setting this is what registers `converseQuerySpec`, and therefore what
+      # makes Aperture show its chat panel. `reel` is the compose DNS name.
+      MOSAIC_EXON_URL: http://reel:9100/turn
+      # How long Mosaic waits on one planner turn before answering with an
+      # 'error' turn. The brainbank grounding is ~45k tokens per turn; 60s (the
+      # default) is tight. nginx's /graphql timeout (nginx.conf) sits above it.
+      MOSAIC_EXON_TIMEOUT: ${MOSAIC_EXON_TIMEOUT:-120}
+      VITE_HIPPO_GRAPHQL_URL: ${VITE_HIPPO_GRAPHQL_URL:-}
+      VITE_NAV: ${VITE_NAV:-}
+      VITE_WORKFLOWS: ${VITE_WORKFLOWS:-}
+    restart: unless-stopped
+
+  # ── Reel: the planning service Mosaic's relay delegates to ─────────────────
+  # Pinned by digest, and NOT certified: the composition lock covers only
+  # mosaic + aperture. check_pins.py reports this pin separately and `make
+  # gate` says plainly that the planner is outside the gate.
+  #
+  # Reel plans and never executes (Reel ADR-0007): Mosaic re-validates every
+  # QuerySpec it returns, and nothing runs without an explicit user action.
+  # It publishes no port.
+  #
+  # No depends_on/healthcheck wait: the planner fetches its grounding ONCE at
+  # startup and exits 3 if Mosaic is not answering yet; `restart:
+  # unless-stopped` resolves the race in one or two restarts. Expected, and
+  # the log says what it is waiting for. A schema change does not happen here
+  # (the dataset is baked), so grounding never goes stale.
+  reel:
+    image: ghcr.io/bu-neuromics/reel:0.1.0@sha256:cbcc72954f80c673e0cd953ccf2eb845d81a50c9dbe9390bfa5a40016bd240c6
+    # The invoking user, not the image's uid-10001 `reel`: ~/.aws/credentials
+    # is normally mode 600, which uid 10001 cannot read through a bind mount —
+    # the planner would start, fail every turn on "Unable to locate
+    # credentials", and look like a model problem. The Makefile passes the ids.
+    user: "${DOCKER_UID:-1000}:${DOCKER_GID:-1000}"
+    environment:
+      MOSAIC_MCP_URL: http://demo:8100/mcp
+      HOME: /tmp
+      AWS_CONFIG_FILE: /aws/config
+      AWS_SHARED_CREDENTIALS_FILE: /aws/credentials
+      AWS_REGION: ${AWS_REGION:-us-east-1}
+      # LIST form for everything optional (see the ide recipe): `KEY: ${KEY:-}`
+      # sets an empty string, which boto3 reads as a profile literally named
+      # "" and litellm reads as "no provider given". This form passes a
+      # variable through only when it is set in the invoking environment.
+      REEL_MODEL:
+      AWS_PROFILE:
+      AWS_ACCESS_KEY_ID:
+      AWS_SECRET_ACCESS_KEY:
+      AWS_SESSION_TOKEN:
+      ANTHROPIC_API_KEY:
+      OPENAI_API_KEY:
+    volumes:
+      - "${AWS_DIR:-~/.aws}:/aws:ro"
+    restart: unless-stopped
