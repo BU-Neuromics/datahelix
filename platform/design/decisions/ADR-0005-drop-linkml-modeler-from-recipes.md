@@ -4,7 +4,7 @@
 - **Date:** 2026-08-24
 - **Deciders:** labadorf, design session
 - **Supersedes:** [`proposals/deployment-recipes.md`](../../../proposals/deployment-recipes.md) decision **1.8** (owner decision of 2026-07-14, "Modeler ships in `solo` by default"), and the Modeler/`cors-proxy` portions of decision 1.9 and §2.2 carried into [ADR-0004](./ADR-0004-ide-recipe-live-development-loop.md)
-- **Related:** [ADR-0004](./ADR-0004-ide-recipe-live-development-loop.md) (the `ide` recipe; its gateway routing loses `/modeler/` and `/cors-proxy/`); [BU-Neuromics/linkml-modeler-app#172](https://github.com/BU-Neuromics/linkml-modeler-app/issues/172) (the EOL-Node blocker); datahelix #84 (the `ide` Modeler task this closes as superseded), #72 / #85 (the EOL Node pin this finishes)
+- **Related:** [ADR-0004](./ADR-0004-ide-recipe-live-development-loop.md) (the `ide` recipe; its gateway routing loses `/modeler/` and `/cors-proxy/`); [datahelix-platform/linkml-modeler-app#172](https://github.com/datahelix-platform/linkml-modeler-app/issues/172) (the EOL-Node blocker); datahelix #84 (the `ide` Modeler task this closes as superseded), #72 / #85 (the EOL Node pin this finishes)
 
 ## Context
 
@@ -23,7 +23,7 @@ the certification harness references it.
 
 **It is the most expensive thing in the bundle by a wide margin.** It is the
 only component built from source in a production recipe — an external repo
-(`BU-Neuromics/linkml-modeler-app`) cloned at a pinned commit and built with
+(`datahelix-platform/linkml-modeler-app`) cloned at a pinned commit and built with
 corepack pnpm — which is a direct exception to decision 1.4's "never build
 components from source in a production recipe". It also drags in a `cors-proxy`
 sidecar, a Node runtime binary copied into the final image, `libstdc++6` to run

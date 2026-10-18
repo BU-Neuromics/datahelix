@@ -19,14 +19,14 @@
       "version": "0.14.0",
       "digest": "sha256:48c2d120ebfdf633b4f5206e1fc58ed7dfc9972b4122d5cc64a1208d062de9a9",
       "image": "ghcr.io/bu-neuromics/mosaic",
-      "repo": "BU-Neuromics/mosaic",
+      "repo": "datahelix-platform/mosaic",
       "status": "published"
     },
     "aperture": {
       "version": "0.7.1",
       "digest": "sha256:dbe6d7b8b8657e27f79f04e9a7b987df7b32813a3bb5f43b21dcbd11a8c805f6",
       "image": "ghcr.io/bu-neuromics/aperture",
-      "repo": "BU-Neuromics/aperture",
+      "repo": "datahelix-platform/aperture",
       "status": "published"
     }
   }

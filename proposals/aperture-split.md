@@ -1,12 +1,12 @@
 # Splitting Aperture out of `DataHelix` into its own repository
 
 **Status:** ✅ **Executed 2026-06-13.** The seed repo was built, pushed to
-`BU-Neuromics/aperture` (made public; CI green at seed commit `cbcd1c7`), and `DataHelix`
+`datahelix-platform/aperture` (made public; CI green at seed commit `cbcd1c7`), and `DataHelix`
 was cut over: `aperture/` is now a submodule pinned to the seed. CI/docs/mkdocs were
 updated in the same change. The runbook below is retained as the historical record;
 divergences from execution are noted inline (visibility, docs-symlink layer, PR-based
 cutover).
-**Goal:** Stand up a standalone `BU-Neuromics/aperture` repository for the **config-driven
+**Goal:** Stand up a standalone `datahelix-platform/aperture` repository for the **config-driven
 portal** vision (see `aperture/design/portal-vision-handoff.md`), then re-attach it to
 `DataHelix` as a git submodule so cross-component tests under `tests/platform/` and
 `tests/contracts/` keep working without code changes.
@@ -54,7 +54,7 @@ than Hippo's and deliberately diverges — see §0.1.
 
 | # | Question | Decision | Notes |
 |---|---|---|---|
-| 1.1 | New GitHub org/repo name | **`BU-Neuromics/aperture`** | Matches the Hippo submodule convention. |
+| 1.1 | New GitHub org/repo name | **`datahelix-platform/aperture`** | Matches the Hippo submodule convention. |
 | 1.2 | Carry CLI v0.1 code or fresh start | **Fresh start** | Keep only `src/aperture/backends/` (+ `ApertureConfig`); CLI v0.1 superseded by the portal vision. |
 | 1.3 | Submodule pin strategy | **Pin to commit** | `git submodule update --remote && git commit` is the "bump aperture" motion (matches Hippo 1.2). |
 | 1.4 | Initial submodule pin | **Initial portal commit on `main`** | No meaningful tags yet; tag `v0.1.0-portal` optional at first green CI. |
@@ -83,7 +83,7 @@ the new repo exists.
 - [x] A3. Update `aperture/design/INDEX.md` with the direction-change banner + doc map.
 - [x] A4. Write this runbook.
 - [ ] A5. (Execution session) Confirm §1 decisions still hold; confirm write scope on
-      `BU-Neuromics/aperture`.
+      `datahelix-platform/aperture`.
 
 ### Phase B — Build the fresh `aperture` repo seed
 
@@ -183,11 +183,11 @@ jobs:
 ### Phase C — Publish the new repo
 
 ```bash
-# C1. Create BU-Neuromics/aperture on GitHub (empty, public, wiki disabled).
+# C1. Create datahelix-platform/aperture on GitHub (empty, public, wiki disabled).
 #     Requires GitHub scope on BU-Neuromics — set up the execution session accordingly.
 # C2. Push the seed:
 cd /tmp/aperture-seed
-git remote add origin https://github.com/BU-Neuromics/aperture.git
+git remote add origin https://github.com/datahelix-platform/aperture.git
 git push -u origin main
 # C3. Confirm CI goes green on main before the DataHelix cutover.
 # C4. (Optional) tag v0.1.0-portal.
@@ -205,14 +205,14 @@ git checkout main && git pull        # (or the designated integration branch)
 git rm -r aperture
 
 # 2. Add submodule pinned to the seed commit
-git submodule add https://github.com/BU-Neuromics/aperture.git aperture
+git submodule add https://github.com/datahelix-platform/aperture.git aperture
 cd aperture && git checkout <seed-commit-or-tag> && cd ..
 git add aperture .gitmodules
 
 # 3. CI + docs edits (see §2.D.3), then git add them.
 
 # 4. Single commit + push
-git commit -m "chore: replace aperture/ subtree with submodule (BU-Neuromics/aperture)
+git commit -m "chore: replace aperture/ subtree with submodule (datahelix-platform/aperture)
 
 Aperture is now a standalone repo for the config-driven portal vision. The
 CLI-first v0.1 implementation remains in DataHelix history at the parent commit;
@@ -281,7 +281,7 @@ In `mkdocs.yml` — **required**, or `mkdocs build --strict` fails:
 If something goes wrong after Phase D but before building on the new layout:
 1. Revert the "replace aperture/ subtree with submodule" commit on DataHelix — `aperture/`
    reappears verbatim (CLI v0.1 and all).
-2. The new `BU-Neuromics/aperture` repo can sit unused; it's a fresh copy, not a move.
+2. The new `datahelix-platform/aperture` repo can sit unused; it's a fresh copy, not a move.
 The point of no return is only if/when CLI history is later pruned — which this plan does
 not do.
 
@@ -292,10 +292,10 @@ not do.
 ```
 A. Pre-flight in DataHelix (this session: land handoff + design docs + this runbook)
 B. Build fresh aperture seed (backends/ + ApertureConfig + portal design + pyproject/CI)
-C. Create BU-Neuromics/aperture, push seed, confirm CI green
+C. Create datahelix-platform/aperture, push seed, confirm CI green
 D. DataHelix commit: rm aperture/ + add submodule + CI/mkdocs edits (single commit)
 E. Cleanup: docs/README touch-ups; optional test rename
 ```
 
 Total work: ~1 focused session in an environment scoped to both `DataHelix` and
-`BU-Neuromics/aperture`.
+`datahelix-platform/aperture`.

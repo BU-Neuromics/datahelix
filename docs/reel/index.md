@@ -1,9 +1,9 @@
 # Reel — AI-Native Data-Story Engine
 
 !!! info "Mounted as a submodule"
-    Reel lives in its own repo, [BU-Neuromics/reel](https://github.com/BU-Neuromics/reel),
+    Reel lives in its own repo, [datahelix-platform/reel](https://github.com/datahelix-platform/reel),
     and is wired into this monorepo as a git submodule. It was split from Aperture per
-    [platform ADR-0003](https://github.com/BU-Neuromics/datahelix/blob/main/platform/design/decisions/ADR-0003-reel-data-story-engine-separate-from-portal.md) so the portal could
+    [platform ADR-0003](https://github.com/datahelix-platform/datahelix/blob/main/platform/design/decisions/ADR-0003-reel-data-story-engine-separate-from-portal.md) so the portal could
     ship without waiting on the story engine.
 
 Reel is the **data-story engine**: the headless interaction core that composes query states into
@@ -35,7 +35,7 @@ carried the turn path across from the prototype it was seeded by. What exists to
 **Not yet carried:** the reliability harness (`exon/harness/` — probe, runner, grading, refine
 loop), which is gated on retiring the prototype's `QueryPlan` path so the harness's own
 before/after is not lost mid-refactor. See
-[`proposals/exon-migration.md`](https://github.com/BU-Neuromics/reel/blob/main/proposals/exon-migration.md)
+[`proposals/exon-migration.md`](https://github.com/datahelix-platform/reel/blob/main/proposals/exon-migration.md)
 for the runbook and its preconditions.
 
 Reel is **not yet in the certified-frontier ledger** (platform ADR-0001) — that waits on a
@@ -43,7 +43,7 @@ release and a Mosaic pair to certify against.
 
 ## Where its decisions live
 
-The [Decision Log](https://github.com/BU-Neuromics/reel/blob/main/design/INDEX.md) is the index
+The [Decision Log](https://github.com/datahelix-platform/reel/blob/main/design/INDEX.md) is the index
 of record. Load-bearing ones: ADR-0001 (the instruction-path model), ADR-0003 (grain discipline
 — arbitrary joins rejected), ADR-0005 (headless core, thin shell), ADR-0006 (v1 `State` is the
 `QuerySpec`), ADR-0007 (validation and execution delegated to Mosaic's boundary), ADR-0008

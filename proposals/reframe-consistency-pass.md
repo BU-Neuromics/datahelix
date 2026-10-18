@@ -41,7 +41,7 @@ the config-driven portal is its *substrate*, not the product.
 ## Scope note — this spans repos
 
 `hippo/` and `aperture/` are **submodules** (separate repos: BU-Neuromics/hippo,
-BU-Neuromics/aperture). Edits there require a commit **in the submodule** + push, then a
+datahelix-platform/aperture). Edits there require a commit **in the submodule** + push, then a
 **submodule-pin bump** committed in DataHelix (see root `CLAUDE.md` "Working with submodules").
 `platform/`, `bridge/`, `proposals/`, and root docs are **in-tree** in DataHelix.
 

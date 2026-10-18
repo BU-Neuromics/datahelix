@@ -21,7 +21,7 @@ open http://localhost:8080
 
 At build time, a data stage running **inside the pinned Mosaic/Hippo image**:
 
-1. installs [`linkml-data-gen`](https://github.com/BU-Neuromics/linkml-data-gen)
+1. installs [`linkml-data-gen`](https://github.com/datahelix-platform/linkml-data-gen)
    (pinned) and clones
    [`brainbank-hippo-schema`](https://github.com/VA-NCPTSDBB-Bioinformatics/brainbank-hippo-schema)
    (pinned);

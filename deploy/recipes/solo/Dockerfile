@@ -52,7 +52,7 @@ ARG REVISION=unknown
 # pair against the certification ledger (proposal §4.4).
 LABEL org.opencontainers.image.title="datahelix-solo" \
       org.opencontainers.image.description="DataHelix solo recipe — Aperture + Mosaic, single container, SQLite" \
-      org.opencontainers.image.source="https://github.com/BU-Neuromics/datahelix" \
+      org.opencontainers.image.source="https://github.com/datahelix-platform/datahelix" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.revision="${REVISION}" \
       org.datahelix.solo.mosaic-image="${MOSAIC_IMAGE}" \

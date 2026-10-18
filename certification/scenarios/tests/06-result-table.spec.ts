@@ -7,7 +7,7 @@ import { gql, gqlContext } from "../support/graphql";
 // Seam exercised: Aperture ADR-0041 traversal columns over Mosaic's nested
 // GraphQL selections — forward to-one, forward to-many, and an `inverse:`
 // reverse edge (mosaic ADR-0011) — plus the query view's Save view
-// (aperture#81/#84) and structured values (aperture#82). BU-Neuromics/datahelix#107.
+// (aperture#81/#84) and structured values (aperture#82). datahelix-platform/datahelix#107.
 //
 // Proves, through the UI rather than the transport (05 keeps the GraphQL-seam
 // check):
