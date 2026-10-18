@@ -3,17 +3,17 @@
 - **Status:** Accepted
 - **Date:** 2026-06-22 (decided); executed 2026-06 — see **Outcome**
 - **Deciders:** labadorf, design session
-- **Related:** `platform/design/view-contract.md` (the joining interface); Aperture `design/vision.md` (the 2026-06-17 reframe); Aperture ADR-0022–0025 (instruction-path / data-story model) and ADR-0026 (headless core + thin shell), both **migrated to Reel** on the split; the [`BU-Neuromics/reel`](https://github.com/BU-Neuromics/reel) repository (the extracted component); `proposals/hippo-split.md` / `proposals/aperture-split.md` (the split pattern this followed)
+- **Related:** `platform/design/view-contract.md` (the joining interface); Aperture `design/vision.md` (the 2026-06-17 reframe); Aperture ADR-0022–0025 (instruction-path / data-story model) and ADR-0026 (headless core + thin shell), both **migrated to Reel** on the split; the [`datahelix-platform/reel`](https://github.com/datahelix-platform/reel) repository (the extracted component); `proposals/hippo-split.md` / `proposals/aperture-split.md` (the split pattern this followed)
 
 > **Name.** The extracted engine is **Reel** (a reel of frames ≈ a sequence of data-story
 > states; stays in Aperture's optical family). It was a working codename at decision time
 > (candidates: Strand, Loom, Lumen, Cadence); it was ratified and is now the component's real
-> name — see the [`reel`](https://github.com/BU-Neuromics/reel) repo.
+> name — see the [`reel`](https://github.com/datahelix-platform/reel) repo.
 
 ## Outcome (recorded 2026-07-14)
 
 This decision was executed. **Reel now lives in its own repository,
-[`BU-Neuromics/reel`](https://github.com/BU-Neuromics/reel)**, with its own design set (vision,
+[`datahelix-platform/reel`](https://github.com/datahelix-platform/reel)**, with its own design set (vision,
 instruction-path model, and ADRs). The Aperture headless-core ADR-0026 cited below migrated to
 **Reel ADR-0005** ("Reel is a headless interaction core + a thin, replaceable shell"), which
 carries a forward pointer back to it. The **View Contract** stub referenced throughout is landed
@@ -121,5 +121,5 @@ boundary is drawn.
   own design pass. The contract is what Aperture ADR-0009/0010 were circling; this elevates it to
   a platform standard.
 - **Submodule mount.** The DataHelix repo does not yet mount `reel` as a submodule (the design
-  lives in `BU-Neuromics/reel` and is consumed there); wiring it into the unified docs/site is
+  lives in `datahelix-platform/reel` and is consumed there); wiring it into the unified docs/site is
   follow-on integration work, not part of this boundary decision.

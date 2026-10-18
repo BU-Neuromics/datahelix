@@ -26,11 +26,11 @@ ARG APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:dbe6d7b8b8657e27f79f04e9
 ARG DEMO_DATASET=brainbank
 
 # Data generator. brainbank uses `demo`'s pin exactly (global-id-uniqueness
-# fix, BU-Neuromics/linkml-data-gen#3). small needs a different commit: its
+# fix, datahelix-platform/linkml-data-gen#3). small needs a different commit: its
 # generate.py uses GenerationConfig(hints=...), which that pin lacks — #3 was
 # merged onto a side branch, not main. linkml-data-gen main carries hints AND
 # its own fix for the same id collisions (#2).
-ARG DATAGEN_REPO=https://github.com/BU-Neuromics/linkml-data-gen.git
+ARG DATAGEN_REPO=https://github.com/datahelix-platform/linkml-data-gen.git
 ARG DATAGEN_REF=6d1386f75e400f5e659ff5d7c810adb1914b7131
 ARG SMALL_DATAGEN_REF=e0454b2e7e892947b5b3766f2fce440091b406f6
 # brainbank: same schema pin as `demo`.
@@ -97,7 +97,7 @@ ARG REVISION=unknown
 
 LABEL org.opencontainers.image.title="datahelix-demo-reel" \
       org.opencontainers.image.description="DataHelix demo-reel — Aperture + Mosaic (GraphQL + MCP) with a pre-loaded synthetic dataset, for the conversational query panel" \
-      org.opencontainers.image.source="https://github.com/BU-Neuromics/datahelix" \
+      org.opencontainers.image.source="https://github.com/datahelix-platform/datahelix" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.revision="${REVISION}" \
       org.datahelix.solo.mosaic-image="${MOSAIC_IMAGE}" \

@@ -3,7 +3,7 @@
 - **Status:** Accepted
 - **Date:** 2026-08-28
 - **Deciders:** labadorf, design session
-- **Related:** [`sec6_security_model.md`](../sec6_security_model.md) §6.3 (Bridge as sole PEP/PDP); [ADR-0001](./ADR-0001-certified-frontier-composition.md) (digest pinning); [ADR-0005](./ADR-0005-drop-linkml-modeler-from-recipes.md) (no Node in `solo`); Aperture [ADR-0038](https://github.com/BU-Neuromics/aperture/blob/main/design/decisions/ADR-0038-identity-is-presentation-not-enforcement.md) (the identity Aperture presents), Aperture ADR-0016/0032; Mosaic [`design/sec8_auth_integration.md`](../../../mosaic/design/sec8_auth_integration.md) §8.3, [BU-Neuromics/mosaic#178](https://github.com/BU-Neuromics/mosaic/issues/178)
+- **Related:** [`sec6_security_model.md`](../sec6_security_model.md) §6.3 (Bridge as sole PEP/PDP); [ADR-0001](./ADR-0001-certified-frontier-composition.md) (digest pinning); [ADR-0005](./ADR-0005-drop-linkml-modeler-from-recipes.md) (no Node in `solo`); Aperture [ADR-0038](https://github.com/datahelix-platform/aperture/blob/main/design/decisions/ADR-0038-identity-is-presentation-not-enforcement.md) (the identity Aperture presents), Aperture ADR-0016/0032; Mosaic [`design/sec8_auth_integration.md`](../../../mosaic/design/sec8_auth_integration.md) §8.3, [datahelix-platform/mosaic#178](https://github.com/datahelix-platform/mosaic/issues/178)
 
 ## Context
 

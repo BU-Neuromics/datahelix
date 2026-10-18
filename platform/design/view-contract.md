@@ -3,7 +3,7 @@
 **Status:** 🟠 Stub / working design (2026-06-22). Created by
 [`decisions/ADR-0003`](./decisions/ADR-0003-reel-data-story-engine-separate-from-portal.md) as
 the interface that joins the **Reel** data-story engine
-([`BU-Neuromics/reel`](https://github.com/BU-Neuromics/reel)) to the **Aperture** portal. The
+([`datahelix-platform/reel`](https://github.com/datahelix-platform/reel)) to the **Aperture** portal. The
 grammar below is a skeleton to be fleshed out in its own design pass; it is **not** yet binding.
 
 > **Naming.** "View Contract" is descriptive; it may earn a codename later (candidates: *Frame*,

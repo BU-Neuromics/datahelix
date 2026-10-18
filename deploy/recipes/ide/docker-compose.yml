@@ -71,7 +71,7 @@ services:
       MOSAIC_EXON_URL: ${MOSAIC_EXON_URL:-}
       # The MCP transport allows only loopback Host headers by default, so a
       # sibling container reaching http://mosaic:8001/mcp is refused with
-      # `421 Invalid Host header` (BU-Neuromics/mosaic#214). Loopback stays
+      # `421 Invalid Host header` (datahelix-platform/mosaic#214). Loopback stays
       # allowed; these are added to it.
       #
       # Needs mosaic >= 0.14.0, which the pinned default is: 0.13.0 had neither
@@ -91,7 +91,7 @@ services:
   # image's site-packages.
   #
   # `--reload` watches the mounted checkout, not cwd. Two upstream fixes were
-  # needed to get here: BU-Neuromics/mosaic#171 (the flag used to exit(1),
+  # needed to get here: datahelix-platform/mosaic#171 (the flag used to exit(1),
   # because serve handed uvicorn an app object instead of an import string)
   # and #174 (uvicorn then defaulted its watch dir to cwd, which must stay
   # /project so mosaic.yaml's schema_path/database_url keep resolving — so the

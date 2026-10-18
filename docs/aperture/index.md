@@ -1,7 +1,7 @@
 # Aperture — AI-Native Data & Workflow Explorer
 
 !!! info "Now a standalone repository"
-    Aperture lives in its own repo, [BU-Neuromics/aperture](https://github.com/BU-Neuromics/aperture),
+    Aperture lives in its own repo, [datahelix-platform/aperture](https://github.com/datahelix-platform/aperture),
     and is wired into this monorepo as a git submodule. The earlier CLI-first v0.1 design
     and implementation were superseded by the portal vision and remain only in `DataHelix`
     history.

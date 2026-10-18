@@ -7,13 +7,13 @@ import { gql, gqlContext } from "../support/graphql";
 // Verifies at the GraphQL seam only, deliberately: Book.co_authors (a real
 // stored multivalued forward reference) and Author.books (an `inverse:`-
 // declared virtual reverse edge, mosaic ADR-0011) are both queryable against
-// the certified pin. This is what BU-Neuromics/datahelix#92 asked the fixture
+// the certified pin. This is what datahelix-platform/datahelix#92 asked the fixture
 // to make possible.
 //
 // The result-table UI over these same edges (a to-one column with no
 // repetition, an exploded to-many repeating anchor rows with its grain stated
 // on screen, CSV/JSON parity) is certified by 06-result-table.spec.ts
-// (Aperture ADR-0041, BU-Neuromics/datahelix#107). This file stays as the
+// (Aperture ADR-0041, datahelix-platform/datahelix#107). This file stays as the
 // transport-level check underneath it.
 
 test("Book.co_authors (forward to-many) and Author.books (inverse reverse edge) are queryable", async ({}) => {

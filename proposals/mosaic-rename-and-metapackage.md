@@ -5,7 +5,7 @@
 (metapackage + extras) and Hippo
 [ADR-0004](https://github.com/BU-Neuromics/hippo/blob/claude/hippo-package-rename-gq1cne/design/decisions/ADR-0004-rename-hippo-to-mosaic.md)
 (rename Hippo → Mosaic). Tracking issues:
-[datahelix#47](https://github.com/BU-Neuromics/datahelix/issues/47) (metapackage),
+[datahelix#47](https://github.com/datahelix-platform/datahelix/issues/47) (metapackage),
 [hippo#113](https://github.com/BU-Neuromics/hippo/issues/113) (rename).
 **Goal:** Execute both ADRs across the three repos (hippo, datahelix, aperture) in
 agent-sized work packages, each an independently green, reviewable PR.
@@ -196,7 +196,7 @@ simplest — the dep name `datahelix-mosaic` only resolves against the bumped su
 
 ### Phase R — repository rename (admin; do last)
 
-**WP-R1 — `BU-Neuromics/hippo` → `BU-Neuromics/mosaic`.** *Depends on: everything above
+**WP-R1 — `BU-Neuromics/hippo` → `datahelix-platform/mosaic`.** *Depends on: everything above
 merged and settled.*
 - GitHub repo rename (Settings → owner action; GitHub redirects old URLs and git
   remotes indefinitely, but update references anyway).

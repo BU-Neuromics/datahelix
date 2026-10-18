@@ -61,9 +61,9 @@ to `/src/mosaic/__init__.py`, not the image's `site-packages`, and
 see — `mosaic.yaml` itself, or anything outside `/src`.
 
 > Getting here took two upstream fixes, both surfaced by this recipe.
-> BU-Neuromics/mosaic#171: `--reload` used to `exit(1)`, because `serve` handed
+> datahelix-platform/mosaic#171: `--reload` used to `exit(1)`, because `serve` handed
 > uvicorn an app *object* where reload requires an import string.
-> BU-Neuromics/mosaic#174: with that fixed, uvicorn defaulted its watch
+> datahelix-platform/mosaic#174: with that fixed, uvicorn defaulted its watch
 > directory to cwd — which must stay `/project`, since `mosaic.yaml` resolves
 > `schema_path` and `database_url` against it — so the reloader watched a tree
 > containing no `*.py` and silently never fired. **Both fixes are newer than

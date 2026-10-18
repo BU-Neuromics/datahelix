@@ -15,8 +15,8 @@ ARG MOSAIC_IMAGE=ghcr.io/bu-neuromics/mosaic@sha256:48c2d120ebfdf633b4f5206e1fc5
 ARG APERTURE_IMAGE=ghcr.io/bu-neuromics/aperture@sha256:dbe6d7b8b8657e27f79f04e9a7b987df7b32813a3bb5f43b21dcbd11a8c805f6
 
 # Data generator (pinned; carries the global-id-uniqueness fix,
-# BU-Neuromics/linkml-data-gen#3) and the domain schema (pinned).
-ARG DATAGEN_REPO=https://github.com/BU-Neuromics/linkml-data-gen.git
+# datahelix-platform/linkml-data-gen#3) and the domain schema (pinned).
+ARG DATAGEN_REPO=https://github.com/datahelix-platform/linkml-data-gen.git
 # Pinned to the squashed global-id-uniqueness commit (linkml-data-gen#3).
 ARG DATAGEN_REF=6d1386f75e400f5e659ff5d7c810adb1914b7131
 ARG SCHEMA_REPO=https://github.com/VA-NCPTSDBB-Bioinformatics/brainbank-hippo-schema.git
@@ -57,7 +57,7 @@ ARG REVISION=unknown
 
 LABEL org.opencontainers.image.title="datahelix-demo" \
       org.opencontainers.image.description="DataHelix demo — Aperture + Mosaic with a pre-loaded synthetic brain-bank dataset" \
-      org.opencontainers.image.source="https://github.com/BU-Neuromics/datahelix" \
+      org.opencontainers.image.source="https://github.com/datahelix-platform/datahelix" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.revision="${REVISION}" \
       org.datahelix.solo.mosaic-image="${MOSAIC_IMAGE}" \
