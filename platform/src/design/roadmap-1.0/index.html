@@ -4250,7 +4250,7 @@
 §3 have moved since this roadmap was written: (a) the data-story decisions cited as <em>Aperture
 ADR-0022–0025</em> were migrated to <strong>Reel ADR-0001–0004</strong> on the 2026-06-22 split
 (<a href="../decisions/ADR-0003-reel-data-story-engine-separate-from-portal/">platform ADR-0003</a>;
-<a href="https://github.com/BU-Neuromics/reel"><code>BU-Neuromics/reel</code></a>); they remain post-1.0 as decided
+<a href="https://github.com/datahelix-platform/reel"><code>datahelix-platform/reel</code></a>); they remain post-1.0 as decided
 here. (b) The <strong>MCP agent surface</strong> planned as <em>P3.4 Aperture MCP agent surface</em> landed in
 <strong>Mosaic</strong> instead — Mosaic ADR-0009 (Accepted 2026-09-01: capability manifest + QuerySpec
 validate/execute/aggregate tools) and Mosaic ADR-0010 (outbound delegation to a planning
@@ -4298,7 +4298,7 @@ nothing on that surface is exercised by the golden path.</p>
 (<code>Book.co_authors</code> multivalued, <code>Author.books</code> <code>inverse:</code>-declared), and the aperture pin moved
 to <strong>v0.5.0</strong> — which carries the <code>idColumn</code> fix that had to precede any <code>inverse:</code> declaration,
 since the generated count field displaces <code>id</code> out of the eight-column table budget
-(BU-Neuromics/aperture#68). The certification run on that bump produced
+(datahelix-platform/aperture#68). The certification run on that bump produced
 <code>fixture 1.1.0 · aperture0.5.0+mosaic0.14.0 · fail=None</code> — <strong>the first ledger entry covering
 1.1.0 at all</strong>, because the earlier fixture bump touched <code>fixtures/**</code> only and the workflow
 appends a ledger tag on a push that changes <code>composition.lock.json</code>. Reverse traversal is now

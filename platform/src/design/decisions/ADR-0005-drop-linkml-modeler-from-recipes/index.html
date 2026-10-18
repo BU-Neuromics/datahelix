@@ -4172,7 +4172,7 @@
 <li><strong>Date:</strong> 2026-08-24</li>
 <li><strong>Deciders:</strong> labadorf, design session</li>
 <li><strong>Supersedes:</strong> <a href="../../../proposals/deployment-recipes.md"><code>proposals/deployment-recipes.md</code></a> decision <strong>1.8</strong> (owner decision of 2026-07-14, "Modeler ships in <code>solo</code> by default"), and the Modeler/<code>cors-proxy</code> portions of decision 1.9 and §2.2 carried into <a href="../ADR-0004-ide-recipe-live-development-loop/">ADR-0004</a></li>
-<li><strong>Related:</strong> <a href="../ADR-0004-ide-recipe-live-development-loop/">ADR-0004</a> (the <code>ide</code> recipe; its gateway routing loses <code>/modeler/</code> and <code>/cors-proxy/</code>); <a href="https://github.com/BU-Neuromics/linkml-modeler-app/issues/172">BU-Neuromics/linkml-modeler-app#172</a> (the EOL-Node blocker); datahelix #84 (the <code>ide</code> Modeler task this closes as superseded), #72 / #85 (the EOL Node pin this finishes)</li>
+<li><strong>Related:</strong> <a href="../ADR-0004-ide-recipe-live-development-loop/">ADR-0004</a> (the <code>ide</code> recipe; its gateway routing loses <code>/modeler/</code> and <code>/cors-proxy/</code>); <a href="https://github.com/datahelix-platform/linkml-modeler-app/issues/172">datahelix-platform/linkml-modeler-app#172</a> (the EOL-Node blocker); datahelix #84 (the <code>ide</code> Modeler task this closes as superseded), #72 / #85 (the EOL Node pin this finishes)</li>
 </ul>
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
 <p>Decision 1.8 made the LinkML Modeler a first-class part of <code>solo</code> on the
@@ -4188,7 +4188,7 @@ filesystem (Mode L) or a git remote (Mode R). Nothing in Aperture, Mosaic, or
 the certification harness references it.</p>
 <p><strong>It is the most expensive thing in the bundle by a wide margin.</strong> It is the
 only component built from source in a production recipe — an external repo
-(<code>BU-Neuromics/linkml-modeler-app</code>) cloned at a pinned commit and built with
+(<code>datahelix-platform/linkml-modeler-app</code>) cloned at a pinned commit and built with
 corepack pnpm — which is a direct exception to decision 1.4's "never build
 components from source in a production recipe". It also drags in a <code>cors-proxy</code>
 sidecar, a Node runtime binary copied into the final image, <code>libstdc++6</code> to run
