@@ -35,3 +35,11 @@ This repository hosts the DataHelix platform: documentation, cross-component int
 ```
 
 Design specs are structured engineering documents intended for developers building and maintaining each component. User docs are intended for developers and researchers using the components.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
+
+## Acknowledgments
+
+DataHelix is developed by Adam Labadorf with the National Center for PTSD Brain Bank, U.S. Department of Veterans Affairs.
